@@ -1,0 +1,791 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{2C0E1D8A-6619-4116-98EE-3F9E6C937537}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SlickControls</RootNamespace>
+    <AssemblyName>SlickControls</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Extensions, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\BrainsUpdater\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NReco.VideoConverter, Version=1.1.4.0, Culture=neutral, PublicKeyToken=395ccb334978a0cd, processorArchitecture=MSIL">
+      <HintPath>..\..\TVShowsCalendar\packages\NReco.VideoConverter.1.1.4\lib\net40\NReco.VideoConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="NReco.VideoInfo, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8f59ee36d2987295, processorArchitecture=MSIL">
+      <HintPath>..\..\TVShowsCalendar\packages\NReco.VideoInfo.1.1.1\lib\net35\NReco.VideoInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Banner.cs" />
+    <Compile Include="Classes\DesignExtensions.cs" />
+    <Compile Include="Classes\DrawableItem.cs" />
+    <Compile Include="Classes\ItemPaintEventArgs.cs" />
+    <Compile Include="Classes\CanDrawItemEventArgs.cs" />
+    <Compile Include="Classes\SizeSourceEventArgs.cs" />
+    <Compile Include="Controls\Form\SlickDateTime.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Image Background\SlickImageBackgroundContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Image Background\SlickImageBackgroundControl.cs" />
+    <Compile Include="Controls\Internal\DateTimePickerPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Internal\DateTimePickerPrompt.Designer.cs">
+      <DependentUpon>DateTimePickerPrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Other\SlickListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interfaces\Delegates.cs" />
+    <Compile Include="Classes\FlatStripItem.cs" />
+    <Compile Include="Classes\FormValidation.cs" />
+    <Compile Include="Classes\IO.cs" />
+    <Compile Include="Interfaces\ISupportsReset.cs" />
+    <Compile Include="Interfaces\IValidationControl.cs" />
+    <Compile Include="Classes\Notification.cs" />
+    <Compile Include="Classes\SlickCursors.cs" />
+    <Compile Include="Classes\UI.cs" />
+    <Compile Include="Classes\VersionChangeLog.cs" />
+    <Compile Include="Classes\VersionChangeLogGroup.cs" />
+    <Compile Include="Classes\VersionInfo.cs" />
+    <Compile Include="Color Picker\ColorChangedEventArgs.cs" />
+    <Compile Include="Color Picker\ColorModes.cs" />
+    <Compile Include="Color Picker\Controls\ColorBox2D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Color Picker\Controls\ColorBox2D.Designer.cs">
+      <DependentUpon>ColorBox2D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Color Picker\Controls\ColorHexagon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Color Picker\Controls\ColorHexagon.Designer.cs">
+      <DependentUpon>ColorHexagon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Color Picker\Controls\ColorSliderVertical.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Color Picker\Controls\ColorSliderVertical.Designer.cs">
+      <DependentUpon>ColorSliderVertical.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Color Picker\Controls\ColorWheel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Color Picker\MathExtensions.cs" />
+    <Compile Include="Controls\Other\ChangeLogVersion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\ChangeLogVersion.Designer.cs">
+      <DependentUpon>ChangeLogVersion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Generic\DoubleBuffered.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Internal\IOControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Advanced\SlickAdvancedImageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickGrid.Designer.cs">
+      <DependentUpon>SlickGrid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Advanced\SlickImageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickLabelComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickLabelComponent.Designer.cs">
+      <DependentUpon>SlickLabelComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Generic\SlickIconComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Generic\SlickIconComponent.Designer.cs">
+      <DependentUpon>SlickIconComponent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Generic\SlickPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickScroll.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickScroll.Designer.cs">
+      <DependentUpon>SlickScroll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Generic\SlickSectionPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Generic\SlickSpacer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickTab.Designer.cs">
+      <DependentUpon>SlickTab.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Other\SlickTabControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickTabControl.Designer.cs">
+      <DependentUpon>SlickTabControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Other\SlickTileButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickTileButton.Designer.cs">
+      <DependentUpon>SlickTileButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Form\SlickDropdown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickDropdown.Designer.cs">
+      <DependentUpon>SlickDropdown.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Form\SlickPathTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickPathTextBox.Designer.cs">
+      <DependentUpon>SlickPathTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Form\SlickProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickProgressBar.Designer.cs">
+      <DependentUpon>SlickProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Form\SlickCheckbox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickCheckbox.Designer.cs">
+      <DependentUpon>SlickCheckbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Advanced\SlickControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Internal\ColorPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Internal\ColorPicker.Designer.cs">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Form\SlickButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickButton.Designer.cs">
+      <DependentUpon>SlickButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Generic\SlickIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickLabel.Designer.cs">
+      <DependentUpon>SlickLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Form\SlickRadioButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickRadioButton.Designer.cs">
+      <DependentUpon>SlickRadioButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Form\SlickSlider.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickSlider.Designer.cs">
+      <DependentUpon>SlickSlider.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Other\SlickTile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickTile.Designer.cs">
+      <DependentUpon>SlickTile.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Generic\TopIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickLibraryViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\SlickLibraryViewer.Designer.cs">
+      <DependentUpon>SlickLibraryViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Enums\BannerStyle.cs" />
+    <Compile Include="Enums\DateType.cs" />
+    <Compile Include="Enums\HoverState.cs" />
+    <Compile Include="Enums\NotificationSound.cs" />
+    <Compile Include="Enums\ProgressBarType.cs" />
+    <Compile Include="Enums\TextStyle.cs" />
+    <Compile Include="Enums\ValidationType.cs" />
+    <Compile Include="Classes\InputResult.cs" />
+    <Compile Include="Forms\BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\BaseForm.Designer.cs">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ChangeLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ChangeLogForm.Designer.cs">
+      <DependentUpon>ChangeLogForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Internal\DropDownItems.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Internal\DropDownItems.Designer.cs">
+      <DependentUpon>DropDownItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SlickToolStrip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SlickToolStrip.Designer.cs">
+      <DependentUpon>SlickToolStrip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interfaces\ISlickForm.cs" />
+    <Compile Include="Forms\IOSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\IOSelectionForm.Designer.cs">
+      <DependentUpon>IOSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Theme Changer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Theme Changer.Designer.cs">
+      <DependentUpon>Theme Changer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ProccessPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ProccessPrompt.Designer.cs">
+      <DependentUpon>ProccessPrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MessagePrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MessagePrompt.Designer.cs">
+      <DependentUpon>MessagePrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Enums\PromptButtons.cs" />
+    <Compile Include="Enums\PromptIcons.cs" />
+    <Compile Include="Forms\NotificationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\NotificationForm.Designer.cs">
+      <DependentUpon>NotificationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SlickColorPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SlickColorPicker.Designer.cs">
+      <DependentUpon>SlickColorPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SlickForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SlickForm.Designer.cs">
+      <DependentUpon>SlickForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SlickTip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SlickTip.Designer.cs">
+      <DependentUpon>SlickTip.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\BasePanelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Panels\BasePanelForm.Designer.cs">
+      <DependentUpon>BasePanelForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\PanelContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\PanelContent.Designer.cs">
+      <DependentUpon>PanelContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\PanelItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panels\PanelItemControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Panels\PanelItemControl.Designer.cs">
+      <DependentUpon>PanelItemControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\PC_Changelog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\PC_Changelog.Designer.cs">
+      <DependentUpon>PC_Changelog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\PC_ThemeChanger.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\PC_ThemeChanger.Designer.cs">
+      <DependentUpon>PC_ThemeChanger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\SideBarPanelContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\SideBarPanelContent.Designer.cs">
+      <DependentUpon>SideBarPanelContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controls\Form\SlickTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickTextBox.Designer.cs">
+      <DependentUpon>SlickTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\Icon_Abort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Color Picker\Controls\ColorSliderVertical.resx">
+      <DependentUpon>ColorSliderVertical.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Other\ChangeLogVersion.resx">
+      <DependentUpon>ChangeLogVersion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Internal\ColorPicker.resx">
+      <DependentUpon>ColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Other\SlickGrid.resx">
+      <DependentUpon>SlickGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form\SlickScroll.resx">
+      <DependentUpon>SlickScroll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Generic\SlickSectionPanel.resx">
+      <DependentUpon>SlickSectionPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Other\SlickTab.resx">
+      <DependentUpon>SlickTab.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Other\SlickTabControl.resx">
+      <DependentUpon>SlickTabControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Other\SlickTileButton.resx">
+      <DependentUpon>SlickTileButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form\SlickDropdown.resx">
+      <DependentUpon>SlickDropdown.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form\SlickPathTextBox.resx">
+      <DependentUpon>SlickPathTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form\SlickProgressBar.resx">
+      <DependentUpon>SlickProgressBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form\SlickButton.resx">
+      <DependentUpon>SlickButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form\SlickCheckbox.resx">
+      <DependentUpon>SlickCheckbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form\SlickLabel.resx">
+      <DependentUpon>SlickLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form\SlickSlider.resx">
+      <DependentUpon>SlickSlider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Form\SlickTextBox.resx">
+      <DependentUpon>SlickTextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Other\SlickTile.resx">
+      <DependentUpon>SlickTile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Other\SlickLibraryViewer.resx">
+      <DependentUpon>SlickLibraryViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\BaseForm.resx">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ChangeLogForm.resx">
+      <DependentUpon>ChangeLogForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Internal\DropDownItems.resx">
+      <DependentUpon>DropDownItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SlickToolStrip.resx">
+      <DependentUpon>SlickToolStrip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\IOSelectionForm.resx">
+      <DependentUpon>IOSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Theme Changer.resx">
+      <DependentUpon>Theme Changer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ProccessPrompt.resx">
+      <DependentUpon>ProccessPrompt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MessagePrompt.resx">
+      <DependentUpon>MessagePrompt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\NotificationForm.resx">
+      <DependentUpon>NotificationForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SlickColorPicker.resx">
+      <DependentUpon>SlickColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SlickForm.resx">
+      <DependentUpon>SlickForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SlickTip.resx">
+      <DependentUpon>SlickTip.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\BasePanelForm.resx">
+      <DependentUpon>BasePanelForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PanelContent.resx">
+      <DependentUpon>PanelContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PanelItemControl.resx">
+      <DependentUpon>PanelItemControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PC_Changelog.resx">
+      <DependentUpon>PC_Changelog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PC_ThemeChanger.resx">
+      <DependentUpon>PC_ThemeChanger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SideBarPanelContent.resx">
+      <DependentUpon>SideBarPanelContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Hand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Ignore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_No.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Retry.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Yes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Circle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Change.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Switch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Circle_Empty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Circle_Filled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Paint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Maximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_CloseW.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Check_Checked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Check_Unchecked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Log.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_Search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Loader_0.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Loader_1.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Loader_2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Loader_3.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ArrowLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Abort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Retry.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Skip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Maximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Paint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Switch.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Restore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_ArrowLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Notification.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Hand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_ToggleOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_ToggleOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Circle_Empty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Circle_Filled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Log.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Notif_Long.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Notif_Quick.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Today.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Checked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Unchecked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cursor_Default.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cursor_Hand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_MoreThan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Big_Play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Big_Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Pdf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Zip.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Music.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Doc.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Xls.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PPT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Psd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Img.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Txt.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Big_File.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Drive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_PC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Vid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Dll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_OK.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Huge_Back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Dots_V.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Dots_H.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_ChevronLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_ChevronRight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_Calendar.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+  </Target>
+</Project>
