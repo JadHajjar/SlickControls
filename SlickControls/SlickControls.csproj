@@ -81,6 +81,12 @@
     <Compile Include="Controls\Other\SlickListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\Other\WorkingPrompt.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\WorkingPrompt.Designer.cs">
+      <DependentUpon>WorkingPrompt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\Delegates.cs" />
     <Compile Include="Classes\FlatStripItem.cs" />
     <Compile Include="Classes\FormValidation.cs" />
@@ -457,6 +463,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Other\SlickLibraryViewer.resx">
       <DependentUpon>SlickLibraryViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Other\WorkingPrompt.resx">
+      <DependentUpon>WorkingPrompt.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\BaseForm.resx">
       <DependentUpon>BaseForm.cs</DependentUpon>
