@@ -128,7 +128,7 @@ namespace SlickControls
 			var sb = new StringBuilder(512);
 			var size = sb.Capacity;
 
-			if (originalPath.Length > 2 && originalPath[1] == ':')
+			if (originalPath != null && originalPath.Length > 2 && originalPath[1] == ':')
 			{
 				var c = originalPath[0];
 				if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
