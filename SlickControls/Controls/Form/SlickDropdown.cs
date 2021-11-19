@@ -16,6 +16,9 @@ namespace SlickControls
 
 		private DropDownItems DropDownItems;
 
+		[Category("Behavior"), DefaultValue(true)]
+		public bool AutoComplete { get; set; } = true;
+
 		public SlickDropdown()
 		{
 			InitializeComponent();
@@ -231,6 +234,9 @@ namespace SlickControls
 		{
 			try
 			{
+				if (!AutoComplete)
+					return;
+
 				if (TB.Text != "")
 				{
 					if (Items == null || Items.Any(x => (Conversion == null ? x.ToString() : Conversion(x)) == TB.Text))
