@@ -79,7 +79,7 @@ namespace SlickControls
 		protected override void OnCreateControl()
 		{
 			Opacity = 0;
-			Width = (int)(350 * UI.UIScale);
+			Width = (int)(400 * UI.UIScale);
 			Height = Math.Max(80, (int)CreateGraphics().MeasureString(L_Text.Text, L_Text.Font, Width - 135).Height + Padding.Vertical)
 				+ 135;
 

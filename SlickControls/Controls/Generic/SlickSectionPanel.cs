@@ -123,7 +123,11 @@ namespace SlickControls
 			e.Graphics.DrawString(Text, UI.Font(9.75F, FontStyle.Bold), new SolidBrush(Active ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), 50, 24);
 
 			if (icon != null)
-				e.Graphics.DrawImage(new Bitmap(icon, 22, 22).Color(Active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), 15, 24 + (int)((bnds.Height - 22) / 2));
+			{
+				var s = Math.Min(icon.Width, 24);
+				e.Graphics.DrawImage(icon.Color(Active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), new Rectangle
+				  (15, 24 + (int)((bnds.Height - s) / 2), s, s));
+			}
 
 			var flavFont = UI.Font(8.25F, FontStyle.Italic);
 			

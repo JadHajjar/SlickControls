@@ -144,18 +144,6 @@ namespace SlickControls
 			Invalidate();
 		}
 
-		public override Size GetPreferredSize(Size proposedSize) => GetAutoSize();
-
-		private void ResizeForAutoSize()
-		{
-			try
-			{
-				if (AutoSize && IsHandleCreated)
-					SetBoundsCore(Left, Top, Width, Height, BoundsSpecified.Size);
-			}
-			catch { }
-		}
-
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
@@ -163,34 +151,18 @@ namespace SlickControls
 			ResizeForAutoSize();
 		}
 
-		public Size GetAutoSize()
+		#region AutoSize
+
+		private readonly Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
+
+		public override Size GetPreferredSize(Size proposedSize)
 		{
-			using (var g = Graphics.FromHwnd(IntPtr.Zero))
-			{
-				var w = 3;
-				var h = 0;
-
-				if (Image != null)
-					w += Padding.Left + iconSize;
-
-				if (!string.IsNullOrWhiteSpace(Text) && !HideText)
-				{
-					var bnds = g.MeasureString(Text, Font);
-					w += (int)bnds.Width + Padding.Horizontal;
-					h = Math.Max(IconSize + Padding.Vertical, (int)bnds.Height + Padding.Vertical);
-				}
-				else
-				{
-					w += Padding.Right;
-					h = IconSize + Padding.Vertical;
-				}
-
-				return new Size(w, h);
-			}
+			return GetAutoSize();
 		}
 
 		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
 		{
+			//  Only when the size is affected...
 			if (AutoSize && (specified & BoundsSpecified.Size) != 0)
 			{
 				var size = GetAutoSize();
@@ -201,5 +173,43 @@ namespace SlickControls
 
 			base.SetBoundsCore(x, y, width, height, specified);
 		}
+
+		private Size GetAutoSize()
+		{
+			if (!AutoSize)
+				return Size;
+
+			var w = 3;
+			int h;
+
+			if (Image != null)
+				w += Padding.Left + iconSize;
+
+			if (!string.IsNullOrWhiteSpace(Text) && !HideText)
+			{
+				var bnds = graphics.MeasureString(Text, Font);
+				w += (int)bnds.Width + Padding.Horizontal;
+				h = Math.Max(IconSize + Padding.Vertical, (int)bnds.Height + Padding.Vertical);
+			}
+			else
+			{
+				w += Padding.Right;
+				h = IconSize + Padding.Vertical;
+			}
+
+			return new Size(w, h);
+		}
+
+		private void ResizeForAutoSize()
+		{
+			try
+			{
+				if (AutoSize)
+					SetBoundsCore(Left, Top, Width, Height, BoundsSpecified.Size);
+			}
+			catch { }
+		}
+
+		#endregion AutoSize
 	}
 }

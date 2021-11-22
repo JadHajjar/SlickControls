@@ -32,6 +32,7 @@ namespace SlickControls
 		[DefaultValue(true), Category("Behavior"), DisplayName("Auto Invalidate")]
 		public bool AutoInvalidate { get; set; } = true;
 
+		[DefaultValue(null)]
 		public new Image Image { get => base.Image; set => this.TryInvoke(() => { base.Image = value; Loading = false; }); }
 
 		public SlickPictureBox()
