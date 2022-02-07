@@ -111,7 +111,7 @@ namespace SlickControls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			e.Graphics.Clear(Parent?.BackColor ?? BackColor);
+			e.Graphics.Clear(BackColor.A == 255 ? BackColor : Parent?.BackColor ?? BackColor);
 
 			DrawButton(e,
 				Point.Empty,
