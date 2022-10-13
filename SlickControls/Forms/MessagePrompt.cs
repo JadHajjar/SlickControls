@@ -80,8 +80,23 @@ namespace SlickControls
 		{
 			Opacity = 0;
 			Width = (int)(400 * UI.UIScale);
-			Height = Math.Max(80, (int)CreateGraphics().MeasureString(L_Text.Text, L_Text.Font, Width - 135).Height + Padding.Vertical)
-				+ 135;
+			var w = (int)(400 * UI.UIScale);
+			var h = 80;
+
+			using (var g = CreateGraphics())
+			{
+				do
+				{
+					h = 135 + Math.Max(80, (int)g.MeasureString(L_Text.Text, L_Text.Font, w - 100).Height + Padding.Vertical);
+
+					if (h < Screen.PrimaryScreen.WorkingArea.Height - 100 || w > Screen.PrimaryScreen.WorkingArea.Width - 150)
+						break;
+
+					w += 50;
+				} while (true);
+			}
+
+			Size = new Size(w, h);
 
 			if (isInput)
 			{
