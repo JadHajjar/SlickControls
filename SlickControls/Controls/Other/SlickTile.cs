@@ -68,7 +68,7 @@ namespace SlickControls
 			if (RoundedCorner)
 			{
 				e.Graphics.Clear(BackColor);
-				e.Graphics.FillRoundedRectangle(new SolidBrush(back), new Rectangle(Point.Empty, Size), CornerRadius);
+				e.Graphics.FillRoundedRectangle(Gradient(back), new Rectangle(Point.Empty, Size), CornerRadius);
 				DrawFocus(e.Graphics, new Rectangle(0, 0, Width - 2, Height - 2), CornerRadius);
 			}
 			else
@@ -97,7 +97,7 @@ namespace SlickControls
 
 			e.Graphics.DrawString(Text,
 				Font,
-				new SolidBrush(fore),
+				Gradient(fore),
 				new RectangleF(DrawLeft ? iconSize + Padding.Horizontal : Padding.Left, (Height - bnds.Height) / 2, Width - (iconSize + Padding.Horizontal + Padding.Left), bnds.Height),
 				stl);
 		}

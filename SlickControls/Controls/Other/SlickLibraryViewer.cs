@@ -1,4 +1,5 @@
 ﻿using Extensions;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,7 +7,6 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -15,10 +15,13 @@ namespace SlickControls
 	{
 		[Category("Action")]
 		public event FileOpenedEventHandler FileOpened;
+
 		[Category("Action")]
 		public event EventHandler SearchCleared;
+
 		[Category("Behavior")]
 		public event EventHandler LoadStarted;
+
 		[Category("Behavior")]
 		public event EventHandler LoadEnded;
 
@@ -41,8 +44,6 @@ namespace SlickControls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public string SelectedPath => FLP_Content.Controls.OfType<IOControl>().FirstOrDefault(x => x.Selected)?.Path;
 
-		internal IEnumerable<IOControl> IOControls => FLP_Content.Controls.OfType<IOControl>();
-
 		[Category("Behavior")]
 		public bool FoldersOnly { get; set; }
 
@@ -58,8 +59,6 @@ namespace SlickControls
 		public SlickLibraryViewer()
 		{
 			InitializeComponent();
-
-			EnterTriggersClick = false;
 
 			PB_Bar.MouseMove += (s, e) => PB_Bar.Invalidate();
 		}
@@ -272,8 +271,8 @@ namespace SlickControls
 			L_NoResults.Visible = FLP_Content.Controls.Count == 0;
 
 			LoadEnded?.Invoke(this, EventArgs.Empty);
-		}); 
-		
+		});
+
 		private void StartLoad() => this.TryInvoke(() =>
 		{
 			PB_Bar.Invalidate();
@@ -316,7 +315,7 @@ namespace SlickControls
 			var arrow = Properties.Resources.Tiny_MoreThan.Color(FormDesign.Design.ForeColor);
 
 			using (var font = UI.Font(9F))
-			using (var brush = new SolidBrush(FormDesign.Design.ForeColor))
+			using (var brush = Gradient(FormDesign.Design.ForeColor))
 			{
 				var bnds = SizeF.Empty;
 
@@ -353,13 +352,13 @@ namespace SlickControls
 
 					if (rect.Contains(mousePos))
 					{
-						e.Graphics.FillRoundedRectangle(new SolidBrush(PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentBackColor), rect, 5);
+						e.Graphics.FillRoundedRectangle(Gradient(PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentBackColor), rect, 5);
 						hoveredAction = action;
 						Cursor = Cursors.Hand;
 					}
 
 					if (text != null)
-						e.Graphics.DrawString(text, font, rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? new SolidBrush(FormDesign.Design.ActiveForeColor) : brush, w, (int)(PB_Bar.Height - bnds.Height) / 2);
+						e.Graphics.DrawString(text, font, rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? Gradient(FormDesign.Design.ActiveForeColor) : brush, w, (int)(PB_Bar.Height - bnds.Height) / 2);
 					else
 						e.Graphics.DrawImage(Properties.Resources.Tiny_Home.Color(rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor), new Rectangle(rect.Center(new Size(16, 16)), new Size(16, 16)));
 

@@ -89,7 +89,8 @@ namespace SlickControls
 		[Category("Data")]
 		public object[] Items { get => _items; set { _items = value; Image = Properties.Resources.ArrowDown; } }
 
-		internal bool FontDropdown { get; set; }
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool FontDropdown { get; set; }
 
 		public object SelectedItem
 		{

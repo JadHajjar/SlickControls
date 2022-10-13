@@ -1,11 +1,10 @@
 ﻿using Extensions;
+
+using System;
 using System.Drawing;
 using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace SlickControls
 {
@@ -35,7 +34,7 @@ namespace SlickControls
 						else
 							FileObject = new FileInfo(path);
 					}
-					else 
+					else
 						FileObject = file;
 				}
 			}
@@ -84,23 +83,23 @@ namespace SlickControls
 							Image = Image.FromFile(filepath);
 						}
 						else using (var bitmap = FileObject.GetThumbnail(out thumbnailLoaded))
-						{
-							if (bitmap != null)
 							{
-								if (thumbnailLoaded)
+								if (bitmap != null)
 								{
-									thumbnailLoaded = true;
-									var w = Math.Min((int)(200 * UI.UIScale), bitmap.Width);
-									Image = new Bitmap(bitmap, w, w * bitmap.Height / bitmap.Width);
+									if (thumbnailLoaded)
+									{
+										thumbnailLoaded = true;
+										var w = Math.Min((int)(200 * UI.UIScale), bitmap.Width);
+										Image = new Bitmap(bitmap, w, w * bitmap.Height / bitmap.Width);
 
-									if (FileObject.IsVideo())
-										using (var bmp = new Bitmap(bitmap, w, w * bitmap.Height / bitmap.Width))
-											bmp.Save(filepath);
+										if (FileObject.IsVideo())
+											using (var bmp = new Bitmap(bitmap, w, w * bitmap.Height / bitmap.Width))
+												bmp.Save(filepath);
+									}
+									else
+										Image = (Bitmap)bitmap.Clone();
 								}
-								else
-									Image = (Bitmap)bitmap.Clone();
 							}
-						}
 					}
 					catch { thumbnailLoaded = false; }
 				});
@@ -124,12 +123,12 @@ namespace SlickControls
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
 			if (HoverState.HasFlag(HoverState.Hovered))
-				e.Graphics.FillRoundedRectangle(new SolidBrush(HoverState.HasFlag(HoverState.Pressed) ? d.ActiveColor : d.AccentBackColor), new Rectangle(0, 0, Width, Height), 7);
+				e.Graphics.FillRoundedRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), HoverState.HasFlag(HoverState.Pressed) ? d.ActiveColor : d.AccentBackColor), new Rectangle(0, 0, Width, Height), 7);
 
 			if (Selected)
 			{
-				e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(25, d.ActiveColor)), new Rectangle(0, 0, Width, Height), 7);
-				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, new Rectangle(0, 0, Width-2, Height-2), 7);
+				e.Graphics.FillRoundedRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), Color.FromArgb(25, d.ActiveColor)), new Rectangle(0, 0, Width, Height), 7);
+				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, new Rectangle(0, 0, Width - 2, Height - 2), 7);
 			}
 
 			var imgRect = new Rectangle(7, 7, Width - 14, Height / 2);
@@ -153,7 +152,7 @@ namespace SlickControls
 			else
 				imgRect = new Rectangle(0, 2, 0, 0);
 
-			e.Graphics.DrawString(Text, Font, new SolidBrush(HoverState.HasFlag(HoverState.Pressed) ? d.ActiveForeColor : d.ForeColor)
+			e.Graphics.DrawString(Text, Font, SlickControl.Gradient(new Rectangle(Point.Empty, Size), HoverState.HasFlag(HoverState.Pressed) ? d.ActiveForeColor : d.ForeColor)
 				, new Rectangle(7, imgRect.Y + imgRect.Height + 5, Width - 14, (int)Font.GetHeight().ClosestMultipleTo(Height - (imgRect.Y + imgRect.Height + 7)))
 				, new StringFormat
 				{

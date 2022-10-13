@@ -8,54 +8,19 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	public class SlickAdvancedImageControl : SlickImageControl, IAnimatable
+	public class SlickAdvancedImageImageBackgroundControl : SlickImageBackgroundControl
 	{
 		protected int yIndex;
 
 		public bool EnableDots { get; set; }
-		public ImageSizeMode ImageSizeMode { get; set; }
+		public Image BlurredImage { get; protected set; }
 		public virtual Rectangle ImageBounds { get; protected set; }
 		protected virtual IEnumerable<Bitmap> HoverIcons { get; }
 		protected virtual IEnumerable<Banner> Banners { get; }
-		protected virtual Bitmap DefaultImage { get; set; }
-		public virtual Rectangle DotsBounds => new Rectangle(Width - 20, Width - ImageBounds.Width < 20 ? ImageBounds.Top + ImageBounds.Height + 4 : 4, 16, 16);
+		public virtual Rectangle DotsBounds => new Rectangle(Bounds.Width - 20, Bounds.Width - ImageBounds.Width < 20 ? ImageBounds.Top + ImageBounds.Height + 4 : 4, 16, 16);
 
 		protected virtual bool ImageHovered => HoverState.HasFlag(HoverState.Focused) || (HoverState.HasFlag(HoverState.Hovered) && ImageBounds.Contains(PointToClient(Cursor.Position)));
 		protected virtual bool DotsHovered => HoverState.HasFlag(HoverState.Hovered) && DotsBounds.Contains(PointToClient(Cursor.Position));
-
-		public static bool AlwaysShowBanners { get; set; }
-		public Image BlurredImage { get; protected set; }
-		public int AnimatedValue { get; set; }
-		public int TargetAnimationValue { get; set; }
-
-		protected virtual void OnImageMouseClick(MouseEventArgs e)
-		{ }
-
-		protected virtual void OnDotsMouseClick(MouseEventArgs e)
-		{ }
-
-		protected virtual void OnDraw(PaintEventArgs e)
-		{ }
-
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-				BlurredImage?.Dispose();
-
-			base.Dispose(disposing);
-		}
-
-		protected override void OnHoverStateChanged()
-		{
-			base.OnHoverStateChanged();
-
-			TargetAnimationValue = HoverState.HasFlag(HoverState.Hovered) && ImageBounds.Contains(PointToClient(Cursor.Position))
-				? 100
-				: 00;
-
-			if (TargetAnimationValue != AnimatedValue)
-				AnimationHandler.Animate(this, TargetAnimationValue.If(0, 0.7, 1.35));
-		}
 
 		protected override void OnImageChanged(EventArgs e)
 		{
@@ -67,25 +32,31 @@ namespace SlickControls
 			else
 				new Action(() =>
 				{
-					BlurredImage = new Bitmap(Image).Blur(40);
+					BlurredImage = Image.Blur(40, true);
 
 					if (HoverState.HasFlag(HoverState.Hovered))
-						this.TryInvoke(Invalidate);
+						Invalidate();
 				}).RunInBackground();
 
 			base.OnImageChanged(e);
 		}
 
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		protected override void Dispose(bool disposing)
 		{
-			if (keyData == Keys.Apps)
-			{
-				OnMouseClick(new MouseEventArgs(MouseButtons.Right, 1, ImageBounds.X + ImageBounds.Width - 1, ImageBounds.Y, 0));
-				return true;
-			}
+			if (disposing)
+				BlurredImage?.Dispose();
 
-			return base.ProcessCmdKey(ref msg, keyData);
+			base.Dispose(disposing);
 		}
+
+		protected virtual void OnImageMouseClick(MouseEventArgs e)
+		{ }
+
+		protected virtual void OnDotsMouseClick(MouseEventArgs e)
+		{ }
+
+		protected virtual void OnDraw(PaintEventArgs e)
+		{ }
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -94,19 +65,9 @@ namespace SlickControls
 				: Cursors.Default;
 
 			base.OnMouseMove(e);
-
-			if (AutoInvalidate)
-				Invalidate();
-
-			TargetAnimationValue = HoverState.HasFlag(HoverState.Hovered) && ImageBounds.Contains(PointToClient(Cursor.Position))
-				? 100
-				: 00;
-
-			if (TargetAnimationValue != AnimatedValue)
-				AnimationHandler.Animate(this, TargetAnimationValue.If(0, 0.7, 1.35));
 		}
 
-		protected override void OnMouseClick(MouseEventArgs e)
+		public override void OnMouseClick(MouseEventArgs e)
 		{
 			base.OnMouseClick(e);
 
@@ -117,33 +78,23 @@ namespace SlickControls
 				OnDotsMouseClick(e);
 		}
 
-		protected override void OnPaint(PaintEventArgs e)
+		public override void OnPaint(PaintEventArgs e)
 		{
-			if (DesignMode) return;
-
-			e.Graphics.Clear(BackColor);
-
 			try
 			{
 				if (Image != null || Loading)
-				{
-					if (AnimatedValue < 100 || BlurredImage == null)
-						e.Graphics.DrawBorderedImage(Image, ImageBounds, ImageSizeMode);
-					
-					if (AnimatedValue > 0 && BlurredImage != null)
-						e.Graphics.DrawBorderedImage(new Bitmap(BlurredImage).Alpha((int)(255 * AnimatedValue / 100D)), ImageBounds, ImageSizeMode, null, AnimatedValue < 100);
-				}
+					e.Graphics.DrawBorderedImage(HoverState.HasFlag(HoverState.Hovered) && ImageBounds.Contains(PointToClient(Cursor.Position)) ? BlurredImage ?? Image : Image, ImageBounds, ImageSizeMode, FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.ForeColor, 65));
 				else
-					e.Graphics.DrawBorderedImage(DefaultImage.Color(ImageHovered ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), ImageBounds, ImageSizeMode.Center);
+					e.Graphics.DrawBorderedImage(DefaultImage?.Color(ImageHovered ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), ImageBounds, ImageSizeMode.Center, FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.ForeColor, 65));
 
 				if (Loading)
 				{
 					var loaderSize = Math.Min(Math.Min(ImageBounds.Width, ImageBounds.Height) / 2, 32);
-					DrawLoader(e.Graphics, new Rectangle(ImageBounds.Center(loaderSize, loaderSize), new Size(loaderSize, loaderSize)));
+					e.Graphics.DrawLoader(LoaderPercentage, new Rectangle(ImageBounds.Center(loaderSize, loaderSize), new Size(loaderSize, loaderSize)));
 				}
 
-				if (ImageHovered || AnimatedValue > 0)
-					e.Graphics.DrawIconsOverImage(ImageBounds, PointToClient(MousePosition), AnimatedValue / 100D, HoverIcons.ToArray());
+				if (ImageHovered)
+					e.Graphics.DrawIconsOverImage(ImageBounds, PointToClient(Cursor.Position), HoverIcons.ToArray());
 
 				if (Enabled && EnableDots)
 					e.Graphics.DrawImage(
@@ -155,18 +106,16 @@ namespace SlickControls
 
 				OnDraw(e);
 
-				DrawFocus(e.Graphics, ImageBounds, 0);
-
-				if (AlwaysShowBanners || ImageHovered || AnimatedValue > 0)
-					e.Graphics.DrawBannersOverImage(this, ImageBounds, Banners, 7F, HoverState.HasFlag(HoverState.Focused) ? 1 : (AnimatedValue / 100D));
+				if (SlickAdvancedImageControl.AlwaysShowBanners || ImageHovered)
+					e.Graphics.DrawBannersOverImage(PointToClient(Cursor.Position), ImageBounds, Banners);
 			}
 			catch { }
 		}
 
 		protected virtual void DrawTextOnImage(PaintEventArgs e, string text, bool leftAlign, int pad = 0)
 		{
-			if (ImageHovered || AnimatedValue > 0)
-				using (var brush = new SolidBrush(Color.FromArgb(HoverState.HasFlag(HoverState.Focused) ? 255 : (int)(255 * AnimatedValue / 100D), ForeColor)))
+			if (ImageHovered)
+				using (var brush = new SolidBrush(FormDesign.Design.ForeColor))
 				using (var font = UI.Font(6.75F, FontStyle.Bold))
 					e.Graphics.DrawString(
 						text,

@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -43,7 +41,7 @@ namespace SlickControls
 			foreach (var item in items)
 			{
 				if (item.Fade && item.Tab == 0 && (items.Next(item)?.Tab ?? 0) > 0)
-				{ 
+				{
 					item.IsOpenable = prevIsOpenable = true;
 					item.Fade = false;
 					Items.Add(item, new List<SlickStripItem> { item });
@@ -81,7 +79,7 @@ namespace SlickControls
 			if (!(animation?.Animating ?? false) || bounds != animation.NewBounds)
 			{
 				Bounds = bounds;
-				animation?.Dispose(); 
+				animation?.Dispose();
 			}
 		}
 
@@ -95,7 +93,7 @@ namespace SlickControls
 				{
 					foreach (var item in stripItem.Key.IsOpenable && stripItem.Key.IsOpened ? stripItem.Value : new List<SlickStripItem> { stripItem.Key })
 						workRect = new Rectangle(
-							1, 
+							1,
 							workRect.Y + workRect.Height,
 							Width - 2,
 							item.IsEmpty ? (int)(7 * UI.UIScale) : ((int)g.MeasureString(item.Text, Font).Height + 4));
@@ -103,7 +101,7 @@ namespace SlickControls
 
 				var size = new Size(Math.Max(150, 7 + hideImg.If(0, 20) + (int)(3 * UI.FontScale) + (int)Items.SelectMany(x => x.Value).Max(x => (x.Tab * 12) + g.MeasureString(x.Text, Font).Width))
 					, workRect.Y + workRect.Height + 1);
-				
+
 				if (startingCursorPosition.Y + Items.SelectMany(x => x.Value).Sum(x => x.IsEmpty ? (int)(7 * UI.UIScale) : ((int)g.MeasureString(x.Text, Font).Height + 4)) + 2 > SystemInformation.VirtualScreen.Height)
 				{
 					reversed = true;
@@ -149,6 +147,9 @@ namespace SlickControls
 
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
+			e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), d.AccentColor), new Rectangle(Point.Empty, Size));
+			e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), d.BackColor), new Rectangle(Point.Empty, Size).Pad(1));
+
 			foreach (var grp in Items)
 			{
 				if (grp.Key.IsOpenable && grp.Key.IsOpened)
@@ -183,7 +184,8 @@ namespace SlickControls
 
 					var mouseIn = !stripItem.IsOpenable && !stripItem.Fade && !stripItem.IsEmpty && workRect.Contains(mousePos);
 
-					e.Graphics.FillRectangle(new SolidBrush(mouseIn.If(d.ButtonColor.If(mouseDown, d.ActiveColor), d.BackColor)), workRect);
+					if (mouseIn && workRect.Width > 0)
+						e.Graphics.FillRectangle(SlickControl.Gradient(workRect, mouseIn.If(d.ButtonColor.If(mouseDown, d.ActiveColor), d.BackColor)), workRect);
 
 					if (stripItem.IsFocused)
 						SlickControl.DrawFocus(e.Graphics, workRect.Pad(-3, 0, -3, 1), HoverState.Focused, 0);
@@ -200,8 +202,10 @@ namespace SlickControls
 					if (stripItem.Text != null)
 					{
 						var bnds = e.Graphics.MeasureString(stripItem.Text, Font);
-						e.Graphics.DrawString(stripItem.Text + (stripItem.IsOpenable && !stripItem.IsOpened ? ".." : ""), Font, new SolidBrush(stripItem.IsOpened ? d.ActiveColor : stripItem.Fade ? d.InfoColor : mouseIn && mouseDown ? d.ActiveForeColor : d.ForeColor)
-							, workRect.X + hideImg.If(0, 20) + (int)(3 * UI.FontScale), workRect.Y + 1 + (int)(workRect.Height - bnds.Height) / 2);
+
+						if (workRect.Width > 0)
+							e.Graphics.DrawString(stripItem.Text + (stripItem.IsOpenable && !stripItem.IsOpened ? ".." : ""), Font, SlickControl.Gradient(workRect, stripItem.IsOpened ? d.ActiveColor : stripItem.Fade ? d.InfoColor : mouseIn && mouseDown ? d.ActiveForeColor : d.ForeColor)
+								, workRect.X + hideImg.If(0, 20) + (int)(3 * UI.FontScale), workRect.Y + 1 + (int)(workRect.Height - bnds.Height) / 2);
 					}
 
 					stripItem.IsVisible = true;
@@ -261,9 +265,12 @@ namespace SlickControls
 
 					if (stripItem != null && !stripItem.Fade && !stripItem.IsEmpty)
 					{
-						stripItem.Action?.Invoke();
+						stripItem.Action?.Invoke(stripItem);
+
 						if (stripItem.CloseOnClick)
 							Dispose();
+						else
+							Invalidate();
 					}
 					return true;
 			}
@@ -274,9 +281,20 @@ namespace SlickControls
 		private void FlatToolStrip_Load(object sender, EventArgs e)
 		{
 			new Action(() => this.TryInvoke(this.ShowUp)).RunInBackground(100);
+
 			Bounds = new Rectangle(startingCursorPosition, Size.Empty);
+			Opacity = 0;
+
 			animation = new AnimationHandler(this, getBounds()) { Speed = 1.5 };
+			animation.OnAnimationTick += animation_OnAnimationTick;
 			animation.StartAnimation();
+		}
+
+		private void animation_OnAnimationTick(AnimationHandler handler, Control control, bool finished)
+		{
+			Opacity = animation.NewBounds.Height > animation.NewBounds.Width
+				? (double)Height / animation.NewBounds.Height
+				: (double)Width / animation.NewBounds.Width;
 		}
 
 		private void FlatToolStrip_MouseDown(object sender, MouseEventArgs e)
@@ -328,11 +346,12 @@ namespace SlickControls
 			{
 				Items.Foreach(x => x.Key.IsOpened = false);
 
-				this.TryInvoke(() =>
-				{
-					updateHeight();
-					Invalidate();
-				});
+				if (!IsDisposed)
+					this.TryInvoke(() =>
+					{
+						updateHeight();
+						Invalidate();
+					});
 			}, 750);
 		}
 
@@ -342,9 +361,12 @@ namespace SlickControls
 
 			if (stripItem != null && !stripItem.IsEmpty && !stripItem.Fade)
 			{
-				stripItem.Action?.Invoke();
+				stripItem.Action?.Invoke(stripItem);
+
 				if (stripItem.CloseOnClick)
 					Dispose();
+				else
+					Invalidate();
 			}
 		}
 	}

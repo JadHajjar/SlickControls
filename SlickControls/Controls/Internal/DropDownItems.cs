@@ -130,19 +130,19 @@ namespace SlickControls
 						e.Graphics.FillRectangle(new System.Drawing.Drawing2D.LinearGradientBrush(new Point(w * 5 / 10, h), new Point(w * 9 / 10, h), FormDesign.Design.ActiveColor, Color.Empty)
 						   , new Rectangle(w * 5 / 10, h, w * 4 / 10, itemsize));
 
-						e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveColor), new Rectangle(0, h, w * 5 / 10 + 1, itemsize));
+						e.Graphics.FillRectangle(Gradient(FormDesign.Design.ActiveColor), new Rectangle(0, h, w * 5 / 10 + 1, itemsize));
 					}
 					else
 					{
 						e.Graphics.FillRectangle(new System.Drawing.Drawing2D.LinearGradientBrush(new Point(w * 6 / 10, h), new Point(w * 9 / 10, h), FormDesign.Design.BackColor.MergeColor(FormDesign.Design.ActiveColor, 85), Color.Empty)
 						, new Rectangle(w * 6 / 10, h, w * 3 / 10, itemsize));
 
-						e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.BackColor.MergeColor(FormDesign.Design.ActiveColor, 85)), new Rectangle(0, h, w * 6 / 10 + 1, itemsize));
-						e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveColor), 0, h, 2, itemsize);
+						e.Graphics.FillRectangle(Gradient(FormDesign.Design.BackColor.MergeColor(FormDesign.Design.ActiveColor, 85)), new Rectangle(0, h, w * 6 / 10 + 1, itemsize));
+						e.Graphics.FillRectangle(Gradient(FormDesign.Design.ActiveColor), 0, h, 2, itemsize);
 					}
 				}
 
-				e.Graphics.DrawString(listText[i], font, new SolidBrush(mouseIn && mouseDown ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor), new RectangleF(5, h, w - 10, itemsize), new StringFormat() { Trimming = StringTrimming.EllipsisCharacter, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(listText[i], font, Gradient(mouseIn && mouseDown ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor), new RectangleF(5, h, w - 10, itemsize), new StringFormat() { Trimming = StringTrimming.EllipsisCharacter, LineAlignment = StringAlignment.Center });
 
 				h += itemsize;
 			}

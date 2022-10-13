@@ -332,18 +332,19 @@ namespace SlickControls
 			if (Open && !SmallHandle)
 			{
 				var w = Math.Min(18, Bar.Width).If(x => x % 2 != 0, x => x - 1, x => x);
-				if (IsMouseDown && Bar.Height * 5 / 2 < (Height - Padding.Vertical))
-				{
-					var h = Bar.Height * 2 / 3;
-					e.Graphics.DrawLine(new Pen(new LinearGradientBrush(new Point(Bar.Width / 2, Bar.Top - h), new Point(Bar.Width / 2, Bar.Top + 3), Color.Empty, FormDesign.Design.ActiveColor), PenSize)
-						, new Point(Bar.Width / 2, Math.Max(Padding.Top, Bar.Top - h + 1)), new Point(Bar.Width / 2, Bar.Top + Bar.Height / 2));
+				//if (IsMouseDown && Bar.Height * 5 / 2 < (Height - Padding.Vertical))
+				//{
+				//	var h = Bar.Height * 2 / 3;
+				//	e.Graphics.DrawLine(new Pen(new LinearGradientBrush(new Point(Bar.Width / 2, Bar.Top - h), new Point(Bar.Width / 2, Bar.Top + 3), Color.Empty, FormDesign.Design.ActiveColor), PenSize)
+				//		, new Point(Bar.Width / 2, Math.Max(Padding.Top, Bar.Top - h + 1)), new Point(Bar.Width / 2, Bar.Top + Bar.Height / 2));
 
-					e.Graphics.DrawLine(new Pen(new LinearGradientBrush(new Point(Bar.Width / 2, Bar.Top + Bar.Height - 3), new Point(Bar.Width / 2, Bar.Top + h + Bar.Height), FormDesign.Design.ActiveColor, Color.Empty), PenSize)
-						, new Point(Bar.Width / 2, Bar.Top + Bar.Height / 2), new Point(Bar.Width / 2, Math.Min(Height - Padding.Bottom, Bar.Top + h + Bar.Height - 1)));
-				}
+				//	e.Graphics.DrawLine(new Pen(new LinearGradientBrush(new Point(Bar.Width / 2, Bar.Top + Bar.Height - 3), new Point(Bar.Width / 2, Bar.Top + h + Bar.Height), FormDesign.Design.ActiveColor, Color.Empty), PenSize)
+				//		, new Point(Bar.Width / 2, Bar.Top + Bar.Height / 2), new Point(Bar.Width / 2, Math.Min(Height - Padding.Bottom, Bar.Top + h + Bar.Height - 1)));
+				//}
 
-				e.Graphics.FillRoundedRectangle(new SolidBrush(IsMouseDown ? FormDesign.Design.ActiveColor : BackColor.MergeColor(FormDesign.Design.AccentColor)),
-					new Rectangle(Bar.Width / 2 - w / 2, Bar.Top, w, Bar.Height),
+				var barRect = new Rectangle(Bar.Width / 2 - w / 2, Bar.Top, w, Bar.Height);
+				e.Graphics.FillRoundedRectangle(barRect.Gradient(IsMouseDown ? FormDesign.Design.ActiveColor : BackColor.MergeColor(FormDesign.Design.AccentColor), 1F),
+					barRect,
 					w / 2);
 			}
 			else

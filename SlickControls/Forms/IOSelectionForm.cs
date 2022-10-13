@@ -1,15 +1,12 @@
 ﻿using Extensions;
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -143,7 +140,7 @@ namespace SlickControls
 			if (m.Msg == 0x210 && m.WParam == (IntPtr)0x1020b)
 				return libraryViewer.GoBack();
 
-			return  base.HandleWndProc(ref m);
+			return base.HandleWndProc(ref m);
 		}
 
 		private void libraryViewer_LoadEnded(object sender, EventArgs e)
@@ -169,63 +166,20 @@ namespace SlickControls
 					break;
 			}
 		}
-
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			if (keyData == Keys.Escape)
-			{
-				B_Cancel_Click(null, null);
-				return true;
-			}
-
-			if (keyData == Keys.Enter)
-			{
-				B_OK_Click(null, null);
-				return true;
-			}
-
-			if (keyData.IsDigitOrLetter() && !(this.GetCurrentlyFocusedControl() is SlickTextBox))
-			{
-				var letter = keyData.IsDigit() ? keyData.ToString().SmartParse().ToString() : keyData.ToString();
-				var control = (IOControl)null;
-
-				foreach (var item in libraryViewer.IOControls.Reverse())
-				{
-					if (item.Text.StartsWith(letter, StringComparison.InvariantCultureIgnoreCase))
-					{
-						if (item.Focused)
-							break; 
-						control = item;
-					}
-					else if (control != null)
-						break;
-				}
-
-				if (control != null)
-				{
-					libraryViewer.IOControls.Foreach(x => { if (x.Selected) { x.Selected = false; x.Invalidate(); } });
-					control.Selected = true;
-					control.Focus();
-					control.Invalidate();
-					SlickScroll.GlobalScrollTo(control);
-					return true;
-				}
-			}
-
-			return base.ProcessCmdKey(ref msg, keyData);
-		}
 	}
 
 	public class IOSelectionDialog : Component
 	{
 		[DefaultValue(true)]
 		public bool PreserveLastPath { get; set; } = true;
+
 		public string[] ValidExtensions { get; set; }
 
 		public string SelectedPath { get; private set; }
 		public string LastFolder { get; set; }
 
 		public DialogResult PromptFolder(Form form = null) => prompt(true, form);
+
 		public DialogResult PromptFile(Form form = null) => prompt(false, form);
 
 		private DialogResult prompt(bool folder, Form form)

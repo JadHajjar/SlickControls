@@ -12,7 +12,9 @@ namespace SlickControls
 
 		public IconStyle Color { get; set; }
 
-		public TopIcon() { }
+		public TopIcon()
+		{
+		}
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
@@ -33,9 +35,9 @@ namespace SlickControls
 			e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
 			e.Graphics.FillEllipse(
-				new SolidBrush(HoverState.HasFlag(HoverState.Hovered) ? color : BackColor.MergeColor(color, 90)),
+				SlickControl.Gradient(new Rectangle(Point.Empty, Size), HoverState.HasFlag(HoverState.Hovered) ? color : BackColor.MergeColor(color, 90), HoverState.HasFlag(HoverState.Hovered) ? 3 : 1.5F),
 				new RectangleF(Padding.Left, Padding.Top, Width - 1F - Padding.Horizontal, Height - 1F - Padding.Vertical));
-			
+
 			e.Graphics.DrawEllipse(
 				new Pen(color, 1.5F),
 				new RectangleF(Padding.Left, Padding.Top, Width - 1.5F - Padding.Horizontal, Height - 1.5F - Padding.Vertical));

@@ -16,7 +16,6 @@
 			if (disposing && (components != null))
 			{
 				components.Dispose();
-				graphics?.Dispose();
 			}
 			base.Dispose(disposing);
 		}

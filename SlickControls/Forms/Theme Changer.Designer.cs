@@ -86,7 +86,6 @@
 			// 
 			// base_P_Container
 			// 
-			this.base_P_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(217)))), ((int)(((byte)(179)))));
 			this.base_P_Container.Size = new System.Drawing.Size(899, 575);
 			// 
 			// base_PB_Icon
@@ -313,6 +312,7 @@
 			// UD_BaseTheme
 			// 
 			this.UD_BaseTheme.Conversion = null;
+			this.UD_BaseTheme.EnterTriggersClick = false;
 			this.UD_BaseTheme.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.UD_BaseTheme.Image = ((System.Drawing.Image)(resources.GetObject("UD_BaseTheme.Image")));
 			this.UD_BaseTheme.Items = new string[] {
@@ -434,6 +434,7 @@
 			// 
 			this.DD_Font.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.DD_Font.Conversion = null;
+			this.DD_Font.EnterTriggersClick = false;
 			this.DD_Font.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.DD_Font.Image = ((System.Drawing.Image)(resources.GetObject("DD_Font.Image")));
 			this.DD_Font.Items = null;
@@ -554,7 +555,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(910, 586);
 			this.IconBounds = new System.Drawing.Rectangle(3, 4, 20, 20);
-			this.MaximizedBounds = new System.Drawing.Rectangle(0, 0, 1920, 1080);
 			this.Name = "Theme_Changer";
 			this.SeemlessBar = true;
 			this.Text = "Theme Changer";

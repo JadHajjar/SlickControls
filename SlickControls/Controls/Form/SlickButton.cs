@@ -111,7 +111,7 @@ namespace SlickControls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			e.Graphics.Clear(BackColor.A == 255 ? BackColor : Parent?.BackColor ?? BackColor);
+			e.Graphics.Clear(Parent?.BackColor ?? BackColor);
 
 			DrawButton(e,
 				Point.Empty,
@@ -158,7 +158,7 @@ namespace SlickControls
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-			e.Graphics.FillRoundedRectangle(new SolidBrush(back), new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), 5);
+			e.Graphics.FillRoundedRectangle(Gradient(new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), back), new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), 5);
 
 			if (!HoverState.HasFlag(HoverState.Pressed))
 				DrawFocus(e.Graphics, new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), HoverState, 5, ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade));

@@ -109,10 +109,10 @@ namespace SlickControls
 			if (topRect.Pad(24, 0, 24, 0).Contains(Mouse) && view != DateView.Years)
 			{
 				action = () => { view = (DateView)((int)view - 1); Invalidate(); };
-				e.Graphics.DrawString(getViewTitle(), UI.Font(9F, FontStyle.Bold), new SolidBrush(FormDesign.Design.ActiveColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(getViewTitle(), UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(topRect, FormDesign.Design.ActiveColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 			}
 			else
-				e.Graphics.DrawString(getViewTitle(), UI.Font(9F, FontStyle.Bold), new SolidBrush(FormDesign.Design.LabelColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(getViewTitle(), UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(topRect, FormDesign.Design.LabelColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 			drawView(e, mainRect);
 
@@ -185,9 +185,9 @@ namespace SlickControls
 						if (year == year.Between(DateBox.MinDate.Year, DateBox.MaxDate.Year))
 						{
 							if (year == DateBox.Value.Year)
-								e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(50, FormDesign.Design.ActiveColor)), rect.Pad(1, 0, 0, 1));
+								e.Graphics.FillRectangle(SlickControl.Gradient(rect, Color.FromArgb(50, FormDesign.Design.ActiveColor)), rect.Pad(1, 0, 0, 1));
 
-							e.Graphics.DrawString(year.ToString(), Font, new SolidBrush(FormDesign.Design.ForeColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+							e.Graphics.DrawString(year.ToString(), Font, SlickControl.Gradient(rect, FormDesign.Design.ForeColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 							if (year == DateTime.Today.Year || rect.Contains(Mouse))
 								using (var pen = new Pen(FormDesign.Design.ActiveColor, 1F))
@@ -226,9 +226,9 @@ namespace SlickControls
 							var month = new DateTime(1, i, 1).ToString("MMM");
 
 							if (i == DateBox.Value.Month && values[DateView.Years] == DateBox.Value.Year)
-								e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(50, FormDesign.Design.ActiveColor)), rect.Pad(1, 0, 0, 1));
+								e.Graphics.FillRectangle(SlickControl.Gradient(rect, Color.FromArgb(50, FormDesign.Design.ActiveColor)), rect.Pad(1, 0, 0, 1));
 
-							e.Graphics.DrawString(month, Font, new SolidBrush(FormDesign.Design.ForeColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+							e.Graphics.DrawString(month, Font, SlickControl.Gradient(rect, FormDesign.Design.ForeColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 							if ((i == DateTime.Today.Month && values[DateView.Years] == DateTime.Now.Year) || rect.Contains(Mouse))
 								using (var pen = new Pen(FormDesign.Design.ActiveColor, 1F))
@@ -262,7 +262,7 @@ namespace SlickControls
 
 					for (var i = 1; i <= 7; i++)
 					{
-						e.Graphics.DrawString(((DayOfWeek)i.If(7, 0)).ToString().Substring(0, 3), Font, new SolidBrush(FormDesign.Design.InfoColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+						e.Graphics.DrawString(((DayOfWeek)i.If(7, 0)).ToString().Substring(0, 3), Font, SlickControl.Gradient(rect, FormDesign.Design.InfoColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 						rect.X += rect.Width;
 					}
 					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor), 5, y + h, mainRect.Width - 5, y + h);
@@ -275,9 +275,9 @@ namespace SlickControls
 						if (item.Key >= DateBox.MinDate && item.Key <= DateBox.MaxDate)
 						{
 							if (item.Key == DateBox.Value)
-								e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(50, FormDesign.Design.ActiveColor)), rect.Pad(1, 0, 0, 1));
+								e.Graphics.FillRectangle(SlickControl.Gradient(rect, Color.FromArgb(50, FormDesign.Design.ActiveColor)), rect.Pad(1, 0, 0, 1));
 
-							e.Graphics.DrawString(item.Key.Day.ToString(), Font, new SolidBrush(item.Key.Month == values[DateView.Months] ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+							e.Graphics.DrawString(item.Key.Day.ToString(), Font, SlickControl.Gradient(rect, item.Key.Month == values[DateView.Months] ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 							if (item.Key == DateTime.Today || rect.Contains(Mouse))
 								using (var pen = new Pen(FormDesign.Design.ActiveColor, 1F))
@@ -368,7 +368,7 @@ namespace SlickControls
 		{
 			var rect = new Rectangle(Width - (int)(100 * UI.FontScale) + 5, 0, (int)(100 * UI.FontScale) - 5, Height / 6);
 
-			e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), new Rectangle(Width + 5 - (int)(100 * UI.FontScale), 0, (int)(100 * UI.FontScale), Height));
+			e.Graphics.FillRectangle(SlickControl.Gradient(rect, FormDesign.Design.AccentBackColor), new Rectangle(Width + 5 - (int)(100 * UI.FontScale), 0, (int)(100 * UI.FontScale), Height));
 			
 			drawButton("Today", DateTime.Today);
 			drawButton("Yesterday", DateTime.Today.AddDays(-1));
@@ -384,11 +384,11 @@ namespace SlickControls
 
 				if (hovered)
 				{
-					e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveColor), rect);
+					e.Graphics.FillRectangle(SlickControl.Gradient(rect, FormDesign.Design.ActiveColor), rect);
 					action = () => setDate(val);
 				}
 
-				e.Graphics.DrawString(hovered ? val.ToString("dd \\/ MM \\/ yyyy") : text, Font, new SolidBrush(hovered ? FormDesign.Design.ActiveForeColor : valid ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(hovered ? val.ToString("dd \\/ MM \\/ yyyy") : text, Font, SlickControl.Gradient(rect, hovered ? FormDesign.Design.ActiveForeColor : valid ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor), rect.X + 5, rect.Y, rect.X + rect.Width - 10, rect.Y);
 

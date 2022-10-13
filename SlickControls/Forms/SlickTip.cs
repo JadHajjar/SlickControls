@@ -24,7 +24,7 @@ namespace SlickControls
 			control.MouseLeave += Control_MouseLeave;
 			control.Disposed += Control_MouseLeave;
 
-			Disposed += (s, e) => { control.MouseLeave -= Control_MouseLeave; control.Disposed -= Control_MouseLeave; };
+			FormDesign.DesignChanged += DesignChanged;
 
 			new Action(() =>
 			{
@@ -34,6 +34,8 @@ namespace SlickControls
 					currentControl = null;
 			}).RunInBackground(10000);
 		}
+
+		private void DesignChanged(FormDesign design) => Invalidate();
 
 		private void SetData(string title, string text)
 		{
@@ -112,22 +114,22 @@ namespace SlickControls
 
 		private void ToolTip_Draw(object sender, PaintEventArgs e)
 		{
-			e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.AccentColor), new Rectangle(Point.Empty, Size));
+			e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.AccentColor), new Rectangle(Point.Empty, Size));
 
-			e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.BackColor), new Rectangle(1, 1, Width - 2, Height - 2));
+			e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.BackColor), new Rectangle(1, 1, Width - 2, Height - 2));
 
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
 			if (string.IsNullOrWhiteSpace(Title))
 			{
-				e.Graphics.DrawString(Text, UI.Font(8.25F), new SolidBrush(FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
+				e.Graphics.DrawString(Text, UI.Font(8.25F), SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
 			}
 			else
 			{
 				var bnds = e.Graphics.MeasureString(Title, UI.Font(9F, FontStyle.Bold), Width - 4);
 
-				e.Graphics.DrawString(Title, UI.Font(9F, FontStyle.Bold), new SolidBrush(FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
-				e.Graphics.DrawString(Text, UI.Font(8.25F), new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(4, (int)bnds.Height + 4, Width - 4, Height));
+				e.Graphics.DrawString(Title, UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
+				e.Graphics.DrawString(Text, UI.Font(8.25F), SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.LabelColor), new Rectangle(4, (int)bnds.Height + 4, Width - 4, Height));
 			}
 		}
 
@@ -154,8 +156,6 @@ namespace SlickControls
 		private static readonly Dictionary<Control, Tuple<string, string>> controlsDictionary = new Dictionary<Control, Tuple<string, string>>();
 		private static KeyValuePair<Control, SlickTip>? currentControl;
 		private System.Timers.Timer animationTimer;
-
-		public static Tuple<string, string> GetTip(Control control) => controlsDictionary.ContainsKey(control) ? controlsDictionary[control] : null;
 
 		public static void SetTo(Control control, string text, bool recursive = true)
 			=> SetTo(control, null, text, recursive);

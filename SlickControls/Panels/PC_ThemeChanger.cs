@@ -5,8 +5,6 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 
-using Json = Newtonsoft.Json.JsonConvert;
-
 namespace SlickControls
 {
 	public partial class PC_ThemeChanger : PanelContent
@@ -64,10 +62,10 @@ namespace SlickControls
 			}
 			else
 				FormDesign.Custom = savedCustom;
-			
+
 			FormDesign.NightModeEnabled = savedNightModeSetting;
 			FormDesign.ForceRefresh();
-			FormDesign.Save();			
+			FormDesign.Save();
 
 			return true;
 		}
@@ -185,7 +183,7 @@ namespace SlickControls
 			{
 				if (!item.ColorName.AnyOf("RedColor", "YellowColor", "GreenColor"))
 				{
-					item.Color = item.DefaultColor().Tint(baseColor);
+					item.Color = item.GetDefaultColor().Tint(baseColor);
 					item.ColorSetter(item.Color);
 				}
 			}

@@ -57,11 +57,9 @@ namespace SlickControls
 			get => base.Text;
 			set
 			{
-				if (SlickTip.GetTip(this) == null || SlickTip.GetTip(this).Item2 == base.Text)
-					SlickTip.SetTo(this, value);
-
 				base.Text = value;
 				ResizeForAutoSize();
+				SlickTip.SetTo(this, value);
 			}
 		}
 
@@ -102,7 +100,7 @@ namespace SlickControls
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
 			if (HoverState >= HoverState.Hovered)
-				e.Graphics.FillRoundedRectangle(new SolidBrush(back), new Rectangle(1, 1, Width - 3, Height - 3), 7);
+				e.Graphics.FillRoundedRectangle(Gradient(back), new Rectangle(1, 1, Width - 3, Height - 3), 7);
 
 			if (!HoverState.HasFlag(HoverState.Pressed))
 				DrawFocus(e.Graphics, new Rectangle(1, 1, Width - 3, Height - 3), 7, ActiveColor == null ? FormDesign.Design.ActiveColor : ActiveColor());
@@ -126,9 +124,9 @@ namespace SlickControls
 			{
 				var stl = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
 				if (Image != null)
-					e.Graphics.DrawString(Text, Font, new SolidBrush(fore), new Rectangle(iconSize + 2 * Padding.Left, 0, Width - (iconSize + Padding.Left + Padding.Horizontal), Height), stl);
+					e.Graphics.DrawString(Text, Font, Gradient(fore), new Rectangle(iconSize + 2 * Padding.Left, 0, Width - (iconSize + Padding.Left + Padding.Horizontal), Height), stl);
 				else
-					e.Graphics.DrawString(Text, Font, new SolidBrush(fore), new Rectangle(Padding.Left, 0, Width - (Padding.Left), Height), stl);
+					e.Graphics.DrawString(Text, Font, Gradient(fore), new Rectangle(Padding.Left, 0, Width - (Padding.Left), Height), stl);
 			}
 		}
 
@@ -144,6 +142,18 @@ namespace SlickControls
 			Invalidate();
 		}
 
+		public override Size GetPreferredSize(Size proposedSize) => GetAutoSize();
+
+		private void ResizeForAutoSize()
+		{
+			try
+			{
+				if (AutoSize && IsHandleCreated)
+					SetBoundsCore(Left, Top, Width, Height, BoundsSpecified.Size);
+			}
+			catch { }
+		}
+
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
@@ -151,18 +161,34 @@ namespace SlickControls
 			ResizeForAutoSize();
 		}
 
-		#region AutoSize
-
-		private readonly Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
-
-		public override Size GetPreferredSize(Size proposedSize)
+		public Size GetAutoSize()
 		{
-			return GetAutoSize();
+			using (var g = Graphics.FromHwnd(IntPtr.Zero))
+			{
+				var w = 3;
+				var h = 0;
+
+				if (Image != null)
+					w += Padding.Left + iconSize;
+
+				if (!string.IsNullOrWhiteSpace(Text) && !HideText)
+				{
+					var bnds = g.MeasureString(Text, Font);
+					w += (int)bnds.Width + Padding.Horizontal;
+					h = Math.Max(IconSize + Padding.Vertical, (int)bnds.Height + Padding.Vertical);
+				}
+				else
+				{
+					w += Padding.Right;
+					h = IconSize + Padding.Vertical;
+				}
+
+				return new Size(w, h);
+			}
 		}
 
 		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
 		{
-			//  Only when the size is affected...
 			if (AutoSize && (specified & BoundsSpecified.Size) != 0)
 			{
 				var size = GetAutoSize();
@@ -173,43 +199,5 @@ namespace SlickControls
 
 			base.SetBoundsCore(x, y, width, height, specified);
 		}
-
-		private Size GetAutoSize()
-		{
-			if (!AutoSize)
-				return Size;
-
-			var w = 3;
-			int h;
-
-			if (Image != null)
-				w += Padding.Left + iconSize;
-
-			if (!string.IsNullOrWhiteSpace(Text) && !HideText)
-			{
-				var bnds = graphics.MeasureString(Text, Font);
-				w += (int)bnds.Width + Padding.Horizontal;
-				h = Math.Max(IconSize + Padding.Vertical, (int)bnds.Height + Padding.Vertical);
-			}
-			else
-			{
-				w += Padding.Right;
-				h = IconSize + Padding.Vertical;
-			}
-
-			return new Size(w, h);
-		}
-
-		private void ResizeForAutoSize()
-		{
-			try
-			{
-				if (AutoSize)
-					SetBoundsCore(Left, Top, Width, Height, BoundsSpecified.Size);
-			}
-			catch { }
-		}
-
-		#endregion AutoSize
 	}
 }

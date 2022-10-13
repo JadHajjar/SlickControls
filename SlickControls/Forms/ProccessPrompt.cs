@@ -1,7 +1,6 @@
 ﻿using Extensions;
 
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -59,7 +58,7 @@ namespace SlickControls
 			base.OnCreateControl();
 		}
 
-		public static ProccessPrompt Create(string message, bool showCancel = false) 
+		public static ProccessPrompt Create(string message, bool showCancel = false)
 			=> new ProccessPrompt(message, showCancel);
 
 		public new void Close() => this.TryInvoke(base.Close);

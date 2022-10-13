@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace SlickControls
 {
@@ -14,7 +9,9 @@ namespace SlickControls
 		public Bitmap Icon { get; set; }
 		public Color Color { get; set; }
 
-		public Banner() { }
+		public Banner()
+		{
+		}
 
 		public Banner(string text, BannerStyle style, Bitmap icon = null)
 		{

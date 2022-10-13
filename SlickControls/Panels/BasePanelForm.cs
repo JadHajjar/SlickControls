@@ -19,6 +19,10 @@ namespace SlickControls
 		private Image formIcon;
 		private readonly List<PanelContent> panelHistory = new List<PanelContent>();
 		private PanelItem[] sidebarItems = new PanelItem[0];
+		private bool autoHideMenu;
+		private MouseDetector mouseDetector;
+		private bool smallMenu;
+		private bool hideMenu;
 
 		#endregion Private Fields
 
@@ -51,6 +55,53 @@ namespace SlickControls
 		}
 
 		public IEnumerable<PanelContent> PanelHistory => panelHistory;
+
+		public bool AutoHideMenu 
+		{
+			get => autoHideMenu;
+			set
+			{
+				autoHideMenu = value;
+				mouseDetector_MouseMove(null, Cursor.Position);
+
+				if (!value)
+				{
+					setSmallMenu();
+					base_P_Side.SendToBack();
+				}
+				else
+					base_P_Side.BringToFront();
+
+				if (IsHandleCreated)
+					ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "Shared");
+			}
+		}
+
+		public bool SmallMenu 
+		{
+			get => smallMenu; 
+			set
+			{
+				smallMenu = value;
+				setSmallMenu();
+
+				if (autoHideMenu)
+					mouseDetector_MouseMove(null, Cursor.Position);
+
+				if (IsHandleCreated)
+					ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "Shared");
+			}
+		}
+
+		[DefaultValue(false)]
+		public bool HideMenu
+		{
+			get => hideMenu;
+			set
+			{
+				base_P_Side.Visible = !(hideMenu = value);
+			}
+		}
 
 		#endregion Public Properties
 
@@ -86,6 +137,17 @@ namespace SlickControls
 			base_P_Tabs.MouseDown += Form_MouseDown;
 			base_P_Icon.MouseDown += Form_MouseDown;
 			base_P_SideControls.MouseDown += Form_MouseDown;
+
+			mouseDetector = new MouseDetector();
+			mouseDetector.MouseMove += mouseDetector_MouseMove;
+
+			var options = ISave.LoadRaw("PanelForm.tf", "Shared");
+
+			if (options != null)
+			{
+				AutoHideMenu = options.AutoHideMenu;
+				SmallMenu = options.SmallMenu;
+			}
 		}
 
 		#endregion Public Constructors
@@ -344,6 +406,9 @@ namespace SlickControls
 			base_P_Icon.Height = (int)(70 * UI.UIScale);
 			base_PB_Icon.Size = UI.Scale(new Size(32, 32), UI.UIScale);
 			base_B_Close.Size = base_B_Max.Size = base_B_Min.Size = new Size(6 + (int)(16 * UI.UIScale), 6 + (int)(16 * UI.UIScale));
+
+			if (SmallMenu)
+				setSmallMenu();
 		}
 
 		protected override void DesignChanged(FormDesign design)
@@ -392,7 +457,6 @@ namespace SlickControls
 
 			base.OnKeyPress(e);
 		}
-
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
@@ -516,7 +580,8 @@ namespace SlickControls
 					{
 						Text = group.ToUpper(),
 						Margin = new Padding(7, 10, 0, 4),
-						AutoSize = true
+						AutoSize = true,
+						Visible = !smallMenu
 					};
 
 					base_TLP_PanelItems.Controls.Add(label);
@@ -540,7 +605,7 @@ namespace SlickControls
 					{
 						Size = new Size(base_P_Side.Width, 6),
 						Dock = DockStyle.Top,
-						Padding = new Padding(15, 5, 15, 0),
+						Padding = smallMenu ? new Padding(0, 3, 0, 2) : new Padding(15, 5, 15, 0),
 						Margin = new Padding(0)
 					});
 				}
@@ -617,43 +682,63 @@ namespace SlickControls
 		{
 			if (base_P_PanelContent.Padding.Left != 0)
 			{
-				e.Graphics.DrawImage(Properties.Resources.Huge_Back.Color(FormDesign.Design.ActiveColor), new Rectangle(base_P_PanelContent.Padding.Left/2-32, base_P_PanelContent.Height / 2 - 32, 64, 64));
+				e.Graphics.DrawImage(Properties.Resources.Huge_Back.Color(FormDesign.Design.ActiveColor), new Rectangle(base_P_PanelContent.Padding.Left / 2 - 32, base_P_PanelContent.Height / 2 - 32, 64, 64));
 				if (base_P_PanelContent.Padding.Left < 120)
-					e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255 - (255 * Math.Max(0,(base_P_PanelContent.Padding.Left-20)) / 100), base_P_PanelContent.BackColor)), new Rectangle(base_P_PanelContent.Padding.Left / 2 - 32, base_P_PanelContent.Height / 2 - 32, 64, 64));
+					e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255 - (255 * Math.Max(0, (base_P_PanelContent.Padding.Left - 20)) / 100), base_P_PanelContent.BackColor)), new Rectangle(base_P_PanelContent.Padding.Left / 2 - 32, base_P_PanelContent.Height / 2 - 32, 64, 64));
+			}
+		}
+
+		private void mouseDetector_MouseMove(object sender, Point p)
+		{
+			if (AutoHideMenu && CurrentFormState != FormState.NormalUnfocused && WindowState != FormWindowState.Minimized)
+			{
+				var close = !base_P_Side.Bounds.Pad(-30).Contains(base_P_Side.PointToClient(p));
+				var animation = AnimationHandler.GetAnimation(base_P_Side, AnimationOption.IgnoreHeight);
+				var newSize = new Size(close ? 0 : smallMenu ? 46 : (int)(165 * UI.UIScale), 0);
+
+				if (!IsHandleCreated)
+					base_P_Side.Size = newSize;
+				else if (animation == null || close != (animation.NewBounds.Width == 0))
+					new AnimationHandler(base_P_Side, newSize, 2.25, AnimationOption.IgnoreHeight)
+						.StartAnimation();
+			}
+		}
+
+		private void setSmallMenu()
+		{
+			PanelItemControl.DrawText = !smallMenu;
+			base_P_SideControls.Visible = !smallMenu;
+			base_PB_Icon.Size = smallMenu ? new Size(26, 26) : UI.Scale(new Size(32, 32), UI.UIScale);
+
+			if (base_TLP_PanelItems != null)
+				foreach (Control item in base_TLP_PanelItems.Controls)
+				{
+					if (item is Label)
+						item.Visible = !smallMenu;
+					else if (item is SlickSpacer)
+						item.Padding = smallMenu ? new Padding(0, 3, 0, 2) : new Padding(15, 5, 15, 0);
+				}
+
+			var newSize = new Size(smallMenu ? 46 : (int)(165 * UI.UIScale), 0);
+
+			if (!IsHandleCreated)
+				base_P_Side.Size = newSize;
+			else
+			{
+				var handler = new AnimationHandler(base_P_Side, newSize, 2.25, AnimationOption.IgnoreHeight);
+				handler.OnAnimationTick += (_, control, finished) =>
+				{
+					base_TLP_PanelItems.Width = base_P_Side.Width;
+					foreach (Control item in base_TLP_PanelItems.Controls)
+					{
+						if (item is PanelItemControl c)
+							item.Width = base_TLP_PanelItems.Width;
+					}
+				};
+				handler.StartAnimation();
 			}
 		}
 
 		#endregion Private Methods
-
-		private void base_P_SideControls_Click(object sender, EventArgs e)
-		{
-			var close = base_P_Side.Width != 46;
-
-			PanelItemControl.DrawText = !close;
-			base_P_SideControls.Visible = !close;
-			base_PB_Icon.Size = close ? new Size(26, 26) : UI.Scale(new Size(32, 32), UI.UIScale);
-
-			foreach (Control item in base_TLP_PanelItems.Controls)
-			{
-				if (item is Label)
-					item.Visible = !close;
-				else if (item is SlickSpacer)
-					item.Padding = close ? new Padding(5, 5, 5, 0) : new Padding(15, 5, 15, 0);
-			}
-
-			var handler = new AnimationHandler(base_P_Side, new Size(close ? 46 : (int)(165 * UI.UIScale), 0), 2.25, AnimationOption.IgnoreHeight);
-			handler.OnAnimationTick += (_, control, finished) =>
-			{
-				base_TLP_PanelItems.Width = base_P_Side.Width;
-				foreach (Control item in base_TLP_PanelItems.Controls)
-				{
-					if (item is PanelItemControl c)
-						item.Width = base_TLP_PanelItems.Width;
-					else if (item is SlickSpacer)
-						item.Width = base_TLP_PanelItems.Width - 5;
-				}
-			};
-			handler.StartAnimation();
-		}
 	}
 }

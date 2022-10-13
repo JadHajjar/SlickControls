@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace SlickControls
 {
@@ -8,7 +9,7 @@ namespace SlickControls
 
 		public string Text { get; set; }
 		public Bitmap Image { get; set; }
-		public action Action { get; set; }
+		public Action<SlickStripItem> Action { get; set; }
 		public bool Fade { get; set; }
 		public bool Show { get; set; }
 		public bool CloseOnClick { get; set; }
@@ -23,6 +24,8 @@ namespace SlickControls
 		internal Rectangle DrawRectangle { get; set; }
 
 		public SlickStripItem(string text, action action = null, Bitmap image = null, bool show = true, bool fade = false, int tab = 0, bool closeOnClick = true)
+			: this(text, action == null ? (Action<SlickStripItem >)null : (x) => action(), image, show, fade, tab, closeOnClick) { }
+		public SlickStripItem(string text, Action<SlickStripItem> action, Bitmap image = null, bool show = true, bool fade = false, int tab = 0, bool closeOnClick = true)
 		{
 			Text = text;
 			Image = image;

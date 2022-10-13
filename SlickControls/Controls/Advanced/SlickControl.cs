@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -22,7 +21,7 @@ namespace SlickControls
 		public double LoaderPercentage { get; private set; }
 
 		[EditorBrowsable(EditorBrowsableState.Never), Browsable(false)]
-		public virtual HoverState HoverState { get => hoverState; protected set { hoverState = value; HoverStateChanged?.Invoke(this, value); } }
+		public virtual HoverState HoverState { get => hoverState; protected set { hoverState = value; OnHoverStateChanged(); } }
 
 		[DefaultValue(true), Category("Behavior"), DisplayName("Auto Invalidate")]
 		public bool AutoInvalidate { get; set; } = true;
@@ -57,6 +56,9 @@ namespace SlickControls
 			DoubleBuffered = ResizeRedraw = true;
 			timer = new Timer { Interval = 30 };
 			timer.Tick += timer_Tick;
+
+			FormDesign.DesignChanged += DesignChanged;
+			UI.UIChanged += UIChanged;
 		}
 
 		private void timer_Tick(object sender, EventArgs e)
@@ -107,15 +109,17 @@ namespace SlickControls
 		{
 		}
 
+		protected virtual void OnHoverStateChanged()
+		{
+			HoverStateChanged?.Invoke(this, hoverState);
+		}
+
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
 
 			if (!DesignMode)
 			{
-				FormDesign.DesignChanged += DesignChanged;
-				UI.UIChanged += UIChanged;
-
 				DesignChanged(FormDesign.Design);
 
 				UIChanged();
@@ -182,8 +186,7 @@ namespace SlickControls
 
 		protected override void OnEnter(EventArgs e)
 		{
-			if (TabStop)
-				HoverState |= HoverState.Focused;
+			HoverState |= HoverState.Focused;
 
 			if (AutoInvalidate)
 				Invalidate();
@@ -254,5 +257,9 @@ namespace SlickControls
 				UI.UIChanged -= UIChanged;
 			}
 		}
+
+		protected Brush Gradient(Color color, float caliber = 1F) => Gradient(new Rectangle(Point.Empty, Size), color, caliber);
+		protected Brush Gradient(Color color, Rectangle rectangle, float caliber = 1F) => Gradient(rectangle, color, caliber);
+		public static Brush Gradient(Rectangle rect, Color color, float caliber = 1F) => rect.Gradient(color, caliber);		
 	}
 }

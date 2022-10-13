@@ -17,6 +17,9 @@
 			{
 				components.Dispose();
 			}
+
+			mouseDetector.Dispose();
+
 			base.Dispose(disposing);
 		}
 
@@ -151,7 +154,6 @@
 			this.base_P_Tabs.Name = "base_P_Tabs";
 			this.base_P_Tabs.Size = new System.Drawing.Size(165, 407);
 			this.base_P_Tabs.TabIndex = 10;
-			this.base_P_Tabs.Click += new System.EventHandler(this.base_P_SideControls_Click);
 			// 
 			// base_P_SideControls
 			// 
@@ -163,7 +165,6 @@
 			this.base_P_SideControls.Name = "base_P_SideControls";
 			this.base_P_SideControls.Size = new System.Drawing.Size(165, 50);
 			this.base_P_SideControls.TabIndex = 0;
-			this.base_P_SideControls.Click += new System.EventHandler(this.base_P_SideControls_Click);
 			// 
 			// base_P_Icon
 			// 

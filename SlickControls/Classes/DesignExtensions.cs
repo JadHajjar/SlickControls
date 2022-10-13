@@ -29,7 +29,10 @@ namespace SlickControls
 			g.SmoothingMode = sm;
 		}
 
-		public static void DrawBannersOverImage(this Graphics g, Control control, Rectangle rectangle, IEnumerable<Banner> banners, float fontSize = 7F)
+		public static void DrawBannersOverImage(this Graphics g, Control control, Rectangle rectangle, IEnumerable<Banner> banners, float fontSize = 7F, double opacity = 1)
+			=> DrawBannersOverImage(g, control?.PointToClient(Cursor.Position) ?? new Point(-1, -1), rectangle, banners, fontSize, opacity);
+
+		public static void DrawBannersOverImage(this Graphics g, Point cursorLocation, Rectangle rectangle, IEnumerable<Banner> banners, float fontSize = 7F, double opacity = 1)
 		{
 			if (banners == null) return;
 
@@ -41,12 +44,14 @@ namespace SlickControls
 				g.SmoothingMode = SmoothingMode.HighQuality;
 
 				using (var font = UI.Font(fontSize))
+				{
+					var transparent = !SlickAdvancedImageControl.AlwaysShowBanners || rectangle.Contains(cursorLocation);
+					
 					foreach (var banner in banners)
 					{
 						if (banner?.Icon == null && string.IsNullOrWhiteSpace(banner?.Text)) continue;
 
-						using (var foreBrush = new SolidBrush(banner.Style == BannerStyle.Custom ? banner.Color : banner.Style.ForeColor()))
-						using (var backBrush = new SolidBrush(Color.FromArgb(225, banner.Style.BackColor())))
+						using (var foreBrush = new SolidBrush(Color.FromArgb((int)(255 * opacity), banner.Style == BannerStyle.Custom ? banner.Color : banner.Style.ForeColor())))
 						{
 							var iconSize = banner.Icon?.Size ?? Size.Empty;
 							var noText = string.IsNullOrWhiteSpace(banner.Text);
@@ -59,25 +64,25 @@ namespace SlickControls
 
 							bannerSize.Width = Math.Min(bannerSize.Width, rectangle.Width - 12);
 
-							var bannerRect = control != null && new Rectangle(rectangle.Location, new Size(rectangle.Width / 2, rectangle.Height / 2)).Contains(control.PointToClient(Cursor.Position))
-								? new Rectangle(new Point(rectangle.X + rectangle.Width - 6 - bannerSize.Width, rectangle.Y + 6 + tab), bannerSize)
-								: new Rectangle(new Point(rectangle.X + 6, rectangle.Y + 6 + tab), bannerSize);
+							var bannerRect = new Rectangle(new Point(rectangle.X + 6, rectangle.Y + 6 + tab), bannerSize);
 
 							if (bannerRect.Y + bannerRect.Height > rectangle.Height + rectangle.Y)
 								return;
 
-							g.FillRoundedRectangle(backBrush, bannerRect, h / 3);
+							using (var backBrush = bannerRect.Gradient(Color.FromArgb((int)((transparent ? 200 : 245) * opacity), banner.Style.BackColor()), 2))
+								g.FillRoundedRectangle(backBrush, bannerRect, h / 3);
 
 							g.DrawString(banner.Text, font, foreBrush, bannerRect.Pad(banner.Icon == null ? 6 : (iconSize.Width + 8), 0, 0, 0), new StringFormat { LineAlignment = StringAlignment.Center });
 
 							if (banner.Icon != null)
-								g.DrawImage(banner.Icon.Color(banner.Style == BannerStyle.Custom ? banner.Color : banner.Style.ForeColor()), noText
+								g.DrawImage(banner.Icon.Color(banner.Style == BannerStyle.Custom ? banner.Color : banner.Style.ForeColor(), (byte)(int)(255 * opacity)), noText
 									? new Rectangle(bannerRect.X + 1 + ((bannerRect.Width - iconSize.Width) / 2), bannerRect.Y + 1 + ((h - iconSize.Height) / 2), iconSize.Width, iconSize.Height)
 									: new Rectangle(bannerRect.X - 2 + (iconSize.Width / 2), bannerRect.Y + 1 + ((h - iconSize.Height) / 2), iconSize.Width, iconSize.Height));
 
 							tab += bannerRect.Height + 4;
 						}
 					}
+				}
 			}
 			finally
 			{

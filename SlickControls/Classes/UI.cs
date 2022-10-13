@@ -38,6 +38,16 @@ namespace SlickControls
 			(float)(FontScale * size * g.DpiX / 96).RoundToMultipleOf(0.75F),
 			style);
 
+		public static Font Font(string fontFamily, float size, FontStyle style = FontStyle.Regular) => new Font(
+			fontFamily,
+			(float)(FontScale * size / WindowsScale).RoundToMultipleOf(0.75F),
+			style);
+
+		public static Font Font(string fontFamily, float size, Graphics g, FontStyle style = FontStyle.Regular) => new Font(
+			fontFamily,
+			(float)(FontScale * size * g.DpiX / 96).RoundToMultipleOf(0.75F),
+			style);
+
 		public static Size Scale(Size size, double scale) => new Size(
 			(int)(size.Width * scale),
 			(int)(size.Height * scale));
@@ -76,8 +86,6 @@ namespace SlickControls
 		//	using (var g = Graphics.FromHwnd(IntPtr.Zero))
 		//	{
 		//		var desktop = g.GetHdc();
-
-
 
 		//		WindowsScale = (double)GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES)
 		//			/ GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);

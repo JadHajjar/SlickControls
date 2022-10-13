@@ -290,6 +290,7 @@
 			// UD_BaseTheme
 			// 
 			this.UD_BaseTheme.Conversion = null;
+			this.UD_BaseTheme.EnterTriggersClick = false;
 			this.UD_BaseTheme.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.UD_BaseTheme.Image = ((System.Drawing.Image)(resources.GetObject("UD_BaseTheme.Image")));
 			this.UD_BaseTheme.Items = new string[] {
@@ -358,7 +359,7 @@
 			this.slickSectionPanel3.Info = "";
 			this.slickSectionPanel3.Location = new System.Drawing.Point(3, 163);
 			this.slickSectionPanel3.MaximumSize = new System.Drawing.Size(1037, 2147483647);
-			this.slickSectionPanel3.MinimumSize = new System.Drawing.Size(150, 55);
+			this.slickSectionPanel3.MinimumSize = new System.Drawing.Size(271, 55);
 			this.slickSectionPanel3.Name = "slickSectionPanel3";
 			this.slickSectionPanel3.Padding = new System.Windows.Forms.Padding(43, 54, 0, 0);
 			this.slickSectionPanel3.Size = new System.Drawing.Size(1031, 55);
@@ -414,6 +415,7 @@
 			// 
 			this.DD_Font.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.DD_Font.Conversion = null;
+			this.DD_Font.EnterTriggersClick = false;
 			this.DD_Font.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.DD_Font.Image = ((System.Drawing.Image)(resources.GetObject("DD_Font.Image")));
 			this.DD_Font.Items = null;
@@ -453,7 +455,7 @@
 			this.slickSectionPanel1.Info = "";
 			this.slickSectionPanel1.Location = new System.Drawing.Point(3, 33);
 			this.slickSectionPanel1.MaximumSize = new System.Drawing.Size(1037, 2147483647);
-			this.slickSectionPanel1.MinimumSize = new System.Drawing.Size(150, 55);
+			this.slickSectionPanel1.MinimumSize = new System.Drawing.Size(244, 55);
 			this.slickSectionPanel1.Name = "slickSectionPanel1";
 			this.slickSectionPanel1.Padding = new System.Windows.Forms.Padding(43, 54, 0, 0);
 			this.slickSectionPanel1.Size = new System.Drawing.Size(1031, 55);

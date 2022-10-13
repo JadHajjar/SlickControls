@@ -158,7 +158,7 @@ namespace SlickControls
 		#region Design Click
 
 		[DefaultEvent("TabSelected"), Designer(typeof(TabButtonDesigner))]
-		public class Tab : SlickTab 
+		public class Tab : SlickTab
 		{
 			[Category("Appearance")]
 			public string NoControlText { get; set; }

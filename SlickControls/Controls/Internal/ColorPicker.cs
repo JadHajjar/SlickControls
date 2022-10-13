@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	internal partial class ColorPicker : SlickControl
+	public partial class ColorPicker : SlickControl
 	{
 		private Color color;
 
@@ -32,7 +32,7 @@ namespace SlickControls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Color Color
 		{
-			get => DesignMode ? Color.White : (FormDesign.IsCustomEligible() && !string.IsNullOrWhiteSpace(ColorName) ? color : ResetColor());
+			get => DesignMode ? Color.White : (FormDesign.IsCustomEligible() || string.IsNullOrWhiteSpace(ColorName) ? color : ResetColor());
 			set
 			{
 				if (color != value)
@@ -52,6 +52,9 @@ namespace SlickControls
 			set => label1.Text = value;
 		}
 
+		[Category("Appearance"), DisplayName("Default Color")]
+		public Color DefaultColor { get; set; }
+
 		[Category("Behavior"), DisplayName("Color Name")]
 		public string ColorName { get; set; }
 
@@ -60,7 +63,7 @@ namespace SlickControls
 			panel1.BackColor = design.AccentColor;
 			tableLayoutPanel1.ForeColor = design.ForeColor;
 			if (!string.IsNullOrWhiteSpace(ColorName))
-				Color = DefaultColor();
+				Color = GetDefaultColor();
 		}
 
 		private void Picker_Click(object sender, EventArgs e)
@@ -68,7 +71,8 @@ namespace SlickControls
 			if ((e as MouseEventArgs).Button == MouseButtons.Left)
 			{
 				var colorDialog = new SlickColorPicker(Color);
-				colorDialog.ColorChanged += (s, ea) =>
+			if (!string.IsNullOrWhiteSpace(ColorName))
+					colorDialog.ColorChanged += (s, ea) =>
 						this.TryInvoke(() =>
 						{
 							ColorSetter(colorDialog.Color);
@@ -93,11 +97,15 @@ namespace SlickControls
 				PB_Color.Refresh();
 			}
 
+			if (!string.IsNullOrWhiteSpace(ColorName))
 			FormDesign.Switch(FormDesign.Custom, true, true);
 		}
 
 		private Color ResetColor()
 		{
+			if (string.IsNullOrWhiteSpace(ColorName))
+				return DefaultColor;
+
 			var propertyInfo = typeof(FormDesign).GetProperty(ColorName);
 
 			if (FindForm() is Theme_Changer frm)
@@ -113,32 +121,37 @@ namespace SlickControls
 			return (Color)propertyInfo.GetValue(FormDesign.List[(p as PC_ThemeChanger).UD_BaseTheme.Text], null);
 		}
 
-		public Color DefaultColor()
+		public Color GetDefaultColor()
 		{
+			if (string.IsNullOrWhiteSpace(ColorName))
+				return Color.Empty;
+
 			var propertyInfo = typeof(FormDesign).GetProperty(ColorName);
 			return (Color)propertyInfo.GetValue(FormDesign.Custom, null);
 		}
 
 		public void ColorSetter(Color color)
 		{
-			if (!string.IsNullOrWhiteSpace(ColorName))
+			if (string.IsNullOrWhiteSpace(ColorName))
 			{
-				if (!FormDesign.IsCustomEligible())
-				{
-					if (FindForm() is Theme_Changer frm)
-						FormDesign.SetCustomBaseDesign(FormDesign.List[frm.UD_BaseTheme.Text]);
-
-					var p = Parent;
-					while (p != null && !(p is PanelContent))
-						p = p.Parent;
-
-					if (p != null)
-						FormDesign.SetCustomBaseDesign(FormDesign.List[(p as PC_ThemeChanger).UD_BaseTheme.Text]);
-				}
-
-				var propertyInfo = typeof(FormDesign).GetProperty(ColorName);
-				propertyInfo.SetValue(FormDesign.Custom, color, null);
+				return;
 			}
+
+			if (!FormDesign.IsCustomEligible())
+			{
+				if (FindForm() is Theme_Changer frm)
+					FormDesign.SetCustomBaseDesign(FormDesign.List[frm.UD_BaseTheme.Text]);
+
+				var p = Parent;
+				while (p != null && !(p is PanelContent))
+					p = p.Parent;
+
+				if (p != null)
+					FormDesign.SetCustomBaseDesign(FormDesign.List[(p as PC_ThemeChanger).UD_BaseTheme.Text]);
+			}
+
+			var propertyInfo = typeof(FormDesign).GetProperty(ColorName);
+			propertyInfo.SetValue(FormDesign.Custom, color, null);
 		}
 
 		private void Picker_Paint(object sender, PaintEventArgs e)

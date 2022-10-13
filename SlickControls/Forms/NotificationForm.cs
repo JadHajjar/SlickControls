@@ -74,6 +74,7 @@ namespace SlickControls
 						using (var snd = new System.Media.SoundPlayer(Properties.Resources.Notif_Quick))
 							snd.Play();
 						break;
+
 					case NotificationSound.Long:
 						using (var snd = new System.Media.SoundPlayer(Properties.Resources.Notif_Long))
 							snd.Play();

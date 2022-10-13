@@ -40,12 +40,12 @@
 			this.L_Side = new System.Windows.Forms.Label();
 			this.FLP_CommonFolders = new System.Windows.Forms.FlowLayoutPanel();
 			this.base_P_Container.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.base_PB_Icon)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.base_B_Close)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.base_B_Max)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.base_B_Min)).BeginInit();
+
+
+
+
 			this.TLP_Main.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.TI_Close)).BeginInit();
+
 			this.TLP_Side.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -102,6 +102,8 @@
 			// B_Cancel
 			// 
 			this.B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Cancel.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.B_Cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.ColorStyle = Extensions.ColorStyle.Red;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -112,7 +114,6 @@
 			this.B_Cancel.Name = "B_Cancel";
 			this.B_Cancel.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
 			this.B_Cancel.Size = new System.Drawing.Size(100, 30);
-			this.B_Cancel.SpaceTriggersClick = true;
 			this.B_Cancel.TabIndex = 2;
 			this.B_Cancel.Text = "CANCEL";
 			this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
@@ -120,6 +121,8 @@
 			// B_OK
 			// 
 			this.B_OK.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_OK.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.B_OK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_OK.ColorShade = null;
 			this.TLP_Main.SetColumnSpan(this.B_OK, 2);
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -130,7 +133,6 @@
 			this.B_OK.Name = "B_OK";
 			this.B_OK.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
 			this.B_OK.Size = new System.Drawing.Size(100, 30);
-			this.B_OK.SpaceTriggersClick = true;
 			this.B_OK.TabIndex = 2;
 			this.B_OK.Text = "SELECT";
 			this.B_OK.Click += new System.EventHandler(this.B_OK_Click);
@@ -158,7 +160,6 @@
 			// 
 			this.TB_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.TLP_Main.SetColumnSpan(this.TB_Search, 2);
-			this.TB_Search.EnterTriggersClick = false;
 			this.TB_Search.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.TB_Search.Image = null;
 			this.TB_Search.LabelText = "Search";
@@ -180,7 +181,6 @@
 			this.TB_Search.TabIndex = 3;
 			this.TB_Search.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
 			this.TB_Search.Validation = SlickControls.ValidationType.None;
-			this.TB_Search.ValidationCustom = null;
 			this.TB_Search.ValidationRegex = "";
 			this.TB_Search.TextChanged += new System.EventHandler(this.TB_Search_TextChanged);
 			// 
@@ -192,7 +192,6 @@
 			this.slickSpacer1.Name = "slickSpacer1";
 			this.slickSpacer1.Size = new System.Drawing.Size(508, 1);
 			this.slickSpacer1.TabIndex = 4;
-			this.slickSpacer1.TabStop = false;
 			this.slickSpacer1.Text = "slickSpacer1";
 			// 
 			// TI_Close
@@ -200,7 +199,6 @@
 			this.TI_Close.Color = SlickControls.TopIcon.IconStyle.Close;
 			this.TI_Close.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.TI_Close.Dock = System.Windows.Forms.DockStyle.Right;
-			this.TI_Close.Image = null;
 			this.TI_Close.Location = new System.Drawing.Point(768, 3);
 			this.TI_Close.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this.TI_Close.Name = "TI_Close";
@@ -252,19 +250,19 @@
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(58)))), ((int)(((byte)(69)))));
 			this.IconBounds = new System.Drawing.Rectangle(3, 4, 20, 20);
-			this.MaximizedBounds = new System.Drawing.Rectangle(0, 0, 1858, 1080);
 			this.Name = "IOSelectionForm";
+			this.Opacity = 1D;
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "IOSelectionDialog";
 			this.base_P_Container.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.base_PB_Icon)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.base_B_Close)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.base_B_Max)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.base_B_Min)).EndInit();
+
+
+
+
 			this.TLP_Main.ResumeLayout(false);
 			this.TLP_Main.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.TI_Close)).EndInit();
+
 			this.TLP_Side.ResumeLayout(false);
 			this.TLP_Side.PerformLayout();
 			this.ResumeLayout(false);

@@ -34,14 +34,11 @@ namespace SlickControls
 			// 
 			// SlickCheckbox
 			// 
-			this.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.EnterTriggersClick = false;
 			this.Image = global::SlickControls.Properties.Resources.Tiny_ToggleOff;
 			this.Name = "SlickCheckbox";
-			this.Size = new System.Drawing.Size(98, 26);
-			this.SpaceTriggersClick = true;
+			this.Size = new System.Drawing.Size(92, 22);
 			this.Text = "Check Box";
-			this.HoverStateChanged += new Extensions.EventHandler<SlickControls.HoverState>(this.SlickCheckbox_HoverStateChanged);
+			this.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.Click += new System.EventHandler(this.SlickCheckbox_Click);
 			this.ResumeLayout(false);
 

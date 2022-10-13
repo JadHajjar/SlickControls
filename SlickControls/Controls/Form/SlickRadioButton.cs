@@ -33,7 +33,7 @@ namespace SlickControls
 			{
 				if (@checked != value && !checkIdentifier.Disabled)
 				{
-					if (!value && @checked && RadioGroup.All(x => x == this || !x.Checked))
+					if (!value && @checked && (RadioGroup?.All(x => x == this || !x.Checked) ?? false))
 						return;
 
 					@checked = value;
@@ -56,7 +56,7 @@ namespace SlickControls
 		}
 
 		public IEnumerable<SlickRadioButton> RadioGroup
-			=> CustomGroup ?? Parent.Controls.ThatAre<SlickRadioButton>();
+			=> CustomGroup ?? Parent?.Controls.ThatAre<SlickRadioButton>();
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public IEnumerable<SlickRadioButton> CustomGroup { get; set; }

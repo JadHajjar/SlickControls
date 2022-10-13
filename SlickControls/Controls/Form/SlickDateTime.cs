@@ -61,7 +61,7 @@ namespace SlickControls
 				Invalidate();
 			}
 		}
-		
+
 		[Category("Behavior")]
 		public DatePart SelectedPart
 		{
@@ -126,7 +126,7 @@ namespace SlickControls
 		protected override void UIChanged()
 		{
 			Font = UI.Font(8.25F);
-			
+
 			using (var g = CreateGraphics())
 			{
 				var h = Font.Height
@@ -202,7 +202,7 @@ namespace SlickControls
 			var left = 1;
 
 			if (ShowLabel && !string.IsNullOrWhiteSpace(LabelText))
-				e.Graphics.DrawString(LabelText, UI.Font(7.25F, FontStyle.Bold | FontStyle.Italic), new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(0, 0, Width, UI.Font(7.25F, FontStyle.Bold | FontStyle.Italic).Height));
+				e.Graphics.DrawString(LabelText, UI.Font(7.25F, FontStyle.Bold | FontStyle.Italic), Gradient(FormDesign.Design.LabelColor), new Rectangle(0, 0, Width, UI.Font(7.25F, FontStyle.Bold | FontStyle.Italic).Height));
 
 			foreach (var part in partValues)
 			{
@@ -234,23 +234,23 @@ namespace SlickControls
 					if (part.Key > DatePart.Hour)
 						size.Width = 0;
 
-					e.Graphics.DrawString(delimiter, Font, new SolidBrush(Enabled ? FormDesign.Design.ForeColor : Color.Gray), new Rectangle(left - (part.Key == DatePart.Hour ? 5 : 1), rect.Y, (int)Math.Ceiling(size.Width), rect.Height), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+					e.Graphics.DrawString(delimiter, Font, Gradient(Enabled ? FormDesign.Design.ForeColor : Color.Gray), new Rectangle(left - (part.Key == DatePart.Hour ? 5 : 1), rect.Y, (int)Math.Ceiling(size.Width), rect.Height), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 					left = rect.X += (int)Math.Ceiling(size.Width) / 2 - (part.Key == DatePart.Year ? 5 : 2) + (delimiter == "at" ? 3 : 0);
 				}
 
 				var fade = HoverState.HasFlag(HoverState.Focused) & shouldFade(out var fadedValue); error |= part.Key != SelectedPart && fade;
 
-				e.Graphics.DrawString(fade ? fadedValue : part.Value, Font, new SolidBrush(Color.FromArgb(fade ? 125 : 255, Enabled ? FormDesign.Design.ForeColor : Color.Gray)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(fade ? fadedValue : part.Value, Font, Gradient(Color.FromArgb(fade ? 125 : 255, Enabled ? FormDesign.Design.ForeColor : Color.Gray)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 				if (SelectedPart == part.Key && HoverState.HasFlag(HoverState.Focused))
 				{
 					var textsize = e.Graphics.MeasureString(string.IsNullOrEmpty(part.Value) ? ((char)0x200b).ToString() : fade ? fadedValue : part.Value, Font).ToSize();
 					var highlightrect = new Rectangle(rect.Center(textsize), textsize).Pad(fade && part.Key == selectedPart ? textsize.Width - (int)e.Graphics.MeasureString(part.Value, Font).Width + 2 : 2, 1, 0, 1);
 
-					e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveColor), highlightrect);
+					e.Graphics.FillRectangle(Gradient(FormDesign.Design.ActiveColor), highlightrect);
 					e.Graphics.SetClip(highlightrect);
-					e.Graphics.DrawString(fade ? fadedValue : part.Value, Font, new SolidBrush(FormDesign.Design.ActiveForeColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+					e.Graphics.DrawString(fade ? fadedValue : part.Value, Font, Gradient(FormDesign.Design.ActiveForeColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 					e.Graphics.ResetClip();
 				}
 

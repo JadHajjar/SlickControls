@@ -15,7 +15,7 @@ namespace SlickControls
 {
 	public static class IO
 	{
-		public static Bitmap GetThumbnail(this FileInfo file, float? timeInSeconds = null) 
+		public static Bitmap GetThumbnail(this FileInfo file, float? timeInSeconds = null)
 			=> GetThumbnail(file, out _, timeInSeconds);
 
 		public static Bitmap GetThumbnail(this FileInfo file, out bool isThumbnail, float? timeInSeconds = null)
@@ -73,7 +73,7 @@ namespace SlickControls
 
 		public static Bitmap GetFileTypeIcon(this FileInfo file)
 		{
-			if(string.IsNullOrWhiteSpace(file.Extension))
+			if (string.IsNullOrWhiteSpace(file.Extension))
 				return Img.Big_File;
 
 			if (new[] { ".psd" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
@@ -176,8 +176,10 @@ namespace SlickControls
 			public IntPtr hIcon;
 			public int iIcon;
 			public uint dwAttributes;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
 			public string szDisplayName;
+
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 80)]
 			public string szTypeName;
 		};
@@ -190,6 +192,6 @@ namespace SlickControls
 		private static extern IntPtr SHGetFileInfo(string pszPath, uint dwFileAttributes, ref SHFILEINFO psfi, uint cbSizeFileInfo, uint uFlags);
 
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		extern static bool DestroyIcon(IntPtr handle);
+		private static extern bool DestroyIcon(IntPtr handle);
 	}
 }

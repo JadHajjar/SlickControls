@@ -11,6 +11,7 @@ namespace SlickControls
 	public partial class SlickTileButton : SlickControl
 	{
 		private Image image;
+		private HoverState hoverState = HoverState.Normal;
 		private float? hueShade = null;
 
 		public SlickTileButton()
@@ -40,14 +41,35 @@ namespace SlickControls
 
 		private int iconSize = 16;
 
+		private void GetColors(out Color fore, out Color back)
+		{
+			switch (hoverState)
+			{
+				case HoverState.Hovered:
+					fore = FormDesign.Design.ForeColor.Tint(HueShade, FormDesign.Design.Type == FormDesignType.Light ? -7 : 7);
+					back = FormDesign.Design.ButtonColor.Tint(HueShade, FormDesign.Design.Type == FormDesignType.Light ? -7 : 7);
+					break;
+
+				case HoverState.Pressed:
+					fore = FormDesign.Design.ActiveForeColor.Tint(HueShade);
+					back = FormDesign.Design.ActiveColor.Tint(HueShade);
+					break;
+
+				default:
+					fore = FormDesign.Design.ForeColor.Tint(HueShade);
+					back = FormDesign.Design.ButtonColor.Tint(HueShade);
+					break;
+			}
+		}
+
 		private void SlickButton_Paint(object sender, PaintEventArgs e)
 		{
-			SlickButton.GetColors(out var fore, out var back, HoverState, BackColor: BackColor, Enabled: Enabled);
+			GetColors(out var fore, out var back);
 			e.Graphics.Clear(BackColor);
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-			e.Graphics.FillRoundedRectangle(new SolidBrush(back), new Rectangle(1, 1, Width - 3, Height - 3), 5);
+			e.Graphics.FillRoundedRectangle(Gradient(back), new Rectangle(1, 1, Width - 3, Height - 3), 5);
 
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
@@ -75,9 +97,9 @@ namespace SlickControls
 			};
 
 			if (Image != null)
-				e.Graphics.DrawString(Text, Font, new SolidBrush(fore), new RectangleF(Padding.Left, (Height - iconSize - 5 - bnds.Height) / 2F + iconSize + 5, Width - Padding.Horizontal, bnds.Height), stl);
+				e.Graphics.DrawString(Text, Font, Gradient(fore), new RectangleF(Padding.Left, (Height - iconSize - 5 - bnds.Height) / 2F + iconSize + 5, Width - Padding.Horizontal, bnds.Height), stl);
 			else
-				e.Graphics.DrawString(Text, Font, new SolidBrush(fore), new RectangleF(Padding.Left, (Height - bnds.Height) / 2 + 1, Width - Padding.Horizontal, bnds.Height), stl);
+				e.Graphics.DrawString(Text, Font, Gradient(fore), new RectangleF(Padding.Left, (Height - bnds.Height) / 2 + 1, Width - Padding.Horizontal, bnds.Height), stl);
 		}
 
 		private void SlickButton_FocusChange(object sender, EventArgs e)

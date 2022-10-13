@@ -19,7 +19,7 @@ namespace SlickControls
 		{
 			DoubleBuffered = true;
 			Cursor = Cursors.Hand;
-			FormDesign.DesignChanged += (d) => UpdateState(true);
+			FormDesign.DesignChanged += (d) => UpdateState();
 			UpdateState(true);
 			SizeMode = PictureBoxSizeMode.Zoom;
 		}
@@ -81,8 +81,6 @@ namespace SlickControls
 		[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
 		public override HoverState HoverState { get => hoverState; internal set { hoverState = value; UpdateState(); } }
 
-		public void SetHoverState(HoverState state) => HoverState = state;
-
 		private void UpdateState(bool forced = false)
 		{
 			if (DesignMode || (!forced && (!Enabled || selected)))
@@ -99,7 +97,7 @@ namespace SlickControls
 				}
 			}
 			else if (IsPicture)
-				base.Image = Image.Color(FormDesign.Design.IconColor); 
+				base.Image = Image.Color(FormDesign.Design.IconColor);
 		}
 
 		public void Hold()

@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Windows.Forms.Design.Behavior;
 
 namespace SlickControls
 {
@@ -123,5 +122,5 @@ namespace SlickControls
 			if (e.Button == MouseButtons.Left && !Selected)
 				Selected = true;
 		}
-    }
+	}
 }

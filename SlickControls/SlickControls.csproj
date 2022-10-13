@@ -36,13 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\BrainsUpdater\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\TVShowsCalendar\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NReco.VideoConverter, Version=1.1.4.0, Culture=neutral, PublicKeyToken=395ccb334978a0cd, processorArchitecture=MSIL">
-      <HintPath>..\..\BrainsSync\packages\NReco.VideoConverter.1.1.4\lib\net40\NReco.VideoConverter.dll</HintPath>
+      <HintPath>..\..\TVShowsCalendar\packages\NReco.VideoConverter.1.1.4\lib\net40\NReco.VideoConverter.dll</HintPath>
     </Reference>
     <Reference Include="NReco.VideoInfo, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8f59ee36d2987295, processorArchitecture=MSIL">
-      <HintPath>..\..\BrainsSync\packages\NReco.VideoInfo.1.1.1\lib\net35\NReco.VideoInfo.dll</HintPath>
+      <HintPath>..\..\TVShowsCalendar\packages\NReco.VideoInfo.1.1.1\lib\net35\NReco.VideoInfo.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -65,20 +65,25 @@
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
     <Compile Include="Classes\CanDrawItemEventArgs.cs" />
     <Compile Include="Classes\SizeSourceEventArgs.cs" />
-    <Compile Include="Controls\Form\SlickDateTime.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="Controls\Form\SlickGroupBox.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\Image Background\SlickImageBackgroundContainer.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Image Background\SlickImageBackgroundControl.cs" />
     <Compile Include="Controls\Internal\DateTimePickerPrompt.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Controls\Internal\DateTimePickerPrompt.Designer.cs">
       <DependentUpon>DateTimePickerPrompt.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Other\SlickListControl.cs">
+    <Compile Include="Controls\Image Background\Container.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Image Background\ControlCollection.cs" />
+    <Compile Include="Controls\Image Background\FlowLayoutPanel.cs" />
+    <Compile Include="Controls\Image Background\AdvancedImageControl.cs" />
+    <Compile Include="Controls\Image Background\TableLayoutPanel.cs" />
+    <Compile Include="Controls\Image Background\Panel.cs" />
+    <Compile Include="Controls\Image Background\Control.cs" />
+    <Compile Include="Controls\Advanced\SlickListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Other\WorkingPrompt.cs">
@@ -136,6 +141,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Advanced\SlickAdvancedImageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\SlickDateTime.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Other\SlickGrid.cs">
@@ -686,6 +694,12 @@
     <None Include="Resources\Tiny_Log.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Extensions\Extensions\Extensions.csproj">
+      <Project>{50ea98fd-47b0-40bc-a51e-3defb2525f2c}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\Notif_Long.wav" />
   </ItemGroup>
   <ItemGroup>
@@ -782,19 +796,13 @@
     <None Include="Resources\Tiny_Dots_H.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Tiny_ChevronLeft.png" />
+    <None Include="Resources\Tiny_Calendar.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Tiny_ChevronRight.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Tiny_Calendar.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\Extensions\Extensions.csproj">
-      <Project>{50ea98fd-47b0-40bc-a51e-3defb2525f2c}</Project>
-      <Name>Extensions</Name>
-    </ProjectReference>
+    <None Include="Resources\Tiny_ChevronLeft.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

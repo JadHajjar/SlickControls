@@ -260,15 +260,15 @@ namespace SlickControls
 
 			if (dot == 0)
 			{
-				graphics.FillEllipse(new SolidBrush(FormDesign.Design.ActiveColor.MergeColor(BackColor)), rect);
+				graphics.FillEllipse(Gradient(FormDesign.Design.ActiveColor.MergeColor(BackColor)), rect);
 			}
 			else if (mouseDownCode == dot)
 			{
-				graphics.FillEllipse(new SolidBrush(FormDesign.Design.ActiveColor), rect);
+				graphics.FillEllipse(Gradient(FormDesign.Design.ActiveColor), rect);
 			}
 			else
 			{
-				graphics.FillEllipse(new SolidBrush(mouseHoverCode != dot ? BackColor : BackColor.MergeColor(FormDesign.Design.ActiveColor, 85)), rect);
+				graphics.FillEllipse(Gradient(mouseHoverCode != dot ? BackColor : BackColor.MergeColor(FormDesign.Design.ActiveColor, 85)), rect);
 
 				graphics.DrawEllipse(new Pen(mouseDownCode == dot ? ForeColor : FormDesign.Design.ActiveColor, 1F * penSize), rect);
 			}
@@ -298,13 +298,13 @@ namespace SlickControls
 					(int)(pt.X - (Math.Ceiling(bnds.Width) / 2) + 6),
 					(int)Math.Max(0, (Height / 2) - bnds.Height - 3),
 					(int)Math.Ceiling(bnds.Width) + 6,
-					(int)Math.Ceiling(bnds.Height) +3);
+					(int)Math.Ceiling(bnds.Height) + 3);
 
 				rect.X -= Math.Max(0, rect.Height - rect.Width);
 				rect.Width = Math.Max(rect.Width, rect.Height);
 				rect.X += Math.Min(0, Width - rect.Width - rect.X - 1).If(0, -Math.Min(0, rect.X));
 
-				graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), rect, 5);
+				graphics.FillRoundedRectangle(Gradient(FormDesign.Design.ActiveColor), rect, 5);
 				graphics.DrawString(txt, Font, Brushes.White, rect, format);
 			}
 			else
@@ -336,7 +336,7 @@ namespace SlickControls
 
 				if (ShowValues)
 				{
-					graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), rect, 7);
+					graphics.FillRoundedRectangle(Gradient(FormDesign.Design.ActiveColor), rect, 7);
 					graphics.DrawString(txt, Font, Brushes.White, new PointF(pt.X + 2, (pt.Y - bnds.Height / 2) + 1), format);
 				}
 			}

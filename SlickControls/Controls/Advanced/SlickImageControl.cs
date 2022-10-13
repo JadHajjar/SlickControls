@@ -1,14 +1,10 @@
 ﻿using Extensions;
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -18,9 +14,10 @@ namespace SlickControls
 		private Image image;
 
 		public event AsyncCompletedEventHandler LoadCompleted;
+		public event EventHandler ImageChanged;
 
 		[Category("Appearance")]
-		public virtual Image Image { get => image; set { image = value; Loading = false; } }
+		public virtual Image Image { get => image; set { image = value; Loading = false; OnImageChanged(EventArgs.Empty); } }
 
 		protected Point CursorLocation { get; set; }
 
@@ -31,6 +28,11 @@ namespace SlickControls
 		{
 			Loading = false;
 			LoadCompleted?.Invoke(this, e);
+		}
+
+		protected virtual void OnImageChanged(EventArgs e)
+		{
+			ImageChanged?.Invoke(this, e);
 		}
 
 		protected override void Dispose(bool disposing)
@@ -46,7 +48,7 @@ namespace SlickControls
 			if (!ConnectionHandler.WhenConnected(() =>
 			{
 				var firstTry = true;
-				tryAgain: try
+			tryAgain: try
 				{
 					using (var webClient = new WebClient())
 					{

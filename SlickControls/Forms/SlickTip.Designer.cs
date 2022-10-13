@@ -13,9 +13,15 @@
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && (components != null))
+			if (disposing)
 			{
-				components.Dispose();
+				Extensions.FormDesign.DesignChanged -= DesignChanged;
+				if (Control != null)
+				{
+					Control.MouseLeave -= Control_MouseLeave;
+					Control.Disposed -= Control_MouseLeave;
+				}
+				components?.Dispose();
 			}
 			base.Dispose(disposing);
 		}

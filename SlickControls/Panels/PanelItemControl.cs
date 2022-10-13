@@ -3,7 +3,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq.Expressions;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -61,17 +60,17 @@ namespace SlickControls
 				fore = FormDesign.Design.ActiveForeColor;
 			}
 
-			e.Graphics.Clear(back);
+			e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), back, HoverState != HoverState.Normal ? 1F : 0F), new Rectangle(Point.Empty, Size));
 
 			if (Selected)
-				e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveColor), new Rectangle(Width - (int)(2 * UI.UIScale), 0, (int)(2 * UI.UIScale), Height));
+				e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.ActiveColor), new Rectangle(Width - (int)(2 * UI.UIScale), 0, (int)(2 * UI.UIScale), Height));
 
 			if (PanelItem.Highlighted)
 				e.Graphics.DrawRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveForeColor), 2F) { DashStyle = DashStyle.Dash }, new Rectangle(1, 1, Width - 2 - (Selected ? (int)(2 * UI.UIScale) : 0), Height - 2));
 
 			var bnds = e.Graphics.MeasureString(PanelItem.Text, Font);
 
-			if(Loading)
+			if (Loading)
 				DrawLoader(e.Graphics, new Rectangle(15, (Height - 16) / 2, 16, 16), _pressed ? (Color?)fore : null);
 			else if (PanelItem.Icon != null)
 				e.Graphics.DrawImage(new Bitmap(PanelItem.Icon, 16, 16).Color(fore), 15, (Height - 16) / 2);
@@ -81,7 +80,7 @@ namespace SlickControls
 				e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-				e.Graphics.DrawString(PanelItem.Text, Font, new SolidBrush(fore), 15 + 16 + 5, (Height - bnds.Height) / 2);
+				e.Graphics.DrawString(PanelItem.Text, Font, SlickControl.Gradient(new Rectangle(Point.Empty, Size), fore), 15 + 16 + 5, (Height - bnds.Height) / 2);
 			}
 		}
 

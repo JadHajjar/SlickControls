@@ -70,8 +70,8 @@ namespace SlickControls
 				BeginInvoke(new Action(() =>
 				{
 					Visible = Controls.Count > 0;
-					ControlRemoved += (_,__) => Visible = Controls.Count > 0;
-					ControlAdded += (_,__) => Visible = true;
+					ControlRemoved += (_, __) => Visible = Controls.Count > 0;
+					ControlAdded += (_, __) => Visible = true;
 				}));
 		}
 
@@ -123,17 +123,13 @@ namespace SlickControls
 			e.Graphics.DrawString(Text, UI.Font(9.75F, FontStyle.Bold), new SolidBrush(Active ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), 50, 24);
 
 			if (icon != null)
-			{
-				var s = Math.Min(icon.Width, 24);
-				e.Graphics.DrawImage(icon.Color(Active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), new Rectangle
-				  (15, 24 + (int)((bnds.Height - s) / 2), s, s));
-			}
+				e.Graphics.DrawImage(new Bitmap(icon, 22, 22).Color(Active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), 15, 24 + (int)((bnds.Height - 22) / 2));
 
 			var flavFont = UI.Font(8.25F, FontStyle.Italic);
-			
+
 			e.Graphics.DrawString(info, flavFont, new SolidBrush(FormDesign.Design.InfoColor), 58 + (int)bnds.Width, 24 + UI.Font(9.75F, FontStyle.Bold).Height - flavFont.Height);
 
-			var w = 58 + (int)(bnds.Width+ e.Graphics.MeasureString(info, flavFont).Width);
+			var w = 58 + (int)(bnds.Width + e.Graphics.MeasureString(info, flavFont).Width);
 			e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, 1), 50, (int)bnds.Height + 24 + 8, Math.Max(Controls.Count == 0 ? Width - 32 : Math.Min(Math.Max(w, Controls.Max(x => x.Left + x.Width)), Width - 32), 200), (int)bnds.Height + 24 + 8);
 
 			w = Math.Max(MinimumSize.Width, w + 30);
