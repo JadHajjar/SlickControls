@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SlickControls</RootNamespace>
     <AssemblyName>SlickControls</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -36,13 +36,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\TVShowsCalendar\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\Thumbnail-Maker\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NReco.VideoConverter, Version=1.1.4.0, Culture=neutral, PublicKeyToken=395ccb334978a0cd, processorArchitecture=MSIL">
-      <HintPath>..\..\TVShowsCalendar\packages\NReco.VideoConverter.1.1.4\lib\net40\NReco.VideoConverter.dll</HintPath>
+      <HintPath>..\Thumbnail-Maker\packages\NReco.VideoConverter.1.1.4\lib\net40\NReco.VideoConverter.dll</HintPath>
     </Reference>
     <Reference Include="NReco.VideoInfo, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8f59ee36d2987295, processorArchitecture=MSIL">
-      <HintPath>..\..\TVShowsCalendar\packages\NReco.VideoInfo.1.1.1\lib\net35\NReco.VideoInfo.dll</HintPath>
+      <HintPath>..\Thumbnail-Maker\packages\NReco.VideoInfo.1.1.1\lib\net35\NReco.VideoInfo.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -694,7 +694,7 @@
     <None Include="Resources\Tiny_Log.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Extensions\Extensions\Extensions.csproj">
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{50ea98fd-47b0-40bc-a51e-3defb2525f2c}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
