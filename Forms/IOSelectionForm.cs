@@ -11,14 +11,21 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	internal partial class IOSelectionForm : SlickForm
+	public partial class IOSelectionForm : SlickForm
 	{
-		private readonly bool folderSelection;
-		internal string selectedPath;
+		protected readonly bool folderSelection;
+		protected string selectedPath;
+		protected static string lastPath;
 
 		public string CurrentPath => libraryViewer.CurrentPath;
+		public string SelectedPath => selectedPath;
 
-		internal IOSelectionForm(bool folder, string[] extensions, string startingFolder = null)
+		protected IOSelectionForm()
+		{
+			InitializeComponent();
+		}
+
+		public IOSelectionForm(bool folder, string[] extensions, string startingFolder = null)
 		{
 			InitializeComponent();
 
@@ -31,7 +38,7 @@ namespace SlickControls
 			L_Side.MouseDown += Form_MouseDown;
 			L_Title.MouseDown += Form_MouseDown;
 
-			libraryViewer.StartingFolder = startingFolder ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+			libraryViewer.StartingFolder = startingFolder ?? lastPath ?? Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 			libraryViewer.FoldersOnly = folder;
 			libraryViewer.Extensions = extensions;
 			libraryViewer.TopFolders = DriveInfo.GetDrives().Select(x => x.RootDirectory.FullName).ToArray();
@@ -123,6 +130,7 @@ namespace SlickControls
 			if ((folderSelection && (Directory.Exists(libraryViewer.SelectedPath) || Directory.Exists(libraryViewer.CurrentPath))) || (!folderSelection && !string.IsNullOrWhiteSpace(libraryViewer.SelectedPath) && File.Exists(libraryViewer.SelectedPath)))
 			{
 				selectedPath = folderSelection && !Directory.Exists(libraryViewer.SelectedPath) ? libraryViewer.CurrentPath : libraryViewer.SelectedPath;
+				lastPath = folderSelection ? selectedPath : Directory.GetParent(selectedPath).FullName;
 				DialogResult = DialogResult.OK;
 				Close();
 			}
@@ -189,7 +197,7 @@ namespace SlickControls
 			try { return frm.ShowDialog(form); }
 			finally
 			{
-				SelectedPath = frm.selectedPath;
+				SelectedPath = frm.SelectedPath;
 				LastFolder = frm.CurrentPath;
 			}
 		}

@@ -21,8 +21,11 @@ namespace SlickControls
 		public string fontFamily { get; set; } = "Nirmala UI";
 		public double fontScale { get; set; } = 1;
 		public double uiScale { get; set; } = 1;
+		public bool noAnimations { get => _noAnimations; set => AnimationHandler.NoAnimations = _noAnimations = value; }
 
 		internal static readonly UI _instance = Load<UI>("UI.tf", "Shared");
+
+		private bool _noAnimations;
 
 		internal static void OnUiChanged() => UIChanged?.Invoke();
 

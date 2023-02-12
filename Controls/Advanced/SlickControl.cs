@@ -17,10 +17,10 @@ namespace SlickControls
 		private static bool focusFromTab;
 		private HoverState hoverState = HoverState.Normal;
 
-		[EditorBrowsable(EditorBrowsableState.Never), Browsable(false)]
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public double LoaderPercentage { get; private set; }
 
-		[EditorBrowsable(EditorBrowsableState.Never), Browsable(false)]
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public virtual HoverState HoverState { get => hoverState; protected set { hoverState = value; OnHoverStateChanged(); } }
 
 		[DefaultValue(true), Category("Behavior"), DisplayName("Auto Invalidate")]
@@ -42,7 +42,7 @@ namespace SlickControls
 			set
 			{
 				loading = value;
-				if (!DesignMode)
+				if (Live)
 					this.TryInvoke(() =>
 					{
 						timer.Enabled = loading && Visible && Parent != null;
@@ -50,6 +50,9 @@ namespace SlickControls
 					});
 			}
 		}
+
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		protected bool Live { get; private set; }
 
 		public SlickControl()
 		{
@@ -117,6 +120,8 @@ namespace SlickControls
 		protected override void OnHandleCreated(EventArgs e)
 		{
 			base.OnHandleCreated(e);
+
+			Live = !DesignMode;
 
 			if (!DesignMode)
 			{

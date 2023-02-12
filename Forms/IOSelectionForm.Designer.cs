@@ -39,13 +39,14 @@
 			this.TLP_Side = new System.Windows.Forms.TableLayoutPanel();
 			this.L_Side = new System.Windows.Forms.Label();
 			this.FLP_CommonFolders = new System.Windows.Forms.FlowLayoutPanel();
+			this.P_CustomPanel = new System.Windows.Forms.Panel();
 			this.base_P_Container.SuspendLayout();
-
-
-
-
+			((System.ComponentModel.ISupportInitialize)(this.base_PB_Icon)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Close)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Max)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Min)).BeginInit();
 			this.TLP_Main.SuspendLayout();
-
+			((System.ComponentModel.ISupportInitialize)(this.TI_Close)).BeginInit();
 			this.TLP_Side.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -62,19 +63,21 @@
 			// 
 			// TLP_Main
 			// 
-			this.TLP_Main.ColumnCount = 4;
+			this.TLP_Main.ColumnCount = 5;
 			this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 175F));
+			this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TLP_Main.Controls.Add(this.L_Title, 1, 0);
-			this.TLP_Main.Controls.Add(this.B_Cancel, 3, 4);
-			this.TLP_Main.Controls.Add(this.B_OK, 1, 4);
+			this.TLP_Main.Controls.Add(this.B_Cancel, 4, 4);
+			this.TLP_Main.Controls.Add(this.B_OK, 3, 4);
 			this.TLP_Main.Controls.Add(this.libraryViewer, 0, 2);
-			this.TLP_Main.Controls.Add(this.TB_Search, 2, 1);
-			this.TLP_Main.Controls.Add(this.slickSpacer1, 2, 3);
-			this.TLP_Main.Controls.Add(this.TI_Close, 3, 0);
+			this.TLP_Main.Controls.Add(this.TB_Search, 2, 0);
+			this.TLP_Main.Controls.Add(this.slickSpacer1, 3, 3);
+			this.TLP_Main.Controls.Add(this.TI_Close, 4, 0);
 			this.TLP_Main.Controls.Add(this.TLP_Side, 0, 0);
+			this.TLP_Main.Controls.Add(this.P_CustomPanel, 1, 4);
 			this.TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TLP_Main.Location = new System.Drawing.Point(1, 1);
 			this.TLP_Main.Name = "TLP_Main";
@@ -102,8 +105,6 @@
 			// B_Cancel
 			// 
 			this.B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_Cancel.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.B_Cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.ColorStyle = Extensions.ColorStyle.Red;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -114,6 +115,7 @@
 			this.B_Cancel.Name = "B_Cancel";
 			this.B_Cancel.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
 			this.B_Cancel.Size = new System.Drawing.Size(100, 30);
+			this.B_Cancel.SpaceTriggersClick = true;
 			this.B_Cancel.TabIndex = 2;
 			this.B_Cancel.Text = "CANCEL";
 			this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
@@ -121,10 +123,7 @@
 			// B_OK
 			// 
 			this.B_OK.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_OK.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.B_OK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_OK.ColorShade = null;
-			this.TLP_Main.SetColumnSpan(this.B_OK, 2);
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_OK.IconSize = 16;
 			this.B_OK.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
@@ -133,6 +132,7 @@
 			this.B_OK.Name = "B_OK";
 			this.B_OK.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
 			this.B_OK.Size = new System.Drawing.Size(100, 30);
+			this.B_OK.SpaceTriggersClick = true;
 			this.B_OK.TabIndex = 2;
 			this.B_OK.Text = "SELECT";
 			this.B_OK.Click += new System.EventHandler(this.B_OK_Click);
@@ -141,16 +141,16 @@
 			// 
 			this.libraryViewer.AutoSize = true;
 			this.libraryViewer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.TLP_Main.SetColumnSpan(this.libraryViewer, 3);
+			this.TLP_Main.SetColumnSpan(this.libraryViewer, 4);
 			this.libraryViewer.Cursor = System.Windows.Forms.Cursors.Default;
 			this.libraryViewer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.libraryViewer.Extensions = null;
 			this.libraryViewer.FoldersOnly = false;
-			this.libraryViewer.Location = new System.Drawing.Point(175, 65);
+			this.libraryViewer.Location = new System.Drawing.Point(175, 58);
 			this.libraryViewer.Margin = new System.Windows.Forms.Padding(0);
 			this.libraryViewer.MinimumSize = new System.Drawing.Size(200, 50);
 			this.libraryViewer.Name = "libraryViewer";
-			this.libraryViewer.Size = new System.Drawing.Size(612, 315);
+			this.libraryViewer.Size = new System.Drawing.Size(612, 322);
 			this.libraryViewer.StartingFolder = null;
 			this.libraryViewer.TabIndex = 1;
 			this.libraryViewer.TopFolders = new string[0];
@@ -160,11 +160,12 @@
 			// 
 			this.TB_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.TLP_Main.SetColumnSpan(this.TB_Search, 2);
+			this.TB_Search.EnterTriggersClick = false;
 			this.TB_Search.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.TB_Search.Image = null;
 			this.TB_Search.LabelText = "Search";
-			this.TB_Search.Location = new System.Drawing.Point(302, 22);
-			this.TB_Search.Margin = new System.Windows.Forms.Padding(3, 3, 110, 3);
+			this.TB_Search.Location = new System.Drawing.Point(317, 15);
+			this.TB_Search.Margin = new System.Windows.Forms.Padding(3, 15, 0, 3);
 			this.TB_Search.MaximumSize = new System.Drawing.Size(9999, 0);
 			this.TB_Search.MaxLength = 32767;
 			this.TB_Search.MinimumSize = new System.Drawing.Size(50, 0);
@@ -173,14 +174,16 @@
 			this.TB_Search.Placeholder = "Type to start searching";
 			this.TB_Search.ReadOnly = false;
 			this.TB_Search.Required = false;
+			this.TLP_Main.SetRowSpan(this.TB_Search, 2);
 			this.TB_Search.SelectAllOnFocus = false;
 			this.TB_Search.SelectedText = "";
 			this.TB_Search.SelectionLength = 0;
 			this.TB_Search.SelectionStart = 0;
-			this.TB_Search.Size = new System.Drawing.Size(375, 40);
+			this.TB_Search.Size = new System.Drawing.Size(350, 40);
 			this.TB_Search.TabIndex = 3;
 			this.TB_Search.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
 			this.TB_Search.Validation = SlickControls.ValidationType.None;
+			this.TB_Search.ValidationCustom = null;
 			this.TB_Search.ValidationRegex = "";
 			this.TB_Search.TextChanged += new System.EventHandler(this.TB_Search_TextChanged);
 			// 
@@ -188,10 +191,11 @@
 			// 
 			this.TLP_Main.SetColumnSpan(this.slickSpacer1, 2);
 			this.slickSpacer1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.slickSpacer1.Location = new System.Drawing.Point(276, 383);
+			this.slickSpacer1.Location = new System.Drawing.Point(509, 383);
 			this.slickSpacer1.Name = "slickSpacer1";
-			this.slickSpacer1.Size = new System.Drawing.Size(508, 1);
+			this.slickSpacer1.Size = new System.Drawing.Size(275, 1);
 			this.slickSpacer1.TabIndex = 4;
+			this.slickSpacer1.TabStop = false;
 			this.slickSpacer1.Text = "slickSpacer1";
 			// 
 			// TI_Close
@@ -244,25 +248,37 @@
 			this.FLP_CommonFolders.Size = new System.Drawing.Size(175, 410);
 			this.FLP_CommonFolders.TabIndex = 5;
 			// 
+			// P_CustomPanel
+			// 
+			this.P_CustomPanel.AutoSize = true;
+			this.P_CustomPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.TLP_Main.SetColumnSpan(this.P_CustomPanel, 2);
+			this.P_CustomPanel.Dock = System.Windows.Forms.DockStyle.Left;
+			this.P_CustomPanel.Location = new System.Drawing.Point(178, 390);
+			this.P_CustomPanel.Name = "P_CustomPanel";
+			this.P_CustomPanel.Size = new System.Drawing.Size(0, 44);
+			this.P_CustomPanel.TabIndex = 8;
+			this.P_CustomPanel.Visible = false;
+			// 
 			// IOSelectionForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(58)))), ((int)(((byte)(69)))));
 			this.IconBounds = new System.Drawing.Rectangle(3, 4, 20, 20);
+			this.MaximizedBounds = new System.Drawing.Rectangle(0, 0, 1920, 1032);
 			this.Name = "IOSelectionForm";
-			this.Opacity = 1D;
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "IOSelectionDialog";
 			this.base_P_Container.ResumeLayout(false);
-
-
-
-
+			((System.ComponentModel.ISupportInitialize)(this.base_PB_Icon)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Close)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Max)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Min)).EndInit();
 			this.TLP_Main.ResumeLayout(false);
 			this.TLP_Main.PerformLayout();
-
+			((System.ComponentModel.ISupportInitialize)(this.TI_Close)).EndInit();
 			this.TLP_Side.ResumeLayout(false);
 			this.TLP_Side.PerformLayout();
 			this.ResumeLayout(false);
@@ -271,16 +287,17 @@
 
 		#endregion
 
-		private System.Windows.Forms.TableLayoutPanel TLP_Main;
-		private SlickLibraryViewer libraryViewer;
-		private SlickButton B_Cancel;
-		private SlickButton B_OK;
-		private SlickTextBox TB_Search;
-		private SlickSpacer slickSpacer1;
-		private System.Windows.Forms.FlowLayoutPanel FLP_CommonFolders;
-		private TopIcon TI_Close;
-		private System.Windows.Forms.TableLayoutPanel TLP_Side;
-		private System.Windows.Forms.Label L_Side;
-		private System.Windows.Forms.Label L_Title;
+		protected System.Windows.Forms.TableLayoutPanel TLP_Main;
+		protected SlickLibraryViewer libraryViewer;
+		protected SlickButton B_Cancel;
+		protected SlickButton B_OK;
+		protected SlickTextBox TB_Search;
+		protected SlickSpacer slickSpacer1;
+		protected System.Windows.Forms.FlowLayoutPanel FLP_CommonFolders;
+		protected TopIcon TI_Close;
+		protected System.Windows.Forms.TableLayoutPanel TLP_Side;
+		protected System.Windows.Forms.Label L_Side;
+		protected System.Windows.Forms.Label L_Title;
+		public System.Windows.Forms.Panel P_CustomPanel;
 	}
 }

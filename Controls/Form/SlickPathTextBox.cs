@@ -21,9 +21,9 @@ namespace SlickControls
 		{
 			InitializeComponent();
 			Validation = ValidationType.None;
-			TB.PreviewKeyDown += TextBoxPreviewKeyDown;
-			TB.KeyPress += HandleKeyInput;
-			TB.TextChanged += AutoCompletePath;
+			_textBox.PreviewKeyDown += TextBoxPreviewKeyDown;
+			_textBox.KeyPress += HandleKeyInput;
+			_textBox.TextChanged += AutoCompletePath;
 			IconClicked += SlickPathTextBox_IconClicked;
 		}
 
@@ -252,31 +252,31 @@ namespace SlickControls
 
 		private void HandleKeyInput(object sender, KeyPressEventArgs e)
 		{
-			if (e.KeyChar == '\b' && TB.SelectionStart > 0 && TB.SelectionLength > 0 && TB.SelectedText == lastAddedChars)
+			if (e.KeyChar == '\b' && _textBox.SelectionStart > 0 && _textBox.SelectionLength > 0 && _textBox.SelectedText == lastAddedChars)
 			{
-				TB.SelectionStart--;
-				TB.SelectionLength++;
+				_textBox.SelectionStart--;
+				_textBox.SelectionLength++;
 			}
-			else if (e.KeyChar == '\b' && TB.Text.Length > 3 && TB.Text[TB.Text.Length - 2].AnyOf('\\', '/'))
+			else if (e.KeyChar == '\b' && _textBox.Text.Length > 3 && _textBox.Text[_textBox.Text.Length - 2].AnyOf('\\', '/'))
 			{
-				Select(TB.Text.Length - 2, 2);
+				Select(_textBox.Text.Length - 2, 2);
 			}
 
-			if ((e.KeyChar == '\\' || e.KeyChar == '/') && Directory.Exists(TB.Text))
-				TB.Select(TB.Text.Length, 0);
+			if ((e.KeyChar == '\\' || e.KeyChar == '/') && Directory.Exists(_textBox.Text))
+				_textBox.Select(_textBox.Text.Length, 0);
 
-			if (e.KeyChar == '\t' && Directory.Exists(TB.Text) && Directory.GetParent(TB.Text) != null)
+			if (e.KeyChar == '\t' && Directory.Exists(_textBox.Text) && Directory.GetParent(_textBox.Text) != null)
 			{
-				var index = TB.SelectionStart;
-				var searchedDirectoryName = Regex.Match(TB.Text.Substring(0, index), @"[/\\]([^/\\]+)$").Groups[1].Value;
+				var index = _textBox.SelectionStart;
+				var searchedDirectoryName = Regex.Match(_textBox.Text.Substring(0, index), @"[/\\]([^/\\]+)$").Groups[1].Value;
 				var directories =
-					Directory.GetDirectories(Directory.GetParent(TB.Text).FullName, "*", SearchOption.TopDirectoryOnly)
+					Directory.GetDirectories(Directory.GetParent(_textBox.Text).FullName, "*", SearchOption.TopDirectoryOnly)
 					.Where(x => Path.GetFileName(x)[0] != '$' && (searchedDirectoryName == string.Empty
 						|| Path.GetFileName(x).StartsWith(searchedDirectoryName, StringComparison.OrdinalIgnoreCase)));
 
 				if (!Folder)
 				{
-					directories = Directory.GetFiles(Directory.GetParent(TB.Text).FullName, "*", SearchOption.TopDirectoryOnly)
+					directories = Directory.GetFiles(Directory.GetParent(_textBox.Text).FullName, "*", SearchOption.TopDirectoryOnly)
 						.Where(x => FileExtensions.Any(f => x.EndsWith(f, StringComparison.CurrentCultureIgnoreCase))
 							&& (searchedDirectoryName == string.Empty || Path.GetFileName(x).StartsWith(searchedDirectoryName, StringComparison.OrdinalIgnoreCase)))
 								.Concat(directories);
@@ -289,9 +289,9 @@ namespace SlickControls
 						chosenIndex = 0;
 
 					autoCompleteDisableIdentifier.Disable();
-					TB.Text = directories.ElementAt(chosenIndex);
-					TB.Select(index, TB.Text.Length - index);
-					lastAddedChars = TB.SelectedText;
+					_textBox.Text = directories.ElementAt(chosenIndex);
+					_textBox.Select(index, _textBox.Text.Length - index);
+					lastAddedChars = _textBox.SelectedText;
 					autoCompleteDisableIdentifier.Enable();
 					e.Handled = true;
 				}
@@ -302,11 +302,11 @@ namespace SlickControls
 
 		private void TextBoxPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
 		{
-			if (TB.SelectedText != string.Empty)
+			if (_textBox.SelectedText != string.Empty)
 			{
 				if (e.KeyCode == Keys.Enter)
-					TB.SelectionStart = TB.Text.Length;
-				else if (TB.Text.EndsWith(TB.SelectedText))
+					_textBox.SelectionStart = _textBox.Text.Length;
+				else if (_textBox.Text.EndsWith(_textBox.SelectedText))
 					e.IsInputKey = true;
 			}
 		}

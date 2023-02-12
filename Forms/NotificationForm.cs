@@ -191,15 +191,15 @@ namespace SlickControls
 
 				if (PictureBox.Loading)
 					PictureBox.DrawLoader(e.Graphics, imgRect);
-				else
+				else if (icon != null)
 					e.Graphics.DrawImage(icon, imgRect);
 
 				e.Graphics.DrawString(
 					Notification.Title,
 					titleFont,
 					new SolidBrush(FormDesign.Design.ForeColor),
-					icon == null && !PictureBox.Loading ? 8 : 16 + 32,
-					4);
+					new Rectangle(icon == null && !PictureBox.Loading ? 8 : 16 + 32, 4, PictureBox.Width, PictureBox.Height - 8),
+					new StringFormat() { LineAlignment = string.IsNullOrWhiteSpace(Notification.Description) ? StringAlignment.Center : StringAlignment.Near });
 
 				e.Graphics.DrawString(
 					Notification.Description,

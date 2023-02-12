@@ -14,7 +14,7 @@ namespace SlickControls
 
 		private bool center = false;
 
-		private int iconSize = 16;
+		protected int iconSize = 16;
 
 		private bool selected = false;
 
@@ -72,9 +72,12 @@ namespace SlickControls
 		[Category("Design")]
 		public bool HideText { get => hideText; set { hideText = value; ResizeForAutoSize(); Invalidate(); } }
 
-		private void GetColors(out Color fore, out Color back)
+		[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+		public bool Selected { get => selected; set { selected = value; Invalidate(); } }
+
+		protected virtual void GetColors(out Color fore, out Color back)
 		{
-			if (selected || HoverState.HasFlag(HoverState.Pressed))
+			if (Selected || HoverState.HasFlag(HoverState.Pressed))
 			{
 				fore = ActiveColor == null ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ActiveForeColor.Tint(ActiveColor());
 				back = ActiveColor == null ? FormDesign.Design.ActiveColor : ActiveColor();
@@ -99,7 +102,7 @@ namespace SlickControls
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			if (HoverState >= HoverState.Hovered)
+			if (HoverState >= HoverState.Hovered || Selected)
 				e.Graphics.FillRoundedRectangle(Gradient(back), new Rectangle(1, 1, Width - 3, Height - 3), 7);
 
 			if (!HoverState.HasFlag(HoverState.Pressed))
@@ -132,14 +135,12 @@ namespace SlickControls
 
 		public void Hold()
 		{
-			selected = true;
-			Invalidate();
+			Selected = true;
 		}
 
 		public void Release()
 		{
-			selected = false;
-			Invalidate();
+			Selected = false;
 		}
 
 		public override Size GetPreferredSize(Size proposedSize) => GetAutoSize();

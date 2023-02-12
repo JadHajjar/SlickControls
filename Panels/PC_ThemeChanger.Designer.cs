@@ -59,6 +59,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.B_Random = new SlickControls.SlickButton();
 			this.CB_NightMode = new SlickControls.SlickCheckbox();
+			this.CB_DisableAnimations = new SlickControls.SlickCheckbox();
 			this.panel1.SuspendLayout();
 			this.FLP_Pickers.SuspendLayout();
 			this.tableLayoutPanel1.SuspendLayout();
@@ -79,14 +80,14 @@
 			this.panel1.Location = new System.Drawing.Point(0, 276);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(1037, 387);
+			this.panel1.Size = new System.Drawing.Size(999, 387);
 			this.panel1.TabIndex = 59;
 			// 
 			// verticalScroll1
 			// 
 			this.verticalScroll1.Dock = System.Windows.Forms.DockStyle.Right;
 			this.verticalScroll1.LinkedControl = this.FLP_Pickers;
-			this.verticalScroll1.Location = new System.Drawing.Point(1031, 0);
+			this.verticalScroll1.Location = new System.Drawing.Point(993, 0);
 			this.verticalScroll1.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
 			this.verticalScroll1.Name = "verticalScroll1";
 			this.verticalScroll1.Size = new System.Drawing.Size(6, 387);
@@ -125,6 +126,7 @@
 			// CP_Back
 			// 
 			this.CP_Back.ColorName = "BackColor";
+			this.CP_Back.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Back.Location = new System.Drawing.Point(45, 15);
 			this.CP_Back.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Back.Name = "CP_Back";
@@ -136,6 +138,7 @@
 			// CP_Text
 			// 
 			this.CP_Text.ColorName = "ForeColor";
+			this.CP_Text.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Text.Location = new System.Drawing.Point(263, 15);
 			this.CP_Text.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Text.Name = "CP_Text";
@@ -147,6 +150,7 @@
 			// CP_Menu
 			// 
 			this.CP_Menu.ColorName = "MenuColor";
+			this.CP_Menu.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Menu.Location = new System.Drawing.Point(481, 15);
 			this.CP_Menu.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Menu.Name = "CP_Menu";
@@ -158,6 +162,7 @@
 			// CP_MenuText
 			// 
 			this.CP_MenuText.ColorName = "MenuForeColor";
+			this.CP_MenuText.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_MenuText.Location = new System.Drawing.Point(699, 15);
 			this.CP_MenuText.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_MenuText.Name = "CP_MenuText";
@@ -169,6 +174,7 @@
 			// CP_Button
 			// 
 			this.CP_Button.ColorName = "ButtonColor";
+			this.CP_Button.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Button.Location = new System.Drawing.Point(45, 82);
 			this.CP_Button.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Button.Name = "CP_Button";
@@ -180,6 +186,7 @@
 			// CP_ButtonText
 			// 
 			this.CP_ButtonText.ColorName = "ButtonForeColor";
+			this.CP_ButtonText.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_ButtonText.Location = new System.Drawing.Point(263, 82);
 			this.CP_ButtonText.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_ButtonText.Name = "CP_ButtonText";
@@ -191,6 +198,7 @@
 			// CP_Active
 			// 
 			this.CP_Active.ColorName = "ActiveColor";
+			this.CP_Active.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Active.Location = new System.Drawing.Point(481, 82);
 			this.CP_Active.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Active.Name = "CP_Active";
@@ -202,6 +210,7 @@
 			// CP_ActiveText
 			// 
 			this.CP_ActiveText.ColorName = "ActiveForeColor";
+			this.CP_ActiveText.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_ActiveText.Location = new System.Drawing.Point(699, 82);
 			this.CP_ActiveText.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_ActiveText.Name = "CP_ActiveText";
@@ -213,6 +222,7 @@
 			// CP_Label
 			// 
 			this.CP_Label.ColorName = "LabelColor";
+			this.CP_Label.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Label.Location = new System.Drawing.Point(45, 149);
 			this.CP_Label.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Label.Name = "CP_Label";
@@ -224,6 +234,7 @@
 			// CP_Info
 			// 
 			this.CP_Info.ColorName = "InfoColor";
+			this.CP_Info.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Info.Location = new System.Drawing.Point(263, 149);
 			this.CP_Info.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Info.Name = "CP_Info";
@@ -235,6 +246,7 @@
 			// CP_Accent
 			// 
 			this.CP_Accent.ColorName = "AccentColor";
+			this.CP_Accent.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Accent.Location = new System.Drawing.Point(481, 149);
 			this.CP_Accent.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Accent.Name = "CP_Accent";
@@ -246,6 +258,7 @@
 			// CP_Icon
 			// 
 			this.CP_Icon.ColorName = "IconColor";
+			this.CP_Icon.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Icon.Location = new System.Drawing.Point(699, 149);
 			this.CP_Icon.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Icon.Name = "CP_Icon";
@@ -257,6 +270,7 @@
 			// CP_Red
 			// 
 			this.CP_Red.ColorName = "RedColor";
+			this.CP_Red.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Red.Location = new System.Drawing.Point(45, 216);
 			this.CP_Red.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Red.Name = "CP_Red";
@@ -268,6 +282,7 @@
 			// CP_Green
 			// 
 			this.CP_Green.ColorName = "GreenColor";
+			this.CP_Green.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Green.Location = new System.Drawing.Point(263, 216);
 			this.CP_Green.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Green.Name = "CP_Green";
@@ -279,6 +294,7 @@
 			// CP_Yellow
 			// 
 			this.CP_Yellow.ColorName = "YellowColor";
+			this.CP_Yellow.DefaultColor = System.Drawing.Color.Empty;
 			this.CP_Yellow.Location = new System.Drawing.Point(481, 216);
 			this.CP_Yellow.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Yellow.Name = "CP_Yellow";
@@ -318,6 +334,7 @@
 			this.UD_BaseTheme.TabIndex = 60;
 			this.UD_BaseTheme.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
 			this.UD_BaseTheme.Validation = SlickControls.ValidationType.None;
+			this.UD_BaseTheme.ValidationCustom = null;
 			this.UD_BaseTheme.ValidationRegex = "";
 			this.UD_BaseTheme.TextChanged += new System.EventHandler(this.UD_BaseTheme_TextChanged);
 			// 
@@ -343,7 +360,7 @@
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(1037, 663);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(999, 663);
 			this.tableLayoutPanel1.TabIndex = 62;
 			// 
 			// slickSectionPanel3
@@ -358,11 +375,11 @@
 			this.slickSectionPanel3.Icon = ((System.Drawing.Image)(resources.GetObject("slickSectionPanel3.Icon")));
 			this.slickSectionPanel3.Info = "";
 			this.slickSectionPanel3.Location = new System.Drawing.Point(3, 163);
-			this.slickSectionPanel3.MaximumSize = new System.Drawing.Size(1037, 2147483647);
+			this.slickSectionPanel3.MaximumSize = new System.Drawing.Size(999, 2147483647);
 			this.slickSectionPanel3.MinimumSize = new System.Drawing.Size(271, 55);
 			this.slickSectionPanel3.Name = "slickSectionPanel3";
 			this.slickSectionPanel3.Padding = new System.Windows.Forms.Padding(43, 54, 0, 0);
-			this.slickSectionPanel3.Size = new System.Drawing.Size(1031, 55);
+			this.slickSectionPanel3.Size = new System.Drawing.Size(993, 55);
 			this.slickSectionPanel3.TabIndex = 63;
 			this.slickSectionPanel3.Text = "Color Customization";
 			// 
@@ -373,7 +390,7 @@
 			this.B_Reset.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Reset.IconSize = 16;
 			this.B_Reset.Image = global::SlickControls.Properties.Resources.Tiny_Retry;
-			this.B_Reset.Location = new System.Drawing.Point(907, 231);
+			this.B_Reset.Location = new System.Drawing.Point(869, 231);
 			this.B_Reset.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
 			this.B_Reset.Name = "B_Reset";
 			this.B_Reset.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
@@ -394,11 +411,12 @@
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel2.Controls.Add(this.DD_Font, 1, 2);
+			this.tableLayoutPanel2.Controls.Add(this.DD_Font, 0, 2);
 			this.tableLayoutPanel2.Controls.Add(this.slickSectionPanel1, 0, 1);
 			this.tableLayoutPanel2.Controls.Add(this.B_Save, 1, 0);
 			this.tableLayoutPanel2.Controls.Add(this.SS_Scale, 3, 2);
 			this.tableLayoutPanel2.Controls.Add(this.label1, 2, 2);
+			this.tableLayoutPanel2.Controls.Add(this.CB_DisableAnimations, 1, 2);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
@@ -408,7 +426,7 @@
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel2.Size = new System.Drawing.Size(1037, 145);
+			this.tableLayoutPanel2.Size = new System.Drawing.Size(999, 145);
 			this.tableLayoutPanel2.TabIndex = 62;
 			// 
 			// DD_Font
@@ -435,10 +453,11 @@
 			this.DD_Font.SelectedText = "";
 			this.DD_Font.SelectionLength = 0;
 			this.DD_Font.SelectionStart = 0;
-			this.DD_Font.Size = new System.Drawing.Size(355, 34);
+			this.DD_Font.Size = new System.Drawing.Size(246, 34);
 			this.DD_Font.TabIndex = 65;
 			this.DD_Font.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
 			this.DD_Font.Validation = SlickControls.ValidationType.None;
+			this.DD_Font.ValidationCustom = null;
 			this.DD_Font.ValidationRegex = "";
 			this.DD_Font.TextChanged += new System.EventHandler(this.DD_Font_TextChanged);
 			// 
@@ -454,11 +473,11 @@
 			this.slickSectionPanel1.Icon = ((System.Drawing.Image)(resources.GetObject("slickSectionPanel1.Icon")));
 			this.slickSectionPanel1.Info = "";
 			this.slickSectionPanel1.Location = new System.Drawing.Point(3, 33);
-			this.slickSectionPanel1.MaximumSize = new System.Drawing.Size(1037, 2147483647);
+			this.slickSectionPanel1.MaximumSize = new System.Drawing.Size(999, 2147483647);
 			this.slickSectionPanel1.MinimumSize = new System.Drawing.Size(244, 55);
 			this.slickSectionPanel1.Name = "slickSectionPanel1";
 			this.slickSectionPanel1.Padding = new System.Windows.Forms.Padding(43, 54, 0, 0);
-			this.slickSectionPanel1.Size = new System.Drawing.Size(1031, 55);
+			this.slickSectionPanel1.Size = new System.Drawing.Size(993, 55);
 			this.slickSectionPanel1.TabIndex = 64;
 			this.slickSectionPanel1.Text = "UI Customization";
 			// 
@@ -470,7 +489,7 @@
 			this.B_Save.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Save.IconSize = 16;
 			this.B_Save.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
-			this.B_Save.Location = new System.Drawing.Point(907, 0);
+			this.B_Save.Location = new System.Drawing.Point(868, 0);
 			this.B_Save.Margin = new System.Windows.Forms.Padding(0, 0, 30, 0);
 			this.B_Save.Name = "B_Save";
 			this.B_Save.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
@@ -487,7 +506,7 @@
 			this.SS_Scale.AnimatedValue = 0;
 			this.SS_Scale.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.SS_Scale.FromValue = 80D;
-			this.SS_Scale.Location = new System.Drawing.Point(570, 94);
+			this.SS_Scale.Location = new System.Drawing.Point(690, 94);
 			this.SS_Scale.Margin = new System.Windows.Forms.Padding(0, 3, 30, 3);
 			this.SS_Scale.MaxValue = 200D;
 			this.SS_Scale.MinValue = 80D;
@@ -496,7 +515,7 @@
 			this.SS_Scale.Percentage = 0.16666666666666666D;
 			this.SS_Scale.PercFrom = 0D;
 			this.SS_Scale.PercTo = 0.16666666666666666D;
-			this.SS_Scale.Size = new System.Drawing.Size(437, 48);
+			this.SS_Scale.Size = new System.Drawing.Size(278, 48);
 			this.SS_Scale.SliderStyle = SlickControls.SliderStyle.SingleHorizontal;
 			this.SS_Scale.TabIndex = 66;
 			this.SS_Scale.TargetAnimationValue = 0;
@@ -509,7 +528,7 @@
 			// 
 			this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(517, 111);
+			this.label1.Location = new System.Drawing.Point(637, 111);
 			this.label1.Margin = new System.Windows.Forms.Padding(50, 0, 3, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(50, 13);
@@ -523,7 +542,7 @@
 			this.B_Random.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Random.IconSize = 16;
 			this.B_Random.Image = ((System.Drawing.Image)(resources.GetObject("B_Random.Image")));
-			this.B_Random.Location = new System.Drawing.Point(777, 231);
+			this.B_Random.Location = new System.Drawing.Point(739, 231);
 			this.B_Random.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
 			this.B_Random.Name = "B_Random";
 			this.B_Random.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
@@ -546,7 +565,7 @@
 			this.CB_NightMode.HideText = false;
 			this.CB_NightMode.IconSize = 16;
 			this.CB_NightMode.Image = ((System.Drawing.Image)(resources.GetObject("CB_NightMode.Image")));
-			this.CB_NightMode.Location = new System.Drawing.Point(614, 233);
+			this.CB_NightMode.Location = new System.Drawing.Point(576, 233);
 			this.CB_NightMode.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
 			this.CB_NightMode.Name = "CB_NightMode";
 			this.CB_NightMode.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
@@ -557,13 +576,37 @@
 			this.CB_NightMode.UncheckedText = null;
 			this.CB_NightMode.CheckChanged += new System.EventHandler(this.CB_NightMode_CheckChanged);
 			// 
+			// CB_DisableAnimations
+			// 
+			this.CB_DisableAnimations.ActiveColor = null;
+			this.CB_DisableAnimations.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.CB_DisableAnimations.AutoSize = true;
+			this.CB_DisableAnimations.Center = false;
+			this.CB_DisableAnimations.Checked = false;
+			this.CB_DisableAnimations.CheckedText = null;
+			this.CB_DisableAnimations.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.CB_DisableAnimations.DefaultValue = false;
+			this.CB_DisableAnimations.HideText = false;
+			this.CB_DisableAnimations.IconSize = 16;
+			this.CB_DisableAnimations.Image = ((System.Drawing.Image)(resources.GetObject("CB_DisableAnimations.Image")));
+			this.CB_DisableAnimations.Location = new System.Drawing.Point(348, 105);
+			this.CB_DisableAnimations.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
+			this.CB_DisableAnimations.Name = "CB_DisableAnimations";
+			this.CB_DisableAnimations.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
+			this.CB_DisableAnimations.Size = new System.Drawing.Size(139, 26);
+			this.CB_DisableAnimations.TabIndex = 64;
+			this.CB_DisableAnimations.TabStop = false;
+			this.CB_DisableAnimations.Text = "Disable Animations";
+			this.CB_DisableAnimations.UncheckedText = null;
+			this.CB_DisableAnimations.CheckChanged += new System.EventHandler(this.CB_DisableAnimations_CheckChanged);
+			// 
 			// PC_ThemeChanger
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.Name = "PC_ThemeChanger";
 			this.Padding = new System.Windows.Forms.Padding(5, 30, 0, 0);
-			this.Size = new System.Drawing.Size(1042, 693);
+			this.Size = new System.Drawing.Size(1004, 693);
 			this.Text = "Theme Changer";
 			this.Load += new System.EventHandler(this.Theme_Changer_Load);
 			this.Controls.SetChildIndex(this.base_Text, 0);
@@ -612,5 +655,6 @@
 		private System.Windows.Forms.Label label1;
 		private SlickButton B_Random;
 		private SlickCheckbox CB_NightMode;
+		private SlickCheckbox CB_DisableAnimations;
 	}
 }

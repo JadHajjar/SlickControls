@@ -23,11 +23,11 @@ namespace SlickControls
 		{
 			InitializeComponent();
 
-			TB.TextChanged += TB_TextChanged;
-			TB.Leave += TB_Leave;
-			TB.MouseWheel += TB_MouseWheel;
-			TB.KeyPress += TB_KeyPress;
-			TB.MouseDoubleClick += TB_MouseDoubleClick;
+			_textBox.TextChanged += TB_TextChanged;
+			_textBox.Leave += TB_Leave;
+			_textBox.MouseWheel += TB_MouseWheel;
+			_textBox.KeyPress += TB_KeyPress;
+			_textBox.MouseDoubleClick += TB_MouseDoubleClick;
 		}
 
 		protected override void OnCreateControl()
@@ -60,8 +60,8 @@ namespace SlickControls
 		{
 			base.DesignChanged(design);
 
-			if (!DesignMode && (Items?.Length ?? 0) == 0)
-				PB.Loading = true;
+			if (Live && (Items?.Length ?? 0) == 0)
+				Loading = true;
 		}
 
 		private void TB_MouseWheel(object sender, MouseEventArgs e)
@@ -108,7 +108,7 @@ namespace SlickControls
 		[Browsable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 		[Bindable(true)]
-		public override string Text { get => base.Text; set { base.Text = TB.Text = value; TextChanged?.Invoke(this, new EventArgs()); } }
+		public override string Text { get => base.Text; set { base.Text = _textBox.Text = value; TextChanged?.Invoke(this, new EventArgs()); } }
 
 		public override bool ValidInput
 		{
@@ -123,8 +123,8 @@ namespace SlickControls
 
 		private void ActiveDropDown_Load(object sender, EventArgs e)
 		{
-			if (!DesignMode && (Items?.Length ?? 0) == 0)
-				PB.Loading = true;
+			if (Live && (Items?.Length ?? 0) == 0)
+				Loading = true;
 
 			var frm = FindForm();
 			if (frm != null)
@@ -132,13 +132,13 @@ namespace SlickControls
 				LocationChanged += (s, ea) =>
 				{
 					if (DropDownItems != null)
-						DropDownItems.Location = FindForm().PointToClient(PointToScreen(new Point(0, P_Bar.Location.Y)));
+						DropDownItems.Location = FindForm().PointToClient(PointToScreen(new Point(0, Height - 2)));
 				};
 
 				frm.LocationChanged += (s, ea) =>
 				{
 					if (DropDownItems != null)
-						DropDownItems.Location = FindForm().PointToClient(PointToScreen(new Point(0, P_Bar.Location.Y)));
+						DropDownItems.Location = FindForm().PointToClient(PointToScreen(new Point(0, Height - 2)));
 				};
 
 				frm.Resize += (s, ea) =>
@@ -152,7 +152,7 @@ namespace SlickControls
 						}
 						else
 						{
-							DropDownItems.Location = FindForm().PointToClient(PointToScreen(new Point(0, P_Bar.Location.Y)));
+							DropDownItems.Location = FindForm().PointToClient(PointToScreen(new Point(0, Height - 2)));
 							DropDownItems.MaximumSize = new Size(Width, 9999);
 							DropDownItems.MinimumSize = new Size(Width, 0);
 						}
@@ -161,7 +161,7 @@ namespace SlickControls
 			}
 		}
 
-		private void Label1_Click(object sender, EventArgs e) => TB.Focus();
+		private void Label1_Click(object sender, EventArgs e) => _textBox.Focus();
 
 		private void PB_Arrow_Click(object sender, EventArgs e)
 		{
@@ -174,11 +174,10 @@ namespace SlickControls
 			{
 				if (Items != null && !ReadOnly)
 				{
-					P_Bar.BackColor = FormDesign.Design.ActiveColor;
 					var itemsize = (int)FindForm().Font.Height + 2;
 					DropDownItems = new DropDownItems(Conversion, FontDropdown)
 					{
-						Location = FindForm().PointToClient(PointToScreen(new Point(0, P_Bar.Location.Y))),
+						Location = FindForm().PointToClient(PointToScreen(new Point(0, Height - 3))),
 						MaximumSize = new Size(Width, 9999),
 						MinimumSize = new Size(Width, 0)
 					};
@@ -190,7 +189,7 @@ namespace SlickControls
 					DropDownItems.BringToFront();
 					DropDownItems.SetItems(Items);
 					Image = Properties.Resources.ArrowUp;
-					TB.Focus();
+					_textBox.Focus();
 				}
 				else
 				{
@@ -219,10 +218,10 @@ namespace SlickControls
 			if (DropDownItems?.KeyPressed(ref msg, keyData) ?? false)
 				return true;
 
-			if (Keys.Back == keyData && TB.SelectionStart > 0 && TB.SelectionLength > 0)
+			if (Keys.Back == keyData && _textBox.SelectionStart > 0 && _textBox.SelectionLength > 0)
 			{
-				TB.SelectionStart--;
-				TB.SelectionLength++;
+				_textBox.SelectionStart--;
+				_textBox.SelectionLength++;
 			}
 
 			if (Keys.Down == keyData && DropDownItems == null)
@@ -238,19 +237,19 @@ namespace SlickControls
 				if (!AutoComplete)
 					return;
 
-				if (TB.Text != "")
+				if (_textBox.Text != "")
 				{
-					if (Items == null || Items.Any(x => (Conversion == null ? x.ToString() : Conversion(x)) == TB.Text))
+					if (Items == null || Items.Any(x => (Conversion == null ? x.ToString() : Conversion(x)) == _textBox.Text))
 						return;
 
 					var items = Items.Convert(x => Conversion == null ? x.ToString() : Conversion(x));
-					var txt = TB.Text.ToLower();
+					var txt = _textBox.Text.ToLower();
 
 					var match = items.Where(x => x.ToLower() != txt && x.ToLower().StartsWith(txt)).FirstOrDefault();
 
 					if (match != null)
 					{
-						var index = TB.Text.Length;
+						var index = _textBox.Text.Length;
 						var itemsize = (int)FindForm().Font.Height + 2;
 						Text = match;
 						if (DropDownItems != null)
@@ -261,7 +260,7 @@ namespace SlickControls
 						{
 							DropDownItems = new DropDownItems(Conversion, FontDropdown)
 							{
-								Location = FindForm().PointToClient(PointToScreen(new Point(0, P_Bar.Location.Y))),
+								Location = FindForm().PointToClient(PointToScreen(new Point(0, Height - 2))),
 								MaximumSize = new Size(Width, 9999),
 								MinimumSize = new Size(Width, 0)
 							};
@@ -273,9 +272,9 @@ namespace SlickControls
 							DropDownItems.BringToFront();
 							DropDownItems.SetItems(items.Where(x => x.ToLower() != txt && x.ToLower().StartsWith(txt)));
 							Image = Properties.Resources.ArrowUp;
-							TB.Focus();
+							_textBox.Focus();
 						}
-						TB.Select(index, TB.Text.Length - index);
+						_textBox.Select(index, _textBox.Text.Length - index);
 					}
 
 					if (DropDownItems != null && items.Count(x => x.ToLower() != txt && x.ToLower().StartsWith(txt)) == 1)
@@ -290,7 +289,7 @@ namespace SlickControls
 					DropDownItems = null;
 				}
 			}
-			finally { Text = TB.Text; }
+			finally { Text = _textBox.Text; }
 		}
 	}
 }

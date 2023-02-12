@@ -102,15 +102,15 @@ namespace SlickControls
 				var size = new Size(Math.Max(150, 7 + hideImg.If(0, 20) + (int)(3 * UI.FontScale) + (int)Items.SelectMany(x => x.Value).Max(x => (x.Tab * 12) + g.MeasureString(x.Text, Font).Width))
 					, workRect.Y + workRect.Height + 1);
 
-				if (startingCursorPosition.Y + Items.SelectMany(x => x.Value).Sum(x => x.IsEmpty ? (int)(7 * UI.UIScale) : ((int)g.MeasureString(x.Text, Font).Height + 4)) + 2 > SystemInformation.VirtualScreen.Height)
+				if (startingCursorPosition.Y + Items.SelectMany(x => x.Value).Sum(x => x.IsEmpty ? (int)(7 * UI.UIScale) : ((int)g.MeasureString(x.Text, Font).Height + 4)) + 2 > SystemInformation.WorkingArea.Height)
 				{
 					reversed = true;
-					if (startingCursorPosition.X + size.Width > SystemInformation.VirtualScreen.Width)
+					if (startingCursorPosition.X + size.Width > SystemInformation.WorkingArea.Width)
 						return new Rectangle(new Point(startingCursorPosition.X - size.Width, startingCursorPosition.Y - size.Height), size);
 					else
 						return new Rectangle(new Point(startingCursorPosition.X, startingCursorPosition.Y - size.Height), size);
 				}
-				else if (startingCursorPosition.X + size.Width > SystemInformation.VirtualScreen.Width)
+				else if (startingCursorPosition.X + size.Width > SystemInformation.WorkingArea.Width)
 				{
 					return new Rectangle(new Point(startingCursorPosition.X - size.Width, startingCursorPosition.Y), size);
 				}
@@ -227,7 +227,7 @@ namespace SlickControls
 			}
 		}
 
-		private void FlatToolStrip_Leave(object sender, EventArgs e) => Dispose();
+		private void FlatToolStrip_Leave(object sender, EventArgs e) => this.TryInvoke(Dispose);
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{

@@ -39,8 +39,8 @@ namespace SlickControls
 
 		protected override void DesignChanged(FormDesign design)
 		{
-			BackColor = design.AccentColor;
-			panel.BackColor = design.BackColor;
+			BackColor = design.ActiveColor;
+			panel.BackColor = design.AccentBackColor;
 		}
 
 		internal void SetItems(IEnumerable<object> list)
@@ -108,7 +108,7 @@ namespace SlickControls
 
 		private void P_Items_Paint(object sender, PaintEventArgs e)
 		{
-			e.Graphics.Clear(FormDesign.Design.BackColor);
+			e.Graphics.Clear(FormDesign.Design.AccentBackColor);
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
 			var w = P_Items.Width;

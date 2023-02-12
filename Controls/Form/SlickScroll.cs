@@ -28,6 +28,7 @@ namespace SlickControls
 		private bool mouseIn;
 		private double speedModifier;
 		private double targetPercentage;
+		private bool Live;
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool Active => linkedControl?.Parent != null
@@ -51,7 +52,7 @@ namespace SlickControls
 			{
 				linkedControl = value;
 
-				if (!DesignMode && value != null && !DesignMode)
+				if (value != null && Live)
 				{
 					linkedControl.Location = Point.Empty;
 					linkedControl.MouseWheel += SlickScroll_OnMouseWheel;
@@ -167,7 +168,7 @@ namespace SlickControls
 			MouseWheel += SlickScroll_OnMouseWheel;
 			ScrollTimer.Tick += ScrollTimer_Elapsed;
 
-			if (!DesignMode)
+			if (Live)
 			{
 				MouseDetector = new MouseDetector();
 				MouseDetector.MouseMove += mouseDetector_MouseMove;
@@ -303,8 +304,9 @@ namespace SlickControls
 		{
 			base.OnHandleCreated(e);
 
-			if (!DesignMode)
+			if (Live = !DesignMode)
 			{
+				LinkedControl = LinkedControl;
 				BeginInvoke(new Action(Reset));
 			}
 		}
@@ -332,20 +334,15 @@ namespace SlickControls
 			if (Open && !SmallHandle)
 			{
 				var w = Math.Min(18, Bar.Width).If(x => x % 2 != 0, x => x - 1, x => x);
-				//if (IsMouseDown && Bar.Height * 5 / 2 < (Height - Padding.Vertical))
-				//{
-				//	var h = Bar.Height * 2 / 3;
-				//	e.Graphics.DrawLine(new Pen(new LinearGradientBrush(new Point(Bar.Width / 2, Bar.Top - h), new Point(Bar.Width / 2, Bar.Top + 3), Color.Empty, FormDesign.Design.ActiveColor), PenSize)
-				//		, new Point(Bar.Width / 2, Math.Max(Padding.Top, Bar.Top - h + 1)), new Point(Bar.Width / 2, Bar.Top + Bar.Height / 2));
-
-				//	e.Graphics.DrawLine(new Pen(new LinearGradientBrush(new Point(Bar.Width / 2, Bar.Top + Bar.Height - 3), new Point(Bar.Width / 2, Bar.Top + h + Bar.Height), FormDesign.Design.ActiveColor, Color.Empty), PenSize)
-				//		, new Point(Bar.Width / 2, Bar.Top + Bar.Height / 2), new Point(Bar.Width / 2, Math.Min(Height - Padding.Bottom, Bar.Top + h + Bar.Height - 1)));
-				//}
 
 				var barRect = new Rectangle(Bar.Width / 2 - w / 2, Bar.Top, w, Bar.Height);
-				e.Graphics.FillRoundedRectangle(barRect.Gradient(IsMouseDown ? FormDesign.Design.ActiveColor : BackColor.MergeColor(FormDesign.Design.AccentColor), 1F),
-					barRect,
-					w / 2);
+
+				if (barRect.Height > 0 && barRect.Width > 0)
+				{
+					e.Graphics.FillRoundedRectangle(barRect.Gradient(IsMouseDown ? FormDesign.Design.ActiveColor : BackColor.MergeColor(FormDesign.Design.AccentColor), 1F),
+						barRect,
+						Bar.Height < w ? 1 : w / 2);
+				}
 			}
 			else
 			{
@@ -490,7 +487,7 @@ namespace SlickControls
 
 		private void SlickScroll_MouseMove(object sender, MouseEventArgs e)
 		{
-			if (!DesignMode)
+			if (Live)
 			{
 				if (e.Button == MouseButtons.Left)
 				{
@@ -503,7 +500,7 @@ namespace SlickControls
 
 		private void SlickScroll_MouseUp(object sender, MouseEventArgs e)
 		{
-			if (!DesignMode)
+			if (Live)
 			{
 				IsMouseDown = false;
 				Dismiss();
@@ -516,7 +513,7 @@ namespace SlickControls
 			if (e is HandledMouseEventArgs h && h.Handled)
 				return;
 
-			if (Active && !IsMouseDown && !DesignMode)
+			if (Active && !IsMouseDown && Live)
 			{
 				TargetPercentage -= e.Delta * 100D / (ControlSize - linkedControl.Parent.Height);
 

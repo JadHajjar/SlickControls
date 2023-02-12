@@ -163,7 +163,19 @@ namespace SlickControls
 		public static void SetTo(Control control, string title, string text, bool recursive = true)
 		{
 			if (control == null || (string.IsNullOrWhiteSpace(text) && string.IsNullOrWhiteSpace(title)))
+			{
+				if (controlsDictionary.ContainsKey(control))
+				{
+					controlsDictionary.Remove(control);
+					control.MouseEnter -= Control_MouseEnter;
+					control.Disposed -= Control_Disposed;
+					if (currentControl?.Key == control)
+					{
+						currentControl.Value.Value.Dismiss();
+					}
+				}
 				return;
+			}
 
 			if (!controlsDictionary.ContainsKey(control))
 			{
@@ -179,6 +191,13 @@ namespace SlickControls
 				{
 					currentControl?.Value.SetData(title, text);
 					Control_MouseEnter(control, null);
+				}
+				else
+				{
+					if (control.FindForm() is SlickForm frm && frm.FormIsActive && mouseIsIn(control, MousePosition))
+					{
+						Control_MouseEnter(control, null);
+					}
 				}
 			}
 

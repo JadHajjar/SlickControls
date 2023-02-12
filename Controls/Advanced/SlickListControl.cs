@@ -88,7 +88,7 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			if (!DesignMode)
+			if (Live)
 				ItemHeight = (int)(ItemHeight * UI.FontScale);
 		}
 

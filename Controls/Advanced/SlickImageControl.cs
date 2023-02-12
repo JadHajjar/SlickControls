@@ -16,7 +16,7 @@ namespace SlickControls
 		public event AsyncCompletedEventHandler LoadCompleted;
 		public event EventHandler ImageChanged;
 
-		[Category("Appearance")]
+		[Category("Appearance"), DefaultValue(null)]
 		public virtual Image Image { get => image; set { image = value; Loading = false; OnImageChanged(EventArgs.Empty); } }
 
 		protected Point CursorLocation { get; set; }

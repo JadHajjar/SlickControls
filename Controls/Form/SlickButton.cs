@@ -70,7 +70,7 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			if (IsHandleCreated && HandleUiScale && !DesignMode)
+			if (Live && HandleUiScale)
 				PerformAutoSize();
 		}
 

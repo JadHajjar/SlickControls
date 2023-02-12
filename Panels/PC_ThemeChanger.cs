@@ -43,6 +43,7 @@ namespace SlickControls
 			DD_Font.SelectedItem = UI.FontFamily;
 			SS_Scale.Value = UI._instance.fontScale * 100;
 			SS_Scale.ValueOutput = (x) => $"{x}%";
+			CB_DisableAnimations.Checked = AnimationHandler.NoAnimations;
 
 			changesMade = false;
 		}
@@ -78,7 +79,7 @@ namespace SlickControls
 
 		private void B_Save_Click(object sender, EventArgs e)
 		{
-			if (UI.FontScale != SS_Scale.Value / 100)
+			if (UI.FontScale != SS_Scale.Value / 100 || UI._instance.noAnimations != CB_DisableAnimations.Checked || UI.FontFamily != DD_Font.Conversion(DD_Font.SelectedItem).IfEmpty("Nirmala UI"))
 			{
 				var previous = new UI
 				{
@@ -90,6 +91,7 @@ namespace SlickControls
 				UI._instance.fontFamily = DD_Font.Conversion(DD_Font.SelectedItem).IfEmpty("Nirmala UI");
 				UI._instance.fontScale = SS_Scale.Value / 100;
 				UI._instance.uiScale = SS_Scale.Value.If(x => x > 100, x => x * .9 + 10, x => x * 1.1 - 10) / 100;
+				UI._instance.noAnimations = CB_DisableAnimations.Checked;
 
 				UI.OnUiChanged();
 			}
@@ -199,6 +201,10 @@ namespace SlickControls
 		private void CB_NightMode_CheckChanged(object sender, EventArgs e)
 		{
 			changesMade = true;
+		}
+
+		private void CB_DisableAnimations_CheckChanged(object sender, EventArgs e)
+		{
 		}
 	}
 }

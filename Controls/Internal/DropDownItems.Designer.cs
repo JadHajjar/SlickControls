@@ -39,23 +39,23 @@
 			this.panel.Controls.Add(this.scroll);
 			this.panel.Controls.Add(this.P_Items);
 			this.panel.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel.Location = new System.Drawing.Point(1, 1);
+			this.panel.Location = new System.Drawing.Point(0, 2);
 			this.panel.Name = "panel";
-			this.panel.Size = new System.Drawing.Size(218, 248);
+			this.panel.Size = new System.Drawing.Size(220, 248);
 			this.panel.TabIndex = 0;
 			// 
 			// scroll
 			// 
 			this.scroll.Dock = System.Windows.Forms.DockStyle.Right;
 			this.scroll.LinkedControl = this.P_Items;
-			this.scroll.Location = new System.Drawing.Point(213, 0);
+			this.scroll.Location = new System.Drawing.Point(214, 0);
 			this.scroll.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
-			this.scroll.MouseDownLocation = new System.Drawing.Point(0, 0);
 			this.scroll.Name = "scroll";
-			this.scroll.Size = new System.Drawing.Size(5, 248);
+			this.scroll.Size = new System.Drawing.Size(6, 248);
 			this.scroll.SmallHandle = true;
 			this.scroll.Style = SlickControls.StyleType.Vertical;
 			this.scroll.TabIndex = 1;
+			this.scroll.TabStop = false;
 			// 
 			// P_Items
 			// 
@@ -74,7 +74,7 @@
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(162)))), ((int)(((byte)(229)))));
 			this.Controls.Add(this.panel);
 			this.Name = "DropDownItems";
-			this.Padding = new System.Windows.Forms.Padding(1);
+			this.Padding = new System.Windows.Forms.Padding(0, 2, 0, 0);
 			this.Size = new System.Drawing.Size(220, 250);
 			this.panel.ResumeLayout(false);
 			this.ResumeLayout(false);
