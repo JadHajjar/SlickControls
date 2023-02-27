@@ -202,7 +202,7 @@ namespace SlickControls
 								left + ((Width - ImageBounds.Width < 20) ? 0 : ImageBounds.Left + ImageBounds.Width + 3),
 								yIndex,
 								Width - rigthPad - ((Width - ImageBounds.Width < 20) ? 0 : ImageBounds.Left + ImageBounds.Width + 6),
-								(int)Math.Ceiling(fill ? extra + font.GetHeight().ClosestMultipleTo(Height - yIndex - 6 - bottomPad) : e.Graphics.MeasureString(text, font).Height));
+								(int)Math.Ceiling(fill ? extra + font.GetHeight().ClosestMultipleTo(Height - yIndex - 6 - bottomPad) : e.Graphics.Measure(text, font).Height));
 
 					using (var brush = new SolidBrush(color))
 						e.Graphics.DrawString(
@@ -213,11 +213,11 @@ namespace SlickControls
 							new StringFormat() { Trimming = StringTrimming.EllipsisCharacter, LineAlignment = bottom ? StringAlignment.Far : StringAlignment.Near });
 
 					if (fill)
-						yIndex += extra + (int)e.Graphics.MeasureString(text, font, Width - rigthPad - ((Width - ImageBounds.Width < 20) ? 0 : ImageBounds.Left + ImageBounds.Width + 6)).Height;
+						yIndex += extra + (int)e.Graphics.Measure(text, font, Width - rigthPad - ((Width - ImageBounds.Width < 20) ? 0 : ImageBounds.Left + ImageBounds.Width + 6)).Height;
 					else
 						yIndex += extra + font.Height;
 
-					var bnds = e.Graphics.MeasureString(text, font, rect.Width);
+					var bnds = e.Graphics.Measure(text, font, rect.Width);
 
 					return new Rectangle(
 						left + ((Width - ImageBounds.Width < 20) ? 0 : ImageBounds.Left + ImageBounds.Width + 3),
@@ -247,9 +247,9 @@ namespace SlickControls
 						extra = 2;
 
 					var size = new Size(Width - rigthPad - ((Width - ImageBounds.Width < 20) ? 0 : ImageBounds.Left + ImageBounds.Width + 6),
-								(int)Math.Ceiling(fill ? extra + font.GetHeight().ClosestMultipleTo(Height - yIndex - 6 - bottomPad) : e.Graphics.MeasureString(text, font).Height));
+								(int)Math.Ceiling(fill ? extra + font.GetHeight().ClosestMultipleTo(Height - yIndex - 6 - bottomPad) : e.Graphics.Measure(text, font).Height));
 
-					var bnds = e.Graphics.MeasureString(text, font, size.Width);
+					var bnds = e.Graphics.Measure(text, font, size.Width);
 
 					return new Rectangle(
 						left + ((Width - ImageBounds.Width < 20) ? 0 : ImageBounds.Left + ImageBounds.Width + 3),

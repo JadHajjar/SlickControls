@@ -108,7 +108,6 @@
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.ColorStyle = Extensions.ColorStyle.Red;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Cancel.IconSize = 16;
 			this.B_Cancel.Image = global::SlickControls.Properties.Resources.Tiny_Cancel;
 			this.B_Cancel.Location = new System.Drawing.Point(677, 397);
 			this.B_Cancel.Margin = new System.Windows.Forms.Padding(10);
@@ -125,7 +124,6 @@
 			this.B_OK.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_OK.ColorShade = null;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_OK.IconSize = 16;
 			this.B_OK.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
 			this.B_OK.Location = new System.Drawing.Point(557, 397);
 			this.B_OK.Margin = new System.Windows.Forms.Padding(10);

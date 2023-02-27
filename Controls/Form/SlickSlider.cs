@@ -292,7 +292,7 @@ namespace SlickControls
 					(float)((Width - Padding.Horizontal) * val) + Padding.Left - 7,
 					0);
 
-				var bnds = graphics.MeasureString(txt, Font);
+				var bnds = graphics.Measure(txt, Font);
 
 				var rect = new Rectangle(
 					(int)(pt.X - (Math.Ceiling(bnds.Width) / 2) + 6),
@@ -310,7 +310,7 @@ namespace SlickControls
 			else
 			{
 				var pt = new PointF(15 + Padding.Left - 7, (float)((Height - Padding.Vertical) * val) + Padding.Top);
-				var bnds = graphics.MeasureString(txt, Font);
+				var bnds = graphics.Measure(txt, Font);
 				var rect = new Rectangle((int)(pt.X), (int)(pt.Y - bnds.Height / 2), (int)Math.Max(16, bnds.Width) + 3, (int)bnds.Height);
 
 				if (txt.Length < 2)

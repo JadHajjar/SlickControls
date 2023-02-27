@@ -103,7 +103,7 @@ namespace SlickControls
 
 			if (Width > 100)
 			{
-				var bnds = e.Graphics.MeasureString(Text, Font);
+				var bnds = e.Graphics.Measure(Text, Font);
 				e.Graphics.DrawString(Text, Font, new SolidBrush(Selected ? FormDesign.Design.ActiveColor : FormDesign.Design.ForeColor), (Width - bnds.Width - (img == null ? 0 : img.Width + 3)) / 2 + (img == null ? 0 : img.Width + 3), (Height - bnds.Height) / 2);
 
 				if (img != null)

@@ -114,7 +114,6 @@ namespace SlickControls
 			this.B_Cancel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Cancel.IconSize = 16;
 			this.B_Cancel.Image = global::SlickControls.Properties.Resources.Tiny_Cancel;
 			this.B_Cancel.Location = new System.Drawing.Point(271, 7);
 			this.B_Cancel.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -133,7 +132,6 @@ namespace SlickControls
 			this.B_Ignore.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_Ignore.ColorShade = null;
 			this.B_Ignore.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Ignore.IconSize = 16;
 			this.B_Ignore.Image = global::SlickControls.Properties.Resources.Tiny_Skip;
 			this.B_Ignore.Location = new System.Drawing.Point(171, 7);
 			this.B_Ignore.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -152,7 +150,6 @@ namespace SlickControls
 			this.B_Retry.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_Retry.ColorShade = null;
 			this.B_Retry.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Retry.IconSize = 16;
 			this.B_Retry.Image = global::SlickControls.Properties.Resources.Tiny_Retry;
 			this.B_Retry.Location = new System.Drawing.Point(71, 7);
 			this.B_Retry.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -171,7 +168,6 @@ namespace SlickControls
 			this.B_Abort.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_Abort.ColorShade = null;
 			this.B_Abort.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Abort.IconSize = 16;
 			this.B_Abort.Image = global::SlickControls.Properties.Resources.Tiny_Abort;
 			this.B_Abort.Location = new System.Drawing.Point(271, 49);
 			this.B_Abort.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -190,7 +186,6 @@ namespace SlickControls
 			this.B_OK.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_OK.ColorShade = null;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_OK.IconSize = 16;
 			this.B_OK.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
 			this.B_OK.Location = new System.Drawing.Point(171, 49);
 			this.B_OK.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -209,7 +204,6 @@ namespace SlickControls
 			this.B_No.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_No.ColorShade = null;
 			this.B_No.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_No.IconSize = 16;
 			this.B_No.Image = global::SlickControls.Properties.Resources.Tiny_Cancel;
 			this.B_No.Location = new System.Drawing.Point(71, 49);
 			this.B_No.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -228,7 +222,6 @@ namespace SlickControls
 			this.B_Yes.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.B_Yes.ColorShade = null;
 			this.B_Yes.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Yes.IconSize = 16;
 			this.B_Yes.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
 			this.B_Yes.Location = new System.Drawing.Point(271, 91);
 			this.B_Yes.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);

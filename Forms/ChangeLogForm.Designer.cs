@@ -111,7 +111,6 @@
 			this.TLP_Mainzs.SetColumnSpan(this.B_Done, 2);
 			this.B_Done.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Done.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.B_Done.IconSize = 17;
 			this.B_Done.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
 			this.B_Done.Location = new System.Drawing.Point(325, 370);
 			this.B_Done.Margin = new System.Windows.Forms.Padding(0);

@@ -403,6 +403,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Resources\GOTHICI.TTF" />
     <None Include="Resources\Icon_Abort.png" />
   </ItemGroup>
   <ItemGroup>
@@ -613,6 +614,9 @@
     <None Include="Resources\ArrowLeft.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\NIRMALA.TTF" />
+    <None Include="Resources\NIRMALAB.TTF" />
+    <None Include="Resources\NIRMALAS.TTF" />
     <None Include="Resources\Tiny_Abort.png" />
   </ItemGroup>
   <ItemGroup>

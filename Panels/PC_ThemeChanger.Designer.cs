@@ -388,7 +388,6 @@
 			this.B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Reset.ColorShade = null;
 			this.B_Reset.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Reset.IconSize = 16;
 			this.B_Reset.Image = global::SlickControls.Properties.Resources.Tiny_Retry;
 			this.B_Reset.Location = new System.Drawing.Point(869, 231);
 			this.B_Reset.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
@@ -487,7 +486,6 @@
 			this.B_Save.ColorShade = null;
 			this.tableLayoutPanel2.SetColumnSpan(this.B_Save, 3);
 			this.B_Save.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Save.IconSize = 16;
 			this.B_Save.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
 			this.B_Save.Location = new System.Drawing.Point(868, 0);
 			this.B_Save.Margin = new System.Windows.Forms.Padding(0, 0, 30, 0);
@@ -540,7 +538,6 @@
 			this.B_Random.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Random.ColorShade = null;
 			this.B_Random.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Random.IconSize = 16;
 			this.B_Random.Image = ((System.Drawing.Image)(resources.GetObject("B_Random.Image")));
 			this.B_Random.Location = new System.Drawing.Point(739, 231);
 			this.B_Random.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
@@ -563,7 +560,6 @@
 			this.CB_NightMode.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_NightMode.DefaultValue = false;
 			this.CB_NightMode.HideText = false;
-			this.CB_NightMode.IconSize = 16;
 			this.CB_NightMode.Image = ((System.Drawing.Image)(resources.GetObject("CB_NightMode.Image")));
 			this.CB_NightMode.Location = new System.Drawing.Point(576, 233);
 			this.CB_NightMode.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
@@ -587,7 +583,6 @@
 			this.CB_DisableAnimations.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_DisableAnimations.DefaultValue = false;
 			this.CB_DisableAnimations.HideText = false;
-			this.CB_DisableAnimations.IconSize = 16;
 			this.CB_DisableAnimations.Image = ((System.Drawing.Image)(resources.GetObject("CB_DisableAnimations.Image")));
 			this.CB_DisableAnimations.Location = new System.Drawing.Point(348, 105);
 			this.CB_DisableAnimations.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);

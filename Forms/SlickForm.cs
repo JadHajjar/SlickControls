@@ -214,7 +214,8 @@ namespace SlickControls
 		{
 			if ((e as MouseEventArgs).Button == MouseButtons.Right)
 			{
-				var panelForm = (this is BasePanelForm bpf);
+				var panelForm = this is BasePanelForm;
+				var bpf = panelForm ? this as BasePanelForm : null;
 				var items = new List<SlickStripItem>()
 				{
 					new SlickStripItem("Minimize", () => WindowState = FormWindowState.Minimized, Properties.Resources.Tiny_Minimize, MinimizeBox),
@@ -230,6 +231,11 @@ namespace SlickControls
 						MaximizeBox),
 
 					new SlickStripItem("Close", Close, Properties.Resources.Tiny_Close),
+
+					new SlickStripItem("", show: panelForm && !bpf.HideMenu),
+
+					new SlickStripItem("Smaller Menu", () => bpf.SmallMenu = !bpf.SmallMenu, bpf.SmallMenu ? Properties.Resources.Tiny_Checked : Properties.Resources.Tiny_Unchecked, panelForm && !bpf.HideMenu),
+					new SlickStripItem("Auto-Hide Menu", () => bpf.AutoHideMenu = !bpf.AutoHideMenu, bpf.AutoHideMenu ? Properties.Resources.Tiny_Checked : Properties.Resources.Tiny_Unchecked, panelForm && !bpf.HideMenu),
 
 					new SlickStripItem("", show: (!panelForm || !((this as BasePanelForm).CurrentPanel is PC_ThemeChanger))),
 

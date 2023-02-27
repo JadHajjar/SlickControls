@@ -87,7 +87,7 @@ namespace SlickControls
 						: new RectangleF(Width - Padding.Right - IconSize, (Height - iconSize) / 2F, iconSize, iconSize));
 			}
 
-			var bnds = e.Graphics.MeasureString(Text, Font);
+			var bnds = e.Graphics.Measure(Text, Font);
 			var stl = new StringFormat()
 			{
 				Alignment = StringAlignment.Near,

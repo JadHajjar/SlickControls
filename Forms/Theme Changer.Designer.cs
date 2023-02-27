@@ -391,7 +391,6 @@
 			this.B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Reset.ColorShade = null;
 			this.B_Reset.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Reset.IconSize = 16;
 			this.B_Reset.Image = global::SlickControls.Properties.Resources.Tiny_Retry;
 			this.B_Reset.Location = new System.Drawing.Point(767, 206);
 			this.B_Reset.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
@@ -510,7 +509,6 @@
 			this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.B_Save.ColorShade = null;
 			this.B_Save.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Save.IconSize = 16;
 			this.B_Save.Image = ((System.Drawing.Image)(resources.GetObject("B_Save.Image")));
 			this.B_Save.Location = new System.Drawing.Point(767, 75);
 			this.B_Save.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
@@ -538,7 +536,6 @@
 			this.B_Random.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Random.ColorShade = null;
 			this.B_Random.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Random.IconSize = 16;
 			this.B_Random.Image = global::SlickControls.Properties.Resources.Tiny_Retry;
 			this.B_Random.Location = new System.Drawing.Point(637, 206);
 			this.B_Random.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);

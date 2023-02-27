@@ -50,7 +50,8 @@ namespace SlickControls
 		{
 			base.OnImageChanged(e);
 
-			UIChanged();
+			if (Live)
+				UIChanged();
 		}
 
 		[Category("Behavior"), DefaultValue(false)]
@@ -195,10 +196,23 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			Padding = new Padding(4, showLabel ? (UI.Font(7.25F, FontStyle.Bold).Height + 4) : 4, Image != null ? 24 : 4, 4);
-			_textBox.Font = UI.Font(8.25F);
-			MinimumSize = MaximumSize = Size.Empty;
-			Height = _textBox.Height + Padding.Vertical;
+			using (var g = CreateGraphics())
+			{
+				Padding = new Padding(4, showLabel ? (int)(g.Measure(nameof(SlickTextBox), UI.Font(6.75F, FontStyle.Bold)).Height + 4) : 4, Image != null ? 24 : 4, 4);
+				_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
+				var height = _textBox.Font.Height + Padding.Vertical;
+
+				MaximumSize = Size.Empty;
+				if (Live)
+				{
+					MinimumSize = new Size(Padding.Horizontal, height);
+				}
+				else
+				{
+					MinimumSize = Size.Empty;
+				}
+				Height = height;
+			}
 		}
 
 		protected override void DesignChanged(FormDesign design)
@@ -353,12 +367,15 @@ namespace SlickControls
 
 				if (ShowLabel && !string.IsNullOrEmpty(LabelText))
 				{
-					e.Graphics.DrawString(LabelText, UI.Font(6.75F, FontStyle.Bold), new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(1, 1, Width - Padding.Right, UI.Font(6.75F, FontStyle.Bold).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+					var font = UI.Font(6.75F, FontStyle.Bold);
+					e.Graphics.DrawString(LabelText, font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(1, 1, Width - Padding.Right, (int)e.Graphics.MeasureString(LabelText, font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 				}
 
 				if (string.IsNullOrWhiteSpace(_textBox.Text) && !string.IsNullOrWhiteSpace(Placeholder))
 				{
-					e.Graphics.DrawString(Placeholder, UI.Font(7.5F, FontStyle.Italic), new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, _textBox.Top + 1, Width - Padding.Right - _textBox.Left - _textBox.Width, UI.Font(7.5F, FontStyle.Italic).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+					var font = UI.Font(7.5F, FontStyle.Italic);
+					var height = (int)e.Graphics.MeasureString(Placeholder, font).Height;
+					e.Graphics.DrawString(Placeholder, font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - 2 - Padding.Bottom, Width - Padding.Right - _textBox.Left - _textBox.Width, height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 				}
 
 				var iconRect = new Rectangle(Width - 20, 0, 20, Height);

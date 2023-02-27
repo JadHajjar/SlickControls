@@ -119,7 +119,7 @@ namespace SlickControls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			var bnds = e.Graphics.MeasureString(Text, UI.Font(9.75F, FontStyle.Bold));
+			var bnds = e.Graphics.Measure(Text, UI.Font(9.75F, FontStyle.Bold));
 			e.Graphics.DrawString(Text, UI.Font(9.75F, FontStyle.Bold), new SolidBrush(Active ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), 50, 24);
 
 			if (icon != null)
@@ -129,7 +129,7 @@ namespace SlickControls
 
 			e.Graphics.DrawString(info, flavFont, new SolidBrush(FormDesign.Design.InfoColor), 58 + (int)bnds.Width, 24 + UI.Font(9.75F, FontStyle.Bold).Height - flavFont.Height);
 
-			var w = 58 + (int)(bnds.Width + e.Graphics.MeasureString(info, flavFont).Width);
+			var w = 58 + (int)(bnds.Width + e.Graphics.Measure(info, flavFont).Width);
 			e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, 1), 50, (int)bnds.Height + 24 + 8, Math.Max(Controls.Count == 0 ? Width - 32 : Math.Min(Math.Max(w, Controls.Max(x => x.Left + x.Width)), Width - 32), 200), (int)bnds.Height + 24 + 8);
 
 			w = Math.Max(MinimumSize.Width, w + 30);

@@ -48,7 +48,7 @@ namespace SlickControls
 
 			if (draw && inf.Date != null)
 			{
-				var bnds = g.MeasureString($"on {inf.Date?.ToReadableString(inf.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}", UI.Font(8.25F));
+				var bnds = g.Measure($"on {inf.Date?.ToReadableString(inf.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}", UI.Font(8.25F));
 				g.DrawString($"on {inf.Date?.ToReadableString(inf.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}",
 					UI.Font(8.25F),
 					new SolidBrush(FormDesign.Design.LabelColor),

@@ -56,7 +56,7 @@ namespace SlickControls
 
 		public IEnumerable<PanelContent> PanelHistory => panelHistory;
 
-		public bool AutoHideMenu 
+		internal bool AutoHideMenu 
 		{
 			get => autoHideMenu;
 			set
@@ -77,7 +77,7 @@ namespace SlickControls
 			}
 		}
 
-		public bool SmallMenu 
+		internal bool SmallMenu 
 		{
 			get => smallMenu; 
 			set
@@ -137,17 +137,6 @@ namespace SlickControls
 			base_P_Tabs.MouseDown += Form_MouseDown;
 			base_P_Icon.MouseDown += Form_MouseDown;
 			base_P_SideControls.MouseDown += Form_MouseDown;
-
-			mouseDetector = new MouseDetector();
-			mouseDetector.MouseMove += mouseDetector_MouseMove;
-
-			var options = ISave.LoadRaw("PanelForm.tf", "Shared");
-
-			if (options != null)
-			{
-				AutoHideMenu = options.AutoHideMenu;
-				SmallMenu = options.SmallMenu;
-			}
 		}
 
 		#endregion Public Constructors
@@ -445,6 +434,20 @@ namespace SlickControls
 		{
 			base.OnCreateControl();
 
+			if (!DesignMode)
+			{
+				mouseDetector = new MouseDetector();
+				mouseDetector.MouseMove += mouseDetector_MouseMove;
+
+				var options = ISave.LoadRaw("PanelForm.tf", "Shared");
+
+				if (options != null)
+				{
+					AutoHideMenu = options.AutoHideMenu;
+					SmallMenu = options.SmallMenu;
+				}
+			}
+
 			base_P_SideControls?.BringToFront();
 			base_TLP_PanelItems?.BringToFront();
 			OnNextIdle(() => CurrentPanel?.Focus());
@@ -696,7 +699,7 @@ namespace SlickControls
 				var animation = AnimationHandler.GetAnimation(base_P_Side, AnimationOption.IgnoreHeight);
 				var newSize = new Size(close ? 0 : smallMenu ? 46 : (int)(165 * UI.UIScale), 0);
 
-				if (!IsHandleCreated)
+				if (!IsHandleCreated || DesignMode)
 					base_P_Side.Size = newSize;
 				else if (animation == null || close != (animation.NewBounds.Width == 0))
 					new AnimationHandler(base_P_Side, newSize, 2.25, AnimationOption.IgnoreHeight)

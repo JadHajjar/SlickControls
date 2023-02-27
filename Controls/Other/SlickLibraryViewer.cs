@@ -344,7 +344,7 @@ namespace SlickControls
 				void drawItem(string text, string action)
 				{
 					if (text != null)
-						bnds = e.Graphics.MeasureString(text, font);
+						bnds = e.Graphics.Measure(text, font);
 					else
 						bnds = new SizeF(font.GetHeight(), font.GetHeight());
 

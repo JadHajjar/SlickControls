@@ -86,7 +86,6 @@ namespace SlickControls
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Cancel.Font = new System.Drawing.Font("Nirmala UI", 9.75F);
-			this.B_Cancel.IconSize = 16;
 			this.B_Cancel.Image = Properties.Resources.Tiny_Cancel;
 			this.B_Cancel.Location = new System.Drawing.Point(233, 7);
 			this.B_Cancel.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);

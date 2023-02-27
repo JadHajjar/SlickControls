@@ -44,9 +44,6 @@ namespace SlickControls
 		[Category("Appearance")]
 		public Color? ColorShade { get => colorShade; set { colorShade = value; Invalidate(); } }
 
-		[Category("Appearance")]
-		public int IconSize { get => iconSize; set { iconSize = value; Invalidate(); } }
-
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
@@ -78,17 +75,23 @@ namespace SlickControls
 		{
 			using (var g = CreateGraphics())
 			{
-				var bnds = g.MeasureString(Text, Font);
-				var h = Math.Max(iconSize + 6, (int)(Font.Height * 1.2) + Padding.Top + 3);
-				var w = string.IsNullOrWhiteSpace(Text) ? h : (int)bnds.Width + (Image == null ? 0 : iconSize + Padding.Left) + Padding.Horizontal + 3;
+				var IconSize = Image?.Width ?? 16;
+
+				if (string.IsNullOrWhiteSpace(Text))
+				{
+					Size = UI.Scale(new Size(IconSize + 6, IconSize + 6), UI.FontScale);
+					return;
+				}
+
+				var bnds = g.Measure(Text, Font);
+				var h = Math.Max(IconSize + 6, (int)(bnds.Height) + Padding.Top + 3);
+				var w = (int)bnds.Width + (Image == null ? 0 : IconSize + Padding.Left) + Padding.Horizontal + 3;
 
 				Size = new Size(w, h);
 			}
 		}
 
 		protected override void DesignChanged(FormDesign design) => Invalidate();
-
-		private int iconSize = 16;
 
 		public static void GetColors(out Color fore, out Color back, HoverState HoverState, ColorStyle ColorStyle = ColorStyle.Active, Color? ColorShade = null, Color? clearColor = null, Color? BackColor = null, bool Enabled = true)
 		{
@@ -165,12 +168,11 @@ namespace SlickControls
 
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			var bnds = e.Graphics.MeasureString(Text, Font);
-			var iconSize = 0;
+			var iconSize = Image?.Width ?? 16;
+			var bnds = e.Graphics.Measure(Text, Font);
 
 			try
 			{
-				iconSize = Image?.Width ?? 16;
 
 				if (slickButton?.Loading ?? false)
 				{

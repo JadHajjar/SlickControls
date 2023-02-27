@@ -55,7 +55,7 @@ namespace SlickControls
 						{
 							var iconSize = banner.Icon?.Size ?? Size.Empty;
 							var noText = string.IsNullOrWhiteSpace(banner.Text);
-							var size = g.MeasureString(banner.Text, font, rectangle.Width - 12 - font.Height / 2 - (banner.Icon == null ? 0 : (iconSize.Width + 5)));
+							var size = g.Measure(banner.Text, font, rectangle.Width - 12 - font.Height / 2 - (banner.Icon == null ? 0 : (iconSize.Width + 5)));
 							var h = Math.Max(iconSize.Height, (int)size.Height) + 4; h += 1 - h % 2;
 
 							var bannerSize = noText

@@ -68,7 +68,7 @@ namespace SlickControls
 			if (PanelItem.Highlighted)
 				e.Graphics.DrawRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveForeColor), 2F) { DashStyle = DashStyle.Dash }, new Rectangle(1, 1, Width - 2 - (Selected ? (int)(2 * UI.UIScale) : 0), Height - 2));
 
-			var bnds = e.Graphics.MeasureString(PanelItem.Text, Font);
+			var bnds = e.Graphics.Measure(PanelItem.Text, Font);
 
 			if (Loading)
 				DrawLoader(e.Graphics, new Rectangle(15, (Height - 16) / 2, 16, 16), _pressed ? (Color?)fore : null);

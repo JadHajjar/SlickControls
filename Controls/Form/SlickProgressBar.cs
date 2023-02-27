@@ -62,7 +62,7 @@ namespace SlickControls
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
 			var txt = $"{Math.Floor(perc)} %";
-			var bnds = e.Graphics.MeasureString(txt, Font);
+			var bnds = e.Graphics.Measure(txt, Font);
 
 			if (barWidth < bnds.Width *3/2)
 				e.Graphics.DrawString(txt, Font, new SolidBrush(FormDesign.Design.ForeColor), new PointF(barWidth + 5, (Height - Padding.Vertical - bnds.Height) / 2));

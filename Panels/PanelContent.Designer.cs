@@ -40,7 +40,6 @@
 			this.base_Text.Enabled = false;
 			this.base_Text.Font = new System.Drawing.Font("Nirmala UI", 11.25F);
 			this.base_Text.HideText = false;
-			this.base_Text.IconSize = 16;
 			this.base_Text.Image = null;
 			this.base_Text.Location = new System.Drawing.Point(3, 3);
 			this.base_Text.Name = "base_Text";

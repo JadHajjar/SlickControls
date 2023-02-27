@@ -87,7 +87,7 @@ namespace SlickControls
 			{
 				do
 				{
-					h = 135 + Math.Max(80, (int)g.MeasureString(L_Text.Text, L_Text.Font, w - 100).Height + Padding.Vertical);
+					h = 135 + Math.Max(80, (int)g.Measure(L_Text.Text, L_Text.Font, w - 100).Height + Padding.Vertical);
 
 					if (h < Screen.PrimaryScreen.WorkingArea.Height - 100 || w > Screen.PrimaryScreen.WorkingArea.Width - 150)
 						break;

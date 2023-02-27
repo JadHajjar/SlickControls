@@ -198,7 +198,7 @@ namespace SlickControls
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
 			var error = false;
-			var charWidth = (int)e.Graphics.MeasureString("0", Font).Width;
+			var charWidth = (int)e.Graphics.Measure("0", Font).Width;
 			var left = 1;
 
 			if (ShowLabel && !string.IsNullOrWhiteSpace(LabelText))
@@ -230,7 +230,7 @@ namespace SlickControls
 
 				if (!string.IsNullOrEmpty(delimiter))
 				{
-					var size = e.Graphics.MeasureString(delimiter, Font);
+					var size = e.Graphics.Measure(delimiter, Font);
 					if (part.Key > DatePart.Hour)
 						size.Width = 0;
 
@@ -245,8 +245,8 @@ namespace SlickControls
 
 				if (SelectedPart == part.Key && HoverState.HasFlag(HoverState.Focused))
 				{
-					var textsize = e.Graphics.MeasureString(string.IsNullOrEmpty(part.Value) ? ((char)0x200b).ToString() : fade ? fadedValue : part.Value, Font).ToSize();
-					var highlightrect = new Rectangle(rect.Center(textsize), textsize).Pad(fade && part.Key == selectedPart ? textsize.Width - (int)e.Graphics.MeasureString(part.Value, Font).Width + 2 : 2, 1, 0, 1);
+					var textsize = e.Graphics.Measure(string.IsNullOrEmpty(part.Value) ? ((char)0x200b).ToString() : fade ? fadedValue : part.Value, Font).ToSize();
+					var highlightrect = new Rectangle(rect.Center(textsize), textsize).Pad(fade && part.Key == selectedPart ? textsize.Width - (int)e.Graphics.Measure(part.Value, Font).Width + 2 : 2, 1, 0, 1);
 
 					e.Graphics.FillRectangle(Gradient(FormDesign.Design.ActiveColor), highlightrect);
 					e.Graphics.SetClip(highlightrect);

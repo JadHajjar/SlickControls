@@ -96,13 +96,13 @@ namespace SlickControls
 							1,
 							workRect.Y + workRect.Height,
 							Width - 2,
-							item.IsEmpty ? (int)(7 * UI.UIScale) : ((int)g.MeasureString(item.Text, Font).Height + 4));
+							item.IsEmpty ? (int)(7 * UI.UIScale) : ((int)g.Measure(item.Text, Font).Height + 4));
 				}
 
-				var size = new Size(Math.Max(150, 7 + hideImg.If(0, 20) + (int)(3 * UI.FontScale) + (int)Items.SelectMany(x => x.Value).Max(x => (x.Tab * 12) + g.MeasureString(x.Text, Font).Width))
+				var size = new Size(Math.Max(150, 7 + hideImg.If(0, 20) + (int)(3 * UI.FontScale) + (int)Items.SelectMany(x => x.Value).Max(x => (x.Tab * 12) + g.Measure(x.Text, Font).Width))
 					, workRect.Y + workRect.Height + 1);
 
-				if (startingCursorPosition.Y + Items.SelectMany(x => x.Value).Sum(x => x.IsEmpty ? (int)(7 * UI.UIScale) : ((int)g.MeasureString(x.Text, Font).Height + 4)) + 2 > SystemInformation.WorkingArea.Height)
+				if (startingCursorPosition.Y + Items.SelectMany(x => x.Value).Sum(x => x.IsEmpty ? (int)(7 * UI.UIScale) : ((int)g.Measure(x.Text, Font).Height + 4)) + 2 > SystemInformation.WorkingArea.Height)
 				{
 					reversed = true;
 					if (startingCursorPosition.X + size.Width > SystemInformation.WorkingArea.Width)
@@ -177,7 +177,7 @@ namespace SlickControls
 
 				void drawItem(SlickStripItem stripItem)
 				{
-					var h = stripItem.IsEmpty ? (int)(7 * UI.UIScale) : ((int)e.Graphics.MeasureString(stripItem.Text, Font).Height + 4);
+					var h = stripItem.IsEmpty ? (int)(7 * UI.UIScale) : ((int)e.Graphics.Measure(stripItem.Text, Font).Height + 4);
 					workRect = reversed
 						? new Rectangle(1, workRect.Y - h, Width - 2, h)
 						: new Rectangle(1, workRect.Y + workRect.Height, Width - 2, h);
@@ -201,7 +201,7 @@ namespace SlickControls
 
 					if (stripItem.Text != null)
 					{
-						var bnds = e.Graphics.MeasureString(stripItem.Text, Font);
+						var bnds = e.Graphics.Measure(stripItem.Text, Font);
 
 						if (workRect.Width > 0)
 							e.Graphics.DrawString(stripItem.Text + (stripItem.IsOpenable && !stripItem.IsOpened ? ".." : ""), Font, SlickControl.Gradient(workRect, stripItem.IsOpened ? d.ActiveColor : stripItem.Fade ? d.InfoColor : mouseIn && mouseDown ? d.ActiveForeColor : d.ForeColor)

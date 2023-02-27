@@ -174,7 +174,7 @@ namespace SlickControls
 
 				if (!string.IsNullOrWhiteSpace(Text) && !HideText)
 				{
-					var bnds = g.MeasureString(Text, Font);
+					var bnds = g.Measure(Text, Font);
 					w += (int)bnds.Width + Padding.Horizontal;
 					h = Math.Max(IconSize + Padding.Vertical, (int)bnds.Height + Padding.Vertical);
 				}

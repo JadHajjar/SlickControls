@@ -52,10 +52,10 @@ namespace SlickControls
 
 				using (var g = CreateGraphics())
 				{
-					bnds = g.MeasureString(text, UI.Font(8.25F), Math.Max(200, Control.Width));
+					bnds = g.Measure(text, UI.Font(8.25F), Math.Max(200, Control.Width));
 					if (!string.IsNullOrWhiteSpace(title))
 					{
-						var titleBnds = g.MeasureString(Title, UI.Font(9F, FontStyle.Bold), Math.Max(200, Control.Width));
+						var titleBnds = g.Measure(Title, UI.Font(9F, FontStyle.Bold), Math.Max(200, Control.Width));
 						bnds = new SizeF(Math.Max(titleBnds.Width, bnds.Width), bnds.Height + titleBnds.Height);
 					}
 				}
@@ -126,7 +126,7 @@ namespace SlickControls
 			}
 			else
 			{
-				var bnds = e.Graphics.MeasureString(Title, UI.Font(9F, FontStyle.Bold), Width - 4);
+				var bnds = e.Graphics.Measure(Title, UI.Font(9F, FontStyle.Bold), Width - 4);
 
 				e.Graphics.DrawString(Title, UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
 				e.Graphics.DrawString(Text, UI.Font(8.25F), SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.LabelColor), new Rectangle(4, (int)bnds.Height + 4, Width - 4, Height));

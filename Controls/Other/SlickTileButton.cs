@@ -73,7 +73,7 @@ namespace SlickControls
 
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			var bnds = e.Graphics.MeasureString(Text, Font, Width - 6);
+			var bnds = e.Graphics.Measure(Text, Font, Width - 6);
 
 			if (Image != null)
 			{

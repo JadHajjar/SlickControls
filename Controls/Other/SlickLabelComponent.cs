@@ -145,7 +145,7 @@ namespace SlickControls
 			if (Visible)
 			{
 				var colorStyle = (Enabled || !MouseHovered).If(ColorStyle, HoverStyle);
-				var bnds = e.Graphics.MeasureString(Text, Font);
+				var bnds = e.Graphics.Measure(Text, Font);
 
 				if (Background)
 				{
