@@ -198,7 +198,7 @@ namespace SlickControls
 		{
 			using (var g = CreateGraphics())
 			{
-				Padding = new Padding(4, showLabel ? (int)(g.Measure(nameof(SlickTextBox), UI.Font(6.75F, FontStyle.Bold)).Height + 4) : 4, Image != null ? 24 : 4, 4);
+				Padding = new Padding(4, showLabel ? (int)(g.Measure(nameof(SlickTextBox), UI.Font(6.75F, FontStyle.Bold)).Height + 4) : 4, Image != null ? (Image.Width + 8) : 4, 4);
 				_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
 				var height = _textBox.Font.Height + Padding.Vertical;
 
@@ -378,7 +378,7 @@ namespace SlickControls
 					e.Graphics.DrawString(Placeholder, font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - 2 - Padding.Bottom, Width - Padding.Right - _textBox.Left - _textBox.Width, height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 				}
 
-				var iconRect = new Rectangle(Width - 20, 0, 20, Height);
+				var iconRect = new Rectangle(Width - Image.Width - 4, 0, 20, Height);
 				if (Loading)
 				{
 					e.Graphics.DrawLoader(LoaderPercentage, iconRect.CenterR(16, 16));
@@ -387,7 +387,7 @@ namespace SlickControls
 				{
 					var active = IconClicked != null && iconRect.Contains(CursorLocation);
 
-					e.Graphics.DrawImage(Image.Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), iconRect.CenterR(16, 16));
+					e.Graphics.DrawImage(Image.Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), iconRect.CenterR(Image.Size));
 				}
 			}
 			catch { }
