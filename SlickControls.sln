@@ -1,11 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.4
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlickControls", "SlickControls.csproj", "{2C0E1D8A-6619-4116-98EE-3F9E6C937537}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SlickControlsBase", "SlickControlsBase\SlickControlsBase.shproj", "{6FA8B2C2-C9D3-4A4D-9B35-2350CD369022}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "..\Extensions\Extensions.csproj", "{50EA98FD-47B0-40BC-A51E-3DEFB2525F2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlickControls", "SlickControls\SlickControls.csproj", "{5FF952ED-E594-4825-832C-207B845D314C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlickControlsLegacy", "SlickControlsLegacy\SlickControlsLegacy.csproj", "{09EB0AB7-A20A-4FDD-AE81-20CD7F615BF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Extensions", "..\Extensions\Extensions\Extensions.csproj", "{B8DB9D02-A4B4-4715-90CA-BDEAD442888A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionsLegacy", "..\Extensions\ExtensionsLegacy\ExtensionsLegacy.csproj", "{C077261A-481F-4E66-A7E5-4B00E3BC9CCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,19 +19,34 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2C0E1D8A-6619-4116-98EE-3F9E6C937537}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C0E1D8A-6619-4116-98EE-3F9E6C937537}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C0E1D8A-6619-4116-98EE-3F9E6C937537}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C0E1D8A-6619-4116-98EE-3F9E6C937537}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50EA98FD-47B0-40BC-A51E-3DEFB2525F2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50EA98FD-47B0-40BC-A51E-3DEFB2525F2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50EA98FD-47B0-40BC-A51E-3DEFB2525F2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50EA98FD-47B0-40BC-A51E-3DEFB2525F2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FF952ED-E594-4825-832C-207B845D314C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FF952ED-E594-4825-832C-207B845D314C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FF952ED-E594-4825-832C-207B845D314C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FF952ED-E594-4825-832C-207B845D314C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09EB0AB7-A20A-4FDD-AE81-20CD7F615BF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09EB0AB7-A20A-4FDD-AE81-20CD7F615BF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09EB0AB7-A20A-4FDD-AE81-20CD7F615BF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09EB0AB7-A20A-4FDD-AE81-20CD7F615BF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8DB9D02-A4B4-4715-90CA-BDEAD442888A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8DB9D02-A4B4-4715-90CA-BDEAD442888A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8DB9D02-A4B4-4715-90CA-BDEAD442888A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8DB9D02-A4B4-4715-90CA-BDEAD442888A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C077261A-481F-4E66-A7E5-4B00E3BC9CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C077261A-481F-4E66-A7E5-4B00E3BC9CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C077261A-481F-4E66-A7E5-4B00E3BC9CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C077261A-481F-4E66-A7E5-4B00E3BC9CCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B2208903-939D-4888-A17E-8F640F68B5BB}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SlickControlsBase\SlickControlsBase.projitems*{09eb0ab7-a20a-4fdd-ae81-20cd7f615bf6}*SharedItemsImports = 5
+		SlickControlsBase\SlickControlsBase.projitems*{5ff952ed-e594-4825-832c-207b845d314c}*SharedItemsImports = 5
+		SlickControlsBase\SlickControlsBase.projitems*{6fa8b2c2-c9d3-4a4d-9b35-2350cd369022}*SharedItemsImports = 13
+		..\Extensions\ExtensionsBase\ExtensionsBase.projitems*{b8db9d02-a4b4-4715-90ca-bdead442888a}*SharedItemsImports = 5
+		..\Extensions\ExtensionsBase\ExtensionsBase.projitems*{c077261a-481f-4e66-a7e5-4b00e3bc9ccd}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

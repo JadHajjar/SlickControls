@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ArrowDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\arrowdown.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ArrowLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\arrowleft.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ArrowRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\arrowright.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ArrowUp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\arrowup.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Big_File" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\big_file.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Big_Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\big_folder.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Big_Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\big_play.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Check_Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\check_checked.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Check_Unchecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\check_unchecked.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Circle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\circle.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Circle_Empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\circle_empty.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Circle_Filled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\circle_filled.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cursor_Default" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\cursor_default.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Cursor_Hand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\cursor_hand.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Huge_Back" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\huge_back.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Abort" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_abort.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_ArrowLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_arrowleft.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_cancel.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Change" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_change.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_CloseW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_closew.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Hand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_hand.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Ignore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_ignore.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_info.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Log" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_log.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Maximize" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_maximize.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Minimize" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_minimize.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_No" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_no.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_OK" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_ok.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Paint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_paint.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Question" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_question.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Retry" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_retry.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_search.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Switch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_switch.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_warning.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Icon_Yes" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\icon_yes.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Dll" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_dll.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Doc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_doc.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Img" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_img.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Music" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_music.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Pdf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_pdf.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_PPT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_ppt.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Psd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_psd.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Txt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_txt.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Vid" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_vid.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Xls" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_xls.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="I_Zip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\i_zip.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Loader_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\loader_0.gif;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Loader_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\loader_1.gif;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Loader_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\loader_2.gif;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Loader_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\loader_3.gif;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Notif_Long" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\notif_long.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Notif_Quick" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\notif_quick.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Abort" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_abort.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Calendar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_calendar.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_cancel.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_checked.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_ChevronLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_chevronleft.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_ChevronRight" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_chevronright.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Circle_Empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_circle_empty.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Circle_Filled" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_circle_filled.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_close.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Dots_H" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_dots_h.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Dots_V" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_dots_v.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Drive" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_drive.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_folder.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Hand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_hand.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Home" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_home.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Info" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_info.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Log" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_log.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Maximize" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_maximize.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Minimize" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_minimize.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_MoreThan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_morethan.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Notification" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_notification.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Ok" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_ok.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Paint" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_paint.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_PC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_pc.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_play.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Question" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_question.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Refresh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_refresh.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_restore.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Retry" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_retry.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Search" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_search.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Skip" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_skip.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Switch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_switch.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Today" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_today.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_ToggleOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_toggleoff.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_ToggleOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_toggleon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_trash.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Unchecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_unchecked.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Tiny_Warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\tiny_warning.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

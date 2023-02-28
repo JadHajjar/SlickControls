@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>6fa8b2c2-c9d3-4a4d-9b35-2350cd369022</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SlickControlsBase</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Banner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\CanDrawItemEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\DesignExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\DrawableItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\FlatStripItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\FormValidation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\InputResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\IO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\ItemPaintEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Notification.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\SizeSourceEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\SlickCursors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\UI.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\VersionChangeLog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\VersionChangeLogGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\VersionInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\ColorChangedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\ColorModes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\Controls\ColorBox2D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\Controls\ColorBox2D.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\Controls\ColorHexagon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\Controls\ColorHexagon.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\Controls\ColorSliderVertical.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\Controls\ColorSliderVertical.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\Controls\ColorWheel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Color Picker\MathExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Advanced\SlickAdvancedImageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Advanced\SlickControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Advanced\SlickImageControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Advanced\SlickListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickButton.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickCheckbox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickCheckbox.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickDateTime.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickDropdown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickDropdown.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickLabel.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickPathTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickPathTextBox.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickProgressBar.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickRadioButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickRadioButton.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickScroll.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickScroll.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickSlider.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickSlider.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Form\SlickTextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Generic\DoubleBuffered.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Generic\SlickIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Generic\SlickIconComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Generic\SlickIconComponent.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Generic\SlickPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Generic\SlickSectionPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Generic\SlickSpacer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Generic\TopIcon.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Image Background\AdvancedImageControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Image Background\Container.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Image Background\Control.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Image Background\ControlCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Image Background\FlowLayoutPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Image Background\Panel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Image Background\TableLayoutPanel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Internal\ColorPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Internal\ColorPicker.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Internal\DateTimePickerPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Internal\DateTimePickerPrompt.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Internal\DropDownItems.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Internal\DropDownItems.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Internal\IOControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\ChangeLogVersion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\ChangeLogVersion.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickGrid.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickGrid.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickLabelComponent.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickLabelComponent.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickLibraryViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickLibraryViewer.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTab.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTabControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTabControl.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTile.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTileButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTileButton.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\WorkingPrompt.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\Other\WorkingPrompt.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\BannerStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\DateType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\HoverState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\NotificationSound.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ProgressBarType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\PromptButtons.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\PromptIcons.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\TextStyle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enums\ValidationType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\BaseForm.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\ChangeLogForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\ChangeLogForm.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\IOSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\IOSelectionForm.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\MessagePrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\MessagePrompt.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\NotificationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\NotificationForm.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\ProccessPrompt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\ProccessPrompt.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\SlickColorPicker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\SlickColorPicker.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\SlickForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\SlickForm.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\SlickTip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\SlickTip.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\SlickToolStrip.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\SlickToolStrip.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\Theme Changer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Forms\Theme Changer.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\Delegates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISlickForm.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISupportsReset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IValidationControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\BasePanelForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\BasePanelForm.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\PanelContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\PanelContent.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\PanelItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\PanelItemControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\PanelItemControl.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\PC_Changelog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\PC_Changelog.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\PC_ThemeChanger.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\PC_ThemeChanger.Designer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\SideBarPanelContent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Panels\SideBarPanelContent.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Color Picker\Controls\ColorSliderVertical.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Form\SlickButton.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Form\SlickCheckbox.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Form\SlickDropdown.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Form\SlickLabel.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Form\SlickPathTextBox.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Form\SlickProgressBar.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Form\SlickScroll.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Form\SlickSlider.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Generic\SlickSectionPanel.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Internal\ColorPicker.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Internal\DropDownItems.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Other\ChangeLogVersion.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Other\SlickGrid.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Other\SlickLibraryViewer.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTab.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTabControl.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTile.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Other\SlickTileButton.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Controls\Other\WorkingPrompt.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\BaseForm.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\ChangeLogForm.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\IOSelectionForm.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\MessagePrompt.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\NotificationForm.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\ProccessPrompt.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\SlickColorPicker.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\SlickForm.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\SlickTip.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\SlickToolStrip.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Forms\Theme Changer.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Panels\BasePanelForm.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Panels\PanelContent.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Panels\PanelItemControl.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Panels\PC_Changelog.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Panels\PC_ThemeChanger.resx" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Panels\SideBarPanelContent.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)packages.config" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ArrowDown.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ArrowLeft.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ArrowRight.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\ArrowUp.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Big_File.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Big_Folder.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Big_Play.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Check_Checked.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Check_Unchecked.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Circle.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Circle_Empty.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Circle_Filled.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Cursor_Default.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Cursor_Hand.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Huge_Back.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Abort.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_ArrowLeft.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Cancel.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Change.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_CloseW.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Hand.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Ignore.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Info.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Log.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Maximize.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Minimize.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_No.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_OK.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Paint.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Question.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Retry.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Search.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Switch.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Warning.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Icon_Yes.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Dll.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Doc.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Img.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Music.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Pdf.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_PPT.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Psd.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Txt.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Vid.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Xls.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\I_Zip.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Loader_0.gif" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Loader_1.gif" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Loader_2.gif" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Loader_3.gif" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Notif_Long.wav" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Notif_Quick.wav" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Abort.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Calendar.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Cancel.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Checked.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_ChevronLeft.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_ChevronRight.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Circle_Empty.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Circle_Filled.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Close.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Dots_H.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Dots_V.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Drive.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Folder.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Hand.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Home.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Info.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Log.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Maximize.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Minimize.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_MoreThan.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Notification.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Ok.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Paint.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_PC.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Play.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Question.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Refresh.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Restore.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Retry.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Search.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Skip.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Switch.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Today.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_ToggleOff.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_ToggleOn.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Trash.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Unchecked.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Resources\Tiny_Warning.png" />
+  </ItemGroup>
+</Project>
