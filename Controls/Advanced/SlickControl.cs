@@ -1,9 +1,12 @@
 ﻿using Extensions;
 
+using Microsoft.Win32;
+
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -62,6 +65,7 @@ namespace SlickControls
 
 			FormDesign.DesignChanged += DesignChanged;
 			UI.UIChanged += UIChanged;
+			SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
 		}
 
 		private void timer_Tick(object sender, EventArgs e)
@@ -112,6 +116,10 @@ namespace SlickControls
 		{
 		}
 
+		protected virtual void LocaleChanged()
+		{
+		}
+
 		protected virtual void OnHoverStateChanged()
 		{
 			HoverStateChanged?.Invoke(this, hoverState);
@@ -123,11 +131,13 @@ namespace SlickControls
 
 			Live = !DesignMode;
 
-			if (!DesignMode)
+			if (Live)
 			{
 				DesignChanged(FormDesign.Design);
 
 				UIChanged();
+
+				LocaleChanged();
 			}
 		}
 
@@ -217,6 +227,14 @@ namespace SlickControls
 			base.OnVisibleChanged(e);
 
 			timer.Enabled = loading && Visible && Parent != null;
+		}
+
+		private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+		{
+			if (e.Category == UserPreferenceCategory.Locale)
+			{
+				LocaleChanged();
+			}
 		}
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

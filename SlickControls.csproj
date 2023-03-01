@@ -35,9 +35,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
-    <Reference Include="NReco.VideoConverter, Version=1.1.4.0, Culture=neutral, PublicKeyToken=395ccb334978a0cd, processorArchitecture=MSIL" />
-    <Reference Include="NReco.VideoInfo, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8f59ee36d2987295, processorArchitecture=MSIL" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -59,6 +56,9 @@
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
     <Compile Include="Classes\CanDrawItemEventArgs.cs" />
     <Compile Include="Classes\SizeSourceEventArgs.cs" />
+    <Compile Include="Controls\Advanced\SlickStackedListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\Form\SlickGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -402,7 +402,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Resources\GOTHICI.TTF" />
     <None Include="Resources\Icon_Abort.png" />
   </ItemGroup>
@@ -686,7 +685,7 @@
     <None Include="Resources\Tiny_Log.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Extensions\Extensions.csproj">
+    <ProjectReference Include="..\Extensions\Extensions\Extensions.csproj">
       <Project>{50ea98fd-47b0-40bc-a51e-3defb2525f2c}</Project>
       <Name>Extensions</Name>
     </ProjectReference>
@@ -795,6 +794,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Tiny_ChevronLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>9.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="NReco.VideoConverter">
+      <Version>1.1.4</Version>
+    </PackageReference>
+    <PackageReference Include="NReco.VideoInfo">
+      <Version>1.1.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

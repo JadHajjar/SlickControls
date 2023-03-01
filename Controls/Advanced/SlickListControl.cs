@@ -234,7 +234,7 @@ namespace SlickControls
 					if (item.Bounds.IntersectsWith(rect))
 					{
 						e.Graphics.SetClip(item.Bounds);
-						OnPaintItem(new ItemPaintEventArgs<T>(item.Item, item.Bounds, item.HoverState | (HoverState & HoverState.Pressed), e.Graphics));
+						OnPaintItem(new ItemPaintEventArgs<T>(item.Item, e.Graphics, item.Bounds, item.HoverState | (HoverState & HoverState.Pressed)));
 					}
 
 					y += args.Handled ? args.Size : ItemHeight;
