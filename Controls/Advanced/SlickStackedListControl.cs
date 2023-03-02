@@ -54,39 +54,55 @@ namespace SlickControls
 			AutoScroll = true;
 		}
 
-		private void SlickStackedListControl_Scroll(object sender, ScrollEventArgs e)
-		{
-			throw new NotImplementedException();
-		}
-
 		public virtual void Add(T item)
 		{
 			lock (_items)
 				_items.Add(new DrawableItem<T>(item));
+
+			Invalidate();
 		}
 
 		public virtual void AddRange(IEnumerable<T> items)
 		{
-			lock (this._items)
-				this._items.AddRange(items.Select(item => new DrawableItem<T>(item)));
+			lock (_items)
+				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
+
+			Invalidate();
+		}
+
+		public virtual void SetItems(IEnumerable<T> items)
+		{
+			lock (_items)
+			{
+				_items.Clear();
+				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
+			}
+
+			Invalidate();
 		}
 
 		public virtual void Remove(T item)
 		{
 			lock (_items)
 				_items.Remove(new DrawableItem<T>(item));
+
+			Invalidate();
 		}
 
 		public virtual void RemoveAll(Predicate<T> predicate)
 		{
 			lock (_items)
 				_items.RemoveAll(item => predicate(item.Item));
+
+			Invalidate();
 		}
 
 		public virtual void Clear()
 		{
 			lock (_items)
 				_items.Clear();
+
+			Invalidate();
 		}
 
 		public void Invalidate(T item)
@@ -102,8 +118,6 @@ namespace SlickControls
 			if (Live)
 			{
 				ItemHeight = (int)(ItemHeight * UI.FontScale);
-
-			(Parent as Panel).	Scroll += SlickStackedListControl_Scroll;
 			}
 		}
 

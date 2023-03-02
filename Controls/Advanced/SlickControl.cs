@@ -45,12 +45,15 @@ namespace SlickControls
 			set
 			{
 				loading = value;
+
 				if (Live)
+				{
 					this.TryInvoke(() =>
 					{
 						timer.Enabled = loading && Visible && Parent != null;
 						Invalidate();
 					});
+				}
 			}
 		}
 
@@ -138,6 +141,9 @@ namespace SlickControls
 				UIChanged();
 
 				LocaleChanged();
+
+				if (loading)
+					Loading = true;
 			}
 		}
 

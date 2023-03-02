@@ -66,7 +66,7 @@ namespace SlickControls
 		}
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public MouseDetector MouseDetector { get; }
+		public MouseDetector MouseDetector { get; private set; }
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Point MouseDownLocation { get => mouseDownLocation; set => mouseDownLocation = value; }
@@ -167,12 +167,6 @@ namespace SlickControls
 
 			MouseWheel += SlickScroll_OnMouseWheel;
 			ScrollTimer.Tick += ScrollTimer_Elapsed;
-
-			if (Live)
-			{
-				MouseDetector = new MouseDetector();
-				MouseDetector.MouseMove += mouseDetector_MouseMove;
-			}
 
 			lock (activeScrolls)
 			{
@@ -307,6 +301,8 @@ namespace SlickControls
 			if (Live = !DesignMode)
 			{
 				LinkedControl = LinkedControl;
+				MouseDetector = new MouseDetector();
+				MouseDetector.MouseMove += mouseDetector_MouseMove;
 				BeginInvoke(new Action(Reset));
 			}
 		}
