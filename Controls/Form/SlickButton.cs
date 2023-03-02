@@ -87,6 +87,12 @@ namespace SlickControls
 				var h = Math.Max(IconSize + 6, (int)(bnds.Height) + Padding.Top + 3);
 				var w = (int)bnds.Width + (Image == null ? 0 : IconSize + Padding.Left) + Padding.Horizontal + 3;
 
+				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom))
+					h = Height;
+
+				if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right))
+					w = Width;
+
 				Size = new Size(w, h);
 			}
 		}

@@ -368,17 +368,17 @@ namespace SlickControls
 				if (ShowLabel && !string.IsNullOrEmpty(LabelText))
 				{
 					var font = UI.Font(6.75F, FontStyle.Bold);
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(2, 2, Width - Padding.Right, (int)e.Graphics.MeasureString(LocaleHelper.GetGlobalText(LabelText), font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(2, 2, Width - Padding.Right, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(LabelText), font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 				}
 
 				if (string.IsNullOrWhiteSpace(_textBox.Text) && !string.IsNullOrWhiteSpace(Placeholder))
 				{
 					var font = UI.Font(7.5F, FontStyle.Italic);
-					var height = (int)e.Graphics.MeasureString(LocaleHelper.GetGlobalText(Placeholder), font).Height;
+					var height = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Placeholder), font).Height;
 					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Placeholder), font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - 2 - Padding.Bottom, Width - Padding.Right - _textBox.Left - _textBox.Width, height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 				}
 
-				var iconRect = new Rectangle(Width - Image.Width - 4, 0, 20, Height);
+				var iconRect = new Rectangle(Width - (Image?.Width??0) - 4, 0, 20, Height);
 				if (Loading)
 				{
 					e.Graphics.DrawLoader(LoaderPercentage, iconRect.CenterR(16, 16));

@@ -51,6 +51,12 @@ namespace SlickControls
 			_items = new List<DrawableItem<T>>();
 			ItemHeight = 22;
 			AutoInvalidate = false;
+			AutoScroll = true;
+		}
+
+		private void SlickStackedListControl_Scroll(object sender, ScrollEventArgs e)
+		{
+			throw new NotImplementedException();
 		}
 
 		public virtual void Add(T item)
@@ -94,7 +100,11 @@ namespace SlickControls
 		protected override void UIChanged()
 		{
 			if (Live)
+			{
 				ItemHeight = (int)(ItemHeight * UI.FontScale);
+
+			(Parent as Panel).	Scroll += SlickStackedListControl_Scroll;
+			}
 		}
 
 		protected override void OnMouseClick(MouseEventArgs e)
@@ -133,8 +143,11 @@ namespace SlickControls
 
 			if (scrollMouseDown >= 0)
 			{
-				scrollIndex = (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height);
+				scrollIndex = _items.Count * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height);
+				Invalidate();
 			}
+
+			Cursor = scrollMouseDown >= 0 || scrollThumbRectangle.Contains(e.Location) ? Cursors.Hand : Cursors.Default;
 		}
 
 		protected override void OnMouseEnter(EventArgs e)
@@ -208,7 +221,7 @@ namespace SlickControls
 					}
 				}
 				
-				Invalidate(scrollThumbRectangle);
+				Invalidate();
 			}
 			else
 			{
@@ -232,15 +245,16 @@ namespace SlickControls
 			if (scrollMouseDown >= 0)
 			{
 				scrollMouseDown = -1;
-				Invalidate(scrollThumbRectangle);
+				Invalidate();
 			}
 		}
 
-		protected override void OnScroll(ScrollEventArgs se)
+		protected override void OnMouseWheel(MouseEventArgs e)
 		{
-			base.OnScroll(se);
+			base.OnMouseWheel(e);
 
-			//scrollIndex -= se % 1
+			scrollIndex -= e.Delta / ItemHeight;
+			Invalidate();
 		}
 
 		protected virtual IEnumerable<DrawableItem<T>> OrderItems(IEnumerable<DrawableItem<T>> items) => items;
@@ -259,6 +273,9 @@ namespace SlickControls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
+			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
 			var y = 0;
 
 			var itemList = SafeGetItems();
@@ -279,14 +296,14 @@ namespace SlickControls
 
 			if (scrollVisible)
 			{
-				var isMouseDown = HoverState.HasFlag(HoverState.Pressed) && scrollThumbRectangle.Contains(CursorLocation);
+				var isMouseDown = HoverState.HasFlag(HoverState.Pressed) && (scrollThumbRectangle.Contains(CursorLocation) || scrollMouseDown != -1);
 
-				e.Graphics.FillRoundedRectangle(scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), scrollThumbRectangle, 2);
+				e.Graphics.FillRoundedRectangle(scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), scrollThumbRectangle.Pad(2, 0, 2, 0), 3);
 			}
 
 			foreach (var item in OrderItems(itemList).Skip(scrollIndex))
 			{
-				item.Bounds = new Rectangle(0, y + Padding.Top, Width - (int)(scrollVisible ? 6 * UI.FontScale : 0), ItemHeight);
+				item.Bounds = new Rectangle(0, y + Padding.Top, Width - (scrollVisible ? scrollThumbRectangle.Width : 0), ItemHeight);
 
 				e.Graphics.SetClip(item.Bounds);
 
@@ -302,7 +319,7 @@ namespace SlickControls
 
 				if (SeparateWithLines)
 				{
-					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, y, Width - Padding.Right, y);
+					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), y);
 
 					y += (int)UI.FontScale;
 				}
@@ -326,7 +343,10 @@ namespace SlickControls
 				visibleItems = (int)Math.Floor((float)Height / (ItemHeight + Padding.Vertical + (int)UI.FontScale));
 				scrollVisible = true;
 				scrollIndex = Math.Max(0, Math.Min(scrollIndex, itemList.Count - visibleItems));
-				scrollThumbRectangle = new Rectangle(Width - (int)(6 * UI.FontScale), Height * scrollIndex / itemList.Count, (int)(6 * UI.FontScale), Height * visibleItems / itemList.Count);
+
+				var thumbHeight = Math.Max(Height * visibleItems / itemList.Count, Height / 24);
+
+				scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), (Height - thumbHeight) * scrollIndex / (itemList.Count - visibleItems), (int)(10 * UI.FontScale), thumbHeight);
 			}
 			else
 			{
