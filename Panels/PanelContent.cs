@@ -31,6 +31,7 @@ namespace SlickControls
 			DoubleBuffered = true;
 			ResizeRedraw = false;
 			EnterTriggersClick = false;
+			Font = UI.Font(8.25F);
 
 			timer.Tick += Timer_Tick;
 			

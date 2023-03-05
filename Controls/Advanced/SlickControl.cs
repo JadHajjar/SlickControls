@@ -62,6 +62,7 @@ namespace SlickControls
 
 		public SlickControl()
 		{
+			AutoScaleMode = AutoScaleMode.None;
 			DoubleBuffered = ResizeRedraw = true;
 			timer = new Timer { Interval = 30 };
 			timer.Tick += timer_Tick;
