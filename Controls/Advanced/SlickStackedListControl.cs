@@ -63,7 +63,10 @@ namespace SlickControls
 			{
 				var selectedItem = _items.FirstOrDefault(x => x.Item.Equals(item));
 
-				Invalidate(selectedItem.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+				if (selectedItem != null)
+				{
+					Invalidate(selectedItem.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+				}
 			}
 		}
 
