@@ -151,7 +151,7 @@ namespace SlickControls
 		public void LoadImage(Func<Bitmap> p)
 		{
 			Loading = true;
-			new Action(() =>
+			new BackgroundAction("Loading Image", () =>
 			{
 				try
 				{
@@ -160,7 +160,7 @@ namespace SlickControls
 					OnLoadCompleted(new AsyncCompletedEventArgs(null, false, this));
 				}
 				catch (Exception ex) { OnLoadCompleted(new AsyncCompletedEventArgs(ex, false, this)); }
-			}).RunInBackground();
+			}).Run();
 		}
 
 		protected virtual void OnImageChanged(EventArgs e)

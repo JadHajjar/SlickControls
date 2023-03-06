@@ -431,6 +431,26 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Tiny_ArrowDown {
+            get {
+                object obj = ResourceManager.GetObject("Tiny_ArrowDown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Tiny_ArrowUp {
+            get {
+                object obj = ResourceManager.GetObject("Tiny_ArrowUp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Tiny_Calendar {
             get {
                 object obj = ResourceManager.GetObject("Tiny_Calendar", resourceCulture);

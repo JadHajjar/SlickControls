@@ -2,8 +2,13 @@ using Extensions;
 
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Media;
+using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
+
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace SlickControls
 {
@@ -16,17 +21,33 @@ namespace SlickControls
 
 		private MessagePrompt() => InitializeComponent();
 
-		private MessagePrompt(string title, string msg, PromptButtons buttons, PromptIcons icons, bool input)
+		private MessagePrompt(string title, string msg, string details, PromptButtons buttons, PromptIcons icons, bool input)
 		{
 			InitializeComponent();
 
-			Text = title;
+			Text = title.IfEmpty("Prompt");
+			L_Title.Text = title;
 			L_Text.Text = msg;
-			L_Text.Font = UI.Font(9.75F);
+			L_Details.Text = details;
+			L_Title.Font = UI.Font(12.75F, FontStyle.Bold);
+			L_Text.Font = UI.Font(8.25F);
 
 			selectedButtons = buttons;
 			selectedIcon = icons;
 			isInput = input;
+
+			if (string.IsNullOrEmpty(details))
+			{
+				B_Details.Parent = null;
+				TLP_Main.SetColumn(FLP_Buttons, 0);
+				TLP_Main.SetColumnSpan(FLP_Buttons, 2);
+			}
+			
+			if (string.IsNullOrEmpty(title))
+			{
+				L_Text.Font = UI.Font(9.75F);
+				L_Title.Parent = null;
+			}
 
 			SetIcon();
 			SetButtons();
@@ -79,20 +100,22 @@ namespace SlickControls
 		protected override void OnCreateControl()
 		{
 			Opacity = 0;
-			Width = (int)(400 * UI.UIScale);
-			var w = (int)(400 * UI.UIScale);
+			var w = (int)((L_Details.Text.Length != 0 || L_Title.Text.Length != 0 ? 400 : 320) * UI.UIScale);
 			var h = 80;
 
 			using (var g = CreateGraphics())
 			{
 				do
 				{
-					h = 135 + Math.Max(80, (int)g.Measure(L_Text.Text, L_Text.Font, w - 100).Height + Padding.Vertical);
+					h = 6 + FLP_Buttons.Height + Math.Max(80, (int)g.Measure(L_Text.Text, L_Text.Font, L_Text.Width +w - Width).Height + L_Text.Margin.Vertical + Padding.Vertical);
+
+					if (L_Title.Parent != null)
+					{
+						h += L_Title.Height + L_Title.Margin.Vertical;
+					}
 
 					if (h < Screen.PrimaryScreen.WorkingArea.Height - 100 || w > Screen.PrimaryScreen.WorkingArea.Width - 150)
 						break;
-
-					w += 50;
 				} while (true);
 			}
 
@@ -103,12 +126,6 @@ namespace SlickControls
 				TB_Input.Visible = true;
 				Height += (int)(50D * UI.UIScale);
 			}
-			else
-			{
-				TLP_ImgText.RowStyles[1].Height = 0;
-			}
-
-			TLP_Main.RowStyles[2].Height = (float)(42D * UI.UIScale);
 
 			if (Owner != null)
 			{
@@ -126,24 +143,46 @@ namespace SlickControls
 		#region Statics
 
 		public static DialogResult Show(
-			  string message
+			  Exception exception
 			, PromptButtons buttons = PromptButtons.OK
-			, PromptIcons icon = PromptIcons.None
-			, SlickForm form = null)
-			=> Show(message, "Prompt", buttons, icon, form);
+			, PromptIcons icon = PromptIcons.Error
+			, SlickForm form = null) => Show(exception, string.Empty, string.Empty, buttons, icon, form);
+
+		public static DialogResult Show(
+			  Exception exception
+			, string message
+			, PromptButtons buttons = PromptButtons.OK
+			, PromptIcons icon = PromptIcons.Error
+			, SlickForm form = null) => Show(exception, message, string.Empty, buttons, icon, form);
 
 		public static DialogResult Show(
 			  string message
-			, string title = "Prompt"
 			, PromptButtons buttons = PromptButtons.OK
 			, PromptIcons icon = PromptIcons.None
+			, SlickForm form = null) => Show(null, message, string.Empty, buttons, icon, form);
+
+		public static DialogResult Show(
+			  string message
+			, string title
+			, PromptButtons buttons = PromptButtons.OK
+			, PromptIcons icon = PromptIcons.None
+			, SlickForm form = null) => Show(null, message, title, buttons, icon, form);
+
+		public static DialogResult Show(
+			  Exception exception
+			, string message
+			, string title
+			, PromptButtons buttons = PromptButtons.OK
+			, PromptIcons icon = PromptIcons.Error
 			, SlickForm form = null)
 		{
 			var @out = DialogResult.OK;
 
 			ExtensionClass.TryInvoke(form, () =>
 			{
-				var prompt = new MessagePrompt(title, message, buttons, icon, false);
+				GetError(exception, message, out var newMessage, out var details);
+
+				var prompt = new MessagePrompt(title, newMessage, details, buttons, icon, false);
 
 				if (form != null)
 				{
@@ -161,12 +200,11 @@ namespace SlickControls
 				{
 					if (form != null)
 					{
-						new Action(() =>
-						form.TryInvoke(() =>
+						form.OnNextIdle(() =>
 						{
 							form.ShowUp();
 							form.CurrentFormState = FormState.NormalFocused;
-						})).RunInBackground(50);
+						});
 					}
 				}
 			});
@@ -187,7 +225,7 @@ namespace SlickControls
 
 			ExtensionClass.TryInvoke(form, () =>
 			{
-				var prompt = new MessagePrompt(title, message, buttons, icon, true);
+				var prompt = new MessagePrompt(title, message, string.Empty, buttons, icon, true);
 				prompt.TB_Input.Text = defaultValue;
 				prompt.InputValidation = inputValidation;
 
@@ -207,17 +245,61 @@ namespace SlickControls
 				{
 					if (form != null)
 					{
-						new Action(() =>
-						form.TryInvoke(() =>
+						form.OnNextIdle(() =>
 						{
 							form.ShowUp();
 							form.CurrentFormState = FormState.NormalFocused;
-						})).RunInBackground(50);
+						});
 					}
 				}
 			});
 
 			return @out;
+		}
+
+		public static void GetError(Exception exception, string text, out string message, out string details)
+		{
+			if (exception == null)
+			{
+				message = text;
+				details = string.Empty;
+				return;
+			}
+
+			if (string.IsNullOrEmpty(text))
+				message = string.Empty;
+			else
+				message = text + ":";
+
+			details = message;
+
+			if (exception is SEHException)
+			{
+				message += "\r\n\r\n" + LocaleHelper.GetGlobalText("Something outside of this app may have malfunctioned. You need to close it entirely to fix this issue.");
+				details += "\r\n\r\n" + LocaleHelper.GetGlobalText("Something outside of this app may have malfunctioned. You need to close it entirely to fix this issue.");
+				return;
+			}
+
+			while (true)
+			{
+				message += $"\r\n\r\n{exception.Message}\r\n\r\n";
+				details += $"\r\n\r\n{exception.Message}\r\n\r\n";
+				details += $"{exception.GetType().Name.FormatWords().Replace("Exception", "Error")} ";
+				details += exception.StackTrace?
+									.Split('\n')
+									.Select(y => y
+										.RegexReplace(" in .+:line", " on line")?
+										.RegexRemove(" in .+")?
+										.RegexReplace(@"\.<>.+?<(.+?)>.+?\(", x => $".{x.Groups[1].Value}(")?
+										.RegexReplace(@"\.<(.+?)>[\w_`]+([\.\(])", x => $".{x.Groups[1].Value}{x.Groups[2].Value}")?
+										.Trim())
+									.ListStrings("\r\n");
+
+				if (exception.InnerException != null)
+					exception = exception.InnerException;
+				else
+					break;
+			}
 		}
 
 		#endregion Statics
@@ -303,6 +385,8 @@ namespace SlickControls
 		{
 			base.DesignChanged(design);
 			base_P_Content.BackColor = design.BackColor;
+			L_Details.BackColor = design.BackColor;
+			L_Details.ForeColor = design.ForeColor;
 			P_Spacer_1.BackColor = design.AccentColor;
 		}
 
@@ -545,5 +629,16 @@ namespace SlickControls
 		}
 
 		#endregion Click Events
+
+		private void B_Details_Click(object sender, EventArgs e)
+		{
+			var val = !TLP_Details.Visible;
+			TLP_Details.Visible = val;
+			TLP_Main.RowStyles[0] = val ? new RowStyle() : new RowStyle(SizeType.Percent, 100);
+			TLP_Main.RowStyles[3].Height = val ? 100 : 0;
+			B_Details.Text = val ? "Less Info" : "More Info";
+			B_Details.Image = val ? Properties.Resources.Tiny_ArrowUp : Properties.Resources.Tiny_ArrowDown;
+			Height += (int)((val ? 200 : -200) * UI.FontScale);
+		}
 	}
 }

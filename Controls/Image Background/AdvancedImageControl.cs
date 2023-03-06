@@ -30,13 +30,15 @@ namespace SlickControls
 				BlurredImage = null;
 			}
 			else
-				new Action(() =>
+			{
+				new BackgroundAction("Loading Image", () =>
 				{
 					BlurredImage = Image.Blur(40, true);
 
 					if (HoverState.HasFlag(HoverState.Hovered))
 						Invalidate();
-				}).RunInBackground();
+				}).Run();
+			}
 
 			base.OnImageChanged(e);
 		}

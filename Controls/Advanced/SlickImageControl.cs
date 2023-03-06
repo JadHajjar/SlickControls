@@ -43,36 +43,43 @@ namespace SlickControls
 				image?.Dispose();
 		}
 
-		public void LoadImage(string url) => new Action(() =>
+		public void LoadImage(string url)
 		{
 			if (!ConnectionHandler.WhenConnected(() =>
 			{
-				var firstTry = true;
-			tryAgain: try
+				new BackgroundAction("Loading Image", () =>
 				{
-					using (var webClient = new WebClient())
+					var firstTry = true;
+				tryAgain:
+					try
 					{
-						var imageData = webClient.DownloadData(url);
-
-						using (var ms = new MemoryStream(imageData))
+						using (var webClient = new WebClient())
 						{
-							Image = Image.FromStream(ms);
-							OnImageLoaded();
+							var imageData = webClient.DownloadData(url);
+
+							using (var ms = new MemoryStream(imageData))
+							{
+								Image = Image.FromStream(ms);
+								OnImageLoaded();
+							}
 						}
 					}
-				}
-				catch (Exception ex)
-				{
-					if (firstTry)
+					catch (Exception ex)
 					{
-						firstTry = false;
-						goto tryAgain;
+						if (firstTry)
+						{
+							firstTry = false;
+							goto tryAgain;
+						}
+						else
+							fail(ex);
 					}
-					else fail(ex);
-				}
+				}).Run();
 			}))
+			{
 				fail(new Exception());
-		}).RunInBackground();
+			}
+		}
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{

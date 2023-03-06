@@ -72,7 +72,7 @@ namespace SlickControls
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
-			new Action(() => setFolder(StartingFolder ?? (TopFolders.Count(Directory.Exists) == 1 ? TopFolders.First(Directory.Exists) : string.Empty))).RunInBackground(50);
+			new BackgroundAction(() => setFolder(StartingFolder ?? (TopFolders.Count(Directory.Exists) == 1 ? TopFolders.First(Directory.Exists) : string.Empty))).RunIn(50);
 		}
 
 		public bool GoBack()
@@ -153,7 +153,7 @@ namespace SlickControls
 						yield return item;
 		}
 
-		private void setFolder(string folder, bool forced = false, bool fromTextBox = false) => new Action(() =>
+		private void setFolder(string folder, bool forced = false, bool fromTextBox = false) => new BackgroundAction("Loading library folder", () =>
 		{
 			if ((CurrentPath != folder && (Directory.Exists(folder) || string.IsNullOrWhiteSpace(folder))) || forced)
 			{
@@ -202,7 +202,7 @@ namespace SlickControls
 			}
 
 			this.TryInvoke(() => SearchCleared?.Invoke(this, EventArgs.Empty));
-		}).RunInBackground();
+		}).Run();
 
 		private void handleControls(IEnumerable<object> content, TicketBooth.Ticket ticket)
 		{

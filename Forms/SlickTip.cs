@@ -26,13 +26,13 @@ namespace SlickControls
 
 			FormDesign.DesignChanged += DesignChanged;
 
-			new Action(() =>
+			new BackgroundAction(() =>
 			{
 				if (!IsDisposed)
 					this.TryInvoke(Dismiss);
 				if (currentControl?.Value == this)
 					currentControl = null;
-			}).RunInBackground(10000);
+			}).RunIn(10000);
 		}
 
 		private void DesignChanged(FormDesign design) => Invalidate();

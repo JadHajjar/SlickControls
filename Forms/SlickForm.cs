@@ -212,6 +212,9 @@ namespace SlickControls
 
 		private void base_PB_Icon_Click(object sender, EventArgs e)
 		{
+			if (this is MessagePrompt)
+				return;
+
 			if ((e as MouseEventArgs).Button == MouseButtons.Right)
 			{
 				var panelForm = this is BasePanelForm;

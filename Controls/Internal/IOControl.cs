@@ -201,16 +201,16 @@ namespace SlickControls
 					new SlickStripItem("View in Explorer", () =>
 					{
 						if (FileObject != null)
-							new Action(() => System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{FileObject.FullName}\"")).RunInBackground();
+							new BackgroundAction(() => System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{FileObject.FullName}\"")).Run();
 						else
-							new Action(() => System.Diagnostics.Process.Start(FolderObject.FullName)).RunInBackground();
+							new BackgroundAction(() => System.Diagnostics.Process.Start(FolderObject.FullName)).Run();
 					}, Properties.Resources.Tiny_Folder),
 
 					new SlickStripItem("Delete", () =>
 					{
 						if (MessagePrompt.Show($"Are you sure you want to delete '{Text}'", "Confirm Action", PromptButtons.OKCancel, PromptIcons.Warning, FindForm() as SlickForm) == DialogResult.OK)
 						{
-							new Action(() => FileOperationAPIWrapper.MoveToRecycleBin(FileObject?.FullName ?? FolderObject.FullName)).RunInBackground();
+							new BackgroundAction(() => FileOperationAPIWrapper.MoveToRecycleBin(FileObject?.FullName ?? FolderObject.FullName)).Run();
 							Dispose();
 						}
 					}, Properties.Resources.Tiny_Trash)

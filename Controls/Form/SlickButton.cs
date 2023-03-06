@@ -122,20 +122,28 @@ namespace SlickControls
 		{
 			e.Graphics.Clear(Parent?.BackColor ?? BackColor);
 
-			DrawButton(e,
-				Point.Empty,
-				Size,
-				Text,
-				Font,
-				Parent?.BackColor ?? BackColor,
-				BackColor,
-				Image,
-				Padding,
-				Enabled,
-				HoverState,
-				ColorStyle,
-				ColorShade,
-				this);
+			Bitmap img = null;
+			try
+			{ img = Image == null ? null : new Bitmap(Image); }
+			catch { }
+
+			using (img)
+			{
+				DrawButton(e,
+					Point.Empty,
+					Size,
+					Text,
+					Font,
+					Parent?.BackColor ?? BackColor,
+					BackColor,
+					img,
+					Padding,
+					Enabled,
+					HoverState,
+					ColorStyle,
+					ColorShade,
+					this);
+			}
 		}
 
 		public static void DrawButton(PaintEventArgs e,

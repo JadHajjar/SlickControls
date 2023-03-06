@@ -128,17 +128,23 @@ namespace SlickControls
 
 		protected virtual bool LoadData() => DataLoaded = true;
 
-		protected DialogResult ShowPrompt(string message, string title = "Prompt", PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
+		protected DialogResult ShowPrompt(Exception exception, string message, string title, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
+			=> MessagePrompt.Show(exception, message, title, buttons, icon, Form);
+
+		protected DialogResult ShowPrompt(Exception exception, string message, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
+			=> MessagePrompt.Show(exception, message, buttons, icon, Form);
+
+		protected DialogResult ShowPrompt(string message, string title, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
 			=> MessagePrompt.Show(message, title, buttons, icon, Form);
 
 		protected DialogResult ShowPrompt(string message, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
-			=> MessagePrompt.Show(message, "Prompt", buttons, icon, Form);
+			=> MessagePrompt.Show(message, buttons, icon, Form);
 
-		protected InputResult ShowInputPrompt(string message, string title = "Input Prompt", string defaultValue = "", PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None, Func<string, bool> inputValidation = null)
+		protected InputResult ShowInputPrompt(string message, string title, string defaultValue = "", PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None, Func<string, bool> inputValidation = null)
 			=> MessagePrompt.ShowInput(message, title, defaultValue, buttons, icon, inputValidation, Form);
 
 		protected InputResult ShowInputPrompt(string message, string defaultValue = "", PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None, Func<string, bool> inputValidation = null)
-			=> MessagePrompt.ShowInput(message, "Input Prompt", defaultValue, buttons, icon, inputValidation, Form);
+			=> MessagePrompt.ShowInput(message, "", defaultValue, buttons, icon, inputValidation, Form);
 
 		protected override void OnCreateControl()
 		{

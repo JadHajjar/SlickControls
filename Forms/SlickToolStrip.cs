@@ -280,7 +280,7 @@ namespace SlickControls
 
 		private void FlatToolStrip_Load(object sender, EventArgs e)
 		{
-			new Action(() => this.TryInvoke(this.ShowUp)).RunInBackground(100);
+			new BackgroundAction(() => this.TryInvoke(this.ShowUp)).RunIn(100);
 
 			Bounds = new Rectangle(startingCursorPosition, Size.Empty);
 			Opacity = 0;

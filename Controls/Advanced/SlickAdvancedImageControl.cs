@@ -65,13 +65,13 @@ namespace SlickControls
 				BlurredImage = null;
 			}
 			else
-				new Action(() =>
+				new BackgroundAction(() =>
 				{
 					BlurredImage = new Bitmap(Image).Blur(40);
 
 					if (HoverState.HasFlag(HoverState.Hovered))
 						this.TryInvoke(Invalidate);
-				}).RunInBackground();
+				}).Run();
 
 			base.OnImageChanged(e);
 		}
