@@ -391,6 +391,7 @@ namespace SlickControls
 				base_TLP_PanelItems.Width = base_P_Side.Width;
 			}
 
+			base_P_SideControls.Font = UI.Font(6.75F);
 			base_P_Tabs.Font = UI.Font(8.25F, FontStyle.Bold);
 			base_P_Icon.Height = (int)(70 * UI.UIScale);
 			base_PB_Icon.Size = UI.Scale(new Size(32, 32), UI.UIScale);

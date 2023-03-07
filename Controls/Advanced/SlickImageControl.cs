@@ -45,6 +45,8 @@ namespace SlickControls
 
 		public void LoadImage(string url)
 		{
+			Loading = true;
+
 			if (!ConnectionHandler.WhenConnected(() =>
 			{
 				new BackgroundAction("Loading Image", () =>

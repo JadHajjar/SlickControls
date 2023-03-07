@@ -173,7 +173,9 @@ namespace SlickControls
 
 			if (scrollMouseDown >= 0)
 			{
-				scrollIndex = (_items.Count - visibleItems) * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height);
+				var itemList = SafeGetItems();
+
+				scrollIndex = (itemList.Count(x => !x.Hidden) - visibleItems) * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height);
 				Invalidate();
 			}
 
@@ -342,7 +344,7 @@ namespace SlickControls
 
 					CanDrawItem(this, canDraw);
 
-					return canDraw.DoNotDraw;
+					return x.Hidden = canDraw.DoNotDraw;
 				});
 			}
 
