@@ -26,7 +26,7 @@ namespace SlickControls
 
 		/// <summary> 
 		/// Required method for Designer support - do not modify 
-		/// the contents of this method with the code editor.
+		/// the contents of this method with the code editor.s
 		/// </summary>
 		private void InitializeComponent()
 		{
@@ -39,6 +39,8 @@ namespace SlickControls
 			this.Size = new System.Drawing.Size(92, 22);
 			this.Text = "Check Box";
 			this.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.SpaceTriggersClick = true;
+			this.EnterTriggersClick = false;
 			this.Click += new System.EventHandler(this.SlickCheckbox_Click);
 			this.ResumeLayout(false);
 

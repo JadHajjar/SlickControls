@@ -7,52 +7,19 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	public class SlickIcon : SlickPictureBox
+	public class SlickIcon : SlickImageControl
 	{
 		private bool enableGraphics = true;
-
-		private int minimumIconSize = 18;
 
 		private bool selected = false;
 
 		public SlickIcon()
 		{
-			DoubleBuffered = true;
 			Cursor = Cursors.Hand;
-			FormDesign.DesignChanged += (d) => UpdateState();
-			UpdateState(true);
-			SizeMode = PictureBoxSizeMode.Zoom;
 		}
-
-		public delegate void action();
 
 		[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
 		public Func<Color> ActiveColor { get; set; }
-
-		private HoverState hoverState = HoverState.Normal;
-
-		[Category("Appearance")]
-		public new Image Image
-		{
-			get => base.Image;
-			set
-			{
-				base.Image = value;
-				Visible = value != null;
-				UpdateState(true);
-			}
-		}
-
-		[Category("Design")]
-		public int MinimumIconSize
-		{
-			get => minimumIconSize;
-			set
-			{
-				minimumIconSize = value;
-				Size = new Size(value, value);
-			}
-		}
 
 		[Category("Behavior")]
 		public new bool Enabled
@@ -62,59 +29,63 @@ namespace SlickControls
 			{
 				enableGraphics = value;
 				Cursor = value ? Cursors.Hand : Cursors.Default;
-				UpdateState(true);
 			}
 		}
 
 		[Category("Appearance"), DisplayName("Color Style"), DefaultValue(ColorStyle.Active)]
 		public ColorStyle ColorStyle { get; set; } = ColorStyle.Active;
 
-		private bool IsPicture
-		{
-			get
-			{
-				try { return Image != null && Image.RawFormat.Guid != System.Drawing.Imaging.ImageFormat.Gif.Guid; }
-				catch { return false; }
-			}
-		}
-
-		[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
-		public override HoverState HoverState { get => hoverState; internal set { hoverState = value; UpdateState(); } }
-
-		private void UpdateState(bool forced = false)
-		{
-			if (DesignMode || (!forced && (!Enabled || selected)))
-				return;
-
-			if (hoverState.HasFlag(HoverState.Hovered))
-			{
-				if (IsPicture)
-				{
-					if (ActiveColor == null)
-						base.Image = Image.Color(ColorStyle.GetColor());
-					else
-						base.Image = Image.Color(ActiveColor());
-				}
-			}
-			else if (IsPicture)
-				base.Image = Image.Color(FormDesign.Design.IconColor);
-		}
+		[Category("Behavior"), DefaultValue(false)]
+		public bool Selected { get => selected; set { selected = value; Invalidate(); } }
 
 		public void Hold()
 		{
-			HoverState &= HoverState.Pressed;
-			selected = true;
+			Selected = true;
+			Invalidate();
 		}
 
 		public void Release()
 		{
-			selected = false;
+			Selected = false;
+			Invalidate();
 		}
 
 		public void Disable()
-			=> Enabled = false;
+		{
+			Enabled = false;
+		}
 
 		public void Enable()
-			=> Enabled = true;
+		{
+			Enabled = true;
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			e.Graphics.Clear(BackColor);
+
+			if (Image == null)
+			{
+				return;
+			}
+
+			try
+			{
+				var activeColor = ActiveColor?.Invoke() ?? ColorStyle.GetColor();
+
+				var color =
+					Selected ? activeColor :
+					!Enabled ? FormDesign.Design.IconColor :
+					HoverState.HasFlag(HoverState.Pressed) ? activeColor :
+					HoverState.HasFlag(HoverState.Hovered) ? activeColor.MergeColor(FormDesign.Design.IconColor) :
+					FormDesign.Design.IconColor;
+
+				using (var img = new Bitmap(Image).Color(color))
+				{
+					e.Graphics.DrawImage(img, ClientRectangle.CenterR(img.Size));
+				}
+			}
+			catch { }
+		}
 	}
 }

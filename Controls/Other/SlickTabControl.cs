@@ -124,7 +124,7 @@ namespace SlickControls
 
 		private void ctrl_ControlAdded(object sender, ControlEventArgs e) => P_Content.Invalidate();
 
-		private int tabWidth() => ((Width - Padding.Horizontal) / Tabs.Length).Between(32, (int)(125 * UI.UIScale));
+		private int tabWidth() => ((Width - Padding.Horizontal) / Tabs.Length).Between(32, (int)(150 * UI.FontScale));
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
@@ -160,10 +160,10 @@ namespace SlickControls
 		[DefaultEvent("TabSelected"), Designer(typeof(TabButtonDesigner))]
 		public class Tab : SlickTab
 		{
-			[Category("Appearance")]
+			[Category("Appearance"), DefaultValue(null)]
 			public string NoControlText { get; set; }
 
-			[Category("Behavior")]
+			[Category("Behavior"), DefaultValue(false)]
 			public bool FillTab { get; set; }
 		}
 

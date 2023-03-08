@@ -706,6 +706,8 @@ namespace SlickControls
 					new AnimationHandler(base_P_Side, newSize, 2.25, AnimationOption.IgnoreHeight)
 						.StartAnimation();
 			}
+
+			CurrentPanel?.GlobalMouseMove(p);
 		}
 
 		private void setSmallMenu()

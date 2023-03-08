@@ -7,6 +7,9 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+
 namespace SlickControls
 {
 	public class SlickStackedListControl<T> : SlickControl
@@ -17,6 +20,7 @@ namespace SlickControls
 		private int scrollIndex;
 		private Rectangle scrollThumbRectangle;
 		private int scrollMouseDown = -1;
+		private DrawableItem<T> mouseDownItem;
 
 		[Category("Data"), Browsable(false)]
 		public IEnumerable<T> Items
@@ -57,6 +61,29 @@ namespace SlickControls
 			AutoScroll = true;
 		}
 
+		public void FilterChanged()
+		{
+			if (CanDrawItem == null)
+			{
+				return;
+			}
+
+			lock (_items)
+			{
+				foreach (var x in _items)
+				{
+					var canDraw = new CanDrawItemEventArgs<T>(x.Item);
+
+					CanDrawItem(this, canDraw);
+
+					x.Bounds = Rectangle.Empty;
+					x.Hidden = canDraw.DoNotDraw;
+				}
+			}
+
+			Invalidate();
+		}
+
 		public virtual void Invalidate(T item)
 		{
 			lock (_items)
@@ -75,7 +102,7 @@ namespace SlickControls
 			lock (_items)
 				_items.Add(new DrawableItem<T>(item));
 
-			Invalidate();
+			FilterChanged();
 		}
 
 		public virtual void AddRange(IEnumerable<T> items)
@@ -83,7 +110,7 @@ namespace SlickControls
 			lock (_items)
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
 
-			Invalidate();
+			FilterChanged();
 		}
 
 		public virtual void SetItems(IEnumerable<T> items)
@@ -94,7 +121,7 @@ namespace SlickControls
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
 			}
 
-			Invalidate();
+			FilterChanged();
 		}
 
 		public virtual void Remove(T item)
@@ -121,6 +148,13 @@ namespace SlickControls
 			Invalidate();
 		}
 
+		protected override void OnCreateControl()
+		{
+			base.OnCreateControl();
+
+			FilterChanged();
+		}
+
 		protected override void UIChanged()
 		{
 			if (Live)
@@ -133,13 +167,14 @@ namespace SlickControls
 
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
-			if (scrollMouseDown == -2)
+			if (scrollMouseDown >= 0)
 				return;
 
-			lock (_items)
-				foreach (var item in _items)
-					if (item.Bounds.Contains(e.Location))
-						OnItemMouseClick(item, e);
+			if (mouseDownItem != null)
+			{
+				if (mouseDownItem.Bounds.Contains(e.Location))
+					OnItemMouseClick(mouseDownItem, e);
+			}
 
 			base.OnMouseClick(e);
 		}
@@ -160,7 +195,7 @@ namespace SlickControls
 					if (item.Bounds.Contains(e.Location))
 					{
 						item.HoverState |= HoverState.Hovered;
-						itemActionHovered |= IsItemActionHovered(item, e.Location);
+						itemActionHovered |= (mouseDownItem == null || mouseDownItem == item) && IsItemActionHovered(item, e.Location);
 						Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
 					}
 					else if (item.HoverState.HasFlag(HoverState.Hovered))
@@ -175,7 +210,7 @@ namespace SlickControls
 			{
 				var itemList = SafeGetItems();
 
-				scrollIndex = (itemList.Count(x => !x.Hidden) - visibleItems) * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height);
+				scrollIndex = (itemList.Count - visibleItems) * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height);
 				Invalidate();
 			}
 
@@ -246,7 +281,11 @@ namespace SlickControls
 				foreach (var item in _items)
 				{
 					if (item.Bounds.Contains(e.Location))
+					{
+						mouseDownItem = item;
+						item.HoverState |= HoverState.Pressed;
 						Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+					}
 				}
 			}
 
@@ -282,18 +321,16 @@ namespace SlickControls
 		{
 			HoverState &= ~HoverState.Pressed;
 
-			lock (_items)
+			if (mouseDownItem != null)
 			{
-				foreach (var item in _items)
-				{
-					if (item.Bounds.Contains(e.Location))
-						Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
-				}
+				mouseDownItem.HoverState &= ~HoverState.Pressed;
+				Invalidate(mouseDownItem.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+				mouseDownItem = null;
 			}
 
 			if (scrollMouseDown >= 0)
 			{
-				scrollMouseDown = -2;
+				scrollMouseDown = -1;
 				Invalidate();
 			}
 		}
@@ -322,6 +359,16 @@ namespace SlickControls
 
 		protected virtual void OnPaintItem(ItemPaintEventArgs<T> e)
 		{
+			if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
+			{
+				var rect = e.ClipRectangle;
+				var filledRect = rect.Pad(0, -Padding.Top, 0, -Padding.Bottom);
+
+				e.Graphics.SetClip(filledRect);
+				e.Graphics.FillRectangle(filledRect.Gradient(Color.FromArgb(e.HoverState.HasFlag(HoverState.Pressed) ? 255 : 30, FormDesign.Design.ActiveColor)), filledRect);
+				e.Graphics.SetClip(rect);
+			}
+
 			PaintItem?.Invoke(this, e);
 		}
 
@@ -334,19 +381,7 @@ namespace SlickControls
 
 			var itemList = SafeGetItems();
 
-			if (CanDrawItem != null)
-			{
-				itemList.RemoveAll(x =>
-				{
-					x.Bounds = Rectangle.Empty;
-
-					var canDraw = new CanDrawItemEventArgs<T>(x.Item);
-
-					CanDrawItem(this, canDraw);
-
-					return x.Hidden = canDraw.DoNotDraw;
-				});
-			}
+			itemList.ForEach(x => x.Bounds = Rectangle.Empty);
 
 			HandleScrolling(itemList);
 
@@ -366,18 +401,13 @@ namespace SlickControls
 			{
 				item.Bounds = new Rectangle(0, y + Padding.Top, Width - (scrollVisible ? scrollThumbRectangle.Width : 0), ItemHeight);
 
-				if (HighlightOnHover && item.HoverState.HasFlag(HoverState.Hovered))
-				{
-					e.Graphics.FillRectangle(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom).Gradient(Color.FromArgb(30, FormDesign.Design.ActiveColor)), item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
-				}
-
 				e.Graphics.SetClip(item.Bounds);
 
 				OnPaintItem(new ItemPaintEventArgs<T>(
 					item.Item,
 					e.Graphics,
 					item.Bounds,
-					item.HoverState | (scrollMouseDown >= 0 ? HoverState.Normal : (HoverState & (HoverState.Pressed | HoverState.Focused)))));
+					mouseDownItem == item || mouseDownItem == null ? item.HoverState : (item.HoverState & ~HoverState.Hovered)));
 
 				e.Graphics.ResetClip();
 
@@ -425,7 +455,7 @@ namespace SlickControls
 		{
 			lock (_items)
 			{
-				return _items.ToList();
+				return _items.Where(x => !x.Hidden).ToList();
 			}
 		}
 	}

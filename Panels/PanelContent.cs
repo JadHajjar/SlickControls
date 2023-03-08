@@ -287,6 +287,11 @@ namespace SlickControls
 			}
 		}
 
+		public virtual void GlobalMouseMove(Point p)
+		{
+
+		}
+
 		#endregion Loader
 	}
 }

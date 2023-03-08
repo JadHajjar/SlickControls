@@ -17,7 +17,10 @@ namespace SlickControls
 		private string uncheckedText;
 		private bool _useToggleIcon = true;
 
-		public SlickCheckbox() => InitializeComponent();
+		public SlickCheckbox()
+		{
+			InitializeComponent();
+		}
 
 		public event EventHandler CheckChanged;
 
@@ -104,15 +107,6 @@ namespace SlickControls
 				else
 					e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(85, BackColor)), new Rectangle(Point.Empty, Size));
 			}
-		}
-
-		private void SlickCheckbox_HoverStateChanged(object sender, HoverState e)
-		{
-			if (!string.IsNullOrEmpty(CheckedText))
-				Text = (e.HasFlag(HoverState.Hovered) ? !@checked : @checked) ? CheckedText : UncheckedText.IfEmpty(CheckedText);
-
-			if (CheckedIcon != null && UnCheckedIcon != null)
-				Image = (e.HasFlag(HoverState.Hovered) ? !@checked : @checked) ? CheckedIcon : UnCheckedIcon;
 		}
 	}
 }
