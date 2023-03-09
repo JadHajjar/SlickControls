@@ -317,13 +317,20 @@ namespace SlickControls
 			else if (CurrentPanel != null)
 				base_P_PanelContent.Controls.Remove(CurrentPanel);
 
+			if (CurrentPanel != null)
+			{
+				CurrentPanel.BackColorChanged -= CurrentPanel_BackColorChanged;
+			}
+
 			CurrentPanel = panelContent;
 
+			CurrentPanel.BackColorChanged += CurrentPanel_BackColorChanged;
 			CurrentPanel.Size = base_P_PanelContent.Size;
 			CurrentPanel.Dock = DockStyle.Fill;
 			CurrentPanel.PanelItem = panelItem;
 			CurrentPanel.Form = this;
 
+			base_TLP_TopButtons.BackColor = CurrentPanel?.BackColor ?? FormDesign.Design.BackColor;
 			base_B_Close.Visible = base_B_Max.Visible = base_B_Min.Visible = !CurrentPanel.HideWindowIcons;
 
 			if (!CurrentPanel.PanelWasSetUp)
@@ -374,6 +381,11 @@ namespace SlickControls
 			return true;
 		}
 
+		private void CurrentPanel_BackColorChanged(object sender, EventArgs e)
+		{
+			base_TLP_TopButtons.BackColor = CurrentPanel?.BackColor ?? FormDesign.Design.BackColor;
+		}
+
 		#endregion Public Methods
 
 		#region Protected Methods
@@ -405,7 +417,7 @@ namespace SlickControls
 		{
 			base.DesignChanged(design);
 
-			base_P_PanelContent.BackColor = base_TLP_TopButtons.BackColor = design.BackColor;
+			base_P_PanelContent.BackColor = design.BackColor;
 			base_P_Content.BackColor = design.MenuColor;
 			base_P_Side.ForeColor = design.LabelColor;
 			base_P_SideControls.ForeColor = design.LabelColor.MergeColor(design.ID.If(0, design.AccentColor, design.MenuColor), 80);

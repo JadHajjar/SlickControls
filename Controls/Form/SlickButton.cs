@@ -83,7 +83,7 @@ namespace SlickControls
 					return;
 				}
 
-				var bnds = g.Measure(Text, Font);
+				var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font);
 				var h = Math.Max(IconSize + 6, (int)(bnds.Height) + Padding.Top + 3);
 				var w = (int)bnds.Width + (Image == null ? 0 : IconSize + Padding.Left) + Padding.Horizontal + 3;
 
@@ -132,7 +132,7 @@ namespace SlickControls
 				DrawButton(e,
 					Point.Empty,
 					Size,
-					Text,
+					LocaleHelper.GetGlobalText(Text),
 					Font,
 					Parent?.BackColor ?? BackColor,
 					BackColor,

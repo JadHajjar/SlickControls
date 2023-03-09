@@ -37,6 +37,9 @@ namespace SlickControls
 		public bool SeparateWithLines { get; set; }
 
 		[Category("Appearance"), DefaultValue(false)]
+		public bool DoubleSizeOnHover { get; set; }
+
+		[Category("Appearance"), DefaultValue(false)]
 		public bool HighlightOnHover { get; set; }
 
 		[Category("Appearance"), DefaultValue(22)]
@@ -86,6 +89,12 @@ namespace SlickControls
 
 		public virtual void Invalidate(T item)
 		{
+			if (DoubleSizeOnHover)
+			{ 
+				Invalidate();
+				return;
+			}
+
 			lock (_items)
 			{
 				var selectedItem = _items.FirstOrDefault(x => x.Item.Equals(item));
@@ -196,12 +205,12 @@ namespace SlickControls
 					{
 						item.HoverState |= HoverState.Hovered;
 						itemActionHovered |= (mouseDownItem == null || mouseDownItem == item) && IsItemActionHovered(item, e.Location);
-						Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+						Invalidate(item);
 					}
 					else if (item.HoverState.HasFlag(HoverState.Hovered))
 					{
 						item.HoverState &= ~HoverState.Hovered;
-						Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+						Invalidate(item);
 					}
 				}
 			}
@@ -222,6 +231,18 @@ namespace SlickControls
 			Cursor = itemActionHovered || scrollMouseDown >= 0 || scrollThumbRectangle.Contains(e.Location) ? Cursors.Hand : Cursors.Default;
 		}
 
+		private void Invalidate(DrawableItem<T> item)
+		{
+			if (DoubleSizeOnHover)
+			{
+				Invalidate();
+			}
+			else
+			{
+				Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+			}
+		}
+
 		protected override void OnMouseEnter(EventArgs e)
 		{
 			HoverState |= HoverState.Hovered;
@@ -234,12 +255,12 @@ namespace SlickControls
 					if (item.Bounds.Contains(mouse))
 					{
 						item.HoverState |= HoverState.Hovered;
-						Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+						Invalidate(item);
 					}
 					else if (item.HoverState.HasFlag(HoverState.Hovered))
 					{
 						item.HoverState &= ~HoverState.Hovered;
-						Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+						Invalidate(item);
 					}
 				}
 			}
@@ -261,7 +282,7 @@ namespace SlickControls
 					if (item.HoverState.HasFlag(HoverState.Hovered))
 					{
 						item.HoverState &= ~HoverState.Hovered;
-						Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+						Invalidate(item);
 					}
 				}
 			}
@@ -284,7 +305,7 @@ namespace SlickControls
 					{
 						mouseDownItem = item;
 						item.HoverState |= HoverState.Pressed;
-						Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+						Invalidate(item);
 					}
 				}
 			}
@@ -324,7 +345,7 @@ namespace SlickControls
 			if (mouseDownItem != null)
 			{
 				mouseDownItem.HoverState &= ~HoverState.Pressed;
-				Invalidate(mouseDownItem.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+				Invalidate(mouseDownItem);
 				mouseDownItem = null;
 			}
 
@@ -399,25 +420,25 @@ namespace SlickControls
 
 			foreach (var item in OrderItems(itemList).Skip(scrollIndex))
 			{
-				item.Bounds = new Rectangle(0, y + Padding.Top, Width - (scrollVisible ? scrollThumbRectangle.Width : 0), ItemHeight);
+				var doubleSize = DoubleSizeOnHover && (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed));
+				item.Bounds = new Rectangle(0, y, Width - (scrollVisible ? scrollThumbRectangle.Width : 0), (doubleSize ?2 :1)* ItemHeight + Padding.Vertical + (SeparateWithLines? (int)UI.FontScale : 0));
 
 				e.Graphics.SetClip(item.Bounds);
 
 				OnPaintItem(new ItemPaintEventArgs<T>(
 					item.Item,
 					e.Graphics,
-					item.Bounds,
+					item.Bounds.Pad(0,Padding.Top,0,Padding.Bottom),
 					mouseDownItem == item || mouseDownItem == null ? item.HoverState : (item.HoverState & ~HoverState.Hovered)));
 
 				e.Graphics.ResetClip();
 
-				y += ItemHeight + Padding.Vertical;
+				y += item.Bounds.Height;
 
 				if (SeparateWithLines)
 				{
 					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), y);
 
-					y += (int)UI.FontScale;
 				}
 
 				if (y > Height)
@@ -432,6 +453,11 @@ namespace SlickControls
 			if (SeparateWithLines)
 			{
 				totalHeight += (itemList.Count - 1) * (int)UI.FontScale;
+			}
+
+			if (DoubleSizeOnHover && itemList.Any(item => (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed))))
+			{
+				totalHeight += ItemHeight + Padding.Vertical;
 			}
 
 			if (totalHeight > Height)

@@ -127,9 +127,9 @@ namespace SlickControls
 			{
 				var stl = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
 				if (Image != null)
-					e.Graphics.DrawString(Text, Font, Gradient(fore), new Rectangle(iconSize + 2 * Padding.Left, 0, Width - (iconSize + Padding.Left + Padding.Horizontal), Height), stl);
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, Gradient(fore), new Rectangle(iconSize + 2 * Padding.Left, 0, Width - (iconSize + Padding.Left + Padding.Horizontal), Height), stl);
 				else
-					e.Graphics.DrawString(Text, Font, Gradient(fore), new Rectangle(Padding.Left, 0, Width - (Padding.Left), Height), stl);
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, Gradient(fore), new Rectangle(Padding.Left, 0, Width - (Padding.Left), Height), stl);
 			}
 		}
 
@@ -174,7 +174,7 @@ namespace SlickControls
 
 				if (!string.IsNullOrWhiteSpace(Text) && !HideText)
 				{
-					var bnds = g.Measure(Text, Font);
+					var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font);
 					w += (int)bnds.Width + Padding.Horizontal;
 					h = Math.Max(IconSize + Padding.Vertical, (int)bnds.Height + Padding.Vertical);
 				}
