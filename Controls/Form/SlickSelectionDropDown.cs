@@ -3,13 +3,13 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Media;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SlickControls.Controls.Form
 {
-	public abstract class SlickSelectionDropDown<T> : SlickControl
+	public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 	{
 		private SlickForm _form;
 		private T[] _items;
@@ -18,11 +18,11 @@ namespace SlickControls.Controls.Form
 
 		public event EventHandler SelectedItemChanged;
 
-		[Category("Data")]
+		[Category("Data"), DefaultValue(null)]
 		public T[] Items { get => _items; set { _items = value; if (_items?.Length > 0) { selectedItem = _items[0]; } } }
 
-		[Category("Data"), DefaultValue(null)]
-		public T SelectedItem { get => selectedItem; set { selectedItem = value; SelectedItemChanged?.Invoke(this, EventArgs.Empty); } }
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
+		public T SelectedItem { get => selectedItem; set { selectedItem = value; SelectedItemChanged?.Invoke(this, EventArgs.Empty); Invalidate(); } }
 
 		[Browsable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -60,7 +60,7 @@ namespace SlickControls.Controls.Form
 					listDropDown.BringToFront();
 					listDropDown.SetItems(Items);
 
-					new AnimationHandler(listDropDown, new Size(Width, Math.Min((listDropDown.ItemHeight + listDropDown.Padding.Vertical + (int)UI.FontScale) * Math.Min(10, Items.Length), _form.Height - listDropDown.Top - 15)), 2).StartAnimation();
+					new AnimationHandler(listDropDown, new Size(Width, Math.Min((listDropDown.ItemHeight + listDropDown.Padding.Vertical + (int)UI.FontScale) * Math.Min(10, Items.Length), _form.Height - listDropDown.Top - 15)), 2.5).StartAnimation();
 				}
 				else
 				{
@@ -163,7 +163,7 @@ namespace SlickControls.Controls.Form
 			if (listDropDown != null)
 			{
 				var ctrl = listDropDown;
-				new AnimationHandler(ctrl, new Size(Width, 0), 2).StartAnimation(ctrl.Dispose);
+				new AnimationHandler(ctrl, new Size(Width, 0), 3).StartAnimation(ctrl.Dispose);
 
 				listDropDown = null;
 
@@ -194,17 +194,30 @@ namespace SlickControls.Controls.Form
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			SlickButton.GetColors(out var fore, out var back, listDropDown != null ? HoverState.Pressed : HoverState);
+			SlickButton.GetColors(out var fore, out var back, listDropDown != null ? HoverState.Hovered : HoverState);
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			using (var brush = ClientRectangle.Gradient(back))
+			using (var brush = ClientRectangle.Gradient(back, 0.5F))
 			{
 				e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(0, 0, 1, 1), Padding.Left, true, true, listDropDown == null, listDropDown == null);
 			}
 
-			PaintItem(e, ClientRectangle.Pad(Padding), fore, listDropDown != null ? HoverState.Pressed : HoverState, SelectedItem);
+			if (listDropDown != null)
+			{
+				e.Graphics.DrawString(Text, new Font(Font, FontStyle.Bold), new SolidBrush(fore), ClientRectangle, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+				
+				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(150, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, 1, 1, -2), Padding.Left);
+			}
+			else
+			{
+				var labelSize = string.IsNullOrWhiteSpace(Text) ? Size.Empty : e.Graphics.Measure(Text, UI.Font(6.75F, FontStyle.Bold));
+
+				e.Graphics.DrawString(Text, UI.Font(6.75F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle.Pad(Padding.Left, Padding.Top / 2, 0, 0));
+
+				PaintItem(e, ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 1.2), 0, 0), fore, listDropDown != null ? HoverState.Pressed : HoverState, SelectedItem);
+			}
 		}
 
 		private void ListDropDown_PaintItem(object sender, ItemPaintEventArgs<T> e)
@@ -228,11 +241,27 @@ namespace SlickControls.Controls.Form
 
 		protected abstract void PaintItem(PaintEventArgs e, Rectangle rectangle, Color foreColor, HoverState hoverState, T item);
 
-		private class CustomStackedListControl : SlickStackedListControl<T> 
+		public void ResetValue()
+		{
+			if (Items != null)
+			{
+				SelectedItem = Items[0];
+			}
+		}
+
+		private class CustomStackedListControl : SlickStackedListControl<T>
 		{
 			protected override bool IsItemActionHovered(DrawableItem<T> item, Point location)
 			{
 				return true;
+			}
+
+			protected override void OnPaint(PaintEventArgs e)
+			{
+				base.OnPaint(e);
+
+				e.Graphics.ResetClip();
+				e.Graphics.DrawRectangle(new Pen(Color.FromArgb(150, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, -2, 1, 1));
 			}
 		}
 	}

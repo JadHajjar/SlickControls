@@ -64,6 +64,12 @@ namespace SlickControls
 		{
 			e.Graphics.Clear(BackColor);
 
+			if (Loading)
+			{
+				DrawLoader(e.Graphics, ClientRectangle.CenterR(Image?.Size ?? Size));
+				return;
+			}
+
 			if (Image == null)
 			{
 				return;

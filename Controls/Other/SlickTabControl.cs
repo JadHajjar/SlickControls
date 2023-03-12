@@ -106,6 +106,7 @@ namespace SlickControls
 
 				if (!tab.FillTab)
 				{
+					ScrollBar.Show();
 					ScrollBar.LinkedControl = ctrl;
 					ScrollBar.Reset();
 				}

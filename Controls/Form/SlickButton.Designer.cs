@@ -36,7 +36,7 @@
 		{
 			this.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.Size = new System.Drawing.Size(100, 30);
-			this.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
+			this.Padding = new System.Windows.Forms.Padding(7);
 			this.SpaceTriggersClick = true;
 		}
 

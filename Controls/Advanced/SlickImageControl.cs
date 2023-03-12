@@ -45,6 +45,9 @@ namespace SlickControls
 
 		public void LoadImage(string url)
 		{
+			if (string.IsNullOrEmpty(url))
+			{ return; }
+
 			Loading = true;
 
 			if (!ConnectionHandler.WhenConnected(() =>

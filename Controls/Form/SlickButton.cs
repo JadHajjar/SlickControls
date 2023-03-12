@@ -14,7 +14,9 @@ namespace SlickControls
 
 		public SlickButton()
 		{
-			InitializeComponent();
+			Cursor = Cursors.Hand;
+			Size = new Size(100, 30);
+			SpaceTriggersClick = true;
 		}
 
 		[Category("Appearance"), DisplayName("Color Style"), DefaultValue(ColorStyle.Active)]
@@ -69,10 +71,16 @@ namespace SlickControls
 		{
 			if (Live && HandleUiScale)
 				PerformAutoSize();
+
+			if (Live && Padding == Padding.Empty)
+				Padding = UI.Scale(new Padding(7), UI.UIScale);
 		}
 
 		public void PerformAutoSize()
 		{
+			if (Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill)
+				return;
+
 			using (var g = CreateGraphics())
 			{
 				var IconSize = Image?.Width ?? 16;
@@ -87,14 +95,32 @@ namespace SlickControls
 				var h = Math.Max(IconSize + 6, (int)(bnds.Height) + Padding.Top + 3);
 				var w = (int)bnds.Width + (Image == null ? 0 : IconSize + Padding.Left) + Padding.Horizontal + 3;
 
-				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom))
+				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 					h = Height;
 
-				if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right))
+				if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
 					w = Width;
 
 				Size = new Size(w, h);
 			}
+		}
+
+		public static Size GetSize(Graphics g, Image image, string text, Font font, Padding? padding = null)
+		{
+			var iconSize = image?.Width ?? 16;
+
+			if (string.IsNullOrWhiteSpace(text))
+			{
+				return UI.Scale(new Size(iconSize + 6, iconSize + 6), UI.FontScale);
+			}
+
+			padding = padding ?? UI.Scale(new Padding(7), UI.UIScale);
+
+			var bnds = g.Measure(LocaleHelper.GetGlobalText(text), font);
+			var h = Math.Max(iconSize + 6, (int)(bnds.Height) + padding.Value.Top + 3);
+			var w = (int)bnds.Width + (image == null ? 0 : iconSize + padding.Value.Left) + padding.Value.Horizontal + 3;
+
+			return new Size(w, h);
 		}
 
 		protected override void DesignChanged(FormDesign design) => Invalidate();
@@ -154,7 +180,7 @@ namespace SlickControls
 			Padding? padding = null,
 			HoverState HoverState = HoverState.Normal,
 			ColorStyle ColorStyle = ColorStyle.Active)
-			=> DrawButton(e, rectangle.Location, rectangle.Size, text, font, Color.Empty, Color.Empty, icon, padding ?? new Padding(10, 5, 10, 5), true, HoverState, ColorStyle);
+			=> DrawButton(e, rectangle.Location, rectangle.Size, text, font, Color.Empty, Color.Empty, icon, padding ?? UI.Scale(new Padding(7), UI.UIScale), true, HoverState, ColorStyle);
 
 		public static void DrawButton(PaintEventArgs e,
 								Point location,

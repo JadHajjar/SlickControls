@@ -96,6 +96,9 @@ namespace SlickControls
 		public virtual bool KeyPressed(char keyChar)
 			=> false;
 
+		public virtual Color GetTopBarColor()
+			=> FormDesign.Design.BackColor;
+
 		protected void AbortLoad()
 		{
 			if (DataLoading)
