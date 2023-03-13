@@ -234,7 +234,7 @@
       <DependentUpon>SlickButton.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Generic\SlickIcon.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Form\SlickLabel.cs">
       <SubType>UserControl</SubType>

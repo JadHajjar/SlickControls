@@ -43,46 +43,61 @@ namespace SlickControls
 				image?.Dispose();
 		}
 
-		public void LoadImage(string url)
+		public void LoadImage(string url) => LoadImage(url, LoadImageFromUrl);
+		public void LoadImage(string url, Func<string, Image> method)
 		{
-			if (string.IsNullOrEmpty(url))
-			{ return; }
+			if (string.IsNullOrEmpty(url) || method == null)
+			{
+				fail(new Exception());
+				return;
+			}
 
 			Loading = true;
 
-			if (!ConnectionHandler.WhenConnected(() =>
+			if (!ConnectionHandler.WhenConnected(() => new BackgroundAction("Loading Image", () =>
 			{
-				new BackgroundAction("Loading Image", () =>
+				try
 				{
-					var firstTry = true;
-				tryAgain:
-					try
-					{
-						using (var webClient = new WebClient())
-						{
-							var imageData = webClient.DownloadData(url);
+					if (IsDisposed) return;
 
-							using (var ms = new MemoryStream(imageData))
-							{
-								Image = Image.FromStream(ms);
-								OnImageLoaded();
-							}
-						}
-					}
-					catch (Exception ex)
-					{
-						if (firstTry)
-						{
-							firstTry = false;
-							goto tryAgain;
-						}
-						else
-							fail(ex);
-					}
-				}).Run();
-			}))
+					Image = method(url);
+					ImageChanged?.Invoke(this, EventArgs.Empty);
+				}
+				catch (Exception ex)
+				{
+					fail(ex);
+				}
+			}).Run()))
 			{
 				fail(new Exception());
+			}
+		}
+
+		private Image LoadImageFromUrl(string url)
+		{
+			var firstTry = true;
+		tryAgain:
+			try
+			{
+				using (var webClient = new WebClient())
+				{
+					var imageData = webClient.DownloadData(url);
+
+					using (var ms = new MemoryStream(imageData))
+					{
+						return Image.FromStream(ms);
+					}
+				}
+			}
+			catch
+			{
+				if (firstTry)
+				{
+					firstTry = false;
+					goto tryAgain;
+				}
+				else
+					throw;
 			}
 		}
 
