@@ -7,9 +7,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-
 namespace SlickControls
 {
 	public class SlickStackedListControl<T> : SlickControl
@@ -21,6 +18,7 @@ namespace SlickControls
 		private Rectangle scrollThumbRectangle;
 		private int scrollMouseDown = -1;
 		private DrawableItem<T> mouseDownItem;
+		private int baseHeight;
 
 		[Category("Data"), Browsable(false)]
 		public IEnumerable<T> Items
@@ -28,8 +26,12 @@ namespace SlickControls
 			get
 			{
 				lock (_items)
+				{
 					foreach (var item in _items)
+					{
 						yield return item.Item;
+					}
+				}
 			}
 		}
 
@@ -90,7 +92,7 @@ namespace SlickControls
 		public virtual void Invalidate(T item)
 		{
 			if (DoubleSizeOnHover)
-			{ 
+			{
 				Invalidate();
 				return;
 			}
@@ -109,7 +111,9 @@ namespace SlickControls
 		public virtual void Add(T item)
 		{
 			lock (_items)
+			{
 				_items.Add(new DrawableItem<T>(item));
+			}
 
 			FilterChanged();
 		}
@@ -117,7 +121,9 @@ namespace SlickControls
 		public virtual void AddRange(IEnumerable<T> items)
 		{
 			lock (_items)
+			{
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
+			}
 
 			FilterChanged();
 		}
@@ -136,7 +142,9 @@ namespace SlickControls
 		public virtual void Remove(T item)
 		{
 			lock (_items)
+			{
 				_items.Remove(new DrawableItem<T>(item));
+			}
 
 			Invalidate();
 		}
@@ -144,7 +152,9 @@ namespace SlickControls
 		public virtual void RemoveAll(Predicate<T> predicate)
 		{
 			lock (_items)
+			{
 				_items.RemoveAll(item => predicate(item.Item));
+			}
 
 			Invalidate();
 		}
@@ -152,7 +162,9 @@ namespace SlickControls
 		public virtual void Clear()
 		{
 			lock (_items)
+			{
 				_items.Clear();
+			}
 
 			Invalidate();
 		}
@@ -168,7 +180,10 @@ namespace SlickControls
 		{
 			if (Live)
 			{
-				ItemHeight = (int)(ItemHeight * UI.FontScale);
+				if (baseHeight == 0)
+					baseHeight = ItemHeight;
+
+				ItemHeight = (int)(baseHeight * UI.FontScale);
 
 				Invalidate();
 			}
@@ -177,12 +192,16 @@ namespace SlickControls
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
 			if (scrollMouseDown >= 0)
+			{
 				return;
+			}
 
 			if (mouseDownItem != null)
 			{
 				if (mouseDownItem.Bounds.Contains(e.Location))
+				{
 					OnItemMouseClick(mouseDownItem, e);
+				}
 			}
 
 			base.OnMouseClick(e);
@@ -369,7 +388,10 @@ namespace SlickControls
 			return false;
 		}
 
-		protected virtual IEnumerable<DrawableItem<T>> OrderItems(IEnumerable<DrawableItem<T>> items) => items;
+		protected virtual IEnumerable<DrawableItem<T>> OrderItems(IEnumerable<DrawableItem<T>> items)
+		{
+			return items;
+		}
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
@@ -427,15 +449,15 @@ namespace SlickControls
 			foreach (var item in OrderItems(itemList).Skip(scrollIndex))
 			{
 				var doubleSize = DoubleSizeOnHover && (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed));
-				item.Bounds = new Rectangle(0, y, Width - (scrollVisible ? scrollThumbRectangle.Width : 0), (doubleSize ?2 :1)* ItemHeight + Padding.Vertical + (SeparateWithLines? (int)UI.FontScale : 0));
+				item.Bounds = new Rectangle(0, y, Width - (scrollVisible ? scrollThumbRectangle.Width : 0), ((doubleSize ? 2 : 1) * ItemHeight) + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0));
 
 				e.Graphics.SetClip(item.Bounds);
 
 				OnPaintItem(new ItemPaintEventArgs<T>(
 					item.Item,
 					e.Graphics,
-					item.Bounds.Pad(0,Padding.Top,0,Padding.Bottom),
-					mouseDownItem == item || mouseDownItem == null ? item.HoverState : (item.HoverState & ~HoverState.Hovered)));
+					item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
+					mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal));
 
 				e.Graphics.ResetClip();
 
@@ -448,7 +470,9 @@ namespace SlickControls
 				}
 
 				if (y > Height)
+				{
 					break;
+				}
 			}
 		}
 
@@ -468,7 +492,7 @@ namespace SlickControls
 
 			if (totalHeight > Height)
 			{
-				visibleItems = (int)Math.Floor((float)Height / (ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale:0)));
+				visibleItems = (int)Math.Floor((float)Height / (ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
 				scrollVisible = true;
 				scrollIndex = Math.Max(0, Math.Min(scrollIndex, itemList.Count - visibleItems));
 

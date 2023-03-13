@@ -74,17 +74,17 @@ namespace SlickControls
 
 			void add(string item, string name, Bitmap icon)
 			{
-				var c = new PanelItemControl(new PanelItem
-				{
-					Icon = icon,
-					Text = name
-				})
-				{ Tag = item };
+				//var c = new PanelItemControl(new PanelItem
+				//{
+				//	Icon = icon,
+				//	Text = name
+				//})
+				//{ Tag = item };
 
-				c.MouseClick += C_MouseClick;
+				//c.MouseClick += C_MouseClick;
 
-				FLP_CommonFolders.Controls.Add(c);
-				FLP_CommonFolders.SetFlowBreak(c, true);
+				//FLP_CommonFolders.Controls.Add(c);
+				//FLP_CommonFolders.SetFlowBreak(c, true);
 			}
 		}
 
@@ -92,8 +92,8 @@ namespace SlickControls
 		{
 			var pi = sender as PanelItemControl;
 
-			if (!pi.Selected)
-				libraryViewer.folderOpened(!string.IsNullOrWhiteSpace(pi.Tag as string) ? new DirectoryInfo(pi.Tag.ToString()) : null);
+			//if (!pi.Selected)
+			//	libraryViewer.folderOpened(!string.IsNullOrWhiteSpace(pi.Tag as string) ? new DirectoryInfo(pi.Tag.ToString()) : null);
 		}
 
 		protected override void DesignChanged(FormDesign design)
@@ -153,11 +153,11 @@ namespace SlickControls
 
 		private void libraryViewer_LoadEnded(object sender, EventArgs e)
 		{
-			if (string.IsNullOrWhiteSpace(TB_Search.Text))
-			{
-				foreach (var item in FLP_CommonFolders.Controls.OfType<PanelItemControl>())
-					item.Selected = item.Tag.ToString().Equals(libraryViewer.CurrentPath ?? string.Empty, StringComparison.InvariantCultureIgnoreCase);
-			}
+			//if (string.IsNullOrWhiteSpace(TB_Search.Text))
+			//{
+			//	foreach (var item in FLP_CommonFolders.Controls.OfType<PanelItemControl>())
+			//		item.Selected = item.Tag.ToString().Equals(libraryViewer.CurrentPath ?? string.Empty, StringComparison.InvariantCultureIgnoreCase);
+			//}
 		}
 
 		private void base_P_Container_Paint(object sender, PaintEventArgs e)

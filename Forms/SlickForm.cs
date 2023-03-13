@@ -12,7 +12,6 @@ namespace SlickControls
 {
 	public partial class SlickForm : Form, ISlickForm
 	{
-		#region Public Events
 
 		public event Func<Message, bool> OnWndProc;
 
@@ -24,10 +23,6 @@ namespace SlickControls
 
 		[Category("Property Changed"), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 		public event EventHandler FormStateChanged;
-
-		#endregion Public Events
-
-		#region Public Properties
 
 		[Category("Behavior"), EditorBrowsable(EditorBrowsableState.Always), Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Bindable(true)]
 		public bool CloseForm { get; set; } = true;
@@ -65,16 +60,11 @@ namespace SlickControls
 			}
 		}
 
-		public Rectangle DefaultBounds { get; protected set; }
-
 		public new Rectangle MaximizedBounds { get => base.MaximizedBounds; set => base.MaximizedBounds = value; }
 
 		private List<ExtensionClass.action> nextIdleActions = new List<ExtensionClass.action>();
 		private readonly object idleLock = new object();
-
-		#endregion Public Properties
-
-		#region Public Constructors
+		protected double LastUiScale { get; set; } = 1;
 
 		public SlickForm()
 		{
@@ -112,10 +102,6 @@ namespace SlickControls
 				item();
 		}
 
-		#endregion Public Constructors
-
-		#region Protected Methods
-
 		public void OnNextIdle(ExtensionClass.action action)
 		{
 			lock (idleLock)
@@ -133,13 +119,10 @@ namespace SlickControls
 			if (!DesignMode)
 			{
 				Font = UI.Font(8.25F);
-				var bounds = UI.Scale(DefaultBounds, UI.UIScale);
 
-				Bounds = new Rectangle(
-					Math.Max(0, bounds.X),
-					Math.Max(0, bounds.Y),
-					Math.Min(bounds.Width, SystemInformation.WorkingArea.Width),
-					Math.Min(bounds.Height, SystemInformation.WorkingArea.Height));
+				Bounds = Rectangle.Intersect(UI.Scale(Bounds, UI.UIScale / LastUiScale), Screen.FromHandle(Handle).WorkingArea);
+
+				LastUiScale = UI.UIScale;
 			}
 		}
 
@@ -185,8 +168,6 @@ namespace SlickControls
 				base_B_Min.Click += base_B_Min_Click;
 			}
 
-			DefaultBounds = Bounds;
-
 			SetStyle(ControlStyles.SupportsTransparentBackColor, true);
 			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 			SetStyle(ControlStyles.ResizeRedraw, true);
@@ -199,10 +180,6 @@ namespace SlickControls
 		protected override void OnPaintBackground(PaintEventArgs e) => e.Graphics.Clear(BackColor);
 
 		protected override void OnPaint(PaintEventArgs e) => e.Graphics.Clear(BackColor);
-
-		#endregion Protected Methods
-
-		#region Private Methods
 
 		private void base_B_Max_Click(object sender, EventArgs e)
 			=> WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
@@ -278,10 +255,6 @@ namespace SlickControls
 
 		private void BaseForm_Resize(object sender, EventArgs e) => WindowState = WindowState;
 
-		#endregion Private Methods
-
-		#region FormActive
-
 		public bool FormIsActive { get; internal set; } = true;
 		private FormState currentFormState = FormState.NormalFocused;
 
@@ -327,10 +300,6 @@ namespace SlickControls
 				catch { }
 			}
 		}
-
-		#endregion FormActive
-
-		#region Move/Resize
 
 		public const int HT_CAPTION = 0x2;
 		public const int WM_NCLBUTTONDOWN = 0xA1;
@@ -432,10 +401,6 @@ namespace SlickControls
 			return false;
 		}
 
-		#endregion Move/Resize
-
-		#region Taskbar
-
 		private void Md_MouseMove(object sender, Point p)
 		{
 			if (WindowState == FormWindowState.Maximized)
@@ -528,6 +493,5 @@ namespace SlickControls
 			SetWindowPos(window, IntPtr.Zero, 0, 0, 0, 0, (uint)SetWindowPosFlags.HideWindow);
 		}
 
-		#endregion Taskbar
 	}
 }

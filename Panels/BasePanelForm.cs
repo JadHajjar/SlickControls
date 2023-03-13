@@ -1,5 +1,7 @@
 using Extensions;
 
+using Newtonsoft.Json.Linq;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,9 +15,7 @@ namespace SlickControls
 {
 	public partial class BasePanelForm : SlickForm
 	{
-		#region Private Fields
-
-		private TableLayoutPanel base_TLP_PanelItems;
+		private readonly PanelItemControl base_P_Tabs;
 		private Image formIcon;
 		private readonly List<PanelContent> panelHistory = new List<PanelContent>();
 		private PanelItem[] sidebarItems = new PanelItem[0];
@@ -23,10 +23,7 @@ namespace SlickControls
 		private MouseDetector mouseDetector;
 		private bool smallMenu;
 		private bool hideMenu;
-
-		#endregion Private Fields
-
-		#region Public Properties
+		private bool menuSetUp;
 
 		public event Func<Message, Keys, bool> HandleKeyPress;
 
@@ -56,7 +53,7 @@ namespace SlickControls
 
 		public IEnumerable<PanelContent> PanelHistory => panelHistory;
 
-		internal bool AutoHideMenu 
+		internal bool AutoHideMenu
 		{
 			get => autoHideMenu;
 			set
@@ -70,26 +67,36 @@ namespace SlickControls
 					base_P_Side.SendToBack();
 				}
 				else
+				{
 					base_P_Side.BringToFront();
+				}
 
 				if (IsHandleCreated)
+				{
 					ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "Shared");
+				}
 			}
 		}
 
-		internal bool SmallMenu 
+		internal bool SmallMenu
 		{
-			get => smallMenu; 
+			get => smallMenu;
 			set
 			{
 				smallMenu = value;
 				setSmallMenu();
 
 				if (autoHideMenu)
+				{
 					mouseDetector_MouseMove(null, Cursor.Position);
+				}
+
+				base_P_Tabs.FilterChanged();
 
 				if (IsHandleCreated)
+				{
 					ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "Shared");
+				}
 			}
 		}
 
@@ -97,15 +104,8 @@ namespace SlickControls
 		public bool HideMenu
 		{
 			get => hideMenu;
-			set
-			{
-				base_P_Side.Visible = !(hideMenu = value);
-			}
+			set => base_P_Side.Visible = !(hideMenu = value);
 		}
-
-		#endregion Public Properties
-
-		#region Protected Properties
 
 		protected override CreateParams CreateParams
 		{
@@ -117,10 +117,6 @@ namespace SlickControls
 			}
 		}
 
-		#endregion Protected Properties
-
-		#region Public Constructors
-
 		public BasePanelForm() : this(false)
 		{ }
 
@@ -128,20 +124,23 @@ namespace SlickControls
 		{
 			InitializeComponent();
 
+			base_P_Tabs = new PanelItemControl(this) { Dock = DockStyle.Fill };
+			base_TLP_Side.Controls.Add(base_P_Tabs);
+
 			if (DesignMode)
+			{
 				SetPanel<PanelContent>(null);
+			}
 
 			if (!initialized)
+			{
 				FormDesign.DesignChanged += DesignChanged;
+			}
 
-			base_P_Tabs.MouseDown += Form_MouseDown;
 			base_P_Icon.MouseDown += Form_MouseDown;
 			base_P_SideControls.MouseDown += Form_MouseDown;
+			base_TLP_Side.MouseDown += Form_MouseDown;
 		}
-
-		#endregion Public Constructors
-
-		#region Public Methods
 
 		public void PushBack(bool dispose = true)
 		{
@@ -155,7 +154,9 @@ namespace SlickControls
 					PushBack(dispose);
 				}
 				else if (SetPanel(panel.PanelItem, panel, dispose, false))
+				{
 					panelHistory.Remove(panel);
+				}
 			}
 		}
 
@@ -164,7 +165,9 @@ namespace SlickControls
 			if (CurrentPanel != null)
 			{
 				if (!panelHistory.Contains(CurrentPanel))
+				{
 					panelHistory.Add(CurrentPanel);
+				}
 				else
 				{
 					panelHistory.Remove(CurrentPanel);
@@ -180,12 +183,17 @@ namespace SlickControls
 
 		public bool PushPanel(PanelItem panelItem, PanelContent panelContent)
 		{
-			if (CurrentPanel == panelContent) return false;
+			if (CurrentPanel == panelContent)
+			{
+				return false;
+			}
 
 			if (CurrentPanel != null)
 			{
 				if (!panelHistory.Contains(CurrentPanel))
+				{
 					panelHistory.Add(CurrentPanel);
+				}
 				else
 				{
 					panelHistory.Remove(CurrentPanel);
@@ -202,7 +210,9 @@ namespace SlickControls
 		public bool SetPanel<T>(PanelItem panelItem, bool dispose = true, bool clearHistory = true) where T : PanelContent, new()
 		{
 			if (CurrentPanel != null && ((CurrentPanel.PanelItem == panelItem && !(panelItem?.ForceReopen ?? false)) || !CurrentPanel.CanExit(dispose)))
+			{
 				return false;
+			}
 
 			try
 			{
@@ -216,7 +226,9 @@ namespace SlickControls
 							panelHistory.Remove(panel);
 						}
 						else
+						{
 							return false;
+						}
 					}
 				}
 
@@ -228,20 +240,25 @@ namespace SlickControls
 					Form = this
 				};
 
-				base_P_PanelContent.SuspendDrawing();
+				base_P_Content.SuspendDrawing();
 
 				if (CurrentPanel != null)
+				{
 					base_P_PanelContent.Controls.Remove(CurrentPanel);
+				}
 
 				if (dispose)
+				{
 					handleDispose(CurrentPanel);
+				}
 
 				CurrentPanel = newPanel;
 			}
 			catch { return false; }
 
 			base_B_Close.Visible = base_B_Max.Visible = base_B_Min.Visible = !CurrentPanel.HideWindowIcons;
-			base_TLP_TopButtons.BackColor = CurrentPanel.GetTopBarColor();
+			base_P_Content.BackColor = CurrentPanel.GetTopBarColor();
+			base_TLP_Side.Invalidate();
 
 			if (!CurrentPanel.PanelWasSetUp)
 			{
@@ -253,7 +270,7 @@ namespace SlickControls
 			{
 				var btn = new Button();
 				AcceptButton = btn;
-				btn.Click += (s, e) => { if (CurrentPanel.AcceptButton.Enabled) CurrentPanel.AcceptButton.OnClick(e); };
+				btn.Click += (s, e) => { if (CurrentPanel.AcceptButton.Enabled) { CurrentPanel.AcceptButton.OnClick(e); } };
 			}
 			else
 			{
@@ -264,7 +281,7 @@ namespace SlickControls
 			{
 				var btn = new Button();
 				CancelButton = btn;
-				btn.Click += (s, e) => { if (CurrentPanel.CancelButton.Enabled) CurrentPanel.CancelButton.OnClick(e); };
+				btn.Click += (s, e) => { if (CurrentPanel.CancelButton.Enabled) { CurrentPanel.CancelButton.OnClick(e); } };
 			}
 			else
 			{
@@ -273,18 +290,24 @@ namespace SlickControls
 
 			base_P_PanelContent.Controls.Add(CurrentPanel);
 
-			if (base_TLP_PanelItems != null && panelItem != null)
+			if (SidebarItems != null && panelItem != null)
 			{
-				foreach (var item in base_TLP_PanelItems.Controls.ThatAre<PanelItemControl>())
-					item.Selected = item.PanelItem == panelItem;
+				foreach (var item in SidebarItems)
+				{
+					item.Selected = item == panelItem;
+				}
+
+				base_P_Tabs.Invalidate();
 			}
 
 			CurrentPanel.OnShown();
 
-			base_P_PanelContent.ResumeDrawing();
+			base_P_Content.ResumeDrawing();
 
 			if (!CurrentPanel.Focus() && IsHandleCreated)
+			{
 				BeginInvoke(new Action(() => CurrentPanel.Focus()));
+			}
 
 			return true;
 		}
@@ -295,7 +318,9 @@ namespace SlickControls
 					(CurrentPanel.PanelItem != null && panelItem != PanelItem.Empty && CurrentPanel.PanelItem == panelItem && !panelItem.ForceReopen && CurrentPanel.GetType() == panelContent.GetType())
 					|| (dispose && !CurrentPanel.CanExit(dispose))
 				))
+			{
 				return false;
+			}
 
 			if (clearHistory && panelHistory != null)
 			{
@@ -307,16 +332,22 @@ namespace SlickControls
 						panelHistory.Remove(panel);
 					}
 					else
+					{
 						return false;
+					}
 				}
 			}
 
-			base_P_PanelContent.SuspendDrawing();
+			base_P_Content.SuspendDrawing();
 
 			if (dispose)
+			{
 				handleDispose(CurrentPanel);
+			}
 			else if (CurrentPanel != null)
+			{
 				base_P_PanelContent.Controls.Remove(CurrentPanel);
+			}
 
 			CurrentPanel = panelContent;
 
@@ -326,7 +357,8 @@ namespace SlickControls
 			CurrentPanel.Form = this;
 
 			base_B_Close.Visible = base_B_Max.Visible = base_B_Min.Visible = !CurrentPanel.HideWindowIcons;
-			base_TLP_TopButtons.BackColor = CurrentPanel.GetTopBarColor();
+			base_P_Content.BackColor = CurrentPanel.GetTopBarColor();
+			base_TLP_Side.Invalidate();
 
 			if (!CurrentPanel.PanelWasSetUp)
 			{
@@ -338,7 +370,7 @@ namespace SlickControls
 			{
 				var btn = new Button();
 				AcceptButton = btn;
-				btn.Click += (s, e) => { if (CurrentPanel.AcceptButton.Enabled) CurrentPanel.AcceptButton.OnClick(e); };
+				btn.Click += (s, e) => { if (CurrentPanel.AcceptButton.Enabled) { CurrentPanel.AcceptButton.OnClick(e); } };
 			}
 			else
 			{
@@ -349,7 +381,7 @@ namespace SlickControls
 			{
 				var btn = new Button();
 				CancelButton = btn;
-				btn.Click += (s, e) => { if (CurrentPanel.CancelButton.Enabled) CurrentPanel.CancelButton.OnClick(e); };
+				btn.Click += (s, e) => { if (CurrentPanel.CancelButton.Enabled) { CurrentPanel.CancelButton.OnClick(e); } };
 			}
 			else
 			{
@@ -358,80 +390,69 @@ namespace SlickControls
 
 			base_P_PanelContent.Controls.Add(CurrentPanel);
 
-			if (base_TLP_PanelItems != null && panelItem != null)
+			if (SidebarItems != null && panelItem != null)
 			{
-				foreach (var item in base_TLP_PanelItems.Controls.OfType<PanelItemControl>())
-					item.Selected = item.PanelItem == panelItem;
+				foreach (var item in SidebarItems)
+				{
+					item.Selected = item == panelItem;
+				}
+
+				base_P_Tabs.Invalidate();
 			}
 
 			panelContent.Visible = true;
 
 			CurrentPanel.OnShown();
 
-			base_P_PanelContent.ResumeDrawing();
+			base_P_Content.ResumeDrawing();
 
 			if (!CurrentPanel.Focus() && IsHandleCreated)
+			{
 				BeginInvoke(new Action(() => CurrentPanel.Focus()));
+			}
 
 			return true;
 		}
-
-		#endregion Public Methods
-
-		#region Protected Methods
 
 		protected override void UIChanged()
 		{
 			base.UIChanged();
 
 			base_P_Side.Width = (int)(165 * UI.UIScale);
-
-			if (base_TLP_PanelItems != null)
-			{
-				base_TLP_PanelItems.MaximumSize = new Size(base_P_Side.Width, 9999);
-				base_TLP_PanelItems.MinimumSize = new Size(base_P_Side.Width, 0);
-				base_TLP_PanelItems.Width = base_P_Side.Width;
-			}
+			base_TLP_Side.Padding = UI.Scale(new Padding(5), UI.FontScale);
+			base_P_Side.Padding = UI.Scale(new Padding(5, 5, 0, 5), UI.FontScale);
 
 			base_P_SideControls.Font = UI.Font(6.75F);
-			base_P_Tabs.Font = UI.Font(8.25F, FontStyle.Bold);
 			base_P_Icon.Height = (int)(70 * UI.UIScale);
 			base_PB_Icon.Size = UI.Scale(new Size(32, 32), UI.UIScale);
 			base_B_Close.Size = base_B_Max.Size = base_B_Min.Size = new Size(6 + (int)(16 * UI.UIScale), 6 + (int)(16 * UI.UIScale));
 
 			if (SmallMenu)
+			{
 				setSmallMenu();
+			}
 		}
 
 		protected override void DesignChanged(FormDesign design)
 		{
 			base.DesignChanged(design);
 
-			base_TLP_TopButtons.BackColor = CurrentPanel?.GetTopBarColor() ?? design.BackColor;
-			base_P_PanelContent.BackColor = design.BackColor;
-			base_P_Content.BackColor = design.MenuColor;
+			base_P_Content.BackColor = CurrentPanel?.GetTopBarColor() ?? design.BackColor;
+			base_TLP_Side.BackColor = design.MenuColor;
 			base_P_Side.ForeColor = design.LabelColor;
 			base_P_SideControls.ForeColor = design.LabelColor.MergeColor(design.ID.If(0, design.AccentColor, design.MenuColor), 80);
-
-			if (base_TLP_PanelItems != null)
-			{
-				foreach (var item in base_TLP_PanelItems.Controls.ThatAre<Panel>())
-					item.BackColor = design.AccentColor;
-			}
 
 			base_PB_Icon.Color(design.MenuForeColor);
 		}
 
 		protected void DisableSideBar()
 		{
-			foreach (var item in base_TLP_PanelItems.Controls.ThatAre<PanelItemControl>())
-				item.Enabled = false;
+			base_P_Tabs.Enabled = false;
 		}
 
 		protected void EnableSideBar()
 		{
-			foreach (var item in base_TLP_PanelItems.Controls.ThatAre<PanelItemControl>())
-				item.Enabled = true;
+			base_P_Tabs.Enabled = true;
 		}
 
 		protected override void OnCreateControl()
@@ -450,17 +471,21 @@ namespace SlickControls
 					AutoHideMenu = options.AutoHideMenu;
 					SmallMenu = options.SmallMenu;
 				}
+
+				menuSetUp = true;
 			}
 
-			base_P_SideControls?.BringToFront();
-			base_TLP_PanelItems?.BringToFront();
+			base_P_Tabs.BringToFront();
+
 			OnNextIdle(() => CurrentPanel?.Focus());
 		}
 
 		protected override void OnKeyPress(KeyPressEventArgs e)
 		{
 			if (CurrentPanel != null && CurrentPanel.KeyPressed(e.KeyChar))
+			{
 				return;
+			}
 
 			base.OnKeyPress(e);
 		}
@@ -474,10 +499,14 @@ namespace SlickControls
 			//}
 
 			if (CurrentPanel != null && CurrentPanel.KeyPressed(ref msg, keyData))
+			{
 				return true;
+			}
 
 			if (HandleKeyPress?.Invoke(msg, keyData) ?? false)
+			{
 				return true;
+			}
 
 			if (keyData == Keys.Escape && CancelButton == null)
 			{
@@ -487,33 +516,34 @@ namespace SlickControls
 				{ WindowState = FormWindowState.Normal; return true; }
 			}
 
-			if (keyData == (Keys.Shift | Keys.Escape) && (SidebarItems?.All(x => x.Control != null) ?? false))
+			if (keyData == (Keys.Shift | Keys.Escape) && SidebarItems != null)
 			{
 				foreach (var item in SidebarItems)
 				{
 					item.Highlighted = false;
-					item.Control.Invalidate();
 				}
+
+				base_P_Tabs.Invalidate();
 
 				return true;
 			}
 
-			if ((keyData == (Keys.Shift | Keys.Up) || keyData == (Keys.Shift | Keys.Down)) && (SidebarItems?.All(x => x.Control != null) ?? false))
+			if ((keyData == (Keys.Shift | Keys.Up) || keyData == (Keys.Shift | Keys.Down)) && SidebarItems != null)
 			{
-				var prev = SidebarItems.FirstOrDefault(x => x.Highlighted) ?? SidebarItems.FirstOrDefault(x => x.Control.Selected);
+				var prev = SidebarItems.FirstOrDefault(x => x.Highlighted) ?? SidebarItems.FirstOrDefault(x => x.Selected);
 				var item = (keyData == (Keys.Shift | Keys.Up) ? SidebarItems.Previous(prev, true) : SidebarItems.Next(prev, true)) ?? SidebarItems.FirstOrDefault();
 
 				if (prev != null)
 				{
 					prev.Highlighted = false;
-					prev.Control.Invalidate();
 				}
 
 				if (item != null)
 				{
 					item.Highlighted = true;
-					item.Control.Invalidate();
 				}
+
+				base_P_Tabs.Invalidate();
 
 				return true;
 			}
@@ -526,11 +556,14 @@ namespace SlickControls
 			if (!(CurrentPanel?.OnWndProc(m) ?? false) && !HandleWndProc(ref m))
 			{
 				if (m.Msg == 0x210 && m.WParam == (IntPtr)0x1020b && PanelHistory.Any())
+				{
 					PushBack();
+				}
 
 				if (m.Msg == 0x20e && PanelHistory.Any())
 				{
-					var newPad = new Padding(Math.Min((int)(120 * UI.UIScale), base_P_PanelContent.Padding.Left - m.WParam.ToInt32() / 65536), 0, 0, 0); ;
+					var newPad = new Padding(Math.Min((int)(120 * UI.UIScale), base_P_PanelContent.Padding.Left - (m.WParam.ToInt32() / 65536)), 0, 0, 0);
+					
 					if (newPad != base_P_PanelContent.Padding)
 					{
 						base_P_PanelContent.Padding = newPad;
@@ -543,13 +576,11 @@ namespace SlickControls
 					}
 				}
 				else if (base_P_PanelContent.Padding.Left != 0 && m.Msg != 0x20)
+				{
 					AnimationHandler.Animate(base_P_PanelContent, Padding.Empty, 2);
+				}
 			}
 		}
-
-		#endregion Protected Methods
-
-		#region Private Methods
 
 		[DllImport("user32.dll")]
 		private static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
@@ -569,60 +600,29 @@ namespace SlickControls
 
 		private void GenerateTabs()
 		{
-			base_TLP_PanelItems?.Dispose();
-			base_TLP_PanelItems = new TableLayoutPanel()
-			{
-				MaximumSize = new Size(base_P_Side.Width, 9999),
-				MinimumSize = new Size(base_P_Side.Width, 0),
-				AutoSize = true
-			};
-
-			base_TLP_PanelItems.MouseDown += Form_MouseDown;
+			var tabs = new List<PanelTab>();
 
 			foreach (var group in sidebarItems.Select(x => x.Group).Distinct())
 			{
 				if (!string.IsNullOrWhiteSpace(group))
 				{
-					var label = new Label()
-					{
-						Text = group.ToUpper(),
-						Margin = new Padding(7, 10, 0, 4),
-						AutoSize = true,
-						Visible = !smallMenu
-					};
-
-					base_TLP_PanelItems.Controls.Add(label);
+					tabs.Add(PanelTab.GroupName(group));
 				}
 
 				var items = sidebarItems.Where(x => x.Group == group);
 
 				foreach (var item in items)
 				{
-					var panelitem = new PanelItemControl(item)
-					{
-						Margin = new Padding(0)
-					};
-
-					base_TLP_PanelItems.Controls.Add(panelitem);
+					tabs.Add(new PanelTab(item));
 				}
 
 				if (group != sidebarItems.Select(x => x.Group).Distinct().Last())
 				{
-					base_TLP_PanelItems.Controls.Add(new SlickSpacer
-					{
-						Size = new Size(base_P_Side.Width, 6),
-						Dock = DockStyle.Top,
-						Padding = smallMenu ? new Padding(0, 3, 0, 2) : new Padding(15, 5, 15, 0),
-						Margin = new Padding(0)
-					});
+					tabs.Add(PanelTab.Separator());
 				}
 			}
 
-			for (var i = 0; i < base_TLP_PanelItems.RowCount; i++)
-				base_TLP_PanelItems.RowStyles[i].SizeType = SizeType.AutoSize;
-
-			base_P_Tabs.Controls.Add(base_TLP_PanelItems);
-			base_SideScroll.LinkedControl = base_TLP_PanelItems;
+			base_P_Tabs.SetItems(tabs);
 		}
 
 		private void RecursiveMouseDown(Control ctrl)
@@ -632,10 +632,14 @@ namespace SlickControls
 				ctrl.MouseDown += Form_MouseDown;
 
 				foreach (var item in ctrl.Controls.ThatAre<Panel>().Where(x => x.Tag?.ToString() != "NoMouseDown"))
+				{
 					RecursiveMouseDown(item);
+				}
 
 				foreach (var item in ctrl.Controls.ThatAre<Label>().Where(x => x.Tag?.ToString() != "NoMouseDown"))
+				{
 					item.MouseDown += Form_MouseDown;
+				}
 			}
 		}
 
@@ -656,13 +660,14 @@ namespace SlickControls
 
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.ShiftKey && (SidebarItems?.All(x => x.Control != null) ?? false))
+			if (e.KeyCode == Keys.ShiftKey && SidebarItems != null)
 			{
 				foreach (var item in SidebarItems)
 				{
-					item.Highlighted = item.Control.Selected;
-					item.Control.Invalidate();
+					item.Highlighted = item.Selected;
 				}
+
+				base_P_Tabs.Invalidate();
 			}
 
 			base.OnKeyDown(e);
@@ -670,16 +675,19 @@ namespace SlickControls
 
 		protected override void OnKeyUp(KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.ShiftKey && (SidebarItems?.All(x => x.Control != null) ?? false))
+			if (e.KeyCode == Keys.ShiftKey && SidebarItems != null)
 			{
 				foreach (var item in SidebarItems)
 				{
-					if (item.Highlighted && !item.Control.Selected)
+					if (item.Highlighted && !item.Selected)
+					{
 						item.MouseClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
+					}
 
 					item.Highlighted = false;
-					item.Control.Invalidate();
 				}
+
+				base_P_Tabs.Invalidate();
 			}
 
 			base.OnKeyUp(e);
@@ -689,9 +697,11 @@ namespace SlickControls
 		{
 			if (base_P_PanelContent.Padding.Left != 0)
 			{
-				e.Graphics.DrawImage(Properties.Resources.Huge_Back.Color(FormDesign.Design.ActiveColor), new Rectangle(base_P_PanelContent.Padding.Left / 2 - 32, base_P_PanelContent.Height / 2 - 32, 64, 64));
+				e.Graphics.DrawImage(Properties.Resources.Huge_Back.Color(FormDesign.Design.ActiveColor), new Rectangle((base_P_PanelContent.Padding.Left / 2) - 32, (base_P_PanelContent.Height / 2) - 32, 64, 64));
 				if (base_P_PanelContent.Padding.Left < 120)
-					e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255 - (255 * Math.Max(0, (base_P_PanelContent.Padding.Left - 20)) / 100), base_P_PanelContent.BackColor)), new Rectangle(base_P_PanelContent.Padding.Left / 2 - 32, base_P_PanelContent.Height / 2 - 32, 64, 64));
+				{
+					e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255 - (255 * Math.Max(0, base_P_PanelContent.Padding.Left - 20) / 100), base_P_PanelContent.BackColor)), new Rectangle((base_P_PanelContent.Padding.Left / 2) - 32, (base_P_PanelContent.Height / 2) - 32, 64, 64));
+				}
 			}
 		}
 
@@ -701,13 +711,17 @@ namespace SlickControls
 			{
 				var close = !base_P_Side.Bounds.Pad(-30).Contains(base_P_Side.PointToClient(p));
 				var animation = AnimationHandler.GetAnimation(base_P_Side, AnimationOption.IgnoreHeight);
-				var newSize = new Size(close ? 0 : smallMenu ? 46 : (int)(165 * UI.UIScale), 0);
+				var newSize = new Size(close ? 0 : (int)((smallMenu ? 55 : 165) * UI.UIScale), 0);
 
-				if (!IsHandleCreated || DesignMode)
+				if (!IsHandleCreated || DesignMode || !menuSetUp)
+				{
 					base_P_Side.Size = newSize;
+				}
 				else if (animation == null || close != (animation.NewBounds.Width == 0))
+				{
 					new AnimationHandler(base_P_Side, newSize, 2.25, AnimationOption.IgnoreHeight)
 						.StartAnimation();
+				}
 			}
 
 			CurrentPanel?.GlobalMouseMove(p);
@@ -715,39 +729,20 @@ namespace SlickControls
 
 		private void setSmallMenu()
 		{
-			PanelItemControl.DrawText = !smallMenu;
 			base_P_SideControls.Visible = !smallMenu;
-			base_PB_Icon.Size = smallMenu ? new Size(26, 26) : UI.Scale(new Size(32, 32), UI.UIScale);
+			base_PB_Icon.Size = UI.Scale(smallMenu ? new Size(26, 26) : new Size(32, 32), UI.UIScale);
 
-			if (base_TLP_PanelItems != null)
-				foreach (Control item in base_TLP_PanelItems.Controls)
-				{
-					if (item is Label)
-						item.Visible = !smallMenu;
-					else if (item is SlickSpacer)
-						item.Padding = smallMenu ? new Padding(0, 3, 0, 2) : new Padding(15, 5, 15, 0);
-				}
+			var newSize = new Size((int)((smallMenu ? 55 : 165) * UI.UIScale), 0);
 
-			var newSize = new Size(smallMenu ? 46 : (int)(165 * UI.UIScale), 0);
-
-			if (!IsHandleCreated)
+			if (!IsHandleCreated || !menuSetUp)
+			{
 				base_P_Side.Size = newSize;
+			}
 			else
 			{
 				var handler = new AnimationHandler(base_P_Side, newSize, 2.25, AnimationOption.IgnoreHeight);
-				handler.OnAnimationTick += (_, control, finished) =>
-				{
-					base_TLP_PanelItems.Width = base_P_Side.Width;
-					foreach (Control item in base_TLP_PanelItems.Controls)
-					{
-						if (item is PanelItemControl c)
-							item.Width = base_TLP_PanelItems.Width;
-					}
-				};
 				handler.StartAnimation();
 			}
 		}
-
-		#endregion Private Methods
 	}
 }

@@ -35,10 +35,9 @@
 			this.base_TLP_TopButtons = new System.Windows.Forms.TableLayoutPanel();
 			this.base_P_PanelContent = new SlickControls.DBPanel();
 			this.base_P_Side = new System.Windows.Forms.Panel();
-			this.base_SideScroll = new SlickControls.SlickScroll();
-			this.base_P_Tabs = new System.Windows.Forms.Panel();
-			this.base_P_SideControls = new System.Windows.Forms.Panel();
+			this.base_TLP_Side = new SlickControls.RoundedPanel();
 			this.base_P_Icon = new System.Windows.Forms.TableLayoutPanel();
+			this.base_P_SideControls = new System.Windows.Forms.Panel();
 			this.base_P_Container.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.base_PB_Icon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.base_B_Close)).BeginInit();
@@ -47,7 +46,7 @@
 			this.base_P_Content.SuspendLayout();
 			this.base_TLP_TopButtons.SuspendLayout();
 			this.base_P_Side.SuspendLayout();
-			this.base_P_Tabs.SuspendLayout();
+			this.base_TLP_Side.SuspendLayout();
 			this.base_P_Icon.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -57,7 +56,6 @@
 			this.base_P_Container.Controls.Add(this.base_P_Content);
 			this.base_P_Container.Size = new System.Drawing.Size(850, 479);
 			this.base_P_Container.TabIndex = 5;
-			this.base_P_Container.Paint += new System.Windows.Forms.PaintEventHandler(this.base_P_Container_Paint);
 			// 
 			// base_PB_Icon
 			// 
@@ -122,49 +120,22 @@
 			// 
 			// base_P_Side
 			// 
-			this.base_P_Side.Controls.Add(this.base_SideScroll);
-			this.base_P_Side.Controls.Add(this.base_P_Tabs);
-			this.base_P_Side.Controls.Add(this.base_P_Icon);
+			this.base_P_Side.Controls.Add(this.base_TLP_Side);
 			this.base_P_Side.Dock = System.Windows.Forms.DockStyle.Left;
 			this.base_P_Side.Location = new System.Drawing.Point(0, 0);
 			this.base_P_Side.Name = "base_P_Side";
 			this.base_P_Side.Size = new System.Drawing.Size(165, 477);
 			this.base_P_Side.TabIndex = 0;
 			// 
-			// base_SideScroll
+			// base_TLP_Side
 			// 
-			this.base_SideScroll.Dock = System.Windows.Forms.DockStyle.Left;
-			this.base_SideScroll.LinkedControl = null;
-			this.base_SideScroll.Location = new System.Drawing.Point(0, 70);
-			this.base_SideScroll.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
-			this.base_SideScroll.Name = "base_SideScroll";
-			this.base_SideScroll.ShowHandle = false;
-			this.base_SideScroll.Size = new System.Drawing.Size(6, 407);
-			this.base_SideScroll.Style = SlickControls.StyleType.Vertical;
-			this.base_SideScroll.TabIndex = 11;
-			this.base_SideScroll.TabStop = false;
-			this.base_SideScroll.Visible = false;
-			// 
-			// base_P_Tabs
-			// 
-			this.base_P_Tabs.Controls.Add(this.base_P_SideControls);
-			this.base_P_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.base_P_Tabs.Font = new System.Drawing.Font("Nirmala UI", 8.25F, System.Drawing.FontStyle.Bold);
-			this.base_P_Tabs.Location = new System.Drawing.Point(0, 70);
-			this.base_P_Tabs.Name = "base_P_Tabs";
-			this.base_P_Tabs.Size = new System.Drawing.Size(165, 407);
-			this.base_P_Tabs.TabIndex = 10;
-			// 
-			// base_P_SideControls
-			// 
-			this.base_P_SideControls.AutoSize = true;
-			this.base_P_SideControls.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.base_P_SideControls.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.base_P_SideControls.Location = new System.Drawing.Point(0, 357);
-			this.base_P_SideControls.MinimumSize = new System.Drawing.Size(0, 50);
-			this.base_P_SideControls.Name = "base_P_SideControls";
-			this.base_P_SideControls.Size = new System.Drawing.Size(165, 50);
-			this.base_P_SideControls.TabIndex = 0;
+			this.base_TLP_Side.Controls.Add(this.base_P_Icon);
+			this.base_TLP_Side.Controls.Add(this.base_P_SideControls);
+			this.base_TLP_Side.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.base_TLP_Side.Location = new System.Drawing.Point(0, 0);
+			this.base_TLP_Side.Name = "base_TLP_Side";
+			this.base_TLP_Side.Size = new System.Drawing.Size(165, 477);
+			this.base_TLP_Side.TabIndex = 13;
 			// 
 			// base_P_Icon
 			// 
@@ -172,10 +143,23 @@
 			this.base_P_Icon.Controls.Add(this.base_PB_Icon);
 			this.base_P_Icon.Dock = System.Windows.Forms.DockStyle.Top;
 			this.base_P_Icon.Location = new System.Drawing.Point(0, 0);
+			this.base_P_Icon.Margin = new System.Windows.Forms.Padding(0);
 			this.base_P_Icon.Name = "base_P_Icon";
 			this.base_P_Icon.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.base_P_Icon.Size = new System.Drawing.Size(165, 70);
 			this.base_P_Icon.TabIndex = 9;
+			// 
+			// base_P_SideControls
+			// 
+			this.base_P_SideControls.AutoSize = true;
+			this.base_P_SideControls.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.base_P_SideControls.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.base_P_SideControls.Location = new System.Drawing.Point(0, 467);
+			this.base_P_SideControls.Margin = new System.Windows.Forms.Padding(0);
+			this.base_P_SideControls.MinimumSize = new System.Drawing.Size(0, 10);
+			this.base_P_SideControls.Name = "base_P_SideControls";
+			this.base_P_SideControls.Size = new System.Drawing.Size(165, 10);
+			this.base_P_SideControls.TabIndex = 12;
 			// 
 			// BasePanelForm
 			// 
@@ -196,8 +180,8 @@
 			this.base_P_Content.PerformLayout();
 			this.base_TLP_TopButtons.ResumeLayout(false);
 			this.base_P_Side.ResumeLayout(false);
-			this.base_P_Tabs.ResumeLayout(false);
-			this.base_P_Tabs.PerformLayout();
+			this.base_TLP_Side.ResumeLayout(false);
+			this.base_TLP_Side.PerformLayout();
 			this.base_P_Icon.ResumeLayout(false);
 			this.ResumeLayout(false);
 
@@ -210,7 +194,6 @@
 		private DBPanel base_P_PanelContent;
 		private System.Windows.Forms.TableLayoutPanel base_TLP_TopButtons;
 		protected System.Windows.Forms.Panel base_P_SideControls;
-		private System.Windows.Forms.Panel base_P_Tabs;
-		private SlickControls.SlickScroll base_SideScroll;
+		private RoundedPanel base_TLP_Side;
 	}
 }

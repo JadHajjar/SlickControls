@@ -374,11 +374,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Panels\PanelItemControl.cs">
-      <SubType>Component</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Panels\PanelItemControl.Designer.cs">
-      <DependentUpon>PanelItemControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Panels\PanelTab.cs" />
     <Compile Include="Panels\PC_Changelog.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -510,9 +508,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PanelContent.resx">
       <DependentUpon>PanelContent.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Panels\PanelItemControl.resx">
-      <DependentUpon>PanelItemControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PC_Changelog.resx">
       <DependentUpon>PC_Changelog.cs</DependentUpon>
