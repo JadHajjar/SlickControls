@@ -97,7 +97,7 @@ namespace SlickControls
 
 			if (PanelItem.Highlighted)
 			{
-				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveForeColor), 2F) { DashStyle = DashStyle.Dash }, e.ClipRectangle.Pad(bar, 1, bar, 1), bar);
+				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveForeColor), 2F) { DashStyle = DashStyle.Dash }, e.ClipRectangle.Pad(0, 1, 0, 1), bar);
 			}
 
 			//if (Loading)
