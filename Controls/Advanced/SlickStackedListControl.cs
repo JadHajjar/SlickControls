@@ -16,8 +16,8 @@ namespace SlickControls
 		private bool scrollVisible;
 		private int scrollIndex;
 		private Rectangle scrollThumbRectangle;
-		private int scrollMouseDown = -1;
-		private DrawableItem<T> mouseDownItem;
+		protected int scrollMouseDown = -1;
+		protected DrawableItem<T> mouseDownItem;
 		private int baseHeight;
 
 		[Category("Data"), Browsable(false)]

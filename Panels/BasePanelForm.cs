@@ -137,6 +137,7 @@ namespace SlickControls
 				FormDesign.DesignChanged += DesignChanged;
 			}
 
+			base_P_Tabs.OnFormMove += Form_MouseDown;
 			base_P_Icon.MouseDown += Form_MouseDown;
 			base_P_SideControls.MouseDown += Form_MouseDown;
 			base_TLP_Side.MouseDown += Form_MouseDown;

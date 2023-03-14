@@ -9,6 +9,8 @@ namespace SlickControls
 {
 	internal class PanelItemControl : SlickStackedListControl<PanelTab>
 	{
+		public event MouseEventHandler OnFormMove;
+
 		public BasePanelForm Form { get; }
 
 		public PanelItemControl(BasePanelForm form)
@@ -37,6 +39,16 @@ namespace SlickControls
 		protected override bool IsItemActionHovered(DrawableItem<PanelTab> item, Point location)
 		{
 			return item.Item.PanelItem != null;
+		}
+
+		protected override void OnMouseDown(MouseEventArgs e)
+		{
+			base.OnMouseDown(e);
+
+			if (mouseDownItem == null && scrollMouseDown < 0)
+			{
+				OnFormMove?.Invoke(this, e);
+			}
 		}
 	}
 }
