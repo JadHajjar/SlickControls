@@ -75,20 +75,24 @@ namespace SlickControls
 				return;
 			}
 
+			List<DrawableItem<T>> itemCopy;
+
 			lock (_items)
 			{
-				foreach (var x in _items)
-				{
-					var canDraw = new CanDrawItemEventArgs<T>(x.Item);
-
-					CanDrawItem(this, canDraw);
-
-					x.Bounds = Rectangle.Empty;
-					x.Hidden = canDraw.DoNotDraw;
-				}
+				itemCopy = new List<DrawableItem<T>>(_items);
 			}
 
-			Invalidate();
+			foreach (var x in itemCopy)
+			{
+				var canDraw = new CanDrawItemEventArgs<T>(x.Item);
+
+				CanDrawItem(this, canDraw);
+
+				x.Bounds = Rectangle.Empty;
+				x.Hidden = canDraw.DoNotDraw;
+			}
+
+			this.TryInvoke(Invalidate);
 		}
 
 		public virtual void Invalidate(T item)
