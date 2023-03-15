@@ -13,9 +13,9 @@ namespace SlickControls
 	{
 		private readonly List<DrawableItem<T>> _items;
 		private int visibleItems;
-		private bool scrollVisible;
+		protected bool scrollVisible;
 		private int scrollIndex;
-		private Rectangle scrollThumbRectangle;
+		protected Rectangle scrollThumbRectangle;
 		protected int scrollMouseDown = -1;
 		protected DrawableItem<T> mouseDownItem;
 		private int baseHeight;
@@ -57,6 +57,8 @@ namespace SlickControls
 		public event Extensions.EventHandler<MouseEventArgs> ItemMouseClick;
 
 		protected Point CursorLocation { get; set; }
+
+		protected int StartHeight { get; set; }
 
 		public SlickStackedListControl()
 		{
@@ -238,7 +240,7 @@ namespace SlickControls
 			{
 				var itemList = SafeGetItems();
 
-				scrollIndex = (itemList.Count - visibleItems) * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height).If(0, 1);
+				scrollIndex = (itemList.Count - visibleItems) * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height - StartHeight).If(0, 1);
 				Invalidate();
 			}
 
@@ -333,7 +335,7 @@ namespace SlickControls
 			{
 				if (scrollThumbRectangle.Contains(e.Location))
 				{
-					scrollMouseDown = e.Location.Y - scrollThumbRectangle.Y;
+					scrollMouseDown = e.Location.Y - scrollThumbRectangle.Y + StartHeight;
 				}
 				else
 				{
@@ -346,7 +348,7 @@ namespace SlickControls
 						scrollIndex += visibleItems;
 					}
 
-					scrollMouseDown = scrollThumbRectangle.Height / 2;
+					scrollMouseDown = scrollThumbRectangle.Height / 2 + StartHeight;
 				}
 
 				Invalidate(new Rectangle(scrollThumbRectangle.X, -1, scrollThumbRectangle.Width + 1, Height + 2));
@@ -420,13 +422,13 @@ namespace SlickControls
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			if (Loading)
+			if (Loading && _items.Count == 0)
 			{
 				DrawLoader(e.Graphics, ClientRectangle.CenterR(UI.Scale(new Size(32, 32), UI.FontScale)));
 				return;
 			}
 
-			var y = 0;
+			var y = StartHeight;
 
 			var itemList = SafeGetItems();
 
@@ -490,15 +492,17 @@ namespace SlickControls
 				totalHeight += ItemHeight + Padding.Vertical;
 			}
 
-			if (totalHeight > Height)
+			var validHeight = Height - StartHeight;
+
+			if (totalHeight > validHeight)
 			{
-				visibleItems = (int)Math.Floor((float)Height / (ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
+				visibleItems = (int)Math.Floor((float)validHeight / (ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
 				scrollVisible = true;
 				scrollIndex = Math.Max(0, Math.Min(scrollIndex, itemList.Count - visibleItems));
 
-				var thumbHeight = Math.Max(Height * visibleItems / itemList.Count, Height / 24);
+				var thumbHeight = Math.Max(validHeight * visibleItems / itemList.Count, validHeight / 24);
 
-				scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), (Height - thumbHeight) * scrollIndex / (itemList.Count - visibleItems).If(0, 1), (int)(10 * UI.FontScale), thumbHeight);
+				scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + (validHeight - thumbHeight) * scrollIndex / (itemList.Count - visibleItems).If(0, 1), (int)(10 * UI.FontScale), thumbHeight);
 			}
 			else
 			{
