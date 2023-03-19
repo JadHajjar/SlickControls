@@ -19,6 +19,7 @@ namespace SlickControls
 		protected int scrollMouseDown = -1;
 		protected DrawableItem<T> mouseDownItem;
 		private int baseHeight;
+		private List<DrawableItem<T>> _sortedItems;
 
 		[Category("Data"), Browsable(false)]
 		public IEnumerable<T> Items
@@ -68,8 +69,13 @@ namespace SlickControls
 			AutoScroll = true;
 		}
 
-		public void FilterChanged()
+		public void FilterOrSortingChanged()
 		{
+			lock (_items)
+			{
+				_sortedItems = new List<DrawableItem<T>>(OrderItems(_items));
+			}
+
 			if (CanDrawItem == null)
 			{
 				return;
@@ -121,7 +127,7 @@ namespace SlickControls
 				_items.Add(new DrawableItem<T>(item));
 			}
 
-			FilterChanged();
+			FilterOrSortingChanged();
 		}
 
 		public virtual void AddRange(IEnumerable<T> items)
@@ -131,7 +137,7 @@ namespace SlickControls
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
 			}
 
-			FilterChanged();
+			FilterOrSortingChanged();
 		}
 
 		public virtual void SetItems(IEnumerable<T> items)
@@ -142,7 +148,7 @@ namespace SlickControls
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
 			}
 
-			FilterChanged();
+			FilterOrSortingChanged();
 		}
 
 		public virtual void Remove(T item)
@@ -179,7 +185,7 @@ namespace SlickControls
 		{
 			base.OnCreateControl();
 
-			FilterChanged();
+			FilterOrSortingChanged();
 		}
 
 		protected override void UIChanged()
@@ -298,6 +304,8 @@ namespace SlickControls
 
 		protected override void OnMouseLeave(EventArgs e)
 		{
+			base.OnMouseLeave(e);
+
 			HoverState &= ~HoverState.Hovered;
 
 			lock (_items)
@@ -452,7 +460,7 @@ namespace SlickControls
 				e.Graphics.FillRoundedRectangle(scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), scrollThumbRectangle.Pad(2, 0, 2, 0), 3);
 			}
 
-			foreach (var item in OrderItems(itemList).Skip(scrollIndex))
+			foreach (var item in itemList.Skip(scrollIndex))
 			{
 				var doubleSize = DoubleSizeOnHover && (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed));
 				item.Bounds = new Rectangle(0, y, Width - (scrollVisible ? scrollThumbRectangle.Width : 0), ((doubleSize ? 2 : 1) * ItemHeight) + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0));
@@ -519,7 +527,7 @@ namespace SlickControls
 		{
 			lock (_items)
 			{
-				return _items.Where(x => !x.Hidden).ToList();
+				return _sortedItems.Where(x => !x.Hidden).ToList();
 			}
 		}
 	}

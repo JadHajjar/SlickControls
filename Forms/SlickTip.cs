@@ -11,7 +11,7 @@ namespace SlickControls
 	{
 		public string Title { get; private set; }
 
-		public SlickTip(Control control, string title, string text)
+		public SlickTip(Control control, string title, string text, int timeout)
 		{
 			InitializeComponent();
 
@@ -32,7 +32,7 @@ namespace SlickControls
 					this.TryInvoke(Dismiss);
 				if (currentControl?.Value == this)
 					currentControl = null;
-			}).RunIn(10000);
+			}).RunIn(timeout);
 		}
 
 		private void DesignChanged(FormDesign design) => Invalidate();
@@ -47,6 +47,14 @@ namespace SlickControls
 				Text = text;
 
 				var frm = Control.FindForm();
+
+				if (frm == null)
+				{
+					Dismiss();
+
+					return;
+				}
+
 				var ctrlPos = Control.PointToScreen(Point.Empty);
 				var bnds = SizeF.Empty;
 
@@ -153,14 +161,14 @@ namespace SlickControls
 
 		#region Statics
 
-		private static readonly Dictionary<Control, Tuple<string, string>> controlsDictionary = new Dictionary<Control, Tuple<string, string>>();
+		private static readonly Dictionary<Control, Tuple<string, string, int>> controlsDictionary = new Dictionary<Control, Tuple<string, string, int>>();
 		private static KeyValuePair<Control, SlickTip>? currentControl;
 		private System.Timers.Timer animationTimer;
 
-		public static void SetTo(Control control, string text, bool recursive = true)
-			=> SetTo(control, null, text, recursive);
+		public static void SetTo(Control control, string text, bool recursive = true, int timeout = 10000)
+			=> SetTo(control, null, text, recursive, timeout);
 
-		public static void SetTo(Control control, string title, string text, bool recursive = true)
+		public static void SetTo(Control control, string title, string text, bool recursive = true, int timeout = 10000)
 		{
 			if (control == null || (string.IsNullOrWhiteSpace(text) && string.IsNullOrWhiteSpace(title)))
 			{
@@ -181,11 +189,11 @@ namespace SlickControls
 			{
 				control.MouseEnter += Control_MouseEnter;
 				control.Disposed += Control_Disposed;
-				controlsDictionary.Add(control, new Tuple<string, string>(title, text));
+				controlsDictionary.Add(control, new Tuple<string, string, int>(title, text, timeout));
 			}
 			else
 			{
-				controlsDictionary[control] = new Tuple<string, string>(title, text);
+				controlsDictionary[control] = new Tuple<string, string, int>(title, text, timeout);
 
 				if (currentControl?.Key == control)
 				{
@@ -235,7 +243,7 @@ namespace SlickControls
 								currentControl?.Value.Dismiss();
 						}
 
-						currentControl = new KeyValuePair<Control, SlickTip>(control, new SlickTip(control, controlsDictionary[control].Item1, controlsDictionary[control].Item2));
+						currentControl = new KeyValuePair<Control, SlickTip>(control, new SlickTip(control, controlsDictionary[control].Item1, controlsDictionary[control].Item2, controlsDictionary[control].Item3));
 						frm.CurrentFormState = FormState.ForcedFocused;
 						currentControl?.Value.Reveal(currentControl?.Key);
 						frm.Focus();

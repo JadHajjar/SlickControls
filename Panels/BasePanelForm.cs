@@ -91,7 +91,7 @@ namespace SlickControls
 					mouseDetector_MouseMove(null, Cursor.Position);
 				}
 
-				base_P_Tabs.FilterChanged();
+				base_P_Tabs.FilterOrSortingChanged();
 
 				if (IsHandleCreated)
 				{

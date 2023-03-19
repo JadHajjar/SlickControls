@@ -355,6 +355,7 @@ namespace SlickControls
 				e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
+				var iconRect = new Rectangle(Width - (Image?.Width ?? 0) * 11 / 8, 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
 				var barColor =
 					error ? FormDesign.Design.RedColor :
 					warning ? FormDesign.Design.YellowColor :
@@ -375,10 +376,9 @@ namespace SlickControls
 				{
 					var font = UI.Font(7.5F, FontStyle.Italic);
 					var height = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Placeholder), font).Height;
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Placeholder), font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - 2 - Padding.Bottom, Width - Padding.Right - _textBox.Left - _textBox.Width, height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Placeholder), font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - 2 - Padding.Bottom, Width - Padding.Right - _textBox.Left - _textBox.Width, height).Pad(0, 0, iconRect.Width, 0), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 				}
 
-				var iconRect = new Rectangle(Width - (Image?.Width??0) - 4, 0, 20, Height);
 				if (Loading)
 				{
 					e.Graphics.DrawLoader(LoaderPercentage, iconRect.CenterR(16, 16));
@@ -386,6 +386,11 @@ namespace SlickControls
 				else if (Image != null)
 				{
 					var active = IconClicked != null && iconRect.Contains(CursorLocation);
+
+					if (active)
+					{
+						e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(20, FormDesign.Design.ForeColor)), iconRect, 4);
+					}
 
 					e.Graphics.DrawImage(Image.Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), iconRect.CenterR(Image.Size));
 				}
@@ -397,13 +402,14 @@ namespace SlickControls
 		{
 			base.OnMouseMove(e);
 
-			var iconRect = new Rectangle(Width - 20, 0, 20, Height);
+			var iconRect = new Rectangle(Width - (Image?.Width ?? 0) * 11 / 8, 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
+
 			Cursor = HoverState.HasFlag(HoverState.Hovered) && IconClicked != null && iconRect.Contains(e.Location) ? Cursors.Hand : Cursors.IBeam;
 		}
 
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
-			var iconRect = new Rectangle(Width - 20, 0, 20, Height);
+			var iconRect = new Rectangle(Width - (Image?.Width ?? 0) * 11 / 8, 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
 
 			if (IconClicked != null && (e.Button == MouseButtons.None || (e.Button == MouseButtons.Left && iconRect.Contains(e.Location))))
 				IconClicked(this, e);
