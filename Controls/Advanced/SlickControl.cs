@@ -69,7 +69,7 @@ namespace SlickControls
 
 			FormDesign.DesignChanged += DesignChanged;
 			UI.UIChanged += UIChanged;
-			SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+			LocaleHelper.LanguageChanged += LocaleChanged;
 		}
 
 		private void timer_Tick(object sender, EventArgs e)
@@ -114,14 +114,17 @@ namespace SlickControls
 
 		protected virtual void UIChanged()
 		{
+			Invalidate();
 		}
 
 		protected virtual void DesignChanged(FormDesign design)
 		{
+			Invalidate();
 		}
 
 		protected virtual void LocaleChanged()
 		{
+			Invalidate();
 		}
 
 		protected virtual void OnHoverStateChanged()
@@ -236,14 +239,6 @@ namespace SlickControls
 			timer.Enabled = loading && Visible && Parent != null;
 		}
 
-		private void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
-		{
-			if (e.Category == UserPreferenceCategory.Locale)
-			{
-				LocaleChanged();
-			}
-		}
-
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
 			if (HoverState.HasFlag(HoverState.Focused) && (
@@ -285,6 +280,7 @@ namespace SlickControls
 				timer?.Dispose();
 				FormDesign.DesignChanged -= DesignChanged;
 				UI.UIChanged -= UIChanged;
+				LocaleHelper.LanguageChanged -= LocaleChanged;
 			}
 		}
 

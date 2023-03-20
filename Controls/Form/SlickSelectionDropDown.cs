@@ -83,6 +83,18 @@ namespace SlickControls.Controls.Form
 		{
 			base.OnVisibleChanged(e);
 
+			SetUpForm();
+		}
+
+		protected override void OnCreateControl()
+		{
+			base.OnCreateControl();
+
+			SetUpForm();
+		}
+
+		private void SetUpForm()
+		{
 			if (_form == null && FindForm() is SlickForm slickForm)
 			{
 				_form = slickForm;

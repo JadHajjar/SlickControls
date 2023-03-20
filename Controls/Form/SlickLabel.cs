@@ -75,6 +75,11 @@ namespace SlickControls
 		[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
 		public bool Selected { get => selected; set { selected = value; Invalidate(); } }
 
+		protected override void LocaleChanged()
+		{
+			ResizeForAutoSize();
+		}
+
 		protected virtual void GetColors(out Color fore, out Color back)
 		{
 			if (Selected || HoverState.HasFlag(HoverState.Pressed))
