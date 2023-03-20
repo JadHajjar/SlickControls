@@ -45,7 +45,8 @@ namespace SlickControls
 			{
 				using (var brush = new SolidBrush(FormDesign.Design.LabelColor))
 				{
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(GroupText).ToUpper(), UI.Font(9F, FontStyle.Bold), brush, 0, e.ClipRectangle.Y + ((e.ClipRectangle.Height - (int)e.Graphics.Measure(GroupText, UI.Font(9F, FontStyle.Bold)).Height) / 2));
+					var h = e.Graphics.Measure(LocaleHelper.GetGlobalText(GroupText).ToUpper(), UI.Font(9F, FontStyle.Bold)).Height;
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(GroupText).ToUpper(), UI.Font(9F, FontStyle.Bold), brush, new Rectangle(0, e.ClipRectangle.Y + ((e.ClipRectangle.Height - (int)h) / 2), e.ClipRectangle.Width, (int)h));
 				}
 
 				return;

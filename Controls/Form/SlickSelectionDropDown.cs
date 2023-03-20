@@ -1,6 +1,7 @@
 ﻿using Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace SlickControls.Controls.Form
 			{
 				if (Items != null && _form != null)
 				{
-					listDropDown = new CustomStackedListControl()
+					listDropDown = new CustomStackedListControl(OrderItems)
 					{
 						BackColor = FormDesign.Design.ButtonColor,
 						Padding = UI.Scale(new Padding(5), UI.FontScale),
@@ -134,6 +135,11 @@ namespace SlickControls.Controls.Form
 					}
 				};
 			}
+		}
+
+		protected virtual IEnumerable<DrawableItem<T>> OrderItems(IEnumerable<DrawableItem<T>> items)
+		{
+			return items;
 		}
 
 		protected override void OnLeave(EventArgs e)
@@ -263,9 +269,26 @@ namespace SlickControls.Controls.Form
 
 		private class CustomStackedListControl : SlickStackedListControl<T>
 		{
-			protected override bool IsItemActionHovered(DrawableItem<T> item, Point location)
+			private readonly Func<IEnumerable<DrawableItem<T>>, IEnumerable<DrawableItem<T>>> _orderMethod;
+
+			public CustomStackedListControl(Func<IEnumerable<DrawableItem<T>>, IEnumerable<DrawableItem<T>>> orderMethod = null)
+            {
+				_orderMethod = orderMethod;
+			}
+
+            protected override bool IsItemActionHovered(DrawableItem<T> item, Point location)
 			{
 				return true;
+			}
+
+			protected override IEnumerable<DrawableItem<T>> OrderItems(IEnumerable<DrawableItem<T>> items)
+			{
+				if (_orderMethod == null)
+				{
+					return base.OrderItems(items);
+				}
+
+				return _orderMethod(items);
 			}
 
 			protected override void OnPaint(PaintEventArgs e)

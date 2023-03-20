@@ -51,7 +51,12 @@ namespace SlickControls
 				SuspendLayout();
 				Padding = value == FormWindowState.Maximized ? new Padding(0) : new Padding(4, 4, 7, 7);
 				base_P_Container.Padding = value == FormWindowState.Maximized || NoBorder ? new Padding(0) : new Padding(1);
-				
+
+				var screen = IsHandleCreated ? Screen.FromHandle(Handle) : null;
+
+				if (screen != null)
+					MaximizedBounds = screen.WorkingArea;
+
 				base.WindowState = value;
 				
 				if (change)
