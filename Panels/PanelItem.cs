@@ -16,6 +16,9 @@ namespace SlickControls
 		public bool Highlighted { get; set; }
 
 		//[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
+		public object Data { get; set; }
+
+		//[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 		//public bool Loading { get => Control?.Loading ?? false; set => Control.Loading = value; }
 
 		[Browsable(true)]

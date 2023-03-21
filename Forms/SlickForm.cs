@@ -201,7 +201,9 @@ namespace SlickControls
 			{
 				var panelForm = this is BasePanelForm;
 				var bpf = panelForm ? this as BasePanelForm : null;
-				var items = new List<SlickStripItem>()
+				var isThemeChanger = panelForm && bpf.CurrentPanel is PC_ThemeChanger;
+
+				var items = new List<SlickStripItem>
 				{
 					new SlickStripItem("Minimize", () => WindowState = FormWindowState.Minimized, Properties.Resources.Tiny_Minimize, MinimizeBox),
 
@@ -219,23 +221,23 @@ namespace SlickControls
 
 					new SlickStripItem("", show: panelForm && !bpf.HideMenu),
 
-					new SlickStripItem("Smaller Menu", () => bpf.SmallMenu = !bpf.SmallMenu, bpf.SmallMenu ? Properties.Resources.Tiny_Checked : Properties.Resources.Tiny_Unchecked, panelForm && !bpf.HideMenu),
-					new SlickStripItem("Auto-Hide Menu", () => bpf.AutoHideMenu = !bpf.AutoHideMenu, bpf.AutoHideMenu ? Properties.Resources.Tiny_Checked : Properties.Resources.Tiny_Unchecked, panelForm && !bpf.HideMenu),
+					new SlickStripItem("Smaller Menu", () => bpf.SmallMenu = !bpf.SmallMenu, panelForm && bpf.SmallMenu ? Properties.Resources.Tiny_Checked : Properties.Resources.Tiny_Unchecked, panelForm && !bpf.HideMenu),
+					new SlickStripItem("Auto-Hide Menu", () => bpf.AutoHideMenu = !bpf.AutoHideMenu, panelForm && bpf.AutoHideMenu ? Properties.Resources.Tiny_Checked : Properties.Resources.Tiny_Unchecked, panelForm && !bpf.HideMenu),
 
-					new SlickStripItem("", show: (!panelForm || !((this as BasePanelForm).CurrentPanel is PC_ThemeChanger))),
+					new SlickStripItem("", show: !isThemeChanger),
 
 					new SlickStripItem("Theme Changer", () =>
-					{
-						if (panelForm)
-							(this as BasePanelForm).PushPanel<PC_ThemeChanger>(PanelItem.Empty);
-						else
-							Theme_Changer.ThemeForm = Theme_Changer.ThemeForm.ShowUp(true);
-					}, image: Properties.Resources.Tiny_Paint, show: (!panelForm || !((this as BasePanelForm).CurrentPanel is PC_ThemeChanger))),
+						{
+							if (panelForm)
+								(this as BasePanelForm).PushPanel<PC_ThemeChanger>(PanelItem.Empty);
+							else
+								Theme_Changer.ThemeForm = Theme_Changer.ThemeForm.ShowUp(true);
+						}, image: Properties.Resources.Tiny_Paint, show: !isThemeChanger),
 
-					new SlickStripItem("Switch To:", fade: true, image: Properties.Resources.Tiny_Switch, show: (!panelForm || !((this as BasePanelForm).CurrentPanel is PC_ThemeChanger)))
+					new SlickStripItem("Switch To:", fade: true, image: Properties.Resources.Tiny_Switch, show: !isThemeChanger)
 				};
 
-				if ((!panelForm || !((this as BasePanelForm).CurrentPanel is PC_ThemeChanger)))
+				if (!isThemeChanger)
 				{
 					foreach (var item in FormDesign.List)
 					{

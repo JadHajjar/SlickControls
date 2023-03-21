@@ -23,12 +23,12 @@ namespace SlickControls
 
 		private void PanelItemControl_CanDrawItem(object sender, CanDrawItemEventArgs<PanelTab> e)
 		{
-			e.DoNotDraw = e.Item.IsGroupHeader && Form.SmallMenu;
+			e.DoNotDraw = e.Item.IsGroupHeader && (Form?.SmallMenu ?? false);
 		}
 
 		protected override void OnPaintItem(ItemPaintEventArgs<PanelTab> e)
 		{
-			e.Item.Paint(e, Form.SmallMenu);
+			e.Item.Paint(e, (Form?.SmallMenu ?? false));
 		}
 
 		protected override void OnItemMouseClick(DrawableItem<PanelTab> item, MouseEventArgs e)

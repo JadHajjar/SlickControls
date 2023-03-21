@@ -13,6 +13,7 @@ namespace SlickControls
 {
 	public partial class IOSelectionForm : SlickForm
 	{
+		private readonly PanelItemControl base_P_Tabs;
 		protected readonly bool folderSelection;
 		protected string selectedPath;
 		protected static string lastPath;
@@ -31,10 +32,11 @@ namespace SlickControls
 
 			folderSelection = folder;
 			L_Title.Text = folder ? "Select a Folder" : "Select a File";
+			base_P_Tabs = new PanelItemControl(null) { Dock = DockStyle.Fill };
 
 			TLP_Main.MouseDown += Form_MouseDown;
 			TLP_Side.MouseDown += Form_MouseDown;
-			FLP_CommonFolders.MouseDown += Form_MouseDown;
+			base_P_Tabs.OnFormMove += Form_MouseDown;
 			L_Side.MouseDown += Form_MouseDown;
 			L_Title.MouseDown += Form_MouseDown;
 
@@ -52,11 +54,16 @@ namespace SlickControls
 
 			add(string.Empty, "This PC", Properties.Resources.Tiny_PC);
 
-			foreach (var item in libraryViewer.TopFolders)
-				add(item, item, Properties.Resources.Tiny_Drive);
+			base_P_Tabs.Add(PanelTab.GroupName("Drives"));
 
-			FLP_CommonFolders.Controls.Add(new Panel { Height = 10 });
-			FLP_CommonFolders.SetFlowBreak(FLP_CommonFolders.Controls[FLP_CommonFolders.Controls.Count - 1], true);
+			foreach (var item in libraryViewer.TopFolders)
+			{
+				add(item, item, Properties.Resources.Tiny_Drive);
+			}
+
+			TLP_Side.Controls.Add(base_P_Tabs, 0, 1);
+
+			base_P_Tabs.Add(PanelTab.GroupName("Common Folders"));
 
 			foreach (var item in new[]
 			{
@@ -68,32 +75,36 @@ namespace SlickControls
 				Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
 				Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),
 				Environment.GetFolderPath(Environment.SpecialFolder.Recent),
-			}) add(item, Path.GetFileName(item).FormatWords().IfEmpty(item), Properties.Resources.Tiny_Folder);
+			})
+			{
+				add(item, Path.GetFileName(item).FormatWords().IfEmpty(item), Properties.Resources.Tiny_Folder);
+			}
 
 			FormDesign.DesignChanged += DesignChanged;
 
-			void add(string item, string name, Bitmap icon)
+			void add(string path, string name, Bitmap icon)
 			{
-				//var c = new PanelItemControl(new PanelItem
-				//{
-				//	Icon = icon,
-				//	Text = name
-				//})
-				//{ Tag = item };
+				var item = new PanelItem
+				{
+					Icon = icon,
+					Text = name,
+					Data = path
+				};
 
-				//c.MouseClick += C_MouseClick;
+				item.OnClick += Item_OnClick;
 
-				//FLP_CommonFolders.Controls.Add(c);
-				//FLP_CommonFolders.SetFlowBreak(c, true);
+				base_P_Tabs.Add(new PanelTab(item));
 			}
 		}
 
-		private void C_MouseClick(object sender, MouseEventArgs e)
+		private void Item_OnClick(object sender, MouseEventArgs e)
 		{
-			var pi = sender as PanelItemControl;
+			var pi = sender as PanelItem;
 
-			//if (!pi.Selected)
-			//	libraryViewer.folderOpened(!string.IsNullOrWhiteSpace(pi.Tag as string) ? new DirectoryInfo(pi.Tag.ToString()) : null);
+			if (!pi.Selected)
+			{
+				libraryViewer.folderOpened(!string.IsNullOrWhiteSpace(pi.Data as string) ? new DirectoryInfo(pi.Data as string) : null);
+			}
 		}
 
 		protected override void DesignChanged(FormDesign design)
@@ -112,11 +123,6 @@ namespace SlickControls
 			TI_Close.Size = UI.Scale(new Size(16, 16), UI.UIScale);
 			L_Title.Font = UI.Font(9F, FontStyle.Bold);
 			TLP_Main.ColumnStyles[0].Width = (int)(175 * UI.UIScale);
-			foreach (Control item in FLP_CommonFolders.Controls)
-			{
-				item.MaximumSize = new Size((int)(175 * UI.UIScale), 100);
-				item.MinimumSize = new Size((int)(175 * UI.UIScale), 0);
-			}
 		}
 
 		private void B_Cancel_Click(object sender, EventArgs e)
@@ -135,7 +141,9 @@ namespace SlickControls
 				Close();
 			}
 			else
+			{
 				SystemSounds.Asterisk.Play();
+			}
 		}
 
 		private void TB_Search_TextChanged(object sender, EventArgs e)
@@ -146,18 +154,24 @@ namespace SlickControls
 		protected override bool HandleWndProc(ref Message m)
 		{
 			if (m.Msg == 0x210 && m.WParam == (IntPtr)0x1020b)
+			{
 				return libraryViewer.GoBack();
+			}
 
 			return base.HandleWndProc(ref m);
 		}
 
 		private void libraryViewer_LoadEnded(object sender, EventArgs e)
 		{
-			//if (string.IsNullOrWhiteSpace(TB_Search.Text))
-			//{
-			//	foreach (var item in FLP_CommonFolders.Controls.OfType<PanelItemControl>())
-			//		item.Selected = item.Tag.ToString().Equals(libraryViewer.CurrentPath ?? string.Empty, StringComparison.InvariantCultureIgnoreCase);
-			//}
+			if (string.IsNullOrWhiteSpace(TB_Search.Text))
+			{
+				foreach (var item in base_P_Tabs.Items.Where(x => x.PanelItem != null))
+				{
+					item.PanelItem.Selected = item.PanelItem.Data.ToString().Equals(libraryViewer.CurrentPath ?? string.Empty, StringComparison.InvariantCultureIgnoreCase);
+				}
+
+				base_P_Tabs.Invalidate();
+			}
 		}
 
 		private void base_P_Container_Paint(object sender, PaintEventArgs e)
@@ -180,21 +194,26 @@ namespace SlickControls
 	{
 		[DefaultValue(true)]
 		public bool PreserveLastPath { get; set; } = true;
-
 		public string[] ValidExtensions { get; set; }
-
 		public string SelectedPath { get; private set; }
 		public string LastFolder { get; set; }
 
-		public DialogResult PromptFolder(Form form = null) => prompt(true, form);
-
-		public DialogResult PromptFile(Form form = null) => prompt(false, form);
-
-		private DialogResult prompt(bool folder, Form form)
+		public DialogResult PromptFolder(Form form = null, string startingFolder = null)
 		{
-			var frm = new IOSelectionForm(folder, ValidExtensions, PreserveLastPath ? LastFolder : null);
+			return prompt(true, form, startingFolder);
+		}
 
-			try { return frm.ShowDialog(form); }
+		public DialogResult PromptFile(Form form = null, string startingFolder = null)
+		{
+			return prompt(false, form, startingFolder);
+		}
+
+		private DialogResult prompt(bool folder, Form form, string startingFolder)
+		{
+			var frm = new IOSelectionForm(folder, ValidExtensions, PreserveLastPath ? LastFolder ?? startingFolder : startingFolder);
+
+			try
+			{ return frm.ShowDialog(form); }
 			finally
 			{
 				SelectedPath = frm.SelectedPath;

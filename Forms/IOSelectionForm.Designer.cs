@@ -38,7 +38,6 @@
 			this.TI_Close = new SlickControls.TopIcon();
 			this.TLP_Side = new System.Windows.Forms.TableLayoutPanel();
 			this.L_Side = new System.Windows.Forms.Label();
-			this.FLP_CommonFolders = new System.Windows.Forms.FlowLayoutPanel();
 			this.P_CustomPanel = new System.Windows.Forms.Panel();
 			this.base_P_Container.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.base_PB_Icon)).BeginInit();
@@ -160,29 +159,19 @@
 			this.TLP_Main.SetColumnSpan(this.TB_Search, 2);
 			this.TB_Search.EnterTriggersClick = false;
 			this.TB_Search.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.TB_Search.Image = null;
 			this.TB_Search.LabelText = "Search";
 			this.TB_Search.Location = new System.Drawing.Point(317, 15);
 			this.TB_Search.Margin = new System.Windows.Forms.Padding(3, 15, 0, 3);
 			this.TB_Search.MaximumSize = new System.Drawing.Size(9999, 0);
-			this.TB_Search.MaxLength = 32767;
 			this.TB_Search.MinimumSize = new System.Drawing.Size(50, 0);
 			this.TB_Search.Name = "TB_Search";
-			this.TB_Search.Password = false;
 			this.TB_Search.Placeholder = "Type to start searching";
-			this.TB_Search.ReadOnly = false;
-			this.TB_Search.Required = false;
 			this.TLP_Main.SetRowSpan(this.TB_Search, 2);
-			this.TB_Search.SelectAllOnFocus = false;
 			this.TB_Search.SelectedText = "";
 			this.TB_Search.SelectionLength = 0;
 			this.TB_Search.SelectionStart = 0;
 			this.TB_Search.Size = new System.Drawing.Size(350, 40);
 			this.TB_Search.TabIndex = 3;
-			this.TB_Search.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-			this.TB_Search.Validation = SlickControls.ValidationType.None;
-			this.TB_Search.ValidationCustom = null;
-			this.TB_Search.ValidationRegex = "";
 			this.TB_Search.TextChanged += new System.EventHandler(this.TB_Search_TextChanged);
 			// 
 			// slickSpacer1
@@ -214,7 +203,6 @@
 			this.TLP_Side.ColumnCount = 1;
 			this.TLP_Side.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TLP_Side.Controls.Add(this.L_Side, 0, 0);
-			this.TLP_Side.Controls.Add(this.FLP_CommonFolders, 0, 1);
 			this.TLP_Side.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.TLP_Side.Location = new System.Drawing.Point(0, 0);
 			this.TLP_Side.Margin = new System.Windows.Forms.Padding(0);
@@ -236,15 +224,6 @@
 			this.L_Side.Size = new System.Drawing.Size(84, 13);
 			this.L_Side.TabIndex = 0;
 			this.L_Side.Text = "Pinned Folders";
-			// 
-			// FLP_CommonFolders
-			// 
-			this.FLP_CommonFolders.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.FLP_CommonFolders.Location = new System.Drawing.Point(0, 27);
-			this.FLP_CommonFolders.Margin = new System.Windows.Forms.Padding(0);
-			this.FLP_CommonFolders.Name = "FLP_CommonFolders";
-			this.FLP_CommonFolders.Size = new System.Drawing.Size(175, 410);
-			this.FLP_CommonFolders.TabIndex = 5;
 			// 
 			// P_CustomPanel
 			// 
@@ -291,7 +270,6 @@
 		protected SlickButton B_OK;
 		protected SlickTextBox TB_Search;
 		protected SlickSpacer slickSpacer1;
-		protected System.Windows.Forms.FlowLayoutPanel FLP_CommonFolders;
 		protected TopIcon TI_Close;
 		protected System.Windows.Forms.TableLayoutPanel TLP_Side;
 		protected System.Windows.Forms.Label L_Side;

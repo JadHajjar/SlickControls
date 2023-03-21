@@ -33,6 +33,9 @@ namespace SlickControls
 		[Category("Behavior")]
 		public string[] FileExtensions { get; set; } = new string[0];
 
+		[Category("Behavior"), DefaultValue(null)]
+		public string StartingFolder { get; set; }
+
 		private void SlickPathTextBox_IconClicked(object sender, EventArgs e)
 		{
 			if (Folder)
@@ -44,10 +47,10 @@ namespace SlickControls
 				{
 					ioSelectionDialog.ValidExtensions = new[] { ".lnk" };
 
-					if (ioSelectionDialog.PromptFile(FindForm()) == DialogResult.OK)
+					if (ioSelectionDialog.PromptFile(FindForm(), StartingFolder) == DialogResult.OK)
 						Text = Directory.GetParent(ioSelectionDialog.SelectedPath.GetShortcutPath()).FullName;
 				}
-				else if (ioSelectionDialog.PromptFolder(FindForm()) == DialogResult.OK)
+				else if (ioSelectionDialog.PromptFolder(FindForm(), StartingFolder) == DialogResult.OK)
 				{
 					Text = ioSelectionDialog.SelectedPath;
 				}
@@ -61,7 +64,7 @@ namespace SlickControls
 
 				ioSelectionDialog.ValidExtensions = FileExtensions;
 
-				if (ioSelectionDialog.PromptFile(FindForm()) == DialogResult.OK)
+				if (ioSelectionDialog.PromptFile(FindForm(), StartingFolder) == DialogResult.OK)
 					Text = ioSelectionDialog.SelectedPath;
 			}
 		}
