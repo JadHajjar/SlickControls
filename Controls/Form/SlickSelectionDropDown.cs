@@ -50,9 +50,9 @@ namespace SlickControls.Controls.Form
 						Font = Font,
 						Cursor = Cursor,
 						SeparateWithLines = true,
-						MaximumSize = new Size(Width, 9999),
-						MinimumSize = new Size(Width, 0),
-						Size = new Size(Width, 0)
+						MaximumSize = new Size(Width - 1, 9999),
+						MinimumSize = new Size(Width - 1, 0),
+						Size = new Size(Width - 1, 0)
 					};
 
 					listDropDown.PaintItem += ListDropDown_PaintItem;
@@ -219,14 +219,14 @@ namespace SlickControls.Controls.Form
 
 			using (var brush = ClientRectangle.Gradient(back, 0.5F))
 			{
-				e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(0, 0, 1, 1), Padding.Left, true, true, listDropDown == null, listDropDown == null);
+				e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
 			}
 
 			if (listDropDown != null)
 			{
 				e.Graphics.DrawString(Text, new Font(Font, FontStyle.Bold), new SolidBrush(fore), ClientRectangle, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
 				
-				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(150, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, 1, 1, -2), Padding.Left);
+				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(150, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, 1, 2, -2), Padding.Left);
 			}
 			else
 			{
@@ -235,6 +235,9 @@ namespace SlickControls.Controls.Form
 				e.Graphics.DrawString(Text, UI.Font(6.75F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle.Pad(Padding.Left, Padding.Top / 2, 0, 0));
 
 				PaintItem(e, ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 1.2), 0, 0), fore, listDropDown != null ? HoverState.Pressed : HoverState, SelectedItem);
+
+				using (var chevron = (UI.FontScale >= 1.25 ? Properties.Resources.I_DropChevron : Properties.Resources.I_DropChevron_16).Color(fore.MergeColor(back, 90)))
+					e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
 			}
 		}
 

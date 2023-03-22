@@ -441,7 +441,6 @@ namespace SlickControls
 			}
 
 			var y = StartHeight;
-
 			var itemList = SafeGetItems();
 
 			itemList.ForEach(x => x.Bounds = Rectangle.Empty);
@@ -460,10 +459,11 @@ namespace SlickControls
 				e.Graphics.FillRoundedRectangle(scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), scrollThumbRectangle.Pad(2, 0, 2, 0), 3);
 			}
 
-			foreach (var item in itemList.Skip(scrollIndex))
+			for (var i = scrollIndex; i < itemList.Count; i++)
 			{
+				var item = itemList[i];
 				var doubleSize = DoubleSizeOnHover && (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed));
-				item.Bounds = new Rectangle(0, y, Width - (scrollVisible ? scrollThumbRectangle.Width : 0), ((doubleSize ? 2 : 1) * ItemHeight) + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0));
+				item.Bounds = new Rectangle(0, y, Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0), ((doubleSize ? 2 : 1) * ItemHeight) + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0));
 
 				e.Graphics.SetClip(item.Bounds);
 
@@ -480,7 +480,6 @@ namespace SlickControls
 				if (SeparateWithLines)
 				{
 					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), y);
-
 				}
 
 				if (y > Height)

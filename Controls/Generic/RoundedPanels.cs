@@ -9,42 +9,78 @@ namespace SlickControls
 {
 	public class RoundedPanel : DBPanel
 	{
+		[Category("Appearance"), DefaultValue(false)]
+		public bool AddOutline { get; set; }
+
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			e.Graphics.Clear(Parent?.BackColor ?? BackColor);
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			using (var brush = new SolidBrush(BackColor))
+
+			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
 			{
-				e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
+				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
+			}
+
+			if (AddOutline)
+			{
+				using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
+				{
+					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left);
+				}
 			}
 		}
 	}
 
 	public class RoundedTableLayoutPanel : DBTableLayoutPanel
 	{
+		[Category("Appearance"), DefaultValue(false)]
+		public bool AddOutline { get; set; }
+
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			e.Graphics.Clear(Parent?.BackColor ?? BackColor);
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			using (var brush = new SolidBrush(BackColor))
+
+			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
 			{
-				e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
+				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
+			}
+
+			if (AddOutline)
+			{
+				using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
+				{
+					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left);
+				}
 			}
 		}
 	}
 
 	public class RoundedFlowLayoutPanel : DBFlowLayoutPanel
 	{
+		[Category("Appearance"), DefaultValue(false)]
+		public bool AddOutline { get; set; }
+
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			e.Graphics.Clear(Parent?.BackColor ?? BackColor);
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			using (var brush = new SolidBrush(BackColor))
+
+			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
 			{
-				e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
+				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
+			}
+
+			if (AddOutline)
+			{
+				using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
+				{
+					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left);
+				}
 			}
 		}
 	}
@@ -139,11 +175,11 @@ namespace SlickControls
 				{
 					using (var icon = new Bitmap(Image))
 					{
-						e.Graphics.DrawImage(icon.Color(ForeColor), iconRectangle);
+						e.Graphics.DrawImage(icon.Color(FormDesign.Design.LabelColor), iconRectangle);
 					}
 				}
 
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(ForeColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
 			}
 			catch { }
 		}
@@ -239,11 +275,11 @@ namespace SlickControls
 				{
 					using (var icon = new Bitmap(Image))
 					{
-						e.Graphics.DrawImage(icon.Color(ForeColor), iconRectangle);
+						e.Graphics.DrawImage(icon.Color(FormDesign.Design.LabelColor), iconRectangle);
 					}
 				}
 
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(ForeColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
 			}
 			catch { }
 		}
