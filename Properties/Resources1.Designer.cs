@@ -183,6 +183,16 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Checked {
+            get {
+                object obj = ResourceManager.GetObject("I_Checked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Dll {
             get {
                 object obj = ResourceManager.GetObject("I_Dll", resourceCulture);
@@ -276,6 +286,16 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap I_Txt {
             get {
                 object obj = ResourceManager.GetObject("I_Txt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Unchecked {
+            get {
+                object obj = ResourceManager.GetObject("I_Unchecked", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -494,6 +514,16 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap Tiny_Checked {
             get {
                 object obj = ResourceManager.GetObject("Tiny_Checked", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Tiny_CheckedFilled {
+            get {
+                object obj = ResourceManager.GetObject("Tiny_CheckedFilled", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

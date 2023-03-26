@@ -221,9 +221,6 @@
     <Compile Include="Controls\Form\SlickCheckbox.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Form\SlickCheckbox.Designer.cs">
-      <DependentUpon>SlickCheckbox.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Advanced\SlickControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -448,9 +445,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Form\SlickButton.resx">
       <DependentUpon>SlickButton.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Form\SlickCheckbox.resx">
-      <DependentUpon>SlickCheckbox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Form\SlickLabel.resx">
       <DependentUpon>SlickLabel.cs</DependentUpon>
@@ -799,12 +793,6 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>9.0.1</Version>
     </PackageReference>
-    <PackageReference Include="NReco.VideoConverter">
-      <Version>1.1.4</Version>
-    </PackageReference>
-    <PackageReference Include="NReco.VideoInfo">
-      <Version>1.1.1</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Tiny_ArrowDown.png" />
@@ -817,6 +805,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\I_DropChevron_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Unchecked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Tiny_CheckedFilled.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Checked.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

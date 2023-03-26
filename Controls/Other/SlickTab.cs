@@ -29,10 +29,10 @@ namespace SlickControls
 		public Image Icon { get; set; }
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public int AnimatedValue { get; set; }
+		public int AnimatedValue { get; set; } = 15;
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public int TargetAnimationValue => (Selected || Hovered) ? 90 : 0;
+		public int TargetAnimationValue => (Selected || Hovered) ? 100 : 15;
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool Hovered
@@ -43,9 +43,13 @@ namespace SlickControls
 				hovered = value;
 
 				if (!IsHandleCreated || DesignMode)
+				{
 					AnimatedValue = TargetAnimationValue;
+				}
 				else if (AnimatedValue != TargetAnimationValue)
-					AnimationHandler.Animate(this);
+				{
+					AnimationHandler.Animate(this, 1.25);
+				}
 
 				Invalidate();
 			}
@@ -60,20 +64,28 @@ namespace SlickControls
 				if (value && Parent != null)
 				{
 					foreach (var item in Parent.Controls.ThatAre<SlickTab>())
+					{
 						item.Selected = false;
+					}
 				}
 
 				selected = value;
 
 				if (!IsHandleCreated || DesignMode)
+				{
 					AnimatedValue = TargetAnimationValue;
+				}
 				else if (AnimatedValue != TargetAnimationValue)
-					AnimationHandler.Animate(this);
+				{
+					AnimationHandler.Animate(this, 1.25);
+				}
 
 				Invalidate();
 
 				if (value)
+				{
 					TabSelected?.Invoke(this, new EventArgs());
+				}
 			}
 		}
 
@@ -89,38 +101,66 @@ namespace SlickControls
 			Font = UI.Font(8.25F);
 
 			if (!(Parent?.Parent is SlickTabControl))
-				Size = new Size((int)(DefaultSize.Width * UI.UIScale), Font.Height + 4);
+			{
+				Size = UI.Scale(new Size(DefaultSize.Width, 32), UI.FontScale);
+			}
 		}
 
-		private void SlickTab_Paint(object sender, PaintEventArgs e)
+		protected override void OnPaint(PaintEventArgs e)
 		{
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+			e.Graphics.SetUp(BackColor);
 
-			if (AnimatedValue != 0)
-				e.Graphics.FillRectangle(new SolidBrush(Selected ? FormDesign.Design.ActiveColor : FormDesign.Design.ForeColor), (Width - (Width * AnimatedValue / 100)) / 2, Height - 1, (Width * AnimatedValue / 100), 1);
+			e.Graphics.FillRoundedRectangle(ClientRectangle.Gradient(Selected || Hovered ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor, 0.007F * AnimatedValue),
+				ClientRectangle.Pad((int)(5 * UI.FontScale)).Pad(1, 1, 1, 0), (int)(4 * UI.FontScale));
 
-			var img = Icon?.Color(Selected ? FormDesign.Design.ActiveColor : FormDesign.Design.ForeColor);
+			e.Graphics.FillRoundedRectangle(ClientRectangle.Gradient((Selected ? FormDesign.Design.ActiveColor : FormDesign.Design.ButtonColor).MergeColor(BackColor, AnimatedValue), 0.007F * AnimatedValue),
+				ClientRectangle.Pad((int)(5 * UI.FontScale)).Pad(0, 0, 0, 1), (int)(4 * UI.FontScale));
 
-			if (Width > 100)
+			var fore = Selected ? FormDesign.Design.ActiveForeColor.MergeColor(FormDesign.Design.ForeColor, AnimatedValue) : FormDesign.Design.ForeColor;
+
+			var img = Icon?.Color(fore);
+
+			if (Width > (int)(120 * UI.FontScale))
 			{
-				var bnds = e.Graphics.Measure(Text, Font);
-				e.Graphics.DrawString(Text, Font, new SolidBrush(Selected ? FormDesign.Design.ActiveColor : FormDesign.Design.ForeColor), (Width - bnds.Width - (img == null ? 0 : img.Width + 3)) / 2 + (img == null ? 0 : img.Width + 3), (Height - bnds.Height) / 2);
+				var width = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), Font).Width + (img?.Width ?? 0) + (int)(10 * UI.FontScale);
+				var bounds = ClientRectangle.CenterR(width, Height);
+
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, new SolidBrush(fore)
+					, img != null ? bounds.Pad(img.Width + (int)(5 * UI.FontScale), 0, 0, 0) : bounds, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
 
 				if (img != null)
-					e.Graphics.DrawImage(img, new Rectangle((int)(Width - bnds.Width - (img == null ? 0 : img.Width + 3)) / 2, (Height - img.Height) / 2, img.Width, img.Height));
+				{
+					e.Graphics.DrawImage(img, bounds.Align(img.Size, ContentAlignment.MiddleLeft));
+				}
 			}
 			else if (img != null)
-				e.Graphics.DrawImage(img, new Rectangle(Size.Center(img.Size), img.Size));
+			{
+				e.Graphics.DrawImage(img, ClientRectangle.CenterR(img.Size));
+			}
 		}
 
-		private void SlickTab_MouseEnter(object sender, EventArgs e) => Hovered = true;
-
-		private void SlickTab_MouseLeave(object sender, EventArgs e) => Hovered = false;
-
-		private void SlickTab_MouseClick(object sender, MouseEventArgs e)
+		protected override void OnMouseEnter(EventArgs e)
 		{
+			base.OnMouseEnter(e);
+
+			Hovered = true;
+		}
+
+		protected override void OnMouseLeave(EventArgs e)
+		{
+			base.OnMouseLeave(e);
+
+			Hovered = false;
+		}
+
+		protected override void OnMouseClick(MouseEventArgs e)
+		{
+			base.OnMouseClick(e);
+
 			if (e.Button == MouseButtons.Left && !Selected)
+			{
 				Selected = true;
+			}
 		}
 	}
 }

@@ -34,13 +34,8 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.Font = new System.Drawing.Font("Nirmala UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Name = "SlickTab";
 			this.Size = new System.Drawing.Size(150, 26);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.SlickTab_Paint);
-			this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SlickTab_MouseClick);
-			this.MouseEnter += new System.EventHandler(this.SlickTab_MouseEnter);
-			this.MouseLeave += new System.EventHandler(this.SlickTab_MouseLeave);
 			this.ResumeLayout(false);
 
 		}

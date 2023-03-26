@@ -41,7 +41,9 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			P_Tabs.Height = UI.Font(8.25F).Height + 4 + Padding.Vertical;
+			P_Tabs.Height = (int)(32 * UI.FontScale) + Padding.Vertical;
+
+			P_Tabs.Padding = UI.Scale(new Padding(0, 5, 0, 0), UI.FontScale);
 
 			foreach (Control item in P_Tabs.Controls)
 				item.Size = new Size(tabWidth(), P_Tabs.Height);
@@ -125,7 +127,7 @@ namespace SlickControls
 
 		private void ctrl_ControlAdded(object sender, ControlEventArgs e) => P_Content.Invalidate();
 
-		private int tabWidth() => ((Width - Padding.Horizontal) / Tabs.Length).Between(32, (int)(150 * UI.FontScale));
+		private int tabWidth() => ((Width - Padding.Horizontal) / Tabs.Length).Between((int)(32 * UI.FontScale), (int)(200 * UI.FontScale));
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{

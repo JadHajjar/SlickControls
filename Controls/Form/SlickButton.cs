@@ -87,7 +87,9 @@ namespace SlickControls
 
 				if (string.IsNullOrWhiteSpace(Text))
 				{
-					Size = UI.Scale(new Size(IconSize + 6, IconSize + 6), UI.FontScale);
+					var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
+
+					Size = new Size(IconSize + pad, IconSize + pad);
 					return;
 				}
 
@@ -109,12 +111,14 @@ namespace SlickControls
 		{
 			var iconSize = image?.Width ?? 16;
 
+			padding = padding ?? UI.Scale(new Padding(7), UI.UIScale);
+
 			if (string.IsNullOrWhiteSpace(text))
 			{
-				return UI.Scale(new Size(iconSize + 6, iconSize + 6), UI.FontScale);
+				var pad = Math.Max(padding.Value.Horizontal, padding.Value.Vertical);
+				
+				return new Size(iconSize + pad, iconSize + pad);
 			}
-
-			padding = padding ?? UI.Scale(new Padding(7), UI.UIScale);
 
 			var bnds = g.Measure(LocaleHelper.GetGlobalText(text), font);
 			var h = Math.Max(iconSize + 6, (int)(bnds.Height) + padding.Value.Top + 3);
@@ -195,7 +199,7 @@ namespace SlickControls
 								HoverState HoverState = HoverState.Normal,
 								ColorStyle ColorStyle = ColorStyle.Active,
 								Color? ColorShade = null,
-								SlickButton slickButton = null)
+								SlickControl slickButton = null)
 		{
 			GetColors(out var fore, out var back, HoverState, ColorStyle, ColorShade, clearColor, BackColor, Enabled);
 
@@ -223,7 +227,7 @@ namespace SlickControls
 				}
 				else if (Image != null)
 				{
-					var img = slickButton?.DesignMode ?? false ? Image.SafeColor(fore) : Image.Color(fore);
+					var img = slickButton?.Live ?? false ? Image.SafeColor(fore) : Image.Color(fore);
 
 					if (string.IsNullOrWhiteSpace(Text))
 						e.Graphics.DrawImage(img, new Rectangle(location.X + (size.Width - iconSize) / 2, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize));

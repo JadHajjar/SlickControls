@@ -51,7 +51,9 @@ namespace SlickControls
 			base.OnImageChanged(e);
 
 			if (Live)
+			{
 				UIChanged();
+			}
 		}
 
 		[Category("Behavior"), DefaultValue(false)]
@@ -122,7 +124,7 @@ namespace SlickControls
 		[Browsable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 		[Bindable(true)]
-		public override string Text { get => base.Text; set { _textBox.Text = base.Text = value; if (DefaultValue != null) DefaultValue = value; } }
+		public override string Text { get => base.Text; set { _textBox.Text = base.Text = value; if (DefaultValue != null) { DefaultValue = value; } } }
 
 		[Category("Appearance"), DefaultValue(HorizontalAlignment.Left)]
 		public HorizontalAlignment TextAlign { get => _textBox.TextAlign; set => _textBox.TextAlign = value; }
@@ -246,7 +248,9 @@ namespace SlickControls
 				e.IsInputKey = true;
 			}
 			else
+			{
 				OnPreviewKeyDown(e);
+			}
 		}
 
 		private void TB_KeyDown(object sender, KeyEventArgs e)
@@ -258,7 +262,9 @@ namespace SlickControls
 				e.Handled = true;
 			}
 			else
+			{
 				OnKeyDown(e);
+			}
 		}
 
 		private void TB_TextChanged(object sender, EventArgs e)
@@ -296,7 +302,10 @@ namespace SlickControls
 					case ValidationType.Regex:
 						Text = _textBox.Text;
 						if (Regex.IsMatch(_textBox.Text, ValidationRegex))
+						{
 							TextChanged?.Invoke(this, e);
+						}
+
 						break;
 
 					default:
@@ -327,7 +336,9 @@ namespace SlickControls
 					_textBox.Select(cursor, len);
 				}
 				else
+				{
 					_textBox.Size = Size;
+				}
 			}
 		}
 
@@ -341,7 +352,9 @@ namespace SlickControls
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
+			{
 				_textBox?.Dispose();
+			}
 
 			base.Dispose(disposing);
 		}
@@ -355,7 +368,6 @@ namespace SlickControls
 				e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-				var iconRect = new Rectangle(Width - (Image?.Width ?? 0) * 11 / 8, 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
 				var barColor =
 					error ? FormDesign.Design.RedColor :
 					warning ? FormDesign.Design.YellowColor :
@@ -372,6 +384,8 @@ namespace SlickControls
 					e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(2, 2, Width - Padding.Right, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(LabelText), font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 				}
 
+				var iconRect = new Rectangle(Width - ((Image?.Width ?? 0) * 11 / 8), 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
+
 				if (string.IsNullOrWhiteSpace(_textBox.Text) && !string.IsNullOrWhiteSpace(Placeholder))
 				{
 					var font = UI.Font(7.5F, FontStyle.Italic);
@@ -381,7 +395,7 @@ namespace SlickControls
 
 				if (Loading)
 				{
-					e.Graphics.DrawLoader(LoaderPercentage, iconRect.CenterR(16, 16));
+					e.Graphics.DrawLoader(LoaderPercentage, UI.FontScale<1.25 ? iconRect.CenterR(16, 16) : iconRect.CenterR(24, 24));
 				}
 				else if (Image != null)
 				{
@@ -392,7 +406,10 @@ namespace SlickControls
 						e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(20, FormDesign.Design.ForeColor)), iconRect, 4);
 					}
 
-					e.Graphics.DrawImage(Image.Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), iconRect.CenterR(Image.Size));
+					using (var icon = new Bitmap(Image).Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor))
+					{
+						e.Graphics.DrawImage(icon, iconRect.CenterR(icon.Size));
+					}
 				}
 			}
 			catch { }
@@ -402,19 +419,23 @@ namespace SlickControls
 		{
 			base.OnMouseMove(e);
 
-			var iconRect = new Rectangle(Width - (Image?.Width ?? 0) * 11 / 8, 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
+			var iconRect = new Rectangle(Width - ((Image?.Width ?? 0) * 11 / 8), 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
 
 			Cursor = HoverState.HasFlag(HoverState.Hovered) && IconClicked != null && iconRect.Contains(e.Location) ? Cursors.Hand : Cursors.IBeam;
 		}
 
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
-			var iconRect = new Rectangle(Width - (Image?.Width ?? 0) * 11 / 8, 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
+			var iconRect = new Rectangle(Width - ((Image?.Width ?? 0) * 11 / 8), 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
 
 			if (IconClicked != null && (e.Button == MouseButtons.None || (e.Button == MouseButtons.Left && iconRect.Contains(e.Location))))
+			{
 				IconClicked(this, e);
+			}
 			else
+			{
 				_textBox.Focus();
+			}
 
 			base.OnMouseClick(e);
 		}

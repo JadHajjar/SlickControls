@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -36,6 +37,9 @@ namespace SlickControls
 			}
 		}
 
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
+		public int ItemCount => _items.Count;
+
 		[Category("Appearance"), DefaultValue(false)]
 		public bool SeparateWithLines { get; set; }
 
@@ -48,7 +52,7 @@ namespace SlickControls
 		[Category("Appearance"), DefaultValue(22)]
 		public int ItemHeight { get; set; }
 
-		[Category("Behavior"), DisplayName("Calculate Item Size")]
+		[Category("Behavior"), DisplayName("Can Draw Item")]
 		public event Extensions.EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
 
 		[Category("Appearance"), DisplayName("Paint Item")]
@@ -78,6 +82,8 @@ namespace SlickControls
 
 			if (CanDrawItem == null)
 			{
+				this.TryInvoke(Invalidate);
+
 				return;
 			}
 
@@ -88,7 +94,7 @@ namespace SlickControls
 				itemCopy = new List<DrawableItem<T>>(_items);
 			}
 
-			foreach (var x in itemCopy)
+			Parallel.ForEach(itemCopy, x =>
 			{
 				var canDraw = new CanDrawItemEventArgs<T>(x.Item);
 
@@ -96,7 +102,7 @@ namespace SlickControls
 
 				x.Bounds = Rectangle.Empty;
 				x.Hidden = canDraw.DoNotDraw;
-			}
+			});
 
 			this.TryInvoke(Invalidate);
 		}
@@ -153,12 +159,7 @@ namespace SlickControls
 
 		public virtual void Remove(T item)
 		{
-			lock (_items)
-			{
-				_items.Remove(new DrawableItem<T>(item));
-			}
-
-			Invalidate();
+			RemoveAll(x => x.Equals(item));
 		}
 
 		public virtual void RemoveAll(Predicate<T> predicate)
@@ -168,7 +169,7 @@ namespace SlickControls
 				_items.RemoveAll(item => predicate(item.Item));
 			}
 
-			Invalidate();
+			FilterOrSortingChanged();
 		}
 
 		public virtual void Clear()
@@ -178,6 +179,12 @@ namespace SlickControls
 				_items.Clear();
 			}
 
+			FilterOrSortingChanged();
+		}
+
+		public void ResetScroll()
+		{
+			scrollIndex = 0;
 			Invalidate();
 		}
 
@@ -526,7 +533,20 @@ namespace SlickControls
 		{
 			lock (_items)
 			{
-				return _sortedItems.Where(x => !x.Hidden).ToList();
+				return _sortedItems?.Where(x => !x.Hidden).ToList() ?? new List<DrawableItem<T>>();
+			}
+		}
+
+		protected void ScrollTo(T item)
+		{
+			var items = SafeGetItems();
+
+			var scrollTo = items.FirstOrDefault(x => x.Item.Equals(item));
+
+			if (scrollTo != null)
+			{
+				scrollIndex = items.IndexOf(scrollTo);
+				Invalidate();
 			}
 		}
 	}

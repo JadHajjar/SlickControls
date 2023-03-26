@@ -30,6 +30,7 @@ namespace SlickControls
 		private DateTime minimumValue = new DateTime(1900, 1, 1);
 
 		private DateTime maximumValue = new DateTime(3000, 1, 1);
+		private DateTime _defaultValue;
 
 		public SlickDateTime()
 		{
@@ -84,7 +85,8 @@ namespace SlickControls
 			{
 				if (ReadOnly) return;
 
-				var prev = value;
+				var prev = _value;
+
 				if (value < MinDate)
 					_value = MinDate;
 				else if (value > MaxDate)
@@ -110,9 +112,6 @@ namespace SlickControls
 		[Category("Appearance"), DisplayName("Label Text"), DefaultValue("Date")]
 		public string LabelText { get; set; } = "Date";
 
-		[Category("Appearance")]
-		public string Placeholder { get; set; }
-
 		[Category("Behavior"), DisplayName("Show Text"), DefaultValue(true)]
 		public bool ShowLabel { get; set; } = true;
 
@@ -125,17 +124,32 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			Font = UI.Font(8.25F);
-
 			using (var g = CreateGraphics())
 			{
-				var h = Font.Height
-					+ (ShowLabel ? UI.Font(7.25F, FontStyle.Bold | FontStyle.Italic).Height : 0)
-					+ 5;
-				MinimumSize = new Size(0, h);
-				MaximumSize = new Size(9999, h);
-				Height = h;
+				var showLabel = !string.IsNullOrEmpty(LabelText);
+			var iconWidth = DateType != DateType.Time ? (UI.FontScale >= 1.25 ? 24 : 16) : 0;
+				Padding = new Padding(4, showLabel ? (int)(g.Measure(nameof(SlickTextBox), UI.Font(6.75F, FontStyle.Bold)).Height + 4) : 4, iconWidth>0 ? (iconWidth + 8) : 4, 4);
+				Font = UI.Font(8.25F * (float)UI.WindowsScale);
+				var height = Font.Height + Padding.Vertical;
+
+				MaximumSize = Size.Empty;
+				if (Live)
+				{
+					MinimumSize = new Size(Padding.Horizontal, height);
+				}
+				else
+				{
+					MinimumSize = Size.Empty;
+				}
+				Height = height;
 			}
+		}
+
+		protected override void OnCreateControl()
+		{
+			base.OnCreateControl();
+
+			_defaultValue = _value;
 		}
 
 		protected override void OnEnter(EventArgs e)
@@ -195,9 +209,41 @@ namespace SlickControls
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			e.Graphics.Clear(BackColor);
+
+			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
 			var error = false;
+			var iconWidth = DateType != DateType.Time ? (UI.FontScale >= 1.25 ? 24 : 16) : 0;
+			var iconRect = new Rectangle(Width - iconWidth * 11 / 8, 0, iconWidth * 11 / 8, Height - 2);
+			var barColor =
+				error ? FormDesign.Design.RedColor :
+				Focused ? FormDesign.Design.ActiveColor :
+				FormDesign.Design.AccentColor;
+
+			e.Graphics.FillRoundedRectangle(new SolidBrush(barColor), ClientRectangle.Pad(1, 1, 2, 1), 4);
+
+			e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), 4);
+
+			if (ShowLabel && !string.IsNullOrEmpty(LabelText))
+			{
+				var font = UI.Font(6.75F, FontStyle.Bold);
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(2, 2, Width - Padding.Right, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(LabelText), font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+			}
+
+			if (DateType != DateType.Time)
+			using (var Image = Properties.Resources.Tiny_Calendar)
+			{
+				var active = iconRect.Contains(PointToClient(Cursor.Position));
+
+				if (active)
+				{
+					e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(20, FormDesign.Design.ForeColor)), iconRect, 4);
+				}
+
+				e.Graphics.DrawImage(Image.Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), iconRect.CenterR(Image.Size));
+			}
+
 			var charWidth = (int)e.Graphics.Measure("0", Font).Width;
 			var left = 1;
 
@@ -300,16 +346,6 @@ namespace SlickControls
 					return false;
 				}
 			}
-
-			if (DateType != DateType.Time)
-			{
-				iconRect = new Rectangle(Width - 22, Height - 20, 16, 16);
-				e.Graphics.DrawImage(Properties.Resources.Tiny_Calendar.Color(Enabled && iconRect.Contains(PointToClient(Cursor.Position)) ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor, (byte)(Enabled ? 255 : 100)), iconRect);
-			}
-			else
-				iconRect = Rectangle.Empty;
-
-			e.Graphics.DrawLine(new Pen(HoverState.HasFlag(HoverState.Focused) ? (error ? FormDesign.Design.RedColor : FormDesign.Design.ActiveColor) : FormDesign.Design.AccentColor), 0, Height - 1, Width, Height - 1);
 		}
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -467,6 +503,6 @@ namespace SlickControls
 
 		public void SetError(bool warning = false) { }
 
-		public void ResetValue() => Value = DateTime.Now;
+		public void ResetValue() => Value = _defaultValue;
 	}
 }

@@ -58,7 +58,7 @@ namespace SlickControls
 		}
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		protected bool Live { get; private set; }
+		public bool Live { get; private set; }
 
 		public SlickControl()
 		{

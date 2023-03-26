@@ -551,16 +551,12 @@
 			// 
 			// CB_NightMode
 			// 
-			this.CB_NightMode.ActiveColor = null;
 			this.CB_NightMode.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.CB_NightMode.AutoSize = true;
-			this.CB_NightMode.Center = false;
 			this.CB_NightMode.Checked = false;
 			this.CB_NightMode.CheckedText = null;
 			this.CB_NightMode.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_NightMode.DefaultValue = false;
-			this.CB_NightMode.HideText = false;
-			this.CB_NightMode.Image = ((System.Drawing.Image)(resources.GetObject("CB_NightMode.Image")));
 			this.CB_NightMode.Location = new System.Drawing.Point(576, 233);
 			this.CB_NightMode.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
 			this.CB_NightMode.Name = "CB_NightMode";
@@ -574,16 +570,12 @@
 			// 
 			// CB_DisableAnimations
 			// 
-			this.CB_DisableAnimations.ActiveColor = null;
 			this.CB_DisableAnimations.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.CB_DisableAnimations.AutoSize = true;
-			this.CB_DisableAnimations.Center = false;
 			this.CB_DisableAnimations.Checked = false;
 			this.CB_DisableAnimations.CheckedText = null;
 			this.CB_DisableAnimations.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_DisableAnimations.DefaultValue = false;
-			this.CB_DisableAnimations.HideText = false;
-			this.CB_DisableAnimations.Image = ((System.Drawing.Image)(resources.GetObject("CB_DisableAnimations.Image")));
 			this.CB_DisableAnimations.Location = new System.Drawing.Point(348, 105);
 			this.CB_DisableAnimations.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
 			this.CB_DisableAnimations.Name = "CB_DisableAnimations";

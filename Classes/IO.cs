@@ -1,8 +1,5 @@
 ﻿using Extensions;
 
-using NReco.VideoConverter;
-using NReco.VideoInfo;
-
 using System;
 using System.Drawing;
 using System.IO;
@@ -22,27 +19,27 @@ namespace SlickControls
 		{
 			try
 			{
-				if (VideoExtensions.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-					using (var thumbJpegStream = new MemoryStream())
-					{
-						try
-						{
-							new FFMpegConverter().GetVideoThumbnail(
-								file.FullName,
-								thumbJpegStream,
-								timeInSeconds ?? (float)(new FFProbe().GetMediaInfo(file.FullName).Duration.TotalSeconds / 4));
+				//if (VideoExtensions.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
+				//	using (var thumbJpegStream = new MemoryStream())
+				//	{
+				//		try
+				//		{
+				//			new FFMpegConverter().GetVideoThumbnail(
+				//				file.FullName,
+				//				thumbJpegStream,
+				//				timeInSeconds ?? (float)(new FFProbe().GetMediaInfo(file.FullName).Duration.TotalSeconds / 4));
 
-							if (thumbJpegStream.Length != 0)
-							{
-								isThumbnail = true;
-								return new Bitmap(thumbJpegStream);
-							}
-						}
-						catch { }
+				//			if (thumbJpegStream.Length != 0)
+				//			{
+				//				isThumbnail = true;
+				//				return new Bitmap(thumbJpegStream);
+				//			}
+				//		}
+				//		catch { }
 
-						isThumbnail = false;
-						return null;
-					}
+				//		isThumbnail = false;
+				//		return null;
+				//	}
 
 				if (ImageExtensions.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
 				{
