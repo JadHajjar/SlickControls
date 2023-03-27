@@ -132,13 +132,13 @@ namespace SlickControls
 			{
 				foreach (var file in f.EnumerateFiles(FoldersOnly ? "*.lnk" : "*", SearchOption.TopDirectoryOnly))
 				{
-					if (isValid(file) && file.Name.SearchCheck(currentSearch))
+					if (isValid(file) && currentSearch.SearchCheck(file.Name))
 						items.Add(file);
 				}
 
 				foreach (var item in f.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
 				{
-					if (item.Name.SearchCheck(currentSearch))
+					if (currentSearch.SearchCheck(item.Name))
 						items.Add(item);
 				}
 			}

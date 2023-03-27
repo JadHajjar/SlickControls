@@ -68,12 +68,12 @@
 			this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TLP_Main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.TLP_Main.Controls.Add(this.L_Title, 1, 0);
+			this.TLP_Main.Controls.Add(this.L_Title, 0, 0);
 			this.TLP_Main.Controls.Add(this.B_Cancel, 4, 4);
 			this.TLP_Main.Controls.Add(this.B_OK, 3, 4);
 			this.TLP_Main.Controls.Add(this.libraryViewer, 0, 2);
-			this.TLP_Main.Controls.Add(this.TB_Search, 2, 0);
-			this.TLP_Main.Controls.Add(this.slickSpacer1, 3, 3);
+			this.TLP_Main.Controls.Add(this.TB_Search, 0, 1);
+			this.TLP_Main.Controls.Add(this.slickSpacer1, 1, 3);
 			this.TLP_Main.Controls.Add(this.TI_Close, 4, 0);
 			this.TLP_Main.Controls.Add(this.TLP_Side, 0, 0);
 			this.TLP_Main.Controls.Add(this.P_CustomPanel, 1, 4);
@@ -86,17 +86,17 @@
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
 			this.TLP_Main.Size = new System.Drawing.Size(787, 437);
 			this.TLP_Main.TabIndex = 0;
 			// 
 			// L_Title
 			// 
-			this.L_Title.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.L_Title.AutoSize = true;
-			this.L_Title.Location = new System.Drawing.Point(182, 7);
-			this.L_Title.Margin = new System.Windows.Forms.Padding(7);
+			this.TLP_Main.SetColumnSpan(this.L_Title, 2);
+			this.L_Title.Location = new System.Drawing.Point(190, 7);
+			this.L_Title.Margin = new System.Windows.Forms.Padding(15, 7, 7, 0);
 			this.L_Title.Name = "L_Title";
-			this.TLP_Main.SetRowSpan(this.L_Title, 2);
 			this.L_Title.Size = new System.Drawing.Size(84, 13);
 			this.L_Title.TabIndex = 0;
 			this.L_Title.Text = "Pinned Folders";
@@ -108,13 +108,13 @@
 			this.B_Cancel.ColorStyle = Extensions.ColorStyle.Red;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Cancel.Image = global::SlickControls.Properties.Resources.Tiny_Cancel;
-			this.B_Cancel.Location = new System.Drawing.Point(677, 397);
-			this.B_Cancel.Margin = new System.Windows.Forms.Padding(10);
+			this.B_Cancel.Location = new System.Drawing.Point(680, 400);
+			this.B_Cancel.Margin = new System.Windows.Forms.Padding(7);
 			this.B_Cancel.Name = "B_Cancel";
 			this.B_Cancel.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
 			this.B_Cancel.Size = new System.Drawing.Size(100, 30);
 			this.B_Cancel.SpaceTriggersClick = true;
-			this.B_Cancel.TabIndex = 2;
+			this.B_Cancel.TabIndex = 3;
 			this.B_Cancel.Text = "CANCEL";
 			this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
 			// 
@@ -124,8 +124,8 @@
 			this.B_OK.ColorShade = null;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_OK.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
-			this.B_OK.Location = new System.Drawing.Point(557, 397);
-			this.B_OK.Margin = new System.Windows.Forms.Padding(10);
+			this.B_OK.Location = new System.Drawing.Point(566, 400);
+			this.B_OK.Margin = new System.Windows.Forms.Padding(7);
 			this.B_OK.Name = "B_OK";
 			this.B_OK.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
 			this.B_OK.Size = new System.Drawing.Size(100, 30);
@@ -143,11 +143,11 @@
 			this.libraryViewer.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.libraryViewer.Extensions = null;
 			this.libraryViewer.FoldersOnly = false;
-			this.libraryViewer.Location = new System.Drawing.Point(175, 58);
+			this.libraryViewer.Location = new System.Drawing.Point(175, 55);
 			this.libraryViewer.Margin = new System.Windows.Forms.Padding(0);
 			this.libraryViewer.MinimumSize = new System.Drawing.Size(200, 50);
 			this.libraryViewer.Name = "libraryViewer";
-			this.libraryViewer.Size = new System.Drawing.Size(612, 322);
+			this.libraryViewer.Size = new System.Drawing.Size(612, 331);
 			this.libraryViewer.StartingFolder = null;
 			this.libraryViewer.TabIndex = 1;
 			this.libraryViewer.TopFolders = new string[0];
@@ -155,32 +155,32 @@
 			// 
 			// TB_Search
 			// 
-			this.TB_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.TLP_Main.SetColumnSpan(this.TB_Search, 2);
+			this.TB_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.TLP_Main.SetColumnSpan(this.TB_Search, 3);
 			this.TB_Search.EnterTriggersClick = false;
 			this.TB_Search.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.TB_Search.LabelText = "Search";
-			this.TB_Search.Location = new System.Drawing.Point(317, 15);
-			this.TB_Search.Margin = new System.Windows.Forms.Padding(3, 15, 0, 3);
+			this.TB_Search.LabelText = "";
+			this.TB_Search.Location = new System.Drawing.Point(190, 27);
+			this.TB_Search.Margin = new System.Windows.Forms.Padding(15, 0, 0, 3);
 			this.TB_Search.MaximumSize = new System.Drawing.Size(9999, 0);
 			this.TB_Search.MinimumSize = new System.Drawing.Size(50, 0);
 			this.TB_Search.Name = "TB_Search";
-			this.TB_Search.Placeholder = "Type to start searching";
-			this.TLP_Main.SetRowSpan(this.TB_Search, 2);
+			this.TB_Search.Placeholder = "Search..";
 			this.TB_Search.SelectedText = "";
 			this.TB_Search.SelectionLength = 0;
 			this.TB_Search.SelectionStart = 0;
-			this.TB_Search.Size = new System.Drawing.Size(350, 40);
-			this.TB_Search.TabIndex = 3;
+			this.TB_Search.ShowLabel = false;
+			this.TB_Search.Size = new System.Drawing.Size(350, 25);
+			this.TB_Search.TabIndex = 0;
 			this.TB_Search.TextChanged += new System.EventHandler(this.TB_Search_TextChanged);
 			// 
 			// slickSpacer1
 			// 
-			this.TLP_Main.SetColumnSpan(this.slickSpacer1, 2);
+			this.TLP_Main.SetColumnSpan(this.slickSpacer1, 4);
 			this.slickSpacer1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.slickSpacer1.Location = new System.Drawing.Point(509, 383);
+			this.slickSpacer1.Location = new System.Drawing.Point(178, 389);
 			this.slickSpacer1.Name = "slickSpacer1";
-			this.slickSpacer1.Size = new System.Drawing.Size(275, 1);
+			this.slickSpacer1.Size = new System.Drawing.Size(606, 1);
 			this.slickSpacer1.TabIndex = 4;
 			this.slickSpacer1.TabStop = false;
 			this.slickSpacer1.Text = "slickSpacer1";
@@ -193,7 +193,7 @@
 			this.TI_Close.Location = new System.Drawing.Point(768, 3);
 			this.TI_Close.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this.TI_Close.Name = "TI_Close";
-			this.TI_Close.Size = new System.Drawing.Size(16, 16);
+			this.TI_Close.Size = new System.Drawing.Size(16, 24);
 			this.TI_Close.TabIndex = 6;
 			this.TI_Close.TabStop = false;
 			this.TI_Close.Click += new System.EventHandler(this.B_Cancel_Click);
@@ -231,9 +231,9 @@
 			this.P_CustomPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.TLP_Main.SetColumnSpan(this.P_CustomPanel, 2);
 			this.P_CustomPanel.Dock = System.Windows.Forms.DockStyle.Left;
-			this.P_CustomPanel.Location = new System.Drawing.Point(178, 390);
+			this.P_CustomPanel.Location = new System.Drawing.Point(178, 396);
 			this.P_CustomPanel.Name = "P_CustomPanel";
-			this.P_CustomPanel.Size = new System.Drawing.Size(0, 44);
+			this.P_CustomPanel.Size = new System.Drawing.Size(0, 38);
 			this.P_CustomPanel.TabIndex = 8;
 			this.P_CustomPanel.Visible = false;
 			// 

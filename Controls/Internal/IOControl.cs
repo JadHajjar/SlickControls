@@ -54,7 +54,7 @@ namespace SlickControls
 			}
 
 			Path = FileObject?.FullName ?? FolderObject.FullName;
-			Size = UI.Scale(new Size(115, 115), UI.UIScale);
+			Size = UI.Scale(new Size(85, 85), UI.FontScale);
 			Margin = new Padding(7);
 			Cursor = Cursors.Hand;
 			Font = UI.Font(7.75F);

@@ -33,13 +33,15 @@
 			this.FLP_Content = new System.Windows.Forms.FlowLayoutPanel();
 			this.P_Spacer = new System.Windows.Forms.Panel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			this.PB_Loader = new SlickPictureBox();
+			this.PB_Loader = new SlickControls.SlickPictureBox();
 			this.P_Bar = new System.Windows.Forms.Panel();
 			this.TB_Path = new SlickControls.SlickPathTextBox();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.L_NoResults = new System.Windows.Forms.Label();
 			this.slickScroll1 = new SlickControls.SlickScroll();
+			((System.ComponentModel.ISupportInitialize)(this.PB_Bar)).BeginInit();
 			this.tableLayoutPanel1.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PB_Loader)).BeginInit();
 			this.P_Bar.SuspendLayout();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
@@ -101,13 +103,13 @@
 			// PB_Loader
 			// 
 			this.PB_Loader.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.PB_Loader.Location = new System.Drawing.Point(-12, 27);
+			this.PB_Loader.Loading = true;
+			this.PB_Loader.Location = new System.Drawing.Point(56, 36);
 			this.PB_Loader.Margin = new System.Windows.Forms.Padding(0, 0, 100, 0);
 			this.PB_Loader.Name = "PB_Loader";
 			this.PB_Loader.Size = new System.Drawing.Size(32, 32);
 			this.PB_Loader.TabIndex = 6;
 			this.PB_Loader.TabStop = false;
-			this.PB_Loader.Loading = true;
 			this.PB_Loader.Visible = false;
 			this.PB_Loader.Click += new System.EventHandler(this.Generic_Click);
 			// 
@@ -133,22 +135,15 @@
 			this.TB_Path.LabelText = "Folder";
 			this.TB_Path.Location = new System.Drawing.Point(0, 0);
 			this.TB_Path.MaximumSize = new System.Drawing.Size(9999, 0);
-			this.TB_Path.MaxLength = 32767;
 			this.TB_Path.MinimumSize = new System.Drawing.Size(50, 35);
 			this.TB_Path.Name = "TB_Path";
-			this.TB_Path.Password = false;
 			this.TB_Path.Placeholder = "Folder Path";
-			this.TB_Path.ReadOnly = false;
-			this.TB_Path.Required = false;
-			this.TB_Path.SelectAllOnFocus = false;
 			this.TB_Path.SelectedText = "";
 			this.TB_Path.SelectionLength = 0;
 			this.TB_Path.SelectionStart = 0;
+			this.TB_Path.ShowLabel = false;
 			this.TB_Path.Size = new System.Drawing.Size(200, 35);
 			this.TB_Path.TabIndex = 1;
-			this.TB_Path.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-			this.TB_Path.Validation = SlickControls.ValidationType.None;
-			this.TB_Path.ValidationRegex = "";
 			this.TB_Path.Visible = false;
 			this.TB_Path.TextChanged += new System.EventHandler(this.TB_Path_TextChanged);
 			this.TB_Path.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Path_KeyPress);
@@ -182,10 +177,9 @@
 			// 
 			this.slickScroll1.Dock = System.Windows.Forms.DockStyle.Right;
 			this.slickScroll1.LinkedControl = this.FLP_Content;
-			this.slickScroll1.Location = new System.Drawing.Point(194, 106);
-			this.slickScroll1.MouseDownLocation = new System.Drawing.Point(0, 0);
+			this.slickScroll1.Location = new System.Drawing.Point(193, 106);
 			this.slickScroll1.Name = "slickScroll1";
-			this.slickScroll1.Size = new System.Drawing.Size(6, 0);
+			this.slickScroll1.Size = new System.Drawing.Size(7, 0);
 			this.slickScroll1.Style = SlickControls.StyleType.Vertical;
 			this.slickScroll1.TabIndex = 10;
 			this.slickScroll1.TabStop = false;
@@ -203,8 +197,9 @@
 			this.Name = "SlickLibraryViewer";
 			this.Size = new System.Drawing.Size(200, 106);
 			this.Resize += new System.EventHandler(this.FLP_Content_Resize);
+			((System.ComponentModel.ISupportInitialize)(this.PB_Bar)).EndInit();
 			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.PB_Loader)).EndInit();
 			this.P_Bar.ResumeLayout(false);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();

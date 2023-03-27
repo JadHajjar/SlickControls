@@ -121,7 +121,7 @@ namespace SlickControls
 			base.UIChanged();
 
 			TI_Close.Size = UI.Scale(new Size(16, 16), UI.UIScale);
-			L_Title.Font = UI.Font(9F, FontStyle.Bold);
+			L_Title.Font = UI.Font(8.25F, FontStyle.Bold);
 			TLP_Main.ColumnStyles[0].Width = (int)(175 * UI.UIScale);
 		}
 
