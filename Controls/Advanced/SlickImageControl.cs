@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -44,6 +45,36 @@ namespace SlickControls
 		}
 
 		public void LoadImage(string url) => LoadImage(url, LoadImageFromUrl);
+		public void LoadImage(string url, Func<string, Task<Bitmap>> method)
+		{
+			if (string.IsNullOrEmpty(url) || method == null)
+			{
+				fail(new Exception());
+				return;
+			}
+
+			Loading = true;
+
+			if (!ConnectionHandler.WhenConnected(() => new BackgroundAction("Loading Image", async () =>
+			{
+				try
+				{
+					if (IsDisposed)
+						return;
+
+					Image = await method(url);
+					ImageChanged?.Invoke(this, EventArgs.Empty);
+				}
+				catch (Exception ex)
+				{
+					fail(ex);
+				}
+			}).Run()))
+			{
+				fail(new Exception());
+			}
+		}
+
 		public void LoadImage(string url, Func<string, Image> method)
 		{
 			if (string.IsNullOrEmpty(url) || method == null)

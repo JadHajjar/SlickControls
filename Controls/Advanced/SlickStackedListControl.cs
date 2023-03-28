@@ -94,7 +94,7 @@ namespace SlickControls
 				itemCopy = new List<DrawableItem<T>>(_items);
 			}
 
-			Parallel.ForEach(itemCopy, x =>
+			Parallelism.ForEach(itemCopy, x =>
 			{
 				var canDraw = new CanDrawItemEventArgs<T>(x.Item);
 

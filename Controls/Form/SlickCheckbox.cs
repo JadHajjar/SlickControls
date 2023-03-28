@@ -101,9 +101,6 @@ namespace SlickControls
 			}
 		}
 
-		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public new bool AutoSize { get; set; }
-
 		public void ResetValue()
 		{
 			Checked = DefaultValue ?? true;
@@ -123,7 +120,7 @@ namespace SlickControls
 		{
 			if (Live)
 			{
-				Size = GetDefaultSize();
+				Invalidate();
 			}
 		}
 
@@ -132,21 +129,12 @@ namespace SlickControls
 			if (Live)
 			{
 				Padding = UI.Scale(new Padding(5), UI.FontScale);
-				Size = GetDefaultSize();
 			}
 		}
 
-		protected override void OnTextChanged(EventArgs e)
-		{
-			base.OnTextChanged(e);
+		public override Size GetPreferredSize(Size proposedSize) => GetAutoSize();
 
-			if (Live)
-			{
-				Size = GetDefaultSize();
-			}
-		}
-
-		private Size GetDefaultSize()
+		private Size GetAutoSize()
 		{
 			using (var image = GetIcon())
 			using (var g = Graphics.FromHwnd(IntPtr.Zero))
@@ -222,7 +210,7 @@ namespace SlickControls
 					{
 						if (!HoverState.HasFlag(HoverState.Pressed) && @checked && !UseToggleIcon && CheckedIcon == null && UnCheckedIcon == null)
 						{
-							e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveForeColor), iconRect	.CenterR(iconSize*2/3,iconSize*2/3));
+							e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveForeColor), iconRect.CenterR(iconSize * 2 / 3, iconSize * 2 / 3));
 							image.Color(FormDesign.Design.ActiveColor);
 						}
 						else
@@ -274,7 +262,7 @@ namespace SlickControls
 
 			if (CheckedIcon != null && UnCheckedIcon != null)
 			{
-				image = new Bitmap(@checked ? CheckedIcon : UnCheckedIcon);
+				image = @checked ? CheckedIcon : UnCheckedIcon;
 			}
 			else if (UseToggleIcon)
 			{

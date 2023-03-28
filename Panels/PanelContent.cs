@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using Timer = System.Windows.Forms.Timer;
@@ -129,7 +130,15 @@ namespace SlickControls
 			ForeColor = design.ForeColor;
 		}
 
-		protected virtual bool LoadData() => DataLoaded = true;
+		protected virtual bool LoadData()
+		{
+			return true;
+		}
+
+		protected virtual Task<bool> LoadDataAsync()
+		{
+			return Task.FromResult(true);
+		}
 
 		protected DialogResult ShowPrompt(Exception exception, string message, string title, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
 			=> MessagePrompt.Show(exception, message, title, buttons, icon, Form);
@@ -196,11 +205,11 @@ namespace SlickControls
 				DataLoaded = false;
 				DataLoading = true;
 				StartLoader();
-				LoadThread = new Thread(() =>
+				LoadThread = new Thread(async() =>
 				{
 					try
 					{
-						if (LoadData())
+						if (LoadData() && await LoadDataAsync())
 						{
 							DataLoaded = true;
 							this.TryInvoke(OnDataLoad);

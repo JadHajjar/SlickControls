@@ -77,7 +77,7 @@ namespace SlickControls
 		}
 
 		public void PerformAutoSize()
-		{
+		{	
 			if (Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill)
 				return;
 
@@ -87,9 +87,21 @@ namespace SlickControls
 
 				if (string.IsNullOrWhiteSpace(Text))
 				{
-					var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
+					if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
+					{
+						Width = Height;
+					}
+					else if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
+					{
+						Height = Width;
+					}
+					else
+					{
+						var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
 
-					Size = new Size(IconSize + pad, IconSize + pad);
+						Size = new Size(IconSize + pad, IconSize + pad);
+					}
+
 					return;
 				}
 
