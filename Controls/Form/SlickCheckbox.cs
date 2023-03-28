@@ -101,6 +101,9 @@ namespace SlickControls
 			}
 		}
 
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
+		public new bool AutoSize { get; set; }
+
 		public void ResetValue()
 		{
 			Checked = DefaultValue ?? true;
@@ -120,7 +123,7 @@ namespace SlickControls
 		{
 			if (Live)
 			{
-				PerformAutoSize();
+				Size = GetDefaultSize();
 			}
 		}
 
@@ -128,31 +131,25 @@ namespace SlickControls
 		{
 			if (Live)
 			{
-				PerformAutoSize();
+				Padding = UI.Scale(new Padding(5), UI.FontScale);
+				Size = GetDefaultSize();
 			}
+		}
+
+		protected override void OnTextChanged(EventArgs e)
+		{
+			base.OnTextChanged(e);
 
 			if (Live)
 			{
-				Padding = UI.Scale(new Padding(5), UI.FontScale);
+				Size = GetDefaultSize();
 			}
 		}
 
-		public void PerformAutoSize()
-		{
-			if (Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill)
-			{
-				return;
-			}
-
-			Size = GetAutoSize();
-		}
-
-		public override Size GetPreferredSize(Size proposedSize) => GetAutoSize();
-
-		private Size GetAutoSize()
+		private Size GetDefaultSize()
 		{
 			using (var image = GetIcon())
-			using (var g = CreateGraphics())
+			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{
 				var iconSize = image?.Width ?? 16;
 
@@ -160,7 +157,7 @@ namespace SlickControls
 				{
 					var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
 
-					return new Size(iconSize + pad+1, iconSize + pad+1);
+					return new Size(iconSize + pad + 1, iconSize + pad + 1);
 				}
 
 				var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font);
@@ -277,7 +274,7 @@ namespace SlickControls
 
 			if (CheckedIcon != null && UnCheckedIcon != null)
 			{
-				image = @checked ? CheckedIcon : UnCheckedIcon;
+				image = new Bitmap(@checked ? CheckedIcon : UnCheckedIcon);
 			}
 			else if (UseToggleIcon)
 			{

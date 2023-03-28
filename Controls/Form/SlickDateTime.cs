@@ -215,7 +215,7 @@ namespace SlickControls
 
 			var error = false;
 			var iconWidth = DateType != DateType.Time ? (UI.FontScale >= 1.25 ? 24 : 16) : 0;
-			var iconRect = new Rectangle(Width - iconWidth * 11 / 8, 0, iconWidth * 11 / 8, Height - 2);
+			iconRect = new Rectangle(Width - iconWidth * 11 / 8, 0, iconWidth * 11 / 8, Height - 2);
 			var barColor =
 				error ? FormDesign.Design.RedColor :
 				Focused ? FormDesign.Design.ActiveColor :
@@ -246,9 +246,6 @@ namespace SlickControls
 
 			var charWidth = (int)e.Graphics.Measure("0", Font).Width;
 			var left = 1;
-
-			if (ShowLabel && !string.IsNullOrWhiteSpace(LabelText))
-				e.Graphics.DrawString(LabelText, UI.Font(7.25F, FontStyle.Bold | FontStyle.Italic), Gradient(FormDesign.Design.LabelColor), new Rectangle(0, 0, Width, UI.Font(7.25F, FontStyle.Bold | FontStyle.Italic).Height));
 
 			foreach (var part in partValues)
 			{

@@ -56,6 +56,9 @@
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
     <Compile Include="Classes\CanDrawItemEventArgs.cs" />
     <Compile Include="Classes\SizeSourceEventArgs.cs" />
+    <Compile Include="Controls\Advanced\SlickDateRange.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\Advanced\SlickStackedListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
