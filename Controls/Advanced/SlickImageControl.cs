@@ -45,7 +45,7 @@ namespace SlickControls
 		}
 
 		public void LoadImage(string url) => LoadImage(url, LoadImageFromUrl);
-#if NET471_OR_GREATER
+#if NET47
 		public void LoadImage(string url, Func<string, Task<Bitmap>> method)
 		{
 			if (string.IsNullOrEmpty(url) || method == null)

@@ -29,7 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.base_P_Container = new System.Windows.Forms.Panel();
-			this.base_PB_Icon = new System.Windows.Forms.PictureBox();
+			this.base_PB_Icon = new SlickPictureBox();
 			this.base_B_Close = new SlickControls.TopIcon();
 			this.base_B_Max = new SlickControls.TopIcon();
 			this.base_B_Min = new SlickControls.TopIcon();
@@ -128,7 +128,7 @@
 
 		protected System.Windows.Forms.Panel base_P_Container;
 
-		protected System.Windows.Forms.PictureBox base_PB_Icon;
+		protected SlickPictureBox base_PB_Icon;
 		protected TopIcon base_B_Close;
 		protected TopIcon base_B_Max;
 		protected TopIcon base_B_Min;

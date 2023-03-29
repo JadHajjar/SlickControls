@@ -7,170 +7,154 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	public partial class SlickTip : Form
+	public partial class SlickTip : Control
 	{
-		public string Title { get; private set; }
+		private readonly Timer _timer;
+		public Control Control { get; }
+		public Form Form { get; }
+		private TipInfo Info { get; set; }
 
-		public SlickTip(Control control, string title, string text, int timeout)
+		private SlickTip(Control control, Form form, TipInfo tipInfo)
 		{
-			InitializeComponent();
-
-			if (control.FindForm() == null) { Dispose(); return; }
-
+			DoubleBuffered = true;
+			ResizeRedraw = true;
 			Control = control;
-			SetData(title, text);
+			Form = form;
 
-			Paint += ToolTip_Draw;
 			control.MouseLeave += Control_MouseLeave;
 			control.Disposed += Control_MouseLeave;
 
-			FormDesign.DesignChanged += DesignChanged;
-
-			new BackgroundAction(() =>
+			_timer = new Timer
 			{
-				if (!IsDisposed)
-					this.TryInvoke(Dismiss);
-				if (currentControl?.Value == this)
-					currentControl = null;
-			}).RunIn(timeout);
+				Interval = tipInfo.Timeout
+			};
+
+			_timer.Tick += _timer_Tick;
+			_timer.Start();
+
+			SetData(tipInfo);
 		}
 
-		private void DesignChanged(FormDesign design) => Invalidate();
-
-		private void SetData(string title, string text)
+		private void _timer_Tick(object sender, EventArgs e)
 		{
-			if (Control == null) return;
+			this.TryInvoke(Dismiss);
+		}
 
+		private void SetData(TipInfo tipInfo)
+		{
 			try
 			{
-				Title = title;
-				Text = text;
+				Info = tipInfo;
+				_timer.Stop();
+				_timer.Start();
 
-				var frm = Control.FindForm();
-
-				if (frm == null)
-				{
-					Dismiss();
-
-					return;
-				}
-
-				var ctrlPos = Control.PointToScreen(Point.Empty);
+				var ctrlPos = Form.PointToClient(Control.PointToScreen(Point.Empty));
 				var bnds = SizeF.Empty;
+				var padding = (int)(3 * UI.FontScale);
 
-				using (var g = CreateGraphics())
+				using (var g = Graphics.FromHwnd(IntPtr.Zero))
 				{
-					bnds = g.Measure(text, UI.Font(8.25F), Math.Max(200, Control.Width));
-					if (!string.IsNullOrWhiteSpace(title))
+					bnds = g.Measure(Info.Text, UI.Font(8.25F), Math.Max(200, Control.Width));
+					if (!string.IsNullOrWhiteSpace(tipInfo.Title))
 					{
-						var titleBnds = g.Measure(Title, UI.Font(9F, FontStyle.Bold), Math.Max(200, Control.Width));
+						var titleBnds = g.Measure(Info.Title, UI.Font(9F, FontStyle.Bold), Math.Max(200, Control.Width));
 						bnds = new SizeF(Math.Max(titleBnds.Width, bnds.Width), bnds.Height + titleBnds.Height);
 					}
 				}
 
-				Size = new Size(8 + (int)Math.Ceiling(bnds.Width), 6 + (int)Math.Ceiling(bnds.Height));
-				Location = new Point(ctrlPos.X, ctrlPos.Y - Height - 3);
+				var size = new Size(8 + (int)Math.Ceiling(bnds.Width), 6 + (int)Math.Ceiling(bnds.Height));
+				var location = new Point(ctrlPos.X + tipInfo.Offset.X + padding, ctrlPos.Y + tipInfo.Offset.Y - size.Height - padding);
 
-				if (Location.X + Width > Math.Min(SystemInformation.VirtualScreen.Width, frm.Width + frm.Location.X))
-					Left = ctrlPos.X + Control.Width - Width;
-				if (Location.Y < Math.Max(0, frm.Location.Y))
-					Top = ctrlPos.Y + Control.Height + 3;
+				if (location.X + size.Width > Form.Width)
+				{
+					location.X = ctrlPos.X + Control.Width - size.Width - padding;
+				}
 
-				Invalidate();
+				if (location.Y < 0)
+				{
+					location.Y = ctrlPos.Y + Control.Height - size.Height - padding;
+				}
+
+				Bounds = new Rectangle(location, size);
 			}
 			catch { }
 		}
 
 		private void Control_MouseLeave(object sender, EventArgs e)
 		{
-			if (!IsDisposed)
-				this.TryInvoke(Dismiss);
-			if (currentControl?.Value == this)
-				currentControl = null;
+			this.TryInvoke(Dismiss);
 		}
 
-		public void Reveal(Control control)
+		public void Reveal()
 		{
-			var frm = control.FindForm(); if (frm == null) { Dispose(); return; }
+			Form.Controls.Add(this);
 
-			TopMost = frm.TopMost;
-			Show(frm);
-			animationTimer = new System.Timers.Timer(30) { Enabled = true };
-			animationTimer.Elapsed += (s, e) =>
-			{
-				if (IsDisposed || Opacity >= 1)
-					animationTimer.Dispose();
-				else
-					this.TryInvoke(() => Opacity += .15);
-			};
+			BringToFront();
 		}
 
 		public void Dismiss()
 		{
-			animationTimer?.Dispose();
-			animationTimer = new System.Timers.Timer(30) { Enabled = true };
-			animationTimer.Elapsed += (s, e) =>
+			if (currentControl?.Value == this)
 			{
-				if (IsDisposed || Opacity <= 0)
-				{ animationTimer.Dispose(); this.TryInvoke(Dispose); }
-				else
-				{
-					this.TryInvoke(() => Opacity -= .18);
-				}
-			};
+				currentControl = null;
+			}
+
+			this.TryInvoke(Dispose);
 		}
 
-		private void ToolTip_Draw(object sender, PaintEventArgs e)
+		protected override void Dispose(bool disposing)
 		{
-			e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.AccentColor), new Rectangle(Point.Empty, Size));
-
-			e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.BackColor), new Rectangle(1, 1, Width - 2, Height - 2));
-
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-
-			if (string.IsNullOrWhiteSpace(Title))
+			if (disposing)
 			{
-				e.Graphics.DrawString(Text, UI.Font(8.25F), SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
+				_timer?.Dispose();
+
+				if (Control != null)
+				{
+					Control.MouseLeave -= Control_MouseLeave;
+					Control.Disposed -= Control_MouseLeave;
+				}
+			}
+
+			base.Dispose(disposing);
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			e.Graphics.SetUp(FormDesign.Design.AccentColor);
+
+			e.Graphics.FillRectangle(SlickControl.Gradient(ClientRectangle, FormDesign.Design.BackColor), ClientRectangle.Pad((int)UI.FontScale));
+
+			if (string.IsNullOrWhiteSpace(Info.Title))
+			{
+				e.Graphics.DrawString(Info.Text, UI.Font(8.25F), SlickControl.Gradient(ClientRectangle, FormDesign.Design.ForeColor), ClientRectangle, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
 			}
 			else
 			{
-				var bnds = e.Graphics.Measure(Title, UI.Font(9F, FontStyle.Bold), Width - 4);
+				var bnds = e.Graphics.Measure(Info.Title, UI.Font(9F, FontStyle.Bold), Width - 4);
 
-				e.Graphics.DrawString(Title, UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
-				e.Graphics.DrawString(Text, UI.Font(8.25F), SlickControl.Gradient(new Rectangle(Point.Empty, Size), FormDesign.Design.LabelColor), new Rectangle(4, (int)bnds.Height + 4, Width - 4, Height));
+				e.Graphics.DrawString(Info.Title, UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(ClientRectangle, FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
+				e.Graphics.DrawString(Info.Text, UI.Font(8.25F), SlickControl.Gradient(ClientRectangle, FormDesign.Design.LabelColor), new Rectangle(4, (int)bnds.Height + 4, Width - 4, Height));
 			}
 		}
-
-		protected override bool ShowWithoutActivation => true;
-
-		protected override CreateParams CreateParams
-		{
-			get
-			{
-				var baseParams = base.CreateParams;
-
-				const int WS_EX_NOACTIVATE = 0x08000000;
-				const int WS_EX_TOOLWINDOW = 0x00000080;
-				baseParams.ExStyle |= WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW;
-
-				return baseParams;
-			}
-		}
-
-		public Control Control { get; }
 
 		#region Statics
 
-		private static readonly Dictionary<Control, Tuple<string, string, int>> controlsDictionary = new Dictionary<Control, Tuple<string, string, int>>();
+		private static readonly Dictionary<Control, TipInfo> controlsDictionary = new Dictionary<Control, TipInfo>();
 		private static KeyValuePair<Control, SlickTip>? currentControl;
-		private System.Timers.Timer animationTimer;
 
-		public static void SetTo(Control control, string text, bool recursive = true, int timeout = 10000)
-			=> SetTo(control, null, text, recursive, timeout);
-
-		public static void SetTo(Control control, string title, string text, bool recursive = true, int timeout = 10000)
+		public static void SetTo(Control control, string text, bool recursive = true, int timeout = 10000, Point offset = default)
 		{
-			if (control == null || (string.IsNullOrWhiteSpace(text) && string.IsNullOrWhiteSpace(title)))
+			SetTo(control, null, text, recursive, timeout, offset);
+		}
+
+		public static void SetTo(Control control, string title, string text, bool recursive = true, int timeout = 10000, Point offset = default)
+		{
+			if (control == null)
+			{
+				return;
+			}
+
+			if (string.IsNullOrWhiteSpace(text) && string.IsNullOrWhiteSpace(title))
 			{
 				if (controlsDictionary.ContainsKey(control))
 				{
@@ -189,15 +173,20 @@ namespace SlickControls
 			{
 				control.MouseEnter += Control_MouseEnter;
 				control.Disposed += Control_Disposed;
-				controlsDictionary.Add(control, new Tuple<string, string, int>(title, text, timeout));
+				controlsDictionary.Add(control, new TipInfo(title, text, timeout, offset));
+
+				if (mouseIsIn(control, Cursor.Position))
+				{
+					Control_MouseEnter(control, null);
+				}
 			}
 			else
 			{
-				controlsDictionary[control] = new Tuple<string, string, int>(title, text, timeout);
+				controlsDictionary[control] = new TipInfo(title, text, timeout, offset);
 
 				if (currentControl?.Key == control)
 				{
-					currentControl?.Value.SetData(title, text);
+					currentControl?.Value.SetData(controlsDictionary[control]);
 					Control_MouseEnter(control, null);
 				}
 				else
@@ -212,13 +201,16 @@ namespace SlickControls
 			if (recursive && control.Controls.Count > 0)
 			{
 				foreach (Control ctrl in control.Controls)
-					SetTo(ctrl, title, text);
+				{
+					SetTo(ctrl, title, text, recursive, timeout, offset);
+				}
 			}
 		}
 
 		private static void Control_Disposed(object sender, EventArgs e)
 		{
 			var control = sender as Control;
+
 			control.MouseEnter -= Control_MouseEnter;
 			control.Disposed -= Control_Disposed;
 		}
@@ -227,10 +219,15 @@ namespace SlickControls
 		{
 			var control = sender as Control;
 
-			if (control.FindForm() is SlickForm frm && frm.FormIsActive)
+			if (!(control.FindForm() is SlickForm frm) || !frm.FormIsActive)
 			{
-				var timer = new System.Timers.Timer(1000) { Enabled = true, AutoReset = false }; timer.Elapsed += (s, et) =>
+				return;
+			}
 
+			var timer = new System.Timers.Timer(1500) { Enabled = true, AutoReset = false };
+
+			timer.Elapsed += (s, et) =>
+			{
 				control.TryInvoke(() =>
 				{
 					if (frm.FormIsActive && mouseIsIn(control, MousePosition))
@@ -238,20 +235,22 @@ namespace SlickControls
 						if (currentControl != null)
 						{
 							if (currentControl?.Key == control)
+							{
 								return;
+							}
 							else
+							{
 								currentControl?.Value.Dismiss();
+							}
 						}
 
-						currentControl = new KeyValuePair<Control, SlickTip>(control, new SlickTip(control, controlsDictionary[control].Item1, controlsDictionary[control].Item2, controlsDictionary[control].Item3));
-						frm.CurrentFormState = FormState.ForcedFocused;
-						currentControl?.Value.Reveal(currentControl?.Key);
-						frm.Focus();
-						frm.CurrentFormState = FormState.NormalFocused;
+						var tip = new SlickTip(control, frm, controlsDictionary[control]);
+						currentControl = new KeyValuePair<Control, SlickTip>(control, tip);
+						tip.Reveal();
 						timer.Dispose();
 					}
 				});
-			}
+			};
 		}
 
 		private static bool mouseIsIn(Control control, Point point)
@@ -263,5 +262,21 @@ namespace SlickControls
 		}
 
 		#endregion Statics
+
+		private class TipInfo
+		{
+			public TipInfo(string title, string text, int timeout, Point offset)
+			{
+				Title = title;
+				Text = text;
+				Timeout = timeout;
+				Offset = offset;
+			}
+
+			public string Title { get; }
+			public string Text { get; }
+			public int Timeout { get; }
+			public Point Offset { get; }
+		}
 	}
 }

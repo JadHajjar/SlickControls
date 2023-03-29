@@ -254,10 +254,15 @@ namespace SlickControls
 			}
 			else
 			{
-				Cursor = Cursors.WaitCursor;
-				FormDesign.Switch();
-				Cursor = Cursors.Default;
+				OnAppIconClicked();
 			}
+		}
+
+		protected virtual void OnAppIconClicked()
+		{
+			Cursor = Cursors.WaitCursor;
+			FormDesign.Switch();
+			Cursor = Cursors.Default;
 		}
 
 		private void BaseForm_Resize(object sender, EventArgs e) => WindowState = WindowState;

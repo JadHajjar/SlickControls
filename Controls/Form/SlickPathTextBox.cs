@@ -157,6 +157,11 @@ namespace SlickControls
 
 		private void AutoCompletePath(object sender, EventArgs e)
 		{
+			if (!_textBox.Focused || ISave.CurrentPlatform != Platform.Windows)
+			{
+				return;
+			}
+
 			var len = Text.Length;
 			var hasBrackets = Regex.IsMatch(Text, @"[/\\]");
 

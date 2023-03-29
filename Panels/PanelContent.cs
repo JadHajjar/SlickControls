@@ -135,7 +135,7 @@ namespace SlickControls
 			return true;
 		}
 
-#if NET471_OR_GREATER
+#if NET47
 		protected virtual Task<bool> LoadDataAsync()
 		{
 			return Task.FromResult(true);
@@ -207,7 +207,7 @@ namespace SlickControls
 				DataLoaded = false;
 				DataLoading = true;
 				StartLoader();
-#if NET471_OR_GREATER
+#if NET47
 				LoadThread = new Thread(async () =>
 #else
 				LoadThread = new Thread(() =>
@@ -215,7 +215,7 @@ namespace SlickControls
 				{
 					try
 					{
-#if NET471_OR_GREATER
+#if NET47
 						if (LoadData() && await LoadDataAsync())
 #else
 						if (LoadData())

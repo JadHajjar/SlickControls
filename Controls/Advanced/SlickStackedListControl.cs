@@ -217,7 +217,7 @@ namespace SlickControls
 
 			if (mouseDownItem != null)
 			{
-				if (mouseDownItem.Bounds.Contains(e.Location))
+				if (!mouseDownItem.Hidden && mouseDownItem.Bounds.Contains(e.Location))
 				{
 					OnItemMouseClick(mouseDownItem, e);
 				}
@@ -239,7 +239,7 @@ namespace SlickControls
 			{
 				foreach (var item in _items)
 				{
-					if (item.Bounds.Contains(e.Location))
+					if (!item.Hidden && item.Bounds.Contains(e.Location))
 					{
 						item.HoverState |= HoverState.Hovered;
 						itemActionHovered |= (mouseDownItem == null || mouseDownItem == item) && IsItemActionHovered(item, e.Location);
@@ -290,7 +290,7 @@ namespace SlickControls
 			{
 				foreach (var item in _items)
 				{
-					if (item.Bounds.Contains(mouse))
+					if (!item.Hidden && item.Bounds.Contains(mouse))
 					{
 						item.HoverState |= HoverState.Hovered;
 						Invalidate(item);
@@ -341,7 +341,7 @@ namespace SlickControls
 			{
 				foreach (var item in _items)
 				{
-					if (item.Bounds.Contains(e.Location))
+					if (!item.Hidden && item.Bounds.Contains(e.Location))
 					{
 						mouseDownItem = item;
 						item.HoverState |= HoverState.Pressed;
