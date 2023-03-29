@@ -132,38 +132,45 @@ namespace SlickControls
 			}
 		}
 
-		public override Size GetPreferredSize(Size proposedSize) => GetAutoSize();
+		public override Size GetPreferredSize(Size proposedSize)
+		{
+			return GetAutoSize();
+		}
 
 		private Size GetAutoSize()
 		{
-			using (var image = GetIcon())
-			using (var g = Graphics.FromHwnd(IntPtr.Zero))
+			try
 			{
-				var iconSize = image?.Width ?? 16;
-
-				if (string.IsNullOrWhiteSpace(Text))
+				using (var image = GetIcon())
+				using (var g = Graphics.FromHwnd(IntPtr.Zero))
 				{
-					var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
+					var iconSize = image?.Width ?? 16;
 
-					return new Size(iconSize + pad + 1, iconSize + pad + 1);
+					if (string.IsNullOrWhiteSpace(Text))
+					{
+						var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
+
+						return new Size(iconSize + pad + 1, iconSize + pad + 1);
+					}
+
+					var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font);
+					var h = Math.Max(iconSize + 6, (int)bnds.Height + Padding.Top + 3);
+					var w = (int)bnds.Width + (image == null ? 0 : iconSize + Padding.Left) + Padding.Horizontal + 3;
+
+					if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
+					{
+						h = Height;
+					}
+
+					if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
+					{
+						w = Width;
+					}
+
+					return new Size(w, h);
 				}
-
-				var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font);
-				var h = Math.Max(iconSize + 6, (int)bnds.Height + Padding.Top + 3);
-				var w = (int)bnds.Width + (image == null ? 0 : iconSize + Padding.Left) + Padding.Horizontal + 3;
-
-				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
-				{
-					h = Height;
-				}
-
-				if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
-				{
-					w = Width;
-				}
-
-				return new Size(w, h);
 			}
+			catch { return Size; }
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -262,7 +269,7 @@ namespace SlickControls
 
 			if (CheckedIcon != null && UnCheckedIcon != null)
 			{
-				image = @checked ? CheckedIcon : UnCheckedIcon;
+				image = new Bitmap(@checked ? CheckedIcon : UnCheckedIcon);
 			}
 			else if (UseToggleIcon)
 			{

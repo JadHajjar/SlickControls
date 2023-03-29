@@ -135,10 +135,12 @@ namespace SlickControls
 			return true;
 		}
 
+#if NET471_OR_GREATER
 		protected virtual Task<bool> LoadDataAsync()
 		{
 			return Task.FromResult(true);
 		}
+#endif
 
 		protected DialogResult ShowPrompt(Exception exception, string message, string title, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
 			=> MessagePrompt.Show(exception, message, title, buttons, icon, Form);
@@ -205,11 +207,19 @@ namespace SlickControls
 				DataLoaded = false;
 				DataLoading = true;
 				StartLoader();
-				LoadThread = new Thread(async() =>
+#if NET471_OR_GREATER
+				LoadThread = new Thread(async () =>
+#else
+				LoadThread = new Thread(() =>
+#endif
 				{
 					try
 					{
+#if NET471_OR_GREATER
 						if (LoadData() && await LoadDataAsync())
+#else
+						if (LoadData())
+#endif
 						{
 							DataLoaded = true;
 							this.TryInvoke(OnDataLoad);
