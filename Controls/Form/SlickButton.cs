@@ -76,9 +76,16 @@ namespace SlickControls
 				Padding = UI.Scale(new Padding(7), UI.UIScale);
 		}
 
+		protected override void OnImageChanged(EventArgs e)
+		{
+			base.OnImageChanged(e);
+
+			PerformAutoSize();
+		}
+
 		public void PerformAutoSize()
 		{	
-			if (Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill)
+			if (Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && Image == null))
 				return;
 
 			using (var g = CreateGraphics())

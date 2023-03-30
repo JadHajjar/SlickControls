@@ -55,6 +55,13 @@ namespace SlickControls
 			DD_Font.Width = UD_BaseTheme.Width = (int)(300 * UI.FontScale);
 		}
 
+		protected override void DesignChanged(FormDesign design)
+		{
+			base.DesignChanged(design);
+
+			label1.ForeColor = design.LabelColor;
+		}
+
 		public override bool CanExit(bool toBeDisposed)
 		{
 			if (changesMade && ShowPrompt("Do you want to apply your changes before leaving?", PromptButtons.YesNo, PromptIcons.Hand) == System.Windows.Forms.DialogResult.Yes)
@@ -79,7 +86,7 @@ namespace SlickControls
 
 		private void B_Save_Click(object sender, EventArgs e)
 		{
-			if (UI.FontScale != SS_Scale.Value / 100 || UI._instance.noAnimations != CB_DisableAnimations.Checked || UI.FontFamily != DD_Font.Conversion(DD_Font.SelectedItem).IfEmpty("Nirmala UI"))
+			if (UI._instance.fontScale != SS_Scale.Value || UI._instance.noAnimations != CB_DisableAnimations.Checked || UI.FontFamily != DD_Font.Conversion(DD_Font.SelectedItem).IfEmpty("Nirmala UI"))
 			{
 				var previous = new UI
 				{

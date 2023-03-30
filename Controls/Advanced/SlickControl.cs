@@ -48,6 +48,9 @@ namespace SlickControls
 
 				if (Live)
 				{
+					if (!loading)
+						LoaderPercentage = 0;
+
 					this.TryInvoke(() =>
 					{
 						timer.Enabled = loading && Visible && Parent != null;

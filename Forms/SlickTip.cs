@@ -65,12 +65,22 @@ namespace SlickControls
 				var size = new Size(8 + (int)Math.Ceiling(bnds.Width), 6 + (int)Math.Ceiling(bnds.Height));
 				var location = new Point(ctrlPos.X + Info.Offset.X + padding, ctrlPos.Y + Info.Offset.Y - size.Height - padding);
 
+				if (location.X < 0)
+				{
+					location.X = ctrlPos.X + Control.Width + padding;
+				}
+
 				if (location.X + size.Width > Form.Width)
 				{
 					location.X = ctrlPos.X + Control.Width - size.Width - padding;
 				}
 
 				if (location.Y < 0)
+				{
+					location.Y = ctrlPos.Y + Control.Height + padding;
+				}
+
+				if (location.Y + size.Height > Form.Height)
 				{
 					location.Y = ctrlPos.Y + Control.Height - size.Height - padding;
 				}
@@ -122,7 +132,7 @@ namespace SlickControls
 		{
 			e.Graphics.SetUp(FormDesign.Design.AccentColor);
 
-			e.Graphics.FillRectangle(SlickControl.Gradient(ClientRectangle, FormDesign.Design.BackColor), ClientRectangle.Pad((int)UI.FontScale));
+			e.Graphics.FillRectangle(SlickControl.Gradient(ClientRectangle, FormDesign.Design.BackColor), ClientRectangle.Pad((int)UI.FontScale).Pad(0,0,1,1));
 
 			if (string.IsNullOrWhiteSpace(Info.Title))
 			{
@@ -224,7 +234,7 @@ namespace SlickControls
 				return;
 			}
 
-			var timer = new System.Timers.Timer(1500) { Enabled = true, AutoReset = false };
+			var timer = new System.Timers.Timer(1000) { Enabled = true, AutoReset = false };
 
 			timer.Elapsed += (s, et) =>
 			{

@@ -498,17 +498,7 @@ namespace SlickControls
 
 		private void HandleScrolling(List<DrawableItem<T>> itemList)
 		{
-			var totalHeight = itemList.Count * (ItemHeight + Padding.Vertical);
-
-			if (SeparateWithLines)
-			{
-				totalHeight += (itemList.Count - 1) * (int)UI.FontScale;
-			}
-
-			if (DoubleSizeOnHover && itemList.Any(item => (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed))))
-			{
-				totalHeight += ItemHeight + Padding.Vertical;
-			}
+			var totalHeight = GetTotalHeight(itemList);
 
 			var validHeight = Height - StartHeight;
 
@@ -529,7 +519,24 @@ namespace SlickControls
 			}
 		}
 
-		protected List<DrawableItem<T>> SafeGetItems()
+		public int GetTotalHeight(List<DrawableItem<T>> itemList)
+		{
+			var totalHeight = itemList.Count * (ItemHeight + Padding.Vertical);
+
+			if (SeparateWithLines)
+			{
+				totalHeight += (itemList.Count - 1) * (int)UI.FontScale;
+			}
+
+			if (DoubleSizeOnHover && itemList.Any(item => (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed))))
+			{
+				totalHeight += ItemHeight + Padding.Vertical;
+			}
+
+			return totalHeight;
+		}
+
+		public List<DrawableItem<T>> SafeGetItems()
 		{
 			lock (_items)
 			{

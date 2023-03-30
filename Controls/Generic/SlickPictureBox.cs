@@ -18,7 +18,26 @@ namespace SlickControls
 		private bool loading;
 
 		[DefaultValue(false), Category("Behavior")]
-		public bool Loading { get => loading; set { loading = value; if (!DesignMode) this.TryInvoke(() => { timer.Enabled = Visible && loading; Invalidate(); }); } }
+		public bool Loading
+		{
+			get => loading;
+			set
+			{
+				loading = value;
+
+				if (!DesignMode)
+				{
+					if (!loading)
+						LoaderPercentage = 0;
+
+					this.TryInvoke(() =>
+					{
+						timer.Enabled = loading && Visible && Parent != null;
+						Invalidate();
+					});
+				}
+			}
+		}
 
 		[DefaultValue(false), Category("Behavior"), DisplayName("User Draw")]
 		public bool UserDraw { get; set; }
