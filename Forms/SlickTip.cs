@@ -54,16 +54,16 @@ namespace SlickControls
 
 				using (var g = Graphics.FromHwnd(IntPtr.Zero))
 				{
-					bnds = g.Measure(Info.Text, UI.Font(8.25F), Math.Max(200, Control.Width));
-					if (!string.IsNullOrWhiteSpace(tipInfo.Title))
+					bnds = g.Measure(LocaleHelper.GetGlobalText(Info.Text), UI.Font(8.25F), Math.Max(200, Control.Width));
+					if (!string.IsNullOrWhiteSpace(Info.Title))
 					{
-						var titleBnds = g.Measure(Info.Title, UI.Font(9F, FontStyle.Bold), Math.Max(200, Control.Width));
+						var titleBnds = g.Measure(LocaleHelper.GetGlobalText(Info.Title), UI.Font(9F, FontStyle.Bold), Math.Max(200, Control.Width));
 						bnds = new SizeF(Math.Max(titleBnds.Width, bnds.Width), bnds.Height + titleBnds.Height);
 					}
 				}
 
 				var size = new Size(8 + (int)Math.Ceiling(bnds.Width), 6 + (int)Math.Ceiling(bnds.Height));
-				var location = new Point(ctrlPos.X + tipInfo.Offset.X + padding, ctrlPos.Y + tipInfo.Offset.Y - size.Height - padding);
+				var location = new Point(ctrlPos.X + Info.Offset.X + padding, ctrlPos.Y + Info.Offset.Y - size.Height - padding);
 
 				if (location.X + size.Width > Form.Width)
 				{
@@ -126,14 +126,14 @@ namespace SlickControls
 
 			if (string.IsNullOrWhiteSpace(Info.Title))
 			{
-				e.Graphics.DrawString(Info.Text, UI.Font(8.25F), SlickControl.Gradient(ClientRectangle, FormDesign.Design.ForeColor), ClientRectangle, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info.Text), UI.Font(8.25F), SlickControl.Gradient(ClientRectangle, FormDesign.Design.ForeColor), ClientRectangle, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
 			}
 			else
 			{
-				var bnds = e.Graphics.Measure(Info.Title, UI.Font(9F, FontStyle.Bold), Width - 4);
+				var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Info.Title), UI.Font(9F, FontStyle.Bold), Width - 4);
 
-				e.Graphics.DrawString(Info.Title, UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(ClientRectangle, FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
-				e.Graphics.DrawString(Info.Text, UI.Font(8.25F), SlickControl.Gradient(ClientRectangle, FormDesign.Design.LabelColor), new Rectangle(4, (int)bnds.Height + 4, Width - 4, Height));
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info.Title), UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(ClientRectangle, FormDesign.Design.ForeColor), new Rectangle(4, 3, Width - 4, Height));
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info.Text), UI.Font(8.25F), SlickControl.Gradient(ClientRectangle, FormDesign.Design.LabelColor), new Rectangle(4, (int)bnds.Height + 4, Width - 4, Height));
 			}
 		}
 

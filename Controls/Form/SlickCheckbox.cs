@@ -47,6 +47,8 @@ namespace SlickControls
 				if (!string.IsNullOrEmpty(CheckedText))
 				{
 					Text = @checked ? CheckedText : UncheckedText.IfEmpty(CheckedText);
+
+					Size = GetAutoSize();
 				}
 
 				if (DefaultValue == null)
@@ -58,6 +60,8 @@ namespace SlickControls
 				{
 					CheckChanged?.Invoke(this, new EventArgs());
 				}
+
+				Invalidate();
 			}
 		}
 

@@ -347,10 +347,7 @@
       <DependentUpon>SlickForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\SlickTip.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SlickTip.Designer.cs">
-      <DependentUpon>SlickTip.cs</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Panels\BasePanelForm.cs">
       <SubType>Form</SubType>
@@ -490,9 +487,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SlickForm.resx">
       <DependentUpon>SlickForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SlickTip.resx">
-      <DependentUpon>SlickTip.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\BasePanelForm.resx">
       <DependentUpon>BasePanelForm.cs</DependentUpon>

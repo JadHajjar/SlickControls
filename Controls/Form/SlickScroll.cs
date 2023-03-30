@@ -17,8 +17,8 @@ namespace SlickControls
 	{
 		public event ScrollEventHandler Scroll;
 
-		public int BAR_SIZE_MAX => (int)((SmallHandle ? 7 : 11) * UI.UIScale).If(x => x % 2 == 0, x => x - 1, x => x);
-		public int BAR_SIZE_MIN => (int)(5 * UI.UIScale);
+		public int BAR_SIZE_MAX => SmallHandle ? BAR_SIZE_MIN: (int)(10 * UI.UIScale).If(x => x % 2 == 0, x => x - 1, x => x);
+		public int BAR_SIZE_MIN => (int)(6 * UI.UIScale);
 
 		private static readonly List<SlickScroll> activeScrolls = new List<SlickScroll>();
 		private readonly Timer ScrollTimer = new Timer { Interval = 14 };
@@ -335,7 +335,7 @@ namespace SlickControls
 
 				if (barRect.Height > 0 && barRect.Width > 0)
 				{
-					e.Graphics.FillRoundedRectangle(barRect.Gradient(IsMouseDown ? FormDesign.Design.ActiveColor : BackColor.MergeColor(FormDesign.Design.AccentColor), 1F),
+					e.Graphics.FillRoundedRectangle(barRect.Gradient(IsMouseDown ? FormDesign.Design.ActiveColor : mouseIn ? FormDesign.Design.AccentColor : BackColor.MergeColor(FormDesign.Design.AccentColor), 1F),
 						barRect,
 						Bar.Height < w ? 1 : w / 2);
 				}
@@ -403,8 +403,12 @@ namespace SlickControls
 				if (!mouseIn && ShowHandle)
 				{
 					mouseIn = true;
-					animationHandler = new AnimationHandler(this, new Size((int)(BAR_SIZE_MAX * UI.UIScale), 0), AnimationOption.IgnoreHeight) { Speed = .5 };
-					animationHandler.StartAnimation();
+
+					if (!SmallHandle)
+					{
+						animationHandler = new AnimationHandler(this, new Size(BAR_SIZE_MAX, 0), AnimationOption.IgnoreHeight) { Speed = .5 };
+						animationHandler.StartAnimation();
+					}
 				}
 			}
 			else

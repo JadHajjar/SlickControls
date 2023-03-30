@@ -102,11 +102,13 @@ namespace SlickControls
 			Opacity = 0;
 			var w = (int)((L_Details.Text.Length != 0 || L_Title.Text.Length != 0 ? 400 : 320) * UI.UIScale);
 			var h = 80;
+			var lastH = h;
 
 			using (var g = CreateGraphics())
 			{
 				do
 				{
+					lastH = h;
 					h = 6 + FLP_Buttons.Height + Math.Max(80, (int)g.Measure(L_Text.Text, L_Text.Font, L_Text.Width +w - Width).Height + L_Text.Margin.Vertical + Padding.Vertical);
 
 					if (L_Title.Parent != null)
@@ -116,7 +118,9 @@ namespace SlickControls
 
 					if (h < Screen.PrimaryScreen.WorkingArea.Height - 100 || w > Screen.PrimaryScreen.WorkingArea.Width - 150)
 						break;
-				} while (true);
+
+					w += 50;
+				} while (lastH != h);
 			}
 
 			Size = new Size(w, h);

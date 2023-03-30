@@ -95,6 +95,9 @@ namespace SlickControls
 		[Category("Appearance"), DefaultValue(false)]
 		public bool AddOutline { get; set; }
 
+		[Category("Appearance"), DefaultValue(ColorStyle.Text)]
+		public ColorStyle ColorStyle { get; set; } = ColorStyle.Text;
+
 		[Browsable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 		[EditorBrowsable(EditorBrowsableState.Always)]
@@ -159,7 +162,7 @@ namespace SlickControls
 
 			if (AddOutline)
 			{
-				using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
+				using (var pen = new Pen(ColorStyle == ColorStyle.Text ? FormDesign.Design.AccentColor : ColorStyle.GetColor(), (float)(1.5 * UI.FontScale)))
 				{
 					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left);
 				}
@@ -167,6 +170,7 @@ namespace SlickControls
 
 			try
 			{
+				var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
 				var iconWidth = Image?.Width ?? 16;
 				var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
 				var iconRectangle = new Rectangle(Padding.Left * 2, (Padding.Bottom * 2) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
@@ -175,11 +179,11 @@ namespace SlickControls
 				{
 					using (var icon = new Bitmap(Image))
 					{
-						e.Graphics.DrawImage(icon.Color(FormDesign.Design.LabelColor), iconRectangle);
+						e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 					}
 				}
 
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
 			}
 			catch { }
 		}
@@ -194,6 +198,9 @@ namespace SlickControls
 
 		[Category("Appearance"), DefaultValue(false)]
 		public bool AddOutline { get; set; }
+
+		[Category("Appearance"), DefaultValue(ColorStyle.Text)]
+		public ColorStyle ColorStyle { get; set; } = ColorStyle.Text;
 
 		[Browsable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -259,7 +266,7 @@ namespace SlickControls
 
 			if (AddOutline)
 			{
-				using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
+				using (var pen = new Pen(ColorStyle == ColorStyle.Text ? FormDesign.Design.AccentColor : ColorStyle.GetColor(), (float)(1.5 * UI.FontScale)))
 				{
 					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left);
 				}
@@ -267,6 +274,7 @@ namespace SlickControls
 
 			try
 			{
+				var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
 				var iconWidth = Image?.Width ?? 16;
 				var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
 				var iconRectangle = new Rectangle(Padding.Left * 2, (Padding.Bottom * 2) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
@@ -275,11 +283,11 @@ namespace SlickControls
 				{
 					using (var icon = new Bitmap(Image))
 					{
-						e.Graphics.DrawImage(icon.Color(FormDesign.Design.LabelColor), iconRectangle);
+						e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 					}
 				}
 
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
 			}
 			catch { }
 		}
