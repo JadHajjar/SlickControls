@@ -29,14 +29,14 @@
 		private void InitializeComponent()
 		{
 			this.base_P_Container = new System.Windows.Forms.Panel();
-			this.base_PB_Icon = new SlickPictureBox();
+			this.base_PB_Icon = new SlickControls.SlickPictureBox();
 			this.base_B_Close = new SlickControls.TopIcon();
 			this.base_B_Max = new SlickControls.TopIcon();
 			this.base_B_Min = new SlickControls.TopIcon();
-
-
-
-
+			((System.ComponentModel.ISupportInitialize)(this.base_PB_Icon)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Close)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Max)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Min)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// base_P_Container
@@ -116,10 +116,10 @@
 			this.Activated += new System.EventHandler(this.Form_Activated);
 			this.Deactivate += new System.EventHandler(this.Form_Deactivate);
 			this.Resize += new System.EventHandler(this.BaseForm_Resize);
-
-
-
-
+			((System.ComponentModel.ISupportInitialize)(this.base_PB_Icon)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Close)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Max)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.base_B_Min)).EndInit();
 			this.ResumeLayout(false);
 
 		}

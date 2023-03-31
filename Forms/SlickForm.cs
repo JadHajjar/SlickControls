@@ -55,7 +55,7 @@ namespace SlickControls
 				var screen = IsHandleCreated ? Screen.FromHandle(Handle) : null;
 
 				if (screen != null)
-					MaximizedBounds = screen.WorkingArea;
+					MaximizedBounds =new Rectangle(screen.Bounds.X - screen.WorkingArea.X, screen.Bounds.Y - screen.WorkingArea.Y, screen.WorkingArea.Width, screen.WorkingArea.Height);
 
 				base.WindowState = value;
 				
@@ -346,6 +346,25 @@ namespace SlickControls
 					this.SuspendDrawing();
 					WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
 					this.ResumeDrawing();
+				}
+				else
+				{
+					foreach (Screen screen in Screen.AllScreens)
+					{
+						if (!screen.WorkingArea.Contains(MousePosition))
+						{
+							continue;
+						}
+
+						const int snapGap = 10; // Change this value to adjust the snapping threshold
+
+						if (MousePosition.Y >= screen.WorkingArea.Top && MousePosition.Y <= screen.WorkingArea.Top + snapGap)
+						{
+							this.SuspendDrawing();
+							WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
+							this.ResumeDrawing();
+						}
+					}
 				}
 			}
 			else if (e != null && e.Button == MouseButtons.Right)
