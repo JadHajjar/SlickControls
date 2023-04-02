@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	public class SlickControl : UserControl
+	public class SlickControl : UserControl, IHoverControl
 	{
 		public event Extensions.EventHandler<HoverState> HoverStateChanged;
 

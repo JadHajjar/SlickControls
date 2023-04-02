@@ -124,7 +124,7 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			using (var g = CreateGraphics())
+			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{
 				var showLabel = !string.IsNullOrEmpty(LabelText);
 			var iconWidth = DateType != DateType.Time ? (UI.FontScale >= 1.25 ? 24 : 16) : 0;

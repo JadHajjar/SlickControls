@@ -1,6 +1,7 @@
 ﻿using Extensions;
 
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -39,7 +40,7 @@ namespace SlickControls
 		{
 			Opacity = 0;
 			Width = (int)(350 * UI.UIScale);
-			Height = Math.Max(80, (int)CreateGraphics().Measure(L_Text.Text, L_Text.Font, Width - 135).Height + Padding.Vertical)
+			Height = Math.Max(80, (int)Graphics.FromHwnd(IntPtr.Zero).Measure(L_Text.Text, L_Text.Font, Width - 135).Height + Padding.Vertical)
 				+ 135;
 
 			if (B_Cancel.Visible)

@@ -3,6 +3,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Security.Policy;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -105,7 +106,10 @@ namespace SlickControls
 			}
 		}
 
-		public void ResetValue()
+		[Category("Behavior"), DefaultValue("true")]
+        public new bool AutoSize { get; set; }
+
+        public void ResetValue()
 		{
 			Checked = DefaultValue ?? true;
 		}
@@ -136,15 +140,29 @@ namespace SlickControls
 			}
 		}
 
+		protected override void OnCreateControl()
+		{
+			base.OnCreateControl();
+
+			base.AutoSize = true;
+		}
+
 		public override Size GetPreferredSize(Size proposedSize)
 		{
 			return GetAutoSize();
 		}
 
+		private double lastUiScale;
+		private string lastText;
+		private Size lastSize;
+
 		private Size GetAutoSize()
 		{
 			try
 			{
+				if (lastUiScale == UI.FontScale && lastText == Text)
+					return lastSize;
+
 				using (var image = GetIcon())
 				using (var g = Graphics.FromHwnd(IntPtr.Zero))
 				{
@@ -171,7 +189,10 @@ namespace SlickControls
 						w = Width;
 					}
 
-					return new Size(w, h);
+					lastUiScale = UI.FontScale;
+					lastText = Text;
+
+					return lastSize= new Size(w, h);
 				}
 			}
 			catch { return Size; }

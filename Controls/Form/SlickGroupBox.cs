@@ -22,7 +22,7 @@ namespace SlickControls
 
 			if (!DesignMode)
 			{
-				using (var g = CreateGraphics())
+				using (var g = Graphics.FromHwnd(IntPtr.Zero))
 					Padding = new Padding(
 						Padding.Left,
 						(int)g.Measure(Text, UI.Font(8.25F * (float)UI.WindowsScale, FontStyle.Bold)).Height / 2 - 6,

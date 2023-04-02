@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	public class SlickImageBackgroundControl : IDisposable
+	public class SlickImageBackgroundControl : IDisposable, IHoverControl
 	{
 		public event PaintEventHandler Paint;
 

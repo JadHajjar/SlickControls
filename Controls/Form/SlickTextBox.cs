@@ -198,7 +198,7 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			using (var g = CreateGraphics())
+			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{
 				Padding = new Padding(4, showLabel ? (int)(g.Measure(nameof(SlickTextBox), UI.Font(6.75F, FontStyle.Bold)).Height + 4) : 4, Image != null ? (Image.Width + 8) : 4, 4);
 				_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);

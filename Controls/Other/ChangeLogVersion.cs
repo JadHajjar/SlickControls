@@ -28,7 +28,7 @@ namespace SlickControls
 			DrawItems(e.Graphics, true);
 		}
 
-		private int GetHeight() => DrawItems(CreateGraphics(), false);
+		private int GetHeight() => DrawItems(Graphics.FromHwnd(IntPtr.Zero), false);
 
 		private int DrawItems(Graphics g, bool draw)
 		{

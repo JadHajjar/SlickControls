@@ -104,7 +104,7 @@ namespace SlickControls
 			var h = 80;
 			var lastH = h;
 
-			using (var g = CreateGraphics())
+			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{
 				do
 				{

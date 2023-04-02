@@ -87,7 +87,7 @@ namespace SlickControls
 		{
 			var workRect = new Rectangle(1, 1, 0, 0);
 
-			using (var g = CreateGraphics())
+			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{
 				foreach (var stripItem in Items)
 				{

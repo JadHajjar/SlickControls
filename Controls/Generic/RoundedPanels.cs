@@ -132,7 +132,7 @@ namespace SlickControls
 			{
 				var padding = UI.Scale(new Padding(5), UI.FontScale);
 
-				using (var g = CreateGraphics())
+				using (var g = Graphics.FromHwnd(IntPtr.Zero))
 				{
 					var iconWidth = Image?.Width ?? 0;
 					var titleHeight = Math.Max(iconWidth, (int)g.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth <= 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
@@ -236,7 +236,7 @@ namespace SlickControls
 			{
 				var padding = UI.Scale(new Padding(5), UI.FontScale);
 
-				using (var g = CreateGraphics())
+				using (var g = Graphics.FromHwnd(IntPtr.Zero))
 				{
 					var iconWidth = Image?.Width ?? 0;
 					var titleHeight = Math.Max(iconWidth, (int)g.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth <= 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);

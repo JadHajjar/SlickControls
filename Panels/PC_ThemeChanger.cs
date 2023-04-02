@@ -15,6 +15,7 @@ namespace SlickControls
 
 		private bool changesMade;
 		private bool savedNightModeSetting;
+		private bool savedUseSystemThemeSetting;
 		private FormDesign savedCustom = FormDesign.Custom;
 
 		public PC_ThemeChanger()
@@ -23,11 +24,15 @@ namespace SlickControls
 			verticalScroll1.LinkedControl = FLP_Pickers;
 			UD_BaseTheme.Items = FormDesign.List.ToArray();
 			CB_NightMode.Checked = savedNightModeSetting = FormDesign.NightModeEnabled;
+			CB_UseSystemTheme.Checked = savedUseSystemThemeSetting = FormDesign.UseSystemTheme;
+			FormDesign.UseSystemTheme = FormDesign.IsDarkMode = false;
 			FormDesign.NightModeEnabled = false;
 			FormDesign.Custom.Temporary = true;
 
 			if (FormDesign.IsCustomEligible())
 				FormDesign.Switch(FormDesign.Custom, forceRefresh: true);
+			else
+				FormDesign.ForceRefresh();
 
 			UD_BaseThemeIdentifier.Disable();
 			UD_BaseTheme.Text = FormDesign.List[FormDesign.Design.ID].Name;
@@ -72,6 +77,7 @@ namespace SlickControls
 				FormDesign.Custom = savedCustom;
 
 			FormDesign.NightModeEnabled = savedNightModeSetting;
+			FormDesign.UseSystemTheme = savedUseSystemThemeSetting;
 			FormDesign.ForceRefresh();
 			FormDesign.Save();
 
@@ -106,6 +112,7 @@ namespace SlickControls
 			UI._instance.Save(appName: "Shared");
 
 			savedNightModeSetting = CB_NightMode.Checked;
+			savedUseSystemThemeSetting = CB_UseSystemTheme.Checked;
 
 			if (!FormDesign.IsCustomEligible())
 				FormDesign.Switch(FormDesign.List[UD_BaseTheme.Text], true, true);

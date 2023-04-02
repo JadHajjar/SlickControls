@@ -88,7 +88,7 @@ namespace SlickControls
 			if (Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && Image == null))
 				return;
 
-			using (var g = CreateGraphics())
+			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{
 				var IconSize = Image?.Width ?? 16;
 

@@ -56,7 +56,7 @@ namespace SlickControls
 
 			Loading = true;
 
-			if (!ConnectionHandler.WhenConnected(() => new BackgroundAction("Loading Image", async () =>
+			new BackgroundAction("Loading Image", async () =>
 			{
 				try
 				{
@@ -69,11 +69,30 @@ namespace SlickControls
 				catch (Exception ex)
 				{
 					fail(ex);
+
+					if (!ConnectionHandler.IsConnected)
+					{
+						if (!ConnectionHandler.WhenConnected(() => new BackgroundAction("Loading Image", async () =>
+						{
+							try
+							{
+								if (IsDisposed)
+									return;
+
+								Image = await method(url);
+								ImageChanged?.Invoke(this, EventArgs.Empty);
+							}
+							catch (Exception ex2)
+							{
+								fail(ex2);
+							}
+						}).Run()))
+						{
+							fail(new Exception());
+						}
+					}
 				}
-			}).Run()))
-			{
-				fail(new Exception());
-			}
+			}).Run();
 		}
 #endif
 		public void LoadImage(string url, Func<string, Image> method)

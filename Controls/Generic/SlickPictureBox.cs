@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	public class SlickPictureBox : PictureBox
+	public class SlickPictureBox : PictureBox, IHoverControl
 	{
 		private readonly Timer timer = new Timer();
 		private bool loading;

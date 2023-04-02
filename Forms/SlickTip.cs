@@ -99,7 +99,7 @@ namespace SlickControls
 		{
 			Form.Controls.Add(this);
 
-			BringToFront();
+			BeginInvoke(new Action(BringToFront));
 		}
 
 		public void Dismiss()
@@ -110,6 +110,13 @@ namespace SlickControls
 			}
 
 			this.TryInvoke(Dispose);
+		}
+
+		protected override void OnMouseEnter(EventArgs e)
+		{
+			base.OnMouseEnter(e);
+
+			Dismiss();
 		}
 
 		protected override void Dispose(bool disposing)
@@ -132,7 +139,7 @@ namespace SlickControls
 		{
 			e.Graphics.SetUp(FormDesign.Design.AccentColor);
 
-			e.Graphics.FillRectangle(SlickControl.Gradient(ClientRectangle, FormDesign.Design.BackColor), ClientRectangle.Pad((int)UI.FontScale).Pad(0,0,1,1));
+			e.Graphics.FillRectangle(SlickControl.Gradient(ClientRectangle, FormDesign.Design.BackColor), ClientRectangle.Pad((int)UI.FontScale).Pad(0, 0, 1, 1));
 
 			if (string.IsNullOrWhiteSpace(Info.Title))
 			{
@@ -238,9 +245,11 @@ namespace SlickControls
 
 			timer.Elapsed += (s, et) =>
 			{
+				timer.Dispose();
+
 				control.TryInvoke(() =>
 				{
-					if (frm.FormIsActive && mouseIsIn(control, MousePosition))
+					if (controlsDictionary.ContainsKey(control) && mouseIsIn(control, MousePosition))
 					{
 						if (currentControl != null)
 						{
@@ -257,7 +266,6 @@ namespace SlickControls
 						var tip = new SlickTip(control, frm, controlsDictionary[control]);
 						currentControl = new KeyValuePair<Control, SlickTip>(control, tip);
 						tip.Reveal();
-						timer.Dispose();
 					}
 				});
 			};
@@ -266,9 +274,18 @@ namespace SlickControls
 		private static bool mouseIsIn(Control control, Point point)
 		{
 			try
-			{ return control.ClientRectangle.Contains(control.PointToClient(point)); }
+			{
+				if (control is IHoverControl hoverControl && !hoverControl.HoverState.HasFlag(HoverState.Hovered))
+				{
+					return false;
+				}
+
+				return control.IsVisible() && control.ClientRectangle.Contains(control.PointToClient(point));
+			}
 			catch
-			{ return false; }
+			{ 
+				return false;
+			}
 		}
 
 		#endregion Statics

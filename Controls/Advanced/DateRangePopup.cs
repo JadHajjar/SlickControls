@@ -7,107 +7,138 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	internal partial class DateTimePickerPrompt : Form, IAnimatable
+	public enum DateRangeType
+	{
+		After,
+		Before,
+		Between
+	}
+	public partial class DateRangePopup : SlickControl
 	{
 		private enum DateView { Years, Months, Days }
 
 		private ExtensionClass.action action;
+		private Point Mouse;
 		private Dictionary<DateView, int> values;
 		private DateView view = DateView.Days;
+		private readonly SlickDateRange _dateBox;
 
-		public SlickDateTime DateBox { get; }
-		public Point Mouse { get; private set; }
-		public int AnimatedValue { get => (int)(Opacity * 100); set => Opacity = value / 100D; }
-		public int TargetAnimationValue => 100;
+		public DateRangeType RangeType { get; set; }
+		public DateTime Value { get; internal set; }
+		public bool DateSet { get; internal set; }
 
-		public DateTimePickerPrompt(SlickDateTime dateBox)
+		public DateRangePopup(SlickDateRange dateBox)
 		{
-			InitializeComponent();
-
-			Font = UI.Font(8.25F);
-			Size = UI.Scale(new Size(300, 170), UI.FontScale);
-			Opacity = 0;
-			DateBox = dateBox;
-			DoubleBuffered = true;
+			RangeType = dateBox.RangeType;
+			Height = (int)(190 * UI.FontScale);
+			Value = dateBox.Value;
+			_dateBox = dateBox;
 			values = new Dictionary<DateView, int>
 			{
 				{ DateView.Years, dateBox.Value.Year },
 				{ DateView.Months, dateBox.Value.Month },
 				{ DateView.Days, dateBox.Value.Day },
 			};
-
-			AnimationHandler.Animate(this, 1.5);
 		}
 
-		protected override void OnDeactivate(EventArgs e)
+		protected override void OnMouseClick(MouseEventArgs e)
 		{
-			base.OnDeactivate(e);
-
-			Close();
-		}
-
-		protected override void OnFormClosed(FormClosedEventArgs e)
-		{
-			base.OnFormClosed(e);
-
-			var tfrm = DateBox.FindForm();
-			if (tfrm != null && tfrm.MdiParent != null)
-				tfrm = tfrm.MdiParent.FindForm();
-
-			tfrm?.BeginInvoke(new Action(() => tfrm.ShowUp()));
-		}
-
-		protected override void OnMouseUp(MouseEventArgs e)
-		{
-			base.OnMouseUp(e);
+			base.OnMouseClick(e);
 
 			if (e.Button == MouseButtons.Left)
+			{
 				action?.Invoke();
-		}
-
-		protected override void OnMouseLeave(EventArgs e)
-		{
-			base.OnMouseLeave(e);
-			Invalidate();
-		}
-
-		protected override void OnMouseMove(MouseEventArgs e)
-		{
-			base.OnMouseMove(e);
-			Invalidate();
+			}
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			e.Graphics.Clear(FormDesign.Design.BackColor);
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+			e.Graphics.SetUp(BackColor);
 
 			action = null;
 			Mouse = PointToClient(Cursor.Position);
-			paintButtons(e);
 
-			var topRect = new Rectangle(3, 3, Width - (int)(100 * UI.FontScale), UI.Font(9F, FontStyle.Bold).Height + 6);
-			var mainRect = new Rectangle(3, 3, Width - (int)(100 * UI.FontScale), Height - 10).Pad(0, topRect.Height, 0, 0);
+			var tabHeight = (int)(28 * UI.FontScale);
+			var typeRects = new Rectangle[]
+			{
+				new Rectangle(0, 0, Width / 3, tabHeight),
+				new Rectangle(Width / 3, 0, Width / 3, tabHeight),
+				new Rectangle(Width * 2 / 3, 0, Width / 3, tabHeight),
+			};
+			var texts = new string[]
+			{
+				LocaleHelper.GetGlobalText("After"),
+				LocaleHelper.GetGlobalText("Before"),
+				LocaleHelper.GetGlobalText("Clear"),
+			};
+
+			e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.Type == FormDesignType.Light ? FormDesign.Design.MenuColor: FormDesign.Design.MenuColor.Tint(Lum:8)), new Rectangle(1, 0, Width - 3, tabHeight));
+
+			for (var i = 0; i < typeRects.Length; i++)
+			{
+				var rangeType = (DateRangeType)i;
+				var selected = RangeType == rangeType;
+				var hovered = typeRects[i].Contains(PointToClient(MousePosition));
+				var back = selected ? FormDesign.Design.ActiveColor :Color.FromArgb(hovered ? 230: 50, FormDesign.Design.Type == FormDesignType.Light ? FormDesign.Design.ButtonColor:FormDesign.Design.BackColor);
+				var fore = selected ? FormDesign.Design.ActiveForeColor : hovered ? FormDesign.Design.Type == FormDesignType.Light ? FormDesign.Design.ButtonForeColor :FormDesign.Design.ForeColor: FormDesign.Design.MenuForeColor;
+
+				if (hovered && !selected)
+				{
+					if (i == 2)
+					{
+						action = () =>
+						{
+							Dispose();
+							_dateBox.ResetValue();
+						};
+					}
+					else
+					{
+						action = () =>
+						{
+							RangeType = rangeType;
+							Invalidate();
+						};
+					}
+				}
+
+				e.Graphics.FillRoundedRectangle(new SolidBrush(back), typeRects[i].Pad(Padding), (int)(4 * UI.FontScale));
+				e.Graphics.DrawString(texts[i], new Font(Font, FontStyle.Bold), new SolidBrush(fore), typeRects[i].Pad(Padding), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+			}
+
+			e.Graphics.DrawRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, -2, 2, 2));
+
+			paintButtons(e, tabHeight);
+
+			var topRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), UI.Font(9F, FontStyle.Bold).Height + 6);
+			var mainRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), Height - 10 - tabHeight).Pad(0, topRect.Height, 0, 0);
 
 			if (!canIncrement(-1))
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronLeft.Alpha(100), new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16));
+			{
+				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronLeft.Alpha(100), new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
+			}
 			else
 			{
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronLeft.Color(new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16));
+				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronLeft.Color(new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
 
-				if (new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse))
+				if (new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse))
+				{
 					action = () => increment(-1);
+				}
 			}
 
 			if (!canIncrement(1))
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronRight.Alpha(100), new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16));
+			{
+				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronRight.Alpha(100), new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
+			}
 			else
 			{
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronRight.Color(new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16));
+				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronRight.Color(new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
 
-				if (new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse))
+				if (new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse))
+				{
 					action = () => increment(1);
+				}
 			}
 
 			if (topRect.Pad(24, 0, 24, 0).Contains(Mouse) && view != DateView.Years)
@@ -116,13 +147,13 @@ namespace SlickControls
 				e.Graphics.DrawString(getViewTitle(), UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(topRect, FormDesign.Design.ActiveColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 			}
 			else
+			{
 				e.Graphics.DrawString(getViewTitle(), UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(topRect, FormDesign.Design.LabelColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+			}
 
 			drawView(e, mainRect);
 
-			e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor), mainRect.Width + 5, 5, mainRect.Width + 5, Height - 5);
-
-			e.Graphics.DrawRectangle(new Pen(FormDesign.Design.ActiveColor), new Rectangle(0, 0, Width - 1, Height - 1));
+			e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor), mainRect.Width + 5, 5 + tabHeight, mainRect.Width + 5, Height - 5);
 
 			Cursor = action == null ? Cursors.Default : Cursors.Hand;
 		}
@@ -140,10 +171,9 @@ namespace SlickControls
 					return true;
 
 				case Keys.Escape:
-					Close();
+					Dispose();
 					return true;
 			}
-
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
@@ -155,15 +185,15 @@ namespace SlickControls
 			{
 				case DateView.Years:
 					val = val.AddYears(12 * v);
-					return val.Year - (val.Year % 12) <= DateBox.MaxDate.Year && val.Year - (val.Year % 12) >= DateBox.MinDate.Year - 11;
+					return val.Year - (val.Year % 12) <= _dateBox.MaxDate.Year && val.Year - (val.Year % 12) >= _dateBox.MinDate.Year - 11;
 
 				case DateView.Months:
 					val = val.AddYears(v);
-					return val.Year == val.Year.Between(DateBox.MinDate.Year, DateBox.MaxDate.Year);
+					return val.Year == val.Year.Between(_dateBox.MinDate.Year, _dateBox.MaxDate.Year);
 
 				case DateView.Days:
 					val = val.AddMonths(v);
-					return new DateTime(val.Year, val.Month, DateTime.DaysInMonth(val.Year, val.Month)) >= DateBox.MinDate && new DateTime(val.Year, val.Month, 1) <= DateBox.MaxDate;
+					return new DateTime(val.Year, val.Month, DateTime.DaysInMonth(val.Year, val.Month)) >= _dateBox.MinDate && new DateTime(val.Year, val.Month, 1) <= _dateBox.MaxDate;
 			}
 
 			return false;
@@ -186,14 +216,17 @@ namespace SlickControls
 					var year = values[DateView.Years] - (values[DateView.Years] % 12);
 					for (var i = 1; i <= 12; i++, year++)
 					{
-						if (year == year.Between(DateBox.MinDate.Year, DateBox.MaxDate.Year))
+						if (year == year.Between(_dateBox.MinDate.Year, _dateBox.MaxDate.Year))
 						{
-							if (year == DateBox.Value.Year)
+							if (year == _dateBox.Value.Year)
+							{
 								e.Graphics.FillRectangle(SlickControl.Gradient(rect, Color.FromArgb(50, FormDesign.Design.ActiveColor)), rect.Pad(1, 0, 0, 1));
+							}
 
 							e.Graphics.DrawString(year.ToString(), Font, SlickControl.Gradient(rect, FormDesign.Design.ForeColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 							if (year == DateTime.Today.Year || rect.Contains(Mouse))
+							{
 								using (var pen = new Pen(FormDesign.Design.ActiveColor, 1F))
 								{
 									if (rect.Contains(Mouse))
@@ -209,12 +242,17 @@ namespace SlickControls
 									}
 									e.Graphics.DrawRectangle(pen, rect.Pad(1, 0, 0, 1));
 								}
+							}
 						}
 
 						if (i % 4 == 0)
+						{
 							rect = new Rectangle(mainRect.X, rect.Y + h, w, h);
+						}
 						else
+						{
 							rect.X += rect.Width;
+						}
 					}
 					break;
 
@@ -222,19 +260,21 @@ namespace SlickControls
 					w /= 4;
 					h /= 3;
 					rect = new Rectangle(mainRect.X, y, w, h);
-
 					for (var i = 1; i <= 12; i++)
 					{
-						if (new DateTime(values[DateView.Years], i, DateTime.DaysInMonth(values[DateView.Years], i)) >= DateBox.MinDate && new DateTime(values[DateView.Years], i, 1) <= DateBox.MaxDate)
+						if (new DateTime(values[DateView.Years], i, DateTime.DaysInMonth(values[DateView.Years], i)) >= _dateBox.MinDate && new DateTime(values[DateView.Years], i, 1) <= _dateBox.MaxDate)
 						{
 							var month = new DateTime(1, i, 1).ToString("MMM");
 
-							if (i == DateBox.Value.Month && values[DateView.Years] == DateBox.Value.Year)
+							if (i == _dateBox.Value.Month && values[DateView.Years] == _dateBox.Value.Year)
+							{
 								e.Graphics.FillRectangle(SlickControl.Gradient(rect, Color.FromArgb(50, FormDesign.Design.ActiveColor)), rect.Pad(1, 0, 0, 1));
+							}
 
 							e.Graphics.DrawString(month, Font, SlickControl.Gradient(rect, FormDesign.Design.ForeColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 							if ((i == DateTime.Today.Month && values[DateView.Years] == DateTime.Now.Year) || rect.Contains(Mouse))
+							{
 								using (var pen = new Pen(FormDesign.Design.ActiveColor, 1F))
 								{
 									if (rect.Contains(Mouse))
@@ -250,12 +290,17 @@ namespace SlickControls
 									}
 									e.Graphics.DrawRectangle(pen, rect.Pad(1, 0, 0, 1));
 								}
+							}
 						}
 
 						if (i % 4 == 0)
+						{
 							rect = new Rectangle(mainRect.X, rect.Y + h, w, h);
+						}
 						else
+						{
 							rect.X += rect.Width;
+						}
 					}
 					break;
 
@@ -276,14 +321,17 @@ namespace SlickControls
 
 					foreach (var item in days)
 					{
-						if (item.Key >= DateBox.MinDate && item.Key <= DateBox.MaxDate)
+						if (item.Key >= _dateBox.MinDate && item.Key <= _dateBox.MaxDate)
 						{
-							if (item.Key == DateBox.Value)
+							if (item.Key == _dateBox.Value)
+							{
 								e.Graphics.FillRectangle(SlickControl.Gradient(rect, Color.FromArgb(50, FormDesign.Design.ActiveColor)), rect.Pad(1, 0, 0, 1));
+							}
 
 							e.Graphics.DrawString(item.Key.Day.ToString(), Font, SlickControl.Gradient(rect, item.Key.Month == values[DateView.Months] ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 							if (item.Key == DateTime.Today || rect.Contains(Mouse))
+							{
 								using (var pen = new Pen(FormDesign.Design.ActiveColor, 1F))
 								{
 									if (rect.Contains(Mouse))
@@ -293,12 +341,17 @@ namespace SlickControls
 									}
 									e.Graphics.DrawRectangle(pen, rect.Pad(1, 0, 0, 1));
 								}
+							}
 						}
 
 						if (item.Value == 0)
+						{
 							rect = new Rectangle(mainRect.X, rect.Y + h, w, h);
+						}
 						else
+						{
 							rect.X += rect.Width;
+						}
 					}
 					break;
 			}
@@ -310,7 +363,9 @@ namespace SlickControls
 
 			var current = new DateTime(values[DateView.Years], values[DateView.Months], 1);
 			while (current.DayOfWeek != DayOfWeek.Monday)
+			{
 				current = current.AddDays(-1);
+			}
 
 			for (var i = 0; i < 7 * 6; i++)
 			{
@@ -320,38 +375,31 @@ namespace SlickControls
 
 			return dic;
 		}
-
 		private string getViewTitle()
 		{
 			switch (view)
 			{
 				case DateView.Years:
-					return $"{(values[DateView.Years] - (values[DateView.Years] % 12)).Between(DateBox.MinDate.Year, DateBox.MaxDate.Year)} - {(values[DateView.Years] - (values[DateView.Years] % 12) + 11).Between(DateBox.MinDate.Year, DateBox.MaxDate.Year)}";
-
+					return $"{(values[DateView.Years] - (values[DateView.Years] % 12)).Between(_dateBox.MinDate.Year, _dateBox.MaxDate.Year)} - {(values[DateView.Years] - (values[DateView.Years] % 12) + 11).Between(_dateBox.MinDate.Year, _dateBox.MaxDate.Year)}";
 				case DateView.Months:
 					return values[DateView.Years].ToString();
-
 				case DateView.Days:
 					return $"{new DateTime(values[DateView.Years], values[DateView.Months], 1):MMMM yyyy}";
-
 				default:
 					return string.Empty;
 			}
 		}
-
 		private void increment(int v)
 		{
 			if (canIncrement(v))
 			{
 				var val = new DateTime(values[DateView.Years], values[DateView.Months], values[DateView.Days]);
-
 				switch (view)
 				{
 					case DateView.Years:
 					case DateView.Months:
 						val = val.AddYears(view == DateView.Years ? 12 * v : v);
 						break;
-
 					case DateView.Days:
 						val = val.AddMonths(v);
 						break;
@@ -368,12 +416,10 @@ namespace SlickControls
 			}
 		}
 
-		private void paintButtons(PaintEventArgs e)
+		private void paintButtons(PaintEventArgs e, int tabHeight)
 		{
-			var rect = new Rectangle(Width - (int)(100 * UI.FontScale) + 5, 0, (int)(100 * UI.FontScale) - 5, Height / 6);
+			var rect = new Rectangle(Width - (int)(100 * UI.FontScale) + 5, tabHeight, (int)(100 * UI.FontScale) - 5, (Height - tabHeight) / 6);
 
-			e.Graphics.FillRectangle(SlickControl.Gradient(rect, FormDesign.Design.AccentBackColor), new Rectangle(Width + 5 - (int)(100 * UI.FontScale), 0, (int)(100 * UI.FontScale), Height));
-			
 			drawButton("Today", DateTime.Today);
 			drawButton("Yesterday", DateTime.Today.AddDays(-1));
 			drawButton("Start of Month", new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1));
@@ -383,7 +429,7 @@ namespace SlickControls
 
 			void drawButton(string text, DateTime val)
 			{
-				var valid = val >= DateBox.MinDate && val <= DateBox.MaxDate;
+				var valid = val >= _dateBox.MinDate && val <= _dateBox.MaxDate;
 				var hovered = valid && rect.Contains(Mouse);
 
 				if (hovered)
@@ -392,9 +438,12 @@ namespace SlickControls
 					action = () => setDate(val);
 				}
 
-				e.Graphics.DrawString(hovered ? val.ToString("dd \\/ MM \\/ yyyy") : text, Font, SlickControl.Gradient(rect, hovered ? FormDesign.Design.ActiveForeColor : valid ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(hovered ? val.ToString("dd \\/ MM \\/ yyyy") : LocaleHelper.GetGlobalText(text), Font, SlickControl.Gradient(rect, hovered ? FormDesign.Design.ActiveForeColor : valid ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
-				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor), rect.X + 5, rect.Y, rect.X + rect.Width - 10, rect.Y);
+				if (rect.Y != tabHeight)
+				{
+					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor), rect.X + 5, rect.Y, rect.X + rect.Width - 10, rect.Y);
+				}
 
 				rect.Y += rect.Height;
 			}
@@ -402,8 +451,9 @@ namespace SlickControls
 
 		private void setDate(DateTime val)
 		{
-			DateBox.Value = val;
-			Close();
+			DateSet = true;
+			Value = val;
+			Dispose();
 		}
 	}
 }

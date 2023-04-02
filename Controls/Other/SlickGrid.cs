@@ -1,5 +1,6 @@
 ﻿using Extensions;
 
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -45,7 +46,7 @@ namespace SlickControls
 
 			if (!DesignMode)
 			{
-				using (var g = CreateGraphics())
+				using (var g = Graphics.FromHwnd(IntPtr.Zero))
 				{
 					RowTemplate.Height = UI.Font(8.25F).Height + 6;
 					ColumnHeadersHeight = UI.Font(9.75F, FontStyle.Bold).Height + 6;

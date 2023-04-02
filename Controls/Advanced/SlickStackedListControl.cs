@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls
 {
 	public class SlickStackedListControl<T> : SlickControl
 	{
+		private readonly object _sync = new object();
 		private readonly List<DrawableItem<T>> _items;
 		private int visibleItems;
 		protected bool scrollVisible;
@@ -27,7 +27,7 @@ namespace SlickControls
 		{
 			get
 			{
-				lock (_items)
+				lock (_sync)
 				{
 					foreach (var item in _items)
 					{
@@ -38,7 +38,17 @@ namespace SlickControls
 		}
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
-		public int ItemCount => _items.Count;
+		public int ItemCount
+		{
+			get
+			{
+				lock (_sync)
+				{
+					return _items.Count;
+				}
+			}
+		}
+
 
 		[Category("Appearance"), DefaultValue(false)]
 		public bool SeparateWithLines { get; set; }
@@ -75,7 +85,7 @@ namespace SlickControls
 
 		public void FilterOrSortingChanged()
 		{
-			lock (_items)
+			lock (_sync)
 			{
 				_sortedItems = new List<DrawableItem<T>>(OrderItems(_items));
 			}
@@ -89,7 +99,7 @@ namespace SlickControls
 
 			List<DrawableItem<T>> itemCopy;
 
-			lock (_items)
+			lock (_sync)
 			{
 				itemCopy = new List<DrawableItem<T>>(_items);
 			}
@@ -115,7 +125,7 @@ namespace SlickControls
 				return;
 			}
 
-			lock (_items)
+			lock (_sync)
 			{
 				var selectedItem = _items.FirstOrDefault(x => x.Item.Equals(item));
 
@@ -128,7 +138,7 @@ namespace SlickControls
 
 		public virtual void Add(T item)
 		{
-			lock (_items)
+			lock (_sync)
 			{
 				_items.Add(new DrawableItem<T>(item));
 			}
@@ -138,7 +148,7 @@ namespace SlickControls
 
 		public virtual void AddRange(IEnumerable<T> items)
 		{
-			lock (_items)
+			lock (_sync)
 			{
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
 			}
@@ -148,7 +158,7 @@ namespace SlickControls
 
 		public virtual void SetItems(IEnumerable<T> items)
 		{
-			lock (_items)
+			lock (_sync)
 			{
 				_items.Clear();
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
@@ -164,7 +174,7 @@ namespace SlickControls
 
 		public virtual void RemoveAll(Predicate<T> predicate)
 		{
-			lock (_items)
+			lock (_sync)
 			{
 				_items.RemoveAll(item => predicate(item.Item));
 			}
@@ -174,7 +184,7 @@ namespace SlickControls
 
 		public virtual void Clear()
 		{
-			lock (_items)
+			lock (_sync)
 			{
 				_items.Clear();
 			}
@@ -188,19 +198,14 @@ namespace SlickControls
 			Invalidate();
 		}
 
-		protected override void OnCreateControl()
-		{
-			base.OnCreateControl();
-
-			FilterOrSortingChanged();
-		}
-
 		protected override void UIChanged()
 		{
 			if (Live)
 			{
 				if (baseHeight == 0)
+				{
 					baseHeight = ItemHeight;
+				}
 
 				ItemHeight = (int)(baseHeight * UI.FontScale);
 
@@ -235,7 +240,7 @@ namespace SlickControls
 		{
 			var itemActionHovered = false;
 
-			lock (_items)
+			lock (_sync)
 			{
 				foreach (var item in _items)
 				{
@@ -286,7 +291,7 @@ namespace SlickControls
 			HoverState |= HoverState.Hovered;
 			var mouse = PointToClient(Cursor.Position);
 
-			lock (_items)
+			lock (_sync)
 			{
 				foreach (var item in _items)
 				{
@@ -315,7 +320,7 @@ namespace SlickControls
 
 			HoverState &= ~HoverState.Hovered;
 
-			lock (_items)
+			lock (_sync)
 			{
 				foreach (var item in _items)
 				{
@@ -337,7 +342,7 @@ namespace SlickControls
 		{
 			HoverState |= HoverState.Pressed;
 
-			lock (_items)
+			lock (_sync)
 			{
 				foreach (var item in _items)
 				{
@@ -367,7 +372,7 @@ namespace SlickControls
 						scrollIndex += visibleItems;
 					}
 
-					scrollMouseDown = scrollThumbRectangle.Height / 2 + StartHeight;
+					scrollMouseDown = (scrollThumbRectangle.Height / 2) + StartHeight;
 				}
 
 				Invalidate(new Rectangle(scrollThumbRectangle.X, -1, scrollThumbRectangle.Width + 1, Height + 2));
@@ -441,10 +446,13 @@ namespace SlickControls
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			if (Loading && _items.Count == 0)
+			lock (_sync)
 			{
-				DrawLoader(e.Graphics, ClientRectangle.CenterR(UI.Scale(new Size(32, 32), UI.FontScale)));
-				return;
+				if (Loading && _items.Count == 0)
+				{
+					DrawLoader(e.Graphics, ClientRectangle.CenterR(UI.Scale(new Size(32, 32), UI.FontScale)));
+					return;
+				}
 			}
 
 			var y = StartHeight;
@@ -510,7 +518,7 @@ namespace SlickControls
 
 				var thumbHeight = Math.Max(validHeight * visibleItems / itemList.Count, validHeight / 24);
 
-				scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + (validHeight - thumbHeight) * scrollIndex / (itemList.Count - visibleItems).If(0, 1), (int)(10 * UI.FontScale), thumbHeight);
+				scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + ((validHeight - thumbHeight) * scrollIndex / (itemList.Count - visibleItems).If(0, 1)), (int)(10 * UI.FontScale), thumbHeight);
 			}
 			else
 			{
@@ -538,7 +546,7 @@ namespace SlickControls
 
 		public List<DrawableItem<T>> SafeGetItems()
 		{
-			lock (_items)
+			lock (_sync)
 			{
 				return _sortedItems?.Where(x => !x.Hidden).ToList() ?? new List<DrawableItem<T>>();
 			}
