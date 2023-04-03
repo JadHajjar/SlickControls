@@ -258,15 +258,20 @@ namespace SlickControls
 
 			var stl = new StringFormat()
 			{
-				Alignment = StringAlignment.Near,
-				LineAlignment = StringAlignment.Near,
+				Alignment = StringAlignment.Center,
+				LineAlignment = StringAlignment.Center,
 				Trimming = StringTrimming.EllipsisCharacter
 			};
 
-			if (Image != null || (slickButton?.Loading ?? false))
-				e.Graphics.DrawString(Text, Font, new SolidBrush(fore), new RectangleF(location.X + (size.Width - iconSize - Padding.Left - bnds.Width) / 2 + iconSize + Padding.Left, location.Y + (size.Height - bnds.Height) / 2, size.Width - (iconSize + Padding.Horizontal + Padding.Left), bnds.Height), stl);
-			else
-				e.Graphics.DrawString(Text, Font, new SolidBrush(fore), new RectangleF(location.X + Math.Max(Padding.Left, (size.Width - bnds.Width) / 2), location.Y + (size.Height - bnds.Height) / 2, size.Width - Padding.Horizontal, bnds.Height), stl);
+			var textRect = new Rectangle(location, size).Pad(Padding).Pad((Image != null || (slickButton?.Loading ?? false)) ? (iconSize + Padding.Left) : 0, 0, 0, 0);
+
+			if (textRect.Height < bnds.Height)
+			{
+				textRect.Y -= ((int)bnds.Height - textRect.Height + 2) / 2;
+				textRect.Height = 3 + (int)bnds.Height;
+			}
+
+			e.Graphics.DrawString(Text, Font, new SolidBrush(fore), textRect, stl);
 		}
 
 		public new void OnClick(EventArgs e) => base.OnClick(e);

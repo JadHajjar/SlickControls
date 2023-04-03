@@ -177,7 +177,8 @@ namespace SlickControls
 
 				void drawItem(SlickStripItem stripItem)
 				{
-					var h = stripItem.IsEmpty ? (int)(7 * UI.UIScale) : ((int)e.Graphics.Measure(stripItem.Text, Font).Height + 4);
+					var text = LocaleHelper.GetGlobalText(stripItem.Text);
+					var h = stripItem.IsEmpty ? (int)(7 * UI.UIScale) : ((int)e.Graphics.Measure(text, Font).Height + 4);
 					workRect = reversed
 						? new Rectangle(1, workRect.Y - h, Width - 2, h)
 						: new Rectangle(1, workRect.Y + workRect.Height, Width - 2, h);
@@ -199,12 +200,12 @@ namespace SlickControls
 					if (stripItem.Image != null)
 						e.Graphics.DrawImage(stripItem.Image.Color(stripItem.IsOpened ? d.ActiveColor : stripItem.Fade ? d.InfoColor : mouseIn && mouseDown ? d.ActiveForeColor : d.ForeColor), 5 + workRect.X, workRect.Y + (workRect.Height - 16) / 2, 16, 16);
 
-					if (stripItem.Text != null)
+					if (!string.IsNullOrEmpty(text))
 					{
-						var bnds = e.Graphics.Measure(stripItem.Text, Font);
+						var bnds = e.Graphics.Measure(text, Font);
 
 						if (workRect.Width > 0)
-							e.Graphics.DrawString(stripItem.Text + (stripItem.IsOpenable && !stripItem.IsOpened ? ".." : ""), Font, SlickControl.Gradient(workRect, stripItem.IsOpened ? d.ActiveColor : stripItem.Fade ? d.InfoColor : mouseIn && mouseDown ? d.ActiveForeColor : d.ForeColor)
+							e.Graphics.DrawString(text + (stripItem.IsOpenable && !stripItem.IsOpened ? ".." : ""), Font, SlickControl.Gradient(workRect, stripItem.IsOpened ? d.ActiveColor : stripItem.Fade ? d.InfoColor : mouseIn && mouseDown ? d.ActiveForeColor : d.ForeColor)
 								, workRect.X + hideImg.If(0, 20) + (int)(3 * UI.FontScale), workRect.Y + 1 + (int)(workRect.Height - bnds.Height) / 2);
 					}
 

@@ -234,7 +234,7 @@ namespace SlickControls
 								Theme_Changer.ThemeForm = Theme_Changer.ThemeForm.ShowUp(true);
 						}, image: Properties.Resources.Tiny_Paint, show: !isThemeChanger),
 
-					new SlickStripItem("Switch To:", fade: true, image: Properties.Resources.Tiny_Switch, show: !isThemeChanger)
+					new SlickStripItem("Switch To", fade: true, image: Properties.Resources.Tiny_Switch, show: !isThemeChanger)
 				};
 
 				if (!isThemeChanger)

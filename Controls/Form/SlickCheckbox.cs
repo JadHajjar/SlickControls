@@ -131,7 +131,8 @@ namespace SlickControls
 		{
 			if (Live)
 			{
-				Invalidate();
+				lastText = string.Empty;
+				Size = GetAutoSize();
 			}
 		}
 
