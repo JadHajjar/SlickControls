@@ -372,7 +372,7 @@ namespace SlickControls
 		{
 			var rect = new Rectangle(Width - (int)(100 * UI.FontScale) + 5, 0, (int)(100 * UI.FontScale) - 5, Height / 6);
 
-			e.Graphics.FillRectangle(SlickControl.Gradient(rect, FormDesign.Design.AccentBackColor), new Rectangle(Width + 5 - (int)(100 * UI.FontScale), 0, (int)(100 * UI.FontScale), Height));
+			e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Width + 5 - (int)(100 * UI.FontScale), 0, (int)(100 * UI.FontScale), Height), FormDesign.Design.AccentBackColor), new Rectangle(Width + 5 - (int)(100 * UI.FontScale), 0, (int)(100 * UI.FontScale), Height));
 			
 			drawButton("Today", DateTime.Today);
 			drawButton("Yesterday", DateTime.Today.AddDays(-1));

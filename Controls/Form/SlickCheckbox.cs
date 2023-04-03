@@ -36,7 +36,10 @@ namespace SlickControls
 		[Category("Appearance"), DefaultValue(false), DisplayName("Use Toggle Icon")]
 		public bool UseToggleIcon { get => _useToggleIcon; set { _useToggleIcon = value; Checked = Checked; } }
 
-		[Category("Behavior")]
+		[Category("Appearance"), DefaultValue(ColorStyle.Active)]
+        public ColorStyle ColorStyle { get; set; }
+
+        [Category("Behavior")]
 		public bool Checked
 		{
 			get => @checked;
@@ -154,13 +157,14 @@ namespace SlickControls
 
 		private double lastUiScale;
 		private string lastText;
+		private int? lastWidth;
 		private Size lastSize;
 
 		private Size GetAutoSize()
 		{
 			try
 			{
-				if (lastUiScale == UI.FontScale && lastText == Text)
+				if (lastUiScale == UI.FontScale && lastText == Text && lastWidth == Parent.Width - Parent.Padding.Horizontal - Margin.Horizontal)
 					return lastSize;
 
 				using (var image = GetIcon())
@@ -175,9 +179,10 @@ namespace SlickControls
 						return new Size(iconSize + pad + 1, iconSize + pad + 1);
 					}
 
-					var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font);
+					var extraWidth = (image == null ? 0 : iconSize + Padding.Left) + Padding.Right + 3;
+					var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font, Parent.Dock != DockStyle.None ? (Parent.Width - Parent.Padding.Horizontal - Margin.Horizontal - extraWidth) : int.MaxValue);
 					var h = Math.Max(iconSize + 6, (int)bnds.Height + Padding.Top + 3);
-					var w = (int)bnds.Width + (image == null ? 0 : iconSize + Padding.Left) + Padding.Horizontal + 3;
+					var w = (int)bnds.Width + extraWidth;
 
 					if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 					{
@@ -191,8 +196,9 @@ namespace SlickControls
 
 					lastUiScale = UI.FontScale;
 					lastText = Text;
+					lastWidth = Parent.Width - Parent.Padding.Horizontal - Margin.Horizontal;
 
-					return lastSize= new Size(w, h);
+					return lastSize = new Size(w, h);
 				}
 			}
 			catch { return Size; }
@@ -207,8 +213,9 @@ namespace SlickControls
 				GetColors(out var fore, out var back);
 
 				var image = GetIcon();
-				var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), Font);
 				var iconSize = image.Width;
+				var extraWidth = (image == null ? 0 : iconSize + Padding.Left) + Padding.Right;
+				var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), Font, Width - extraWidth);
 				var corner = (int)(5 * UI.FontScale);
 				var iconRect = ClientRectangle.Pad(Padding).Pad(1, 1, 2, 2).Align(new Size(iconSize, iconSize), ContentAlignment.MiddleLeft);
 				var textRect = ClientRectangle.Pad(iconSize + Padding.Horizontal + 1, 1, 2, 2).Align(bnds.ToSize(), ContentAlignment.MiddleLeft);
@@ -242,8 +249,8 @@ namespace SlickControls
 					{
 						if (!HoverState.HasFlag(HoverState.Pressed) && @checked && !UseToggleIcon && CheckedIcon == null && UnCheckedIcon == null)
 						{
-							e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveForeColor), iconRect.CenterR(iconSize * 2 / 3, iconSize * 2 / 3));
-							image.Color(FormDesign.Design.ActiveColor);
+							e.Graphics.FillRectangle(new SolidBrush(ColorStyle.GetBackColor()), iconRect.CenterR(iconSize * 2 / 3, iconSize * 2 / 3));
+							image.Color(ColorStyle.GetColor());
 						}
 						else
 						{
@@ -274,7 +281,7 @@ namespace SlickControls
 				{
 					if (Checked)
 					{
-						using (var pen = new Pen(Color.FromArgb(175, FormDesign.Design.ActiveColor), 1.5F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
+						using (var pen = new Pen(Color.FromArgb(175, ColorStyle.GetColor()), 1.5F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash })
 						{
 							e.Graphics.DrawRoundedRectangle(pen, new Rectangle(1, 1, Width - 3, Height - 3), 7);
 						}
@@ -316,8 +323,8 @@ namespace SlickControls
 		{
 			if (HoverState.HasFlag(HoverState.Pressed))
 			{
-				fore = FormDesign.Design.ActiveForeColor;
-				back = FormDesign.Design.ActiveColor;
+				fore = ColorStyle.GetBackColor();
+				back = ColorStyle.GetColor();
 			}
 			else if (HoverState.HasFlag(HoverState.Hovered))
 			{
