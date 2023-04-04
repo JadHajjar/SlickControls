@@ -272,6 +272,11 @@ namespace SlickControls
 			}
 
 			Cursor = itemActionHovered || scrollMouseDown >= 0 || scrollThumbRectangle.Contains(e.Location) ? Cursors.Hand : Cursors.Default;
+
+			if (!itemActionHovered)
+			{
+				SlickTip.SetTo(this, string.Empty);
+			}
 		}
 
 		private void Invalidate(DrawableItem<T> item)
@@ -483,7 +488,7 @@ namespace SlickControls
 				e.Graphics.SetClip(item.Bounds);
 
 				OnPaintItem(new ItemPaintEventArgs<T>(
-					item.Item,
+					item,
 					e.Graphics,
 					item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
 					mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal));
