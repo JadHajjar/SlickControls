@@ -273,7 +273,7 @@ namespace SlickControls
 			if ((e.KeyChar == '\\' || e.KeyChar == '/') && Directory.Exists(_textBox.Text))
 				_textBox.Select(_textBox.Text.Length, 0);
 
-			if (e.KeyChar == '\t' && Directory.Exists(_textBox.Text) && Directory.GetParent(_textBox.Text) != null)
+			if (e.KeyChar == '\t' && _textBox.SelectionLength != _textBox.TextLength && Directory.Exists(_textBox.Text) && Directory.GetParent(_textBox.Text) != null)
 			{
 				var index = _textBox.SelectionStart;
 				var searchedDirectoryName = Regex.Match(_textBox.Text.Substring(0, index), @"[/\\]([^/\\]+)$").Groups[1].Value;
