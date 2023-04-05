@@ -27,6 +27,13 @@ namespace SlickControls
 			OnSelectedItemChanged();
 		}
 
+		public void Select(T obj)
+		{
+			_selectedItems.Add(obj);
+			listDropDown?.Invalidate();
+			OnSelectedItemChanged();
+		}
+
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Middle && listDropDown == null)

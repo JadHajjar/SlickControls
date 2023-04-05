@@ -273,7 +273,7 @@ namespace SlickControls
 				textRect = textRect.Pad(0, 0, chevron.Width, 0);
 			}
 
-			var text = string.Empty;
+			string text;
 
 			if (set)
 			{
@@ -294,6 +294,15 @@ namespace SlickControls
 			}
 
 			e.Graphics.DrawString(text, UI.Font(9F), new SolidBrush(fore), textRect.Pad(0,0,Padding.Right,0), new StringFormat { Alignment = StringAlignment.Far });
+		}
+
+		public void SetValue(DateRangeType range, DateTime value)
+		{
+			Value = value.Date;
+			RangeType = range;
+			set = true;
+			RangeChanged?.Invoke(this, EventArgs.Empty);
+			Invalidate();
 		}
 
 		public virtual void ResetValue()
