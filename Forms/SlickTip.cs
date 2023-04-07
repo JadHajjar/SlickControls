@@ -159,12 +159,12 @@ namespace SlickControls
 		private static readonly Dictionary<Control, TipInfo> controlsDictionary = new Dictionary<Control, TipInfo>();
 		private static KeyValuePair<Control, SlickTip>? currentControl;
 
-		public static void SetTo(Control control, string text, bool recursive = true, int timeout = 10000, Point offset = default)
+		public static void SetTo(Control control, string text, bool recursive = true, int timeout = 0, Point offset = default)
 		{
 			SetTo(control, null, text, recursive, timeout, offset);
 		}
 
-		public static void SetTo(Control control, string title, string text, bool recursive = true, int timeout = 10000, Point offset = default)
+		public static void SetTo(Control control, string title, string text, bool recursive = true, int timeout = 0, Point offset = default)
 		{
 			if (control == null)
 			{
@@ -184,6 +184,11 @@ namespace SlickControls
 					}
 				}
 				return;
+			}
+
+			if (timeout == 0)
+			{
+				timeout = 2000 + 325 * text.GetWords().Length + 400 * title.GetWords().Length;
 			}
 
 			if (!controlsDictionary.ContainsKey(control))

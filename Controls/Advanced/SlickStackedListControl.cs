@@ -83,7 +83,7 @@ namespace SlickControls
 			AutoScroll = true;
 		}
 
-		public void FilterOrSortingChanged()
+		public virtual void FilterOrSortingChanged()
 		{
 			lock (_sync)
 			{

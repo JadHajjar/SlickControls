@@ -131,7 +131,7 @@ namespace SlickControls
 		{
 			if (Live)
 			{
-				lastText = string.Empty;
+				lastAvailableSize = Size.Empty;
 				Size = GetAutoSize();
 			}
 		}
@@ -158,14 +158,16 @@ namespace SlickControls
 
 		private double lastUiScale;
 		private string lastText;
-		private int? lastWidth;
+		private Size lastAvailableSize;
 		private Size lastSize;
 
 		private Size GetAutoSize()
 		{
 			try
 			{
-				if (lastUiScale == UI.FontScale && lastText == Text && lastWidth == Parent.Width - Parent.Padding.Horizontal - Margin.Horizontal)
+				var availableSize = GetAvailableSize();
+
+				if (lastUiScale == UI.FontScale && lastText == Text && availableSize == lastAvailableSize)
 					return lastSize;
 
 				using (var image = GetIcon())
@@ -181,7 +183,7 @@ namespace SlickControls
 					}
 
 					var extraWidth = (image == null ? 0 : iconSize + Padding.Left) + Padding.Right + 3;
-					var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font, Parent.Dock != DockStyle.None ? (Parent.Width - Parent.Padding.Horizontal - Margin.Horizontal - extraWidth) : int.MaxValue);
+					var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
 					var h = Math.Max(iconSize + 6, (int)bnds.Height + Padding.Top + 3);
 					var w = (int)bnds.Width + extraWidth;
 
@@ -197,7 +199,13 @@ namespace SlickControls
 
 					lastUiScale = UI.FontScale;
 					lastText = Text;
-					lastWidth = Parent.Width - Parent.Padding.Horizontal - Margin.Horizontal;
+					lastAvailableSize = availableSize;
+
+					if (w > availableSize.Width)
+						w = availableSize.Width;
+
+					if (h > availableSize.Height)
+						h = availableSize.Height;
 
 					return lastSize = new Size(w, h);
 				}
@@ -230,7 +238,7 @@ namespace SlickControls
 
 				if (!HoverState.HasFlag(HoverState.Pressed))
 				{
-					DrawFocus(e.Graphics, ClientRectangle.Pad(1, 1, 2, 2), HoverState, corner);
+					DrawFocus(e.Graphics, ClientRectangle.Pad(1, 1, 2, 2), HoverState, corner, ColorStyle.GetColor());
 				}
 
 				using (image)

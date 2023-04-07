@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace SlickControls
 {
@@ -69,52 +70,76 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			if (Live && HandleUiScale)
-				PerformAutoSize();
-
 			if (Live && Padding == Padding.Empty)
 				Padding = UI.Scale(new Padding(7), UI.UIScale);
+
+			if (Live && HandleUiScale)
+				Size = GetAutoSize();
+		}
+
+		protected override void LocaleChanged()
+		{
+			if (Live)
+			{
+				lastAvailableSize = Size.Empty;
+				Size = GetAutoSize();
+			}
 		}
 
 		protected override void OnImageChanged(EventArgs e)
 		{
 			base.OnImageChanged(e);
 
-			PerformAutoSize();
+			lastAvailableSize = Size.Empty;
+			Size = GetAutoSize();
 		}
 
-		public void PerformAutoSize()
-		{	
-			if (Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && Image == null))
-				return;
+		private double lastUiScale;
+		private string lastText;
+		private Size lastAvailableSize;
+		private Size lastSize;
+
+		public override Size GetPreferredSize(Size proposedSize)
+		{
+			return GetAutoSize();
+		}
+
+		private Size GetAutoSize()
+		{
+			if (!Live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && Image == null))
+				return Size;
+
+			var availableSize = GetAvailableSize();
+
+			if (lastUiScale == UI.FontScale && lastText == Text && availableSize == lastAvailableSize)
+				return lastSize;
 
 			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{
-				var IconSize = Image?.Width ?? 16;
+				var IconSize = Image?.Width ?? 16;				
 
 				if (string.IsNullOrWhiteSpace(Text))
 				{
 					if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 					{
-						Width = Height;
+						return lastSize = new Size(Height, Height);
 					}
 					else if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
 					{
-						Height = Width;
+						return lastSize = new Size(Width, Width);
 					}
 					else
 					{
 						var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
 
-						Size = new Size(IconSize + pad, IconSize + pad);
+						return lastSize = new Size(IconSize + pad, IconSize + pad);
 					}
-
-					return;
 				}
 
-				var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font);
+				var extraWidth = (Image == null ? 0 : IconSize + Padding.Left) + Padding.Horizontal + 3;
+				var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
 				var h = Math.Max(IconSize + 6, (int)(bnds.Height) + Padding.Top + 3);
-				var w = (int)bnds.Width + (Image == null ? 0 : IconSize + Padding.Left) + Padding.Horizontal + 3;
+				var w = (int)Math.Ceiling(bnds.Width) + extraWidth;
 
 				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 					h = Height;
@@ -122,7 +147,17 @@ namespace SlickControls
 				if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
 					w = Width;
 
-				Size = new Size(w, h);
+				if (w > availableSize.Width)
+					w = availableSize.Width;
+
+				if (h > availableSize.Height)
+					h = availableSize.Height;
+
+				lastUiScale = UI.FontScale;
+				lastText = Text;
+				lastAvailableSize = availableSize;
+
+				return lastSize = new Size(w, h);
 			}
 		}
 
@@ -232,7 +267,8 @@ namespace SlickControls
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
 			var iconSize = Image?.Width ?? 16;
-			var bnds = e.Graphics.Measure(Text, Font);
+			var extraWidth = (Image == null ? 0 : iconSize + Padding.Left) + 3;
+			var bnds = e.Graphics.Measure(Text, Font, size.Width - extraWidth - Padding.Horizontal);
 
 			try
 			{
@@ -263,7 +299,10 @@ namespace SlickControls
 				Trimming = StringTrimming.EllipsisCharacter
 			};
 
-			var textRect = new Rectangle(location, size).Pad(Padding).Pad((Image != null || (slickButton?.Loading ?? false)) ? (iconSize + Padding.Left) : 0, 0, 0, 0);
+			var textRect = new Rectangle(location, size).Pad(Padding);
+
+			textRect.X += extraWidth;
+			textRect.Width -= extraWidth;
 
 			if (textRect.Height < bnds.Height)
 			{

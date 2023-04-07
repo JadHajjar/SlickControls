@@ -35,7 +35,7 @@ namespace SlickControls
 			}
 
 			DD_Font.FontDropdown = true;
-			DD_Font.SelectedItem = UI.FontFamily;
+			DD_Font.SelectedItem = UI._instance.fontFamily;
 			SS_Scale.Value = UI.FontScale * 100;
 			SS_Scale.ValueOutput = (x) => $"{x}%";
 		}
@@ -60,7 +60,7 @@ namespace SlickControls
 				uiScale = UI._instance.uiScale,
 			};
 
-			UI._instance.fontFamily = DD_Font.Conversion(DD_Font.SelectedItem).IfEmpty("Nirmala UI");
+			UI._instance.fontFamily = DD_Font.Conversion(DD_Font.SelectedItem);
 			UI._instance.fontScale = SS_Scale.Value / 100;
 			UI._instance.uiScale = SS_Scale.Value.If(x => x > 100, x => x * .9 + 10, x => x * 1.1 - 10) / 100;
 

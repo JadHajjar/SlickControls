@@ -1,12 +1,9 @@
 ﻿using Extensions;
 
-using Microsoft.Win32;
-
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Globalization;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -49,7 +46,9 @@ namespace SlickControls
 				if (Live)
 				{
 					if (!loading)
+					{
 						LoaderPercentage = 0;
+					}
 
 					this.TryInvoke(() =>
 					{
@@ -79,22 +78,32 @@ namespace SlickControls
 		{
 			LoaderPercentage += 1 + (Math.Abs(50 - LoaderPercentage) / 25);
 			if (LoaderPercentage >= 200)
+			{
 				LoaderPercentage = 0;
+			}
 
 			if (!loading)
+			{
 				timer.Enabled = false;
+			}
 
 			Invalidate();
 		}
 
 		public void DrawLoader(Graphics g, Rectangle rectangle, Color? color = null)
-			=> g.DrawLoader(LoaderPercentage, rectangle, color);
+		{
+			g.DrawLoader(LoaderPercentage, rectangle, color);
+		}
 
 		protected void DrawFocus(Graphics g, Color? color = null)
-			=> DrawFocus(g, new Rectangle(0, 0, Width - 2, Height - 2), 7, color);
+		{
+			DrawFocus(g, new Rectangle(0, 0, Width - 2, Height - 2), 7, color);
+		}
 
 		protected void DrawFocus(Graphics g, Rectangle rectangle, int border, Color? color = null)
-			=> DrawFocus(g, rectangle, HoverState, border, color);
+		{
+			DrawFocus(g, rectangle, HoverState, border, color);
+		}
 
 		public static void DrawFocus(Graphics g, Rectangle rectangle, HoverState state, int border, Color? color = null)
 		{
@@ -106,10 +115,14 @@ namespace SlickControls
 				g.SmoothingMode = SmoothingMode.HighQuality;
 
 				using (var brush = new SolidBrush(Color.FromArgb(25, color.Value)))
+				{
 					g.FillRoundedRectangle(brush, rectangle, border);
+				}
 
 				using (var pen = new Pen(Color.FromArgb(100, color.Value), 1.5F) { DashStyle = DashStyle.Dash })
+				{
 					g.DrawRoundedRectangle(pen, rectangle, border);
+				}
 
 				g.SmoothingMode = sm;
 			}
@@ -150,14 +163,18 @@ namespace SlickControls
 				LocaleChanged();
 
 				if (loading)
+				{
 					Loading = true;
+				}
 			}
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnMouseMove(e);
 		}
@@ -167,7 +184,9 @@ namespace SlickControls
 			HoverState |= HoverState.Hovered;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnMouseEnter(e);
 		}
@@ -177,7 +196,9 @@ namespace SlickControls
 			HoverState &= ~HoverState.Hovered;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnMouseLeave(e);
 		}
@@ -187,7 +208,9 @@ namespace SlickControls
 			HoverState |= HoverState.Pressed;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnMouseDown(e);
 		}
@@ -197,7 +220,9 @@ namespace SlickControls
 			HoverState &= ~HoverState.Pressed;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnMouseUp(e);
 		}
@@ -207,7 +232,9 @@ namespace SlickControls
 			HoverState &= ~HoverState.Focused;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnLeave(e);
 		}
@@ -217,7 +244,9 @@ namespace SlickControls
 			HoverState |= HoverState.Focused;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			if (focusFromTab && ScrollToOnFocus)
 			{
@@ -254,21 +283,29 @@ namespace SlickControls
 			}
 
 			if (Focused && (focusFromTab = keyData == Keys.Tab || keyData == (Keys.Shift | Keys.Tab)))
+			{
 				BeginInvoke(new Action(() =>
 				{
 					if (Focused)
+					{
 						PanelContent.GetParentPanel(this)?.ResetFocus();
+					}
 				}));
+			}
 
 			if (!focusFromTab && (focusFromTab = keyData == Keys.Tab || keyData == (Keys.Shift | Keys.Tab)))
+			{
 				BeginInvoke(new Action(() => focusFromTab = false));
+			}
 
 			if (keyData == Keys.Escape && HoverState.HasFlag(HoverState.Focused))
 			{
 				HoverState &= ~HoverState.Focused;
 
 				if (AutoInvalidate)
+				{
 					Invalidate();
+				}
 			}
 
 			return base.ProcessCmdKey(ref msg, keyData);
@@ -276,7 +313,9 @@ namespace SlickControls
 
 		protected override void Dispose(bool disposing)
 		{
-			try { base.Dispose(disposing); } catch { }
+			try
+			{ base.Dispose(disposing); }
+			catch { }
 
 			if (disposing)
 			{
@@ -287,8 +326,86 @@ namespace SlickControls
 			}
 		}
 
-		protected Brush Gradient(Color color, float caliber = 1F) => Gradient(new Rectangle(Point.Empty, Size), color, caliber);
-		protected Brush Gradient(Color color, Rectangle rectangle, float caliber = 1F) => Gradient(rectangle, color, caliber);
-		public static Brush Gradient(Rectangle rect, Color color, float caliber = 1F) => rect.Gradient(color, caliber);		
+		protected Size GetAvailableSize()
+		{
+			// Calculate the maximum available space for autosizing the control
+			var availableWidth = 0;
+			var availableHeight = 0;
+			var parent = Parent;
+
+			if (parent == null)
+			{
+				return Size;
+			}
+
+			// Check if the control is inside a TableLayoutPanel
+			if (parent is TableLayoutPanel tableLayoutPanel)
+			{
+				var cellPosition = tableLayoutPanel.GetCellPosition(this);
+				var columnSpan = tableLayoutPanel.GetColumnSpan(this);
+				var rowSpan = tableLayoutPanel.GetRowSpan(this);
+
+				var columnWidths = tableLayoutPanel.GetColumnWidths();
+				var rowHeights = tableLayoutPanel.GetRowHeights();
+
+				for (var i = cellPosition.Column; i < cellPosition.Column + columnSpan; i++)
+				{
+					if (tableLayoutPanel.ColumnStyles[i].SizeType == SizeType.AutoSize)
+					{
+						availableWidth = int.MaxValue;
+						break;
+					}
+
+					availableWidth += columnWidths[i];
+				}
+
+				for (var i = cellPosition.Row; i < cellPosition.Row + rowSpan; i++)
+				{
+					if (tableLayoutPanel.RowStyles[i].SizeType == SizeType.AutoSize)
+					{
+						availableHeight = int.MaxValue;
+						break;
+					}
+
+					availableHeight += rowHeights[i];
+				}
+
+				availableWidth -= Margin.Horizontal;
+				availableHeight -= Margin.Vertical;
+			}
+			else
+			{
+				availableWidth = parent.ClientSize.Width;
+				availableHeight = parent.ClientSize.Height;
+
+				if (Dock == DockStyle.Fill || Dock == DockStyle.Bottom || Dock == DockStyle.Top)
+				{
+					availableWidth -= parent.Padding.Horizontal;
+				}
+
+				if (Dock == DockStyle.Fill || Dock == DockStyle.Left || Dock == DockStyle.Right)
+				{
+					availableHeight -= parent.Padding.Vertical;
+				}
+			}
+
+			// Set the maximum available space for the control
+			return new Size(availableWidth, availableHeight);
+		}
+
+		protected Brush Gradient(Color color, float caliber = 1F)
+		{
+			return Gradient(new Rectangle(Point.Empty, Size), color, caliber);
+		}
+
+		protected Brush Gradient(Color color, Rectangle rectangle, float caliber = 1F)
+		{
+			return Gradient(rectangle, color, caliber);
+		}
+
+		public static Brush Gradient(Rectangle rect, Color color, float caliber = 1F)
+		{
+			return rect.Gradient(color, caliber);
+		}
 	}
 }

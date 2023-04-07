@@ -187,13 +187,13 @@
 			// 
 			// TI_Close
 			// 
+			this.TI_Close.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.TI_Close.Color = SlickControls.TopIcon.IconStyle.Close;
 			this.TI_Close.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.TI_Close.Dock = System.Windows.Forms.DockStyle.Right;
-			this.TI_Close.Location = new System.Drawing.Point(768, 3);
+			this.TI_Close.Location = new System.Drawing.Point(760, 3);
 			this.TI_Close.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
 			this.TI_Close.Name = "TI_Close";
-			this.TI_Close.Size = new System.Drawing.Size(16, 24);
+			this.TI_Close.Size = new System.Drawing.Size(24, 24);
 			this.TI_Close.TabIndex = 6;
 			this.TI_Close.TabStop = false;
 			this.TI_Close.Click += new System.EventHandler(this.B_Cancel_Click);

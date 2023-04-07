@@ -3,7 +3,6 @@
 using System;
 using System.Drawing;
 using System.Drawing.Text;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -15,12 +14,12 @@ namespace SlickControls
 
 		public delegate void UIEventHandler();
 
-		public static string FontFamily => _instance.fontFamily;
+		public static string FontFamily => _instance.fontFamily ?? /*(LocaleHelper.CurrentCulture.TwoLetterISOLanguageName == "en" ? "Nirmala UI" :*/ "Segoe UI"/*)*/;
 		public static double FontScale => _instance.fontScale * WindowsScale;
 		public static double UIScale => Math.Round(FontScale.If(x => x > 1, x => x * .9 + 0.1, x => x * 1.1 - 0.1), 2);
 		public static double WindowsScale { get; }
 
-		public string fontFamily { get; set; } = "Nirmala UI";
+		public string fontFamily { get; set; }
 		public double fontScale { get; set; } = 1;
 		public double uiScale { get; set; } = 1;
 		public bool noAnimations { get => _noAnimations; set => AnimationHandler.NoAnimations = _noAnimations = value; }
@@ -95,20 +94,6 @@ namespace SlickControls
 
 		static UI()
 		{
-			var pfc = new PrivateFontCollection();
-
-			add(Properties.Resources.Nirmala);
-			add(Properties.Resources.NirmalaB);
-			add(Properties.Resources.GOTHICI);
-
-			void add(byte[] streamData)
-			{
-				var data = Marshal.AllocCoTaskMem(streamData.Length);
-				Marshal.Copy(streamData, 0, data, streamData.Length);
-				pfc.AddMemoryFont(data, streamData.Length);
-				Marshal.FreeCoTaskMem(data);
-			}
-
 			int dpiX;
 			using (var graphics = Graphics.FromHwnd(IntPtr.Zero))
 			{
@@ -121,6 +106,7 @@ namespace SlickControls
 
 		#endregion Windows
 	}
+
 	public static class FontMeasuring
 	{
 		public static SizeF Measure(this Graphics graphics, string text, Font font, int width = int.MaxValue)

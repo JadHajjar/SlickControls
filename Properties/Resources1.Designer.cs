@@ -161,16 +161,6 @@ namespace SlickControls.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] GOTHICI {
-            get {
-                object obj = ResourceManager.GetObject("GOTHICI", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Huge_Back {
@@ -457,26 +447,6 @@ namespace SlickControls.Properties {
             get {
                 object obj = ResourceManager.GetObject("Icon_Warning", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Nirmala {
-            get {
-                object obj = ResourceManager.GetObject("Nirmala", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] NirmalaB {
-            get {
-                object obj = ResourceManager.GetObject("NirmalaB", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
