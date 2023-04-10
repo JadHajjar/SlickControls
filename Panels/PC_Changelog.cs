@@ -14,109 +14,138 @@ namespace SlickControls
 	{
 		private readonly VersionChangeLog Current;
 		private readonly VersionChangeLog[] ChangeLogs;
+		private readonly PanelItemControl base_P_Tabs;
 
 		public PC_Changelog(Assembly assembly, string resourceName, Version currentVersion)
 		{
 			InitializeComponent();
 
+			base_P_Tabs = new PanelItemControl(null) { Dock = DockStyle.Fill };
+			base_TLP_Side.Controls.Add(base_P_Tabs);
+
 			using (var stream = assembly.GetManifestResourceStream(resourceName))
 			using (var reader = new StreamReader(stream))
+			{
 				ChangeLogs = Newtonsoft.Json.JsonConvert.DeserializeObject<VersionChangeLog[]>(reader.ReadToEnd());
+			}
 
-			Current = ChangeLogs.FirstThat(x => x.Version == currentVersion);
+			Current = ChangeLogs.FirstOrDefault(x => x.Version == currentVersion);
 
-			var tab = 100;
+			if (Current != null)
+			{
+#if DEBUG
+				Clipboard.SetText(Current.VersionString + "\r\n\r\n" + Current.ChangeGroups.ListStrings(x => $"{x.Name}\r\n{x.Changes.ListStrings(y => $"  • {y}", "\r\n")}", "\r\n"));
+#endif
+				base_P_Tabs.Add(PanelTab.GroupName("Current Version"));
+				AddVersion(Current, $"v{Current.Version}");
+			}
+
+			base_P_Tabs.Add(PanelTab.Separator());
+			base_P_Tabs.Add(PanelTab.GroupName("All Versions"));
+
 			foreach (var grp in ChangeLogs
 				.Where(x => Current == null || x != Current)
 				.Distinct((x, y) => x.Version.Major == y.Version.Major && x.Version.Minor == y.Version.Minor)
-				.OrderBy(x => x.Version)
+				.OrderByDescending(x => x.Version)
 				.GroupBy(x => x.Version.Major))
 			{
 				foreach (var item in grp)
-					AddVersion(item, tab--);
-
-				P_LeftTabs.Controls.Add(new Panel() { Dock = DockStyle.Top, Height = 20 });
+				{
+					AddVersion(item);
+				}
 			}
+		}
 
-			if (Current != null)
-				AddVersion(Current, tab--, "Current Version");
+		public override bool CanExit(bool toBeDisposed)
+		{
+			Form.base_TLP_Side.TopRight = false;
+			Form.base_TLP_Side.BotRight = false;
+			Form.base_TLP_Side.Invalidate();
+
+			return base.CanExit(toBeDisposed);
+		}
+
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+
+			if (Form != null)
+			{
+				Form.base_TLP_Side.TopRight = true;
+				Form.base_TLP_Side.BotRight = true;
+				Form.base_TLP_Side.Invalidate();
+			}
 		}
 
 		protected override void DesignChanged(FormDesign design)
 		{
 			base.DesignChanged(design);
 
-			base_Text.BackColor =
-			TLP_Mainzs.BackColor = design.BackColor.Tint(Lum: design.Type.If(FormDesignType.Dark, 3, -3));
-			panel2.BackColor = design.BackColor;
-			P_Spacer.BackColor = design.AccentColor;
+			base_TLP_Side.BackColor = design.MenuColor;
 		}
 
 		protected override void UIChanged()
 		{
 			base.UIChanged();
-			TLP_Mainzs.ColumnStyles[0].Width = (int)(175 * UI.FontScale);
-			BeginInvoke(new Action(() => panel1.Margin = new Padding(0, base_Text.Height + 6, 0, 0)));
+
+			base_P_Side.Width = (int)(140 * UI.FontScale);
+			base_TLP_Side.Padding = UI.Scale(new Padding(5), UI.FontScale);
+			base_P_Side.Padding = UI.Scale(new Padding(0, 5, 5, 5), UI.FontScale);
+
+			this.TryBeginInvoke(() =>
+			{
+				P_All.Padding = new Padding(0, base_Text.Height + base_Text.Top, 0, 0);
+				LabelBounds = new Point(P_All.Left, LabelBounds.Y);
+			});
 		}
 
-		private void AddVersion(VersionChangeLog versionInfo, int tab, string text = null)
+		private void AddVersion(VersionChangeLog versionInfo, string text = null)
 		{
 			var M = versionInfo.Version.Major;
 			var m = versionInfo.Version.Minor;
 			var vers = ChangeLogs.Where(x => x.Version.Major == M && x.Version.Minor == m);
 
-			var st = new SlickTile()
+			var tab = new PanelTab(new PanelItem()
 			{
-				Dock = DockStyle.Top,
-				DrawLeft = false,
-				Font = UI.Font(9.75F),
-				IconSize = 16,
-				Cursor = Cursors.Hand,
-				Image = Properties.Resources.ArrowRight,
-				Padding = new Padding(10),
-				Margin = new Padding(0),
-				Size = UI.Scale(new Size(175, 30), UI.FontScale),
 				Text = text.IfNull(vers.Count() == 1 ? $"v {versionInfo.Version}" : $"v {M}.{m}.{vers.Min(x => x.Version.Build)} → {M}.{m}.{vers.Max(x => x.Version.Build)}"),
-				TabIndex = tab,
-				Selected = text != null,
-				Tag = text != null ? null : versionInfo
-			};
+				Data = text != null ? null : versionInfo
+			});
 
-			st.Click += Tile_Click;
+			tab.PanelItem.OnClick += Tile_Click;
 
-			P_LeftTabs.Controls.Add(st);
+			base_P_Tabs.Add(tab);
 
 			if (text != null)
-				Tile_Click(st, null);
+			{
+				Tile_Click(tab.PanelItem, null);
+			}
 		}
 
-		private void Tile_Click(object sender, EventArgs e)
+		private void Tile_Click(object sender, MouseEventArgs e)
 		{
-			var inf = (VersionChangeLog)(sender as Control).Tag;
+			var inf = (VersionChangeLog)(sender as PanelItem).Data;
 
 			P_VersionInfo.SuspendDrawing();
 			P_VersionInfo.Controls.Clear();
 			if (inf == null)
 			{
 				if (Current != null)
+				{
 					P_VersionInfo.Controls.Add(new ChangeLogVersion(Current));
+				}
 			}
 			else
 			{
-				foreach (var item in ChangeLogs.Where(x => x.Version.Major == inf.Version.Major && x.Version.Minor == inf.Version.Minor))
+				foreach (var item in ChangeLogs.Where(x => x.Version.Major == inf.Version.Major && x.Version.Minor == inf.Version.Minor).OrderBy(x => x.Version))
+				{
 					P_VersionInfo.Controls.Add(new ChangeLogVersion(item));
+				}
 			}
-			P_LeftTabs.Controls.ThatAre<SlickTile>().Foreach(x => x.Selected = x == sender);
+
+			base_P_Tabs.Items.Where(x => x.PanelItem != null).Foreach(x => x.PanelItem.Selected = x.PanelItem == sender);
+			base_P_Tabs.Invalidate();
+
 			P_VersionInfo.ResumeDrawing();
-		}
-
-		private void PC_Changelog_Resize(object sender, EventArgs e)
-		{
-			P_VersionInfo.MaximumSize = new Size(panel2.Width, 9999);
-			P_VersionInfo.MinimumSize = new Size(panel2.Width, 0);
-
-			P_LeftTabs.MaximumSize = new Size(panel1.Width, 9999);
-			P_LeftTabs.MinimumSize = new Size(panel1.Width, 0);
 		}
 	}
 }

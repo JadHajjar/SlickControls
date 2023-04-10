@@ -97,14 +97,14 @@ namespace SlickControls
 			lock (items)
 				foreach (var item in items)
 					if (item.Bounds.Contains(e.Location))
-						OnItemMouseClick(item.Item, e);
+						OnItemMouseClick(item, e);
 
 			base.OnMouseClick(e);
 		}
 
-		protected virtual void OnItemMouseClick(T item, MouseEventArgs e)
+		protected virtual void OnItemMouseClick(DrawableItem<T> item, MouseEventArgs e)
 		{
-			ItemMouseClick?.Invoke(item, e);
+			ItemMouseClick?.Invoke(item.Item, e);
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -199,7 +199,6 @@ namespace SlickControls
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
 			CursorLocation = PointToClient(Cursor.Position);
-			e.Graphics.Clear(FormDesign.Design.BackColor);
 		}
 
 		protected virtual void OnPaintItem(ItemPaintEventArgs<T> e)
@@ -209,6 +208,8 @@ namespace SlickControls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
+			e.Graphics.SetUp(BackColor);
+
 			var y = 0;
 			var rect = e.ClipRectangle;
 

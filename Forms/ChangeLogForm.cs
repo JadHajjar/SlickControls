@@ -22,14 +22,14 @@ namespace SlickControls
 			{
 				VersionString = x.Version.ToString(),
 				Date = null,
-				Tagline = x.Descriptions.FirstThat(y => !y.Info.Any())?.Title ?? string.Empty,
+				Tagline = x.Descriptions.FirstOrDefault(y => !y.Info.Any())?.Title ?? string.Empty,
 				ChangeGroups = x.Descriptions.Where(y => y.Info.Any()).Select(z => new VersionChangeLogGroup()
 				{
 					Changes = z.Info.Select(ds => ds.Remove("  •  ")).Where(h => !string.IsNullOrWhiteSpace(h)).ToArray(),
 					Name = z.Title
 				}).ToArray()
 			}));
-			Current = VerInfo.FirstThat(x => x.Version.ToString() == currentVersion);
+			Current = VerInfo.FirstOrDefault(x => x.Version.ToString() == currentVersion);
 
 			foreach (var item in VerInfo.Distinct((x, y) => x.Version.Major == y.Version.Major && x.Version.Minor == y.Version.Minor))
 				AddVersion(item);
@@ -46,7 +46,7 @@ namespace SlickControls
 			{
 				Dock = DockStyle.Top,
 				DrawLeft = false,
-				Font = new Font("Century Gothic", 9.75F, (FontStyle.Bold | FontStyle.Italic)),
+				Font = UI.Font(9.75F, FontStyle.Bold | FontStyle.Italic),
 				IconSize = 14,
 				Image = Properties.Resources.ArrowRight,
 				Padding = new Padding(10),

@@ -1,7 +1,5 @@
 using Extensions;
 
-using Newtonsoft.Json.Linq;
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -419,14 +417,14 @@ namespace SlickControls
 		{
 			base.UIChanged();
 
-			base_P_Side.Width = (int)(165 * UI.UIScale);
+			base_P_Side.Width = (int)(165 * UI.FontScale);
 			base_TLP_Side.Padding = UI.Scale(new Padding(5), UI.FontScale);
 			base_P_Side.Padding = UI.Scale(new Padding(5, 5, 0, 5), UI.FontScale);
 
 			base_P_SideControls.Font = UI.Font(6.75F);
 			base_P_Icon.Height = (int)(70 * UI.UIScale);
 			base_PB_Icon.Size = UI.Scale(new Size(32, 32), UI.UIScale);
-			base_B_Close.Size = base_B_Max.Size = base_B_Min.Size = new Size(6 + (int)(16 * UI.UIScale), 6 + (int)(16 * UI.UIScale));
+			base_B_Close.Size = base_B_Max.Size = base_B_Min.Size = new Size(6 + (int)(20 * UI.UIScale), 6 + (int)(20 * UI.UIScale));
 
 			if (SmallMenu)
 			{

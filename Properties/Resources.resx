@@ -367,4 +367,22 @@
   <data name="Tiny_CheckedFilled1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Tiny_CheckedFilled.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Icon_ArrowLeft_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Icon_ArrowLeft_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Icon_ArrowLeft_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Icon_ArrowLeft_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Maximize" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Maximize.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Minimize" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Minimize.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Restore" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Restore.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

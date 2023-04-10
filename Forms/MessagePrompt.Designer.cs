@@ -122,6 +122,7 @@ namespace SlickControls
 			// B_Cancel
 			// 
 			this.B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Cancel.AutoSize = true;
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Cancel.Image = global::SlickControls.Properties.Resources.Tiny_Cancel;
@@ -139,6 +140,7 @@ namespace SlickControls
 			// B_Ignore
 			// 
 			this.B_Ignore.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Ignore.AutoSize = true;
 			this.B_Ignore.ColorShade = null;
 			this.B_Ignore.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Ignore.Image = global::SlickControls.Properties.Resources.Tiny_Skip;
@@ -156,6 +158,7 @@ namespace SlickControls
 			// B_Retry
 			// 
 			this.B_Retry.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Retry.AutoSize = true;
 			this.B_Retry.ColorShade = null;
 			this.B_Retry.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Retry.Image = global::SlickControls.Properties.Resources.Tiny_Retry;
@@ -173,6 +176,7 @@ namespace SlickControls
 			// B_Abort
 			// 
 			this.B_Abort.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Abort.AutoSize = true;
 			this.B_Abort.ColorShade = null;
 			this.B_Abort.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Abort.Image = global::SlickControls.Properties.Resources.Tiny_Abort;
@@ -190,6 +194,7 @@ namespace SlickControls
 			// B_OK
 			// 
 			this.B_OK.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_OK.AutoSize = true;
 			this.B_OK.ColorShade = null;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_OK.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
@@ -207,6 +212,7 @@ namespace SlickControls
 			// B_No
 			// 
 			this.B_No.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_No.AutoSize = true;
 			this.B_No.ColorShade = null;
 			this.B_No.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_No.Image = global::SlickControls.Properties.Resources.Tiny_Cancel;
@@ -224,6 +230,7 @@ namespace SlickControls
 			// B_Yes
 			// 
 			this.B_Yes.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Yes.AutoSize = true;
 			this.B_Yes.ColorShade = null;
 			this.B_Yes.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Yes.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
@@ -314,6 +321,7 @@ namespace SlickControls
 			// B_Details
 			// 
 			this.B_Details.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Details.AutoSize = true;
 			this.B_Details.ColorShade = null;
 			this.B_Details.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Details.Image = global::SlickControls.Properties.Resources.Tiny_ArrowDown;
@@ -410,6 +418,7 @@ namespace SlickControls
 			this.TLP_Main.ResumeLayout(false);
 			this.TLP_Main.PerformLayout();
 			this.FLP_Buttons.ResumeLayout(false);
+			this.FLP_Buttons.PerformLayout();
 			this.TLP_ImgText.ResumeLayout(false);
 			this.TLP_ImgText.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PB_Icon)).EndInit();

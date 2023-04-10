@@ -14,8 +14,6 @@ namespace SlickControls
 
 		private bool center = false;
 
-		protected int iconSize = 16;
-
 		private bool selected = false;
 
 		public SlickLabel()
@@ -44,9 +42,6 @@ namespace SlickControls
 		}
 
 		private bool hideText = false;
-
-		[Category("Design")]
-		public int IconSize { get => iconSize; set { iconSize = value; ResizeForAutoSize(); Invalidate(); } }
 
 		[EditorBrowsable(EditorBrowsableState.Always)]
 		[Browsable(true)]
@@ -102,10 +97,7 @@ namespace SlickControls
 		protected override void OnPaint(PaintEventArgs e)
 		{
 			GetColors(out var fore, out var back);
-			e.Graphics.Clear(BackColor);
-
-			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+			e.Graphics.SetUp(BackColor);
 
 			if (HoverState >= HoverState.Hovered || Selected)
 				e.Graphics.FillRoundedRectangle(Gradient(back), new Rectangle(1, 1, Width - 3, Height - 3), 7);
@@ -113,28 +105,25 @@ namespace SlickControls
 			if (!HoverState.HasFlag(HoverState.Pressed))
 				DrawFocus(e.Graphics, new Rectangle(1, 1, Width - 3, Height - 3), 7, ActiveColor == null ? FormDesign.Design.ActiveColor : ActiveColor());
 
+			var iconSize = Image?.Width ?? 16;
+			var iconRect = (HideText || string.IsNullOrWhiteSpace(Text)) ? ClientRectangle.CenterR(Image?.Size ?? new Size(iconSize, iconSize)) : ClientRectangle.Pad(Padding).Align(Image?.Size ?? new Size(iconSize, iconSize), ContentAlignment.MiddleLeft);
+			var textRect = ClientRectangle.Pad(Padding).Pad(Image?.Width ?? (Loading ? iconSize:0),0,0,0);
+
 			if (Loading)
 			{
-				if (HideText || string.IsNullOrWhiteSpace(Text))
-					DrawLoader(e.Graphics, new Rectangle((Width - iconSize) / 2, (int)((Height - iconSize) / 2F), iconSize, iconSize), fore);
-				else
-					DrawLoader(e.Graphics, new Rectangle(Padding.Left, (int)((Height - iconSize) / 2F), iconSize, iconSize), fore);
+				DrawLoader(e.Graphics, iconRect, fore);
 			}
-			else if ((DesignMode ? Image.SafeColor(fore) : Image.Color(fore)) != null)
+			else if (Image != null)
 			{
-				if (HideText || string.IsNullOrWhiteSpace(Text))
-					e.Graphics.DrawImage(Image, new Rectangle((Width - iconSize) / 2, (int)((Height - iconSize) / 2F), iconSize, iconSize));
-				else
-					e.Graphics.DrawImage(Image, new Rectangle(Padding.Left, (int)((Height - iconSize) / 2F), iconSize, iconSize));
+				using (var icon = new Bitmap(Image).Color(fore))
+					e.Graphics.DrawImage(icon, iconRect);
 			}
 
 			if (!HideText && !string.IsNullOrWhiteSpace(Text))
 			{
-				var stl = new StringFormat { Alignment = StringAlignment.Near, LineAlignment = StringAlignment.Center };
-				if (Image != null)
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, Gradient(fore), new Rectangle(iconSize + 2 * Padding.Left, 0, Width - (iconSize + Padding.Left + Padding.Horizontal), Height), stl);
-				else
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, Gradient(fore), new Rectangle(Padding.Left, 0, Width - (Padding.Left), Height), stl);
+				var stl = new StringFormat { LineAlignment = StringAlignment.Center };
+				
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, Gradient(fore), textRect, stl);
 			}
 		}
 
@@ -175,18 +164,19 @@ namespace SlickControls
 				var h = 0;
 
 				if (Image != null)
-					w += Padding.Left + iconSize;
+					w += Padding.Left + Image.Width;
 
+				var iconSize = Image?.Width ?? 16;
 				if (!string.IsNullOrWhiteSpace(Text) && !HideText)
 				{
 					var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font);
 					w += (int)bnds.Width + Padding.Horizontal;
-					h = Math.Max(IconSize + Padding.Vertical, (int)bnds.Height + Padding.Vertical);
+					h = Math.Max(iconSize + Padding.Vertical, (int)bnds.Height + Padding.Vertical);
 				}
 				else
 				{
 					w += Padding.Right;
-					h = IconSize + Padding.Vertical;
+					h = iconSize + Padding.Vertical;
 				}
 
 				return new Size(w, h);

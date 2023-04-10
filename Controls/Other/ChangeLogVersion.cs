@@ -16,14 +16,13 @@ namespace SlickControls
 			InitializeComponent();
 			this.inf = inf;
 			Dock = DockStyle.Top;
-			ResizeRedraw = DoubleBuffered = true;
 			TabStop = false;
 			Height = GetHeight();
 		}
 
-		private void ChangeLogVersion_Paint(object sender, PaintEventArgs e)
+		protected override void OnPaint(PaintEventArgs e)
 		{
-			e.Graphics.Clear(BackColor);
+			e.Graphics.SetUp(BackColor);
 
 			DrawItems(e.Graphics, true);
 		}
@@ -32,10 +31,10 @@ namespace SlickControls
 
 		private int DrawItems(Graphics g, bool draw)
 		{
-			var tab = 0.25D;
+			var tab = 0D;
 			var h = 4;
 
-			g.DrawStringItem(inf.Version
+			var versionSize = g.DrawStringItem("v" + inf.Version
 				, UI.Font(14F, FontStyle.Bold)
 				, FormDesign.Design.ForeColor
 				, Width
@@ -44,7 +43,7 @@ namespace SlickControls
 				, draw);
 
 			if (draw)
-				g.DrawLine(new Pen(FormDesign.Design.AccentColor, 1), 20, h, 20, Height - 13);
+				g.DrawLine(new Pen(FormDesign.Design.AccentColor, (float)Math.Ceiling(UI.FontScale * 1.5)), (int)(12 * UI.FontScale), h, (int)(12 * UI.FontScale), Height - 13);
 
 			if (draw && inf.Date != null)
 			{
@@ -52,10 +51,10 @@ namespace SlickControls
 				g.DrawString($"on {inf.Date?.ToReadableString(inf.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}",
 					UI.Font(8.25F),
 					new SolidBrush(FormDesign.Design.LabelColor),
-					new Point((int)(56 * UI.FontScale), (int)(h - bnds.Height - (4 * UI.FontScale))));
+					new Point((int)(9 * UI.FontScale)+versionSize.Width, (int)(h - bnds.Height - (4 * UI.FontScale))));
 			}
 
-			tab = 2;
+			tab = 1;
 
 			if (!string.IsNullOrWhiteSpace(inf.Tagline))
 			{
@@ -74,9 +73,9 @@ namespace SlickControls
 
 			h += 2;
 
-			foreach (var item in inf.ChangeGroups.OrderBy(x => x.Order))
+			foreach (var item in inf.ChangeGroups)
 			{
-				tab = 2;
+				tab = 1;
 
 				g.DrawStringItem(item.Name
 					, UI.Font(8.25F, FontStyle.Bold)

@@ -83,6 +83,7 @@ namespace SlickControls
 			{
 				lastAvailableSize = Size.Empty;
 				Size = GetAutoSize();
+				Invalidate();
 			}
 		}
 
@@ -118,7 +119,7 @@ namespace SlickControls
 			{
 				var IconSize = Image?.Width ?? 16;				
 
-				if (string.IsNullOrWhiteSpace(Text))
+				if (string.IsNullOrWhiteSpace(Text) || (AutoSize && availableSize.Width.IsWithin(0, (int)(64 * UI.FontScale))))
 				{
 					if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 					{
@@ -152,6 +153,9 @@ namespace SlickControls
 
 				if (h > availableSize.Height)
 					h = availableSize.Height;
+
+				w = w.Between(MinimumSize.Width, MaximumSize.Width.If(0, w));
+				h = h.Between(MinimumSize.Height, MaximumSize.Height.If(0, h));
 
 				lastUiScale = UI.FontScale;
 				lastText = Text;
@@ -269,13 +273,13 @@ namespace SlickControls
 			var iconSize = Image?.Width ?? 16;
 			var extraWidth = (Image == null ? 0 : iconSize + Padding.Left) + 3;
 			var bnds = e.Graphics.Measure(Text, Font, size.Width - extraWidth - Padding.Horizontal);
+			var noText = string.IsNullOrWhiteSpace(Text) || size.Width.IsWithin(0, (int)(64 * UI.FontScale));
 
 			try
 			{
-
 				if (slickButton?.Loading ?? false)
 				{
-					if (string.IsNullOrWhiteSpace(Text))
+					if (noText)
 						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + (size.Width - iconSize) / 2, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize), HoverState.HasFlag(HoverState.Pressed) ? (Color?)fore : ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade));
 					else
 						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + Padding.Left, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize), HoverState.HasFlag(HoverState.Pressed) ? (Color?)fore : ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade));
@@ -284,13 +288,16 @@ namespace SlickControls
 				{
 					var img = slickButton?.Live ?? false ? Image.SafeColor(fore) : Image.Color(fore);
 
-					if (string.IsNullOrWhiteSpace(Text))
+					if (noText)
 						e.Graphics.DrawImage(img, new Rectangle(location.X + (size.Width - iconSize) / 2, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize));
 					else
 						e.Graphics.DrawImage(img, new Rectangle(location.X + Padding.Left, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize));
 				}
 			}
 			catch { }
+
+			if (noText)
+				return;
 
 			var stl = new StringFormat()
 			{

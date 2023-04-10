@@ -166,9 +166,9 @@ namespace SlickControls
 
 			if (Form?.PanelHistory?.Any(x => x != this) ?? false)
 			{
-				base_Text.Image = Properties.Resources.Icon_ArrowLeft;
+				base_Text.Image = UI.FontScale > 2 ? Properties.Resources.Icon_ArrowLeft_32 : UI.FontScale >= 1.5 ? Properties.Resources.Icon_ArrowLeft_24 : Properties.Resources.Icon_ArrowLeft;
 				base_Text.Enabled = true;
-				SlickTip.SetTo(base_Text, "Go Back to " + Form.PanelHistory.Last().Text);
+				SlickTip.SetTo(base_Text, string.Format(LocaleHelper.GetGlobalText("Go back to {0}"), Form.PanelHistory.Last().Text));
 			}
 
 			base.OnCreateControl();

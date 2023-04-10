@@ -656,9 +656,6 @@
     <None Include="Resources\Tiny_Restore.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Icon_ArrowLeft.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Tiny_Notification.png" />
   </ItemGroup>
   <ItemGroup>
@@ -821,6 +818,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\I_Checked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_ArrowLeft_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_ArrowLeft_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Icon_ArrowLeft.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Restore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Maximize.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

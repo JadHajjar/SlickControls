@@ -68,6 +68,6 @@ namespace SlickControls
 			=> group.Any(x => x.Checked);
 
 		public static object GetSelectedData(this IEnumerable<SlickRadioButton> group)
-			=> group.FirstThat(x => x.Checked)?.Data;
+			=> group.FirstOrDefault(x => x.Checked)?.Data;
 	}
 }

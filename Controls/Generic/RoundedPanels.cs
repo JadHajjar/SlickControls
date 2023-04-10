@@ -11,6 +11,14 @@ namespace SlickControls
 	{
 		[Category("Appearance"), DefaultValue(false)]
 		public bool AddOutline { get; set; }
+		[Category("Appearance"), DefaultValue(false)]
+		public bool TopLeft { get; set; }
+		[Category("Appearance"), DefaultValue(false)]
+		public bool TopRight { get; set; }
+		[Category("Appearance"), DefaultValue(false)]
+		public bool BotRight { get; set; }
+		[Category("Appearance"), DefaultValue(false)]
+		public bool BotLeft { get; set; }
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
@@ -20,14 +28,14 @@ namespace SlickControls
 
 			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
 			{
-				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
+				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left, !TopLeft, !TopRight, !BotRight, !BotLeft);
 			}
 
 			if (AddOutline)
 			{
 				using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
 				{
-					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left);
+					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left, !TopLeft,!TopRight,!BotRight,!BotLeft);
 				}
 			}
 		}

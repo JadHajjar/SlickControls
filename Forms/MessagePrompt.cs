@@ -8,8 +8,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
-
 namespace SlickControls
 {
 	public partial class MessagePrompt : SlickForm
@@ -51,6 +49,11 @@ namespace SlickControls
 
 			SetIcon();
 			SetButtons();
+
+			foreach (Control item in FLP_Buttons.Controls)
+			{
+				item.MinimumSize = UI.Scale(new Size(65, 0), UI.FontScale);
+			}
 
 			PB_Icon.MouseDown += Form_MouseDown;
 			L_Text.MouseDown += Form_MouseDown;

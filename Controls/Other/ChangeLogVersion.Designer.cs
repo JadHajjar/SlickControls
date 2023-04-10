@@ -36,7 +36,6 @@
 			this.Margin = new System.Windows.Forms.Padding(0, 0, 0, 3);
 			this.Name = "ChangeLogVersion";
 			this.Size = new System.Drawing.Size(325, 103);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.ChangeLogVersion_Paint);
 			this.Resize += new System.EventHandler(this.ChangeLogVersion_Resize);
 			this.ResumeLayout(false);
 
