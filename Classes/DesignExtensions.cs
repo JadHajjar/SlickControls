@@ -13,13 +13,13 @@ namespace SlickControls
 		public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, int maxWidth, double tab, ref int height, bool draw = true)
 		{
 			var x = (int)(((tab * 12) + 6) * UI.FontScale);
-			var bnds = graphics.MeasureString(item.ToString(), font, maxWidth - x);
+			var bnds = graphics.MeasureString(item?.ToString(), font, maxWidth - x);
 
 			if (draw)
 			{
 				using (var brush = new SolidBrush(foreColor))
 				{
-					graphics.DrawString(item.ToString(), font, brush, new Rectangle(x, height, maxWidth - x, (int)Math.Ceiling(bnds.Height)));
+					graphics.DrawString(item?.ToString(), font, brush, new Rectangle(x, height, maxWidth - x, (int)Math.Ceiling(bnds.Height)));
 				}
 			}
 
