@@ -15,7 +15,11 @@ namespace SlickControls
 
 		public event PaintEventHandler PrePaint;
 
-		public event Extensions.EventHandler<HoverState> HoverStateChanged;
+		public event
+#if !NET47
+			Extensions.
+#endif
+			EventHandler<HoverState> HoverStateChanged;
 
 		public event MouseEventHandler MouseClick;
 

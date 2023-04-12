@@ -28,16 +28,32 @@ namespace SlickControls
 		public int ItemHeight { get; set; }
 
 		[Category("Behavior"), DisplayName("Calculate Item Size")]
-		public event Extensions.EventHandler<SizeSourceEventArgs<T>> CalculateItemSize;
+		public event
+#if !NET47
+			Extensions.
+#endif
+			EventHandler<SizeSourceEventArgs<T>> CalculateItemSize;
 
 		[Category("Behavior"), DisplayName("Calculate Item Size")]
-		public event Extensions.EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
+		public event
+#if !NET47
+			Extensions.
+#endif
+			EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
 
 		[Category("Appearance"), DisplayName("Paint Item")]
-		public event Extensions.EventHandler<ItemPaintEventArgs<T>> PaintItem;
+		public event
+#if !NET47
+			Extensions.
+#endif
+			EventHandler<ItemPaintEventArgs<T>> PaintItem;
 
 		[Category("Behavior"), DisplayName("Item Mouse Click")]
-		public event Extensions.EventHandler<MouseEventArgs> ItemMouseClick;
+		public event
+#if !NET47
+			Extensions.
+#endif
+			EventHandler<MouseEventArgs> ItemMouseClick;
 
 		protected Point CursorLocation { get; set; }
 

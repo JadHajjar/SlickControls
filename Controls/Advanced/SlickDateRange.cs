@@ -28,6 +28,7 @@ namespace SlickControls
 		internal DateTime MinDate { get; private set; } = new DateTime(1900, 1, 1);
 		internal DateTime Value { get; private set; } = DateTime.Today;
 		public DateRangeType RangeType { get; internal set; }
+		public bool Set => set;
 
 		public SlickDateRange()
 		{

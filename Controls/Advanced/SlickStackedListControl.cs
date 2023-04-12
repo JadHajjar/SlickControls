@@ -61,7 +61,16 @@ namespace SlickControls
 
 		[Category("Appearance"), DefaultValue(22)]
 		public int ItemHeight { get; set; }
+#if NET47
+		[Category("Behavior"), DisplayName("Can Draw Item")]
+		public event EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
 
+		[Category("Appearance"), DisplayName("Paint Item")]
+		public event EventHandler<ItemPaintEventArgs<T>> PaintItem;
+
+		[Category("Behavior"), DisplayName("Item Mouse Click")]
+		public event EventHandler<MouseEventArgs> ItemMouseClick;
+#else
 		[Category("Behavior"), DisplayName("Can Draw Item")]
 		public event Extensions.EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
 
@@ -70,6 +79,7 @@ namespace SlickControls
 
 		[Category("Behavior"), DisplayName("Item Mouse Click")]
 		public event Extensions.EventHandler<MouseEventArgs> ItemMouseClick;
+#endif
 
 		protected Point CursorLocation { get; set; }
 

@@ -10,7 +10,11 @@ namespace SlickControls
 {
 	public class SlickControl : UserControl, IHoverControl
 	{
-		public event Extensions.EventHandler<HoverState> HoverStateChanged;
+		public event
+#if !NET47
+			Extensions.
+#endif
+			EventHandler<HoverState> HoverStateChanged;
 
 		private readonly Timer timer = new Timer();
 		private bool loading;
