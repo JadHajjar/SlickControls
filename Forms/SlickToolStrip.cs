@@ -286,7 +286,7 @@ namespace SlickControls
 			Bounds = new Rectangle(startingCursorPosition, Size.Empty);
 			Opacity = 0;
 
-			animation = new AnimationHandler(this, getBounds()) { Speed = 1.5 };
+			animation = new AnimationHandler(this, getBounds()) { Speed = 3 };
 			animation.OnAnimationTick += animation_OnAnimationTick;
 			animation.StartAnimation();
 		}

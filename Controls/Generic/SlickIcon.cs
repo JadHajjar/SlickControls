@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
+	[DefaultEvent("Click")]
 	public class SlickIcon : SlickImageControl
 	{
 		private bool enableGraphics = true;
@@ -81,10 +82,10 @@ namespace SlickControls
 
 				var color =
 					Selected ? activeColor :
-					!Enabled ? FormDesign.Design.IconColor :
+					!Enabled ? ForeColor :
 					HoverState.HasFlag(HoverState.Pressed) ? activeColor :
-					HoverState.HasFlag(HoverState.Hovered) ? activeColor.MergeColor(FormDesign.Design.IconColor) :
-					FormDesign.Design.IconColor;
+					HoverState.HasFlag(HoverState.Hovered) ? activeColor.MergeColor(ForeColor) :
+					ForeColor;
 
 				using (var img = new Bitmap(Image).Color(color))
 				{

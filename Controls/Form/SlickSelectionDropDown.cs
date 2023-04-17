@@ -309,8 +309,7 @@ namespace SlickControls
 		{
 			SlickButton.GetColors(out var fore, out var back, listDropDown != null ? HoverState.Normal : HoverState);
 
-			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+			e.Graphics.SetUp(BackColor);
 
 			if (listDropDown != null)
 			{

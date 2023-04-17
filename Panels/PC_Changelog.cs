@@ -29,7 +29,7 @@ namespace SlickControls
 				ChangeLogs = Newtonsoft.Json.JsonConvert.DeserializeObject<VersionChangeLog[]>(reader.ReadToEnd());
 			}
 
-			Current = ChangeLogs.FirstOrDefault(x => x.Version == currentVersion);
+			Current = ChangeLogs.FirstOrDefault(x => x.Version.Major == currentVersion.Major && x.Version.Minor == currentVersion.Minor && x.Version.Build == currentVersion.Build && Math.Max(0, x.Version.Revision) == Math.Max(0, currentVersion.Revision));
 
 			if (Current != null)
 			{

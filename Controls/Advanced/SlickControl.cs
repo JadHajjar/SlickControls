@@ -352,7 +352,7 @@ namespace SlickControls
 				var columnWidths = tableLayoutPanel.GetColumnWidths();
 				var rowHeights = tableLayoutPanel.GetRowHeights();
 
-				for (var i = cellPosition.Column; i < cellPosition.Column + columnSpan; i++)
+				for (var i = cellPosition.Column; i < Math.Min(columnWidths.Length, cellPosition.Column + columnSpan); i++)
 				{
 					if (tableLayoutPanel.ColumnStyles[i].SizeType == SizeType.AutoSize)
 					{
@@ -363,7 +363,7 @@ namespace SlickControls
 					availableWidth += columnWidths[i];
 				}
 
-				for (var i = cellPosition.Row; i < cellPosition.Row + rowSpan; i++)
+				for (var i = cellPosition.Row; i < Math.Min(rowHeights.Length, cellPosition.Row + rowSpan); i++)
 				{
 					if (tableLayoutPanel.RowStyles[i].SizeType == SizeType.AutoSize)
 					{
