@@ -1,6 +1,7 @@
 ﻿using Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
@@ -109,12 +110,47 @@ namespace SlickControls
 
 	public static class FontMeasuring
 	{
+		private static readonly Dictionary<StringCache, SizeF> _cache = new Dictionary<StringCache, SizeF>();
+
 		public static SizeF Measure(this Graphics graphics, string text, Font font, int width = int.MaxValue)
 		{
-			return graphics.MeasureString(
+			var key = new StringCache(text, font.GetHashCode(), width);
+
+			if (_cache.ContainsKey(key))
+				return _cache[key];
+
+			return _cache[key] = graphics.MeasureString(
 				text,
 				new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit),
 				width);
+		}
+
+		public static SizeF Measure(string text, Font font, int width = int.MaxValue)
+		{
+			var key = new StringCache(text, font.GetHashCode(), width);
+
+			if (_cache.ContainsKey(key))
+				return _cache[key];
+
+			using (var graphics = Graphics.FromHwnd(IntPtr.Zero))
+				return _cache[key] = graphics.MeasureString(
+					text,
+					new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit),
+					width);
+		}
+
+		private struct StringCache
+		{
+            public string Text { get; set; }
+            public int Font { get; set; }
+            public int Width { get; set; }
+
+			public StringCache(string text, int font, int width)
+			{
+				Text = text;
+				Font = font;
+				Width = width;
+			}
 		}
 	}
 }

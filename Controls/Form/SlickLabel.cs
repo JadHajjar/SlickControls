@@ -137,8 +137,6 @@ namespace SlickControls
 			Selected = false;
 		}
 
-		public override Size GetPreferredSize(Size proposedSize) => GetAutoSize();
-
 		private void ResizeForAutoSize()
 		{
 			try
@@ -156,31 +154,75 @@ namespace SlickControls
 			ResizeForAutoSize();
 		}
 
-		public Size GetAutoSize()
+		private double lastUiScale;
+		private string lastText;
+		private Size lastAvailableSize;
+		private Size lastSize;
+
+		public override Size GetPreferredSize(Size proposedSize)
 		{
-			using (var g = Graphics.FromHwnd(IntPtr.Zero))
+			return GetAutoSize();
+		}
+
+		private Size GetAutoSize()
+		{
+			if (!Live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && Image == null))
+				return Size;
+
+			var availableSize = GetAvailableSize();
+
+			if (lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
+				return lastSize;
+
+			var IconSize = Image?.Width ?? 16;
+
+			if (string.IsNullOrWhiteSpace(Text) || (AutoSize && availableSize.Width.IsWithin(0, (int)(64 * UI.FontScale))))
 			{
-				var w = 3;
-				var h = 0;
+				lastUiScale = UI.FontScale;
+				lastText = Text;
+				lastAvailableSize = availableSize;
 
-				if (Image != null)
-					w += Padding.Left + Image.Width;
-
-				var iconSize = Image?.Width ?? 16;
-				if (!string.IsNullOrWhiteSpace(Text) && !HideText)
+				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 				{
-					var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font);
-					w += (int)bnds.Width + Padding.Horizontal;
-					h = Math.Max(iconSize + Padding.Vertical, (int)bnds.Height + Padding.Vertical);
+					return lastSize = new Size(Height, Height);
+				}
+				else if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
+				{
+					return lastSize = new Size(Width, Width);
 				}
 				else
 				{
-					w += Padding.Right;
-					h = iconSize + Padding.Vertical;
-				}
+					var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
 
-				return new Size(w, h);
+					return lastSize = new Size(IconSize + pad, IconSize + pad);
+				}
 			}
+
+			var extraWidth = (Image == null ? 0 : (IconSize + Padding.Left)) + (int)(3 * UI.FontScale) + Padding.Horizontal;
+			var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
+			var h = Math.Max(IconSize + 6, (int)(bnds.Height) + Padding.Top + 3);
+			var w = (int)Math.Ceiling(bnds.Width) + extraWidth;
+
+			if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
+				h = Height;
+
+			if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
+				w = Width;
+
+			if (w > availableSize.Width)
+				w = availableSize.Width;
+
+			if (h > availableSize.Height)
+				h = availableSize.Height;
+
+			w = w.Between(MinimumSize.Width, MaximumSize.Width.If(0, w));
+			h = h.Between(MinimumSize.Height, MaximumSize.Height.If(0, h));
+
+			lastUiScale = UI.FontScale;
+			lastText = Text;
+			lastAvailableSize = availableSize;
+
+			return lastSize = new Size(w, h);
 		}
 
 		protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)

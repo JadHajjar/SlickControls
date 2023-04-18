@@ -3,7 +3,6 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Security.Policy;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -37,9 +36,12 @@ namespace SlickControls
 		public bool UseToggleIcon { get => _useToggleIcon; set { _useToggleIcon = value; Checked = Checked; } }
 
 		[Category("Appearance"), DefaultValue(ColorStyle.Active)]
-        public ColorStyle ColorStyle { get; set; }
+		public ColorStyle ColorStyle { get; set; }
 
-        [Category("Behavior")]
+		[Category("Behavior"), DefaultValue(false)]
+		public bool OverrideCheckClick { get; set; }
+
+		[Category("Behavior")]
 		public bool Checked
 		{
 			get => @checked;
@@ -110,9 +112,9 @@ namespace SlickControls
 		}
 
 		[Category("Behavior"), DefaultValue("true")]
-        public new bool AutoSize { get; set; }
+		public new bool AutoSize { get; set; }
 
-        public void ResetValue()
+		public void ResetValue()
 		{
 			Checked = DefaultValue ?? true;
 		}
@@ -121,7 +123,7 @@ namespace SlickControls
 		{
 			base.OnMouseClick(e);
 
-			if (e.Button == MouseButtons.Left || e.Button == MouseButtons.None)
+			if (!OverrideCheckClick && (e.Button == MouseButtons.Left || e.Button == MouseButtons.None))
 			{
 				Checked = !Checked;
 			}
@@ -167,11 +169,12 @@ namespace SlickControls
 			{
 				var availableSize = GetAvailableSize();
 
-				if (lastUiScale == UI.FontScale && lastText == Text && availableSize == lastAvailableSize)
+				if (lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
+				{
 					return lastSize;
+				}
 
 				using (var image = GetIcon())
-				using (var g = Graphics.FromHwnd(IntPtr.Zero))
 				{
 					var iconSize = image?.Width ?? 16;
 
@@ -179,11 +182,15 @@ namespace SlickControls
 					{
 						var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
 
+						lastUiScale = UI.FontScale;
+						lastText = Text;
+						lastAvailableSize = availableSize;
+
 						return new Size(iconSize + pad + 1, iconSize + pad + 1);
 					}
 
 					var extraWidth = (image == null ? 0 : iconSize + Padding.Left) + Padding.Right + 3;
-					var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
+					var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
 					var h = Math.Max(iconSize + 6, (int)bnds.Height + Padding.Top + 3);
 					var w = (int)bnds.Width + extraWidth;
 
@@ -202,10 +209,14 @@ namespace SlickControls
 					lastAvailableSize = availableSize;
 
 					if (w > availableSize.Width)
+					{
 						w = availableSize.Width;
+					}
 
 					if (h > availableSize.Height)
+					{
 						h = availableSize.Height;
+					}
 
 					return lastSize = new Size(w, h);
 				}

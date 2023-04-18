@@ -112,15 +112,17 @@ namespace SlickControls
 
 			var availableSize = GetAvailableSize();
 
-			if (lastUiScale == UI.FontScale && lastText == Text && availableSize == lastAvailableSize)
+			if (lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
 				return lastSize;
 
-			using (var g = Graphics.FromHwnd(IntPtr.Zero))
-			{
 				var IconSize = Image?.Width ?? 16;				
 
 				if (string.IsNullOrWhiteSpace(Text) || (AutoSize && availableSize.Width.IsWithin(0, (int)(64 * UI.FontScale))))
 				{
+					lastUiScale = UI.FontScale;
+					lastText = Text;
+					lastAvailableSize = availableSize;
+
 					if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 					{
 						return lastSize = new Size(Height, Height);
@@ -138,7 +140,7 @@ namespace SlickControls
 				}
 
 				var extraWidth = (Image == null ? 0 : (IconSize + Padding.Left)) + (int)(3 * UI.FontScale) + Padding.Horizontal;
-				var bnds = g.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
+				var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
 				var h = Math.Max(IconSize + 6, (int)(bnds.Height) + Padding.Top + 3);
 				var w = (int)Math.Ceiling(bnds.Width) + extraWidth;
 
@@ -162,7 +164,6 @@ namespace SlickControls
 				lastAvailableSize = availableSize;
 
 				return lastSize = new Size(w, h);
-			}
 		}
 
 		public static Size GetSize(Graphics g, Image image, string text, Font font, Padding? padding = null)
@@ -274,7 +275,7 @@ namespace SlickControls
 			var iconSize = Image?.Width ?? 16;
 			var extraWidth = (Image == null ? 0 : (iconSize + Padding.Left)) + (int)(3 * UI.FontScale);
 			var bnds = e.Graphics.Measure(Text, Font, size.Width - extraWidth - Padding.Horizontal);
-			var noText = string.IsNullOrWhiteSpace(Text) || size.Width.IsWithin(0, (int)(64 * UI.FontScale));
+			var noText = string.IsNullOrWhiteSpace(Text) || size.Width.IsWithin(0, (int)(50 * UI.FontScale));
 
 			try
 			{
