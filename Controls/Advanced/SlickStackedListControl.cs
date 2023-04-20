@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -21,6 +22,7 @@ namespace SlickControls
 		protected DrawableItem<T> mouseDownItem;
 		private int baseHeight;
 		private List<DrawableItem<T>> _sortedItems;
+		private Size baseSize;
 
 		[Category("Data"), Browsable(false)]
 		public IEnumerable<T> Items
@@ -49,6 +51,11 @@ namespace SlickControls
 			}
 		}
 
+		[Category("Appearance"), DefaultValue(false)]
+		public bool GridView { get; set; }
+
+		[Category("Appearance"), DefaultValue(typeof(Size), "0, 0")]
+		public Size GridItemSize { get; set; }
 
 		[Category("Appearance"), DefaultValue(false)]
 		public bool SeparateWithLines { get; set; }
@@ -217,6 +224,12 @@ namespace SlickControls
 					baseHeight = ItemHeight;
 				}
 
+				if (baseSize == Size.Empty)
+				{
+					baseSize = GridItemSize;
+				}
+
+				GridItemSize = UI.Scale(baseSize, UI.FontScale);
 				ItemHeight = (int)(baseHeight * UI.FontScale);
 
 				Invalidate();
@@ -272,7 +285,7 @@ namespace SlickControls
 			{
 				var itemList = SafeGetItems();
 
-				scrollIndex = (itemList.Count - visibleItems) * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height - StartHeight).If(0, 1);
+				scrollIndex = (GetNumRows(itemList) - visibleItems) * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height - StartHeight).If(0, 1);
 				Invalidate();
 			}
 
@@ -420,7 +433,7 @@ namespace SlickControls
 		{
 			base.OnMouseWheel(e);
 
-			scrollIndex -= e.Delta / ItemHeight;
+			scrollIndex -= (int)Math.Round(e.Delta / (double)(GridView ? GridItemSize.Height : ItemHeight), MidpointRounding.AwayFromZero);
 			Invalidate();
 		}
 
@@ -470,7 +483,7 @@ namespace SlickControls
 				}
 			}
 
-			var y = StartHeight;
+			var loc = new Point(0, StartHeight);
 			var itemList = SafeGetItems();
 
 			itemList.ForEach(x => x.Bounds = Rectangle.Empty);
@@ -489,30 +502,58 @@ namespace SlickControls
 				e.Graphics.FillRoundedRectangle(scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), scrollThumbRectangle.Pad(2, 0, 2, 0), 3);
 			}
 
-			for (var i = scrollIndex; i < itemList.Count; i++)
+			var start = scrollIndex;
+
+			if (GridView)
+			{
+				start *= (int)Math.Floor((double)Width / GridItemSize.Width);
+			}
+
+			for (var i = start; i < itemList.Count; i++)
 			{
 				var item = itemList[i];
-				var doubleSize = DoubleSizeOnHover && (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed));
-				item.Bounds = new Rectangle(0, y, Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0), ((doubleSize ? 2 : 1) * ItemHeight) + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0));
+				var doubleSize = DoubleSizeOnHover && !GridView && (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed));
+
+				if (GridView)
+				{
+					item.Bounds = new Rectangle(loc, GridItemSize);
+				}
+				else
+				{
+					item.Bounds = new Rectangle(loc, new Size(Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0), ((doubleSize ? 2 : 1) * ItemHeight) + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
+				}
 
 				e.Graphics.SetClip(item.Bounds);
 
 				OnPaintItem(new ItemPaintEventArgs<T>(
 					item,
 					e.Graphics,
-					item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
+					GridView ? item.Bounds.Pad(Padding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
 					mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal));
 
 				e.Graphics.ResetClip();
 
-				y += item.Bounds.Height;
-
-				if (SeparateWithLines)
+				if (GridView)
 				{
-					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), y);
+					loc.X += item.Bounds.Width;
+
+					if (loc.X + item.Bounds.Width > Width)
+					{
+						loc.X = 0;
+						loc.Y += item.Bounds.Height;
+					}
+				}
+				else
+				{
+					loc.Y += item.Bounds.Height;
 				}
 
-				if (y > Height)
+				if (SeparateWithLines && !GridView)
+				{
+					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, loc.Y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), loc.Y);
+				}
+
+				if (loc.Y > Height)
 				{
 					break;
 				}
@@ -527,13 +568,14 @@ namespace SlickControls
 
 			if (totalHeight > validHeight)
 			{
-				visibleItems = (int)Math.Floor((float)validHeight / (ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
+				var rowCount = GetNumRows(itemList);
+				visibleItems = (int)Math.Floor((float)validHeight / (GridView ? GridItemSize.Height : (ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0))));
 				scrollVisible = true;
-				scrollIndex = Math.Max(0, Math.Min(scrollIndex, itemList.Count - visibleItems));
+				scrollIndex = Math.Max(0, Math.Min(scrollIndex, rowCount - visibleItems));
 
-				var thumbHeight = Math.Max(validHeight * visibleItems / itemList.Count, validHeight / 24);
+				var thumbHeight = Math.Max(validHeight * visibleItems / rowCount, validHeight / 24);
 
-				scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + ((validHeight - thumbHeight) * scrollIndex / (itemList.Count - visibleItems).If(0, 1)), (int)(10 * UI.FontScale), thumbHeight);
+				scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + ((validHeight - thumbHeight) * scrollIndex / (rowCount - visibleItems).If(0, 1)), (int)(10 * UI.FontScale), thumbHeight);
 			}
 			else
 			{
@@ -544,6 +586,13 @@ namespace SlickControls
 
 		public int GetTotalHeight(List<DrawableItem<T>> itemList)
 		{
+			if (GridView)
+			{
+				var numRows = GetNumRows(itemList);
+
+				return numRows * GridItemSize.Height;
+			}
+
 			var totalHeight = itemList.Count * (ItemHeight + Padding.Vertical);
 
 			if (SeparateWithLines)
@@ -557,6 +606,14 @@ namespace SlickControls
 			}
 
 			return totalHeight;
+		}
+
+		private int GetNumRows<i>(IEnumerable<i> itemList)
+		{
+			if (!GridView)
+				return itemList.Count();
+
+			return (int)Math.Ceiling(itemList.Count() / Math.Floor((double)(Width / GridItemSize.Width)));
 		}
 
 		public List<DrawableItem<T>> SafeGetItems()

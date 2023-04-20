@@ -54,7 +54,6 @@
 			this.base_P_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(217)))), ((int)(((byte)(179)))));
 			this.base_P_Container.Controls.Add(this.TLP_Main);
 			this.base_P_Container.Size = new System.Drawing.Size(789, 439);
-			this.base_P_Container.Paint += new System.Windows.Forms.PaintEventHandler(this.base_P_Container_Paint);
 			// 
 			// base_PB_Icon
 			// 

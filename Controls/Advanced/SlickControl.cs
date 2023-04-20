@@ -391,6 +391,15 @@ namespace SlickControls
 				{
 					availableHeight -= parent.Padding.Vertical;
 				}
+
+				if ((parent as ScrollableControl).AutoSize)
+				{
+					if (parent.Dock != DockStyle.Left && parent.Dock != DockStyle.Right)
+						availableHeight = int.MaxValue;
+
+					if (parent.Dock != DockStyle.Top && parent.Dock != DockStyle.Bottom)
+						availableWidth = int.MaxValue;
+				}
 			}
 
 			// Set the maximum available space for the control

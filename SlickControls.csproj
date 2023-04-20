@@ -101,6 +101,12 @@
     <Compile Include="Controls\Other\WorkingPrompt.Designer.cs">
       <DependentUpon>WorkingPrompt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\IoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\IoForm.Designer.cs">
+      <DependentUpon>IoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\Delegates.cs" />
     <Compile Include="Classes\FlatStripItem.cs" />
     <Compile Include="Classes\FormValidation.cs" />
@@ -479,6 +485,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Internal\DropDownItems.resx">
       <DependentUpon>DropDownItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\IoForm.resx">
+      <DependentUpon>IoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SlickToolStrip.resx">
       <DependentUpon>SlickToolStrip.cs</DependentUpon>

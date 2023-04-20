@@ -190,10 +190,10 @@
 		#endregion
 		protected System.Windows.Forms.Panel base_P_Content;
 		private System.Windows.Forms.Panel base_P_Side;
-		private System.Windows.Forms.TableLayoutPanel base_P_Icon;
-		private DBPanel base_P_PanelContent;
 		private System.Windows.Forms.TableLayoutPanel base_TLP_TopButtons;
 		protected System.Windows.Forms.Panel base_P_SideControls;
 		internal RoundedPanel base_TLP_Side;
+		internal System.Windows.Forms.TableLayoutPanel base_P_Icon;
+		internal DBPanel base_P_PanelContent;
 	}
 }

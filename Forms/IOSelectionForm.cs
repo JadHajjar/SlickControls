@@ -112,7 +112,7 @@ namespace SlickControls
 			base.DesignChanged(design);
 
 			TLP_Main.BackColor = design.BackColor;
-			TLP_Side.BackColor = design.MenuColor;
+			base_P_Tabs.BackColor = design.MenuColor;
 			TLP_Side.ForeColor = design.MenuForeColor;
 		}
 
@@ -171,21 +171,6 @@ namespace SlickControls
 				}
 
 				base_P_Tabs.Invalidate();
-			}
-		}
-
-		private void base_P_Container_Paint(object sender, PaintEventArgs e)
-		{
-			switch (CurrentFormState)
-			{
-				case FormState.NormalUnfocused:
-					e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.MenuColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Dark ? 3 : -3)), new Rectangle(0, 0, TLP_Side.Width + 1, TLP_Side.Height + 2));
-					break;
-
-				case FormState.ForcedFocused:
-				case FormState.NormalFocused:
-					e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.MenuColor.MergeColor(FormDesign.Design.ActiveColor, 70)), new Rectangle(0, 0, TLP_Side.Width + 1, TLP_Side.Height + 2));
-					break;
 			}
 		}
 	}
