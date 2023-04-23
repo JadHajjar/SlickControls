@@ -379,6 +379,9 @@ namespace SlickControls
 			}
 			else
 			{
+				if (Dock == DockStyle.None && !Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) && !Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right))
+					return new Size(int.MaxValue, int.MaxValue);
+
 				availableWidth = parent.ClientSize.Width;
 				availableHeight = parent.ClientSize.Height;
 

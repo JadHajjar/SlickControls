@@ -3,12 +3,10 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace SlickControls
 {
-	public class IOControl : SlickPictureBox
+	public class IOControl
 	{
 		private bool thumbnailLoaded;
 
@@ -16,30 +14,39 @@ namespace SlickControls
 		public DirectoryInfo FolderObject { get; }
 		public string Path { get; }
 		public IO.IController Controller { get; }
+		public string Name { get; }
+		public string Text { get; internal set; }
+		public Image Icon { get; internal set; }
 
-		public bool Selected { get; internal set; }
-
-		public IOControl(object x, IO.IController controller)
+		public IOControl(object x, IO.IController controller, out bool valid, Bitmap icon = null)
 		{
+			valid = false;
+
 			if (x is FileInfo file)
 			{
-				if (!file.Attributes.HasFlag(FileAttributes.Hidden) && !file.Attributes.HasFlag(FileAttributes.System))
+				if ((file.Attributes & (FileAttributes.Hidden | FileAttributes.System)) == 0)
 				{
 					if (file.Extension.ToLower() == ".lnk")
 					{
 						var path = file.FullName.GetShortcutPath();
 
 						if (Directory.Exists(path) && File.GetAttributes(path).HasFlag(FileAttributes.Directory))
+						{
 							x = new DirectoryInfo(path);
+						}
 						else
+						{
 							FileObject = new FileInfo(path);
+						}
 					}
 					else
+					{
 						FileObject = file;
+					}
 				}
 			}
 
-			if (x is DirectoryInfo folder)
+			else if (x is DirectoryInfo folder)
 			{
 				if (folder.Parent == null || !folder.Attributes.HasFlag(FileAttributes.Hidden))
 				{
@@ -49,172 +56,184 @@ namespace SlickControls
 
 			if (FileObject == null && FolderObject == null)
 			{
-				Dispose();
 				return;
 			}
 
 			Path = FileObject?.FullName ?? FolderObject.FullName;
-			Size = UI.Scale(new Size(85, 85), UI.FontScale);
-			Margin = new Padding(7);
-			Cursor = Cursors.Hand;
-			Font = UI.Font(7.75F);
 			Controller = controller;
-			Text = (FolderObject?.Name ?? FileObject.FileName()).FormatWords();
-			SlickTip.SetTo(this, Text);
-
-			MouseClick += IOControl_MouseClick;
-			MouseDoubleClick += IOControl_MouseClick;
-			Disposed += (s, e) => Image?.Dispose();
+			Name = FolderObject?.Name ?? FileObject.Name;
+			Text = FolderObject?.Name ?? FileObject.FileName();
 
 			if (FileObject != null)
 			{
-				Directory.CreateDirectory(System.IO.Path.Combine(ISave.DocsFolder, "Thumbs", "Library"));
-				var filepath = System.IO.Path.Combine(ISave.DocsFolder, "Thumbs", "Library", $"{FileObject.Name}.{FileObject.Length}.jpg");
+				Icon = icon ?? FileObject.GetFileTypeIcon() ?? Properties.Resources.Big_File;
 
-				Image = FileObject.GetFileTypeIcon() ?? Properties.Resources.Big_File;
-
-				Controller.Factory.Run(() =>
+				if (icon == null)
 				{
-					try
+					Controller.Factory.Add(() =>
 					{
-						if (File.Exists(filepath))
-						{
-							thumbnailLoaded = true;
-							Image = Image.FromFile(filepath);
-						}
-						else using (var bitmap = FileObject.GetThumbnail(out thumbnailLoaded))
-							{
-								if (bitmap != null)
-								{
-									if (thumbnailLoaded)
-									{
-										thumbnailLoaded = true;
-										var w = Math.Min((int)(200 * UI.UIScale), bitmap.Width);
-										Image = new Bitmap(bitmap, w, w * bitmap.Height / bitmap.Width);
+						Directory.CreateDirectory(System.IO.Path.Combine(ISave.DocsFolder, "Thumbs", "Library"));
+						var filepath = System.IO.Path.Combine(ISave.DocsFolder, "Thumbs", "Library", $"{FileObject.Name}.{FileObject.Length}.jpg");
 
-										if (FileObject.IsVideo())
-											using (var bmp = new Bitmap(bitmap, w, w * bitmap.Height / bitmap.Width))
-												bmp.Save(filepath);
+						try
+						{
+							if (File.Exists(filepath))
+							{
+								thumbnailLoaded = true;
+								Icon = Image.FromFile(filepath);
+							}
+							else
+							{
+								using (var bitmap = FileObject.GetThumbnail(out thumbnailLoaded))
+								{
+									if (bitmap != null)
+									{
+										if (thumbnailLoaded)
+										{
+											thumbnailLoaded = true;
+											var w = Math.Min((int)(200 * UI.UIScale), bitmap.Width);
+											Icon = new Bitmap(bitmap, w, w * bitmap.Height / bitmap.Width);
+
+											if (FileObject.IsVideo())
+											{
+												using (var bmp = new Bitmap(bitmap, w, w * bitmap.Height / bitmap.Width))
+												{
+													bmp.Save(filepath);
+												}
+											}
+										}
+										else
+										{
+											Icon = (Bitmap)bitmap.Clone();
+										}
 									}
-									else
-										Image = (Bitmap)bitmap.Clone();
 								}
 							}
-					}
-					catch { thumbnailLoaded = false; }
-				});
+						}
+						catch { thumbnailLoaded = false; }
+					});
+				}
 			}
 			else
 			{
-				Image = Properties.Resources.Big_Folder;
+				Icon = Properties.Resources.Big_Folder;
 
-				Controller.Factory.Run(() =>
+				Controller.Factory.Add(() =>
 				{
-					Image = IO.GetThumbnail(FolderObject.FullName) ?? Image;
+					Icon = IO.GetThumbnail(FolderObject.FullName) ?? Icon;
 				});
 			}
+
+			valid = true;
 		}
 
-		protected override void OnPaint(PaintEventArgs e)
+		internal void OnPaintGrid(ItemPaintEventArgs<IOControl> e, bool selected)
 		{
 			var d = FormDesign.Design;
 
-			e.Graphics.Clear(BackColor);
-			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-			if (HoverState.HasFlag(HoverState.Hovered))
-				e.Graphics.FillRoundedRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), HoverState.HasFlag(HoverState.Pressed) ? d.ActiveColor : d.AccentBackColor), new Rectangle(0, 0, Width, Height), 7);
-
-			if (Selected)
+			if (e.HoverState.HasFlag(HoverState.Hovered))
 			{
-				e.Graphics.FillRoundedRectangle(SlickControl.Gradient(new Rectangle(Point.Empty, Size), Color.FromArgb(25, d.ActiveColor)), new Rectangle(0, 0, Width, Height), 7);
-				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, new Rectangle(0, 0, Width - 2, Height - 2), 7);
+				e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveColor : Color.FromArgb(125, d.AccentColor)), e.ClipRectangle.Pad(1), (int)(6 * UI.FontScale));
 			}
 
-			var imgRect = new Rectangle(7, 7, Width - 14, Height / 2);
+			if (selected)
+			{
+				e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, Color.FromArgb(25, d.ActiveColor)), e.ClipRectangle.Pad(1), (int)(6 * UI.FontScale));
+				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, e.ClipRectangle.Pad(1), (int)(6 * UI.FontScale));
+			}
 
-			if (Image != null)
+			var imgRect = e.ClipRectangle.Pad((int)(6 * UI.FontScale));
+			var textRect = e.ClipRectangle.Pad((int)(6 * UI.FontScale));
+
+			imgRect.Height = imgRect.Height * 4 / 10;
+
+			if (Icon != null)
 			{
 				try
 				{
-					var size = Image.Width < imgRect.Width && Image.Height < imgRect.Height ? Image.Size :
-						(Image.Width == Image.Height || (double)Image.Width / Image.Height < (double)imgRect.Width / imgRect.Height)
-							? new Size(imgRect.Height * Image.Width / Image.Height, imgRect.Height)
-							: new Size(imgRect.Width, imgRect.Width * Image.Height / Image.Width);
+					var size = Icon.Size.GetProportionalDownscaledSize(imgRect.Height);
 
 					if (thumbnailLoaded)
-						e.Graphics.DrawBorderedImage(Image, new Rectangle(imgRect.Center(size), size));
+					{
+						e.Graphics.DrawBorderedImage(Icon, imgRect.CenterR(size));
+					}
 					else
-						e.Graphics.DrawImage(Image, new Rectangle(imgRect.Center(size), size));
-				}
-				catch { imgRect = new Rectangle(0, 2, 0, 0); }
-			}
-			else
-				imgRect = new Rectangle(0, 2, 0, 0);
+					{
+						e.Graphics.DrawImage(Icon, imgRect.CenterR(size));
+					}
 
-			e.Graphics.DrawString(Text, Font, SlickControl.Gradient(new Rectangle(Point.Empty, Size), HoverState.HasFlag(HoverState.Pressed) ? d.ActiveForeColor : d.ForeColor)
-				, new Rectangle(7, imgRect.Y + imgRect.Height + 5, Width - 14, (int)Font.GetHeight().ClosestMultipleTo(Height - (imgRect.Y + imgRect.Height + 7)))
-				, new StringFormat
+					textRect.Y += imgRect.Height;
+					textRect.Height -= imgRect.Height;
+				}
+				catch { }
+			}
+
+			using (var font = UI.Font(7.5F))
+			{
+				using (var brush = new SolidBrush(e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveForeColor : d.ForeColor))
 				{
-					Alignment = StringAlignment.Center,
-					LineAlignment = StringAlignment.Center,
-					Trimming = StringTrimming.EllipsisCharacter
-				});
+					e.Graphics.DrawString(Text, font, brush, textRect.AlignToFontSize(font, graphics: e.Graphics)
+					, new StringFormat
+					{
+						Alignment = StringAlignment.Center,
+						LineAlignment = StringAlignment.Center,
+						Trimming = StringTrimming.EllipsisCharacter
+					});
+				}
+			}
 		}
 
-		private void IOControl_MouseClick(object sender, MouseEventArgs e)
+		internal void OnPaintList(ItemPaintEventArgs<IOControl> e, bool selected)
 		{
-			if (e.Button == MouseButtons.Left)
-			{
-				if (e.Clicks == 1)
-				{
-					Parent.Controls.OfType<IOControl>().Foreach(x => { if (x.Selected) { x.Selected = false; x.Invalidate(); } });
-					Selected = true;
-					Invalidate();
-				}
-				else if (e.Clicks == 2)
-				{
-					if (FileObject != null)
-						Controller.fileOpened(FileObject);
-					else if (FolderObject != null)
-						Controller.folderOpened(FolderObject);
-				}
+			var d = FormDesign.Design;
 
-				Focus();
+			if (e.HoverState.HasFlag(HoverState.Hovered))
+			{
+				e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveColor : Color.FromArgb(125, d.AccentColor)), e.ClipRectangle.Pad(1), (int)(3 * UI.FontScale));
 			}
-			else if (e.Button == MouseButtons.Right)
+
+			if (selected)
 			{
-				SlickToolStrip.Show(FindForm() as SlickForm, (Controller.RightClickContext?.Invoke(this) ?? new[]
-				{
-					new SlickStripItem(FileObject != null ? "Select File" : "Open Folder", () =>
-					{
-						if (FileObject != null)
-							Controller.fileOpened(FileObject);
-						else if (FolderObject != null)
-							Controller.folderOpened(FolderObject);
-					}, FileObject != null ? Properties.Resources.Tiny_Play : Properties.Resources.Tiny_Search)
-				})
-				.Concat(new[]
-				{
-					SlickStripItem.Empty,
+				e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, Color.FromArgb(25, d.ActiveColor)), e.ClipRectangle.Pad(1), (int)(6 * UI.FontScale));
+				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, e.ClipRectangle.Pad(1), (int)(3 * UI.FontScale));
+			}
 
-					new SlickStripItem("View in Explorer", () =>
-					{
-						if (FileObject != null)
-							new BackgroundAction(() => System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{FileObject.FullName}\"")).Run();
-						else
-							new BackgroundAction(() => System.Diagnostics.Process.Start(FolderObject.FullName)).Run();
-					}, Properties.Resources.Tiny_Folder),
+			var imgRect = e.ClipRectangle.Pad((int)(3 * UI.FontScale));
+			var textRect = e.ClipRectangle.Pad((int)(3 * UI.FontScale));
 
-					new SlickStripItem("Delete", () =>
+			imgRect.Width = imgRect.Height;
+
+			if (Icon != null)
+			{
+				try
+				{
+					var size = Icon.Size.GetProportionalDownscaledSize(imgRect.Height);
+
+					if (thumbnailLoaded)
 					{
-						if (MessagePrompt.Show($"Are you sure you want to delete '{Text}'", "Confirm Action", PromptButtons.OKCancel, PromptIcons.Warning, FindForm() as SlickForm) == DialogResult.OK)
-						{
-							new BackgroundAction(() => FileOperationAPIWrapper.MoveToRecycleBin(FileObject?.FullName ?? FolderObject.FullName)).Run();
-							Dispose();
-						}
-					}, Properties.Resources.Tiny_Trash)
-				}).ToArray());
+						e.Graphics.DrawBorderedImage(Icon, imgRect.CenterR(size));
+					}
+					else
+					{
+						e.Graphics.DrawImage(Icon, imgRect.CenterR(size));
+					}
+
+					textRect = textRect.Pad(imgRect.Right, 0, 0, 0);
+				}
+				catch { }
+			}
+
+			using (var font = UI.Font(8.25F))
+			{
+				using (var brush = new SolidBrush(e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveForeColor : d.ForeColor))
+				{
+					e.Graphics.DrawString(Text, font, brush, textRect.AlignToFontSize(font, graphics: e.Graphics)
+					, new StringFormat
+					{
+						LineAlignment = StringAlignment.Center,
+						Trimming = StringTrimming.EllipsisCharacter
+					});
+				}
 			}
 		}
 	}

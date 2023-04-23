@@ -10,6 +10,9 @@ namespace SlickControls
 		public string Text { get; set; }
 		[DefaultValue(null)]
 		public Bitmap Icon { get; set; }
+
+		[Category("Appearance"), DisplayName("Image Name"), DefaultValue(null), TypeConverter(typeof(IconManager.IconConverter))]
+		public DynamicIcon IconName { get; set; }
 		public bool Selected { get; set; }
 		public string Group { get; set; }
 		public bool ForceReopen { get; set; }

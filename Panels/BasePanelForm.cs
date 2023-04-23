@@ -13,7 +13,7 @@ namespace SlickControls
 {
 	public partial class BasePanelForm : SlickForm
 	{
-		private readonly PanelItemControl base_P_Tabs;
+		internal readonly PanelItemControl base_P_Tabs;
 		private Image formIcon;
 		private readonly List<PanelContent> panelHistory = new List<PanelContent>();
 		private PanelItem[] sidebarItems = new PanelItem[0];
@@ -89,7 +89,7 @@ namespace SlickControls
 					mouseDetector_MouseMove(null, Cursor.Position);
 				}
 
-				base_P_Tabs.FilterOrSortingChanged();
+				base_P_Tabs.FilterChanged();
 
 				if (IsHandleCreated)
 				{
@@ -457,6 +457,8 @@ namespace SlickControls
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
+
+			base_TLP_TopButtons.Location = new Point(base_P_Content.Width - base_TLP_TopButtons.Width, 0);
 
 			if (!DesignMode)
 			{

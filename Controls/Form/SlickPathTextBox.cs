@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -30,50 +31,50 @@ namespace SlickControls
 		[Category("Behavior")]
 		public bool Folder { get; set; } = true;
 
-		[Category("Behavior")]
-		public string[] FileExtensions { get; set; } = new string[0];
+		[Category("Behavior"), DefaultValue(null)]
+		public string[] FileExtensions { get => ioSelectionDialog.ValidExtensions; set => ioSelectionDialog.ValidExtensions = value; }
 
 		[Category("Behavior"), DefaultValue(null)]
-		public string StartingFolder { get; set; }
+		public string StartingFolder { get => ioSelectionDialog.StartingFolder; set => ioSelectionDialog.StartingFolder = value; }
 
 		private void SlickPathTextBox_IconClicked(object sender, EventArgs e)
 		{
 			if (Folder)
 			{
-				if (!string.IsNullOrWhiteSpace(Text) && Directory.Exists(Text))
-					ioSelectionDialog.LastFolder = Text;
-
 				if (ModifierKeys.HasFlag(Keys.Control))
 				{
 					ioSelectionDialog.ValidExtensions = new[] { ".lnk" };
 
-					if (ioSelectionDialog.PromptFile(FindForm(), StartingFolder) == DialogResult.OK)
+					if (ioSelectionDialog.PromptFile(FindForm()) == DialogResult.OK)
 						Text = Directory.GetParent(ioSelectionDialog.SelectedPath.GetShortcutPath()).FullName;
 				}
-				else if (ioSelectionDialog.PromptFolder(FindForm(), StartingFolder) == DialogResult.OK)
+				else if (ioSelectionDialog.PromptFolder(FindForm()) == DialogResult.OK)
 				{
 					Text = ioSelectionDialog.SelectedPath;
 				}
 			}
 			else
 			{
-				if (!string.IsNullOrWhiteSpace(Text) && Directory.Exists(Text))
-					ioSelectionDialog.LastFolder = Text;
-				else if (!string.IsNullOrWhiteSpace(Text) && File.Exists(Text) && Directory.GetParent(Text).Exists)
-					ioSelectionDialog.LastFolder = Directory.GetParent(Text).FullName;
-
 				ioSelectionDialog.ValidExtensions = FileExtensions;
 
-				if (ioSelectionDialog.PromptFile(FindForm(), StartingFolder) == DialogResult.OK)
+				if (ioSelectionDialog.PromptFile(FindForm()) == DialogResult.OK)
 					Text = ioSelectionDialog.SelectedPath;
 			}
 		}
 
 		protected override void OnCreateControl()
 		{
-			Image = Properties.Resources.Tiny_Search;
-
 			base.OnCreateControl();
+
+			if (Live)
+			{
+				ImageName = "I_FolderSearch";
+
+				using (var img = Image)
+				{
+					Padding = new Padding(Padding.Left, Padding.Top, img != null ? (img.Width + 8) : 4, 4);
+				}
+			}
 		}
 
 		public override bool ValidInput

@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -17,7 +16,7 @@ namespace SlickControls
 
 		public static string FontFamily => _instance.fontFamily ?? /*(LocaleHelper.CurrentCulture.TwoLetterISOLanguageName == "en" ? "Nirmala UI" :*/ "Segoe UI"/*)*/;
 		public static double FontScale => _instance.fontScale * WindowsScale;
-		public static double UIScale => Math.Round(FontScale.If(x => x > 1, x => x * .9 + 0.1, x => x * 1.1 - 0.1), 2);
+		public static double UIScale => Math.Round(FontScale.If(x => x > 1, x => (x * .9) + 0.1, x => (x * 1.1) - 0.1), 2);
 		public static double WindowsScale { get; }
 
 		public string fontFamily { get; set; }
@@ -31,57 +30,88 @@ namespace SlickControls
 
 		#region Factoring
 
-		public static Font Font(float size, FontStyle style = FontStyle.Regular) => new Font(
+		public static Font Font(float size, FontStyle style = FontStyle.Regular)
+		{
+			return new Font(
 			(style.HasFlag(FontStyle.Italic) && FontFamily == "Nirmala UI") ? "Century Gothic" : FontFamily,
 			(float)(_instance.fontScale * size).RoundToMultipleOf(0.75F),
 			style);
+		}
 
-		public static Font Font(float size, Graphics g, FontStyle style = FontStyle.Regular) => new Font(
+		public static Font Font(float size, Graphics g, FontStyle style = FontStyle.Regular)
+		{
+			return new Font(
 			(style.HasFlag(FontStyle.Italic) && FontFamily == "Nirmala UI") ? "Century Gothic" : FontFamily,
 			(float)(_instance.fontScale * size).RoundToMultipleOf(0.75F),
 			style);
+		}
 
-		public static Font Font(string fontFamily, float size, FontStyle style = FontStyle.Regular) => new Font(
+		public static Font Font(string fontFamily, float size, FontStyle style = FontStyle.Regular)
+		{
+			return new Font(
 			fontFamily,
 			(float)(_instance.fontScale * size).RoundToMultipleOf(0.75F),
 			style);
+		}
 
-		public static Font Font(string fontFamily, float size, Graphics g, FontStyle style = FontStyle.Regular) => new Font(
+		public static Font Font(string fontFamily, float size, Graphics g, FontStyle style = FontStyle.Regular)
+		{
+			return new Font(
 			fontFamily,
 			(float)(_instance.fontScale * size).RoundToMultipleOf(0.75F),
 			style);
+		}
 
-		public static Size Scale(Size size, double scale) => new Size(
+		public static Size Scale(Size size, double scale)
+		{
+			return new Size(
 			(int)(size.Width * scale),
 			(int)(size.Height * scale));
+		}
 
-		public static Rectangle Scale(Rectangle rect, double scale) => new Rectangle(
+		public static Rectangle Scale(Rectangle rect, double scale)
+		{
+			return new Rectangle(
 			rect.X - (int)(((rect.Width * scale) - rect.Width) * 0.5),
 			rect.Y - (int)(((rect.Height * scale) - rect.Height) * 0.5),
 			(int)(rect.Width * scale),
 			(int)(rect.Height * scale));
+		}
 
-		public static SizeF Scale(SizeF size, double scale) => new SizeF(
+		public static SizeF Scale(SizeF size, double scale)
+		{
+			return new SizeF(
 			(float)(size.Width * scale),
 			(float)(size.Height * scale));
+		}
 
-		public static RectangleF Scale(RectangleF rect, double scale) => new RectangleF(
+		public static RectangleF Scale(RectangleF rect, double scale)
+		{
+			return new RectangleF(
 			rect.X - (float)(((rect.Width * scale) - rect.Width) * 0.5),
 			rect.Y - (float)(((rect.Height * scale) - rect.Height) * 0.5),
 			(float)(rect.Width * scale),
 			(float)(rect.Height * scale));
+		}
 
-		public static Padding Scale(Padding padding, double scale) => new Padding(
+		public static Padding Scale(Padding padding, double scale)
+		{
+			return new Padding(
 			(int)(padding.Left * scale),
 			(int)(padding.Top * scale),
 			(int)(padding.Right * scale),
 			(int)(padding.Bottom * scale));
+		}
 
 		#endregion Factoring
 
 		#region Windows
 
-		internal static void OnUiChanged() => UIChanged?.Invoke();
+		internal static void OnUiChanged()
+		{
+			UIChanged?.Invoke();
+		}
+
 		[DllImport("User32.dll")]
 		private static extern IntPtr GetDC(IntPtr hWnd);
 
@@ -117,7 +147,9 @@ namespace SlickControls
 			var key = new StringCache(text, font.GetHashCode(), width);
 
 			if (_cache.ContainsKey(key))
+			{
 				return _cache[key];
+			}
 
 			return _cache[key] = graphics.MeasureString(
 				text,
@@ -130,20 +162,40 @@ namespace SlickControls
 			var key = new StringCache(text, font.GetHashCode(), width);
 
 			if (_cache.ContainsKey(key))
+			{
 				return _cache[key];
+			}
 
 			using (var graphics = Graphics.FromHwnd(IntPtr.Zero))
+			{
 				return _cache[key] = graphics.MeasureString(
 					text,
 					new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit),
 					width);
+			}
+		}
+
+		public static Rectangle AlignToFontSize(this Rectangle rectangle, Font font, ContentAlignment contentAlignment = ContentAlignment.MiddleCenter, Graphics graphics = null)
+		{
+			var newSize = new Size(rectangle.Width, 0);
+
+			if (graphics == null)
+			{
+				newSize.Height = (int)Measure(" ", font).Height.ClosestMultipleTo(rectangle.Height);
+			}
+			else
+			{
+				newSize.Height = (int)Measure(graphics, " ", font).Height.ClosestMultipleTo(rectangle.Height);
+			}
+
+			return rectangle.Align(newSize, contentAlignment);
 		}
 
 		private struct StringCache
 		{
-            public string Text { get; set; }
-            public int Font { get; set; }
-            public int Width { get; set; }
+			public string Text { get; set; }
+			public int Font { get; set; }
+			public int Width { get; set; }
 
 			public StringCache(string text, int font, int width)
 			{

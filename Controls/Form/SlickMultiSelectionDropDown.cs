@@ -111,7 +111,7 @@ namespace SlickControls
 					, ClearRectangle
 					, string.Empty
 					, Font
-					, Properties.Resources.Tiny_Cancel
+					, Properties.Resources.I_Cancel_16
 					, null
 					, ClearRectangle.Contains(PointToClient(MousePosition)) ? (HoverState & ~HoverState.Focused) : HoverState.Normal);
 
@@ -130,7 +130,7 @@ namespace SlickControls
 
 				PaintSelectedItems(e, ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 1.2), 0, 0), fore, listDropDown != null ? HoverState.Pressed : HoverState, _selectedItems);
 
-				using (var chevron = (UI.FontScale >= 1.25 ? Properties.Resources.I_DropChevron : Properties.Resources.I_DropChevron_16).Color(fore.MergeColor(back, 90)))
+				using (var chevron = (UI.FontScale >= 1.25 ? Properties.Resources.I_DropChevron_24 : Properties.Resources.I_DropChevron_16).Color(fore.MergeColor(back, 90)))
 				{
 					e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
 				}

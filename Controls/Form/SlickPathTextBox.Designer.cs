@@ -35,13 +35,10 @@
 			// 
 			// ioSelectionDialog
 			// 
-			this.ioSelectionDialog.LastFolder = null;
-			this.ioSelectionDialog.ValidExtensions = null;
 			// 
 			// SlickPathTextBox
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.Image = global::SlickControls.Properties.Resources.Tiny_Search;
 			this.LabelText = "Folder";
 			this.MinimumSize = new System.Drawing.Size(50, 35);
 			this.Name = "SlickPathTextBox";

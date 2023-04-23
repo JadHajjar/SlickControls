@@ -30,20 +30,16 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SlickLibraryViewer));
 			this.PB_Bar = new SlickControls.SlickPictureBox();
-			this.FLP_Content = new System.Windows.Forms.FlowLayoutPanel();
 			this.P_Spacer = new System.Windows.Forms.Panel();
 			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
 			this.PB_Loader = new SlickControls.SlickPictureBox();
 			this.P_Bar = new System.Windows.Forms.Panel();
 			this.TB_Path = new SlickControls.SlickPathTextBox();
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.L_NoResults = new System.Windows.Forms.Label();
-			this.slickScroll1 = new SlickControls.SlickScroll();
+			this.ioList = new SlickControls.Controls.Other.IoListControl();
 			((System.ComponentModel.ISupportInitialize)(this.PB_Bar)).BeginInit();
 			this.tableLayoutPanel1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.PB_Loader)).BeginInit();
 			this.P_Bar.SuspendLayout();
-			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// PB_Bar
@@ -52,21 +48,11 @@
 			this.PB_Bar.Location = new System.Drawing.Point(0, 0);
 			this.PB_Bar.Margin = new System.Windows.Forms.Padding(0);
 			this.PB_Bar.Name = "PB_Bar";
-			this.PB_Bar.Size = new System.Drawing.Size(1, 100);
+			this.PB_Bar.Size = new System.Drawing.Size(591, 100);
 			this.PB_Bar.TabIndex = 0;
 			this.PB_Bar.TabStop = false;
 			this.PB_Bar.Paint += new System.Windows.Forms.PaintEventHandler(this.P_Bar_Paint);
 			this.PB_Bar.MouseClick += new System.Windows.Forms.MouseEventHandler(this.P_Bar_MouseClick);
-			// 
-			// FLP_Content
-			// 
-			this.FLP_Content.AutoSize = true;
-			this.FLP_Content.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.FLP_Content.Location = new System.Drawing.Point(0, 0);
-			this.FLP_Content.Name = "FLP_Content";
-			this.FLP_Content.Size = new System.Drawing.Size(0, 0);
-			this.FLP_Content.TabIndex = 2;
-			this.FLP_Content.Click += new System.EventHandler(this.Generic_Click);
 			// 
 			// P_Spacer
 			// 
@@ -75,7 +61,7 @@
 			this.P_Spacer.Location = new System.Drawing.Point(70, 105);
 			this.P_Spacer.Margin = new System.Windows.Forms.Padding(70, 0, 100, 0);
 			this.P_Spacer.Name = "P_Spacer";
-			this.P_Spacer.Size = new System.Drawing.Size(18, 1);
+			this.P_Spacer.Size = new System.Drawing.Size(733, 1);
 			this.P_Spacer.TabIndex = 3;
 			this.P_Spacer.Click += new System.EventHandler(this.Generic_Click);
 			// 
@@ -96,7 +82,7 @@
 			this.tableLayoutPanel1.RowCount = 2;
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 106);
+			this.tableLayoutPanel1.Size = new System.Drawing.Size(915, 106);
 			this.tableLayoutPanel1.TabIndex = 4;
 			this.tableLayoutPanel1.Click += new System.EventHandler(this.Generic_Click);
 			// 
@@ -104,7 +90,7 @@
 			// 
 			this.PB_Loader.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.PB_Loader.Loading = true;
-			this.PB_Loader.Location = new System.Drawing.Point(56, 36);
+			this.PB_Loader.Location = new System.Drawing.Point(771, 36);
 			this.PB_Loader.Margin = new System.Windows.Forms.Padding(0, 0, 100, 0);
 			this.PB_Loader.Name = "PB_Loader";
 			this.PB_Loader.Size = new System.Drawing.Size(32, 32);
@@ -121,7 +107,7 @@
 			this.P_Bar.Location = new System.Drawing.Point(75, 5);
 			this.P_Bar.Margin = new System.Windows.Forms.Padding(75, 5, 105, 0);
 			this.P_Bar.Name = "P_Bar";
-			this.P_Bar.Size = new System.Drawing.Size(1, 100);
+			this.P_Bar.Size = new System.Drawing.Size(591, 100);
 			this.P_Bar.TabIndex = 9;
 			this.P_Bar.Click += new System.EventHandler(this.Generic_Click);
 			// 
@@ -142,67 +128,39 @@
 			this.TB_Path.SelectionLength = 0;
 			this.TB_Path.SelectionStart = 0;
 			this.TB_Path.ShowLabel = false;
-			this.TB_Path.Size = new System.Drawing.Size(200, 35);
+			this.TB_Path.Size = new System.Drawing.Size(790, 35);
 			this.TB_Path.TabIndex = 1;
 			this.TB_Path.Visible = false;
 			this.TB_Path.TextChanged += new System.EventHandler(this.TB_Path_TextChanged);
 			this.TB_Path.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Path_KeyPress);
 			this.TB_Path.Leave += new System.EventHandler(this.TB_Path_Leave);
 			// 
-			// panel1
+			// ioList
 			// 
-			this.panel1.Controls.Add(this.L_NoResults);
-			this.panel1.Controls.Add(this.FLP_Content);
-			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel1.Location = new System.Drawing.Point(0, 106);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(200, 0);
-			this.panel1.TabIndex = 9;
-			this.panel1.Click += new System.EventHandler(this.Generic_Click);
-			// 
-			// L_NoResults
-			// 
-			this.L_NoResults.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.L_NoResults.AutoSize = true;
-			this.L_NoResults.Font = new System.Drawing.Font("Nirmala UI", 9.75F);
-			this.L_NoResults.Location = new System.Drawing.Point(65, 50);
-			this.L_NoResults.Name = "L_NoResults";
-			this.L_NoResults.Size = new System.Drawing.Size(71, 17);
-			this.L_NoResults.TabIndex = 9;
-			this.L_NoResults.Text = "No Results";
-			this.L_NoResults.Visible = false;
-			this.L_NoResults.Click += new System.EventHandler(this.Generic_Click);
-			// 
-			// slickScroll1
-			// 
-			this.slickScroll1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.slickScroll1.LinkedControl = this.FLP_Content;
-			this.slickScroll1.Location = new System.Drawing.Point(193, 106);
-			this.slickScroll1.Name = "slickScroll1";
-			this.slickScroll1.Size = new System.Drawing.Size(7, 0);
-			this.slickScroll1.Style = SlickControls.StyleType.Vertical;
-			this.slickScroll1.TabIndex = 10;
-			this.slickScroll1.TabStop = false;
-			this.slickScroll1.Text = "slickScroll1";
+			this.ioList.AutoInvalidate = false;
+			this.ioList.AutoScroll = true;
+			this.ioList.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.ioList.GridItemSize = new System.Drawing.Size(85, 85);
+			this.ioList.GridView = true;
+			this.ioList.ItemHeight = 28;
+			this.ioList.Location = new System.Drawing.Point(0, 106);
+			this.ioList.Name = "ioList";
+			this.ioList.Size = new System.Drawing.Size(915, 700);
+			this.ioList.TabIndex = 10;
 			// 
 			// SlickLibraryViewer
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.AutoSize = true;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.Controls.Add(this.slickScroll1);
-			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.ioList);
 			this.Controls.Add(this.tableLayoutPanel1);
 			this.MinimumSize = new System.Drawing.Size(200, 50);
 			this.Name = "SlickLibraryViewer";
-			this.Size = new System.Drawing.Size(200, 106);
-			this.Resize += new System.EventHandler(this.FLP_Content_Resize);
+			this.Size = new System.Drawing.Size(915, 806);
 			((System.ComponentModel.ISupportInitialize)(this.PB_Bar)).EndInit();
 			this.tableLayoutPanel1.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.PB_Loader)).EndInit();
 			this.P_Bar.ResumeLayout(false);
-			this.panel1.ResumeLayout(false);
-			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -211,14 +169,11 @@
 		#endregion
 
 		private SlickControls.SlickPictureBox PB_Bar;
-		private System.Windows.Forms.FlowLayoutPanel FLP_Content;
 		private System.Windows.Forms.Panel P_Spacer;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private SlickControls.SlickPictureBox PB_Loader;
 		private System.Windows.Forms.Panel P_Bar;
 		private SlickControls.SlickPathTextBox TB_Path;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Label L_NoResults;
-		private SlickControls.SlickScroll slickScroll1;
+		internal Controls.Other.IoListControl ioList;
 	}
 }

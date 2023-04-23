@@ -210,9 +210,9 @@ namespace SlickControls
 			}
 
 			if (new Rectangle(PictureBox.Width - 20, 4, 16, 16).Contains(PointToClient(MousePosition)))
-				e.Graphics.DrawImage(Properties.Resources.Tiny_Close.Color(FormDesign.Design.RedColor), PictureBox.Width - 20, 4, 16, 16);
+				e.Graphics.DrawImage(Properties.Resources.I_Close_16.Color(FormDesign.Design.RedColor), PictureBox.Width - 20, 4, 16, 16);
 			else
-				e.Graphics.DrawImage(Properties.Resources.Tiny_Close.Color(FormDesign.Design.IconColor), PictureBox.Width - 20, 4, 16, 16);
+				e.Graphics.DrawImage(Properties.Resources.I_Close_16.Color(FormDesign.Design.IconColor), PictureBox.Width - 20, 4, 16, 16);
 		}
 
 		private void GetColorIcons(out Bitmap icon, out Color color)

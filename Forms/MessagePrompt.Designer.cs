@@ -125,7 +125,7 @@ namespace SlickControls
 			this.B_Cancel.AutoSize = true;
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Cancel.Image = global::SlickControls.Properties.Resources.Tiny_Cancel;
+			this.B_Cancel.Image = global::SlickControls.Properties.Resources.I_Cancel_16;
 			this.B_Cancel.Location = new System.Drawing.Point(229, 7);
 			this.B_Cancel.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Cancel.Name = "B_Cancel";
@@ -197,7 +197,7 @@ namespace SlickControls
 			this.B_OK.AutoSize = true;
 			this.B_OK.ColorShade = null;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_OK.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
+			this.B_OK.Image = global::SlickControls.Properties.Resources.I_Ok_16;
 			this.B_OK.Location = new System.Drawing.Point(129, 49);
 			this.B_OK.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_OK.Name = "B_OK";
@@ -215,7 +215,7 @@ namespace SlickControls
 			this.B_No.AutoSize = true;
 			this.B_No.ColorShade = null;
 			this.B_No.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_No.Image = global::SlickControls.Properties.Resources.Tiny_Cancel;
+			this.B_No.Image = global::SlickControls.Properties.Resources.I_Cancel_16;
 			this.B_No.Location = new System.Drawing.Point(29, 49);
 			this.B_No.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_No.Name = "B_No";
@@ -233,7 +233,7 @@ namespace SlickControls
 			this.B_Yes.AutoSize = true;
 			this.B_Yes.ColorShade = null;
 			this.B_Yes.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Yes.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
+			this.B_Yes.Image = global::SlickControls.Properties.Resources.I_Ok_16;
 			this.B_Yes.Location = new System.Drawing.Point(229, 91);
 			this.B_Yes.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Yes.Name = "B_Yes";

@@ -122,7 +122,8 @@ namespace SlickControls
 			if (!HideText && !string.IsNullOrWhiteSpace(Text))
 			{
 				var stl = new StringFormat { LineAlignment = StringAlignment.Center };
-				
+
+				//TextRenderer.DrawText(e.Graphics, LocaleHelper.GetGlobalText(Text), Font, textRect, fore, TextFormatFlags.VerticalCenter);
 				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, Gradient(fore), textRect, stl);
 			}
 		}

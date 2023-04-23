@@ -9,7 +9,7 @@ namespace SlickControls
 {
 	public partial class SlickTip : Control
 	{
-		private readonly Timer _timer;
+		//private readonly Timer _timer;
 		public Control Control { get; }
 		public Form Form { get; }
 		private TipInfo Info { get; set; }
@@ -24,13 +24,13 @@ namespace SlickControls
 			control.MouseLeave += Control_MouseLeave;
 			control.Disposed += Control_MouseLeave;
 
-			_timer = new Timer
-			{
-				Interval = tipInfo.Timeout
-			};
+			//_timer = new Timer
+			//{
+			//	Interval = tipInfo.Timeout
+			//};
 
-			_timer.Tick += _timer_Tick;
-			_timer.Start();
+			//_timer.Tick += _timer_Tick;
+			//_timer.Start();
 
 			SetData(tipInfo);
 		}
@@ -45,8 +45,8 @@ namespace SlickControls
 			try
 			{
 				Info = tipInfo;
-				_timer.Stop();
-				_timer.Start();
+				//_timer.Stop();
+				//_timer.Start();
 
 				var ctrlPos = Form.PointToClient(Control.PointToScreen(Point.Empty));
 				var bnds = SizeF.Empty;
@@ -63,7 +63,7 @@ namespace SlickControls
 				}
 
 				var size = new Size(8 + (int)Math.Ceiling(bnds.Width), 6 + (int)Math.Ceiling(bnds.Height));
-				var location = new Point(ctrlPos.X + Info.Offset.X + padding, ctrlPos.Y + Info.Offset.Y - size.Height - padding);
+				var location = new Point(ctrlPos.X + Info.Offset.X + padding, ctrlPos.Y + Info.Offset.Y + (tipInfo.AlignToBottom ? padding : -size.Height-padding));
 
 				if (location.X < 0)
 				{
@@ -86,6 +86,7 @@ namespace SlickControls
 				}
 
 				Bounds = new Rectangle(location, size);
+				Invalidate();
 			}
 			catch { }
 		}
@@ -123,7 +124,7 @@ namespace SlickControls
 		{
 			if (disposing)
 			{
-				_timer?.Dispose();
+				//_timer?.Dispose();
 
 				if (Control != null)
 				{
@@ -159,12 +160,12 @@ namespace SlickControls
 		private static readonly Dictionary<Control, TipInfo> controlsDictionary = new Dictionary<Control, TipInfo>();
 		private static KeyValuePair<Control, SlickTip>? currentControl;
 
-		public static void SetTo(Control control, string text, bool recursive = true, int timeout = 0, Point offset = default)
+		public static void SetTo(Control control, string text, bool recursive = true, Point offset = default, bool alignToBottom = false)
 		{
-			SetTo(control, null, text, recursive, timeout, offset);
+			SetTo(control, null, text, recursive, offset, alignToBottom);
 		}
 
-		public static void SetTo(Control control, string title, string text, bool recursive = true, int timeout = 0, Point offset = default)
+		public static void SetTo(Control control, string title, string text, bool recursive = true, Point offset = default, bool alignToBottom = false)
 		{
 			if (control == null)
 			{
@@ -183,19 +184,20 @@ namespace SlickControls
 						currentControl.Value.Value.Dismiss();
 					}
 				}
+
 				return;
 			}
 
-			if (timeout == 0)
-			{
-				timeout = 2000 + 325 * text.GetWords().Length + 400 * title.GetWords().Length;
-			}
+			//if (timeout == 0)
+			//{
+			//	timeout = 2000 + 325 * text.GetWords().Length + 400 * title.GetWords().Length;
+			//}
 
 			if (!controlsDictionary.ContainsKey(control))
 			{
 				control.MouseEnter += Control_MouseEnter;
 				control.Disposed += Control_Disposed;
-				controlsDictionary.Add(control, new TipInfo(title, text, timeout, offset));
+				controlsDictionary.Add(control, new TipInfo(title, text, offset, alignToBottom));
 
 				if (mouseIsIn(control, Cursor.Position))
 				{
@@ -204,7 +206,7 @@ namespace SlickControls
 			}
 			else
 			{
-				controlsDictionary[control] = new TipInfo(title, text, timeout, offset);
+				controlsDictionary[control] = new TipInfo(title, text, offset, alignToBottom);
 
 				if (currentControl?.Key == control)
 				{
@@ -224,7 +226,7 @@ namespace SlickControls
 			{
 				foreach (Control ctrl in control.Controls)
 				{
-					SetTo(ctrl, title, text, recursive, timeout, offset);
+					SetTo(ctrl, title, text, recursive, offset);
 				}
 			}
 		}
@@ -297,18 +299,22 @@ namespace SlickControls
 
 		private class TipInfo
 		{
-			public TipInfo(string title, string text, int timeout, Point offset)
+			public TipInfo(string title, string text, Point offset)
 			{
 				Title = title;
 				Text = text;
-				Timeout = timeout;
 				Offset = offset;
+			}
+
+			public TipInfo(string title, string text, Point offset, bool alignToBottom) : this(title, text, offset)
+			{
+				AlignToBottom = alignToBottom;
 			}
 
 			public string Title { get; }
 			public string Text { get; }
-			public int Timeout { get; }
 			public Point Offset { get; }
+			public bool AlignToBottom { get; }
 		}
 	}
 }

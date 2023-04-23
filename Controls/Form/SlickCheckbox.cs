@@ -325,15 +325,11 @@ namespace SlickControls
 			}
 			else if (UseToggleIcon)
 			{
-				image = @checked ? Properties.Resources.Tiny_ToggleOn : Properties.Resources.Tiny_ToggleOff;
-			}
-			else if (UI.FontScale < 1.25F)
-			{
-				image = @checked ? Properties.Resources.Tiny_CheckedFilled : Properties.Resources.Tiny_Unchecked;
+				image = IconManager.GetIcon(@checked ? "I_Toggle_ON" : "I_Toggle_OFF");
 			}
 			else
 			{
-				image = @checked ? Properties.Resources.I_Checked : Properties.Resources.I_Unchecked;
+				image = IconManager.GetIcon(@checked ? "I_Checked_ON" : "I_Checked_OFF");
 			}
 
 			return image;

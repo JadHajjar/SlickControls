@@ -469,7 +469,7 @@
 			this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.B_Save.ColorShade = null;
 			this.B_Save.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Save.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
+			this.B_Save.Image = global::SlickControls.Properties.Resources.I_Ok_16;
 			this.B_Save.Location = new System.Drawing.Point(869, 10);
 			this.B_Save.Margin = new System.Windows.Forms.Padding(0, 10, 30, 0);
 			this.B_Save.Name = "B_Save";

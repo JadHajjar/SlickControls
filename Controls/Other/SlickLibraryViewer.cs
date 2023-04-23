@@ -7,6 +7,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -25,24 +27,30 @@ namespace SlickControls
 		[Category("Behavior")]
 		public event EventHandler LoadEnded;
 
+		[Category("Behavior")]
+		public event EventHandler CurrentPathChanged;
+
 		private string startingFolder;
-		private bool firstLoadFinished;
 		private string hoveredAction;
 		private string currentSearch;
+		private string _currentPath;
 		private readonly WaitIdentifier searchWait = new WaitIdentifier();
 		private readonly TicketBooth ticketBooth = new TicketBooth();
+		internal List<IOSelectionDialog.CustomFile> CustomFiles;
+
+		public event Func<FileInfo, bool> ValidFile;
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public Factory Factory { get; } = new Factory { ProcessingPower = 4 };
+		public List<ExtensionClass.action> Factory { get; } = new List<ExtensionClass.action>();
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public string CurrentPath { get; private set; }
+		public string CurrentPath { get => _currentPath; private set { _currentPath = value; CurrentPathChanged?.Invoke(this, EventArgs.Empty); } }
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public Func<IOControl, SlickStripItem[]> RightClickContext { get; set; }
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public string SelectedPath => FLP_Content.Controls.OfType<IOControl>().FirstOrDefault(x => x.Selected)?.Path;
+		public string SelectedPath => ioList.SelectedItem?.Path;
 
 		[Category("Behavior")]
 		public bool FoldersOnly { get; set; }
@@ -56,17 +64,23 @@ namespace SlickControls
 		[Category("Behavior")]
 		public string StartingFolder { get; set; }
 
+		internal IoSortingOption Sorting { get => ioList.IoSortingOption; set =>ioList.IoSortingOption=value; }
+		internal bool SortDesc { get => ioList.SortDesc; set => ioList.SortDesc = value; }
+
 		public SlickLibraryViewer()
 		{
 			InitializeComponent();
+
+			ioList.CanDrawItem += IoList_CanDrawItem;
+			ioList.Controller = this;
 
 			PB_Bar.MouseMove += (s, e) => PB_Bar.Invalidate();
 		}
 
 		protected override void UIChanged()
 		{
-			L_NoResults.Font = UI.Font(9.75F);
 			P_Bar.Height = UI.Font(9F).Height + 16;
+			P_Spacer.Height = (int)(1.5 * UI.FontScale);
 		}
 
 		protected override void OnCreateControl()
@@ -80,11 +94,17 @@ namespace SlickControls
 			if (!string.IsNullOrWhiteSpace(CurrentPath) && !TB_Path.Visible)
 			{
 				if (CurrentPath.Equals(startingFolder, StringComparison.CurrentCultureIgnoreCase))
+				{
 					setFolder(string.Empty);
+				}
 				else if (Directory.GetParent(CurrentPath) == null)
+				{
 					return false;
+				}
 				else
+				{
 					setFolder(Directory.GetParent(CurrentPath).FullName);
+				}
 
 				return true;
 			}
@@ -92,221 +112,237 @@ namespace SlickControls
 			return false;
 		}
 
-		public void Search(string querry)
+		public void Search(string query)
 		{
-			if (currentSearch == querry) return;
-
-			currentSearch = querry;
-			ticketBooth.GetTicket();
-
-			if (string.IsNullOrWhiteSpace(querry))
+			if (currentSearch == query)
 			{
-				searchWait.Cancel();
-				setFolder(CurrentPath, true);
 				return;
 			}
 
-			StartLoad();
+			currentSearch = query;
 
-			Factory.Clear();
-
-			if (querry.Length > 1)
-			{
-				searchWait.Wait(() =>
-				{
-					handleControls(Enumerable.Where(string.IsNullOrEmpty(CurrentPath) ? TopFolders : new[] { CurrentPath }, folder => Directory.Exists(folder))
-						.SelectMany(searchFolder), ticketBooth.GetTicket());
-
-					EndLoad();
-				}, 350);
-			}
+			ioList.FilterChanged();
 		}
 
-		private IEnumerable<object> searchFolder(string folder)
+		private void IoList_CanDrawItem(object sender, CanDrawItemEventArgs<IOControl> e)
 		{
-			var f = new DirectoryInfo(folder);
-			var items = new List<object>();
-			var error = false;
+			if (string.IsNullOrWhiteSpace(currentSearch))
+				return;
 
-			try
-			{
-				foreach (var file in f.EnumerateFiles(FoldersOnly ? "*.lnk" : "*", SearchOption.TopDirectoryOnly))
-				{
-					if (isValid(file) && currentSearch.SearchCheck(file.Name))
-						items.Add(file);
-				}
-
-				foreach (var item in f.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
-				{
-					if (currentSearch.SearchCheck(item.Name))
-						items.Add(item);
-				}
-			}
-			catch { error = true; }
-
-			foreach (var item in items)
-				yield return item;
-
-			if (!error)
-				foreach (var file in f.EnumerateDirectories("*", SearchOption.TopDirectoryOnly))
-					foreach (var item in searchFolder(file.FullName))
-						yield return item;
+			if (currentSearch.Contains("*"))
+				e.DoNotDraw = !Regex.IsMatch(e.Item.Name, Regex.Escape(currentSearch).Replace("\\*", "."), RegexOptions.IgnoreCase);
+			else
+				e.DoNotDraw = !currentSearch.SearchCheck(e.Item.Name);
 		}
 
-		private void setFolder(string folder, bool forced = false, bool fromTextBox = false) => new BackgroundAction("Loading library folder", () =>
+		internal void setFolder(string folder, bool forced = false, bool fromTextBox = false)
 		{
-			if ((CurrentPath != folder && (Directory.Exists(folder) || string.IsNullOrWhiteSpace(folder))) || forced)
+			new BackgroundAction("Loading library folder", () =>
 			{
-				currentSearch = null;
-				Factory.Clear();
-				ticketBooth.GetTicket();
-
-				if (string.IsNullOrWhiteSpace(CurrentPath) || string.IsNullOrWhiteSpace(folder) || !folder.Contains(startingFolder))
-					startingFolder = folder;
-				CurrentPath = folder;
-
-				if (TB_Path.Visible && !fromTextBox)
-					this.TryInvoke(() => { TB_Path.Text = CurrentPath; TB_Path.SelectionStart = TB_Path.Text.Length; });
-
-				StartLoad();
-				var ticket = ticketBooth.GetTicket();
-
-				try
+				if ((CurrentPath != folder && (folder == IOSelectionDialog.CustomDirectory || Directory.Exists(folder) || string.IsNullOrWhiteSpace(folder))) || forced)
 				{
-					var content = string.IsNullOrWhiteSpace(folder)
-						? TopFolders.Where(x => Directory.Exists(x)).Select(x => (object)new DirectoryInfo(x))
-						: new DirectoryInfo(folder).EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
-							.Select(f =>
-							{
-								if (FoldersOnly)
-									return f;
+					currentSearch = null;
+					Factory.Clear();
+					ticketBooth.GetTicket();
 
-								try
+					if (string.IsNullOrWhiteSpace(CurrentPath) || string.IsNullOrWhiteSpace(folder) || !folder.Contains(startingFolder))
+					{
+						startingFolder = folder;
+					}
+
+					CurrentPath = folder;
+
+					if (TB_Path.Visible && !fromTextBox)
+					{
+						this.TryInvoke(() => { TB_Path.Text = CurrentPath; TB_Path.SelectionStart = TB_Path.Text.Length; });
+					}
+
+					StartLoad();
+					var ticket = ticketBooth.GetTicket();
+
+					try
+					{
+						IEnumerable<object> content;
+
+						if (folder == IOSelectionDialog.CustomDirectory)
+						{
+							handleControls(CustomFiles, ticket);
+
+							return;
+						}
+						else if (!Directory.Exists(folder))
+						{
+							content = TopFolders.Where(x => Directory.Exists(x)).Select(x => (object)new DirectoryInfo(x));
+						}
+						else
+						{
+							content = new DirectoryInfo(folder).EnumerateDirectories("*", SearchOption.TopDirectoryOnly)
+								.Select(f =>
 								{
-									if (f.EnumerateDirectories("*", SearchOption.TopDirectoryOnly).Any()) return f;
+									if (FoldersOnly)
+									{
+										return f;
+									}
 
-									var files = f.GetFiles("*.*", SearchOption.TopDirectoryOnly).Where(isValid).ToArray();
+									try
+									{
+										if (f.EnumerateDirectories("*", SearchOption.TopDirectoryOnly).Any())
+										{
+											return f;
+										}
 
-									return files.Length == 1 ? files[0] : f as object;
-								}
-								catch { return null; }
-							})
-						.Concat(new DirectoryInfo(folder).EnumerateFiles(FoldersOnly ? "*.lnk" : "*.*", SearchOption.TopDirectoryOnly).Where(isValid))
-						.Where(x => x != null);
+										var files = f.EnumerateFiles("*.*", SearchOption.TopDirectoryOnly).Where(isValid).ToList();
 
-					handleControls(content, ticket);
+										return files.Count == 1 ? files[0] : f as object;
+									}
+									catch { return null; }
+								})
+							.Concat(new DirectoryInfo(folder).EnumerateFiles(FoldersOnly ? "*.lnk" : "*.*", SearchOption.TopDirectoryOnly).Where(isValid))
+							.Where(x => x != null);
+						}
+
+						handleControls(content, ticket);
+					}
+					catch { }
 				}
-				catch { }
 
-				firstLoadFinished = true;
-			}
-
-			this.TryInvoke(() => SearchCleared?.Invoke(this, EventArgs.Empty));
-		}).Run();
+				this.TryInvoke(() => SearchCleared?.Invoke(this, EventArgs.Empty));
+			}).Run();
+		}
 
 		private void handleControls(IEnumerable<object> content, TicketBooth.Ticket ticket)
 		{
-			var toBeAdded = new List<object>();
-			var waitId = new WaitIdentifier();
+			var toBeAdded = new List<IOControl>();
 
 			try
 			{
 				foreach (var item in content)
 				{
-					if (!ticketBooth.IsLast(ticket)) return;
+					if (!ticketBooth.IsLast(ticket))
+					{
+						return;
+					}
 
-					if (item != null)
-						toBeAdded.Add(item);
+					var c = new IOControl(item, this, out var valid);
 
-					waitId.Wait(handle, 100);
+					if (!valid)
+					{
+						continue;
+					}
+
+					toBeAdded.Add(c);
+
+					if (toBeAdded.Count == 200)
+					{
+						ioList.AddRange(toBeAdded);
+						toBeAdded.Clear();
+					}
 				}
 
-				waitId.Cancel();
-				handle();
+				ioList.AddRange(toBeAdded);
 			}
 			catch { }
 
 			EndLoad();
-
-			void handle()
-			{
-				if (!ticketBooth.IsLast(ticket)) return;
-				var objs = toBeAdded.ToArray();
-				toBeAdded.Clear();
-
-				this.TryInvoke(() =>
-				{
-					if (firstLoadFinished)
-						FLP_Content.SuspendDrawing();
-
-					var cntrls = new IOControl[objs.Length];
-
-					for (int i = 0; i < objs.Length; i++)
-					{
-						try
-						{
-							if (!ticketBooth.IsLast(ticket)) return;
-							var c = new IOControl(objs[i], this);
-
-							if ((c.FileObject != null || c.FolderObject != null) && !c.IsDisposed && ticketBooth.IsLast(ticket))
-								FLP_Content.Controls.Add(c);
-
-							if (i % 10 == 0)
-								Application.DoEvents();
-						}
-						catch { }
-					}
-
-					FLP_Content.OrderBy(x => (x as IOControl).FolderObject == null ? "1" : "0" + x.Text, false);
-
-					if (firstLoadFinished)
-						FLP_Content.ResumeDrawing();
-				});
-			}
 		}
 
-		private void EndLoad() => this.TryInvoke(() =>
+		private void handleControls(List<IOSelectionDialog.CustomFile> content, TicketBooth.Ticket ticket)
 		{
-			PB_Loader.Visible = false;
-			L_NoResults.Visible = FLP_Content.Controls.Count == 0;
+			var toBeAdded = new List<IOControl>();
 
-			LoadEnded?.Invoke(this, EventArgs.Empty);
-		});
+			try
+			{
+				foreach (var item in content)
+				{
+					if (!ticketBooth.IsLast(ticket))
+					{
+						return;
+					}
 
-		private void StartLoad() => this.TryInvoke(() =>
+					var c = new IOControl(new FileInfo(item.Path), this, out var valid, item.Icon);
+
+					c.Text = item.Name;
+
+					if (!valid)
+					{
+						continue;
+					}
+
+					toBeAdded.Add(c);
+
+					if (toBeAdded.Count == 200)
+					{
+						ioList.AddRange(toBeAdded);
+						toBeAdded.Clear();
+					}
+				}
+
+				ioList.AddRange(toBeAdded);
+			}
+			catch { }
+
+			EndLoad();
+		}
+
+		private void EndLoad()
 		{
-			PB_Bar.Invalidate();
+			this.TryInvoke(() =>
+			{
+				PB_Loader.Visible = false;
 
-			if (firstLoadFinished)
-				FLP_Content.SuspendDrawing();
+				LoadEnded?.Invoke(this, EventArgs.Empty);
+			});
 
-			FLP_Content.Controls.Clear(true);
+			Parallelism.ForEach(Factory);
 
-			if (firstLoadFinished)
-				FLP_Content.ResumeDrawing();
+			ioList.Invalidate();
+		}
 
-			PB_Loader.Visible = true;
-			L_NoResults.Visible = false;
+		private void StartLoad()
+		{
+			this.TryInvoke(() =>
+			{
+				PB_Bar.Invalidate();
 
-			LoadStarted?.Invoke(this, EventArgs.Empty);
-		});
+				ioList.Clear();
 
-		public void folderOpened(DirectoryInfo directory) => setFolder(directory?.FullName);
+				PB_Loader.Visible = true;
 
-		public void fileOpened(FileInfo file) => FileOpened?.Invoke(this, new FileOpenedEventArgs(file));
+				LoadStarted?.Invoke(this, EventArgs.Empty);
+			});
+		}
 
-		private bool isValid(FileInfo file) => FoldersOnly ? file.FullName.IsFolder() : (Extensions?.Length ?? 0) == 0 || Extensions.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase));
+		public void folderOpened(DirectoryInfo directory)
+		{
+			setFolder(directory?.FullName);
+		}
+
+		public void fileOpened(FileInfo file)
+		{
+			FileOpened?.Invoke(this, new FileOpenedEventArgs(file));
+		}
+
+		private bool isValid(FileInfo file)
+		{
+			if (FoldersOnly)
+				return file.FullName.IsFolder();
+
+
+			if ((Extensions?.Length ?? 0) != 0 && !Extensions.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
+				return false;
+
+			return ValidFile?.Invoke(file) ?? true;
+		}
 
 		protected override void DesignChanged(FormDesign design)
 		{
 			P_Spacer.BackColor = design.AccentColor;
 			PB_Bar.BackColor = design.AccentBackColor;
-			L_NoResults.ForeColor = design.LabelColor;
 		}
 
 		private void P_Bar_Paint(object sender, PaintEventArgs e)
 		{
-			e.Graphics.Clear(FormDesign.Design.BackColor);
+			e.Graphics.Clear(BackColor);
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			hoveredAction = null;
 
@@ -330,23 +366,31 @@ namespace SlickControls
 					var items = CurrentPath.Remove(startingFolder).Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
 
 					if (items.Length > 4)
+					{
 						items = items.Take(1).Concat(new[] { string.Empty }).Concat(items.TakeLast(3)).ToArray();
+					}
 
 					foreach (var folder in items)
 					{
 						currentFolder = Path.Combine(currentFolder, folder);
 						drawArrow();
 						if (!string.IsNullOrWhiteSpace(folder))
+						{
 							drawItem(folder.FormatWords(), currentFolder);
+						}
 					}
 				}
 
 				void drawItem(string text, string action)
 				{
 					if (text != null)
+					{
 						bnds = e.Graphics.Measure(text, font);
+					}
 					else
+					{
 						bnds = new SizeF(font.GetHeight(), font.GetHeight());
+					}
 
 					var rect = new Rectangle(w - 3, (int)(PB_Bar.Height - bnds.Height - 6) / 2, (int)bnds.Width + 6, (int)bnds.Height + 6);
 
@@ -358,9 +402,13 @@ namespace SlickControls
 					}
 
 					if (text != null)
+					{
 						e.Graphics.DrawString(text, font, rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? Gradient(FormDesign.Design.ActiveForeColor) : brush, w, (int)(PB_Bar.Height - bnds.Height) / 2);
+					}
 					else
+					{
 						e.Graphics.DrawImage(Properties.Resources.Tiny_Home.Color(rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor), new Rectangle(rect.Center(new Size(16, 16)), new Size(16, 16)));
+					}
 
 					w += (int)bnds.Width + 5;
 				}
@@ -373,7 +421,9 @@ namespace SlickControls
 			}
 
 			if (hoveredAction == null)
+			{
 				Cursor = PB_Bar.HoverState.HasFlag(HoverState.Hovered) ? Cursors.IBeam : Cursors.Default;
+			}
 		}
 
 		private void P_Bar_MouseClick(object sender, MouseEventArgs e)
@@ -381,7 +431,9 @@ namespace SlickControls
 			if (e.Button == MouseButtons.Left)
 			{
 				if (hoveredAction != null)
+				{
 					setFolder(hoveredAction);
+				}
 				else
 				{
 					PB_Bar.Visible = false;
@@ -391,8 +443,6 @@ namespace SlickControls
 				}
 			}
 		}
-
-		private void FLP_Content_Resize(object sender, EventArgs e) => FLP_Content.MaximumSize = new Size(Width, int.MaxValue);
 
 		private void TB_Path_KeyPress(object sender, KeyPressEventArgs e)
 		{
@@ -408,14 +458,18 @@ namespace SlickControls
 		{
 			if (keyData == Keys.Enter)
 			{
-				var io = FLP_Content.Controls.OfType<IOControl>().FirstOrDefault(x => x.Selected);
+				var io = ioList.SelectedItem;
 
 				if (io != null)
 				{
 					if (io.FileObject != null)
+					{
 						fileOpened(io.FileObject);
+					}
 					else if (io.FolderObject != null)
+					{
 						folderOpened(io.FolderObject);
+					}
 
 					return true;
 				}
@@ -424,36 +478,35 @@ namespace SlickControls
 			if (keyData == Keys.Right || keyData == Keys.Left)
 			{
 				var inc = keyData == Keys.Right ? 1 : -1;
-				var io = FLP_Content.Controls.OfType<IOControl>().FirstOrDefault(x => x.Selected);
-				var ind = (io == null ? -1 : FLP_Content.Controls.IndexOf(io)) + inc;
+				var io = ioList.SelectedItem;
+				var list = ioList.SafeGetItems();
+				var ind = (io == null ? -1 : list.FindIndex(x => x.Item == io)) + inc;
 
-				if (ind < 0 || FLP_Content.Controls.Count == 1)
-					ind = FLP_Content.Controls.Count - 1;
-				else if (ind >= FLP_Content.Controls.Count)
-					ind = 0;
-
-				if (io != null)
+				if (ind < 0 || list.Count == 1)
 				{
-					io.Selected = false;
-					io.Invalidate();
+					ind = list.Count - 1;
+				}
+				else if (ind >= list.Count)
+				{
+					ind = 0;
 				}
 
-				if (ind < FLP_Content.Controls.Count)
+				if (ind < list.Count)
 				{
-					io = FLP_Content.Controls[ind] as IOControl;
+					io = list[ind].Item;
 
-					io.Selected = true;
-					io.Invalidate();
-					if (slickScroll1.Active)
-						slickScroll1.ScrollTo(io, 3);
+					ioList.SelectedItem = io;
+					ioList.Invalidate();
+					ioList.ScrollTo(io);
 				}
 			}
 
 			if (keyData == Keys.Up || keyData == Keys.Down)
 			{
 				var inc = keyData == Keys.Down ? 1 : -1;
-				var io = FLP_Content.Controls.OfType<IOControl>().FirstOrDefault(x => x.Selected);
-				var ind = io == null ? (keyData == Keys.Up ? FLP_Content.Controls.Count - 1 : 0) : FLP_Content.Controls.IndexOf(io);
+				var io = ioList.SelectedItem;
+				var list = ioList.SafeGetItems();
+				var ind = (io == null ? -1 : list.FindIndex(x => x.Item == io)) + inc;
 
 				if (io != null)
 				{
@@ -461,37 +514,39 @@ namespace SlickControls
 					{
 						ind += inc;
 
-						if (!ind.IsWithin(-1, FLP_Content.Controls.Count))
+						if (!ind.IsWithin(-1, list.Count))
 						{
-							if (ind == FLP_Content.Controls.Count && keyData == Keys.Down)
+							if (ind == list.Count && keyData == Keys.Down)
+							{
 								ind = 0;
+							}
 							else if (ind == -1 && keyData == Keys.Up)
-								ind = FLP_Content.Controls.Count - 1;
-							else break;
+							{
+								ind = list.Count - 1;
+							}
+							else
+							{
+								break;
+							}
 						}
 
-						if (FLP_Content.Controls[ind].Left == io.Left)
-							break;
+						//if (list[ind].Left == io.Left)
+						//	break;
 					}
 				}
 
-				if (ind < 0 || FLP_Content.Controls.Count == 1)
-					ind = FLP_Content.Controls.Count - 1;
-
-				if (io != null)
+				if (ind < 0 || list.Count == 1)
 				{
-					io.Selected = false;
-					io.Invalidate();
+					ind = list.Count - 1;
 				}
 
-				if (ind < FLP_Content.Controls.Count)
+				if (ind < list.Count)
 				{
-					io = FLP_Content.Controls[ind] as IOControl;
+					io = list[ind].Item;
 
-					io.Selected = true;
-					io.Invalidate();
-					if (slickScroll1.Active)
-						slickScroll1.ScrollTo(io, 3);
+					ioList.SelectedItem = io;
+					ioList.Invalidate();
+					ioList.ScrollTo(io);
 				}
 			}
 
@@ -507,12 +562,19 @@ namespace SlickControls
 		private void TB_Path_TextChanged(object sender, EventArgs e)
 		{
 			if (TB_Path.Visible)
+			{
 				setFolder(TB_Path.Text, false, true);
+			}
 		}
 
 		private void Generic_Click(object sender, EventArgs e)
 		{
 			Focus();
+		}
+
+		internal void SortingChanged()
+		{
+			ioList.SortingChanged();
 		}
 	}
 }

@@ -267,7 +267,7 @@ namespace SlickControls
 
 			textRect = textRect.Pad((int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(7.5F, FontStyle.Bold)).Width, 0, 0, 0);
 
-			using (var chevron = (UI.FontScale >= 1.5 ? Properties.Resources.I_DropChevron : Properties.Resources.I_DropChevron_16).Color(fore.MergeColor(back, 90)))
+			using (var chevron = (UI.FontScale >= 1.5 ? Properties.Resources.I_DropChevron_24 : Properties.Resources.I_DropChevron_16).Color(fore.MergeColor(back, 90)))
 			{
 				e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
 

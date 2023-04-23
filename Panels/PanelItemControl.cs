@@ -17,6 +17,7 @@ namespace SlickControls
         {
 			Form = form;
 			ItemHeight = 24;
+			TabStop = false;
 
 			CanDrawItem += PanelItemControl_CanDrawItem;
 		}

@@ -65,34 +65,40 @@ namespace SlickControls
 		{
 			e.Graphics.Clear(BackColor);
 
-			if (Loading)
+			using (var image = ImageName?.Get(Width) ?? Image)
 			{
-				DrawLoader(e.Graphics, ClientRectangle.CenterR(Image?.Size ?? Size));
-				return;
-			}
-
-			if (Image == null)
-			{
-				return;
-			}
-
-			try
-			{
-				var activeColor = ActiveColor?.Invoke() ?? ColorStyle.GetColor();
-
-				var color =
-					Selected ? activeColor :
-					!Enabled ? ForeColor :
-					HoverState.HasFlag(HoverState.Pressed) ? activeColor :
-					HoverState.HasFlag(HoverState.Hovered) ? activeColor.MergeColor(ForeColor) :
-					ForeColor;
-
-				using (var img = new Bitmap(Image).Color(color))
+				if (Loading)
 				{
-					e.Graphics.DrawImage(img, ClientRectangle.CenterR(img.Size));
+					DrawLoader(e.Graphics, ClientRectangle.CenterR(image?.Size ?? Size));
+					return;
 				}
+
+				if (image == null)
+				{
+					return;
+				}
+
+				try
+				{
+					var activeColor = ActiveColor?.Invoke() ?? ColorStyle.GetColor();
+
+					var color =
+						Selected ? activeColor :
+						!Enabled ? ForeColor :
+						HoverState.HasFlag(HoverState.Pressed) ? activeColor :
+						HoverState.HasFlag(HoverState.Hovered) ? activeColor.MergeColor(ForeColor) :
+						ForeColor;
+
+					if (Enabled && HoverState.HasFlag(HoverState.Hovered))
+					{
+						e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+						e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(50,color.MergeColor(ForeColor, 65))), ClientRectangle.Pad(1), (int)(4 * UI.FontScale));
+					}
+
+					e.Graphics.DrawImage(image.Color(color), ClientRectangle.CenterR(image.Size));
+				}
+				catch { }
 			}
-			catch { }
 		}
 	}
 }

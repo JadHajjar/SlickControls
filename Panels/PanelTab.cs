@@ -79,13 +79,13 @@ namespace SlickControls
 			{
 				if (small)
 				{
-					back = FormDesign.Design.MenuColor;
+					back = small ? FormDesign.Design.MenuColor.MergeColor(FormDesign.Design.ActiveColor, 75) : FormDesign.Design.MenuColor;
 				}
 
 				fore = FormDesign.Design.ActiveColor;
 			}
 
-			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, back,1), e.ClipRectangle.Pad(0, 1, 0, 1), bar);
+			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, back, 1), e.ClipRectangle.Pad(0, 1, 0, 1), bar);
 
 			if (PanelItem.Selected && !e.HoverState.HasFlag(HoverState.Pressed) && !small)
 			{
@@ -101,25 +101,34 @@ namespace SlickControls
 				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveForeColor), 2F) { DashStyle = DashStyle.Dash }, e.ClipRectangle.Pad(0, 1, 0, 1), bar);
 			}
 
-			//if (Loading)
-			//	DrawLoader(e.Graphics, new Rectangle(15, (Height - 16) / 2, 16, 16), _pressed ? (Color?)fore : null);
-			//else
+			var iconWidth = 0;
+
 			if (PanelItem.Icon != null)
 			{
 				using (var image = new Bitmap(PanelItem.Icon))
 				{
+					iconWidth = image.Width;
+
 					e.Graphics.DrawImage(image.Color(fore), e.ClipRectangle.Pad(small ? (e.ClipRectangle.Width - image.Width) / 2 : (int)(7 * UI.FontScale), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft));
+				}
+			}
+			else
+			{
+				using (var image = (Bitmap)PanelItem.IconName)
+				{
+					if (image != null)
+					{
+						iconWidth = image.Width;
+						e.Graphics.DrawImage(image.Color(fore), e.ClipRectangle.Pad(small ? (e.ClipRectangle.Width - image.Width) / 2 : (int)(7 * UI.FontScale), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft));
+					}
 				}
 			}
 
 			if (!small)
 			{
-				e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-
 				using (var brush = SlickControl.Gradient(e.ClipRectangle, fore))
 				{
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(PanelItem.Text), UI.Font(8.25F), brush, (int)(10 * UI.FontScale) + (PanelItem.Icon?.Width ?? 0), e.ClipRectangle.Y + ((e.ClipRectangle.Height - e.Graphics.Measure(LocaleHelper.GetGlobalText(PanelItem.Text), UI.Font(8.25F)).Height) / 2));
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(PanelItem.Text), UI.Font(8.25F), brush, (int)(10 * UI.FontScale) + iconWidth, e.ClipRectangle.Y + ((e.ClipRectangle.Height - e.Graphics.Measure(LocaleHelper.GetGlobalText(PanelItem.Text), UI.Font(8.25F)).Height) / 2));
 				}
 			}
 		}

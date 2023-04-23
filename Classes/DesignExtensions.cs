@@ -10,6 +10,17 @@ namespace SlickControls
 {
 	public static class DesignExtensions
 	{
+		public static void SetUp(this Graphics graphics, Color? backColor = null)
+		{
+			if (backColor != null)
+				graphics.Clear(backColor.Value);
+
+			graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+			graphics.SmoothingMode = SmoothingMode.HighQuality;
+			graphics.TextRenderingHint = UI.WindowsScale >= 1.5 ? System.Drawing.Text.TextRenderingHint.AntiAliasGridFit : System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+			graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+		}
+
 		public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, int maxWidth, double tab, ref int height, bool draw = true)
 		{
 			var x = (int)(((tab * 12) + 6) * UI.FontScale);

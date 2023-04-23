@@ -52,13 +52,13 @@ namespace SlickControls
 				Close();
 			};
 
-			add(string.Empty, "This PC", Properties.Resources.Tiny_PC);
+			add(string.Empty, "This PC", Properties.Resources.I_PC_16);
 
 			base_P_Tabs.Add(PanelTab.GroupName("Drives"));
 
 			foreach (var item in libraryViewer.TopFolders)
 			{
-				add(item, item, Properties.Resources.Tiny_Drive);
+				add(item, item, Properties.Resources.I_Drive_16);
 			}
 
 			TLP_Side.Controls.Add(base_P_Tabs, 0, 1);
@@ -77,7 +77,7 @@ namespace SlickControls
 				Environment.GetFolderPath(Environment.SpecialFolder.Recent),
 			})
 			{
-				add(item, Path.GetFileName(item).FormatWords().IfEmpty(item), Properties.Resources.Tiny_Folder);
+				add(item, Path.GetFileName(item).FormatWords().IfEmpty(item), Properties.Resources.I_Folder_16);
 			}
 
 			FormDesign.DesignChanged += DesignChanged;
@@ -171,38 +171,6 @@ namespace SlickControls
 				}
 
 				base_P_Tabs.Invalidate();
-			}
-		}
-	}
-
-	public class IOSelectionDialog : Component
-	{
-		[DefaultValue(true)]
-		public bool PreserveLastPath { get; set; } = true;
-		public string[] ValidExtensions { get; set; }
-		public string SelectedPath { get; private set; }
-		public string LastFolder { get; set; }
-
-		public DialogResult PromptFolder(Form form = null, string startingFolder = null)
-		{
-			return prompt(true, form, startingFolder);
-		}
-
-		public DialogResult PromptFile(Form form = null, string startingFolder = null)
-		{
-			return prompt(false, form, startingFolder);
-		}
-
-		private DialogResult prompt(bool folder, Form form, string startingFolder)
-		{
-			var frm = new IOSelectionForm(folder, ValidExtensions, PreserveLastPath ? LastFolder ?? startingFolder : startingFolder);
-
-			try
-			{ return frm.ShowDialog(form); }
-			finally
-			{
-				SelectedPath = frm.SelectedPath;
-				LastFolder = frm.CurrentPath;
 			}
 		}
 	}

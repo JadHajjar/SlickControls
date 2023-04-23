@@ -352,7 +352,7 @@
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Cancel.Font = new System.Drawing.Font("Nirmala UI", 9.75F);
 			this.B_Cancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			this.B_Cancel.Image = global::SlickControls.Properties.Resources.Tiny_Cancel;
+			this.B_Cancel.Image = global::SlickControls.Properties.Resources.I_Cancel_16;
 			this.B_Cancel.Location = new System.Drawing.Point(121, 8);
 			this.B_Cancel.Margin = new System.Windows.Forms.Padding(8);
 			this.B_Cancel.Name = "B_Cancel";
@@ -371,7 +371,7 @@
 			this.B_Confirm.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Confirm.Font = new System.Drawing.Font("Nirmala UI", 9.75F);
 			this.B_Confirm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			this.B_Confirm.Image = global::SlickControls.Properties.Resources.Tiny_Ok;
+			this.B_Confirm.Image = global::SlickControls.Properties.Resources.I_Ok_16;
 			this.B_Confirm.Location = new System.Drawing.Point(461, 8);
 			this.B_Confirm.Margin = new System.Windows.Forms.Padding(8);
 			this.B_Confirm.Name = "B_Confirm";

@@ -200,7 +200,11 @@ namespace SlickControls
 		{
 			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{
-				Padding = new Padding(4, showLabel ? (int)(g.Measure(nameof(SlickTextBox), UI.Font(6.75F, FontStyle.Bold)).Height + 4) : 4, Image != null ? (Image.Width + 8) : 4, 4);
+				using (var img = Image)
+				{
+					Padding = new Padding(4, showLabel ? (int)(g.Measure(nameof(SlickTextBox), UI.Font(6.75F, FontStyle.Bold)).Height + 4) : 4, img != null ? (img.Width + 8) : 4, 4);
+				}
+
 				_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
 				var height = _textBox.Font.Height + Padding.Vertical;
 
@@ -384,31 +388,31 @@ namespace SlickControls
 					e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(2, 2, Width - Padding.Right, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(LabelText), font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 				}
 
-				var iconRect = new Rectangle(Width - ((Image?.Width ?? 0) * 11 / 8), 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
-
-				if (string.IsNullOrWhiteSpace(_textBox.Text) && !string.IsNullOrWhiteSpace(Placeholder))
+				using (var img = Image)
 				{
-					var font = UI.Font(7.5F, FontStyle.Italic);
-					var height = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Placeholder), font).Height;
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Placeholder), font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - 2 - Padding.Bottom, Width - Padding.Right - _textBox.Left - _textBox.Width, height).Pad(0, 0, iconRect.Width, 0), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
-				}
+					var iconRect = new Rectangle(Width - ((img?.Width ?? 0) * 11 / 8), 0, (img?.Width ?? 0) * 11 / 8, Height - 2);
 
-				if (Loading)
-				{
-					e.Graphics.DrawLoader(LoaderPercentage, UI.FontScale<1.25 ? iconRect.CenterR(16, 16) : iconRect.CenterR(24, 24));
-				}
-				else if (Image != null)
-				{
-					var active = IconClicked != null && iconRect.Contains(CursorLocation);
-
-					if (active)
+					if (string.IsNullOrWhiteSpace(_textBox.Text) && !string.IsNullOrWhiteSpace(Placeholder))
 					{
-						e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(20, FormDesign.Design.ForeColor)), iconRect, 4);
+						var font = UI.Font(7.5F, FontStyle.Italic);
+						var height = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Placeholder), font).Height;
+						e.Graphics.DrawString(LocaleHelper.GetGlobalText(Placeholder), font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - 2 - Padding.Bottom, Width - Padding.Right - _textBox.Left - _textBox.Width, height).Pad(0, 0, iconRect.Width, 0), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 					}
 
-					using (var icon = new Bitmap(Image).Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor))
+					if (Loading)
 					{
-						e.Graphics.DrawImage(icon, iconRect.CenterR(icon.Size));
+						e.Graphics.DrawLoader(LoaderPercentage, UI.FontScale < 1.25 ? iconRect.CenterR(16, 16) : iconRect.CenterR(24, 24));
+					}
+					else if (img != null)
+					{
+						var active = IconClicked != null && iconRect.Contains(CursorLocation);
+
+						if (active)
+						{
+							e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(20, FormDesign.Design.ForeColor)), iconRect, 4);
+						}
+
+						e.Graphics.DrawImage(img.Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), iconRect.CenterR(img.Size));
 					}
 				}
 			}
@@ -419,22 +423,28 @@ namespace SlickControls
 		{
 			base.OnMouseMove(e);
 
-			var iconRect = new Rectangle(Width - ((Image?.Width ?? 0) * 11 / 8), 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
+			using (var img = Image)
+			{
+				var iconRect = new Rectangle(Width - ((img?.Width ?? 0) * 11 / 8), 0, (img?.Width ?? 0) * 11 / 8, Height - 2);
 
-			Cursor = HoverState.HasFlag(HoverState.Hovered) && IconClicked != null && iconRect.Contains(e.Location) ? Cursors.Hand : Cursors.IBeam;
+				Cursor = HoverState.HasFlag(HoverState.Hovered) && IconClicked != null && iconRect.Contains(e.Location) ? Cursors.Hand : Cursors.IBeam;
+			}
 		}
 
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
-			var iconRect = new Rectangle(Width - ((Image?.Width ?? 0) * 11 / 8), 0, (Image?.Width ?? 0) * 11 / 8, Height - 2);
+			using (var img = Image)
+			{
+				var iconRect = new Rectangle(Width - ((img?.Width ?? 0) * 11 / 8), 0, (img?.Width ?? 0) * 11 / 8, Height - 2);
 
-			if (IconClicked != null && (e.Button == MouseButtons.None || (e.Button == MouseButtons.Left && iconRect.Contains(e.Location))))
-			{
-				IconClicked(this, e);
-			}
-			else
-			{
-				_textBox.Focus();
+				if (IconClicked != null && (e.Button == MouseButtons.None || (e.Button == MouseButtons.Left && iconRect.Contains(e.Location))))
+				{
+					IconClicked(this, e);
+				}
+				else
+				{
+					_textBox.Focus();
+				}
 			}
 
 			base.OnMouseClick(e);

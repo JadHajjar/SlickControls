@@ -25,8 +25,11 @@ namespace SlickControls
 		[Category("Behavior"), DisplayName("Linked Control")]
 		public Control LinkedControl { get; set; }
 
-		[Category("Appearance")]
+		[Category("Appearance"), DefaultValue(null)]
 		public Image Icon { get; set; }
+
+		[Category("Appearance"), DisplayName("Icon Name"), DefaultValue(null), TypeConverter(typeof(IconManager.IconConverter))]
+		public DynamicIcon IconName { get; set; }
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public int AnimatedValue { get; set; } = 15;
@@ -118,24 +121,25 @@ namespace SlickControls
 
 			var fore = Selected ? FormDesign.Design.ActiveForeColor.MergeColor(FormDesign.Design.ForeColor, AnimatedValue) : FormDesign.Design.ForeColor;
 
-			var img = Icon?.Color(fore);
-
-			if (Width > (int)(120 * UI.FontScale))
+			using (var img = (Icon != null ? new Bitmap(Icon) : IconName)?.Color(fore))
 			{
-				var width = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), Font).Width + (img?.Width ?? 0) + (int)(10 * UI.FontScale);
-				var bounds = ClientRectangle.CenterR(width, Height);
-
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, new SolidBrush(fore)
-					, img != null ? bounds.Pad(img.Width + (int)(5 * UI.FontScale), 0, 0, 0) : bounds, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
-
-				if (img != null)
+				if (Width > (int)(120 * UI.FontScale))
 				{
-					e.Graphics.DrawImage(img, bounds.Align(img.Size, ContentAlignment.MiddleLeft));
+					var width = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), Font).Width + (img?.Width ?? 0) + (int)(10 * UI.FontScale);
+					var bounds = ClientRectangle.CenterR(width, Height);
+
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, new SolidBrush(fore)
+						, img != null ? bounds.Pad(img.Width + (int)(5 * UI.FontScale), 0, 0, 0) : bounds, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+
+					if (img != null)
+					{
+						e.Graphics.DrawImage(img, bounds.Align(img.Size, ContentAlignment.MiddleLeft));
+					}
 				}
-			}
-			else if (img != null)
-			{
-				e.Graphics.DrawImage(img, ClientRectangle.CenterR(img.Size));
+				else if (img != null)
+				{
+					e.Graphics.DrawImage(img, ClientRectangle.CenterR(img.Size));
+				}
 			}
 		}
 

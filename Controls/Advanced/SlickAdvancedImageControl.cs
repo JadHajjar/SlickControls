@@ -70,7 +70,7 @@ namespace SlickControls
 					BlurredImage = new Bitmap(Image).Blur(40);
 
 					if (HoverState.HasFlag(HoverState.Hovered))
-						this.TryInvoke(Invalidate);
+						Invalidate();
 				}).Run();
 
 			base.OnImageChanged(e);

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Printing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -23,6 +22,8 @@ namespace SlickControls
 		private int baseHeight;
 		private List<DrawableItem<T>> _sortedItems;
 		private Size baseSize;
+		private bool scrollHovered;
+		private Size lastSize;
 
 		[Category("Data"), Browsable(false)]
 		public IEnumerable<T> Items
@@ -61,9 +62,6 @@ namespace SlickControls
 		public bool SeparateWithLines { get; set; }
 
 		[Category("Appearance"), DefaultValue(false)]
-		public bool DoubleSizeOnHover { get; set; }
-
-		[Category("Appearance"), DefaultValue(false)]
 		public bool HighlightOnHover { get; set; }
 
 		[Category("Appearance"), DefaultValue(22)]
@@ -97,20 +95,25 @@ namespace SlickControls
 			_items = new List<DrawableItem<T>>();
 			ItemHeight = 22;
 			AutoInvalidate = false;
+			ResizeRedraw = false;
 			AutoScroll = true;
 		}
 
-		public virtual void FilterOrSortingChanged()
+		public virtual void SortingChanged()
 		{
 			lock (_sync)
 			{
 				_sortedItems = new List<DrawableItem<T>>(OrderItems(_items));
 			}
 
+			ResetScroll();
+			Invalidate();
+		}
+
+		public virtual void FilterChanged()
+		{
 			if (CanDrawItem == null)
 			{
-				this.TryInvoke(Invalidate);
-
 				return;
 			}
 
@@ -131,17 +134,23 @@ namespace SlickControls
 				x.Hidden = canDraw.DoNotDraw;
 			});
 
-			this.TryInvoke(Invalidate);
+			Invalidate();
+		}
+
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+
+			if (lastSize.Width != Width)
+			{
+				Invalidate();
+			}
+
+			lastSize = Size;
 		}
 
 		public virtual void Invalidate(T item)
 		{
-			if (DoubleSizeOnHover)
-			{
-				Invalidate();
-				return;
-			}
-
 			lock (_sync)
 			{
 				var selectedItem = _items.FirstOrDefault(x => x.Item.Equals(item));
@@ -160,7 +169,8 @@ namespace SlickControls
 				_items.Add(new DrawableItem<T>(item));
 			}
 
-			FilterOrSortingChanged();
+			SortingChanged();
+			FilterChanged();
 		}
 
 		public virtual void AddRange(IEnumerable<T> items)
@@ -170,7 +180,8 @@ namespace SlickControls
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
 			}
 
-			FilterOrSortingChanged();
+			SortingChanged();
+			FilterChanged();
 		}
 
 		public virtual void SetItems(IEnumerable<T> items)
@@ -181,7 +192,8 @@ namespace SlickControls
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
 			}
 
-			FilterOrSortingChanged();
+			SortingChanged();
+			FilterChanged();
 		}
 
 		public virtual void Remove(T item)
@@ -196,7 +208,8 @@ namespace SlickControls
 				_items.RemoveAll(item => predicate(item.Item));
 			}
 
-			FilterOrSortingChanged();
+			SortingChanged();
+			FilterChanged();
 		}
 
 		public virtual void Clear()
@@ -206,7 +219,7 @@ namespace SlickControls
 				_items.Clear();
 			}
 
-			FilterOrSortingChanged();
+			SortingChanged();
 		}
 
 		public void ResetScroll()
@@ -254,6 +267,24 @@ namespace SlickControls
 			base.OnMouseClick(e);
 		}
 
+		protected override void OnMouseDoubleClick(MouseEventArgs e)
+		{
+			if (scrollMouseDown >= 0)
+			{
+				return;
+			}
+
+			if (mouseDownItem != null)
+			{
+				if (!mouseDownItem.Hidden && mouseDownItem.Bounds.Contains(e.Location))
+				{
+					OnItemMouseClick(mouseDownItem, e);
+				}
+			}
+
+			base.OnMouseDoubleClick(e);
+		}
+
 		protected virtual void OnItemMouseClick(DrawableItem<T> item, MouseEventArgs e)
 		{
 			ItemMouseClick?.Invoke(item.Item, e);
@@ -289,8 +320,9 @@ namespace SlickControls
 				Invalidate();
 			}
 
-			if (scrollVisible)
+			if (scrollVisible && (scrollHovered || scrollThumbRectangle.Contains(e.Location)))
 			{
+				scrollHovered = scrollThumbRectangle.Contains(e.Location);
 				Invalidate(new Rectangle(scrollThumbRectangle.X, -1, scrollThumbRectangle.Width + 1, Height + 2));
 			}
 
@@ -304,14 +336,7 @@ namespace SlickControls
 
 		private void Invalidate(DrawableItem<T> item)
 		{
-			if (DoubleSizeOnHover)
-			{
-				Invalidate();
-			}
-			else
-			{
-				Invalidate(item.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
-			}
+			Invalidate(item.Bounds);
 		}
 
 		protected override void OnMouseEnter(EventArgs e)
@@ -471,8 +496,9 @@ namespace SlickControls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+			var invalidRect = e.ClipRectangle;
+
+			e.Graphics.SetUp();
 
 			lock (_sync)
 			{
@@ -512,7 +538,6 @@ namespace SlickControls
 			for (var i = start; i < itemList.Count; i++)
 			{
 				var item = itemList[i];
-				var doubleSize = DoubleSizeOnHover && !GridView && (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed));
 
 				if (GridView)
 				{
@@ -520,18 +545,21 @@ namespace SlickControls
 				}
 				else
 				{
-					item.Bounds = new Rectangle(loc, new Size(Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0), ((doubleSize ? 2 : 1) * ItemHeight) + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
+					item.Bounds = new Rectangle(loc, new Size(Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0), ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
 				}
 
-				e.Graphics.SetClip(item.Bounds);
+				if (invalidRect.IntersectsWith(item.Bounds))
+				{
+					e.Graphics.SetClip(item.Bounds);
 
-				OnPaintItem(new ItemPaintEventArgs<T>(
-					item,
-					e.Graphics,
-					GridView ? item.Bounds.Pad(Padding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
-					mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal));
+					OnPaintItem(new ItemPaintEventArgs<T>(
+						item,
+						e.Graphics,
+						GridView ? item.Bounds.Pad(Padding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
+						mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal));
 
-				e.Graphics.ResetClip();
+					e.Graphics.ResetClip();
+				}
 
 				if (GridView)
 				{
@@ -600,18 +628,15 @@ namespace SlickControls
 				totalHeight += (itemList.Count - 1) * (int)UI.FontScale;
 			}
 
-			if (DoubleSizeOnHover && itemList.Any(item => (mouseDownItem == item || mouseDownItem == null) && (item.HoverState.HasFlag(HoverState.Hovered) || item.HoverState.HasFlag(HoverState.Pressed))))
-			{
-				totalHeight += ItemHeight + Padding.Vertical;
-			}
-
 			return totalHeight;
 		}
 
 		private int GetNumRows<i>(IEnumerable<i> itemList)
 		{
 			if (!GridView)
+			{
 				return itemList.Count();
+			}
 
 			return (int)Math.Ceiling(itemList.Count() / Math.Floor((double)(Width / GridItemSize.Width)));
 		}
@@ -624,7 +649,7 @@ namespace SlickControls
 			}
 		}
 
-		protected void ScrollTo(T item)
+		public void ScrollTo(T item)
 		{
 			var items = SafeGetItems();
 

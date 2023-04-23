@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -45,7 +44,9 @@ namespace SlickControls
 					WindowStateChanging?.Invoke(this, args);
 
 					if (args.Cancel)
+					{
 						return;
+					}
 				}
 
 				SuspendLayout();
@@ -55,19 +56,24 @@ namespace SlickControls
 				var screen = IsHandleCreated ? Screen.FromHandle(Handle) : null;
 
 				if (screen != null)
-					MaximizedBounds =new Rectangle(screen.Bounds.X - screen.WorkingArea.X, screen.Bounds.Y - screen.WorkingArea.Y, screen.WorkingArea.Width, screen.WorkingArea.Height);
+				{
+					MaximizedBounds = new Rectangle(screen.Bounds.X - screen.WorkingArea.X, screen.Bounds.Y - screen.WorkingArea.Y, screen.WorkingArea.Width, screen.WorkingArea.Height);
+				}
 
 				base.WindowState = value;
-				
+
 				if (change)
+				{
 					WindowStateChanged?.Invoke(this, new EventArgs());
+				}
+
 				ResumeLayout();
 			}
 		}
 
 		public new Rectangle MaximizedBounds { get => base.MaximizedBounds; set => base.MaximizedBounds = value; }
 
-		private List<ExtensionClass.action> nextIdleActions = new List<ExtensionClass.action>();
+		private readonly List<ExtensionClass.action> nextIdleActions = new List<ExtensionClass.action>();
 		private readonly object idleLock = new object();
 		protected double LastUiScale { get; set; } = 1;
 
@@ -104,19 +110,25 @@ namespace SlickControls
 			}
 
 			foreach (var item in actions)
+			{
 				item();
+			}
 		}
 
 		public void OnNextIdle(ExtensionClass.action action)
 		{
 			lock (idleLock)
+			{
 				nextIdleActions.Add(action);
+			}
 		}
 
 		protected void ClearNextIdle()
 		{
 			lock (idleLock)
+			{
 				nextIdleActions.Clear();
+			}
 		}
 
 		protected virtual void UIChanged()
@@ -134,9 +146,13 @@ namespace SlickControls
 		protected void base_B_Close_Click(object sender, EventArgs e)
 		{
 			if (CloseForm)
+			{
 				Close();
+			}
 			else
+			{
 				Hide();
+			}
 		}
 
 		protected virtual void DesignChanged(FormDesign design)
@@ -158,7 +174,10 @@ namespace SlickControls
 			base.OnCreateControl();
 
 			Opacity = 0;
-			if (NoBorder) base_P_Container.Padding = new Padding(0);
+			if (NoBorder)
+			{
+				base_P_Container.Padding = new Padding(0);
+			}
 		}
 
 		protected override void OnHandleCreated(EventArgs e)
@@ -182,20 +201,32 @@ namespace SlickControls
 			MaximizedBounds = Screen.PrimaryScreen.WorkingArea;
 		}
 
-		protected override void OnPaintBackground(PaintEventArgs e) => e.Graphics.Clear(BackColor);
+		protected override void OnPaintBackground(PaintEventArgs e)
+		{
+			e.Graphics.Clear(BackColor);
+		}
 
-		protected override void OnPaint(PaintEventArgs e) => e.Graphics.Clear(BackColor);
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			e.Graphics.Clear(BackColor);
+		}
 
 		private void base_B_Max_Click(object sender, EventArgs e)
-			=> WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
+		{
+			WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
+		}
 
 		private void base_B_Min_Click(object sender, EventArgs e)
-			=> WindowState = FormWindowState.Minimized;
+		{
+			WindowState = FormWindowState.Minimized;
+		}
 
 		private void base_PB_Icon_Click(object sender, EventArgs e)
 		{
 			if (this is MessagePrompt)
+			{
 				return;
+			}
 
 			if ((e as MouseEventArgs).Button == MouseButtons.Right)
 			{
@@ -205,48 +236,37 @@ namespace SlickControls
 
 				var items = new List<SlickStripItem>
 				{
-					new SlickStripItem("Minimize", () => WindowState = FormWindowState.Minimized, Properties.Resources.Tiny_Minimize, MinimizeBox),
+					new SlickStripItem("Minimize", "I_Minimize", MinimizeBox, action: () => WindowState = FormWindowState.Minimized),
 
-					new SlickStripItem(WindowState == FormWindowState.Maximized ? "Restore" : "Maximize",
-						() =>
-						{
-							this.SuspendDrawing();
-							WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;
-							this.ResumeDrawing();
-						},
-						WindowState == FormWindowState.Maximized ? Properties.Resources.Tiny_Restore : Properties.Resources.Tiny_Maximize,
-						MaximizeBox),
+					new SlickStripItem(WindowState == FormWindowState.Maximized ? "Restore" : "Maximize", WindowState == FormWindowState.Maximized ? "I_Restore" : "I_Maximize", MaximizeBox, action: () => WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized),
 
-					new SlickStripItem("Close", Close, Properties.Resources.Tiny_Close),
+					new SlickStripItem("Close", "I_Close", action: Close),
 
 					new SlickStripItem("", show: panelForm && !bpf.HideMenu),
 
-					new SlickStripItem("Smaller Menu", () => bpf.SmallMenu = !bpf.SmallMenu, panelForm && bpf.SmallMenu ? Properties.Resources.Tiny_Checked : Properties.Resources.Tiny_Unchecked, panelForm && !bpf.HideMenu),
-					new SlickStripItem("Auto-Hide Menu", () => bpf.AutoHideMenu = !bpf.AutoHideMenu, panelForm && bpf.AutoHideMenu ? Properties.Resources.Tiny_Checked : Properties.Resources.Tiny_Unchecked, panelForm && !bpf.HideMenu),
+					new SlickStripItem("Smaller Menu", panelForm && bpf.SmallMenu ? "I_Checked_ON" : "I_Checked_OFF",panelForm && !bpf.HideMenu,action: () => bpf.SmallMenu = !bpf.SmallMenu ),
+					new SlickStripItem("Auto-Hide Menu", panelForm && bpf.AutoHideMenu ? "I_Checked_ON" : "I_Checked_OFF", panelForm && !bpf.HideMenu,action:() => bpf.AutoHideMenu = !bpf.AutoHideMenu),
 
 					new SlickStripItem("", show: !isThemeChanger),
 
-					new SlickStripItem("Theme Changer", () =>
+					new SlickStripItem("Theme Changer", "I_Paint", show: !isThemeChanger, action: () =>
 						{
-							if (panelForm)
-								(this as BasePanelForm).PushPanel<PC_ThemeChanger>(PanelItem.Empty);
-							else
-								Theme_Changer.ThemeForm = Theme_Changer.ThemeForm.ShowUp(true);
-						}, image: Properties.Resources.Tiny_Paint, show: !isThemeChanger),
+							if (panelForm) { (this as BasePanelForm).PushPanel<PC_ThemeChanger>(PanelItem.Empty); } else { Theme_Changer.ThemeForm = Theme_Changer.ThemeForm.ShowUp(true); }
+						}),
 
-					new SlickStripItem("Switch To", fade: true, image: Properties.Resources.Tiny_Switch, show: !isThemeChanger)
+					new SlickStripItem("Switch To", "I_Switch", fade: true, show: !isThemeChanger)
 				};
 
 				if (!isThemeChanger)
 				{
 					foreach (var item in FormDesign.List)
 					{
-						items.Add(new SlickStripItem(item.Name, () =>
+						items.Add(new SlickStripItem(item.Name, item.Name == FormDesign.Design.Name ? "I_ArrowRight" : null, tab: 1, action: () =>
 						{
 							Cursor = Cursors.WaitCursor;
 							FormDesign.Switch(item, true, true);
 							Cursor = Cursors.Default;
-						}, item.Name.If(FormDesign.Design.Name, Properties.Resources.ArrowRight, null), tab: 1));
+						}));
 					}
 				}
 
@@ -265,7 +285,10 @@ namespace SlickControls
 			Cursor = Cursors.Default;
 		}
 
-		private void BaseForm_Resize(object sender, EventArgs e) => WindowState = WindowState;
+		private void BaseForm_Resize(object sender, EventArgs e)
+		{
+			WindowState = WindowState;
+		}
 
 		public bool FormIsActive { get; internal set; } = true;
 		private FormState currentFormState = FormState.NormalFocused;
@@ -292,7 +315,10 @@ namespace SlickControls
 		private void Form_Activated(object sender, EventArgs e)
 		{
 			if (CurrentFormState.IsNormal())
+			{
 				CurrentFormState = FormState.NormalFocused;
+			}
+
 			FormIsActive = true;
 		}
 
@@ -305,7 +331,10 @@ namespace SlickControls
 					BeginInvoke(new Action(() =>
 					{
 						if (CurrentFormState.IsNormal())
+						{
 							CurrentFormState = FormState.NormalUnfocused;
+						}
+
 						FormIsActive = false;
 					}));
 				}
@@ -332,7 +361,10 @@ namespace SlickControls
 		[DllImport("user32.dll", CharSet = CharSet.Unicode)]
 		private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
-		protected void Form_MouseDown(object sender, MouseEventArgs e) => ForceWindowMove(e);
+		protected void Form_MouseDown(object sender, MouseEventArgs e)
+		{
+			ForceWindowMove(e);
+		}
 
 		public void ForceWindowMove(MouseEventArgs e = null)
 		{
@@ -349,7 +381,7 @@ namespace SlickControls
 				}
 				else
 				{
-					foreach (Screen screen in Screen.AllScreens)
+					foreach (var screen in Screen.AllScreens)
 					{
 						if (!screen.WorkingArea.Contains(MousePosition))
 						{
@@ -368,25 +400,34 @@ namespace SlickControls
 				}
 			}
 			else if (e != null && e.Button == MouseButtons.Right)
+			{
 				base_PB_Icon_Click(this, e);
+			}
 		}
 
 		protected override void WndProc(ref Message m)
-			=> HandleWndProc(ref m);
+		{
+			HandleWndProc(ref m);
+		}
 
 		protected virtual bool HandleWndProc(ref Message m)
 		{
 			const int RESIZE_HANDLE_SIZE = 10;
 
 			if (OnWndProc?.Invoke(m) ?? false)
+			{
 				return true;
+			}
 
 			switch (m.Msg)
 			{
 				case 0x86:
 				case 0x6:
 					if (currentFormState <= FormState.ForcedFocused)
+					{
 						base_P_Container.BackColor = FormState.NormalFocused.Color();
+					}
+
 					break;
 
 				case 0x0084/*NCHITTEST*/ :
@@ -399,35 +440,55 @@ namespace SlickControls
 						if (clientPoint.Y <= RESIZE_HANDLE_SIZE)
 						{
 							if (clientPoint.X <= RESIZE_HANDLE_SIZE)
+							{
 								m.Result = (IntPtr)13/*HTTOPLEFT*/ ;
+							}
 							else if (clientPoint.X < (Size.Width - RESIZE_HANDLE_SIZE))
+							{
 								m.Result = (IntPtr)12/*HTTOP*/ ;
+							}
 							else
+							{
 								m.Result = (IntPtr)14/*HTTOPRIGHT*/ ;
+							}
 						}
 						else if (clientPoint.Y <= (Size.Height - RESIZE_HANDLE_SIZE))
 						{
 							if (clientPoint.X <= RESIZE_HANDLE_SIZE)
+							{
 								m.Result = (IntPtr)10/*HTLEFT*/ ;
+							}
 							else if (clientPoint.X < (Size.Width - RESIZE_HANDLE_SIZE))
+							{
 								m.Result = (IntPtr)2/*HTCAPTION*/ ;
+							}
 							else
+							{
 								m.Result = (IntPtr)11/*HTRIGHT*/ ;
+							}
 						}
 						else
 						{
 							if (clientPoint.X <= RESIZE_HANDLE_SIZE)
+							{
 								m.Result = (IntPtr)16/*HTBOTTOMLEFT*/ ;
+							}
 							else if (clientPoint.X < (Size.Width - RESIZE_HANDLE_SIZE))
+							{
 								m.Result = (IntPtr)15/*HTBOTTOM*/ ;
+							}
 							else
+							{
 								m.Result = (IntPtr)17/*HTBOTTOMRIGHT*/ ;
+							}
 						}
 					}
 					return true;
 			}
 
-			try { base.WndProc(ref m); } catch { }
+			try
+			{ base.WndProc(ref m); }
+			catch { }
 
 			return false;
 		}
@@ -464,7 +525,9 @@ namespace SlickControls
 				}
 
 				if (show)
+				{
 					ShowTaskbar();
+				}
 			}
 		}
 
@@ -478,13 +541,21 @@ namespace SlickControls
 			var sc = Screen.PrimaryScreen;
 
 			if (sc.WorkingArea.Top > 0)
+			{
 				return TaskbarLocation.Top;
+			}
 			else if (sc.WorkingArea.Left != sc.Bounds.X)
+			{
 				return TaskbarLocation.Left;
+			}
 			else if ((sc.Bounds.Height - sc.WorkingArea.Height) > 0)
+			{
 				return TaskbarLocation.Bottom;
+			}
 			else if (sc.WorkingArea.Right != 0)
+			{
 				return TaskbarLocation.Right;
+			}
 
 			return TaskbarLocation.None;
 		}
@@ -523,6 +594,5 @@ namespace SlickControls
 			var window = FindWindow("Shell_traywnd", "");
 			SetWindowPos(window, IntPtr.Zero, 0, 0, 0, 0, (uint)SetWindowPosFlags.HideWindow);
 		}
-
 	}
 }

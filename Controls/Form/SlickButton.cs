@@ -107,15 +107,17 @@ namespace SlickControls
 
 		private Size GetAutoSize()
 		{
-			if (!Live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && Image == null))
-				return Size;
+			using (var image = Image)
+			{
+				if (!Live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && image == null))
+					return Size;
 
-			var availableSize = GetAvailableSize();
+				var availableSize = GetAvailableSize();
 
-			if (lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
-				return lastSize;
+				if (lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
+					return lastSize;
 
-				var IconSize = Image?.Width ?? 16;				
+				var IconSize = image?.Width ?? 16;
 
 				if (string.IsNullOrWhiteSpace(Text) || (AutoSize && availableSize.Width.IsWithin(0, (int)(64 * UI.FontScale))))
 				{
@@ -139,7 +141,7 @@ namespace SlickControls
 					}
 				}
 
-				var extraWidth = (Image == null ? 0 : (IconSize + Padding.Left)) + (int)(3 * UI.FontScale) + Padding.Horizontal;
+				var extraWidth = (image == null ? 0 : (IconSize + Padding.Left)) + (int)(3 * UI.FontScale) + Padding.Horizontal;
 				var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
 				var h = Math.Max(IconSize + 6, (int)(bnds.Height) + Padding.Top + 3);
 				var w = (int)Math.Ceiling(bnds.Width) + extraWidth;
@@ -164,6 +166,7 @@ namespace SlickControls
 				lastAvailableSize = availableSize;
 
 				return lastSize = new Size(w, h);
+			}
 		}
 
 		public static Size GetSize(Graphics g, Image image, string text, Font font, Padding? padding = null)
@@ -210,14 +213,9 @@ namespace SlickControls
 
 		protected override void OnPaint(PaintEventArgs e)
 		{
-			e.Graphics.Clear(Parent?.BackColor ?? BackColor);
+			e.Graphics.SetUp(Parent?.BackColor ?? BackColor);
 
-			Bitmap img = null;
-			try
-			{ img = Image == null ? null : new Bitmap(Image); }
-			catch { }
-
-			using (img)
+			using (var img = Image)
 			{
 				DrawButton(e,
 					Point.Empty,
@@ -265,10 +263,10 @@ namespace SlickControls
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-			e.Graphics.FillRoundedRectangle(Gradient(new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), back), new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), 5);
+			e.Graphics.FillRoundedRectangle(Gradient(new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), back), new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), (int)(4*UI.FontScale));
 
 			if (!HoverState.HasFlag(HoverState.Pressed))
-				DrawFocus(e.Graphics, new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), HoverState, 5, ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade));
+				DrawFocus(e.Graphics, new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), HoverState, (int)(4 * UI.FontScale), ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade));
 
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
@@ -288,12 +286,10 @@ namespace SlickControls
 				}
 				else if (Image != null)
 				{
-					var img = slickButton?.Live ?? false ? Image.SafeColor(fore) : Image.Color(fore);
-
 					if (noText)
-						e.Graphics.DrawImage(img, new Rectangle(location.X + (size.Width - iconSize) / 2, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize));
+						e.Graphics.DrawImage(Image.Color(fore), new Rectangle(location.X + (size.Width - iconSize) / 2, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize));
 					else
-						e.Graphics.DrawImage(img, new Rectangle(location.X + Padding.Left, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize));
+						e.Graphics.DrawImage(Image.Color(fore), new Rectangle(location.X + Padding.Left, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize));
 				}
 			}
 			catch { }

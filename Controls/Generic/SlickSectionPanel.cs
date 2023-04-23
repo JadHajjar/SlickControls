@@ -34,18 +34,18 @@ namespace SlickControls
 		public new string Text { get => base.Text; set { base.Text = value; Invalidate(); } }
 
 		[Category("Appearance")]
-		public string Info { get => info; set { info = value; this.TryInvoke(Invalidate); } }
+		public string Info { get => info; set { info = value; Invalidate(); } }
 
 		[Category("Appearance")]
-		public Image Icon { get => icon; set { icon = value; this.TryInvoke(Invalidate); } }
+		public Image Icon { get => icon; set { icon = value; Invalidate(); } }
 
 		[Category("Appearance")]
-		public bool Active { get => _active; set { _active = value; this.TryInvoke(Invalidate); } }
+		public bool Active { get => _active; set { _active = value; Invalidate(); } }
 
 		[Category("Appearance")]
 		public string[] Flavor { get; set; }
 
-		protected void DesignChanged(FormDesign design) => this.TryInvoke(Invalidate);
+		protected void DesignChanged(FormDesign design) => Invalidate();
 
 		[Category("Behavior")]
 		public bool AutoHide { get; set; }

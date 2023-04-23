@@ -1,10 +1,12 @@
 ﻿using Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Documents;
 
 using Img = SlickControls.Properties.Resources;
 
@@ -73,38 +75,50 @@ namespace SlickControls
 			if (string.IsNullOrWhiteSpace(file.Extension))
 				return Img.Big_File;
 
-			if (new[] { ".psd" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Psd;
+			if (new[] { ".log" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
+				return Img.File_Log;
+
+			if (new[] { ".crp" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
+				return Img.File_CRP;
+
+			if (new[] { ".htm", ".html" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
+				return Img.File_HTML;
+
+			if (new[] { ".xml" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
+				return Img.File_XML;
+
+			if (new[] { ".json" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
+				return Img.File_JSON;
 
 			if (new[] { ".pdf" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Pdf;
+				return Img.File_Pdf;
 
 			if (new[] { ".txt" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Txt;
+				return Img.File_Txt;
 
 			if (new[] { ".zip", ".7z", ".rar" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Zip;
+				return Img.File_Zip;
 
 			if (new[] { ".doc", ".docx" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Doc;
+				return Img.File_Doc;
 
 			if (new[] { ".xls", ".xlsx", ".csv" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Xls;
+				return Img.File_Xls;
 
 			if (new[] { ".ppt", ".pptx" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_PPT;
+				return Img.File_PPT;
 
 			if (new[] { ".dll" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Dll;
+				return Img.File_Dll;
 
 			if (VideoExtensions.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Vid;
+				return Img.File_Vid;
 
 			if (ImageExtensions.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Img;
+				return Img.File_Img;
 
 			if (MusicExtensions.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
-				return Img.I_Music;
+				return Img.File_Music;
 
 			return null;
 		}
@@ -162,7 +176,7 @@ namespace SlickControls
 
 			void fileOpened(FileInfo file);
 
-			Factory Factory { get; }
+			List<ExtensionClass.action> Factory { get; }
 
 			Func<IOControl, SlickStripItem[]> RightClickContext { get; }
 		}

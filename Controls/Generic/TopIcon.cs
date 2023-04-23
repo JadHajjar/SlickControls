@@ -60,15 +60,15 @@ namespace SlickControls
 				switch (Color)
 				{
 					case IconStyle.Maximize:
-						icon = FindForm().WindowState == FormWindowState.Maximized ? Properties.Resources.I_Restore : Properties.Resources.I_Maximize;
+						icon = FindForm().WindowState == FormWindowState.Maximized ? Properties.Resources.Icon_Restore : Properties.Resources.Icon_Maximize;
 						break;
 
 					case IconStyle.Minimize:
-						icon = Properties.Resources.I_Minimize;
+						icon = Properties.Resources.Icon_Minimize;
 						break;
 
 					case IconStyle.Close:
-						icon = Properties.Resources.I_Close;
+						icon = Properties.Resources.Icon_Close;
 						break;
 				}
 

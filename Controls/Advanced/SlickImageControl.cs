@@ -13,17 +13,55 @@ namespace SlickControls
 	public class SlickImageControl : SlickControl
 	{
 		private Image image;
+		private DynamicIcon _imageName;
 
 		public event AsyncCompletedEventHandler LoadCompleted;
 		public event EventHandler ImageChanged;
 
 		[Category("Appearance"), DefaultValue(null)]
-		public virtual Image Image { get => image; set { image = value; Loading = false; OnImageChanged(EventArgs.Empty); } }
+		public virtual Image Image
+		{
+			get
+			{
+				if (Live)
+				{
+					if (image != null)
+						return new Bitmap(image);
+
+					if (LargeImage)
+						return ImageName?.Large;
+
+					if (SmallImage)
+						return ImageName?.Small;
+
+					return ImageName;
+				}
+
+				return image == null ? null : new Bitmap(image);
+			}
+			set
+			{
+				image = value;
+				Loading = false;
+				OnImageChanged(EventArgs.Empty);
+			}
+		}
+
+		[Category("Appearance"), DisplayName("Image Name"), DefaultValue(null), TypeConverter(typeof(IconManager.IconConverter))]
+		public DynamicIcon ImageName { get => _imageName; set { _imageName = value; Invalidate(); } }
+
+		[Category("Appearance"), DisplayName("Large Image"), DefaultValue(false)]
+		public bool LargeImage { get; set; }
+
+		[Category("Appearance"), DisplayName("Small Image"), DefaultValue(false)]
+		public bool SmallImage { get; set; }
 
 		protected Point CursorLocation { get; set; }
 
 		public void OnImageLoaded(AsyncCompletedEventArgs e = null)
-			=> this.TryInvoke(() => OnLoadCompleted(e ?? new AsyncCompletedEventArgs(null, false, null)));
+		{
+			this.TryInvoke(() => OnLoadCompleted(e ?? new AsyncCompletedEventArgs(null, false, null)));
+		}
 
 		protected virtual void OnLoadCompleted(AsyncCompletedEventArgs e)
 		{
@@ -41,10 +79,15 @@ namespace SlickControls
 			base.Dispose(disposing);
 
 			if (disposing)
+			{
 				image?.Dispose();
+			}
 		}
 
-		public void LoadImage(string url) => LoadImage(url, LoadImageFromUrl);
+		public void LoadImage(string url)
+		{
+			LoadImage(url, LoadImageFromUrl);
+		}
 #if NET47
 		public void LoadImage(string url, Func<string, Task<Bitmap>> method)
 		{
@@ -61,7 +104,9 @@ namespace SlickControls
 				try
 				{
 					if (IsDisposed)
+					{
 						return;
+					}
 
 					Image = await method(url);
 					ImageChanged?.Invoke(this, EventArgs.Empty);
@@ -77,7 +122,9 @@ namespace SlickControls
 							try
 							{
 								if (IsDisposed)
+								{
 									return;
+								}
 
 								Image = await method(url);
 								ImageChanged?.Invoke(this, EventArgs.Empty);
@@ -109,7 +156,10 @@ namespace SlickControls
 			{
 				try
 				{
-					if (IsDisposed) return;
+					if (IsDisposed)
+					{
+						return;
+					}
 
 					Image = method(url);
 					ImageChanged?.Invoke(this, EventArgs.Empty);
@@ -127,7 +177,7 @@ namespace SlickControls
 		private Image LoadImageFromUrl(string url)
 		{
 			var firstTry = true;
-		tryAgain:
+			tryAgain:
 			try
 			{
 				using (var webClient = new WebClient())
@@ -148,7 +198,9 @@ namespace SlickControls
 					goto tryAgain;
 				}
 				else
+				{
 					throw;
+				}
 			}
 		}
 

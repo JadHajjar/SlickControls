@@ -12,12 +12,12 @@ namespace SlickControls
 {
 	public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 	{
-		internal protected readonly TextBox _searchBox;
-		internal protected readonly Label _searchLabel;
-		internal protected SlickForm _form;
-		internal protected T[] _items;
-		internal protected T selectedItem;
-		internal protected CustomStackedListControl listDropDown;
+		protected internal readonly TextBox _searchBox;
+		protected internal readonly Label _searchLabel;
+		protected internal SlickForm _form;
+		protected internal T[] _items;
+		protected internal T selectedItem;
+		protected internal CustomStackedListControl listDropDown;
 
 		public event EventHandler SelectedItemChanged;
 
@@ -32,6 +32,9 @@ namespace SlickControls
 		[EditorBrowsable(EditorBrowsableState.Always)]
 		[Bindable(true)]
 		public override string Text { get => base.Text; set { base.Text = value; UIChanged(); } }
+
+		[DefaultValue(false), Category("Appearance")]
+		public bool AccentBackColor { get; set; }
 
 		public SlickSelectionDropDown()
 		{
@@ -55,7 +58,7 @@ namespace SlickControls
 		private void SearchBox_TextChanged(object sender, EventArgs e)
 		{
 			_searchLabel.Visible = _searchBox.Text.Length == 0;
-			listDropDown?.FilterOrSortingChanged();
+			listDropDown?.FilterChanged();
 		}
 
 		protected override void LocaleChanged()
@@ -91,19 +94,23 @@ namespace SlickControls
 			{
 				if (Items != null && _form != null)
 				{
-					_searchBox.Font = UI.Font((float)(7.5F*UI.WindowsScale));
-					_searchLabel.Font = UI.Font(7.5F, FontStyle.Italic);
-					_searchBox.Text = string.Empty;
-					_searchBox.Bounds = ClientRectangle.Pad(0, 0, 0, Padding.Bottom + (int)(3 * UI.FontScale)).Align(new Size(Width - (2 * Padding.Horizontal), _searchBox.Height), ContentAlignment.BottomCenter);
-					_searchLabel.Bounds = _searchBox.Bounds.Pad(Padding.Left, 0, 0, 0);
-					_searchBox.Parent = this;
-					_searchLabel.Parent = this;
-					_searchLabel.BringToFront();
+					if (Items.Length > 12)
+					{
+						_searchBox.Font = UI.Font((float)(7.5F * UI.WindowsScale));
+						_searchLabel.Font = UI.Font(7.5F, FontStyle.Italic);
+						_searchBox.Text = string.Empty;
+						_searchBox.Bounds = ClientRectangle.Pad(0, 0, 0, Padding.Bottom + (int)(3 * UI.FontScale)).Align(new Size(Width - (2 * Padding.Horizontal), _searchBox.Height), ContentAlignment.BottomCenter);
+						_searchLabel.Bounds = _searchBox.Bounds.Pad(Padding.Left, 0, 0, 0);
+						_searchBox.Parent = this;
+						_searchLabel.Parent = this;
+						_searchLabel.BringToFront();
 
-					_searchBox.Focus();
+						_searchBox.Focus();
+					}
 
 					listDropDown = new CustomStackedListControl(OrderItems)
 					{
+						ItemHeight = 14,
 						BackColor = FormDesign.Design.AccentBackColor,
 						Padding = UI.Scale(new Padding(5), UI.FontScale),
 						Location = _form.PointToClient(PointToScreen(new Point(0, Height - 3))),
@@ -123,7 +130,7 @@ namespace SlickControls
 					listDropDown.BringToFront();
 					listDropDown.SetItems(Items);
 
-					new AnimationHandler(listDropDown, new Size(Width, Math.Min((listDropDown.ItemHeight + listDropDown.Padding.Vertical + (int)UI.FontScale) * Math.Min(10, Items.Length), _form.Height - listDropDown.Top - 15)), 2.5).StartAnimation();
+					new AnimationHandler(listDropDown, new Size(Width, Math.Min((listDropDown.ItemHeight + listDropDown.Padding.Vertical + (int)UI.FontScale) * Math.Min(10, Items.Length), _form.Height - listDropDown.Top - 15)), 3).StartAnimation();
 				}
 				else
 				{
@@ -159,8 +166,35 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			Padding = UI.Scale(new Padding(5), UI.FontScale);
-			Height = Font.Height + Padding.Vertical;
+			if (Live)
+			{
+				if (Margin.All == 3)
+				{
+					Margin = UI.Scale(new Padding(3), UI.FontScale);
+				}
+
+				Font = UI.Font(8.25F);
+				Padding = UI.Scale(new Padding(5), UI.FontScale);
+
+				if (Dock == DockStyle.Fill)
+				{
+					return;
+				}
+
+				var size = UI.Scale(new Size(150, string.IsNullOrEmpty(Text) ? 26 : 32), UI.UIScale);
+
+				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
+				{
+					size.Height = 0;
+				}
+
+				if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
+				{
+					size.Width = 0;
+				}
+
+				Size = size;
+			}
 		}
 
 		protected override void OnVisibleChanged(EventArgs e)
@@ -264,7 +298,7 @@ namespace SlickControls
 			if (listDropDown != null)
 			{
 				var ctrl = listDropDown;
-				new AnimationHandler(ctrl, new Size(Width, 0), 3).StartAnimation(ctrl.Dispose);
+				new AnimationHandler(ctrl, new Size(Width, 0), 3.5).StartAnimation(ctrl.Dispose);
 
 				listDropDown = null;
 				_searchBox.Parent = null;
@@ -320,7 +354,7 @@ namespace SlickControls
 					e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
 				}
 
-				e.Graphics.DrawString(Text, UI.Font(6.75F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle.Pad(Padding.Left, Padding.Top / 2, 0, 0), new StringFormat { Alignment = StringAlignment.Center });
+				e.Graphics.DrawString(Text, UI.Font(6.5F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle.Pad(Padding.Left, Padding.Top / 2, 0, 0), new StringFormat { Alignment = StringAlignment.Center });
 
 				var pad = (int)(3 * UI.FontScale);
 
@@ -338,18 +372,28 @@ namespace SlickControls
 			}
 			else
 			{
-				using (var brush = ClientRectangle.Gradient(back, 0.5F))
+				if (AccentBackColor)
 				{
-					e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
+					e.Graphics.FillRoundedRectangle(new SolidBrush(Focused ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), ClientRectangle.Pad(1, 1, 2, 1), 4);
+
+					e.Graphics.FillRoundedRectangle(new SolidBrush(HoverState.HasFlag(HoverState.Hovered) ? back : FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), 4);
+				}
+				else
+				{
+					using (var brush = AccentBackColor ? new SolidBrush(back) : ClientRectangle.Gradient(back, 0.5F))
+					{
+						e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
+					}
 				}
 
-				var labelSize = string.IsNullOrWhiteSpace(Text) ? Size.Empty : e.Graphics.Measure(Text, UI.Font(6.75F, FontStyle.Bold));
+				var labelSize = string.IsNullOrWhiteSpace(Text) ? Size.Empty : e.Graphics.Measure(Text, UI.Font(6.5F));
 
-				e.Graphics.DrawString(Text, UI.Font(6.75F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle.Pad(Padding.Left, Padding.Top / 2, 0, 0));
+				e.Graphics.DrawString(Text, UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(Padding.Left, Padding.Top / 4, 0, 0));
 
-				PaintItem(e, ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 1.2), 0, 0), fore, listDropDown != null ? HoverState.Pressed : HoverState, SelectedItem);
+				PaintItem(e, string.IsNullOrWhiteSpace(Text) ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2)
+					, fore, listDropDown != null ? HoverState.Pressed : HoverState, SelectedItem);
 
-				using (var chevron = (UI.FontScale >= 1.25 ? Properties.Resources.I_DropChevron : Properties.Resources.I_DropChevron_16).Color(fore.MergeColor(back, 90)))
+				using (var chevron = IconManager.GetIcon("I_DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90)))
 				{
 					e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
 				}
@@ -385,7 +429,7 @@ namespace SlickControls
 			}
 		}
 
-		internal protected class CustomStackedListControl : SlickStackedListControl<T>
+		protected internal class CustomStackedListControl : SlickStackedListControl<T>
 		{
 			private readonly Func<IEnumerable<DrawableItem<T>>, IEnumerable<DrawableItem<T>>> _orderMethod;
 

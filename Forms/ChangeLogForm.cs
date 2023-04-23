@@ -48,7 +48,7 @@ namespace SlickControls
 				DrawLeft = false,
 				Font = UI.Font(9.75F, FontStyle.Bold | FontStyle.Italic),
 				IconSize = 14,
-				Image = Properties.Resources.ArrowRight,
+				Image = Properties.Resources.I_ArrowRight_16,
 				Padding = new Padding(10),
 				Size = new Size(175, 35),
 				TabStop = false,
