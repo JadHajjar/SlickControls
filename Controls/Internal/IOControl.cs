@@ -3,6 +3,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace SlickControls
 {
@@ -227,12 +228,34 @@ namespace SlickControls
 			{
 				using (var brush = new SolidBrush(e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveForeColor : d.ForeColor))
 				{
-					e.Graphics.DrawString(Text, font, brush, textRect.AlignToFontSize(font, graphics: e.Graphics)
+					textRect = textRect.AlignToFontSize(font, graphics: e.Graphics);
+					var rect1 = textRect.Pad(0, 0, textRect.Width / 2, 0).Pad(0,0, (int)(8 * UI.FontScale),0);
+					var rect2 = textRect.Pad(textRect.Width / 2, 0, textRect.Width / 4, 0).Pad(0, 0, (int)(8 * UI.FontScale), 0);
+					var rect3 = textRect.Pad(textRect.Width * 3 / 4, 0, 0, 0);
+
+					e.Graphics.DrawString(Text, font, brush, rect1
 					, new StringFormat
 					{
 						LineAlignment = StringAlignment.Center,
 						Trimming = StringTrimming.EllipsisCharacter
 					});
+
+					if (e.Item.FileObject != null)
+					{
+						e.Graphics.DrawString(e.Item.FileObject.LastWriteTime.ToString("g"), font, brush, rect2
+						, new StringFormat
+						{
+							LineAlignment = StringAlignment.Center,
+							Trimming = StringTrimming.EllipsisCharacter
+						});
+
+						e.Graphics.DrawString(e.Item.FileObject.Length.SizeString(), font, brush, rect3
+						, new StringFormat
+						{
+							LineAlignment = StringAlignment.Center,
+							Trimming = StringTrimming.EllipsisCharacter
+						});
+					}
 				}
 			}
 		}

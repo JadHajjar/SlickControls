@@ -148,11 +148,13 @@ namespace SlickControls
 			roundedPanel1.Margin = UI.Scale(new Padding(10, 10, 10, 5), UI.FontScale);
 			B_GridView.Margin = UI.Scale(new Padding(0, 5, 10, 10), UI.FontScale);
 			B_Cancel.Margin = B_OK.Margin = B_ListView.Margin = UI.Scale(new Padding(10, 5, 10, 10), UI.FontScale);
-			roundedPanel1.Padding = UI.Scale(new Padding(5), UI.FontScale);
-			tableLayoutPanel1.Margin = TB_Search.Margin = L_Title.Margin = roundedPanel1.Padding = UI.Scale(new Padding(10, 5, 5, 5), UI.FontScale);
+			roundedPanel1.Padding = UI.Scale(new Padding(10, 5, 5, 5), UI.FontScale);
+			tableLayoutPanel1.Margin = TB_Search.Margin = UI.Scale(new Padding(10, 12, 5, 0), UI.FontScale);
+			L_Title.Margin = UI.Scale(new Padding(10, 10, 5, 0), UI.FontScale);
 			L_Title.Font = UI.Font(8.25F, FontStyle.Bold);
 			ioSortDropdown.Width = (int)(125 * UI.FontScale);
 			TB_Search.Width = (int)(200 * UI.FontScale);
+			I_SortDirection.Height = ioSortDropdown.Height = 0;
 		}
 
 		private void Item_OnClick(object sender, MouseEventArgs e)
@@ -229,11 +231,6 @@ namespace SlickControls
 			libraryViewer.ioList.Invalidate();
 		}
 
-		private void B_ListView_SizeChanged(object sender, EventArgs e)
-		{
-			B_GridView.Width = B_ListView.Width = B_ListView.Height;
-		}
-
 		private void libraryViewer_CurrentPathChanged(object sender, EventArgs e)
 		{
 			foreach (var item in base_P_Tabs.Items)
@@ -250,6 +247,7 @@ namespace SlickControls
 		private void I_SortDirection_SizeChanged(object sender, EventArgs e)
 		{
 			I_SortDirection.Width = I_SortDirection.Height;
+			B_GridView.Size = B_ListView.Size = I_SortDirection.Size;
 		}
 
 		private void I_SortDirection_Click(object sender, EventArgs e)

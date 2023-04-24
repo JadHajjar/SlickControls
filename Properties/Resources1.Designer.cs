@@ -793,6 +793,36 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Home_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Home_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Home_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Home_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Home_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Home_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Info_16 {
             get {
                 object obj = ResourceManager.GetObject("I_Info_16", resourceCulture);
@@ -1641,29 +1671,9 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Tiny_Home {
-            get {
-                object obj = ResourceManager.GetObject("Tiny_Home", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Tiny_Log {
             get {
                 object obj = ResourceManager.GetObject("Tiny_Log", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Tiny_MoreThan {
-            get {
-                object obj = ResourceManager.GetObject("Tiny_MoreThan", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

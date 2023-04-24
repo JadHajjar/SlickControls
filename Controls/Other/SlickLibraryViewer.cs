@@ -7,7 +7,6 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -64,7 +63,7 @@ namespace SlickControls
 		[Category("Behavior")]
 		public string StartingFolder { get; set; }
 
-		internal IoSortingOption Sorting { get => ioList.IoSortingOption; set =>ioList.IoSortingOption=value; }
+		internal IoSortingOption Sorting { get => ioList.IoSortingOption; set => ioList.IoSortingOption = value; }
 		internal bool SortDesc { get => ioList.SortDesc; set => ioList.SortDesc = value; }
 
 		public SlickLibraryViewer()
@@ -79,8 +78,14 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			P_Bar.Height = UI.Font(9F).Height + 16;
-			P_Spacer.Height = (int)(1.5 * UI.FontScale);
+			PB_Bar.Padding = UI.Scale(new Padding(5), UI.FontScale);
+			PB_Bar.Height = (int)FontMeasuring.Measure(" ", UI.Font(9F)).Height + PB_Bar.Padding.Vertical;
+			slickSpacer1.Height = (int)(1.5 * UI.FontScale);
+			slickSpacer1.Padding = UI.Scale(new Padding(15, 0, 15, 0), UI.FontScale);
+			TB_Path.Width = PB_Bar.Width = (int)(450 * UI.UIScale);
+			tableLayoutPanel2.ColumnStyles[1].Width = PB_Bar.Height;
+			tableLayoutPanel2.ColumnStyles[3].Width = PB_Bar.Height;
+			PB_Loader.Size = new Size(PB_Bar.Height, PB_Bar.Height);
 		}
 
 		protected override void OnCreateControl()
@@ -127,12 +132,18 @@ namespace SlickControls
 		private void IoList_CanDrawItem(object sender, CanDrawItemEventArgs<IOControl> e)
 		{
 			if (string.IsNullOrWhiteSpace(currentSearch))
+			{
 				return;
+			}
 
 			if (currentSearch.Contains("*"))
+			{
 				e.DoNotDraw = !Regex.IsMatch(e.Item.Name, Regex.Escape(currentSearch).Replace("\\*", "."), RegexOptions.IgnoreCase);
+			}
 			else
+			{
 				e.DoNotDraw = !currentSearch.SearchCheck(e.Item.Name);
+			}
 		}
 
 		internal void setFolder(string folder, bool forced = false, bool fromTextBox = false)
@@ -259,9 +270,10 @@ namespace SlickControls
 						return;
 					}
 
-					var c = new IOControl(new FileInfo(item.Path), this, out var valid, item.Icon);
-
-					c.Text = item.Name;
+					var c = new IOControl(new FileInfo(item.Path), this, out var valid, item.Icon)
+					{
+						Text = item.Name
+					};
 
 					if (!valid)
 					{
@@ -300,12 +312,12 @@ namespace SlickControls
 
 		private void StartLoad()
 		{
+			PB_Bar.Invalidate();
+
+			ioList.Clear();
+
 			this.TryInvoke(() =>
 			{
-				PB_Bar.Invalidate();
-
-				ioList.Clear();
-
 				PB_Loader.Visible = true;
 
 				LoadStarted?.Invoke(this, EventArgs.Empty);
@@ -325,41 +337,44 @@ namespace SlickControls
 		private bool isValid(FileInfo file)
 		{
 			if (FoldersOnly)
+			{
 				return file.FullName.IsFolder();
-
+			}
 
 			if ((Extensions?.Length ?? 0) != 0 && !Extensions.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
+			{
 				return false;
+			}
 
 			return ValidFile?.Invoke(file) ?? true;
 		}
 
 		protected override void DesignChanged(FormDesign design)
 		{
-			P_Spacer.BackColor = design.AccentColor;
-			PB_Bar.BackColor = design.AccentBackColor;
+			//PB_Bar.BackColor = design.AccentBackColor;
 		}
 
 		private void P_Bar_Paint(object sender, PaintEventArgs e)
 		{
-			e.Graphics.Clear(BackColor);
-			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+			e.Graphics.SetUp(BackColor);
 			hoveredAction = null;
 
 			var mousePos = PB_Bar.PointToClient(Cursor.Position);
-			var w = 3;
-			var arrow = Properties.Resources.Tiny_MoreThan.Color(FormDesign.Design.ForeColor);
+			var w = PB_Bar.Padding.Left;
+			var validRect = PB_Bar.ClientRectangle.Pad(PB_Bar.Padding);
 
+			using (var arrow = IconManager.GetIcon("I_ArrowRight").Color(FormDesign.Design.ForeColor))
 			using (var font = UI.Font(9F))
-			using (var brush = Gradient(FormDesign.Design.ForeColor))
+			using (var brush = new SolidBrush(FormDesign.Design.ForeColor))
 			{
 				var bnds = SizeF.Empty;
 
 				drawItem(null, string.Empty);
 
-				if (!string.IsNullOrWhiteSpace(startingFolder))
+				if (!string.IsNullOrWhiteSpace(startingFolder) && startingFolder != IOSelectionDialog.CustomDirectory)
 				{
 					drawArrow();
+
 					drawItem(Path.GetFileName(startingFolder).FormatWords().IfEmpty(startingFolder), startingFolder);
 
 					var currentFolder = startingFolder;
@@ -389,34 +404,43 @@ namespace SlickControls
 					}
 					else
 					{
-						bnds = new SizeF(font.GetHeight(), font.GetHeight());
+						bnds = new SizeF(validRect.Height, validRect.Height);
 					}
 
-					var rect = new Rectangle(w - 3, (int)(PB_Bar.Height - bnds.Height - 6) / 2, (int)bnds.Width + 6, (int)bnds.Height + 6);
+					var rect = new Rectangle(w, validRect.Y, 0, validRect.Height).Align(Size.Ceiling(bnds), ContentAlignment.MiddleLeft);
 
 					if (rect.Contains(mousePos))
 					{
-						e.Graphics.FillRoundedRectangle(Gradient(PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentBackColor), rect, 5);
+						var i = (int)(3 * UI.FontScale);
+						using (var backBrush = Gradient(PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : Color.FromArgb(120, FormDesign.Design.AccentColor)))
+						{
+							e.Graphics.FillRoundedRectangle(backBrush, rect.Pad(-i), i);
+						}
+
 						hoveredAction = action;
 						Cursor = Cursors.Hand;
 					}
 
 					if (text != null)
 					{
-						e.Graphics.DrawString(text, font, rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? Gradient(FormDesign.Design.ActiveForeColor) : brush, w, (int)(PB_Bar.Height - bnds.Height) / 2);
+						e.Graphics.DrawString(text, font, rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? Gradient(FormDesign.Design.ActiveForeColor) : brush, rect);
 					}
 					else
 					{
-						e.Graphics.DrawImage(Properties.Resources.Tiny_Home.Color(rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor), new Rectangle(rect.Center(new Size(16, 16)), new Size(16, 16)));
+						using (var homeIcon = IconManager.GetIcon("I_Home").Color(rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor))
+						{
+							e.Graphics.DrawImage(homeIcon, rect.CenterR(homeIcon.Size));
+						}
 					}
 
-					w += (int)bnds.Width + 5;
+					w += rect.Width + PB_Bar.Padding.Horizontal;
 				}
 
 				void drawArrow()
 				{
-					e.Graphics.DrawImage(arrow, w, (PB_Bar.Height - arrow.Height) / 2);
-					w += 21;
+					var rect = new Rectangle(w, validRect.Y, 0, validRect.Height).Align(arrow.Size, ContentAlignment.MiddleLeft);
+					e.Graphics.DrawImage(arrow, rect);
+					w += arrow.Width + PB_Bar.Padding.Horizontal;
 				}
 			}
 
@@ -439,7 +463,7 @@ namespace SlickControls
 					PB_Bar.Visible = false;
 					TB_Path.Text = CurrentPath;
 					TB_Path.Visible = true;
-					BeginInvoke(new Action(() => { TB_Path.Focus(); TB_Path.SelectionStart = TB_Path.Text.Length; TB_Path.Top = P_Bar.Height - TB_Path.Height + 1; }));
+					BeginInvoke(new Action(() => { TB_Path.Focus(); TB_Path.SelectionStart = TB_Path.Text.Length; TB_Path.Top = PB_Bar.Height - TB_Path.Height + 1; }));
 				}
 			}
 		}

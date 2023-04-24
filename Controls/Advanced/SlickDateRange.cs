@@ -114,8 +114,11 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			Padding = UI.Scale(new Padding(5), UI.FontScale);
-			Height = Font.Height + Padding.Vertical;
+			if (Live)
+			{
+				Padding = UI.Scale(new Padding(5), UI.FontScale);
+				Height = (int)(24 * UI.UIScale);
+			}
 		}
 
 		protected override void OnVisibleChanged(EventArgs e)

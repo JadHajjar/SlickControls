@@ -198,27 +198,29 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			using (var g = Graphics.FromHwnd(IntPtr.Zero))
+			var pad = (int)(4 * UI.FontScale);
+
+			using (var img = Image)
 			{
-				using (var img = Image)
-				{
-					Padding = new Padding(4, showLabel ? (int)(g.Measure(nameof(SlickTextBox), UI.Font(6.75F, FontStyle.Bold)).Height + 4) : 4, img != null ? (img.Width + 8) : 4, 4);
-				}
-
-				_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
-				var height = _textBox.Font.Height + Padding.Vertical;
-
-				MaximumSize = Size.Empty;
-				if (Live)
-				{
-					MinimumSize = new Size(Padding.Horizontal, height);
-				}
-				else
-				{
-					MinimumSize = Size.Empty;
-				}
-				Height = height;
+				Padding = new Padding(pad, showLabel ? (int)(FontMeasuring.Measure(" ", UI.Font(6.75F, FontStyle.Bold)).Height * 0.65 + pad) : pad, img != null ? (img.Width + pad * 2) : pad, 4);
 			}
+
+			_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
+
+			var height = _textBox.Font.Height + Padding.Vertical;
+
+			MaximumSize = Size.Empty;
+
+			if (Live)
+			{
+				MinimumSize = new Size(Padding.Horizontal, height);
+			}
+			else
+			{
+				MinimumSize = Size.Empty;
+			}
+
+			Height = height;
 		}
 
 		protected override void DesignChanged(FormDesign design)
@@ -372,36 +374,40 @@ namespace SlickControls
 				e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 				e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
+				var pad = (int)(4 * UI.FontScale);
 				var barColor =
 					error ? FormDesign.Design.RedColor :
 					warning ? FormDesign.Design.YellowColor :
 					_textBox.Focused ? FormDesign.Design.ActiveColor :
 					FormDesign.Design.AccentColor;
 
-				e.Graphics.FillRoundedRectangle(new SolidBrush(barColor), ClientRectangle.Pad(1, 1, 2, 1), 4);
+				e.Graphics.FillRoundedRectangle(new SolidBrush(barColor), ClientRectangle.Pad(1, 1, 2, 1), pad);
 
-				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), 4);
+				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), pad);
 
 				if (ShowLabel && !string.IsNullOrEmpty(LabelText))
 				{
-					var font = UI.Font(6.75F, FontStyle.Bold);
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(2, 2, Width - Padding.Right, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(LabelText), font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+					using (var font = UI.Font(6.75F, FontStyle.Bold))
+						e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(pad, pad / 2, Width - Padding.Right, (int)e.Graphics.Measure(" ", font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
 				}
 
 				using (var img = Image)
 				{
-					var iconRect = new Rectangle(Width - ((img?.Width ?? 0) * 11 / 8), 0, (img?.Width ?? 0) * 11 / 8, Height - 2);
+					var imgWidth = img?.Width ?? (Loading ? (UI.FontScale >= 3 ? 48 : UI.FontScale >= 1.25 ? 24 : 16) : 0);
+					var iconRect = new Rectangle(Width - imgWidth - pad * 2, 0, imgWidth+pad*2, Height - 2);
 
 					if (string.IsNullOrWhiteSpace(_textBox.Text) && !string.IsNullOrWhiteSpace(Placeholder))
 					{
-						var font = UI.Font(7.5F, FontStyle.Italic);
-						var height = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Placeholder), font).Height;
-						e.Graphics.DrawString(LocaleHelper.GetGlobalText(Placeholder), font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - 2 - Padding.Bottom, Width - Padding.Right - _textBox.Left - _textBox.Width, height).Pad(0, 0, iconRect.Width, 0), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+						using (var font = UI.Font(7.5F, FontStyle.Italic))
+						{
+							var height = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Placeholder), font).Height;
+							e.Graphics.DrawString(LocaleHelper.GetGlobalText(Placeholder), font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - Padding.Bottom - 1, Width - Padding.Right - _textBox.Left - _textBox.Width, height).Pad(0, 0, iconRect.Width, 0), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+						}
 					}
 
 					if (Loading)
 					{
-						e.Graphics.DrawLoader(LoaderPercentage, UI.FontScale < 1.25 ? iconRect.CenterR(16, 16) : iconRect.CenterR(24, 24));
+						e.Graphics.DrawLoader(LoaderPercentage, iconRect.CenterR(imgWidth, imgWidth));
 					}
 					else if (img != null)
 					{

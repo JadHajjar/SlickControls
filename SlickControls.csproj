@@ -1073,6 +1073,12 @@
   <ItemGroup>
     <None Include="Resources\File_Log.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Home_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Home_48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>

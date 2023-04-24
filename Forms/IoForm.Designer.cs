@@ -65,7 +65,7 @@
 			this.base_P_SideControls.Font = new System.Drawing.Font("Nirmala UI", 6.75F);
 			this.base_P_SideControls.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(129)))), ((int)(((byte)(150)))));
 			this.base_P_SideControls.Location = new System.Drawing.Point(9, 420);
-			this.base_P_SideControls.Size = new System.Drawing.Size(282, 10);
+			this.base_P_SideControls.Size = new System.Drawing.Size(270, 10);
 			// 
 			// base_P_Container
 			// 
@@ -90,14 +90,14 @@
 			this.TLP_Main.Controls.Add(this.roundedPanel1, 0, 2);
 			this.TLP_Main.Controls.Add(this.B_GridView, 1, 3);
 			this.TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.TLP_Main.Location = new System.Drawing.Point(309, 0);
+			this.TLP_Main.Location = new System.Drawing.Point(297, 0);
 			this.TLP_Main.Name = "TLP_Main";
 			this.TLP_Main.RowCount = 4;
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TLP_Main.Size = new System.Drawing.Size(452, 457);
+			this.TLP_Main.Size = new System.Drawing.Size(464, 457);
 			this.TLP_Main.TabIndex = 0;
 			// 
 			// tableLayoutPanel1
@@ -111,7 +111,7 @@
 			this.tableLayoutPanel1.Controls.Add(this.ioSortDropdown, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.I_SortDirection, 0, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(332, 19);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(344, 13);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
@@ -151,8 +151,7 @@
 			// B_ListView
 			// 
 			this.B_ListView.ActiveColor = null;
-			this.B_ListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+			this.B_ListView.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.B_ListView.Cursor = System.Windows.Forms.Cursors.Hand;
 			dynamicIcon2.Name = "I_List";
 			this.B_ListView.ImageName = dynamicIcon2;
@@ -161,7 +160,6 @@
 			this.B_ListView.Size = new System.Drawing.Size(34, 30);
 			this.B_ListView.SpaceTriggersClick = true;
 			this.B_ListView.TabIndex = 5;
-			this.B_ListView.SizeChanged += new System.EventHandler(this.B_ListView_SizeChanged);
 			this.B_ListView.Click += new System.EventHandler(this.B_ListView_Click);
 			// 
 			// B_Cancel
@@ -173,7 +171,7 @@
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
 			dynamicIcon3.Name = "I_Cancel";
 			this.B_Cancel.ImageName = dynamicIcon3;
-			this.B_Cancel.Location = new System.Drawing.Point(349, 424);
+			this.B_Cancel.Location = new System.Drawing.Point(361, 424);
 			this.B_Cancel.Name = "B_Cancel";
 			this.B_Cancel.Size = new System.Drawing.Size(100, 30);
 			this.B_Cancel.SpaceTriggersClick = true;
@@ -189,7 +187,7 @@
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
 			dynamicIcon4.Name = "I_Ok";
 			this.B_OK.ImageName = dynamicIcon4;
-			this.B_OK.Location = new System.Drawing.Point(243, 424);
+			this.B_OK.Location = new System.Drawing.Point(255, 424);
 			this.B_OK.Name = "B_OK";
 			this.B_OK.Size = new System.Drawing.Size(100, 30);
 			this.B_OK.SpaceTriggersClick = true;
@@ -206,7 +204,7 @@
 			dynamicIcon5.Name = "I_Search";
 			this.TB_Search.ImageName = dynamicIcon5;
 			this.TB_Search.LabelText = "";
-			this.TB_Search.Location = new System.Drawing.Point(3, 22);
+			this.TB_Search.Location = new System.Drawing.Point(3, 16);
 			this.TB_Search.MaximumSize = new System.Drawing.Size(9999, 0);
 			this.TB_Search.MinimumSize = new System.Drawing.Size(50, 0);
 			this.TB_Search.Name = "TB_Search";
@@ -225,7 +223,7 @@
 			this.TLP_Main.SetColumnSpan(this.L_Title, 3);
 			this.L_Title.Location = new System.Drawing.Point(3, 0);
 			this.L_Title.Name = "L_Title";
-			this.L_Title.Size = new System.Drawing.Size(99, 19);
+			this.L_Title.Size = new System.Drawing.Size(84, 13);
 			this.L_Title.TabIndex = 1;
 			this.L_Title.Text = "Pinned Folders";
 			// 
@@ -235,9 +233,9 @@
 			this.TLP_Main.SetColumnSpan(this.roundedPanel1, 5);
 			this.roundedPanel1.Controls.Add(this.libraryViewer);
 			this.roundedPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.roundedPanel1.Location = new System.Drawing.Point(3, 53);
+			this.roundedPanel1.Location = new System.Drawing.Point(3, 47);
 			this.roundedPanel1.Name = "roundedPanel1";
-			this.roundedPanel1.Size = new System.Drawing.Size(446, 365);
+			this.roundedPanel1.Size = new System.Drawing.Size(458, 371);
 			this.roundedPanel1.TabIndex = 9;
 			// 
 			// libraryViewer
@@ -252,7 +250,7 @@
 			this.libraryViewer.Margin = new System.Windows.Forms.Padding(0);
 			this.libraryViewer.MinimumSize = new System.Drawing.Size(200, 50);
 			this.libraryViewer.Name = "libraryViewer";
-			this.libraryViewer.Size = new System.Drawing.Size(446, 365);
+			this.libraryViewer.Size = new System.Drawing.Size(458, 371);
 			this.libraryViewer.StartingFolder = null;
 			this.libraryViewer.TabIndex = 0;
 			this.libraryViewer.TopFolders = new string[0];
@@ -261,8 +259,7 @@
 			// B_GridView
 			// 
 			this.B_GridView.ActiveColor = null;
-			this.B_GridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+			this.B_GridView.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.B_GridView.Cursor = System.Windows.Forms.Cursors.Hand;
 			dynamicIcon6.Name = "I_Grid";
 			this.B_GridView.ImageName = dynamicIcon6;
@@ -279,7 +276,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(774, 470);
 			this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(58)))), ((int)(((byte)(69)))));
-			this.IconBounds = new System.Drawing.Rectangle(125, 46, 32, 32);
+			this.IconBounds = new System.Drawing.Rectangle(119, 44, 32, 32);
 			this.MaximizeBox = true;
 			this.MaximizedBounds = new System.Drawing.Rectangle(0, 0, 2560, 1380);
 			this.MinimizeBox = true;
@@ -300,7 +297,6 @@
 
 		#endregion
 		private System.Windows.Forms.TableLayoutPanel TLP_Main;
-		protected System.Windows.Forms.Label L_Title;
 		protected SlickTextBox TB_Search;
 		protected SlickButton B_Cancel;
 		protected SlickButton B_OK;
@@ -311,5 +307,6 @@
 		protected SlickIcon I_SortDirection;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private IoSortDropdown ioSortDropdown;
+		protected System.Windows.Forms.Label L_Title;
 	}
 }

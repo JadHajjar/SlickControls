@@ -65,7 +65,7 @@ namespace SlickControls
 		{
 			e.Graphics.Clear(BackColor);
 
-			using (var image = ImageName?.Get(Width) ?? Image)
+			using (var image = ImageName?.Get(Math.Min(Height, Width)) ?? Image)
 			{
 				if (Loading)
 				{
