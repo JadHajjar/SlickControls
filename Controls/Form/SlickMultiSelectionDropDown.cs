@@ -1,30 +1,25 @@
 ﻿using Extensions;
 
-using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls
 {
 	public abstract class SlickMultiSelectionDropDown<T> : SlickSelectionDropDown<T>
 	{
-		private Rectangle ClearRectangle => new Rectangle(_searchBox.Right + Padding.Right, _searchBox.Top - (int)(3 * UI.FontScale), _searchBox.Height + (int)(6 * UI.FontScale), _searchBox.Height + (int)(6 * UI.FontScale));
+		private Rectangle ClearRectangle => new Rectangle(_searchBox.Right + Padding.Horizontal + _searchBox.Height, _searchBox.Top - (int)(3 * UI.FontScale), _searchBox.Height + (int)(6 * UI.FontScale), _searchBox.Height + (int)(6 * UI.FontScale));
 		private readonly List<T> _selectedItems = new List<T>();
 
-		public IEnumerable<T> SelectedItems =>new List<T>(_selectedItems);
+		public IEnumerable<T> SelectedItems => new List<T>(_selectedItems);
 
 		public override void ResetValue()
 		{
 			_selectedItems.Clear();
 			listDropDown?.Invalidate();
 			OnSelectedItemChanged();
+			Invalidate();
 		}
 
 		public void Select(T obj)
@@ -32,6 +27,7 @@ namespace SlickControls
 			_selectedItems.Add(obj);
 			listDropDown?.Invalidate();
 			OnSelectedItemChanged();
+			Invalidate();
 		}
 
 		protected override void OnMouseClick(MouseEventArgs e)
@@ -54,11 +50,18 @@ namespace SlickControls
 		internal override void ItemSelected(T item)
 		{
 			if (_selectedItems.Contains(item))
+			{
 				_selectedItems.Remove(item);
+			}
 			else
+			{
 				_selectedItems.Add(item);
+			}
 
 			OnSelectedItemChanged();
+
+			_searchBox.Focus();
+			_searchBox.SelectAll();
 		}
 
 		public override void ShowDropdown()
@@ -74,67 +77,53 @@ namespace SlickControls
 
 		protected sealed override void PaintItem(PaintEventArgs e, Rectangle rectangle, Color foreColor, HoverState hoverState, T item)
 		{
-			PaintItem(e, rectangle, foreColor, hoverState, item, _selectedItems.Contains(item));
+			var selected = _selectedItems.Contains(item);
+
+			if (selected && !hoverState.HasFlag(HoverState.Pressed))
+			{
+				var bar = (int)(4 * UI.FontScale);
+				using (var brush = new LinearGradientBrush(e.ClipRectangle.Pad(e.ClipRectangle.Width / 4, 0, 0, 0), Color.Empty, Color.FromArgb(50, FormDesign.Design.ActiveColor), LinearGradientMode.Horizontal))
+				{
+					e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.Pad(0, -Padding.Top, 0, -Padding.Bottom).Pad((e.ClipRectangle.Width / 4) + 1, 1, bar, 1), bar);
+				}
+
+				using (var brush = new SolidBrush(FormDesign.Design.ActiveColor))
+				{
+					e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveColor), new Rectangle(e.ClipRectangle.Right - (3 * bar / 2) - 1, e.ClipRectangle.Y + 1, bar * 3 / 2, e.ClipRectangle.Height - 2).Pad(0, -Padding.Top, 0, -Padding.Bottom));
+				}
+
+				foreColor = FormDesign.Design.ActiveColor;
+			}
+
+			PaintItem(e, rectangle, foreColor, hoverState, item, selected);
 		}
 
-		protected override void OnPaint(PaintEventArgs e)
+		protected override void PaintForListOpen(PaintEventArgs e, Color fore)
 		{
-			SlickButton.GetColors(out var fore, out var back, listDropDown != null ? HoverState.Normal : HoverState);
+			base.PaintForListOpen(e, fore);
 
-			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-
-			if (listDropDown != null)
+			using (var image = IconManager.GetIcon("I_Cancel", _searchBox.Height))
 			{
-				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
-				
-				using (var brush = new LinearGradientBrush(ClientRectangle, Color.FromArgb(150, FormDesign.Design.ButtonColor), Color.Empty, 90))
+				var hoverState = ClearRectangle.Contains(PointToClient(MousePosition)) ? (HoverState & ~HoverState.Focused) : HoverState.Normal;
+
+				var color =  
+					hoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor :
+					hoverState.HasFlag(HoverState.Hovered) ? Color.FromArgb(100, FormDesign.Design.ActiveColor) :
+					ForeColor;
+
+				if (hoverState.HasFlag(HoverState.Hovered))
 				{
-					e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
+					using (var brush = new SolidBrush(hoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(25, FormDesign.Design.ActiveColor) :Color.FromArgb(75, FormDesign.Design.AccentColor)))
+						e.Graphics.FillRoundedRectangle(brush, ClearRectangle, (int)(4 * UI.FontScale));
 				}
 
-				e.Graphics.DrawString(Text, UI.Font(6.75F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle.Pad(Padding.Left, Padding.Top / 2, 0, 0), new StringFormat { Alignment = StringAlignment.Center });
-
-				var pad = (int)(3 * UI.FontScale);
-
-				if (_searchBox.Focused)
-				{
-					e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), _searchBox.Bounds.Pad(-pad + 2).Pad(0, 0, 0, -2), pad);
-					e.Graphics.FillRoundedRectangle(new SolidBrush(_searchBox.BackColor), _searchBox.Bounds.Pad(-pad).Pad(0, 0, 0, 2), pad);
-				}
-				else
-				{
-					e.Graphics.FillRoundedRectangle(new SolidBrush(_searchBox.BackColor), _searchBox.Bounds.Pad(-pad), pad);
-				}
-
-				SlickButton.DrawButton(e
-					, ClearRectangle
-					, string.Empty
-					, Font
-					, Properties.Resources.I_Cancel_16
-					, null
-					, ClearRectangle.Contains(PointToClient(MousePosition)) ? (HoverState & ~HoverState.Focused) : HoverState.Normal);
-
-				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, 1, 2, -2), Padding.Left);
+				e.Graphics.DrawImage(image.Color(color), ClearRectangle.CenterR(image.Size));
 			}
-			else
-			{
-				using (var brush = ClientRectangle.Gradient(back, 0.5F))
-				{
-					e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
-				}
+		}
 
-				var labelSize = string.IsNullOrWhiteSpace(Text) ? Size.Empty : e.Graphics.Measure(Text, UI.Font(6.75F, FontStyle.Bold));
-
-				e.Graphics.DrawString(Text, UI.Font(6.75F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle.Pad(Padding.Left, Padding.Top / 2, 0, 0));
-
-				PaintSelectedItems(e, ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 1.2), 0, 0), fore, listDropDown != null ? HoverState.Pressed : HoverState, _selectedItems);
-
-				using (var chevron = (UI.FontScale >= 1.25 ? Properties.Resources.I_DropChevron_24 : Properties.Resources.I_DropChevron_16).Color(fore.MergeColor(back, 90)))
-				{
-					e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
-				}
-			}
+		protected override void PaintSelectedItem(PaintEventArgs e, Color fore, Rectangle rectangle)
+		{
+			PaintSelectedItems(e, rectangle, fore, HoverState, _selectedItems);
 		}
 	}
 }

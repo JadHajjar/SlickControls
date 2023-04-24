@@ -116,8 +116,27 @@ namespace SlickControls
 		{
 			if (Live)
 			{
+				Font = UI.Font(8.25F);
 				Padding = UI.Scale(new Padding(5), UI.FontScale);
-				Height = (int)(24 * UI.UIScale);
+
+				if (Dock == DockStyle.Fill)
+				{
+					return;
+				}
+
+				var size = UI.Scale(new Size(150, string.IsNullOrEmpty(Text) ? 26 : 32), UI.UIScale);
+
+				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
+				{
+					size.Height = 0;
+				}
+
+				if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
+				{
+					size.Width = 0;
+				}
+
+				Size = size;
 			}
 		}
 
@@ -245,38 +264,41 @@ namespace SlickControls
 
 			e.Graphics.SetUp(BackColor);
 
-			var textRect = ClientRectangle.Pad(Padding);
-
 			if (listDropDown != null)
 			{
-				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
+				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, false, false);
 
-				using (var brush = new LinearGradientBrush(ClientRectangle, Color.FromArgb(150, FormDesign.Design.ButtonColor), Color.Empty, 90))
+				using (var brush = new LinearGradientBrush(ClientRectangle, Color.FromArgb(75, FormDesign.Design.AccentColor), Color.Empty, 90))
 				{
-					e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
+					e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, false, false);
 				}
 
-				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, 1, 2, -2), Padding.Left);
+				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, 1, 2, -2), Padding.Left, true, true, false, false);
 			}
 			else
 			{
-				using (var brush = ClientRectangle.Gradient(back, 0.5F))
-				{
-					e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
-				}
+				e.Graphics.FillRoundedRectangle(new SolidBrush(Focused ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), ClientRectangle.Pad(1, 1, 2, 1), 4);
+
+				e.Graphics.FillRoundedRectangle(new SolidBrush(HoverState.HasFlag(HoverState.Hovered) ? back : FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), 4);
 			}
 
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(7.5F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle.Pad(Padding), new StringFormat { LineAlignment = StringAlignment.Center });
+			var labelSize = string.IsNullOrWhiteSpace(Text) ? Size.Empty : e.Graphics.Measure(Text, UI.Font(6.5F));
 
-			textRect = textRect.Pad((int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(7.5F, FontStyle.Bold)).Width, 0, 0, 0);
+			e.Graphics.DrawString(Text, UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(Padding.Left, Padding.Top / 4, 0, 0));
 
-			using (var chevron = (UI.FontScale >= 1.5 ? Properties.Resources.I_DropChevron_24 : Properties.Resources.I_DropChevron_16).Color(fore.MergeColor(back, 90)))
+			PaintSelectedItem(e, fore, string.IsNullOrWhiteSpace(Text) ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2));
+
+			using (var chevron = IconManager.GetIcon("I_DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90)))
 			{
+				if (listDropDown != null)
+					chevron.Rotate(RotateFlipType.RotateNoneFlipY);
+
 				e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
-
-				textRect = textRect.Pad(0, 0, chevron.Width, 0);
 			}
+		}
 
+		private void PaintSelectedItem(PaintEventArgs e, Color fore, Rectangle rectangle)
+		{
 			string text;
 
 			if (set)
@@ -297,7 +319,7 @@ namespace SlickControls
 				text = LocaleHelper.GetGlobalText("Any Date");
 			}
 
-			e.Graphics.DrawString(text, UI.Font(9F), new SolidBrush(fore), textRect.Pad(0,0,Padding.Right,0), new StringFormat { Alignment = StringAlignment.Far });
+			e.Graphics.DrawString(text, Font, new SolidBrush(fore), rectangle.AlignToFontSize(Font, ContentAlignment.MiddleLeft));
 		}
 
 		public void SetValue(DateRangeType range, DateTime value)

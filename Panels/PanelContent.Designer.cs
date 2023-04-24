@@ -33,19 +33,15 @@
 			// 
 			// base_Text
 			// 
-			this.base_Text.ActiveColor = null;
 			this.base_Text.AutoSize = true;
 			this.base_Text.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-			this.base_Text.Center = false;
 			this.base_Text.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.base_Text.Display = true;
 			this.base_Text.Enabled = false;
 			this.base_Text.Font = new System.Drawing.Font("Nirmala UI", 11.25F);
-			this.base_Text.HideText = false;
 			this.base_Text.Location = new System.Drawing.Point(3, 3);
 			this.base_Text.Name = "base_Text";
 			this.base_Text.Padding = new System.Windows.Forms.Padding(3, 2, 0, 3);
-			this.base_Text.Selected = false;
 			this.base_Text.Size = new System.Drawing.Size(150, 30);
 			this.base_Text.TabIndex = 12;
 			this.base_Text.TabStop = false;

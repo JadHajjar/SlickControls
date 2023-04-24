@@ -591,24 +591,26 @@ namespace SlickControls
 		private void HandleScrolling(List<DrawableItem<T>> itemList)
 		{
 			var totalHeight = GetTotalHeight(itemList);
-
 			var validHeight = Height - StartHeight;
+
+			if (scrollVisible != totalHeight > validHeight)
+				Invalidate();
 
 			if (totalHeight > validHeight)
 			{
 				var rowCount = GetNumRows(itemList);
 				visibleItems = (int)Math.Floor((float)validHeight / (GridView ? GridItemSize.Height : (ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0))));
-				scrollVisible = true;
 				scrollIndex = Math.Max(0, Math.Min(scrollIndex, rowCount - visibleItems));
 
 				var thumbHeight = Math.Max(validHeight * visibleItems / rowCount, validHeight / 24);
 
 				scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + ((validHeight - thumbHeight) * scrollIndex / (rowCount - visibleItems).If(0, 1)), (int)(10 * UI.FontScale), thumbHeight);
+				scrollVisible = true;
 			}
 			else
 			{
-				scrollVisible = false;
 				scrollIndex = 0;
+				scrollVisible = false;
 			}
 		}
 

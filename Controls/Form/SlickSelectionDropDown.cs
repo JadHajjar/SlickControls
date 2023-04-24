@@ -96,11 +96,12 @@ namespace SlickControls
 				{
 					if (Items.Length > 12)
 					{
-						_searchBox.Font = UI.Font((float)(7.5F * UI.WindowsScale));
-						_searchLabel.Font = UI.Font(7.5F, FontStyle.Italic);
+						_searchBox.Font = UI.Font((float)(6.5F * UI.WindowsScale * UI.UIScale / UI.FontScale));
+						_searchLabel.Font = UI.Font(6.5F, FontStyle.Italic);
+						_searchLabel.ForeColor = FormDesign.Design.InfoColor;
 						_searchBox.Text = string.Empty;
-						_searchBox.Bounds = ClientRectangle.Pad(0, 0, 0, Padding.Bottom + (int)(3 * UI.FontScale)).Align(new Size(Width - (2 * Padding.Horizontal), _searchBox.Height), ContentAlignment.BottomCenter);
-						_searchLabel.Bounds = _searchBox.Bounds.Pad(Padding.Left, 0, 0, 0);
+						_searchBox.Bounds = ClientRectangle.Pad(0, 0, 0, (Padding.Bottom / 2) + 4).Align(new Size(Width - (2 * Padding.Horizontal), _searchBox.Height), ContentAlignment.BottomCenter).Pad(0, 0, _searchBox.Height + Padding.Horizontal, 0);
+						_searchLabel.Bounds = _searchBox.Bounds.Pad(2, 0, 0, 0);
 						_searchBox.Parent = this;
 						_searchLabel.Parent = this;
 						_searchLabel.BringToFront();
@@ -168,11 +169,6 @@ namespace SlickControls
 		{
 			if (Live)
 			{
-				if (Margin.All == 3)
-				{
-					Margin = UI.Scale(new Padding(3), UI.FontScale);
-				}
-
 				Font = UI.Font(8.25F);
 				Padding = UI.Scale(new Padding(5), UI.FontScale);
 
@@ -347,28 +343,23 @@ namespace SlickControls
 
 			if (listDropDown != null)
 			{
-				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
+				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, false, false);
 
-				using (var brush = new LinearGradientBrush(ClientRectangle, Color.FromArgb(150, FormDesign.Design.ButtonColor), Color.Empty, 90))
+				using (var brush = new LinearGradientBrush(ClientRectangle, Color.FromArgb(75, FormDesign.Design.AccentColor), Color.Empty, 90))
 				{
-					e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, listDropDown == null, listDropDown == null);
+					e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 2), Padding.Left, true, true, false, false);
 				}
 
-				e.Graphics.DrawString(Text, UI.Font(6.5F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle.Pad(Padding.Left, Padding.Top / 2, 0, 0), new StringFormat { Alignment = StringAlignment.Center });
-
-				var pad = (int)(3 * UI.FontScale);
-
-				if (_searchBox.Focused)
+				if (_searchBox.Parent != null)
 				{
-					e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), _searchBox.Bounds.Pad(-pad + 2).Pad(0, 0, 0, -2), pad);
-					e.Graphics.FillRoundedRectangle(new SolidBrush(_searchBox.BackColor), _searchBox.Bounds.Pad(-pad).Pad(0, 0, 0, 2), pad);
+					PaintForListOpen(e, fore);
 				}
 				else
 				{
-					e.Graphics.FillRoundedRectangle(new SolidBrush(_searchBox.BackColor), _searchBox.Bounds.Pad(-pad), pad);
+					PaintForListOpenNoSearch(e, fore);
 				}
 
-				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, 1, 2, -2), Padding.Left);
+				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, 1, 2, -2), Padding.Left, true, true, false, false);
 			}
 			else
 			{
@@ -390,13 +381,44 @@ namespace SlickControls
 
 				e.Graphics.DrawString(Text, UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(Padding.Left, Padding.Top / 4, 0, 0));
 
-				PaintItem(e, string.IsNullOrWhiteSpace(Text) ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2)
-					, fore, listDropDown != null ? HoverState.Pressed : HoverState, SelectedItem);
+				PaintSelectedItem(e, fore, string.IsNullOrWhiteSpace(Text) ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2));
 
 				using (var chevron = IconManager.GetIcon("I_DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90)))
 				{
 					e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
 				}
+			}
+		}
+
+		private void PaintForListOpenNoSearch(PaintEventArgs e, Color fore)
+		{
+			e.Graphics.DrawString(Text, UI.Font(6.5F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+		}
+
+		protected virtual void PaintSelectedItem(PaintEventArgs e, Color fore, Rectangle rectangle)
+		{
+			PaintItem(e, rectangle, fore, HoverState, SelectedItem);
+		}
+
+		protected virtual void PaintForListOpen(PaintEventArgs e, Color fore)
+		{
+			e.Graphics.DrawString(Text, UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(_searchBox.Left, 1, 0, 0));
+
+			var pad = 3;
+
+			if (_searchBox.Focused)
+			{
+				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), _searchBox.Bounds.Pad(-pad + 2).Pad(0, 0, -_searchBox.Height - Padding.Right, -2), pad);
+				e.Graphics.FillRoundedRectangle(new SolidBrush(_searchBox.BackColor), _searchBox.Bounds.Pad(-pad).Pad(0, 0, -_searchBox.Height - Padding.Right, 2), pad);
+			}
+			else
+			{
+				e.Graphics.FillRoundedRectangle(new SolidBrush(_searchBox.BackColor), _searchBox.Bounds.Pad(-pad).Pad(0, 0, -_searchBox.Height - Padding.Right, 0), pad);
+			}
+
+			using (var icon = IconManager.GetIcon("I_Search", _searchBox.Height))
+			{
+				e.Graphics.DrawImage(icon.Color(FormDesign.Design.IconColor), new Rectangle(new Point(_searchBox.Right + Padding.Left, _searchBox.Top + ((_searchBox.Height - icon.Height) / 2)), icon.Size));
 			}
 		}
 
@@ -458,7 +480,7 @@ namespace SlickControls
 				base.OnPaint(e);
 
 				e.Graphics.ResetClip();
-				e.Graphics.DrawRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, -2, 1, 1));
+				e.Graphics.DrawRectangle(new Pen(Color.FromArgb(120, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, -2, 1, 1));
 			}
 		}
 	}

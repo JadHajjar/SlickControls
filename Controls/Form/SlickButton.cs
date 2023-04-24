@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace SlickControls
 {
@@ -47,6 +46,9 @@ namespace SlickControls
 		[Category("Appearance")]
 		public Color? ColorShade { get => colorShade; set { colorShade = value; Invalidate(); } }
 
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
+		public bool AlignLeft { get; set; }
+
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
@@ -71,10 +73,14 @@ namespace SlickControls
 		protected override void UIChanged()
 		{
 			if (Live && Padding == Padding.Empty)
+			{
 				Padding = UI.Scale(new Padding(7), UI.UIScale);
+			}
 
 			if (Live && HandleUiScale)
+			{
 				Size = GetAutoSize();
+			}
 		}
 
 		protected override void LocaleChanged()
@@ -110,12 +116,16 @@ namespace SlickControls
 			using (var image = Image)
 			{
 				if (!Live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && image == null))
+				{
 					return Size;
+				}
 
 				var availableSize = GetAvailableSize();
 
 				if (lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
+				{
 					return lastSize;
+				}
 
 				var IconSize = image?.Width ?? 16;
 
@@ -143,20 +153,28 @@ namespace SlickControls
 
 				var extraWidth = (image == null ? 0 : (IconSize + Padding.Left)) + (int)(3 * UI.FontScale) + Padding.Horizontal;
 				var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
-				var h = Math.Max(IconSize + 6, (int)(bnds.Height) + Padding.Top + 3);
+				var h = Math.Max(IconSize + 6, (int)bnds.Height + Padding.Top + 3);
 				var w = (int)Math.Ceiling(bnds.Width) + extraWidth;
 
 				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
+				{
 					h = Height;
+				}
 
 				if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
+				{
 					w = Width;
+				}
 
 				if (w > availableSize.Width)
+				{
 					w = availableSize.Width;
+				}
 
 				if (h > availableSize.Height)
+				{
 					h = availableSize.Height;
+				}
 
 				w = w.Between(MinimumSize.Width, MaximumSize.Width.If(0, w));
 				h = h.Between(MinimumSize.Height, MaximumSize.Height.If(0, h));
@@ -178,19 +196,22 @@ namespace SlickControls
 			if (string.IsNullOrWhiteSpace(text))
 			{
 				var pad = Math.Max(padding.Value.Horizontal, padding.Value.Vertical);
-				
+
 				return new Size(iconSize + pad, iconSize + pad);
 			}
 
 			var bnds = g.Measure(LocaleHelper.GetGlobalText(text), font);
 			var extraWidth = (image == null ? 0 : (iconSize + padding.Value.Left)) + (int)(3 * UI.FontScale);
-			var h = Math.Max(iconSize + 6, (int)(bnds.Height) + padding.Value.Top + 3);
+			var h = Math.Max(iconSize + 6, (int)bnds.Height + padding.Value.Top + 3);
 			var w = (int)Math.Ceiling(bnds.Width) + extraWidth + padding.Value.Horizontal;
 
 			return new Size(w, h);
 		}
 
-		protected override void DesignChanged(FormDesign design) => Invalidate();
+		protected override void DesignChanged(FormDesign design)
+		{
+			Invalidate();
+		}
 
 		public static void GetColors(out Color fore, out Color back, HoverState HoverState, ColorStyle ColorStyle = ColorStyle.Active, Color? ColorShade = null, Color? clearColor = null, Color? BackColor = null, bool Enabled = true)
 		{
@@ -217,13 +238,15 @@ namespace SlickControls
 
 			using (var img = Image)
 			{
+				GetColors(out var fore, out var back, HoverState, ColorStyle, colorShade, Parent?.BackColor ?? BackColor, BackColor, Enabled);
+
 				DrawButton(e,
 					Point.Empty,
 					Size,
 					LocaleHelper.GetGlobalText(Text),
 					Font,
-					Parent?.BackColor ?? BackColor,
-					BackColor,
+					back,
+					fore,
 					img,
 					Padding,
 					Enabled,
@@ -234,77 +257,93 @@ namespace SlickControls
 			}
 		}
 
-		public static void DrawButton(PaintEventArgs e,
+		public static void DrawButton(
+			PaintEventArgs e,
 			Rectangle rectangle,
 			string text,
 			Font font,
 			Image icon,
 			Padding? padding = null,
-			HoverState HoverState = HoverState.Normal,
-			ColorStyle ColorStyle = ColorStyle.Active)
-			=> DrawButton(e, rectangle.Location, rectangle.Size, text, font, Color.Empty, Color.Empty, icon, padding ?? UI.Scale(new Padding(7), UI.UIScale), true, HoverState, ColorStyle);
-
-		public static void DrawButton(PaintEventArgs e,
-								Point location,
-								Size size,
-								string Text,
-								Font Font,
-								Color clearColor,
-								Color BackColor,
-								Image Image,
-								Padding Padding,
-								bool Enabled = true,
-								HoverState HoverState = HoverState.Normal,
-								ColorStyle ColorStyle = ColorStyle.Active,
-								Color? ColorShade = null,
-								SlickControl slickButton = null)
+			HoverState hoverState = HoverState.Normal,
+			ColorStyle colorStyle = ColorStyle.Active)
 		{
-			GetColors(out var fore, out var back, HoverState, ColorStyle, ColorShade, clearColor, BackColor, Enabled);
+			GetColors(out var fore, out var back, hoverState, colorStyle, null, Color.Empty, Color.Empty, true);
 
+			DrawButton(e, rectangle.Location, rectangle.Size, text, font, back, fore, icon, padding ?? UI.Scale(new Padding(7), UI.UIScale), true, hoverState, colorStyle);
+		}
+
+		public static void DrawButton(
+			PaintEventArgs e,
+			Point location,
+			Size size,
+			string text,
+			Font font,
+			Color back,
+			Color fore,
+			Image image,
+			Padding padding,
+			bool enabled = true,
+			HoverState hoverState = HoverState.Normal,
+			ColorStyle colorStyle = ColorStyle.Active,
+			Color? colorShade = null,
+			SlickControl slickButton = null)
+		{
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-			e.Graphics.FillRoundedRectangle(Gradient(new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), back), new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), (int)(4*UI.FontScale));
+			e.Graphics.FillRoundedRectangle(Gradient(new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), back), new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), (int)(4 * UI.FontScale));
 
-			if (!HoverState.HasFlag(HoverState.Pressed))
-				DrawFocus(e.Graphics, new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), HoverState, (int)(4 * UI.FontScale), ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade));
+			if (!hoverState.HasFlag(HoverState.Pressed))
+			{
+				DrawFocus(e.Graphics, new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), hoverState, (int)(4 * UI.FontScale), colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade));
+			}
 
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			var iconSize = Image?.Width ?? 16;
-			var extraWidth = (Image == null ? 0 : (iconSize + Padding.Left)) + (int)(3 * UI.FontScale);
-			var bnds = e.Graphics.Measure(Text, Font, size.Width - extraWidth - Padding.Horizontal);
-			var noText = string.IsNullOrWhiteSpace(Text) || size.Width.IsWithin(0, (int)(50 * UI.FontScale));
+			var iconSize = image?.Width ?? 16;
+			var extraWidth = (image == null ? 0 : (iconSize + padding.Left)) + (int)(3 * UI.FontScale);
+			var bnds = e.Graphics.Measure(text, font, size.Width - extraWidth - padding.Horizontal);
+			var noText = string.IsNullOrWhiteSpace(text) || size.Width.IsWithin(0, (int)(50 * UI.FontScale));
 
 			try
 			{
 				if (slickButton?.Loading ?? false)
 				{
 					if (noText)
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + (size.Width - iconSize) / 2, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize), HoverState.HasFlag(HoverState.Pressed) ? (Color?)fore : ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade));
+					{
+						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + ((size.Width - iconSize) / 2), location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize), hoverState.HasFlag(HoverState.Pressed) ? fore : colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade));
+					}
 					else
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + Padding.Left, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize), HoverState.HasFlag(HoverState.Pressed) ? (Color?)fore : ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade));
+					{
+						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + padding.Left, location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize), hoverState.HasFlag(HoverState.Pressed) ? fore : colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade));
+					}
 				}
-				else if (Image != null)
+				else if (image != null)
 				{
 					if (noText)
-						e.Graphics.DrawImage(Image.Color(fore), new Rectangle(location.X + (size.Width - iconSize) / 2, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize));
+					{
+						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + ((size.Width - iconSize) / 2), location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize));
+					}
 					else
-						e.Graphics.DrawImage(Image.Color(fore), new Rectangle(location.X + Padding.Left, location.Y + (size.Height - iconSize) / 2, iconSize, iconSize));
+					{
+						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + padding.Left, location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize));
+					}
 				}
 			}
 			catch { }
 
 			if (noText)
+			{
 				return;
+			}
 
 			var stl = new StringFormat()
 			{
-				Alignment = StringAlignment.Center,
+				Alignment = image == null && slickButton is SlickButton button && button.AlignLeft ? StringAlignment.Near : StringAlignment.Center,
 				LineAlignment = StringAlignment.Center,
 				Trimming = StringTrimming.EllipsisCharacter
 			};
 
-			var textRect = new Rectangle(location, size).Pad(Padding);
+			var textRect = new Rectangle(location, size).Pad(padding);
 
 			textRect.X += extraWidth;
 			textRect.Width -= extraWidth;
@@ -315,9 +354,12 @@ namespace SlickControls
 				textRect.Height = 3 + (int)bnds.Height;
 			}
 
-			e.Graphics.DrawString(Text, Font, new SolidBrush(fore), textRect, stl);
+			e.Graphics.DrawString(text, font, new SolidBrush(fore), textRect, stl);
 		}
 
-		public new void OnClick(EventArgs e) => base.OnClick(e);
+		public new void OnClick(EventArgs e)
+		{
+			base.OnClick(e);
+		}
 	}
 }

@@ -198,20 +198,20 @@ namespace SlickControls
 					var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
 					var iconWidth = icon?.Width ?? 0;
 					var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
-					var iconRectangle = new Rectangle(Padding.Left * 2, (Padding.Bottom * 2) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
+					var iconRectangle = new Rectangle(Padding.Left * 2, (Padding.Bottom) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
 
 					if (icon != null)
 					{
 						e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 					}
 
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
 
 					if (!string.IsNullOrWhiteSpace(Info))
 					{
 						var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold));
 
-						e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info), UI.Font(iconWidth == 16 ? 7.5F : 8.25F), new SolidBrush(Color.FromArgb(200, textColor)), new Rectangle(iconWidth + (Padding.Left * 4) + (int)bnds.Width, Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+						e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info), UI.Font(iconWidth == 16 ? 7.5F : 8.25F), new SolidBrush(Color.FromArgb(200, textColor)), new Rectangle(iconWidth + (Padding.Left * 4) + (int)bnds.Width, Padding.Bottom, Width - (iconWidth + (Padding.Left * 4) + (int)bnds.Width + Padding.Right), titleHeight).AlignToFontSize(UI.Font(iconWidth == 16 ? 7.5F : 8.25F), ContentAlignment.MiddleLeft), new StringFormat { LineAlignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter });
 					}
 				}
 			}
@@ -324,20 +324,20 @@ namespace SlickControls
 					var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
 					var iconWidth = icon?.Width ?? 0;
 					var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
-					var iconRectangle = new Rectangle(Padding.Left * 2, (Padding.Bottom * 2) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
+					var iconRectangle = new Rectangle(Padding.Left * 2, (Padding.Bottom) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
 
 					if (icon != null)
 					{
 						e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 					}
 
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
 
 					if (!string.IsNullOrWhiteSpace(Info))
 					{
 						var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold));
 
-						e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info), UI.Font(iconWidth == 16 ? 7.5F : 8.25F), new SolidBrush(Color.FromArgb(200, textColor)), new Rectangle(iconWidth + (Padding.Left * 4) + (int)bnds.Width, Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+						e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info), UI.Font(iconWidth == 16 ? 7.5F : 8.25F), new SolidBrush(Color.FromArgb(200, textColor)), new Rectangle(iconWidth + (Padding.Left * 4) + (int)bnds.Width, Padding.Bottom, Width - (iconWidth + (Padding.Left * 4) + (int)bnds.Width + Padding.Right), titleHeight).AlignToFontSize(UI.Font(iconWidth == 16 ? 7.5F : 8.25F), ContentAlignment.MiddleLeft), new StringFormat { LineAlignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter });
 					}
 				}
 			}
@@ -456,20 +456,20 @@ namespace SlickControls
 					var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
 					var iconWidth = icon?.Width ?? 0;
 					var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
-					var iconRectangle = new Rectangle(Padding.Left * 2, (Padding.Bottom * 2) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
+					var iconRectangle = new Rectangle(Padding.Left * 2, (Padding.Bottom ) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
 
 					if (icon != null)
 					{
 						e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 					}
 
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Left * 3), Padding.Bottom , Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
 
 					if (!string.IsNullOrWhiteSpace(Info))
 					{
 						var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold));
 
-						e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info), UI.Font(iconWidth == 16 ? 7.5F : 8.25F), new SolidBrush(Color.FromArgb(200, textColor)), new Rectangle(iconWidth + (Padding.Left * 4) + (int)bnds.Width, Padding.Bottom * 2, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+						e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info), UI.Font(iconWidth == 16 ? 7.5F : 8.25F), new SolidBrush(Color.FromArgb(200, textColor)), new Rectangle(iconWidth + (Padding.Left * 4) + (int)bnds.Width, Padding.Bottom, Width - (iconWidth + (Padding.Left * 4) + (int)bnds.Width + Padding.Right), titleHeight).AlignToFontSize(UI.Font(iconWidth == 16 ? 7.5F : 8.25F), ContentAlignment.MiddleLeft), new StringFormat { LineAlignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter });
 					}
 				}
 			}

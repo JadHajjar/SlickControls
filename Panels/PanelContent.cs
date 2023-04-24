@@ -119,6 +119,7 @@ namespace SlickControls
 			Font = UI.Font(8.25F);
 			Padding = UI.Scale(defaultPadding ?? new Padding(5, 30, 5, 5), UI.FontScale);
 			base_Text.Font = UI.Font(11.25F);
+			SetBackIcon();
 			base_Text.Location = new Point((int)Math.Ceiling(3F * (float)UI.FontScale) + ((int)(5 * UI.UIScale) - Padding.Left), (int)Math.Ceiling(3F * (float)UI.FontScale));
 		}
 
@@ -164,14 +165,19 @@ namespace SlickControls
 		{
 			base_Text.BringToFront();
 
+			SetBackIcon();
+
+			base.OnCreateControl();
+		}
+
+		private void SetBackIcon()
+		{
 			if (Form?.PanelHistory?.Any(x => x != this) ?? false)
 			{
 				base_Text.Image = UI.FontScale > 2 ? Properties.Resources.I_ArrowLeft_32 : UI.FontScale >= 1.5 ? Properties.Resources.I_ArrowLeft_24 : Properties.Resources.I_ArrowLeft;
 				base_Text.Enabled = true;
 				SlickTip.SetTo(base_Text, string.Format(LocaleHelper.GetGlobalText("Go back to {0}"), Form.PanelHistory.Last().Text));
 			}
-
-			base.OnCreateControl();
 		}
 
 		protected override void OnHandleCreated(EventArgs e)

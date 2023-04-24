@@ -48,7 +48,7 @@ namespace SlickControls
 		}
 
 		[Category("Appearance"), DisplayName("Image Name"), DefaultValue(null), TypeConverter(typeof(IconManager.IconConverter))]
-		public DynamicIcon ImageName { get => _imageName; set { _imageName = value; Invalidate(); } }
+		public virtual DynamicIcon ImageName { get => _imageName; set { _imageName = value; Invalidate(); } }
 
 		[Category("Appearance"), DisplayName("Large Image"), DefaultValue(false)]
 		public bool LargeImage { get; set; }
