@@ -83,20 +83,20 @@
 			this.panel1.Controls.Add(this.verticalScroll1);
 			this.panel1.Controls.Add(this.FLP_Pickers);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel1.Location = new System.Drawing.Point(7, 86);
+			this.panel1.Location = new System.Drawing.Point(5, 71);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(984, 360);
+			this.panel1.Size = new System.Drawing.Size(988, 408);
 			this.panel1.TabIndex = 59;
 			// 
 			// verticalScroll1
 			// 
 			this.verticalScroll1.Dock = System.Windows.Forms.DockStyle.Right;
 			this.verticalScroll1.LinkedControl = this.FLP_Pickers;
-			this.verticalScroll1.Location = new System.Drawing.Point(976, 0);
+			this.verticalScroll1.Location = new System.Drawing.Point(982, 0);
 			this.verticalScroll1.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
 			this.verticalScroll1.Name = "verticalScroll1";
-			this.verticalScroll1.Size = new System.Drawing.Size(8, 360);
+			this.verticalScroll1.Size = new System.Drawing.Size(6, 408);
 			this.verticalScroll1.Style = SlickControls.StyleType.Vertical;
 			this.verticalScroll1.TabIndex = 1;
 			this.verticalScroll1.TabStop = false;
@@ -316,10 +316,10 @@
 			this.CB_UseSystemTheme.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_UseSystemTheme.DefaultValue = false;
 			this.CB_UseSystemTheme.EnterTriggersClick = false;
-			this.CB_UseSystemTheme.Location = new System.Drawing.Point(10, 84);
+			this.CB_UseSystemTheme.Location = new System.Drawing.Point(8, 69);
 			this.CB_UseSystemTheme.Name = "CB_UseSystemTheme";
 			this.CB_UseSystemTheme.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
-			this.CB_UseSystemTheme.Size = new System.Drawing.Size(222, 31);
+			this.CB_UseSystemTheme.Size = new System.Drawing.Size(160, 24);
 			this.CB_UseSystemTheme.SpaceTriggersClick = true;
 			this.CB_UseSystemTheme.TabIndex = 1;
 			this.CB_UseSystemTheme.TabStop = false;
@@ -348,7 +348,7 @@
 			this.SS_Scale.AnimatedValue = 0;
 			this.SS_Scale.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.SS_Scale.FromValue = 80D;
-			this.SS_Scale.Location = new System.Drawing.Point(502, 65);
+			this.SS_Scale.Location = new System.Drawing.Point(502, 44);
 			this.SS_Scale.MaxValue = 200D;
 			this.SS_Scale.MinValue = 80D;
 			this.SS_Scale.Name = "SS_Scale";
@@ -369,9 +369,9 @@
 			// L_UiScale
 			// 
 			this.L_UiScale.AutoSize = true;
-			this.L_UiScale.Location = new System.Drawing.Point(502, 41);
+			this.L_UiScale.Location = new System.Drawing.Point(502, 26);
 			this.L_UiScale.Name = "L_UiScale";
-			this.L_UiScale.Size = new System.Drawing.Size(65, 21);
+			this.L_UiScale.Size = new System.Drawing.Size(48, 15);
 			this.L_UiScale.TabIndex = 68;
 			this.L_UiScale.Text = "UI Scale";
 			// 
@@ -383,10 +383,10 @@
 			this.CB_DisableAnimations.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_DisableAnimations.DefaultValue = false;
 			this.CB_DisableAnimations.EnterTriggersClick = false;
-			this.CB_DisableAnimations.Location = new System.Drawing.Point(10, 121);
+			this.CB_DisableAnimations.Location = new System.Drawing.Point(8, 99);
 			this.CB_DisableAnimations.Name = "CB_DisableAnimations";
 			this.CB_DisableAnimations.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
-			this.CB_DisableAnimations.Size = new System.Drawing.Size(186, 31);
+			this.CB_DisableAnimations.Size = new System.Drawing.Size(135, 24);
 			this.CB_DisableAnimations.SpaceTriggersClick = true;
 			this.CB_DisableAnimations.TabIndex = 3;
 			this.CB_DisableAnimations.TabStop = false;
@@ -402,10 +402,10 @@
 			this.CB_NightMode.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_NightMode.DefaultValue = false;
 			this.CB_NightMode.EnterTriggersClick = false;
-			this.CB_NightMode.Location = new System.Drawing.Point(256, 84);
+			this.CB_NightMode.Location = new System.Drawing.Point(255, 69);
 			this.CB_NightMode.Name = "CB_NightMode";
 			this.CB_NightMode.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
-			this.CB_NightMode.Size = new System.Drawing.Size(176, 31);
+			this.CB_NightMode.Size = new System.Drawing.Size(128, 24);
 			this.CB_NightMode.SpaceTriggersClick = true;
 			this.CB_NightMode.TabIndex = 2;
 			this.CB_NightMode.TabStop = false;
@@ -433,13 +433,13 @@
 			this.P_UI.ImageName = dynamicIcon5;
 			this.P_UI.Location = new System.Drawing.Point(3, 3);
 			this.P_UI.Name = "P_UI";
-			this.P_UI.Padding = new System.Windows.Forms.Padding(7, 41, 7, 7);
+			this.P_UI.Padding = new System.Windows.Forms.Padding(5, 26, 5, 5);
 			this.P_UI.RowCount = 4;
 			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.P_UI.Size = new System.Drawing.Size(998, 162);
+			this.P_UI.Size = new System.Drawing.Size(998, 131);
 			this.P_UI.TabIndex = 0;
 			this.P_UI.Text = "User Interface";
 			// 
@@ -452,7 +452,7 @@
 			this.DD_Font.Image = ((System.Drawing.Image)(resources.GetObject("DD_Font.Image")));
 			this.DD_Font.Items = null;
 			this.DD_Font.LabelText = "Font Family";
-			this.DD_Font.Location = new System.Drawing.Point(10, 44);
+			this.DD_Font.Location = new System.Drawing.Point(8, 29);
 			this.DD_Font.MaximumSize = new System.Drawing.Size(9999, 34);
 			this.DD_Font.MinimumSize = new System.Drawing.Size(50, 34);
 			this.DD_Font.Name = "DD_Font";
@@ -480,13 +480,13 @@
 			this.P_Theme.Dock = System.Windows.Forms.DockStyle.Fill;
 			dynamicIcon3.Name = "I_Paint";
 			this.P_Theme.ImageName = dynamicIcon3;
-			this.P_Theme.Location = new System.Drawing.Point(3, 171);
+			this.P_Theme.Location = new System.Drawing.Point(3, 140);
 			this.P_Theme.Name = "P_Theme";
-			this.P_Theme.Padding = new System.Windows.Forms.Padding(7, 41, 7, 7);
+			this.P_Theme.Padding = new System.Windows.Forms.Padding(5, 26, 5, 5);
 			this.P_Theme.RowCount = 2;
 			this.P_Theme.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.P_Theme.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.P_Theme.Size = new System.Drawing.Size(998, 453);
+			this.P_Theme.Size = new System.Drawing.Size(998, 484);
 			this.P_Theme.TabIndex = 1;
 			this.P_Theme.Text = "Custom Theme";
 			// 
@@ -497,7 +497,7 @@
 			this.B_Reset.Cursor = System.Windows.Forms.Cursors.Hand;
 			dynamicIcon1.Name = "I_Undo";
 			this.B_Reset.ImageName = dynamicIcon1;
-			this.B_Reset.Location = new System.Drawing.Point(888, 44);
+			this.B_Reset.Location = new System.Drawing.Point(890, 29);
 			this.B_Reset.Name = "B_Reset";
 			this.B_Reset.Size = new System.Drawing.Size(100, 30);
 			this.B_Reset.SpaceTriggersClick = true;
@@ -512,7 +512,7 @@
 			this.B_Random.Cursor = System.Windows.Forms.Cursors.Hand;
 			dynamicIcon2.Name = "I_Random";
 			this.B_Random.ImageName = dynamicIcon2;
-			this.B_Random.Location = new System.Drawing.Point(782, 44);
+			this.B_Random.Location = new System.Drawing.Point(784, 29);
 			this.B_Random.Name = "B_Random";
 			this.B_Random.Size = new System.Drawing.Size(100, 30);
 			this.B_Random.SpaceTriggersClick = true;
@@ -532,7 +532,7 @@
         "Light",
         "Chic"};
 			this.UD_BaseTheme.LabelText = "Base Theme";
-			this.UD_BaseTheme.Location = new System.Drawing.Point(10, 44);
+			this.UD_BaseTheme.Location = new System.Drawing.Point(8, 29);
 			this.UD_BaseTheme.MaximumSize = new System.Drawing.Size(400, 34);
 			this.UD_BaseTheme.MinimumSize = new System.Drawing.Size(50, 34);
 			this.UD_BaseTheme.Name = "UD_BaseTheme";

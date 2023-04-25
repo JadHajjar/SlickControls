@@ -110,7 +110,7 @@ namespace SlickControls
 
 			paintButtons(e, tabHeight);
 
-			var topRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), UI.Font(9F, FontStyle.Bold).Height + 6);
+			var topRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), (int)e.Graphics.Measure(" ", UI.Font(8.25F, FontStyle.Bold)).Height + 6);
 			var mainRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), Height - 10 - tabHeight).Pad(0, topRect.Height, 0, 0);
 
 			if (!canIncrement(-1))
@@ -144,11 +144,11 @@ namespace SlickControls
 			if (topRect.Pad(24, 0, 24, 0).Contains(Mouse) && view != DateView.Years)
 			{
 				action = () => { view = (DateView)((int)view - 1); Invalidate(); };
-				e.Graphics.DrawString(getViewTitle(), UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(topRect, FormDesign.Design.ActiveColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(getViewTitle(), UI.Font(8.25F, FontStyle.Bold), SlickControl.Gradient(topRect, FormDesign.Design.ActiveColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 			}
 			else
 			{
-				e.Graphics.DrawString(getViewTitle(), UI.Font(9F, FontStyle.Bold), SlickControl.Gradient(topRect, FormDesign.Design.LabelColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(getViewTitle(), UI.Font(8.25F, FontStyle.Bold), SlickControl.Gradient(topRect, FormDesign.Design.LabelColor), topRect.Pad(24, 0, 24, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 			}
 
 			drawView(e, mainRect);

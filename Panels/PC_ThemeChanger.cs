@@ -85,7 +85,7 @@ namespace SlickControls
 
 		public override bool CanExit(bool toBeDisposed)
 		{
-			if (changesMade && ShowPrompt("Do you want to apply your changes before leaving?", PromptButtons.YesNo, PromptIcons.Hand) == System.Windows.Forms.DialogResult.Yes)
+			if (changesMade && ShowPrompt(LocaleHelper.GetGlobalText("Do you want to apply your changes before leaving?"), PromptButtons.YesNo, PromptIcons.Hand) == System.Windows.Forms.DialogResult.Yes)
 			{
 				B_Save_Click(null, null);
 			}

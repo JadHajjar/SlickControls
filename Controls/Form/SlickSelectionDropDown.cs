@@ -274,15 +274,23 @@ namespace SlickControls
 
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
-			if (Keys.Down == keyData && listDropDown == null)
+			if (Keys.Down == keyData)
 			{
-				ShowDropdown();
+				if (listDropDown == null)
+				{
+					ShowDropdown();
+				}
+
 				return true;
 			}
 
-			if (Keys.Up == keyData && listDropDown != null)
+			if (Keys.Up == keyData)
 			{
-				CloseDropDown();
+				if (listDropDown != null)
+				{
+					CloseDropDown();
+				}
+
 				return true;
 			}
 
@@ -383,8 +391,8 @@ namespace SlickControls
 
 				using (var chevron = IconManager.GetIcon("I_DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90)))
 				{
-					PaintSelectedItem(e, fore, (string.IsNullOrWhiteSpace(Text) ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2)).Pad(0,0,chevron.Width,0));
-				
+					PaintSelectedItem(e, fore, (string.IsNullOrWhiteSpace(Text) ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2)).Pad(0, 0, chevron.Width, 0));
+
 					e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
 				}
 			}
@@ -436,6 +444,24 @@ namespace SlickControls
 					e.Graphics.SetClip(e.ClipRectangle.Pad(0, -Padding.Top, 0, -Padding.Bottom));
 					e.Graphics.FillRectangle(brush, e.Graphics.ClipBounds);
 				}
+			}
+
+			var selected = e.Item.Equals(selectedItem);
+
+			if (selected && !e.HoverState.HasFlag(HoverState.Pressed))
+			{
+				var bar = (int)(4 * UI.FontScale);
+				using (var brush = new LinearGradientBrush(e.ClipRectangle.Pad(e.ClipRectangle.Width / 4, 0, 0, 0), Color.Empty, Color.FromArgb(50, FormDesign.Design.ActiveColor), LinearGradientMode.Horizontal))
+				{
+					e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.Pad(0, -Padding.Top, 0, -Padding.Bottom).Pad((e.ClipRectangle.Width / 4) + 1, 1, bar, 1), bar);
+				}
+
+				using (var brush = new SolidBrush(FormDesign.Design.ActiveColor))
+				{
+					e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveColor), new Rectangle(e.ClipRectangle.Right - (3 * bar / 2) - 1, e.ClipRectangle.Y + 1, bar * 3 / 2, e.ClipRectangle.Height - 2).Pad(0, -Padding.Top, 0, -Padding.Bottom));
+				}
+
+				fore = FormDesign.Design.ActiveColor;
 			}
 
 			PaintItem(e, e.ClipRectangle.Pad(Padding.Left, 0, Padding.Right, 0), fore, e.HoverState, e.Item);

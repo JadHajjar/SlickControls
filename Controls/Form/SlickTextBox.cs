@@ -191,6 +191,16 @@ namespace SlickControls
 			Text = DefaultValue;
 		}
 
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+
+			if (!showLabel)
+			{
+				Padding = new Padding(Padding.Left, (Height - _textBox.Height) / 2, Padding.Right, (Height - _textBox.Height) / 2);
+			}
+		}
+
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();

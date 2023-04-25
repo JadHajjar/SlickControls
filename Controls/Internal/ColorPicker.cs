@@ -25,6 +25,7 @@ namespace SlickControls
 		{
 			label1.Font = UI.Font(9F);
 			Size = UI.Scale(new Size(188, 37), UI.UIScale);
+			Padding = UI.Scale(new Padding(5), UI.FontScale);
 		}
 
 		public event Action<object, bool> ColorChanged;
@@ -40,7 +41,10 @@ namespace SlickControls
 					color = value;
 					ColorChanged?.Invoke(this, false);
 					if (color == value)
+					{
 						PB_Color?.Invalidate();
+						Invalidate();
+					}
 				}
 			}
 		}
@@ -60,7 +64,7 @@ namespace SlickControls
 
 		protected override void DesignChanged(FormDesign design)
 		{
-			panel1.BackColor = design.AccentColor;
+			BackColor = design.AccentBackColor;
 			tableLayoutPanel1.ForeColor = design.ForeColor;
 			if (!string.IsNullOrWhiteSpace(ColorName))
 				Color = GetDefaultColor();
@@ -86,7 +90,8 @@ namespace SlickControls
 				ColorSetter(color);
 
 				ColorChanged?.Invoke(this, true);
-				PB_Color.Refresh();
+				PB_Color.Invalidate();
+				Invalidate();
 			}
 			else if ((e as MouseEventArgs).Button == MouseButtons.Right)
 			{
@@ -94,7 +99,8 @@ namespace SlickControls
 				ColorSetter(Color);
 
 				ColorChanged?.Invoke(this, true);
-				PB_Color.Refresh();
+				PB_Color.Invalidate();
+				Invalidate();
 			}
 
 			if (!string.IsNullOrWhiteSpace(ColorName))
@@ -164,6 +170,15 @@ namespace SlickControls
 			e.Graphics.Clear(FormDesign.Design.BackColor);
 			e.Graphics.FillRectangle(new SolidBrush(Color), new Rectangle(1, 1, size.Width - 3, size.Height - 3));
 			e.Graphics.DrawRectangle(new Pen(Color.FromArgb(175, ExtensionClass.ColorFromHSL(Color.GetHue(), Color.GetSaturation(), (1D - Color.GetBrightness()).Between(.2, .8))), 1), new Rectangle(0, 0, size.Width - 3, size.Height - 3));
+		}
+
+		protected override void OnPaintBackground(PaintEventArgs e)
+		{
+			e.Graphics.Clear(Parent.BackColor);
+
+			e.Graphics.FillRoundedRectangle(new SolidBrush(Color), ClientRectangle.Pad(1, 1, 2, 1), Padding.Left);
+
+			e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), Padding.Left);
 		}
 	}
 }

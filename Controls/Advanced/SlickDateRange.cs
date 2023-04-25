@@ -74,7 +74,7 @@ namespace SlickControls
 						BackColor = FormDesign.Design.AccentBackColor,
 						Padding = UI.Scale(new Padding(5), UI.FontScale),
 						Location = _form.PointToClient(PointToScreen(new Point(0, Height - 3))),
-						Font = Font,
+						Font = UI.Font(7.5F),
 						Cursor = Cursor,
 						MaximumSize = new Size(Width, 9999),
 						MinimumSize = new Size(Width, 0),
