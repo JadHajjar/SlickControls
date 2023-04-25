@@ -1063,6 +1063,36 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Random_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Random_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Random_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Random_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Random_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Random_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Refresh_16 {
             get {
                 object obj = ResourceManager.GetObject("I_Refresh_16", resourceCulture);
@@ -1393,6 +1423,36 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Undo_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Undo_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Undo_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Undo_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Undo_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Undo_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_UserFolder_16 {
             get {
                 object obj = ResourceManager.GetObject("I_UserFolder_16", resourceCulture);
@@ -1416,6 +1476,36 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap I_UserFolder_48 {
             get {
                 object obj = ResourceManager.GetObject("I_UserFolder_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_UserInterface_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_UserInterface_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_UserInterface_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_UserInterface_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_UserInterface_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_UserInterface_48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

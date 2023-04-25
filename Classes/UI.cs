@@ -14,7 +14,7 @@ namespace SlickControls
 
 		public delegate void UIEventHandler();
 
-		public static string FontFamily => _instance.fontFamily ?? /*(LocaleHelper.CurrentCulture.TwoLetterISOLanguageName == "en" ? "Nirmala UI" :*/ "Segoe UI"/*)*/;
+		public static string FontFamily => _instance.fontFamily ?? (CurrentPlatform == Platform.MacOSX ? "San Francisco" : "Segoe UI");
 		public static double FontScale => _instance.fontScale * WindowsScale;
 		public static double UIScale => Math.Round(FontScale.If(x => x > 1, x => (x * .9) + 0.1, x => (x * 1.1) - 0.1), 2);
 		public static double WindowsScale { get; }

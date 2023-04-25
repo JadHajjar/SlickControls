@@ -631,4 +631,31 @@
   <data name="I_Home_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\I_Home_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="I_Random_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Random_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Random_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Random_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Random_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Random_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Undo_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Undo_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Undo_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Undo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Undo_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Undo_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_UserInterface_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_UserInterface_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_UserInterface_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_UserInterface.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_UserInterface_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_UserInterface_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

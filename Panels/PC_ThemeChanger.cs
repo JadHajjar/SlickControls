@@ -30,9 +30,13 @@ namespace SlickControls
 			FormDesign.Custom.Temporary = true;
 
 			if (FormDesign.IsCustomEligible())
+			{
 				FormDesign.Switch(FormDesign.Custom, forceRefresh: true);
+			}
 			else
+			{
 				FormDesign.ForceRefresh();
+			}
 
 			UD_BaseThemeIdentifier.Disable();
 			UD_BaseTheme.Text = FormDesign.List[FormDesign.Design.ID].Name;
@@ -44,11 +48,19 @@ namespace SlickControls
 				DD_Font.Conversion = (x) => (x as FontFamily)?.Name ?? x?.ToString();
 			}
 
+			DD_Font.Placeholder = (ISave.CurrentPlatform == Platform.MacOSX ? "San Francisco" : "Segoe UI");
 			DD_Font.FontDropdown = true;
 			DD_Font.SelectedItem = UI._instance.fontFamily;
 			SS_Scale.Value = UI._instance.fontScale * 100;
 			SS_Scale.ValueOutput = (x) => $"{x}%";
 			CB_DisableAnimations.Checked = AnimationHandler.NoAnimations;
+
+			if (ISave.CurrentPlatform != Platform.Windows)
+			{
+				CB_DisableAnimations.Text = "Enable Animations";
+			}
+
+			L_UiScale.Text = LocaleHelper.GetGlobalText(L_UiScale.Text);
 
 			changesMade = false;
 		}
@@ -57,14 +69,18 @@ namespace SlickControls
 		{
 			base.UIChanged();
 
-			DD_Font.Width = UD_BaseTheme.Width = (int)(300 * UI.FontScale);
+			DD_Font.Margin = CB_DisableAnimations.Margin = CB_NightMode.Margin = CB_UseSystemTheme.Margin = UD_BaseTheme.Margin = UI.Scale(new System.Windows.Forms.Padding(5), UI.FontScale);
+			DD_Font.Width = UD_BaseTheme.Width = (int)(250 * UI.FontScale);
+			B_Random.Margin = B_Reset.Margin = B_Save.Margin = UI.Scale(new System.Windows.Forms.Padding(10,0,10,10), UI.FontScale);
+			P_UI.Margin = P_Theme.Margin = UI.Scale(new System.Windows.Forms.Padding(10), UI.FontScale);
 		}
 
 		protected override void DesignChanged(FormDesign design)
 		{
 			base.DesignChanged(design);
 
-			label1.ForeColor = design.LabelColor;
+			L_UiScale.ForeColor = design.LabelColor;
+			P_UI.BackColor = P_Theme.BackColor = design.BackColor.Tint(Lum: design.Type.If(FormDesignType.Dark, -1, 1));
 		}
 
 		public override bool CanExit(bool toBeDisposed)
@@ -74,7 +90,9 @@ namespace SlickControls
 				B_Save_Click(null, null);
 			}
 			else
+			{
 				FormDesign.Custom = savedCustom;
+			}
 
 			FormDesign.NightModeEnabled = savedNightModeSetting;
 			FormDesign.UseSystemTheme = savedUseSystemThemeSetting;
@@ -115,7 +133,9 @@ namespace SlickControls
 			savedUseSystemThemeSetting = CB_UseSystemTheme.Checked;
 
 			if (!FormDesign.IsCustomEligible())
+			{
 				FormDesign.Switch(FormDesign.List[UD_BaseTheme.Text], true, true);
+			}
 			else
 			{
 				FormDesign.Custom.Temporary = false;
@@ -128,7 +148,9 @@ namespace SlickControls
 			changesMade = false;
 
 			if (sender != null)
+			{
 				Form.PushBack();
+			}
 		}
 
 		private void B_Reset_Click(object sender, EventArgs e)
@@ -151,11 +173,15 @@ namespace SlickControls
 					foreach (ColorPicker item in FLP_Pickers.Controls)
 					{
 						if (item != sender)
+						{
 							item.Refresh();
+						}
 					}
 
 					if (!FormDesign.IsCustomEligible())
+					{
 						FormDesign.Switch(FormDesign.List[UD_BaseTheme.Text]);
+					}
 				}
 
 				ColorLoopIdentifier.Enable();
@@ -170,8 +196,9 @@ namespace SlickControls
 			if (settings == null || !(bool)settings.TutorialShown)
 			{
 				ISave.Save(new { TutorialShown = true }, "Settings.tf", appName: "Shared");
-				Notification.Create("Welcome to Theme Changer!", "Customize the size and colors in the App to fit your desire.\nClick on any color-square to change it, right-click the square to reset it.", PromptIcons.Info, null)
-					.Show(Form, 10);
+
+				Notification.Create(LocaleHelper.GetGlobalText("Welcome to Theme Changer!"), LocaleHelper.GetGlobalText("Customize the size and colors in the App however you want to.") + "\r\n" + LocaleHelper.GetGlobalText("Click on any color to change it, or right-click to reset it."), PromptIcons.Info, null)
+					.Show(Form, 30);
 			}
 
 			changesMade = false;
@@ -179,12 +206,19 @@ namespace SlickControls
 
 		private void UD_BaseTheme_TextChanged(object sender, EventArgs e)
 		{
-			if (UD_BaseThemeIdentifier.Disabled) return;
+			if (UD_BaseThemeIdentifier.Disabled)
+			{
+				return;
+			}
 
 			if (!FormDesign.IsCustomEligible())
+			{
 				B_Reset_Click(null, null);
+			}
 			else
+			{
 				FormDesign.SetCustomBaseDesign(FormDesign.List[UD_BaseTheme.Text]);
+			}
 		}
 
 		private void B_Random_Click(object sender, EventArgs e)
@@ -219,6 +253,7 @@ namespace SlickControls
 
 		private void CB_DisableAnimations_CheckChanged(object sender, EventArgs e)
 		{
+			changesMade = true;
 		}
 	}
 }

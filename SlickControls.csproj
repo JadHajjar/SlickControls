@@ -1079,6 +1079,33 @@
   <ItemGroup>
     <None Include="Resources\I_Home_48.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_UserInterface_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_UserInterface.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_UserInterface_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Undo_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Undo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Undo_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Random_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Random_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Random_24.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>

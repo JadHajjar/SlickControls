@@ -381,10 +381,10 @@ namespace SlickControls
 
 				e.Graphics.DrawString(Text, UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(Padding.Left, Padding.Top / 4, 0, 0));
 
-				PaintSelectedItem(e, fore, string.IsNullOrWhiteSpace(Text) ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2));
-
 				using (var chevron = IconManager.GetIcon("I_DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90)))
 				{
+					PaintSelectedItem(e, fore, (string.IsNullOrWhiteSpace(Text) ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2)).Pad(0,0,chevron.Width,0));
+				
 					e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
 				}
 			}

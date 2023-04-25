@@ -194,6 +194,28 @@ namespace SlickControls
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
+
+			if (string.IsNullOrWhiteSpace(_textBox.Text) && !string.IsNullOrWhiteSpace(Placeholder))
+			{
+				_textBox.MaximumSize = new Size(MultiLine ? 8 : 2, 1000);
+			}
+			else
+			{
+				_textBox.MaximumSize = Size.Empty;
+				if (_textBox.Width < 3)
+				{
+					var cursor = _textBox.SelectionStart;
+					var len = _textBox.SelectionLength;
+
+					_textBox.Size = Size;
+					_textBox.Select(0, 0);
+					_textBox.Select(cursor, len);
+				}
+				else
+				{
+					_textBox.Size = Size;
+				}
+			}
 		}
 
 		protected override void UIChanged()
