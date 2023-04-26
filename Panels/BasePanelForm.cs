@@ -549,6 +549,27 @@ namespace SlickControls
 				return true;
 			}
 
+			if (keyData.HasFlag(Keys.Control) && (keyData & ~Keys.Control).IsDigit())
+			{
+				var numb = (keyData & ~Keys.Control).ToString().TakeLast(1).First();
+
+				if (SidebarItems != null)
+				{
+					foreach (var item in SidebarItems)
+					{
+						if (item.ShowKey[0] == numb)
+						{
+							item.MouseClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
+							break;
+						}
+					}
+
+					base_P_Tabs.Invalidate();
+				}
+
+				return true;
+			}
+
 			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
@@ -671,6 +692,20 @@ namespace SlickControls
 				base_P_Tabs.Invalidate();
 			}
 
+			if (e.KeyCode == Keys.ControlKey && SidebarItems != null)
+			{
+				var i = 1;
+				foreach (var item in SidebarItems)
+				{
+					item.ShowKey = (i % 10).ToString();
+
+					if (i++ == 10)
+						break;
+				}
+
+				base_P_Tabs.Invalidate();
+			}
+
 			base.OnKeyDown(e);
 		}
 
@@ -686,6 +721,16 @@ namespace SlickControls
 					}
 
 					item.Highlighted = false;
+				}
+
+				base_P_Tabs.Invalidate();
+			}
+
+			if (e.KeyCode == Keys.ControlKey && SidebarItems != null)
+			{
+				foreach (var item in SidebarItems)
+				{
+					item.ShowKey = null;
 				}
 
 				base_P_Tabs.Invalidate();

@@ -111,7 +111,7 @@ namespace SlickControls
 			return GetAutoSize();
 		}
 
-		private Size GetAutoSize()
+		internal Size GetAutoSize(bool forced = false)
 		{
 			using (var image = Image)
 			{
@@ -122,7 +122,7 @@ namespace SlickControls
 
 				var availableSize = GetAvailableSize();
 
-				if (lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
+				if (!forced && lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
 				{
 					return lastSize;
 				}

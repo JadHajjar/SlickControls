@@ -311,7 +311,7 @@ namespace SlickControls
 
 					for (var i = 1; i <= 7; i++)
 					{
-						e.Graphics.DrawString(((DayOfWeek)i.If(7, 0)).ToString().Substring(0, 3), Font, SlickControl.Gradient(rect, FormDesign.Design.InfoColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+						e.Graphics.DrawString(((DayOfWeek)i.If(7, 0)).ToString().Substring(0, 3), Font, new SolidBrush(FormDesign.Design.InfoColor), rect.AlignToFontSize(Font), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 						rect.X += rect.Width;
 					}
 					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor), 5, y + h, mainRect.Width - 5, y + h);

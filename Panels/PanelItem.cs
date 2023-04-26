@@ -20,6 +20,7 @@ namespace SlickControls
 
 		//[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 		public object Data { get; set; }
+		internal string ShowKey { get; set; }
 
 		//[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 		//public bool Loading { get => Control?.Loading ?? false; set => Control.Loading = value; }

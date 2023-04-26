@@ -319,7 +319,7 @@
 			this.CB_UseSystemTheme.Location = new System.Drawing.Point(8, 69);
 			this.CB_UseSystemTheme.Name = "CB_UseSystemTheme";
 			this.CB_UseSystemTheme.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
-			this.CB_UseSystemTheme.Size = new System.Drawing.Size(160, 24);
+			this.CB_UseSystemTheme.Size = new System.Drawing.Size(157, 24);
 			this.CB_UseSystemTheme.SpaceTriggersClick = true;
 			this.CB_UseSystemTheme.TabIndex = 1;
 			this.CB_UseSystemTheme.TabStop = false;
@@ -347,10 +347,10 @@
 			// 
 			this.SS_Scale.AnimatedValue = 0;
 			this.SS_Scale.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.SS_Scale.FromValue = 80D;
-			this.SS_Scale.Location = new System.Drawing.Point(502, 44);
-			this.SS_Scale.MaxValue = 200D;
-			this.SS_Scale.MinValue = 80D;
+			this.SS_Scale.FromValue = 75D;
+			this.SS_Scale.Location = new System.Drawing.Point(502, 42);
+			this.SS_Scale.MaxValue = 300D;
+			this.SS_Scale.MinValue = 75D;
 			this.SS_Scale.Name = "SS_Scale";
 			this.SS_Scale.Padding = new System.Windows.Forms.Padding(14, 8, 14, 8);
 			this.SS_Scale.Percentage = 0.16666666666666666D;
@@ -361,8 +361,8 @@
 			this.SS_Scale.SliderStyle = SlickControls.SliderStyle.SingleHorizontal;
 			this.SS_Scale.TabIndex = 4;
 			this.SS_Scale.TargetAnimationValue = 0;
-			this.SS_Scale.ToValue = 100D;
-			this.SS_Scale.Value = 100D;
+			this.SS_Scale.ToValue = 112.5D;
+			this.SS_Scale.Value = 112.5D;
 			this.SS_Scale.ValueOutput = null;
 			this.SS_Scale.ValuesChanged += new System.EventHandler(this.SS_Scale_ValuesChanged);
 			// 
@@ -371,7 +371,7 @@
 			this.L_UiScale.AutoSize = true;
 			this.L_UiScale.Location = new System.Drawing.Point(502, 26);
 			this.L_UiScale.Name = "L_UiScale";
-			this.L_UiScale.Size = new System.Drawing.Size(48, 15);
+			this.L_UiScale.Size = new System.Drawing.Size(47, 13);
 			this.L_UiScale.TabIndex = 68;
 			this.L_UiScale.Text = "UI Scale";
 			// 
@@ -386,7 +386,7 @@
 			this.CB_DisableAnimations.Location = new System.Drawing.Point(8, 99);
 			this.CB_DisableAnimations.Name = "CB_DisableAnimations";
 			this.CB_DisableAnimations.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
-			this.CB_DisableAnimations.Size = new System.Drawing.Size(135, 24);
+			this.CB_DisableAnimations.Size = new System.Drawing.Size(132, 24);
 			this.CB_DisableAnimations.SpaceTriggersClick = true;
 			this.CB_DisableAnimations.TabIndex = 3;
 			this.CB_DisableAnimations.TabStop = false;
@@ -405,7 +405,7 @@
 			this.CB_NightMode.Location = new System.Drawing.Point(255, 69);
 			this.CB_NightMode.Name = "CB_NightMode";
 			this.CB_NightMode.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
-			this.CB_NightMode.Size = new System.Drawing.Size(128, 24);
+			this.CB_NightMode.Size = new System.Drawing.Size(126, 24);
 			this.CB_NightMode.SpaceTriggersClick = true;
 			this.CB_NightMode.TabIndex = 2;
 			this.CB_NightMode.TabStop = false;

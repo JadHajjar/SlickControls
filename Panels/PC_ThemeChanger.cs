@@ -110,6 +110,14 @@ namespace SlickControls
 
 		private void B_Save_Click(object sender, EventArgs e)
 		{
+			changesMade = false;
+
+			if (sender != null)
+			{
+				Dispose();
+				Form.PushBack();
+			}
+
 			if (UI._instance.fontScale != SS_Scale.Value || UI._instance.noAnimations != CB_DisableAnimations.Checked || UI.FontFamily != DD_Font.Conversion(DD_Font.SelectedItem).IfEmpty("Nirmala UI"))
 			{
 				var previous = new UI
@@ -144,13 +152,6 @@ namespace SlickControls
 			}
 
 			savedCustom = FormDesign.Custom;
-
-			changesMade = false;
-
-			if (sender != null)
-			{
-				Form.PushBack();
-			}
 		}
 
 		private void B_Reset_Click(object sender, EventArgs e)

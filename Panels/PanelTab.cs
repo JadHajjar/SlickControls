@@ -103,7 +103,18 @@ namespace SlickControls
 
 			var iconWidth = 0;
 
-			if (PanelItem.Icon != null)
+
+			if (!string.IsNullOrEmpty(PanelItem.ShowKey))
+			{
+				var roundRect = e.ClipRectangle.AlignToFontSize(UI.Font(8.25F, FontStyle.Bold), ContentAlignment.MiddleLeft);
+
+				roundRect = roundRect.Pad(small ? ((e.ClipRectangle.Width - roundRect.Height) / 2) : (int)(7 * UI.FontScale), 0, 0, 0);
+				roundRect.Width = iconWidth = roundRect.Height;
+
+				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), roundRect, bar);
+				e.Graphics.DrawString(PanelItem.ShowKey, UI.Font(8.25F, FontStyle.Bold), new SolidBrush(FormDesign.Design.ActiveForeColor), roundRect.Pad(0, 1, -1, -1), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+			}
+			else if (PanelItem.Icon != null)
 			{
 				using (var image = new Bitmap(PanelItem.Icon))
 				{
@@ -123,6 +134,7 @@ namespace SlickControls
 					}
 				}
 			}
+
 
 			if (!small)
 			{
