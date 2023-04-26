@@ -24,7 +24,15 @@ namespace SlickControls
 
 		public void Select(T obj)
 		{
-			_selectedItems.Add(obj);
+			if (_selectedItems.Contains(obj))
+			{
+				_selectedItems.Remove(obj);
+			}
+			else
+			{
+				_selectedItems.Add(obj);
+			}
+
 			listDropDown?.Invalidate();
 			OnSelectedItemChanged();
 			Invalidate();
@@ -106,15 +114,17 @@ namespace SlickControls
 			{
 				var hoverState = ClearRectangle.Contains(PointToClient(MousePosition)) ? (HoverState & ~HoverState.Focused) : HoverState.Normal;
 
-				var color =  
+				var color =
 					hoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor :
 					hoverState.HasFlag(HoverState.Hovered) ? Color.FromArgb(100, FormDesign.Design.ActiveColor) :
 					ForeColor;
 
 				if (hoverState.HasFlag(HoverState.Hovered))
 				{
-					using (var brush = new SolidBrush(hoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(25, FormDesign.Design.ActiveColor) :Color.FromArgb(75, FormDesign.Design.AccentColor)))
+					using (var brush = new SolidBrush(hoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(25, FormDesign.Design.ActiveColor) : Color.FromArgb(75, FormDesign.Design.AccentColor)))
+					{
 						e.Graphics.FillRoundedRectangle(brush, ClearRectangle, (int)(4 * UI.FontScale));
+					}
 				}
 
 				e.Graphics.DrawImage(image.Color(color), ClearRectangle.CenterR(image.Size));

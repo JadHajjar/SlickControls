@@ -604,6 +604,22 @@ namespace SlickControls
 			}
 		}
 
+		protected override void OnDeactivate(EventArgs e)
+		{
+			base.OnDeactivate(e);
+
+			if (SidebarItems != null)
+			{
+				foreach (var item in SidebarItems)
+				{
+					item.Highlighted = false;
+					item.ShowKey = null;
+				}
+
+				base_P_Tabs.Invalidate();
+			}
+		}
+
 		[DllImport("user32.dll")]
 		private static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
 
