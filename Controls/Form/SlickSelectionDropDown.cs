@@ -446,7 +446,7 @@ namespace SlickControls
 				}
 			}
 
-			var selected = e.Item.Equals(selectedItem);
+			var selected = !(this is SlickMultiSelectionDropDown<T>) && e.Item.Equals(selectedItem);
 
 			if (selected && !e.HoverState.HasFlag(HoverState.Pressed))
 			{
