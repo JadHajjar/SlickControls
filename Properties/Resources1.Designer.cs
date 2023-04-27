@@ -333,9 +333,9 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap I_ArrowLeft {
+        internal static System.Drawing.Bitmap I_ArrowLeft_16 {
             get {
-                object obj = ResourceManager.GetObject("I_ArrowLeft", resourceCulture);
+                object obj = ResourceManager.GetObject("I_ArrowLeft_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1506,6 +1506,16 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap I_UserInterface_48 {
             get {
                 object obj = ResourceManager.GetObject("I_UserInterface_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Icon_ArrowRight_32 {
+            get {
+                object obj = ResourceManager.GetObject("Icon_ArrowRight_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

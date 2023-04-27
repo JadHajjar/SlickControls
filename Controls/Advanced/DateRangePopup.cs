@@ -72,15 +72,15 @@ namespace SlickControls
 				LocaleHelper.GetGlobalText("Clear"),
 			};
 
-			e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.Type == FormDesignType.Light ? FormDesign.Design.MenuColor: FormDesign.Design.MenuColor.Tint(Lum:8)), new Rectangle(1, 0, Width - 3, tabHeight));
+			e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.AccentBackColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Light ? 3 : -3)), new Rectangle(1, 0, Width - 3, tabHeight));
 
 			for (var i = 0; i < typeRects.Length; i++)
 			{
 				var rangeType = (DateRangeType)i;
 				var selected = RangeType == rangeType;
 				var hovered = typeRects[i].Contains(PointToClient(MousePosition));
-				var back = selected ? FormDesign.Design.ActiveColor :Color.FromArgb(hovered ? 230: 50, FormDesign.Design.Type == FormDesignType.Light ? FormDesign.Design.ButtonColor:FormDesign.Design.BackColor);
-				var fore = selected ? FormDesign.Design.ActiveForeColor : hovered ? FormDesign.Design.Type == FormDesignType.Light ? FormDesign.Design.ButtonForeColor :FormDesign.Design.ForeColor: FormDesign.Design.MenuForeColor;
+				var back = selected ? FormDesign.Design.ActiveColor : Color.FromArgb(hovered ? 255 : 150, FormDesign.Design.ButtonColor);
+				var fore = selected ? FormDesign.Design.ActiveForeColor : Color.FromArgb(hovered ? 230 : 185, FormDesign.Design.ForeColor);
 
 				if (hovered && !selected)
 				{
@@ -113,31 +113,38 @@ namespace SlickControls
 			var topRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), (int)e.Graphics.Measure(" ", UI.Font(8.25F, FontStyle.Bold)).Height + 6);
 			var mainRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), Height - 10 - tabHeight).Pad(0, topRect.Height, 0, 0);
 
-			if (!canIncrement(-1))
+			using (var leftArrow = IconManager.GetSmallIcon("I_ArrowLeft"))
+			using (var rightArrow = IconManager.GetSmallIcon("I_ArrowRight"))
 			{
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronLeft.Alpha(100), new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
-			}
-			else
-			{
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronLeft.Color(new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
+				var leftRect = topRect.Align(leftArrow.Size, ContentAlignment.MiddleLeft);
+				var rightRect = topRect.Align(rightArrow.Size, ContentAlignment.MiddleRight);
 
-				if (new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse))
+				if (!canIncrement(-1))
 				{
-					action = () => increment(-1);
+					e.Graphics.DrawImage(leftArrow.Color(FormDesign.Design.LabelColor).Alpha(100), leftRect);
 				}
-			}
-
-			if (!canIncrement(1))
-			{
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronRight.Alpha(100), new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
-			}
-			else
-			{
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronRight.Color(new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
-
-				if (new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse))
+				else
 				{
-					action = () => increment(1);
+					e.Graphics.DrawImage(leftArrow.Color(leftRect.Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), leftRect);
+
+					if (leftRect.Contains(Mouse))
+					{
+						action = () => increment(-1);
+					}
+				}
+
+				if (!canIncrement(1))
+				{
+					e.Graphics.DrawImage(rightArrow.Color(FormDesign.Design.LabelColor).Alpha(100), rightRect);
+				}
+				else
+				{
+					e.Graphics.DrawImage(rightArrow.Color(rightRect.Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), rightRect);
+
+					if (rightRect.Contains(Mouse))
+					{
+						action = () => increment(1);
+					}
 				}
 			}
 

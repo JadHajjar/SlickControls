@@ -140,7 +140,7 @@ namespace SlickControls
 		{
 			e.Graphics.SetUp(FormDesign.Design.AccentColor);
 
-			e.Graphics.FillRectangle(SlickControl.Gradient(ClientRectangle, FormDesign.Design.BackColor), ClientRectangle.Pad((int)UI.FontScale).Pad(0, 0, 1, 1));
+			e.Graphics.FillRectangle(SlickControl.Gradient(ClientRectangle, FormDesign.Design.BackColor), ClientRectangle.Pad((int)UI.FontScale));
 
 			if (string.IsNullOrWhiteSpace(Info.Title))
 			{
@@ -215,7 +215,7 @@ namespace SlickControls
 				}
 				else
 				{
-					if (control.FindForm() is SlickForm frm && frm.FormIsActive && mouseIsIn(control, MousePosition))
+					if (/*control.FindForm() is SlickForm frm && frm.FormIsActive &&*/ mouseIsIn(control, MousePosition))
 					{
 						Control_MouseEnter(control, null);
 					}
@@ -243,7 +243,7 @@ namespace SlickControls
 		{
 			var control = sender as Control;
 
-			if (!(control.FindForm() is SlickForm frm) || !frm.FormIsActive)
+			if (!(control.FindForm() is SlickForm frm) /*|| !frm.FormIsActive*/)
 			{
 				return;
 			}
