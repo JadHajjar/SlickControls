@@ -56,11 +56,17 @@ namespace SlickControls
 		{
 			base.UIChanged();
 
-			B_Cancel.Font = B_Confirm.Font = UI.Font(9.75F);
+			colorPreview.Size = UI.Scale(new Size(48, 48), UI.FontScale);
+			TLP_Main.ColumnStyles[0].Width = (int)(108 * UI.FontScale);
+			TLP_Main.Padding = UI.Scale(new Padding(10), UI.FontScale);
+			B_Cancel.Margin = B_Confirm.Margin = UI.Scale(new Padding(5, 5, 0, 0), UI.FontScale);
 			TLP_Main.Controls.OfType<SlickTextBox>().Foreach(x => x.Width = (int)(60 * UI.FontScale));
 		}
 
-		private void SlickColorPicker_ColorChanged(object sender, EventArgs e) => this.TryInvoke(() => ShowLastColors(true));
+		private void SlickColorPicker_ColorChanged(object sender, EventArgs e)
+		{
+			this.TryInvoke(() => ShowLastColors(true));
+		}
 
 		private void ShowLastColors(bool incremental = false)
 		{
@@ -68,18 +74,26 @@ namespace SlickControls
 			{
 				FLP_LastColors.Controls.Clear();
 				foreach (var color in LastColors)
+				{
 					AddColor(color);
+				}
 			}
 			else
 			{
 				if (LastColors.Any(x => x == Color))
+				{
 					LastColors.RemoveAll(x => x == Color);
+				}
 
 				foreach (var item in FLP_LastColors.Controls.Where(x => x.BackColor == Color))
+				{
 					FLP_LastColors.Controls.Remove(item);
+				}
 
 				if (FLP_LastColors.Controls.Count >= 21)
+				{
 					FLP_LastColors.Controls.RemoveAt(0);
+				}
 
 				LastColors.Insert(0, Color);
 				AddColor(LastColors[0]);
@@ -88,25 +102,29 @@ namespace SlickControls
 
 		private void AddColor(Color color)
 		{
-			var ctrl = new Panel() { Size = new Size(28, 28), BackColor = color, Cursor = Cursors.Hand, Margin = new Padding(4) };
+			var ctrl = new Panel() { Size = UI.Scale(new Size(28, 28), UI.FontScale), BackColor = color, Cursor = Cursors.Hand, Margin = UI.Scale(new Padding(4), UI.FontScale) };
 			ctrl.Paint += colorPreview_Paint;
 			ctrl.Click += (s, e) => SetColor(color, null);
 			FLP_LastColors.Controls.Add(ctrl);
-			ctrl.Refresh();
+			ctrl.BringToFront();
 		}
 
 		private void RGB_TextChanged(object sender, EventArgs e)
 		{
 			(sender as SlickTextBox).Text = (sender as SlickTextBox).Text.SmartParse().Between(0, 255).ToString();
 			if (!lockUpdates)
+			{
 				SetColor(Color.FromArgb(TB_Red.Text.SmartParse(), TB_Green.Text.SmartParse(), TB_Blue.Text.SmartParse()), null);
+			}
 		}
 
 		private void HSL_TextChanged(object sender, EventArgs e)
 		{
 			(sender as SlickTextBox).Text = (sender as SlickTextBox).Text.SmartParse().Between(0, sender == TB_Hue ? 360 : 100).ToString();
 			if (!lockUpdates)
+			{
 				SetColor(null, HslColor.FromAhsl(TB_Hue.Text.SmartParse() / 360D, TB_Sat.Text.SmartParse() / 100D, TB_Lum.Text.SmartParse() / 100D));
+			}
 		}
 
 		private void TB_Hex_TextChanged(object sender, EventArgs e)
@@ -163,7 +181,9 @@ namespace SlickControls
 		private void colorBox2D_ColorChanged(object sender, ColorChangedEventArgs args)
 		{
 			if (sender == colorSlider)
+			{
 				TB_Hue.Text = ((int)Math.Round(colorSlider.ColorHSL.H * 360D)).ToString();
+			}
 			else if (sender == colorBox2D)
 			{
 				lockUpdates = true;
@@ -179,7 +199,11 @@ namespace SlickControls
 			Close();
 
 			ISave.Load(out List<Color> colors, "LastColors.tf", "Shared");
-			if (colors == null) colors = new List<Color>();
+			if (colors == null)
+			{
+				colors = new List<Color>();
+			}
+
 			colors.Insert(0, Color);
 			ISave.Save(colors.Take(21), "LastColors.tf", appName: "Shared");
 		}
@@ -207,15 +231,17 @@ namespace SlickControls
 			var size = (sender as Control).Size;
 			var color = (sender as Control).BackColor;
 			if (color == null)
+			{
 				return;
+			}
 
-			e.Graphics.Clear(color.GetAccentColor());// Color.FromArgb(255, ExtensionClass.ColorFromHSL(color.GetHue(), color.GetSaturation(), (1D - color.GetBrightness()).Between(.2, .8))));
+			e.Graphics.Clear(color.GetAccentColor());
 			e.Graphics.FillRectangle(new SolidBrush(color), new Rectangle(1, 1, size.Width - 2, size.Height - 2));
 		}
 
-		private void SlickColorPicker_Load(object sender, EventArgs e)
+		private void colorBox2D_SizeChanged(object sender, EventArgs e)
 		{
-			BeginInvoke(new Action(() => { TB_Hex.Focus(); TB_Hex.SelectAll(); }));
+			colorBox2D.Width = colorBox2D.Height;
 		}
 	}
 }

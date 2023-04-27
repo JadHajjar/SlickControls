@@ -69,6 +69,7 @@ namespace SlickControls
 		{
 			base.UIChanged();
 
+			SS_Scale.Width = (int)(350 * UI.FontScale);
 			DD_Font.Margin = CB_DisableAnimations.Margin = CB_NightMode.Margin = CB_UseSystemTheme.Margin = UD_BaseTheme.Margin = UI.Scale(new System.Windows.Forms.Padding(5), UI.FontScale);
 			DD_Font.Width = UD_BaseTheme.Width = (int)(250 * UI.FontScale);
 			B_Random.Margin = B_Reset.Margin = B_Save.Margin = UI.Scale(new System.Windows.Forms.Padding(10,0,10,10), UI.FontScale);
