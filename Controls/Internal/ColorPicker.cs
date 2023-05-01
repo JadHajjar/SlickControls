@@ -53,7 +53,7 @@ namespace SlickControls
 		public override string Text
 		{
 			get => label1.Text;
-			set => label1.Text = value;
+			set => label1.Text = LocaleHelper.GetGlobalText(value);
 		}
 
 		[Category("Appearance"), DisplayName("Default Color")]
@@ -174,7 +174,7 @@ namespace SlickControls
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
-			e.Graphics.Clear(Parent.BackColor);
+			e.Graphics.SetUp(Parent.BackColor);
 
 			e.Graphics.FillRoundedRectangle(new SolidBrush(Color), ClientRectangle.Pad(1, 1, 2, 1), Padding.Left);
 

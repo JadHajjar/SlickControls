@@ -144,7 +144,7 @@ namespace SlickControls
 
 			if (string.IsNullOrWhiteSpace(Info.Title))
 			{
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info.Text), UI.Font(8.25F), SlickControl.Gradient(ClientRectangle, FormDesign.Design.ForeColor), ClientRectangle, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info.Text), UI.Font(8.25F), SlickControl.Gradient(ClientRectangle, FormDesign.Design.ForeColor), ClientRectangle, new StringFormat { LineAlignment = StringAlignment.Center });
 			}
 			else
 			{

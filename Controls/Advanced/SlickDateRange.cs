@@ -201,6 +201,12 @@ namespace SlickControls
 		{
 			base.OnMouseClick(e);
 
+			if (e.Button == MouseButtons.Middle && listDropDown == null)
+			{
+				ResetValue();
+				return;
+			}
+
 			if (e.Button == MouseButtons.Left)
 			{
 				ShowDropdown();

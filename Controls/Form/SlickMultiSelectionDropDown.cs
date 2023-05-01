@@ -40,12 +40,6 @@ namespace SlickControls
 
 		protected override void OnMouseClick(MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Middle && listDropDown == null)
-			{
-				ResetValue();
-				return;
-			}
-
 			if (e.Button == MouseButtons.Left && ClearRectangle.Contains(e.Location) && listDropDown != null)
 			{
 				ResetValue();

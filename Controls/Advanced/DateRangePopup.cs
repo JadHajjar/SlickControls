@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -271,7 +272,7 @@ namespace SlickControls
 					{
 						if (new DateTime(values[DateView.Years], i, DateTime.DaysInMonth(values[DateView.Years], i)) >= _dateBox.MinDate && new DateTime(values[DateView.Years], i, 1) <= _dateBox.MaxDate)
 						{
-							var month = new DateTime(1, i, 1).ToString("MMM");
+							var month = new DateTime(DateTime.Now.Year, i, 1).ToString("MMM", LocaleHelper.CurrentCulture);
 
 							if (i == _dateBox.Value.Month && values[DateView.Years] == _dateBox.Value.Year)
 							{
@@ -316,14 +317,15 @@ namespace SlickControls
 					h /= 7;
 					rect = new Rectangle(mainRect.X, y, w, h);
 
-					for (var i = 1; i <= 7; i++)
+					var days = getDaysIndex();
+
+					for (var i = 0; i < 7; i++)
 					{
-						e.Graphics.DrawString(((DayOfWeek)i.If(7, 0)).ToString().Substring(0, 3), Font, new SolidBrush(FormDesign.Design.InfoColor), rect.AlignToFontSize(Font), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+						e.Graphics.DrawString(days.ElementAt(i).Key.ToString("ddd", LocaleHelper.CurrentCulture).ToCapital(false), Font, new SolidBrush(FormDesign.Design.InfoColor), rect.AlignToFontSize(Font), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 						rect.X += rect.Width;
 					}
 					e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor), 5, y + h, mainRect.Width - 5, y + h);
 
-					var days = getDaysIndex();
 					rect = new Rectangle(mainRect.X, y + h + 3, w, h);
 
 					foreach (var item in days)
@@ -382,6 +384,7 @@ namespace SlickControls
 
 			return dic;
 		}
+
 		private string getViewTitle()
 		{
 			switch (view)
@@ -391,11 +394,12 @@ namespace SlickControls
 				case DateView.Months:
 					return values[DateView.Years].ToString();
 				case DateView.Days:
-					return $"{new DateTime(values[DateView.Years], values[DateView.Months], 1):MMMM yyyy}";
+					return new DateTime(values[DateView.Years], values[DateView.Months], 1).ToString("MMMM yyyy", LocaleHelper.CurrentCulture).ToCapital(false);
 				default:
 					return string.Empty;
 			}
 		}
+
 		private void increment(int v)
 		{
 			if (canIncrement(v))
@@ -445,7 +449,7 @@ namespace SlickControls
 					action = () => setDate(val);
 				}
 
-				e.Graphics.DrawString(hovered ? val.ToString("dd \\/ MM \\/ yyyy") : LocaleHelper.GetGlobalText(text), Font, SlickControl.Gradient(rect, hovered ? FormDesign.Design.ActiveForeColor : valid ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(hovered ? val.ToString("d", LocaleHelper.CurrentCulture) : LocaleHelper.GetGlobalText(text), Font, SlickControl.Gradient(rect, hovered ? FormDesign.Design.ActiveForeColor : valid ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 				if (rect.Y != tabHeight)
 				{

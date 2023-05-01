@@ -101,14 +101,13 @@ namespace SlickControls
 			if (ctrl != null)
 			{
 				ctrl.Location = Point.Empty;
-				ctrl.MaximumSize = tab.FillTab ? Size.Empty : new Size(P_Content.Width - ScrollBar.BAR_SIZE_MAX, int.MaxValue);
-				ctrl.MinimumSize = tab.FillTab ? Size.Empty : new Size(P_Content.Width - ScrollBar.BAR_SIZE_MAX, 0);
 				ctrl.Parent = P_Content;
 				ctrl.ControlAdded += ctrl_ControlAdded;
 
 				if (!tab.FillTab)
 				{
-					ScrollBar.Show();
+					if (!ScrollBar.IsHandleCreated)
+						ScrollBar.CreateControl();
 					ScrollBar.LinkedControl = ctrl;
 					ScrollBar.Reset();
 				}

@@ -99,14 +99,18 @@ namespace SlickControls
 			AutoScroll = true;
 		}
 
-		public virtual void SortingChanged()
+		public virtual void SortingChanged(bool resetScroll = true)
 		{
 			lock (_sync)
 			{
 				_sortedItems = new List<DrawableItem<T>>(OrderItems(_items));
 			}
 
-			ResetScroll();
+			if (resetScroll)
+			{
+				ResetScroll();
+			}
+
 			Invalidate();
 		}
 
@@ -169,7 +173,7 @@ namespace SlickControls
 				_items.Add(new DrawableItem<T>(item));
 			}
 
-			SortingChanged();
+			SortingChanged(false);
 			FilterChanged();
 		}
 
@@ -180,7 +184,7 @@ namespace SlickControls
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
 			}
 
-			SortingChanged();
+			SortingChanged(false);
 			FilterChanged();
 		}
 
@@ -192,7 +196,7 @@ namespace SlickControls
 				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
 			}
 
-			SortingChanged();
+			SortingChanged(false);
 			FilterChanged();
 		}
 
@@ -208,7 +212,7 @@ namespace SlickControls
 				_items.RemoveAll(item => predicate(item.Item));
 			}
 
-			SortingChanged();
+			SortingChanged(false);
 			FilterChanged();
 		}
 
@@ -219,7 +223,7 @@ namespace SlickControls
 				_items.Clear();
 			}
 
-			SortingChanged();
+			SortingChanged(false);
 		}
 
 		public void ResetScroll()
@@ -332,6 +336,11 @@ namespace SlickControls
 			{
 				SlickTip.SetTo(this, string.Empty);
 			}
+
+			if (AutoInvalidate)
+			{
+				Invalidate();
+			}
 		}
 
 		private void Invalidate(DrawableItem<T> item)
@@ -434,6 +443,11 @@ namespace SlickControls
 			{
 				scrollMouseDown = -1;
 			}
+
+			if (AutoInvalidate)
+			{
+				Invalidate();
+			}
 		}
 
 		protected override void OnMouseUp(MouseEventArgs e)
@@ -452,6 +466,11 @@ namespace SlickControls
 				scrollMouseDown = -1;
 				Invalidate();
 			}
+
+			if (AutoInvalidate)
+			{
+				Invalidate();
+			}
 		}
 
 		protected override void OnMouseWheel(MouseEventArgs e)
@@ -460,6 +479,10 @@ namespace SlickControls
 
 			scrollIndex -= (int)Math.Round(e.Delta / (double)(GridView ? GridItemSize.Height : ItemHeight), MidpointRounding.AwayFromZero);
 			Invalidate();
+			if (scrollVisible)
+			{
+				SlickTip.SetTo(this, string.Empty);
+			}
 		}
 
 		protected virtual bool IsItemActionHovered(DrawableItem<T> item, Point location)
@@ -487,8 +510,17 @@ namespace SlickControls
 				var filledRect = rect.Pad(0, -Padding.Top, 0, -Padding.Bottom);
 
 				e.Graphics.SetClip(filledRect);
-				e.Graphics.FillRectangle(filledRect.Gradient(Color.FromArgb(e.HoverState.HasFlag(HoverState.Pressed) ? 255 : 30, FormDesign.Design.ActiveColor)), filledRect);
+
+				using (var brush = new SolidBrush(e.BackColor = BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90)))
+				{
+					e.Graphics.FillRectangle(brush, filledRect);
+				}
+
 				e.Graphics.SetClip(rect);
+			}
+			else
+			{
+				e.BackColor = BackColor;
 			}
 
 			PaintItem?.Invoke(this, e);
@@ -593,8 +625,10 @@ namespace SlickControls
 			var totalHeight = GetTotalHeight(itemList);
 			var validHeight = Height - StartHeight;
 
-			if (scrollVisible != totalHeight > validHeight)
+			if (scrollVisible != (totalHeight > validHeight))
+			{
 				Invalidate();
+			}
 
 			if (totalHeight > validHeight)
 			{

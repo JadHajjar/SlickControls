@@ -25,6 +25,9 @@ namespace SlickControls
 		[Category("Appearance"), DisplayName("Handle UI Scale"), DefaultValue(true)]
 		public bool HandleUiScale { get; set; } = true;
 
+		[Category("Appearance"), DisplayName("Auto-hide Text"), DefaultValue(true)]
+		public bool AutoHideText { get; set; } = true;
+
 		[Browsable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 		[EditorBrowsable(EditorBrowsableState.Always)]
@@ -286,7 +289,7 @@ namespace SlickControls
 			HoverState hoverState = HoverState.Normal,
 			ColorStyle colorStyle = ColorStyle.Active,
 			Color? colorShade = null,
-			SlickControl slickButton = null)
+			SlickButton slickButton = null)
 		{
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
@@ -302,7 +305,7 @@ namespace SlickControls
 			var iconSize = image?.Width ?? 16;
 			var extraWidth = (image == null ? 0 : (iconSize + padding.Left)) + (int)(3 * UI.FontScale);
 			var bnds = e.Graphics.Measure(text, font, size.Width - extraWidth - padding.Horizontal);
-			var noText = string.IsNullOrWhiteSpace(text) || size.Width.IsWithin(0, (int)(50 * UI.FontScale));
+			var noText = string.IsNullOrWhiteSpace(text) || (slickButton?.AutoHideText ?? false) && size.Width.IsWithin(0, (int)(50 * UI.FontScale));
 
 			try
 			{

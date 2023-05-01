@@ -10,17 +10,22 @@ namespace SlickControls
 	[DefaultEvent("Click")]
 	public partial class SlickLabel : SlickButton
 	{
+		private bool _selected;
+
 		[Category("Appearance"), DefaultValue(true)]
 		public bool Display { get; set; }
 
-        public SlickLabel()
-        {
+		public bool Selected { get => _selected; set { _selected = value; Invalidate(); } }
+
+		public SlickLabel()
+		{
+			AutoHideText = false;
 			AlignLeft = true;
 		}
 
-        protected virtual void GetColors(out Color fore, out Color back)
+		protected virtual void GetColors(out Color fore, out Color back)
 		{
-			if (/*Selected ||*/ HoverState.HasFlag(HoverState.Pressed))
+			if (Selected || HoverState.HasFlag(HoverState.Pressed))
 			{
 				fore = ColorStyle.GetBackColor().Tint(ColorShade?.GetHue());
 				back = ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade);

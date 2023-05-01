@@ -8,8 +8,9 @@ namespace SlickControls
 		public T Item { get; }
 		public DrawableItem<T> DrawableItem { get; }
 		public HoverState HoverState { get; set; }
+        public Color BackColor { get; set; }
 
-		public ItemPaintEventArgs(DrawableItem<T> item, Graphics graphics, Rectangle bounds, HoverState hoverState) : base(graphics, bounds)
+        public ItemPaintEventArgs(DrawableItem<T> item, Graphics graphics, Rectangle bounds, HoverState hoverState) : base(graphics, bounds)
 		{
 			DrawableItem = item;
 			Item = item.Item;

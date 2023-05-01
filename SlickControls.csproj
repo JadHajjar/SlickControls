@@ -263,9 +263,6 @@
     <Compile Include="Controls\Form\SlickLabel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Form\SlickLabel.Designer.cs">
-      <DependentUpon>SlickLabel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Form\SlickRadioButton.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -462,9 +459,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Form\SlickButton.resx">
       <DependentUpon>SlickButton.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Form\SlickLabel.resx">
-      <DependentUpon>SlickLabel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Form\SlickSlider.resx">
       <DependentUpon>SlickSlider.cs</DependentUpon>
