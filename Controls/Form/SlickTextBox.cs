@@ -239,20 +239,17 @@ namespace SlickControls
 
 			_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
 
-			var height = _textBox.Font.Height + Padding.Vertical;
-
-			MaximumSize = Size.Empty;
+			var height = MinimumSize.Height == 0 ? _textBox.Font.Height + Padding.Vertical : MinimumSize.Height;
 
 			if (Live)
 			{
 				MinimumSize = new Size(Padding.Horizontal, height);
 			}
-			else
-			{
-				MinimumSize = Size.Empty;
-			}
 
-			Height = height;
+			if (Height == height)
+				OnSizeChanged(EventArgs.Empty);
+			else
+				Height = height;
 		}
 
 		protected override void DesignChanged(FormDesign design)
