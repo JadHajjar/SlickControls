@@ -119,7 +119,7 @@ namespace SlickControls
 			Font = UI.Font(8.25F);
 			Padding = UI.Scale(defaultPadding ?? new Padding(5, 30, 5, 5), UI.FontScale);
 			SetBackIcon();
-			base_Text.Font = UI.Font(11.25F);
+			base_Text.Font = UI.Font(10F, FontStyle.Bold);
 			base_Text.Size = base_Text.GetPreferredSize(Size.Empty);
 			base_Text.Location = new Point((int)Math.Ceiling(3F * (float)UI.FontScale) + ((int)(5 * UI.UIScale) - Padding.Left), (int)Math.Ceiling(3F * (float)UI.FontScale));
 		}

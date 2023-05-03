@@ -46,7 +46,7 @@ namespace SlickControls
 		{
 			e.Graphics.SetUp(Parent?.BackColor ?? BackColor);
 
-			using (var img = Image)
+			using (var img = AutoSizeIcon ? ImageName.Get(Height - Padding.Vertical) : Image)
 			{
 				GetColors(out var fore, out var back);
 

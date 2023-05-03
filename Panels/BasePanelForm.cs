@@ -627,6 +627,7 @@ namespace SlickControls
 		{
 			if (panel != null)
 			{
+				panel.SuspendDrawing();
 				panel.Parent = null;
 				OnNextIdle(() =>
 				{

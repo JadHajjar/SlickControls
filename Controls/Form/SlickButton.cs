@@ -28,6 +28,9 @@ namespace SlickControls
 		[Category("Appearance"), DisplayName("Auto-hide Text"), DefaultValue(true)]
 		public bool AutoHideText { get; set; } = true;
 
+		[Category("Appearance"), DisplayName("Auto-size Icon"), DefaultValue(false)]
+		public bool AutoSizeIcon { get; set; }
+
 		[Browsable(true)]
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 		[EditorBrowsable(EditorBrowsableState.Always)]
@@ -239,7 +242,7 @@ namespace SlickControls
 		{
 			e.Graphics.SetUp(Parent?.BackColor ?? BackColor);
 
-			using (var img = Image)
+			using (var img = AutoSizeIcon ? ImageName.Get(Height - Padding.Vertical) : Image)
 			{
 				GetColors(out var fore, out var back, HoverState, ColorStyle, colorShade, Parent?.BackColor ?? BackColor, BackColor, Enabled);
 
