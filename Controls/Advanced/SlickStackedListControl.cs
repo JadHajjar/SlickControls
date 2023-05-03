@@ -161,7 +161,12 @@ namespace SlickControls
 
 				if (selectedItem != null)
 				{
-					Invalidate(selectedItem.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom));
+					var rect = selectedItem.Bounds.Pad(0, -Padding.Top, 0, -Padding.Bottom);
+
+					if (rect.IntersectsWith(ClientRectangle))
+					{
+						Invalidate(rect);
+					}
 				}
 			}
 		}
