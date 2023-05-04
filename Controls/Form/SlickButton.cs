@@ -117,7 +117,7 @@ namespace SlickControls
 			return GetAutoSize();
 		}
 
-		internal Size GetAutoSize(bool forced = false)
+		public Size GetAutoSize(bool forced = false)
 		{
 			using (var image = Image)
 			{

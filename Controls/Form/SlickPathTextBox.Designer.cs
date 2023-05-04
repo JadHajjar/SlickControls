@@ -40,7 +40,6 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.LabelText = "Folder";
-			this.MinimumSize = new System.Drawing.Size(50, 35);
 			this.Name = "SlickPathTextBox";
 			this.Placeholder = "Folder Path";
 			this.Size = new System.Drawing.Size(200, 35);

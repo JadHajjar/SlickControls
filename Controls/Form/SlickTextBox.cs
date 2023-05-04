@@ -24,6 +24,7 @@ namespace SlickControls
 		private bool showLabel = true;
 		private bool error;
 		private bool warning;
+		private bool minimumSizeSet;
 		protected readonly TextBox _textBox;
 
 		public SlickTextBox()
@@ -228,6 +229,13 @@ namespace SlickControls
 			}
 		}
 
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			minimumSizeSet = MinimumSize.Height != 0;
+
+			base.OnHandleCreated(e);
+		}
+
 		protected override void UIChanged()
 		{
 			var pad = (int)(4 * UI.FontScale);
@@ -239,7 +247,7 @@ namespace SlickControls
 
 			_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
 
-			var height = MinimumSize.Height == 0 ? _textBox.Font.Height + Padding.Vertical : MinimumSize.Height;
+			var height = minimumSizeSet ? MinimumSize.Height : _textBox.Font.Height + Padding.Vertical;
 
 			if (Live)
 			{
