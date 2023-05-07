@@ -263,7 +263,7 @@ namespace SlickControls
 		protected override void DesignChanged(FormDesign design)
 		{
 			_textBox.ForeColor = design.ForeColor;
-			_textBox.BackColor = design.AccentBackColor;
+			_textBox.BackColor = BackColor == FormDesign.Design.AccentBackColor ? FormDesign.Design.BackColor : FormDesign.Design.AccentBackColor;
 			BackColor = Color.Empty;
 		}
 
@@ -420,7 +420,7 @@ namespace SlickControls
 
 				e.Graphics.FillRoundedRectangle(new SolidBrush(barColor), ClientRectangle.Pad(1, 1, 2, 1), pad);
 
-				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), pad);
+				e.Graphics.FillRoundedRectangle(new SolidBrush(BackColor == FormDesign.Design.AccentBackColor ? FormDesign.Design.BackColor : FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), pad);
 
 				if (ShowLabel && !string.IsNullOrEmpty(LabelText))
 				{

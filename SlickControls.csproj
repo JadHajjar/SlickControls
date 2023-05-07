@@ -66,6 +66,9 @@
     <Compile Include="Controls\Advanced\SlickStackedListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\Form\RoundedPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Form\SlickGroupBox.cs">
       <SubType>Component</SubType>
     </Compile>

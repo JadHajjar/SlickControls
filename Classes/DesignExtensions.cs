@@ -41,7 +41,7 @@ namespace SlickControls
 
 		public static void DrawLoader(this Graphics g, double loaderPercentage, Rectangle rectangle, Color? color = null)
 		{
-			var width = Math.Min(Math.Min(rectangle.Width, rectangle.Height), (int)(64 * UI.UIScale));
+			var width = Math.Min(Math.Min(rectangle.Width, rectangle.Height), (int)(32 * UI.UIScale));
 			var size = (float)Math.Max(2, width / (8D - (Math.Abs(100 - loaderPercentage) / 50)));
 			var arc = 100 + (1.7 * (50 - Math.Abs(100 - loaderPercentage)));
 			var angle = ((loaderPercentage * 36 / 20) + (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 3)) % 360D;
