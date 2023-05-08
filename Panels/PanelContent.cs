@@ -236,7 +236,10 @@ namespace SlickControls
 							this.TryInvoke(OnLoadFail);
 						}
 					}
-					catch { }
+					catch
+					{
+						this.TryInvoke(OnLoadFail);
+					}
 
 					if (!IsDisposed)
 						StopLoader();

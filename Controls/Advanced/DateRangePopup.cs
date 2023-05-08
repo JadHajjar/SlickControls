@@ -449,7 +449,7 @@ namespace SlickControls
 					action = () => setDate(val);
 				}
 
-				e.Graphics.DrawString(hovered ? val.ToString("d", LocaleHelper.CurrentCulture) : LocaleHelper.GetGlobalText(text), Font, SlickControl.Gradient(rect, hovered ? FormDesign.Design.ActiveForeColor : valid ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				e.Graphics.DrawString(hovered ? val.ToString("d", LocaleHelper.CurrentCulture) : (string)LocaleHelper.GetGlobalText(text), Font, SlickControl.Gradient(rect, hovered ? FormDesign.Design.ActiveForeColor : valid ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 				if (rect.Y != tabHeight)
 				{

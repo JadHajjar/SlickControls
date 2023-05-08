@@ -8,6 +8,8 @@ using System.Drawing.Drawing2D;
 using System.Media;
 using System.Windows.Forms;
 
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
+
 namespace SlickControls
 {
 	public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
@@ -37,6 +39,8 @@ namespace SlickControls
 		public bool AccentBackColor { get; set; }
 		[DefaultValue(false), Category("Appearance")]
 		public bool HideLabel { get; set; }
+		[DefaultValue(14), Category("Appearance")]
+		public int ItemHeight { get; set; } = 14;
 
 		public SlickSelectionDropDown()
 		{
@@ -113,7 +117,7 @@ namespace SlickControls
 
 					listDropDown = new CustomStackedListControl(OrderItems)
 					{
-						ItemHeight = 14,
+						ItemHeight = ItemHeight,
 						BackColor = FormDesign.Design.AccentBackColor,
 						Padding = UI.Scale(new Padding(5), UI.FontScale),
 						Location = _form.PointToClient(PointToScreen(new Point(0, Height - 3))),
