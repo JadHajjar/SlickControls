@@ -50,14 +50,22 @@ namespace SlickControls
 			SetIcon();
 			SetButtons();
 
-			foreach (Control item in FLP_Buttons.Controls)
-			{
-				item.MinimumSize = UI.Scale(new Size(65, 0), UI.FontScale);
-			}
-
 			PB_Icon.MouseDown += Form_MouseDown;
 			L_Text.MouseDown += Form_MouseDown;
 			TLP_ImgText.MouseDown += Form_MouseDown;
+		}
+
+		protected override void UIChanged()
+		{
+			base.UIChanged();
+
+			TB_Input.Margin = UI.Scale(new Padding(20), UI.FontScale);
+
+			B_Details.Margin = UI.Scale(new Padding(5), UI.FontScale);
+			foreach (Control item in FLP_Buttons.Controls)
+			{
+				item.Margin = UI.Scale(new Padding(5), UI.FontScale);
+			}
 		}
 
 		public string OutputText { get; private set; } = string.Empty;
@@ -131,7 +139,7 @@ namespace SlickControls
 			if (isInput)
 			{
 				TB_Input.Visible = true;
-				Height += (int)(50D * UI.UIScale);
+				Height += (int)(32D * UI.FontScale);
 			}
 
 			if (Owner != null)

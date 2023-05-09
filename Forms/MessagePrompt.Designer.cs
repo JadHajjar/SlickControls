@@ -29,6 +29,7 @@ namespace SlickControls
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessagePrompt));
 			this.TLP_Main = new System.Windows.Forms.TableLayoutPanel();
 			this.P_Spacer_1 = new System.Windows.Forms.Panel();
 			this.FLP_Buttons = new System.Windows.Forms.FlowLayoutPanel();
@@ -64,7 +65,7 @@ namespace SlickControls
 			// 
 			// base_P_Container
 			// 
-			this.base_P_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(217)))), ((int)(((byte)(179)))));
+			this.base_P_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(203)))), ((int)(((byte)(145)))));
 			this.base_P_Container.Controls.Add(this.base_P_Content);
 			this.base_P_Container.Size = new System.Drawing.Size(439, 239);
 			// 
@@ -122,10 +123,11 @@ namespace SlickControls
 			// B_Cancel
 			// 
 			this.B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Cancel.AutoHideText = false;
 			this.B_Cancel.AutoSize = true;
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Cancel.Image = global::SlickControls.Properties.Resources.I_Cancel_16;
+			this.B_Cancel.Image = ((System.Drawing.Image)(resources.GetObject("B_Cancel.Image")));
 			this.B_Cancel.Location = new System.Drawing.Point(229, 7);
 			this.B_Cancel.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Cancel.Name = "B_Cancel";
@@ -140,10 +142,11 @@ namespace SlickControls
 			// B_Ignore
 			// 
 			this.B_Ignore.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Ignore.AutoHideText = false;
 			this.B_Ignore.AutoSize = true;
 			this.B_Ignore.ColorShade = null;
 			this.B_Ignore.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Ignore.Image = global::SlickControls.Properties.Resources.Tiny_Skip;
+			this.B_Ignore.Image = ((System.Drawing.Image)(resources.GetObject("B_Ignore.Image")));
 			this.B_Ignore.Location = new System.Drawing.Point(129, 7);
 			this.B_Ignore.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Ignore.Name = "B_Ignore";
@@ -158,10 +161,11 @@ namespace SlickControls
 			// B_Retry
 			// 
 			this.B_Retry.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Retry.AutoHideText = false;
 			this.B_Retry.AutoSize = true;
 			this.B_Retry.ColorShade = null;
 			this.B_Retry.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Retry.Image = global::SlickControls.Properties.Resources.Tiny_Retry;
+			this.B_Retry.Image = ((System.Drawing.Image)(resources.GetObject("B_Retry.Image")));
 			this.B_Retry.Location = new System.Drawing.Point(29, 7);
 			this.B_Retry.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Retry.Name = "B_Retry";
@@ -176,10 +180,11 @@ namespace SlickControls
 			// B_Abort
 			// 
 			this.B_Abort.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Abort.AutoHideText = false;
 			this.B_Abort.AutoSize = true;
 			this.B_Abort.ColorShade = null;
 			this.B_Abort.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Abort.Image = global::SlickControls.Properties.Resources.Tiny_Abort;
+			this.B_Abort.Image = ((System.Drawing.Image)(resources.GetObject("B_Abort.Image")));
 			this.B_Abort.Location = new System.Drawing.Point(229, 49);
 			this.B_Abort.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Abort.Name = "B_Abort";
@@ -194,10 +199,11 @@ namespace SlickControls
 			// B_OK
 			// 
 			this.B_OK.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_OK.AutoHideText = false;
 			this.B_OK.AutoSize = true;
 			this.B_OK.ColorShade = null;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_OK.Image = global::SlickControls.Properties.Resources.I_Ok_16;
+			this.B_OK.Image = ((System.Drawing.Image)(resources.GetObject("B_OK.Image")));
 			this.B_OK.Location = new System.Drawing.Point(129, 49);
 			this.B_OK.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_OK.Name = "B_OK";
@@ -212,10 +218,11 @@ namespace SlickControls
 			// B_No
 			// 
 			this.B_No.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_No.AutoHideText = false;
 			this.B_No.AutoSize = true;
 			this.B_No.ColorShade = null;
 			this.B_No.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_No.Image = global::SlickControls.Properties.Resources.I_Cancel_16;
+			this.B_No.Image = ((System.Drawing.Image)(resources.GetObject("B_No.Image")));
 			this.B_No.Location = new System.Drawing.Point(29, 49);
 			this.B_No.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_No.Name = "B_No";
@@ -230,10 +237,11 @@ namespace SlickControls
 			// B_Yes
 			// 
 			this.B_Yes.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Yes.AutoHideText = false;
 			this.B_Yes.AutoSize = true;
 			this.B_Yes.ColorShade = null;
 			this.B_Yes.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Yes.Image = global::SlickControls.Properties.Resources.I_Ok_16;
+			this.B_Yes.Image = ((System.Drawing.Image)(resources.GetObject("B_Yes.Image")));
 			this.B_Yes.Location = new System.Drawing.Point(229, 91);
 			this.B_Yes.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Yes.Name = "B_Yes";
@@ -269,19 +277,16 @@ namespace SlickControls
 			// 
 			// TB_Input
 			// 
-			this.TB_Input.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.TB_Input.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.TB_Input.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.TB_Input.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(26)))), ((int)(((byte)(32)))));
 			this.TB_Input.LabelText = "Input";
-			this.TB_Input.Location = new System.Drawing.Point(114, 76);
-			this.TB_Input.Margin = new System.Windows.Forms.Padding(15, 0, 15, 0);
-			this.TB_Input.MaximumSize = new System.Drawing.Size(9999, 34);
-			this.TB_Input.MinimumSize = new System.Drawing.Size(50, 34);
+			this.TB_Input.Location = new System.Drawing.Point(63, 73);
 			this.TB_Input.Name = "TB_Input";
 			this.TB_Input.SelectedText = "";
 			this.TB_Input.SelectionLength = 0;
 			this.TB_Input.SelectionStart = 0;
-			this.TB_Input.Size = new System.Drawing.Size(269, 34);
+			this.TB_Input.Size = new System.Drawing.Size(371, 34);
 			this.TB_Input.TabIndex = 0;
 			this.TB_Input.Visible = false;
 			// 
@@ -292,7 +297,7 @@ namespace SlickControls
 			this.L_Text.Location = new System.Drawing.Point(75, 43);
 			this.L_Text.Margin = new System.Windows.Forms.Padding(15);
 			this.L_Text.Name = "L_Text";
-			this.L_Text.Size = new System.Drawing.Size(347, 18);
+			this.L_Text.Size = new System.Drawing.Size(347, 12);
 			this.L_Text.TabIndex = 0;
 			this.L_Text.Text = "Text";
 			this.L_Text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -321,10 +326,11 @@ namespace SlickControls
 			// B_Details
 			// 
 			this.B_Details.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Details.AutoHideText = false;
 			this.B_Details.AutoSize = true;
 			this.B_Details.ColorShade = null;
 			this.B_Details.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Details.Image = global::SlickControls.Properties.Resources.Tiny_ArrowDown;
+			this.B_Details.Image = ((System.Drawing.Image)(resources.GetObject("B_Details.Image")));
 			this.B_Details.Location = new System.Drawing.Point(5, 160);
 			this.B_Details.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Details.Name = "B_Details";
