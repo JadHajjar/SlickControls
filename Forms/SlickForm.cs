@@ -174,6 +174,10 @@ namespace SlickControls
 			base.OnCreateControl();
 
 			Opacity = 0;
+
+			if (StartPosition == FormStartPosition.CenterParent && Owner != null)
+				Location = Owner.Bounds.Center(Size);
+
 			if (NoBorder)
 			{
 				base_P_Container.Padding = new Padding(0);

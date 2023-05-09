@@ -553,7 +553,6 @@
 			this.ClientSize = new System.Drawing.Size(910, 586);
 			this.IconBounds = new System.Drawing.Rectangle(3, 4, 20, 20);
 			this.Name = "Theme_Changer";
-			this.SeemlessBar = true;
 			this.Text = "Theme Changer";
 			this.Load += new System.EventHandler(this.Theme_Changer_Load);
 			this.Resize += new System.EventHandler(this.Theme_Changer_Resize);

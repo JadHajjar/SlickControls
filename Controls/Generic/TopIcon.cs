@@ -17,6 +17,7 @@ namespace SlickControls
 
 		public TopIcon()
 		{
+			Cursor = Cursors.Hand;
 		}
 
 		public override HoverState HoverState { get => base.HoverState; internal set { base.HoverState = value; AnimationHandler.Animate(this); } }

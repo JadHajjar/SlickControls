@@ -19,9 +19,6 @@ namespace SlickControls
 
 		public new string Text { get => base_L_Title.Text; set => base.Text = base_L_Title.Text = value; }
 
-		[Category("Appearance"), DefaultValue(false)]
-		public bool SeemlessBar { get; set; }
-
 		#endregion Private Fields
 
 		#region Public Constructors
@@ -79,9 +76,10 @@ namespace SlickControls
 		{
 			base.UIChanged();
 
-			base_L_Title.Font = UI.Font(9.75F, FontStyle.Bold);
+			base_L_Title.Padding = UI.Scale(new Padding(5, 0, 0, 0), UI.FontScale);
+			base_L_Title.Font = UI.Font(7.5F, FontStyle.Bold);
 			base_P_Top.Height = (int)(24 * UI.UIScale);
-			base_B_Close.Size = base_B_Max.Size = base_B_Min.Size = new Size(6 + (int)(16 * UI.UIScale), 6 + (int)(16 * UI.UIScale));
+			base_B_Close.Size = base_B_Max.Size = base_B_Min.Size = new Size((int)(24 * UI.UIScale) - 6, (int)(24 * UI.UIScale));
 			base_P_Top_Spacer.Height = (int)Math.Ceiling(3F * (float)UI.FontScale);
 		}
 
@@ -90,16 +88,19 @@ namespace SlickControls
 			base.OnCreateControl();
 
 			ShowControls = ShowControls;
+
+			if (base_PB_Icon.Image == null)
+				base_PB_Icon.Hide();
 		}
 
 		protected override void DesignChanged(FormDesign design)
 		{
 			base.DesignChanged(design);
 
-			base_P_Top.BackColor = base_P_Controls.BackColor = base_P_Top_Spacer.BackColor = SeemlessBar ? design.BackColor : design.MenuColor;
-			base_L_Title.ForeColor = base_P_Controls.ForeColor = SeemlessBar ? design.ForeColor : design.MenuForeColor;
+			base_P_Top.BackColor = base_P_Controls.BackColor = base_P_Top_Spacer.BackColor = design.AccentBackColor;
+			base_L_Title.ForeColor = base_P_Controls.ForeColor = design.ForeColor;
 			base_P_Content.BackColor = design.BackColor;
-			base_PB_Icon.Color(SeemlessBar ? design.ForeColor : design.MenuForeColor);
+			base_PB_Icon.Color(design.ForeColor);
 		}
 
 		private void BaseForm_Load(object sender, EventArgs e)

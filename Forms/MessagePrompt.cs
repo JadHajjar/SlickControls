@@ -139,7 +139,7 @@ namespace SlickControls
 			if (isInput)
 			{
 				TB_Input.Visible = true;
-				Height += (int)(32D * UI.FontScale);
+				Height += TB_Input.Height + TB_Input.Margin.Vertical;
 			}
 
 			if (Owner != null)

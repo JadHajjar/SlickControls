@@ -47,7 +47,7 @@
 			// 
 			// base_P_Container
 			// 
-			this.base_P_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(217)))), ((int)(((byte)(179)))));
+			this.base_P_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(203)))), ((int)(((byte)(145)))));
 			this.base_P_Container.Controls.Add(this.base_P_Content);
 			this.base_P_Container.Controls.Add(this.base_P_Controls);
 			this.base_P_Container.Controls.Add(this.base_P_Top);
@@ -65,7 +65,7 @@
 			// 
 			this.base_B_Close.Image = global::SlickControls.Properties.Resources.Circle;
 			this.base_B_Close.Location = new System.Drawing.Point(32, 0);
-			this.base_B_Close.Padding = new System.Windows.Forms.Padding(0, 6, 6, 0);
+			this.base_B_Close.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
 			this.base_B_Close.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			// 
 			// base_B_Max
@@ -73,13 +73,13 @@
 			this.base_B_Max.Image = global::SlickControls.Properties.Resources.Circle;
 			this.base_B_Max.Location = new System.Drawing.Point(16, 0);
 			this.base_B_Max.Margin = new System.Windows.Forms.Padding(0);
-			this.base_B_Max.Padding = new System.Windows.Forms.Padding(0, 6, 6, 0);
+			this.base_B_Max.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
 			this.base_B_Max.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			// 
 			// base_B_Min
 			// 
 			this.base_B_Min.Image = global::SlickControls.Properties.Resources.Circle;
-			this.base_B_Min.Padding = new System.Windows.Forms.Padding(0, 6, 6, 0);
+			this.base_B_Min.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
 			this.base_B_Min.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			// 
 			// base_toolTip
@@ -134,7 +134,7 @@
 			this.base_P_Top_Spacer.Location = new System.Drawing.Point(0, 0);
 			this.base_P_Top_Spacer.Margin = new System.Windows.Forms.Padding(0);
 			this.base_P_Top_Spacer.Name = "base_P_Top_Spacer";
-			this.base_P_Top_Spacer.Size = new System.Drawing.Size(602, 2);
+			this.base_P_Top_Spacer.Size = new System.Drawing.Size(602, 526);
 			this.base_P_Top_Spacer.TabIndex = 9;
 			this.base_P_Top_Spacer.Paint += new System.Windows.Forms.PaintEventHandler(this.P_Top_Spacer_Paint);
 			// 
@@ -147,7 +147,7 @@
 			this.base_L_Title.Size = new System.Drawing.Size(602, 24);
 			this.base_L_Title.TabIndex = 6;
 			this.base_L_Title.Text = "Form";
-			this.base_L_Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.base_L_Title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.base_L_Title.TextChanged += new System.EventHandler(this.L_Title_TextChanged);
 			// 
 			// base_P_Content
