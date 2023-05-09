@@ -20,7 +20,7 @@ namespace SlickControls
 
 		static IconManager()
 		{
-			var list = new List<(string, Bitmap)>();
+			var list = new List<KeyAndIcon>();
 
 			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 			{
@@ -34,7 +34,7 @@ namespace SlickControls
 
 			foreach (var item in list)
 			{
-				var match = Regex.Match(item.Item1, @"^(I_[A-Za-z]+(?:_[A-Za-z]+)*)?_([0-9]+)$");
+				var match = Regex.Match(item.Name, @"^(I_[A-Za-z]+(?:_[A-Za-z]+)*)?_([0-9]+)$");
 
 				if (match.Success)
 				{
@@ -44,7 +44,7 @@ namespace SlickControls
 						_iconLibrary[match.Groups[1].Value] = new Dictionary<int, Bitmap>();
 					}
 
-					_iconLibrary[match.Groups[1].Value][match.Groups[2].Value.SmartParse(16)] = item.Item2;
+					_iconLibrary[match.Groups[1].Value][match.Groups[2].Value.SmartParse(16)] = item.Icon;
 				}
 			}
 		}
@@ -76,7 +76,7 @@ namespace SlickControls
 			return new Bitmap(_iconLibrary[name][key]);
 		}
 
-		private static IEnumerable<(string, Bitmap)> GetIconNames(Assembly appAssembly)
+		private static IEnumerable<KeyAndIcon> GetIconNames(Assembly appAssembly)
 		{
 			ResourceSet entries;
 			try
@@ -98,7 +98,7 @@ namespace SlickControls
 			{
 				if (entry.Value is Bitmap bitmap)
 				{
-					yield return ((string)entry.Key, bitmap);
+					yield return new KeyAndIcon((string)entry.Key, bitmap);
 				}
 			}
 		}
@@ -143,6 +143,18 @@ namespace SlickControls
 				}
 
 				return null;
+			}
+		}
+
+		private struct KeyAndIcon
+		{
+			public string Name;
+			public Bitmap Icon;
+
+			public KeyAndIcon(string name, Bitmap icon)
+			{
+				Name = name;
+				Icon = icon;
 			}
 		}
 	}

@@ -29,6 +29,7 @@ namespace SlickControls
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkingPrompt));
 			this.TLP_Main = new System.Windows.Forms.TableLayoutPanel();
 			this.P_Spacer_1 = new System.Windows.Forms.Panel();
 			this.FLP_Buttons = new System.Windows.Forms.FlowLayoutPanel();
@@ -83,10 +84,11 @@ namespace SlickControls
 			// B_Cancel
 			// 
 			this.B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+			this.B_Cancel.AutoSize = true;
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Cancel.Font = new System.Drawing.Font("Nirmala UI", 9.75F);
-			this.B_Cancel.Image = Properties.Resources.I_Cancel_16;
+			this.B_Cancel.Image = ((System.Drawing.Image)(resources.GetObject("B_Cancel.Image")));
 			this.B_Cancel.Location = new System.Drawing.Point(233, 7);
 			this.B_Cancel.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Cancel.Name = "B_Cancel";
@@ -130,7 +132,6 @@ namespace SlickControls
 			// PB_Icon
 			// 
 			this.PB_Icon.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.PB_Icon.Image = null;
 			this.PB_Icon.Loading = true;
 			this.PB_Icon.Location = new System.Drawing.Point(19, 44);
 			this.PB_Icon.Name = "PB_Icon";
@@ -147,6 +148,7 @@ namespace SlickControls
 			this.Size = new System.Drawing.Size(330, 181);
 			this.TLP_Main.ResumeLayout(false);
 			this.FLP_Buttons.ResumeLayout(false);
+			this.FLP_Buttons.PerformLayout();
 			this.TLP_ImgText.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.PB_Icon)).EndInit();
 			this.ResumeLayout(false);

@@ -53,6 +53,7 @@
     <Compile Include="Classes\Banner.cs" />
     <Compile Include="Classes\DesignExtensions.cs" />
     <Compile Include="Classes\DrawableItem.cs" />
+    <Compile Include="Classes\IconManager.cs" />
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
     <Compile Include="Classes\CanDrawItemEventArgs.cs" />
     <Compile Include="Classes\SizeSourceEventArgs.cs" />
@@ -64,6 +65,9 @@
     </Compile>
     <Compile Include="Controls\Advanced\SlickListControl.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Form\RoundedPictureBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Form\SlickGroupBox.cs">
       <SubType>Component</SubType>
@@ -95,11 +99,23 @@
     <Compile Include="Controls\Advanced\SlickStackedListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\Other\IoListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Other\IoSortDropdown.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\Other\WorkingPrompt.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Other\WorkingPrompt.Designer.cs">
       <DependentUpon>WorkingPrompt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\IoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\IoForm.Designer.cs">
+      <DependentUpon>IoForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\Delegates.cs" />
     <Compile Include="Classes\FlatStripItem.cs" />
@@ -251,9 +267,6 @@
     </Compile>
     <Compile Include="Controls\Form\SlickLabel.cs">
       <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Form\SlickLabel.Designer.cs">
-      <DependentUpon>SlickLabel.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Form\SlickRadioButton.cs">
       <SubType>UserControl</SubType>
@@ -453,9 +466,6 @@
     <EmbeddedResource Include="Controls\Form\SlickButton.resx">
       <DependentUpon>SlickButton.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Form\SlickLabel.resx">
-      <DependentUpon>SlickLabel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Form\SlickSlider.resx">
       <DependentUpon>SlickSlider.cs</DependentUpon>
     </EmbeddedResource>
@@ -476,6 +486,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Internal\DropDownItems.resx">
       <DependentUpon>DropDownItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\IoForm.resx">
+      <DependentUpon>IoForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SlickToolStrip.resx">
       <DependentUpon>SlickToolStrip.cs</DependentUpon>
