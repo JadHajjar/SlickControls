@@ -1,6 +1,7 @@
 ﻿using Extensions;
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -12,7 +13,8 @@ namespace SlickControls
 		private Rectangle ClearRectangle => new Rectangle(_searchBox.Right + Padding.Horizontal + _searchBox.Height, _searchBox.Top - (int)(3 * UI.FontScale), _searchBox.Height + (int)(6 * UI.FontScale), _searchBox.Height + (int)(6 * UI.FontScale));
 		private readonly List<T> _selectedItems = new List<T>();
 
-		public IEnumerable<T> SelectedItems => new List<T>(_selectedItems);
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
+		public IEnumerable<T> SelectedItems { get => new List<T>(_selectedItems); set { _selectedItems.Clear(); if (value != null) _selectedItems.AddRange(value); Invalidate(); } }
 
 		public override void ResetValue()
 		{

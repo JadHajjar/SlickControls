@@ -8,8 +8,6 @@ using System.Drawing.Drawing2D;
 using System.Media;
 using System.Windows.Forms;
 
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Header;
-
 namespace SlickControls
 {
 	public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
@@ -24,7 +22,7 @@ namespace SlickControls
 		public event EventHandler SelectedItemChanged;
 
 		[Category("Data"), DefaultValue(null)]
-		public T[] Items { get => _items; set { _items = value; if (_items?.Length > 0) { selectedItem = _items[0]; } } }
+		public T[] Items { get => _items; set { _items = value; if (_items?.Length > 0 && !(selectedItem?.Equals(default) ?? false)) { selectedItem = _items[0]; } } }
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 		public T SelectedItem { get => selectedItem; set { selectedItem = value; OnSelectedItemChanged(); Invalidate(); } }
@@ -399,8 +397,10 @@ namespace SlickControls
 
 				var labelSize = string.IsNullOrWhiteSpace(Text) || HideLabel ? Size.Empty : e.Graphics.Measure(Text, UI.Font(6.5F));
 
-				if(!HideLabel)
-				e.Graphics.DrawString(Text, UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(Padding.Left, Padding.Top / 4, 0, 0));
+				if (!HideLabel)
+				{
+					e.Graphics.DrawString(Text, UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(Padding.Left, Padding.Top / 4, 0, 0));
+				}
 
 				using (var chevron = IconManager.GetIcon("I_DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90)))
 				{
