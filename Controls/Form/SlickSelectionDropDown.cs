@@ -395,11 +395,11 @@ namespace SlickControls
 					}
 				}
 
-				var labelSize = string.IsNullOrWhiteSpace(Text) || HideLabel ? Size.Empty : e.Graphics.Measure(Text, UI.Font(6.5F));
+				var labelSize = string.IsNullOrWhiteSpace(Text) || HideLabel ? Size.Empty : e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(6.5F));
 
 				if (!HideLabel)
 				{
-					e.Graphics.DrawString(Text, UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(Padding.Left, Padding.Top / 4, 0, 0));
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(Padding.Left, Padding.Top / 4, 0, 0));
 				}
 
 				using (var chevron = IconManager.GetIcon("I_DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90)))
@@ -413,7 +413,7 @@ namespace SlickControls
 
 		private void PaintForListOpenNoSearch(PaintEventArgs e, Color fore)
 		{
-			e.Graphics.DrawString(Text, UI.Font(6.5F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(6.5F, FontStyle.Bold), new SolidBrush(fore), ClientRectangle, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 		}
 
 		protected virtual void PaintSelectedItem(PaintEventArgs e, Color fore, Rectangle rectangle)
@@ -423,7 +423,7 @@ namespace SlickControls
 
 		protected virtual void PaintForListOpen(PaintEventArgs e, Color fore)
 		{
-			e.Graphics.DrawString(Text, UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(_searchBox.Left, 1, 0, 0));
+			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(_searchBox.Left, 1, 0, 0));
 
 			var pad = 3;
 
