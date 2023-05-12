@@ -68,14 +68,14 @@ namespace SlickControls
 		{
 			if (!ReadOnly)
 			{
-				if (SelectedItem != null)
+				if (SelectedItem != null && Items != null)
 				{
 					if (e.Delta > 0)
 						Text = Items[Math.Max(0, Items.ToList().IndexOf(SelectedItem) - 1)].If(x => Conversion == null, x => x.ToString(), x => Conversion(x));
 					else if (e.Delta < 0)
 						Text = Items[Math.Min(Items.Length - 1, Items.ToList().IndexOf(SelectedItem) + 1)].If(x => Conversion == null, x => x.ToString(), x => Conversion(x));
 				}
-				else if (Items.Any())
+				else if (Items?.Any() ?? false)
 					Text = (e.Delta <= 0 ? Items.FirstOrDefault() : Items.LastOrDefault()).If(x => Conversion == null, x => x.ToString(), x => Conversion(x));
 			}
 		}
