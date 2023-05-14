@@ -81,6 +81,9 @@
     <Compile Include="Controls\Generic\RoundedPanels.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Generic\SmartFlowPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Internal\DateTimePickerPrompt.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1105,6 +1108,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Icon_ArrowRight_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Paste_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Paste_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Paste_48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

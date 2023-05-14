@@ -10,6 +10,64 @@ namespace SlickControls
 {
 	public static class DesignExtensions
 	{
+		public static Rectangle DrawLabel(this PaintEventArgs e, string text, Bitmap icon, Color color, Rectangle rectangle, ContentAlignment alignment, bool smaller = false, bool large = false, Point? mousePosition = null)
+		{
+			if (text == null)
+			{
+				return Rectangle.Empty;
+			}
+
+			using (var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F)))
+			{
+				var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
+				var size = e.Graphics.Measure(text, font).ToSize();
+
+				if (icon != null)
+				{
+					size.Width += icon.Width + padding.Left;
+				}
+
+				size.Width += padding.Left;
+
+				if (rectangle.Width > 0 && size.Width > rectangle.Width)
+				{
+					if (alignment == ContentAlignment.TopLeft)
+					{
+						alignment = ContentAlignment.TopRight;
+					}
+					else if (alignment == ContentAlignment.MiddleLeft)
+					{
+						alignment = ContentAlignment.MiddleRight;
+					}
+					else if (alignment == ContentAlignment.BottomLeft)
+					{
+						alignment = ContentAlignment.BottomRight;
+					}
+				}
+
+				rectangle = rectangle.Pad(smaller ? padding.Left / 2 : padding.Left).Align(size, alignment);
+
+				if (mousePosition.HasValue && !rectangle.Contains(mousePosition.Value))
+				{
+					color = color.MergeColor(FormDesign.Design.BackColor, 50);
+				}
+
+				using (var backBrush = rectangle.Gradient(color))
+				using (var foreBrush = new SolidBrush(color.GetTextColor()))
+				{
+					e.Graphics.FillRoundedRectangle(backBrush, rectangle, (int)(3 * UI.FontScale));
+					e.Graphics.DrawString(text, font, foreBrush, icon is null ? rectangle : rectangle.Pad(icon.Width + (padding.Left * 2) - 2, 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				}
+
+				if (icon != null)
+				{
+					e.Graphics.DrawImage(icon.Color(color.GetTextColor()), rectangle.Pad(padding.Left, 0, 0, 0).Align(icon.Size, ContentAlignment.MiddleLeft));
+				}
+			}
+
+			return rectangle;
+		}
+
 		public static void SetUp(this Graphics graphics, Color? backColor = null)
 		{
 			if (backColor != null)

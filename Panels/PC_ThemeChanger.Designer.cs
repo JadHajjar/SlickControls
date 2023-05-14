@@ -455,8 +455,6 @@
 			this.DD_Font.Items = null;
 			this.DD_Font.LabelText = "Font Family";
 			this.DD_Font.Location = new System.Drawing.Point(12, 57);
-			this.DD_Font.MaximumSize = new System.Drawing.Size(9999, 34);
-			this.DD_Font.MinimumSize = new System.Drawing.Size(50, 34);
 			this.DD_Font.Name = "DD_Font";
 			this.DD_Font.Placeholder = null;
 			this.P_UI.SetRowSpan(this.DD_Font, 2);
@@ -535,8 +533,6 @@
         "Chic"};
 			this.UD_BaseTheme.LabelText = "Base Theme";
 			this.UD_BaseTheme.Location = new System.Drawing.Point(12, 57);
-			this.UD_BaseTheme.MaximumSize = new System.Drawing.Size(400, 34);
-			this.UD_BaseTheme.MinimumSize = new System.Drawing.Size(50, 34);
 			this.UD_BaseTheme.Name = "UD_BaseTheme";
 			this.UD_BaseTheme.Placeholder = "Select how the app interacts with your theme";
 			this.UD_BaseTheme.SelectedItem = null;

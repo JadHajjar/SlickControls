@@ -33,8 +33,9 @@
 			// 
 			// base_Text
 			// 
+			this.base_Text.AutoHideText = false;
 			this.base_Text.AutoSize = true;
-			this.base_Text.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.base_Text.ColorShade = null;
 			this.base_Text.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.base_Text.Display = true;
 			this.base_Text.Enabled = false;
@@ -42,8 +43,10 @@
 			this.base_Text.Location = new System.Drawing.Point(3, 3);
 			this.base_Text.Name = "base_Text";
 			this.base_Text.Padding = new System.Windows.Forms.Padding(3, 2, 0, 3);
+			this.base_Text.Selected = false;
 			this.base_Text.Size = new System.Drawing.Size(150, 30);
-			this.base_Text.TabIndex = 12;
+			this.base_Text.SpaceTriggersClick = true;
+			this.base_Text.TabIndex = 1;
 			this.base_Text.TabStop = false;
 			this.base_Text.Text = "Panel";
 			this.base_Text.Click += new System.EventHandler(this.base_Text_Click);

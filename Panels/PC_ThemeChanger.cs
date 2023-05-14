@@ -113,12 +113,6 @@ namespace SlickControls
 		{
 			changesMade = false;
 
-			if (sender != null)
-			{
-				Dispose();
-				Form.PushBack();
-			}
-
 			if (UI._instance.fontScale != SS_Scale.Value || UI._instance.noAnimations != CB_DisableAnimations.Checked || UI.FontFamily != DD_Font.Conversion(DD_Font.SelectedItem).IfEmpty("Nirmala UI"))
 			{
 				var previous = new UI

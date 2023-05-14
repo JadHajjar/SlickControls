@@ -20,7 +20,7 @@ namespace SlickControls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 		[EditorBrowsable(EditorBrowsableState.Always)]
 		[Bindable(true)]
-		public override string Text { get; set; }
+		public override string Text { get => base.Text; set { base.Text = value; Invalidate(); } }
 
 		[Category("Behavior"), DisplayName("Linked Control")]
 		public Control LinkedControl { get; set; }

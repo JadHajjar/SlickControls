@@ -12,7 +12,7 @@ namespace SlickControls
 	{
 		private bool _selected;
 
-		[Category("Appearance"), DefaultValue(true)]
+		[Category("Appearance"), DefaultValue(false)]
 		public bool Display { get; set; }
 
 		public bool Selected { get => _selected; set { _selected = value; Invalidate(); } }
