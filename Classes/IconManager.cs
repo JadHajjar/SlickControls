@@ -76,6 +76,16 @@ namespace SlickControls
 			return new Bitmap(_iconLibrary[name][key]);
 		}
 
+		public static Dictionary<int, Bitmap> GetIcons(string name)
+		{
+			if (name == null || !_iconLibrary.ContainsKey(name))
+			{
+				return new Dictionary<int, Bitmap>();
+			}
+
+			return _iconLibrary[name];
+		}
+
 		private static IEnumerable<KeyAndIcon> GetIconNames(Assembly appAssembly)
 		{
 			ResourceSet entries;
