@@ -263,6 +263,12 @@ namespace SlickControls
 
 		private void base_Text_Click(object sender, EventArgs e) => Form?.PushBack();
 
+		protected void PushBack()
+		{
+			if (Form?.CurrentPanel == this)
+				Form.PushBack();
+		}
+
 		#region Loader
 
 		private readonly Timer timer = new Timer { Interval = 14 };
