@@ -54,6 +54,9 @@ namespace SlickControls
 		[DefaultValue(null)]
 		public new Image Image { get => base.Image; set => this.TryInvoke(() => { base.Image = value; Loading = false; }); }
 
+		[DefaultValue(1), Category("Behavior"), DisplayName("Loader Speed")]
+		public double LoaderSpeed { get; set; } = 1;
+
 		public SlickPictureBox()
 		{
 			DoubleBuffered = ResizeRedraw = true;
@@ -69,7 +72,7 @@ namespace SlickControls
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			LoaderPercentage += 1 + (Math.Abs(50 - LoaderPercentage) / 25);
+			LoaderPercentage += (1 + (Math.Abs(50 - LoaderPercentage) / 25)) * LoaderSpeed;
 			if (LoaderPercentage >= 200)
 				LoaderPercentage = 0;
 
