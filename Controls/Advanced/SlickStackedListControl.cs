@@ -64,6 +64,9 @@ namespace SlickControls
 		[Category("Appearance"), DefaultValue(false)]
 		public bool HighlightOnHover { get; set; }
 
+		[Category("Behavior"), DefaultValue(false)]
+		public bool VerticalScrolling { get; set; }
+
 		[Category("Appearance"), DefaultValue(22)]
 		public int ItemHeight { get; set; }
 #if NET47
