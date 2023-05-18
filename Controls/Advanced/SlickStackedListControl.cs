@@ -65,7 +65,7 @@ namespace SlickControls
 		public bool HighlightOnHover { get; set; }
 
 		[Category("Behavior"), DefaultValue(false)]
-		public bool VerticalScrolling { get; set; }
+		public bool HorizontalScrolling { get; set; }
 
 		[Category("Appearance"), DefaultValue(22)]
 		public int ItemHeight { get; set; }
@@ -485,12 +485,15 @@ namespace SlickControls
 		{
 			base.OnMouseWheel(e);
 
+			if (HorizontalScrolling || !scrollVisible)
+			{
+				return;
+			}
+
 			scrollIndex -= (int)Math.Round(e.Delta / (double)(GridView ? GridItemSize.Height : ItemHeight), MidpointRounding.AwayFromZero);
 			Invalidate();
-			if (scrollVisible)
-			{
-				SlickTip.SetTo(this, string.Empty);
-			}
+			
+			SlickTip.SetTo(this, string.Empty);
 		}
 
 		protected virtual bool IsItemActionHovered(DrawableItem<T> item, Point location)

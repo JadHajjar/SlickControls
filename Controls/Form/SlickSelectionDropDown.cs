@@ -22,7 +22,7 @@ namespace SlickControls
 		public event EventHandler SelectedItemChanged;
 
 		[Category("Data"), DefaultValue(null)]
-		public T[] Items { get => _items; set { _items = value; if (_items?.Length > 0 && !(selectedItem?.Equals(default) ?? false)) { selectedItem = _items[0]; } } }
+		public T[] Items { get => _items; set { _items = value; if (_items?.Length > 0 && (selectedItem?.Equals(default) ?? false)) { selectedItem = _items[0]; } } }
 
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 		public T SelectedItem { get => selectedItem; set { selectedItem = value; OnSelectedItemChanged(); Invalidate(); } }
