@@ -26,7 +26,7 @@ namespace SlickControls
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
+			using (var brush = new SolidBrush(BackColor))
 			{
 				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left, !TopLeft, !TopRight, !BotRight, !BotLeft);
 			}
@@ -52,7 +52,7 @@ namespace SlickControls
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
+			using (var brush = new SolidBrush(BackColor))
 			{
 				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
 			}
@@ -78,7 +78,7 @@ namespace SlickControls
 
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
-			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
+			using (var brush = new SolidBrush(BackColor))
 			{
 				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
 			}
@@ -178,7 +178,7 @@ namespace SlickControls
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
+			using (var brush = new SolidBrush(BackColor))
 			{
 				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
 			}
@@ -304,7 +304,7 @@ namespace SlickControls
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
+			using (var brush = new SolidBrush(BackColor))
 			{
 				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
 			}
@@ -436,7 +436,7 @@ namespace SlickControls
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			using (var brush = new SolidBrush(BackColor == Parent?.BackColor && !AddOutline ? FormDesign.Design.ButtonColor : BackColor))
+			using (var brush = new SolidBrush(BackColor))
 			{
 				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Left);
 			}
