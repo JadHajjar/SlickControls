@@ -119,8 +119,10 @@ namespace SlickControls
 			{
 				do
 				{
+					var diff = TLP_ImgText.Height - L_Text.Height + 5;
+
 					lastH = h;
-					h = 6 + FLP_Buttons.Height + Math.Max(80, (int)g.Measure(L_Text.Text, L_Text.Font, L_Text.Width +w - Width).Height + L_Text.Margin.Vertical + Padding.Vertical);
+					h = 6 + FLP_Buttons.Height + Math.Max(80, (int)g.Measure(L_Text.Text, L_Text.Font, L_Text.Width +w - Width).Height + diff + Padding.Vertical);
 
 					if (L_Title.Parent != null)
 					{
@@ -654,6 +656,16 @@ namespace SlickControls
 			B_Details.Text = val ? "Less Info" : "More Info";
 			B_Details.Image = val ? Properties.Resources.Tiny_ArrowUp : Properties.Resources.Tiny_ArrowDown;
 			Height += (int)((val ? 200 : -200) * UI.FontScale);
+		}
+
+		private void TB_Input_KeyDown(object sender, PreviewKeyDownEventArgs e)
+		{
+			if (e.KeyData == Keys.Enter)
+			{
+				var m = new Message();
+
+				ProcessCmdKey(ref m, Keys.Enter);
+			}
 		}
 	}
 }

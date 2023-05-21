@@ -517,7 +517,7 @@ namespace SlickControls
 				{ WindowState = FormWindowState.Normal; return true; }
 			}
 
-			if (keyData == (Keys.Shift | Keys.Escape) && SidebarItems != null)
+			if (keyData == (Keys.ControlKey | Keys.Escape) && SidebarItems != null)
 			{
 				foreach (var item in SidebarItems)
 				{
@@ -529,10 +529,10 @@ namespace SlickControls
 				return true;
 			}
 
-			if ((keyData == (Keys.Shift | Keys.Up) || keyData == (Keys.Shift | Keys.Down)) && SidebarItems != null)
+			if ((keyData == (Keys.Control | Keys.Up) || keyData == (Keys.Control | Keys.Down)) && SidebarItems != null)
 			{
 				var prev = SidebarItems.FirstOrDefault(x => x.Highlighted) ?? SidebarItems.FirstOrDefault(x => x.Selected);
-				var item = (keyData == (Keys.Shift | Keys.Up) ? SidebarItems.Previous(prev, true) : SidebarItems.Next(prev, true)) ?? SidebarItems.FirstOrDefault();
+				var item = (keyData.HasFlag(Keys.Up) ? SidebarItems.Previous(prev, true) : SidebarItems.Next(prev, true)) ?? SidebarItems.FirstOrDefault();
 
 				if (prev != null)
 				{
@@ -557,10 +557,12 @@ namespace SlickControls
 				{
 					foreach (var item in SidebarItems)
 					{
+						item.Highlighted = false;
+
 						if (item.ShowKey[0] == numb)
 						{
+							item.Highlighted = true;
 							item.MouseClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
-							break;
 						}
 					}
 
@@ -699,25 +701,15 @@ namespace SlickControls
 
 		protected override void OnKeyDown(KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.ShiftKey && SidebarItems != null)
-			{
-				foreach (var item in SidebarItems)
-				{
-					item.Highlighted = item.Selected;
-				}
-
-				base_P_Tabs.Invalidate();
-			}
-
 			if (e.KeyCode == Keys.ControlKey && SidebarItems != null)
 			{
-				var i = 1;
+				var i = 0;
 				foreach (var item in SidebarItems)
 				{
-					item.ShowKey = (i % 10).ToString();
+					if (i++ <= 10)
+						item.ShowKey = (i % 10).ToString();
 
-					if (i++ == 10)
-						break;
+					item.Highlighted = item.Selected;
 				}
 
 				base_P_Tabs.Invalidate();
@@ -728,7 +720,7 @@ namespace SlickControls
 
 		protected override void OnKeyUp(KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.ShiftKey && SidebarItems != null)
+			if (e.KeyCode == Keys.ControlKey && SidebarItems != null)
 			{
 				foreach (var item in SidebarItems)
 				{

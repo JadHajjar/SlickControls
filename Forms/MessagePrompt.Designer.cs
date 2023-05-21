@@ -280,24 +280,27 @@ namespace SlickControls
 			this.TB_Input.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.TB_Input.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.TB_Input.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(26)))), ((int)(((byte)(32)))));
-			this.TB_Input.LabelText = "Input";
+			this.TB_Input.LabelText = "";
 			this.TB_Input.Location = new System.Drawing.Point(63, 73);
 			this.TB_Input.Name = "TB_Input";
+			this.TB_Input.Placeholder = "Input";
 			this.TB_Input.SelectedText = "";
 			this.TB_Input.SelectionLength = 0;
 			this.TB_Input.SelectionStart = 0;
+			this.TB_Input.ShowLabel = false;
 			this.TB_Input.Size = new System.Drawing.Size(371, 34);
 			this.TB_Input.TabIndex = 0;
 			this.TB_Input.Visible = false;
+			this.TB_Input.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TB_Input_KeyDown);
 			// 
 			// L_Text
 			// 
 			this.L_Text.AutoEllipsis = true;
 			this.L_Text.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.L_Text.Location = new System.Drawing.Point(75, 43);
+			this.L_Text.Location = new System.Drawing.Point(75, 49);
 			this.L_Text.Margin = new System.Windows.Forms.Padding(15);
 			this.L_Text.Name = "L_Text";
-			this.L_Text.Size = new System.Drawing.Size(347, 12);
+			this.L_Text.Size = new System.Drawing.Size(347, 6);
 			this.L_Text.TabIndex = 0;
 			this.L_Text.Text = "Text";
 			this.L_Text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -305,6 +308,7 @@ namespace SlickControls
 			// PB_Icon
 			// 
 			this.PB_Icon.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.PB_Icon.LoaderSpeed = 1D;
 			this.PB_Icon.Location = new System.Drawing.Point(14, 39);
 			this.PB_Icon.Name = "PB_Icon";
 			this.TLP_ImgText.SetRowSpan(this.PB_Icon, 3);
@@ -319,7 +323,7 @@ namespace SlickControls
 			this.L_Title.Location = new System.Drawing.Point(70, 15);
 			this.L_Title.Margin = new System.Windows.Forms.Padding(10, 15, 3, 0);
 			this.L_Title.Name = "L_Title";
-			this.L_Title.Size = new System.Drawing.Size(38, 13);
+			this.L_Title.Size = new System.Drawing.Size(45, 19);
 			this.L_Title.TabIndex = 2;
 			this.L_Title.Text = "label1";
 			// 
@@ -406,7 +410,7 @@ namespace SlickControls
 			this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(58)))), ((int)(((byte)(69)))));
 			this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.MaximizeBox = false;
-			this.MaximizedBounds = new System.Drawing.Rectangle(0, 0, 1920, 1032);
+			this.MaximizedBounds = new System.Drawing.Rectangle(0, 0, 2560, 1380);
 			this.MinimizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(325, 180);
 			this.Name = "MessagePrompt";

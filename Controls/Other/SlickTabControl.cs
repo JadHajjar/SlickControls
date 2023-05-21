@@ -21,7 +21,7 @@ namespace SlickControls
 		public new bool Enabled { get => P_Tabs.Enabled; set => P_Tabs.Enabled = value; }
 
 		[Category("Behavior")]
-		public Tab[] Tabs { get => tabs ?? new Tab[0]; set { tabs = value; GenerateTabs(); } }
+		public Tab[] Tabs { get => tabs ?? new Tab[0]; set { tabs = value; if (IsHandleCreated) GenerateTabs(); } }
 
 		public Size ContentSize => P_Content.Size;
 
@@ -51,7 +51,8 @@ namespace SlickControls
 
 		private void GenerateTabs()
 		{
-			if (!IsHandleCreated) return;
+			if (!IsHandleCreated)
+				return;
 
 			foreach (var tab in Tabs)
 			{
@@ -84,7 +85,7 @@ namespace SlickControls
 				tab.Width = tabWidth();
 		}
 
-		private void tab_TabSelected(object sender, EventArgs e)
+		private void tab_TabSelected(object sender, EventArgs e) => P_Content.TryInvoke(() =>
 		{
 			if (ScrollBar?.LinkedControl != null)
 				ScrollBar.LinkedControl.ControlAdded -= ctrl_ControlAdded;
@@ -107,7 +108,11 @@ namespace SlickControls
 				if (!tab.FillTab)
 				{
 					if (!ScrollBar.IsHandleCreated)
+					{
+						ScrollBar.Show();
 						ScrollBar.CreateControl();
+					}
+
 					ScrollBar.LinkedControl = ctrl;
 					ScrollBar.Reset();
 				}
@@ -122,7 +127,7 @@ namespace SlickControls
 			}
 
 			P_Content.Invalidate();
-		}
+		});
 
 		private void ctrl_ControlAdded(object sender, ControlEventArgs e) => P_Content.Invalidate();
 

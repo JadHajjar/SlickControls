@@ -157,7 +157,7 @@ namespace SlickControls
 					}
 				}
 
-				var extraWidth = (image == null ? 0 : (IconSize + Padding.Left)) + (int)(3 * UI.FontScale) + Padding.Horizontal;
+				var extraWidth = (image == null ? 0 : (IconSize + Padding.Left)) + (int)(5 * UI.FontScale) + Padding.Horizontal;
 				var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
 				var h = Math.Max(IconSize + 6, (int)bnds.Height + Padding.Top + 3);
 				var w = (int)Math.Ceiling(bnds.Width) + extraWidth;
@@ -207,7 +207,7 @@ namespace SlickControls
 			}
 
 			var bnds = g.Measure(LocaleHelper.GetGlobalText(text), font);
-			var extraWidth = (image == null ? 0 : (iconSize + padding.Value.Left)) + (int)(3 * UI.FontScale);
+			var extraWidth = (image == null ? 0 : (iconSize + padding.Value.Left)) + (int)(5 * UI.FontScale);
 			var h = Math.Max(iconSize + 6, (int)bnds.Height + padding.Value.Top + 3);
 			var w = (int)Math.Ceiling(bnds.Width) + extraWidth + padding.Value.Horizontal;
 
@@ -306,7 +306,7 @@ namespace SlickControls
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
 			var iconSize = image?.Width ?? 16;
-			var extraWidth = (image == null ? 0 : (iconSize + padding.Left)) + (int)(3 * UI.FontScale);
+			var extraWidth = (image == null ? 0 : (iconSize + padding.Left)) + (int)(2 * UI.FontScale);
 			var bnds = e.Graphics.Measure(text, font, size.Width - extraWidth - padding.Horizontal);
 			var noText = string.IsNullOrWhiteSpace(text) || (slickButton?.AutoHideText ?? false) && size.Width.IsWithin(0, (int)(50 * UI.FontScale));
 

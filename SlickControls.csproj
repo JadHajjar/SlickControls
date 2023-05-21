@@ -108,6 +108,9 @@
     <Compile Include="Controls\Other\IoSortDropdown.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\Other\SlickTabHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Other\WorkingPrompt.cs">
       <SubType>UserControl</SubType>
     </Compile>

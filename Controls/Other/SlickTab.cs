@@ -35,7 +35,7 @@ namespace SlickControls
 		public int AnimatedValue { get; set; } = 15;
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public int TargetAnimationValue => (Selected || Hovered) ? 100 : 15;
+		public int TargetAnimationValue => (Selected ? 100 : 0) + (Selected || Hovered ? 100 : 15);
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool Hovered
@@ -92,6 +92,9 @@ namespace SlickControls
 			}
 		}
 
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public Color Tint { get; set; }
+
 		public SlickTab()
 		{
 			InitializeComponent();
@@ -113,27 +116,31 @@ namespace SlickControls
 		{
 			e.Graphics.SetUp(BackColor);
 
-			e.Graphics.FillRoundedRectangle(ClientRectangle.Gradient(Selected || Hovered ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor, 0.007F * AnimatedValue),
-				ClientRectangle.Pad((int)(5 * UI.FontScale)).Pad(1, 1, 1, 0), (int)(4 * UI.FontScale));
+			var active = Tint == Color.Empty ? FormDesign.Design.ActiveColor : Tint;
+			var rectangle = ClientRectangle.Pad((int)(5 * UI.FontScale));
 
-			e.Graphics.FillRoundedRectangle(ClientRectangle.Gradient((Selected ? FormDesign.Design.ActiveColor : FormDesign.Design.ButtonColor).MergeColor(BackColor, AnimatedValue), 0.007F * AnimatedValue),
-				ClientRectangle.Pad((int)(5 * UI.FontScale)).Pad(0, 0, 0, 1), (int)(4 * UI.FontScale));
+			e.Graphics.FillRoundedRectangle(ClientRectangle.Gradient(Selected || Hovered ? active : FormDesign.Design.AccentColor, 0.003F * AnimatedValue),
+				rectangle.Pad(1, 1, 1, 0), (int)(4 * UI.FontScale));
 
-			var fore = Selected ? FormDesign.Design.ActiveForeColor.MergeColor(FormDesign.Design.ForeColor, AnimatedValue) : FormDesign.Design.ForeColor;
+			e.Graphics.FillRoundedRectangle(ClientRectangle.Gradient(active.MergeColor(FormDesign.Design.ButtonColor, Math.Max(0, AnimatedValue-100)).MergeColor(BackColor, Math.Min(100, AnimatedValue)), 0.003F * AnimatedValue),
+				rectangle.Pad(0, 0, 0, 1), (int)(4 * UI.FontScale));
+
+			var fore = Selected ? (Tint == Color.Empty ? FormDesign.Design.ActiveForeColor : Tint.GetTextColor()).MergeColor(FormDesign.Design.ForeColor, Math.Max(0, AnimatedValue - 100)) : Tint == Color.Empty ? FormDesign.Design.ForeColor : Tint;
 
 			using (var img = (Icon != null ? new Bitmap(Icon) : IconName)?.Color(fore))
 			{
 				if (Width > (int)(120 * UI.FontScale))
 				{
-					var width = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), Font).Width + (img?.Width ?? 0) + (int)(10 * UI.FontScale);
-					var bounds = ClientRectangle.CenterR(width, Height);
+					var textSize = Size.Ceiling(e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), Font));
+					var width = textSize.Width + (img?.Width ?? 0) + (int)(10 * UI.FontScale);
+					var bounds = rectangle.CenterR(Math.Min(width, rectangle.Width), textSize.Height);
 
 					e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, new SolidBrush(fore)
-						, img != null ? bounds.Pad(img.Width + (int)(5 * UI.FontScale), 0, 0, 0) : bounds, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+						, img != null ? bounds.Pad(img.Width + (int)(5 * UI.FontScale), 0, 0, 0) : bounds, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter });
 
 					if (img != null)
 					{
-						e.Graphics.DrawImage(img, bounds.Align(img.Size, ContentAlignment.MiddleLeft));
+						e.Graphics.DrawImage(img, bounds.Pad((int)(3 * UI.FontScale)).Align(img.Size, ContentAlignment.MiddleLeft));
 					}
 				}
 				else if (img != null)
