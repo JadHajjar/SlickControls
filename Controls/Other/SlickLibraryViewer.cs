@@ -78,7 +78,7 @@ namespace SlickControls
 
 		protected override void UIChanged()
 		{
-			PB_Bar.Padding = UI.Scale(new Padding(5), UI.FontScale);
+			I_Back.Padding = PB_Bar.Padding = UI.Scale(new Padding(5), UI.FontScale);
 			PB_Bar.Height = (int)FontMeasuring.Measure(" ", UI.Font(9F)).Height + PB_Bar.Padding.Vertical;
 			slickSpacer1.Height = (int)(1.5 * UI.FontScale);
 			slickSpacer1.Padding = UI.Scale(new Padding(15, 0, 15, 0), UI.FontScale);
@@ -86,6 +86,7 @@ namespace SlickControls
 			tableLayoutPanel2.ColumnStyles[1].Width = PB_Bar.Height;
 			tableLayoutPanel2.ColumnStyles[3].Width = PB_Bar.Height;
 			PB_Loader.Size = new Size(PB_Bar.Height, PB_Bar.Height);
+			I_Back.Size = UI.Scale(new Size(24, 24), UI.FontScale);
 		}
 
 		protected override void OnCreateControl()
@@ -599,6 +600,11 @@ namespace SlickControls
 		internal void SortingChanged()
 		{
 			ioList.SortingChanged();
+		}
+
+		private void I_Back_Click(object sender, EventArgs e)
+		{
+			GoBack();
 		}
 	}
 }

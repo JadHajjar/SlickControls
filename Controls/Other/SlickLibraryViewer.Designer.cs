@@ -28,12 +28,14 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			SlickControls.DynamicIcon dynamicIcon1 = new SlickControls.DynamicIcon();
 			this.PB_Bar = new SlickControls.SlickPictureBox();
 			this.PB_Loader = new SlickControls.SlickPictureBox();
 			this.TB_Path = new SlickControls.SlickPathTextBox();
 			this.ioList = new SlickControls.Controls.Other.IoListControl();
 			this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
 			this.slickSpacer1 = new SlickControls.SlickSpacer();
+			this.I_Back = new SlickControls.SlickIcon();
 			((System.ComponentModel.ISupportInitialize)(this.PB_Bar)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.PB_Loader)).BeginInit();
 			this.tableLayoutPanel2.SuspendLayout();
@@ -42,6 +44,7 @@
 			// PB_Bar
 			// 
 			this.PB_Bar.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.PB_Bar.LoaderSpeed = 1D;
 			this.PB_Bar.Location = new System.Drawing.Point(59, 41);
 			this.PB_Bar.Margin = new System.Windows.Forms.Padding(0);
 			this.PB_Bar.Name = "PB_Bar";
@@ -54,6 +57,7 @@
 			// PB_Loader
 			// 
 			this.PB_Loader.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.PB_Loader.LoaderSpeed = 1D;
 			this.PB_Loader.Loading = true;
 			this.PB_Loader.Location = new System.Drawing.Point(855, 43);
 			this.PB_Loader.Margin = new System.Windows.Forms.Padding(0);
@@ -76,6 +80,7 @@
 			this.TB_Path.MaximumSize = new System.Drawing.Size(9999, 0);
 			this.TB_Path.MinimumSize = new System.Drawing.Size(50, 35);
 			this.TB_Path.Name = "TB_Path";
+			this.TB_Path.Padding = new System.Windows.Forms.Padding(0, 7, 0, 7);
 			this.TB_Path.Placeholder = "Folder Path";
 			this.TB_Path.SelectedText = "";
 			this.TB_Path.SelectionLength = 0;
@@ -115,6 +120,7 @@
 			this.tableLayoutPanel2.Controls.Add(this.TB_Path, 2, 0);
 			this.tableLayoutPanel2.Controls.Add(this.PB_Loader, 3, 0);
 			this.tableLayoutPanel2.Controls.Add(this.slickSpacer1, 0, 2);
+			this.tableLayoutPanel2.Controls.Add(this.I_Back, 1, 1);
 			this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
 			this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -135,6 +141,18 @@
 			this.slickSpacer1.TabIndex = 0;
 			this.slickSpacer1.TabStop = false;
 			this.slickSpacer1.Text = "slickSpacer1";
+			// 
+			// I_Back
+			// 
+			this.I_Back.ActiveColor = null;
+			this.I_Back.Cursor = System.Windows.Forms.Cursors.Hand;
+			dynamicIcon1.Name = "I_ArrowLeft";
+			this.I_Back.ImageName = dynamicIcon1;
+			this.I_Back.Location = new System.Drawing.Point(42, 44);
+			this.I_Back.Name = "I_Back";
+			this.I_Back.Size = new System.Drawing.Size(14, 15);
+			this.I_Back.TabIndex = 7;
+			this.I_Back.Click += new System.EventHandler(this.I_Back_Click);
 			// 
 			// SlickLibraryViewer
 			// 
@@ -161,5 +179,6 @@
 		internal Controls.Other.IoListControl ioList;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 		private SlickSpacer slickSpacer1;
+		private SlickIcon I_Back;
 	}
 }

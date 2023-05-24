@@ -253,7 +253,7 @@ namespace SlickControls
 
 				CurrentPanel = newPanel;
 			}
-			catch { return false; }
+			catch (Exception ex) { MessagePrompt.Show(ex, form: this); return false; }
 
 			base_B_Close.Visible = base_B_Max.Visible = base_B_Min.Visible = !CurrentPanel.HideWindowIcons;
 			base_P_Content.BackColor = CurrentPanel.GetTopBarColor();
