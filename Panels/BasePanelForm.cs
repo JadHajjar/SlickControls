@@ -159,6 +159,8 @@ namespace SlickControls
 			}
 		}
 
+		public bool PushPanel<T>() where T : PanelContent, new() => PushPanel<T>(null);
+
 		public bool PushPanel<T>(PanelItem panelItem) where T : PanelContent, new()
 		{
 			if (CurrentPanel != null)
@@ -179,6 +181,8 @@ namespace SlickControls
 
 			return SetPanel<T>(panelItem, false, false);
 		}
+
+		public bool PushPanel(PanelContent panelContent) => PushPanel(null, panelContent);
 
 		public bool PushPanel(PanelItem panelItem, PanelContent panelContent)
 		{
