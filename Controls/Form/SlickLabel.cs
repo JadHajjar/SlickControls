@@ -66,5 +66,49 @@ namespace SlickControls
 					this);
 			}
 		}
+
+		public static void DrawLabel(
+			PaintEventArgs e,
+			Rectangle rectangle,
+			string text,
+			Font font,
+			Image icon,
+			Padding? padding = null,
+			Color? foreColor = null,
+			HoverState hoverState = HoverState.Normal,
+			ColorStyle colorStyle = ColorStyle.Active)
+		{
+			Color back, fore;
+
+			if (hoverState.HasFlag(HoverState.Pressed))
+			{
+				fore = colorStyle.GetBackColor();
+				back = colorStyle.GetColor();
+			}
+			else if (hoverState.HasFlag(HoverState.Hovered))
+			{
+				fore = colorStyle.GetBackColor().Tint(Lum: FormDesign.Design.Type.If(FormDesignType.Dark, -7, 7));
+				back = Color.FromArgb(160, colorStyle.GetColor());
+			}
+			else
+			{
+				fore = foreColor?? FormDesign.Design.ForeColor;
+				back = Color.Empty;
+			}
+
+			DrawButton(e,
+				rectangle.Location	,
+				rectangle.Size,
+				text,
+				font,
+				back,
+				fore,
+				icon,
+				padding ?? UI.Scale(new Padding(7), UI.UIScale),
+				true,
+				hoverState,
+				colorStyle,
+				null);
+		}
 	}
 }

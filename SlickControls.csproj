@@ -1130,6 +1130,15 @@
   <ItemGroup>
     <None Include="Resources\I_Paste_48.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Wait_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Wait_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Wait_24.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>

@@ -144,10 +144,10 @@ namespace SlickControls
 		}
 #endif
 
-		protected DialogResult ShowPrompt(Exception exception, string message, string title, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
+		protected DialogResult ShowPrompt(Exception exception, string message, string title, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.Error)
 			=> MessagePrompt.Show(exception, message, title, buttons, icon, Form);
 
-		protected DialogResult ShowPrompt(Exception exception, string message, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
+		protected DialogResult ShowPrompt(Exception exception, string message, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.Error)
 			=> MessagePrompt.Show(exception, message, buttons, icon, Form);
 
 		protected DialogResult ShowPrompt(string message, string title, PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None)
@@ -259,7 +259,7 @@ namespace SlickControls
 				BeginInvoke(new Action(() => FirstFocusedControl.Focus()));
 		}
 
-		internal void OnShown() => Shown?.Invoke(this, new EventArgs());
+		internal protected virtual void OnShown() => Shown?.Invoke(this, new EventArgs());
 
 		private void base_Text_Click(object sender, EventArgs e) => Form?.PushBack();
 

@@ -256,7 +256,7 @@ namespace SlickControls
 			{
 				if (form.Bounds.Contains(Cursor.Position))
 				{
-					form.BeginInvoke(new Action(() => { form.Focus(); form.CurrentFormState = FormState.NormalFocused; }));
+					form.TryBeginInvoke(() => { form.Focus(); form.CurrentFormState = FormState.NormalFocused; });
 				}
 
 				form.CurrentFormState = FormState.NormalFocused;
