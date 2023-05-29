@@ -15,7 +15,6 @@ namespace SlickControls
 		const uint SPIF_UPDATEINIFILE = 0x01;
 		const uint SPIF_SENDCHANGE = 0x02;
 
-		// Enable font smoothing
 		public static void Initialize()
 		{
 			typeof(Cursors).GetField("defaultCursor", BindingFlags.Static | BindingFlags.NonPublic)
@@ -24,7 +23,9 @@ namespace SlickControls
 			typeof(Cursors).GetField("hand", BindingFlags.Static | BindingFlags.NonPublic)
 				.SetValue(null, new Cursor(Properties.Resources.Cursor_Hand.GetHicon()));
 
-			SystemParametersInfo(SPI_SETFONTSMOOTHING, 1, IntPtr.Zero, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+			// Added in response to neinew's post
+			// seems useless, user complained it changes the windows' settings
+			//SystemParametersInfo(SPI_SETFONTSMOOTHING, 1, IntPtr.Zero, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
 		}
 	}
 }
