@@ -87,6 +87,9 @@
     <Compile Include="Controls\Form\SlickSelectionDropDown.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\Generic\GroupPanels.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Generic\RoundedPanels.cs">
       <SubType>Component</SubType>
     </Compile>
