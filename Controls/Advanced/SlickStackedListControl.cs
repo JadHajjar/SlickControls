@@ -520,14 +520,14 @@ namespace SlickControls
 				var rect = e.ClipRectangle;
 				var filledRect = rect.Pad(0, -Padding.Top, 0, -Padding.Bottom);
 
-				e.Graphics.SetClip(filledRect);
+				//e.Graphics.SetClip(filledRect);
 
 				using (var brush = new SolidBrush(e.BackColor = BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90)))
 				{
 					e.Graphics.FillRectangle(brush, filledRect);
 				}
 
-				e.Graphics.SetClip(rect);
+				//e.Graphics.SetClip(rect);
 			}
 			else
 			{

@@ -33,9 +33,8 @@ namespace SlickControls
 
 			if (Current != null)
 			{
-#if DEBUG
-				Clipboard.SetText(Current.VersionString + "\r\n\r\n" + Current.ChangeGroups.ListStrings(x => $"{x.Name}\r\n{x.Changes.ListStrings(y => $"  • {y}", "\r\n")}", "\r\n"));
-#endif
+				PrepareCurrentVersion(Current);
+
 				base_P_Tabs.Add(PanelTab.GroupName("Current Version"));
 				AddVersion(Current, $"v{Current.Version}");
 			}
@@ -55,6 +54,9 @@ namespace SlickControls
 				}
 			}
 		}
+
+		protected virtual void PrepareCurrentVersion(VersionChangeLog current)
+		{ }
 
 		public override bool CanExit(bool toBeDisposed)
 		{
