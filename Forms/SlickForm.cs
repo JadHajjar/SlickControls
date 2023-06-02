@@ -89,14 +89,21 @@ namespace SlickControls
 			{
 				md.Dispose();
 				UI.UIChanged -= UIChanged;
+				LocaleHelper.LanguageChanged -= LocaleChanged;
 			};
 
 			SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 			SetStyle(ControlStyles.ResizeRedraw, true);
 
+			LocaleHelper.LanguageChanged += LocaleChanged;
+
 			Application.Idle += Application_Idle;
 
 			OnNextIdle(() => Opacity = 1);
+		}
+
+		protected virtual void LocaleChanged()
+		{
 		}
 
 		private void Application_Idle(object sender, EventArgs e)
@@ -201,6 +208,7 @@ namespace SlickControls
 			SetStyle(ControlStyles.ResizeRedraw, true);
 			DesignChanged(FormDesign.Design);
 			UIChanged();
+			LocaleChanged();
 
 			MaximizedBounds = Screen.PrimaryScreen.WorkingArea;
 		}
