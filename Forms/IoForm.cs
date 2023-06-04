@@ -220,7 +220,6 @@ namespace SlickControls
 			B_GridView.Selected = false;
 			B_ListView.Selected = true;
 			libraryViewer.ioList.GridView = false;
-			libraryViewer.ioList.Invalidate();
 		}
 
 		private void B_GridView_Click(object sender, EventArgs e)
@@ -228,7 +227,6 @@ namespace SlickControls
 			B_GridView.Selected = true;
 			B_ListView.Selected = false;
 			libraryViewer.ioList.GridView = true;
-			libraryViewer.ioList.Invalidate();
 		}
 
 		private void libraryViewer_CurrentPathChanged(object sender, EventArgs e)

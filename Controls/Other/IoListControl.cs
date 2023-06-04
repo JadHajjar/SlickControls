@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace SlickControls.Controls.Other
 {
-	internal class IoListControl : SlickStackedListControl<IOControl>
+	internal class IoListControl : SlickStackedListControl<IOControl, IoListControl.Rectangles>
 	{
 		public IOControl SelectedItem { get; internal set; }
 		internal IO.IController Controller { get;  set; }
@@ -24,7 +24,7 @@ namespace SlickControls.Controls.Other
 			GridView = true;
 		}
 
-		protected override bool IsItemActionHovered(DrawableItem<IOControl> item, Point location)
+		protected override bool IsItemActionHovered(DrawableItem<IOControl, Rectangles> item, Point location)
 		{
 			if (item.HoverState.HasFlag(HoverState.Hovered))
 			SlickTip.SetTo(this, item.Item.Name, offset: new Point(0, Height + Parent.Parent.Padding.Bottom), alignToBottom: true);
@@ -32,7 +32,7 @@ namespace SlickControls.Controls.Other
 			return true;
 		}
 
-		protected override IEnumerable<DrawableItem<IOControl>> OrderItems(IEnumerable<DrawableItem<IOControl>> items)
+		protected override IEnumerable<DrawableItem<IOControl, Rectangles>> OrderItems(IEnumerable<DrawableItem<IOControl, Rectangles>> items)
 		{
 			switch (IoSortingOption)
 			{
@@ -53,7 +53,7 @@ namespace SlickControls.Controls.Other
 			return SortDesc ? items.Reverse() : items;
 		}
 
-		protected override void OnItemMouseClick(DrawableItem<IOControl> item, MouseEventArgs e)
+		protected override void OnItemMouseClick(DrawableItem<IOControl, Rectangles> item, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Left)
 			{
@@ -108,12 +108,31 @@ namespace SlickControls.Controls.Other
 			}
 		}
 
-		protected override void OnPaintItem(ItemPaintEventArgs<IOControl> e)
+		protected override void OnPaintItemList(ItemPaintEventArgs<IOControl, Rectangles> e)
 		{
-			if (GridView)
-				e.Item.OnPaintGrid(e, SelectedItem == e.Item);
-			else
-				e.Item.OnPaintList(e, SelectedItem == e.Item);
+			e.Item.OnPaintList(e, SelectedItem == e.Item);
+		}
+
+		protected override void OnPaintItemGrid(ItemPaintEventArgs<IOControl, Rectangles> e)
+		{
+			e.Item.OnPaintGrid(e, SelectedItem == e.Item);
+		}
+
+		internal class Rectangles : IDrawableItemRectangles<IOControl>
+		{
+			public IOControl Item { get; set; }
+
+			public bool GetToolTip(Control instance, Point location, out string text, out Point point)
+			{
+				text = null;
+				point = default;
+				return false;
+			}
+
+			public bool IsHovered(Control instance, Point location)
+			{
+				return true;
+			}
 		}
 	}
 }

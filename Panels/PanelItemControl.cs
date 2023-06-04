@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	internal class PanelItemControl : SlickStackedListControl<PanelTab>
+	internal class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemControl.Rectangles>
 	{
 		public event MouseEventHandler OnFormMove;
 
@@ -27,17 +27,17 @@ namespace SlickControls
 			e.DoNotDraw = e.Item.IsGroupHeader && (Form?.SmallMenu ?? false);
 		}
 
-		protected override void OnPaintItem(ItemPaintEventArgs<PanelTab> e)
+		protected override void OnPaintItemList(ItemPaintEventArgs<PanelTab, Rectangles> e)
 		{
 			e.Item.Paint(e, (Form?.SmallMenu ?? false));
 		}
 
-		protected override void OnItemMouseClick(DrawableItem<PanelTab> item, MouseEventArgs e)
+		protected override void OnItemMouseClick(DrawableItem<PanelTab, Rectangles> item, MouseEventArgs e)
 		{
 			item.Item.PanelItem?.MouseClick(e);
 		}
 
-		protected override bool IsItemActionHovered(DrawableItem<PanelTab> item, Point location)
+		protected override bool IsItemActionHovered(DrawableItem<PanelTab, Rectangles> item, Point location)
 		{
 			return item.Item.PanelItem != null;
 		}
@@ -49,6 +49,23 @@ namespace SlickControls
 			if (mouseDownItem == null && scrollMouseDown < 0)
 			{
 				OnFormMove?.Invoke(this, e);
+			}
+		}
+
+		internal class Rectangles : IDrawableItemRectangles<PanelTab>
+		{
+			public PanelTab Item { get; set; }
+
+			public bool GetToolTip(Control instance, Point location, out string text, out Point point)
+			{
+				text = null;
+				point = default;
+				return false;
+			}
+
+			public bool IsHovered(Control instance, Point location)
+			{
+				return true;
 			}
 		}
 	}

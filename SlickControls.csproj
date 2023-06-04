@@ -63,6 +63,7 @@
     <Compile Include="Classes\DesignExtensions.cs" />
     <Compile Include="Classes\DrawableItem.cs" />
     <Compile Include="Classes\IconManager.cs" />
+    <Compile Include="Classes\IDrawableItemRectangles.cs" />
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
     <Compile Include="Classes\CanDrawItemEventArgs.cs" />
     <Compile Include="Classes\SizeSourceEventArgs.cs" />
@@ -70,6 +71,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Advanced\SlickDateRange.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Advanced\SlickListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Advanced\SlickStackedListControl.cs">
@@ -111,9 +115,6 @@
     <Compile Include="Controls\Image Background\TableLayoutPanel.cs" />
     <Compile Include="Controls\Image Background\Panel.cs" />
     <Compile Include="Controls\Image Background\Control.cs" />
-    <Compile Include="Controls\Advanced\SlickListControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Controls\Other\IoListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1141,6 +1142,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\I_Wait_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_User_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_User_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_User_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -3,6 +3,8 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
+using static SlickControls.PanelItemControl;
+
 namespace SlickControls
 {
 	internal class PanelTab
@@ -29,7 +31,7 @@ namespace SlickControls
 			PanelItem = panelItem;
 		}
 
-		public void Paint(ItemPaintEventArgs<PanelTab> e, bool small)
+		public void Paint(ItemPaintEventArgs<PanelTab, Rectangles> e, bool small)
 		{
 			if (IsSeparator)
 			{

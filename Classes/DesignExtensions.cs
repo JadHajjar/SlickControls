@@ -52,7 +52,7 @@ namespace SlickControls
 					color = color.MergeColor(FormDesign.Design.BackColor, 50);
 				}
 
-				using (var backBrush = rectangle.Gradient(color))
+				using (var backBrush = rectangle.Gradient(color, 0.35F))
 				using (var foreBrush = new SolidBrush(color.GetTextColor()))
 				{
 					e.Graphics.FillRoundedRectangle(backBrush, rectangle, (int)(3 * UI.FontScale));

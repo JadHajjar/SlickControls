@@ -1,7 +1,15 @@
 ﻿using System.Drawing;
+using System.Windows.Forms;
 
 namespace SlickControls
 {
+	public class DrawableItem<T, R> : DrawableItem<T> where R : IDrawableItemRectangles<T>
+	{
+		public DrawableItem(T item) : base(item) { }
+		
+		public R Rectangles { get; set; }
+	}
+
 	public class DrawableItem<T>
 	{
 		public DrawableItem(T item)

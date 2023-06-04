@@ -9,21 +9,22 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	public class SlickStackedListControl<T> : SlickControl
+	public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableItemRectangles<T>
 	{
 		private readonly object _sync = new object();
-		private readonly List<DrawableItem<T>> _items;
+		private readonly List<DrawableItem<T, R>> _items;
 		private int visibleItems;
 		protected bool scrollVisible;
 		private int scrollIndex;
 		protected Rectangle scrollThumbRectangle;
 		protected int scrollMouseDown = -1;
-		protected DrawableItem<T> mouseDownItem;
+		protected DrawableItem<T, R> mouseDownItem;
 		private int baseHeight;
-		private List<DrawableItem<T>> _sortedItems;
+		private List<DrawableItem<T, R>> _sortedItems;
 		private Size baseSize;
 		private bool scrollHovered;
 		private Size lastSize;
+		private bool _gridView;
 
 		[Category("Data"), Browsable(false)]
 		public IEnumerable<T> Items
@@ -53,7 +54,7 @@ namespace SlickControls
 		}
 
 		[Category("Appearance"), DefaultValue(false)]
-		public bool GridView { get; set; }
+		public bool GridView { get => _gridView; set { _gridView = value; OnViewChanged(); Invalidate(); } }
 
 		[Category("Appearance"), DefaultValue(typeof(Size), "0, 0")]
 		public Size GridItemSize { get; set; }
@@ -73,8 +74,11 @@ namespace SlickControls
 		[Category("Behavior"), DisplayName("Can Draw Item")]
 		public event EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
 
-		[Category("Appearance"), DisplayName("Paint Item")]
-		public event EventHandler<ItemPaintEventArgs<T>> PaintItem;
+		[Category("Appearance"), DisplayName("Paint Item List")]
+		public event EventHandler<ItemPaintEventArgs<T, R>> PaintItemList;
+
+		[Category("Appearance"), DisplayName("Paint Item Grid")]
+		public event EventHandler<ItemPaintEventArgs<T, R>> PaintItemGrid;
 
 		[Category("Behavior"), DisplayName("Item Mouse Click")]
 		public event EventHandler<MouseEventArgs> ItemMouseClick;
@@ -82,8 +86,11 @@ namespace SlickControls
 		[Category("Behavior"), DisplayName("Can Draw Item")]
 		public event Extensions.EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
 
-		[Category("Appearance"), DisplayName("Paint Item")]
-		public event Extensions.EventHandler<ItemPaintEventArgs<T>> PaintItem;
+		[Category("Appearance"), DisplayName("Paint Item List")]
+		public event Extensions.EventHandler<ItemPaintEventArgs<T, R>> PaintItemList;
+
+		[Category("Appearance"), DisplayName("Paint Item Grid")]
+		public event Extensions.EventHandler<ItemPaintEventArgs<T, R>> PaintItemGrid;
 
 		[Category("Behavior"), DisplayName("Item Mouse Click")]
 		public event Extensions.EventHandler<MouseEventArgs> ItemMouseClick;
@@ -95,7 +102,7 @@ namespace SlickControls
 
 		public SlickStackedListControl()
 		{
-			_items = new List<DrawableItem<T>>();
+			_items = new List<DrawableItem<T, R>>();
 			ItemHeight = 22;
 			AutoInvalidate = false;
 			ResizeRedraw = false;
@@ -106,7 +113,7 @@ namespace SlickControls
 		{
 			lock (_sync)
 			{
-				_sortedItems = new List<DrawableItem<T>>(OrderItems(_items));
+				_sortedItems = new List<DrawableItem<T, R>>(OrderItems(_items));
 			}
 
 			if (resetScroll)
@@ -124,11 +131,11 @@ namespace SlickControls
 				return;
 			}
 
-			List<DrawableItem<T>> itemCopy;
+			List<DrawableItem<T, R>> itemCopy;
 
 			lock (_sync)
 			{
-				itemCopy = new List<DrawableItem<T>>(_items);
+				itemCopy = new List<DrawableItem<T, R>>(_items);
 			}
 
 			Parallelism.ForEach(itemCopy, x =>
@@ -178,7 +185,7 @@ namespace SlickControls
 		{
 			lock (_sync)
 			{
-				_items.Add(new DrawableItem<T>(item));
+				_items.Add(new DrawableItem<T, R>(item));
 			}
 
 			SortingChanged(false);
@@ -189,7 +196,7 @@ namespace SlickControls
 		{
 			lock (_sync)
 			{
-				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
+				_items.AddRange(items.Select(item => new DrawableItem<T, R>(item)));
 			}
 
 			SortingChanged(false);
@@ -201,7 +208,7 @@ namespace SlickControls
 			lock (_sync)
 			{
 				_items.Clear();
-				_items.AddRange(items.Select(item => new DrawableItem<T>(item)));
+				_items.AddRange(items.Select(item => new DrawableItem<T, R>(item)));
 			}
 
 			SortingChanged(false);
@@ -297,7 +304,7 @@ namespace SlickControls
 			base.OnMouseDoubleClick(e);
 		}
 
-		protected virtual void OnItemMouseClick(DrawableItem<T> item, MouseEventArgs e)
+		protected virtual void OnItemMouseClick(DrawableItem<T, R> item, MouseEventArgs e)
 		{
 			ItemMouseClick?.Invoke(item.Item, e);
 		}
@@ -305,6 +312,7 @@ namespace SlickControls
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			var itemActionHovered = false;
+			var isToolTipSet = false;
 
 			lock (_sync)
 			{
@@ -314,6 +322,13 @@ namespace SlickControls
 					{
 						item.HoverState |= HoverState.Hovered;
 						itemActionHovered |= (mouseDownItem == null || mouseDownItem == item) && IsItemActionHovered(item, e.Location);
+						
+						if (!isToolTipSet && item.Rectangles != null && item.Rectangles.GetToolTip(this, e.Location, out var text, out var point))
+						{
+							isToolTipSet = true;
+							SlickTip.SetTo(this, text, offset: new Point(point.X, point.Y));
+						}
+
 						Invalidate(item);
 					}
 					else if (item.HoverState.HasFlag(HoverState.Hovered))
@@ -340,7 +355,7 @@ namespace SlickControls
 
 			Cursor = itemActionHovered || scrollMouseDown >= 0 || scrollThumbRectangle.Contains(e.Location) ? Cursors.Hand : Cursors.Default;
 
-			if (!itemActionHovered)
+			if (!isToolTipSet)
 			{
 				SlickTip.SetTo(this, string.Empty);
 			}
@@ -351,7 +366,7 @@ namespace SlickControls
 			}
 		}
 
-		private void Invalidate(DrawableItem<T> item)
+		private void Invalidate(DrawableItem<T, R> item)
 		{
 			Invalidate(item.Bounds);
 		}
@@ -490,20 +505,29 @@ namespace SlickControls
 				return;
 			}
 
-			scrollIndex -= (int)Math.Round(e.Delta / (double)(GridView ? GridItemSize.Height : ItemHeight), MidpointRounding.AwayFromZero);
+			scrollIndex -= e.Delta.Sign() * (int)Math.Ceiling(Math.Abs(e.Delta) / (double)(GridView ? GridItemSize.Height : ItemHeight));
 			Invalidate();
 			
 			SlickTip.SetTo(this, string.Empty);
 		}
 
-		protected virtual bool IsItemActionHovered(DrawableItem<T> item, Point location)
+		protected virtual bool IsItemActionHovered(DrawableItem<T, R> item, Point location)
 		{
-			return false;
+			return item.Rectangles?.IsHovered(this, location) ?? false;
 		}
 
-		protected virtual IEnumerable<DrawableItem<T>> OrderItems(IEnumerable<DrawableItem<T>> items)
+		protected virtual R GenerateRectangles(T item, Rectangle rectangle)
+		{
+			return default;
+		}
+
+		protected virtual IEnumerable<DrawableItem<T, R>> OrderItems(IEnumerable<DrawableItem<T, R>> items)
 		{
 			return items;
+		}
+
+		protected virtual void OnViewChanged()
+		{
 		}
 
 		protected override void OnPaintBackground(PaintEventArgs e)
@@ -513,28 +537,54 @@ namespace SlickControls
 			e.Graphics.Clear(BackColor);
 		}
 
-		protected virtual void OnPaintItem(ItemPaintEventArgs<T> e)
+		private void OnPaintItem(ItemPaintEventArgs<T, R> e)
+		{
+			e.DrawableItem.Rectangles = GenerateRectangles(e.Item, e.ClipRectangle);
+
+			if (GridView)
+			{
+				OnPaintItemGrid(e);
+			}
+			else
+			{
+				OnPaintItemList(e);
+			}
+		}
+
+		protected virtual void OnPaintItemList(ItemPaintEventArgs<T, R> e)
 		{
 			if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
 			{
 				var rect = e.ClipRectangle;
 				var filledRect = rect.Pad(0, -Padding.Top, 0, -Padding.Bottom);
 
-				//e.Graphics.SetClip(filledRect);
-
 				using (var brush = new SolidBrush(e.BackColor = BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90)))
 				{
 					e.Graphics.FillRectangle(brush, filledRect);
 				}
-
-				//e.Graphics.SetClip(rect);
 			}
 			else
 			{
 				e.BackColor = BackColor;
 			}
 
-			PaintItem?.Invoke(this, e);
+			PaintItemList?.Invoke(this, e);
+		}
+
+		protected virtual void OnPaintItemGrid(ItemPaintEventArgs<T, R> e)
+		{
+			e.BackColor = BackColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Dark ? 4 : -5);
+
+			if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
+			{
+				e.BackColor = e.BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90);
+			}
+
+			using (var brush = new SolidBrush(e.BackColor))
+			{
+				e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.Pad(-Padding.Left, -Padding.Top, -Padding.Right, -Padding.Bottom), (int)(5 * UI.FontScale));
+			}
+			PaintItemGrid?.Invoke(this, e);
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -584,7 +634,7 @@ namespace SlickControls
 
 				if (GridView)
 				{
-					item.Bounds = new Rectangle(loc, GridItemSize);
+					item.Bounds = new Rectangle(loc, GridItemSize).Pad(Padding);
 				}
 				else
 				{
@@ -595,7 +645,7 @@ namespace SlickControls
 				{
 					e.Graphics.SetClip(item.Bounds);
 
-					OnPaintItem(new ItemPaintEventArgs<T>(
+					OnPaintItem(new ItemPaintEventArgs<T, R>(
 						item,
 						e.Graphics,
 						GridView ? item.Bounds.Pad(Padding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
@@ -606,12 +656,12 @@ namespace SlickControls
 
 				if (GridView)
 				{
-					loc.X += item.Bounds.Width;
+					loc.X += item.Bounds.Width + Padding.Horizontal;
 
 					if (loc.X + item.Bounds.Width > Width)
 					{
 						loc.X = 0;
-						loc.Y += item.Bounds.Height;
+						loc.Y += item.Bounds.Height + Padding.Vertical;
 					}
 				}
 				else
@@ -631,7 +681,7 @@ namespace SlickControls
 			}
 		}
 
-		private void HandleScrolling(List<DrawableItem<T>> itemList)
+		private void HandleScrolling(List<DrawableItem<T, R>> itemList)
 		{
 			var totalHeight = GetTotalHeight(itemList);
 			var validHeight = Height - StartHeight;
@@ -659,7 +709,7 @@ namespace SlickControls
 			}
 		}
 
-		public int GetTotalHeight(List<DrawableItem<T>> itemList)
+		public int GetTotalHeight(List<DrawableItem<T, R>> itemList)
 		{
 			if (GridView)
 			{
@@ -688,11 +738,11 @@ namespace SlickControls
 			return (int)Math.Ceiling(itemList.Count() / Math.Floor((double)(Width / GridItemSize.Width)));
 		}
 
-		public List<DrawableItem<T>> SafeGetItems()
+		public List<DrawableItem<T, R>> SafeGetItems()
 		{
 			lock (_sync)
 			{
-				return _sortedItems?.Where(x => !x.Hidden).ToList() ?? new List<DrawableItem<T>>();
+				return _sortedItems?.Where(x => !x.Hidden).ToList() ?? new List<DrawableItem<T, R>>();
 			}
 		}
 

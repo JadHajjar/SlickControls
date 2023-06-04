@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Media;
 using System.Windows.Forms;
 
@@ -128,7 +129,7 @@ namespace SlickControls
 					};
 
 					listDropDown.CanDrawItem += ListDropDown_CanDrawItem;
-					listDropDown.PaintItem += ListDropDown_PaintItem;
+					listDropDown.PaintItemList += ListDropDown_PaintItem;
 					listDropDown.ItemMouseClick += DropDownItems_ItemMouseClick;
 					listDropDown.MouseClick += ListDropDown_MouseClick;
 					listDropDown.Parent = _form;
@@ -254,7 +255,7 @@ namespace SlickControls
 			}
 		}
 
-		protected virtual IEnumerable<DrawableItem<T>> OrderItems(IEnumerable<DrawableItem<T>> items)
+		protected virtual IEnumerable<T> OrderItems(IEnumerable<T> items)
 		{
 			return items;
 		}
@@ -443,7 +444,7 @@ namespace SlickControls
 			}
 		}
 
-		private void ListDropDown_PaintItem(object sender, ItemPaintEventArgs<T> e)
+		private void ListDropDown_PaintItem(object sender, ItemPaintEventArgs<T, Rectangles> e)
 		{
 			SlickButton.GetColors(out var fore, out var back, e.HoverState);
 
@@ -490,28 +491,30 @@ namespace SlickControls
 			}
 		}
 
-		protected internal class CustomStackedListControl : SlickStackedListControl<T>
+		protected internal class CustomStackedListControl : SlickStackedListControl<T, Rectangles>
 		{
-			private readonly Func<IEnumerable<DrawableItem<T>>, IEnumerable<DrawableItem<T>>> _orderMethod;
+			private readonly Func<IEnumerable<T>, IEnumerable<T>> _orderMethod;
 
-			public CustomStackedListControl(Func<IEnumerable<DrawableItem<T>>, IEnumerable<DrawableItem<T>>> orderMethod = null)
+			public CustomStackedListControl(Func<IEnumerable<T>, IEnumerable<T>> orderMethod = null)
 			{
 				_orderMethod = orderMethod;
 			}
 
-			protected override bool IsItemActionHovered(DrawableItem<T> item, Point location)
+			protected override bool IsItemActionHovered(DrawableItem<T, Rectangles> item, Point location)
 			{
 				return true;
 			}
 
-			protected override IEnumerable<DrawableItem<T>> OrderItems(IEnumerable<DrawableItem<T>> items)
+			protected override IEnumerable<DrawableItem<T, Rectangles>> OrderItems(IEnumerable<DrawableItem<T, Rectangles>> items)
 			{
 				if (_orderMethod == null)
 				{
 					return base.OrderItems(items);
 				}
 
-				return _orderMethod(items);
+				var sortedItems = _orderMethod( items.Select(x => x.Item)).ToList();
+
+				return items.OrderBy(x => sortedItems.IndexOf(x.Item));
 			}
 
 			protected override void OnPaint(PaintEventArgs e)
@@ -520,6 +523,23 @@ namespace SlickControls
 
 				e.Graphics.ResetClip();
 				e.Graphics.DrawRectangle(new Pen(Color.FromArgb(120, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, -2, 1, 1));
+			}
+		}
+
+		public class Rectangles : IDrawableItemRectangles<T>
+		{
+			public T Item { get; set; }
+
+			public bool GetToolTip(Control instance, Point location, out string text, out Point point)
+			{
+				text = null;
+				point = default;
+				return false;
+			}
+
+			public bool IsHovered(Control instance, Point location)
+			{
+				return true;
 			}
 		}
 	}

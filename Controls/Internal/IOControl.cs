@@ -1,5 +1,7 @@
 ﻿using Extensions;
 
+using SlickControls.Controls.Other;
+
 using System;
 using System.Drawing;
 using System.IO;
@@ -128,7 +130,7 @@ namespace SlickControls
 			valid = true;
 		}
 
-		internal void OnPaintGrid(ItemPaintEventArgs<IOControl> e, bool selected)
+		internal void OnPaintGrid(ItemPaintEventArgs<IOControl, IoListControl.Rectangles> e, bool selected)
 		{
 			var d = FormDesign.Design;
 
@@ -184,7 +186,7 @@ namespace SlickControls
 			}
 		}
 
-		internal void OnPaintList(ItemPaintEventArgs<IOControl> e, bool selected)
+		internal void OnPaintList(ItemPaintEventArgs<IOControl, IoListControl.Rectangles> e, bool selected)
 		{
 			var d = FormDesign.Design;
 
