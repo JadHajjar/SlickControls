@@ -130,6 +130,7 @@
     <Compile Include="Controls\Other\WorkingPrompt.Designer.cs">
       <DependentUpon>WorkingPrompt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Enums\ButtonType.cs" />
     <Compile Include="Forms\IoForm.cs">
       <SubType>Form</SubType>
     </Compile>

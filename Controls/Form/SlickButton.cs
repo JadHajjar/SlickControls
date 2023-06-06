@@ -25,6 +25,9 @@ namespace SlickControls
 		[Category("Appearance"), DisplayName("Handle UI Scale"), DefaultValue(true)]
 		public bool HandleUiScale { get; set; } = true;
 
+		[Category("Appearance"), DisplayName("Button Type"), DefaultValue(ButtonType.Normal)]
+		public ButtonType ButtonType { get; set; }
+
 		[Category("Appearance"), DisplayName("Auto-hide Text"), DefaultValue(true)]
 		public bool AutoHideText { get; set; } = true;
 
@@ -219,12 +222,29 @@ namespace SlickControls
 			Invalidate();
 		}
 
-		public static void GetColors(out Color fore, out Color back, HoverState HoverState, ColorStyle ColorStyle = ColorStyle.Active, Color? ColorShade = null, Color? clearColor = null, Color? BackColor = null, bool Enabled = true)
+		public static void GetColors(out Color fore, out Color back, HoverState HoverState, ColorStyle ColorStyle = ColorStyle.Active, Color? ColorShade = null, Color? clearColor = null, Color? BackColor = null, bool Enabled = true, ButtonType buttonType = ButtonType.Normal)
 		{
-			if (HoverState.HasFlag(HoverState.Pressed))
+			if (buttonType == ButtonType.Active)
+			{
+				if (HoverState.HasFlag(HoverState.Pressed))
+				{
+					HoverState &= HoverState.Focused;
+				}
+				else
+				{
+					HoverState |= HoverState.Pressed;
+				}
+			}
+
+			if (HoverState.HasFlag(HoverState.Pressed) || (buttonType == ButtonType.Hidden && HoverState.HasFlag(HoverState.Hovered)))
 			{
 				fore = ColorStyle.GetBackColor().Tint(ColorShade?.GetHue());
 				back = ColorShade == null ? ColorStyle.GetColor() : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade);
+
+				if ((buttonType == ButtonType.Active && HoverState.HasFlag(HoverState.Hovered)) || !HoverState.HasFlag(HoverState.Pressed))
+				{
+					back = Color.FromArgb(150, back);
+				}
 			}
 			else if (HoverState.HasFlag(HoverState.Hovered))
 			{
@@ -234,7 +254,7 @@ namespace SlickControls
 			else
 			{
 				fore = Enabled ? FormDesign.Design.ButtonForeColor : FormDesign.Design.ButtonForeColor.MergeColor(FormDesign.Design.ButtonColor);
-				back = (clearColor == null || BackColor == null || (Color)clearColor == (Color)BackColor) ? FormDesign.Design.ButtonColor : (Color)BackColor;
+				back = buttonType == ButtonType.Hidden ? default : (clearColor == null || BackColor == null || (Color)clearColor == (Color)BackColor) ? FormDesign.Design.ButtonColor : (Color)BackColor;
 			}
 		}
 
@@ -244,7 +264,7 @@ namespace SlickControls
 
 			using (var img = AutoSizeIcon ? ImageName.Get(Height - Padding.Vertical) : Image)
 			{
-				GetColors(out var fore, out var back, HoverState, ColorStyle, colorShade, Parent?.BackColor ?? BackColor, BackColor, Enabled);
+				GetColors(out var fore, out var back, HoverState, ColorStyle, colorShade, Parent?.BackColor ?? BackColor, BackColor, Enabled, ButtonType);
 
 				DrawButton(e,
 					Point.Empty,
@@ -308,7 +328,7 @@ namespace SlickControls
 			var iconSize = image?.Width ?? 16;
 			var extraWidth = (image == null ? 0 : (iconSize + padding.Left)) + (int)(2 * UI.FontScale);
 			var bnds = e.Graphics.Measure(text, font, size.Width - extraWidth - padding.Horizontal);
-			var noText = string.IsNullOrWhiteSpace(text) || (slickButton?.AutoHideText ?? false) && size.Width.IsWithin(0, (int)(50 * UI.FontScale));
+			var noText = string.IsNullOrWhiteSpace(text) || ((slickButton?.AutoHideText ?? false) && size.Width.IsWithin(0, (int)(50 * UI.FontScale)));
 
 			try
 			{
