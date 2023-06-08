@@ -109,7 +109,9 @@ namespace SlickControls
 
 		internal static void OnUiChanged()
 		{
-			UIChanged?.Invoke();
+			try
+			{ UIChanged?.Invoke(); }
+			catch { }
 		}
 
 		[DllImport("User32.dll")]

@@ -97,8 +97,8 @@ namespace SlickControls
 #endif
 
 		protected Point CursorLocation { get; set; }
-
 		protected int StartHeight { get; set; }
+		protected Padding GridPadding { get; set; }
 
 		public SlickStackedListControl()
 		{
@@ -582,7 +582,7 @@ namespace SlickControls
 
 			using (var brush = new SolidBrush(e.BackColor))
 			{
-				e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.Pad(-Padding.Left, -Padding.Top, -Padding.Right, -Padding.Bottom), (int)(5 * UI.FontScale));
+				e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.Pad(-GridPadding.Left, -GridPadding.Top, -GridPadding.Right, -GridPadding.Bottom), (int)(5 * UI.FontScale));
 			}
 			PaintItemGrid?.Invoke(this, e);
 		}
@@ -648,7 +648,7 @@ namespace SlickControls
 					OnPaintItem(new ItemPaintEventArgs<T, R>(
 						item,
 						e.Graphics,
-						GridView ? item.Bounds.Pad(Padding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
+						GridView ? item.Bounds.Pad(GridPadding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
 						mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal));
 
 					e.Graphics.ResetClip();
