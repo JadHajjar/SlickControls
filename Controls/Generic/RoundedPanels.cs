@@ -1,6 +1,5 @@
 ﻿using Extensions;
 
-using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -35,7 +34,7 @@ namespace SlickControls
 			{
 				using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
 				{
-					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left, !TopLeft,!TopRight,!BotRight,!BotLeft);
+					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
 				}
 			}
 		}
@@ -61,7 +60,7 @@ namespace SlickControls
 			{
 				using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
 				{
-					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left);
+					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Top);
 				}
 			}
 		}
@@ -87,7 +86,7 @@ namespace SlickControls
 			{
 				using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
 				{
-					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Left);
+					e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Top);
 				}
 			}
 		}

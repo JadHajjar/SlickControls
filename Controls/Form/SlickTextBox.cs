@@ -26,9 +26,10 @@ namespace SlickControls
 		private bool warning;
 		private bool minimumSizeSet;
 		protected readonly TextBox _textBox;
-
 		public SlickTextBox()
 		{
+			EnterTriggersClick = false;
+
 			_textBox = new TextBox
 			{
 				BorderStyle = BorderStyle.None,

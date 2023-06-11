@@ -658,7 +658,7 @@ namespace SlickControls
 				{
 					loc.X += item.Bounds.Width + Padding.Horizontal;
 
-					if (loc.X + item.Bounds.Width > Width)
+					if (loc.X + item.Bounds.Width + Padding.Horizontal > Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0) || IsFlowBreak(i, item, i == itemList.Count - 1 ? default : itemList[i + 1]))
 					{
 						loc.X = 0;
 						loc.Y += item.Bounds.Height + Padding.Vertical;
@@ -679,6 +679,11 @@ namespace SlickControls
 					break;
 				}
 			}
+		}
+
+		protected virtual bool IsFlowBreak(int index, DrawableItem<T, R> currentItem, DrawableItem<T, R> nextItem)
+		{
+			return false;
 		}
 
 		private void HandleScrolling(List<DrawableItem<T, R>> itemList)
