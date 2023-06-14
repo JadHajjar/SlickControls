@@ -198,14 +198,18 @@ namespace SlickControls
 			DialogResult = DialogResult.OK;
 			Close();
 
-			ISave.Load(out List<Color> colors, "LastColors.tf", "Shared");
-			if (colors == null)
+			try
 			{
-				colors = new List<Color>();
-			}
+				ISave.Load(out List<Color> colors, "LastColors.tf", "Shared");
+				if (colors == null)
+				{
+					colors = new List<Color>();
+				}
 
-			colors.Insert(0, Color);
-			ISave.Save(colors.Take(21), "LastColors.tf", appName: "Shared");
+				colors.Insert(0, Color);
+				ISave.Save(colors.Take(21), "LastColors.tf", appName: "Shared");
+			}
+			catch { }
 		}
 
 		private void B_Cancel_Click(object sender, EventArgs e)

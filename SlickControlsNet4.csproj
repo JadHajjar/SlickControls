@@ -54,6 +54,7 @@
     <Compile Include="Classes\DesignExtensions.cs" />
     <Compile Include="Classes\DrawableItem.cs" />
     <Compile Include="Classes\IconManager.cs" />
+    <Compile Include="Classes\IDrawableItemRectangles.cs" />
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
     <Compile Include="Classes\CanDrawItemEventArgs.cs" />
     <Compile Include="Classes\SizeSourceEventArgs.cs" />
@@ -77,6 +78,9 @@
     </Compile>
     <Compile Include="Controls\Form\SlickSelectionDropDown.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Generic\GroupPanels.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Generic\RoundedPanels.cs">
       <SubType>Component</SubType>
@@ -114,6 +118,7 @@
     <Compile Include="Controls\Other\WorkingPrompt.Designer.cs">
       <DependentUpon>WorkingPrompt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Enums\ButtonType.cs" />
     <Compile Include="Forms\IoForm.cs">
       <SubType>Form</SubType>
     </Compile>
