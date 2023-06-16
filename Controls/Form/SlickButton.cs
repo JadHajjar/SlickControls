@@ -334,13 +334,18 @@ namespace SlickControls
 			{
 				if (slickButton?.Loading ?? false)
 				{
+					var color = colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade);
+
+					if (color == back)
+						color = fore;
+
 					if (noText)
 					{
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + ((size.Width - iconSize) / 2), location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize), hoverState.HasFlag(HoverState.Pressed) ? fore : colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade));
+						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + ((size.Width - iconSize) / 2), location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
 					}
 					else
 					{
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + padding.Left, location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize), hoverState.HasFlag(HoverState.Pressed) ? fore : colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade));
+						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + padding.Left, location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
 					}
 				}
 				else if (image != null)
