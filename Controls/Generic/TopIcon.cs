@@ -45,7 +45,7 @@ namespace SlickControls
 
 			var rect = ClientRectangle.Pad(Padding).Pad((int)Math.Ceiling(1.25 * UI.FontScale));
 
-			if (AnimatedValue != 0 || ISave.CurrentPlatform != Platform.Windows)
+			if (AnimatedValue != 0 || CrossIO.CurrentPlatform != Platform.Windows)
 			{
 				e.Graphics.FillRoundedRectangle(
 					SlickControl.Gradient(new Rectangle(Point.Empty, Size), BackColor.MergeColor(color, 90 * (100 - AnimatedValue) / 100), 2),

@@ -48,14 +48,14 @@ namespace SlickControls
 				DD_Font.Conversion = (x) => (x as FontFamily)?.Name ?? x?.ToString();
 			}
 
-			DD_Font.Placeholder = (ISave.CurrentPlatform == Platform.MacOSX ? "San Francisco" : "Segoe UI");
+			DD_Font.Placeholder = (CrossIO.CurrentPlatform == Platform.MacOSX ? "San Francisco" : "Segoe UI");
 			DD_Font.FontDropdown = true;
 			DD_Font.SelectedItem = UI._instance.fontFamily;
 			SS_Scale.Value = UI._instance.fontScale * 100;
 			SS_Scale.ValueOutput = (x) => $"{x}%";
 			CB_DisableAnimations.Checked = AnimationHandler.NoAnimations;
 
-			if (ISave.CurrentPlatform != Platform.Windows)
+			if (CrossIO.CurrentPlatform != Platform.Windows)
 			{
 				CB_DisableAnimations.Text = "Enable Animations";
 			}

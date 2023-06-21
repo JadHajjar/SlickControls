@@ -158,7 +158,7 @@ namespace SlickControls
 
 		private void AutoCompletePath(object sender, EventArgs e)
 		{
-			if (!_textBox.Focused || ISave.CurrentPlatform != Platform.Windows)
+			if (!_textBox.Focused || CrossIO.CurrentPlatform != Platform.Windows)
 			{
 				return;
 			}
