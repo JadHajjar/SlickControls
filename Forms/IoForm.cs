@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	internal partial class IoForm : BasePanelForm
+	public partial class IoForm : BasePanelForm
 	{
 		protected readonly bool folderSelection;
 		protected readonly IOSelectionDialog _dialog;
@@ -25,7 +25,7 @@ namespace SlickControls
 		public string CurrentPath => libraryViewer.CurrentPath;
 		public string SelectedPath => selectedPath;
 
-		internal IoForm(bool folder, IOSelectionDialog dialog)
+        protected internal IoForm(bool folder, IOSelectionDialog dialog)
 		{
 			InitializeComponent();
 

@@ -46,6 +46,7 @@
 			this.roundedPanel1 = new SlickControls.RoundedPanel();
 			this.libraryViewer = new SlickControls.SlickLibraryViewer();
 			this.B_GridView = new SlickControls.SlickIcon();
+			this.P_CustomPanel = new System.Windows.Forms.Panel();
 			this.base_P_Content.SuspendLayout();
 			this.base_P_Container.SuspendLayout();
 			this.TLP_Main.SuspendLayout();
@@ -65,7 +66,7 @@
 			this.base_P_SideControls.Font = new System.Drawing.Font("Nirmala UI", 6.75F);
 			this.base_P_SideControls.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(129)))), ((int)(((byte)(150)))));
 			this.base_P_SideControls.Location = new System.Drawing.Point(9, 420);
-			this.base_P_SideControls.Size = new System.Drawing.Size(270, 10);
+			this.base_P_SideControls.Size = new System.Drawing.Size(282, 10);
 			// 
 			// base_P_Container
 			// 
@@ -89,15 +90,16 @@
 			this.TLP_Main.Controls.Add(this.L_Title, 0, 0);
 			this.TLP_Main.Controls.Add(this.roundedPanel1, 0, 2);
 			this.TLP_Main.Controls.Add(this.B_GridView, 1, 3);
+			this.TLP_Main.Controls.Add(this.P_CustomPanel, 2, 3);
 			this.TLP_Main.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.TLP_Main.Location = new System.Drawing.Point(297, 0);
+			this.TLP_Main.Location = new System.Drawing.Point(309, 0);
 			this.TLP_Main.Name = "TLP_Main";
 			this.TLP_Main.RowCount = 4;
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TLP_Main.Size = new System.Drawing.Size(464, 457);
+			this.TLP_Main.Size = new System.Drawing.Size(452, 457);
 			this.TLP_Main.TabIndex = 0;
 			// 
 			// tableLayoutPanel1
@@ -111,7 +113,7 @@
 			this.tableLayoutPanel1.Controls.Add(this.ioSortDropdown, 1, 0);
 			this.tableLayoutPanel1.Controls.Add(this.I_SortDirection, 0, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(344, 13);
+			this.tableLayoutPanel1.Location = new System.Drawing.Point(332, 19);
 			this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
 			this.tableLayoutPanel1.RowCount = 1;
@@ -171,7 +173,7 @@
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
 			dynamicIcon3.Name = "I_Cancel";
 			this.B_Cancel.ImageName = dynamicIcon3;
-			this.B_Cancel.Location = new System.Drawing.Point(361, 424);
+			this.B_Cancel.Location = new System.Drawing.Point(349, 424);
 			this.B_Cancel.Name = "B_Cancel";
 			this.B_Cancel.Size = new System.Drawing.Size(100, 30);
 			this.B_Cancel.SpaceTriggersClick = true;
@@ -187,7 +189,7 @@
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
 			dynamicIcon4.Name = "I_Ok";
 			this.B_OK.ImageName = dynamicIcon4;
-			this.B_OK.Location = new System.Drawing.Point(255, 424);
+			this.B_OK.Location = new System.Drawing.Point(243, 424);
 			this.B_OK.Name = "B_OK";
 			this.B_OK.Size = new System.Drawing.Size(100, 30);
 			this.B_OK.SpaceTriggersClick = true;
@@ -204,10 +206,11 @@
 			dynamicIcon5.Name = "I_Search";
 			this.TB_Search.ImageName = dynamicIcon5;
 			this.TB_Search.LabelText = "";
-			this.TB_Search.Location = new System.Drawing.Point(3, 16);
+			this.TB_Search.Location = new System.Drawing.Point(3, 22);
 			this.TB_Search.MaximumSize = new System.Drawing.Size(9999, 0);
 			this.TB_Search.MinimumSize = new System.Drawing.Size(50, 0);
 			this.TB_Search.Name = "TB_Search";
+			this.TB_Search.Padding = new System.Windows.Forms.Padding(0, 2, 0, 2);
 			this.TB_Search.Placeholder = "Search..";
 			this.TB_Search.SelectedText = "";
 			this.TB_Search.SelectionLength = 0;
@@ -223,7 +226,7 @@
 			this.TLP_Main.SetColumnSpan(this.L_Title, 3);
 			this.L_Title.Location = new System.Drawing.Point(3, 0);
 			this.L_Title.Name = "L_Title";
-			this.L_Title.Size = new System.Drawing.Size(84, 13);
+			this.L_Title.Size = new System.Drawing.Size(99, 19);
 			this.L_Title.TabIndex = 1;
 			this.L_Title.Text = "Pinned Folders";
 			// 
@@ -233,9 +236,9 @@
 			this.TLP_Main.SetColumnSpan(this.roundedPanel1, 5);
 			this.roundedPanel1.Controls.Add(this.libraryViewer);
 			this.roundedPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.roundedPanel1.Location = new System.Drawing.Point(3, 47);
+			this.roundedPanel1.Location = new System.Drawing.Point(3, 53);
 			this.roundedPanel1.Name = "roundedPanel1";
-			this.roundedPanel1.Size = new System.Drawing.Size(458, 371);
+			this.roundedPanel1.Size = new System.Drawing.Size(446, 365);
 			this.roundedPanel1.TabIndex = 9;
 			// 
 			// libraryViewer
@@ -250,7 +253,7 @@
 			this.libraryViewer.Margin = new System.Windows.Forms.Padding(0);
 			this.libraryViewer.MinimumSize = new System.Drawing.Size(200, 50);
 			this.libraryViewer.Name = "libraryViewer";
-			this.libraryViewer.Size = new System.Drawing.Size(458, 371);
+			this.libraryViewer.Size = new System.Drawing.Size(446, 365);
 			this.libraryViewer.StartingFolder = null;
 			this.libraryViewer.TabIndex = 0;
 			this.libraryViewer.TopFolders = new string[0];
@@ -271,12 +274,23 @@
 			this.B_GridView.TabIndex = 4;
 			this.B_GridView.Click += new System.EventHandler(this.B_GridView_Click);
 			// 
+			// P_CustomPanel
+			// 
+			this.P_CustomPanel.AutoSize = true;
+			this.P_CustomPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.P_CustomPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.P_CustomPanel.Location = new System.Drawing.Point(79, 421);
+			this.P_CustomPanel.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+			this.P_CustomPanel.Name = "P_CustomPanel";
+			this.P_CustomPanel.Size = new System.Drawing.Size(161, 36);
+			this.P_CustomPanel.TabIndex = 10;
+			// 
 			// IoForm
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.ClientSize = new System.Drawing.Size(774, 470);
 			this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(58)))), ((int)(((byte)(69)))));
-			this.IconBounds = new System.Drawing.Rectangle(119, 44, 32, 32);
+			this.IconBounds = new System.Drawing.Rectangle(125, 46, 32, 32);
 			this.MaximizeBox = true;
 			this.MaximizedBounds = new System.Drawing.Rectangle(0, 0, 2560, 1380);
 			this.MinimizeBox = true;
@@ -308,5 +322,6 @@
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private IoSortDropdown ioSortDropdown;
 		protected System.Windows.Forms.Label L_Title;
+		protected System.Windows.Forms.Panel P_CustomPanel;
 	}
 }
