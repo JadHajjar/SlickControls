@@ -66,6 +66,7 @@
     <Compile Include="Classes\IDrawableItemRectangles.cs" />
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
     <Compile Include="Classes\CanDrawItemEventArgs.cs" />
+    <Compile Include="Classes\LocaleSlickUI.cs" />
     <Compile Include="Classes\SizeSourceEventArgs.cs" />
     <Compile Include="Controls\Advanced\DateRangePopup.cs">
       <SubType>UserControl</SubType>
@@ -552,6 +553,36 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\SlickUI.json" />
+    <None Include="Properties\SlickUI\ar-SA.json" />
+    <None Include="Properties\SlickUI\bn-BD.json" />
+    <None Include="Properties\SlickUI\cs-CZ.json" />
+    <None Include="Properties\SlickUI\de-DE.json" />
+    <None Include="Properties\SlickUI\en-GB.json" />
+    <None Include="Properties\SlickUI\es-ES.json" />
+    <None Include="Properties\SlickUI\fi-FI.json" />
+    <None Include="Properties\SlickUI\fr-FR.json" />
+    <None Include="Properties\SlickUI\hi-IN.json" />
+    <None Include="Properties\SlickUI\hu-HU.json" />
+    <None Include="Properties\SlickUI\id-ID.json" />
+    <None Include="Properties\SlickUI\it-IT.json" />
+    <None Include="Properties\SlickUI\ja-JP.json" />
+    <None Include="Properties\SlickUI\ka-GE.json" />
+    <None Include="Properties\SlickUI\ko-KR.json" />
+    <None Include="Properties\SlickUI\nl-NL.json" />
+    <None Include="Properties\SlickUI\no-NO.json" />
+    <None Include="Properties\SlickUI\pl-PL.json" />
+    <None Include="Properties\SlickUI\pt-BR.json" />
+    <None Include="Properties\SlickUI\pt-PT.json" />
+    <None Include="Properties\SlickUI\ro-RO.json" />
+    <None Include="Properties\SlickUI\ru-RU.json" />
+    <None Include="Properties\SlickUI\sv-SE.json" />
+    <None Include="Properties\SlickUI\th-TH.json" />
+    <None Include="Properties\SlickUI\tr-TR.json" />
+    <None Include="Properties\SlickUI\uk-UA.json" />
+    <None Include="Properties\SlickUI\vi-VN.json" />
+    <None Include="Properties\SlickUI\zh-CN.json" />
+    <None Include="Properties\SlickUI\zh-TW.json" />
     <None Include="Resources\Icon_Hand.png" />
   </ItemGroup>
   <ItemGroup>
