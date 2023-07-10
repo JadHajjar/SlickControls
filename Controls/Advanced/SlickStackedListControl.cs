@@ -68,8 +68,14 @@ namespace SlickControls
 		[Category("Behavior"), DefaultValue(false)]
 		public bool HorizontalScrolling { get; set; }
 
+		[Category("Behavior"), DefaultValue(false)]
+		public bool EnableSelection { get; set; }
+
 		[Category("Appearance"), DefaultValue(22)]
 		public int ItemHeight { get; set; }
+
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public int SelectedItemsCount => SelectedItems.Count;
 #if NET47
 		[Category("Behavior"), DisplayName("Can Draw Item")]
 		public event EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
@@ -95,10 +101,14 @@ namespace SlickControls
 		[Category("Behavior"), DisplayName("Item Mouse Click")]
 		public event Extensions.EventHandler<MouseEventArgs> ItemMouseClick;
 #endif
+		[Category("Behavior"), DisplayName("Selected Items Changed")]
+		public event EventHandler SelectedItemsChanged;
 
 		protected Point CursorLocation { get; set; }
 		protected int StartHeight { get; set; }
 		protected Padding GridPadding { get; set; }
+		protected bool SelectionMode { get; private set; }
+		protected List<DrawableItem<T, R>> SelectedItems { get; } = new List<DrawableItem<T, R>>();
 
 		public SlickStackedListControl()
 		{
@@ -147,6 +157,10 @@ namespace SlickControls
 				x.Bounds = Rectangle.Empty;
 				x.Hidden = canDraw.DoNotDraw;
 			});
+
+			SelectedItems.RemoveAll(x => x.Hidden);
+
+			this.TryInvoke(() => SelectedItemsChanged?.Invoke(this, EventArgs.Empty));
 
 			Invalidate();
 		}
@@ -247,6 +261,23 @@ namespace SlickControls
 			Invalidate();
 		}
 
+		public void SelectAll()
+		{
+			SelectedItems.Clear();
+			SelectedItems.AddRange(SafeGetItems());
+			Invalidate();
+			Focus();
+			SelectedItemsChanged?.Invoke(this, EventArgs.Empty);
+		}
+
+		public void DeselectAll()
+		{
+			SelectedItems.Clear();
+			Invalidate();
+			Focus();
+			SelectedItemsChanged?.Invoke(this, EventArgs.Empty);
+		}
+
 		protected override void UIChanged()
 		{
 			if (Live)
@@ -279,7 +310,7 @@ namespace SlickControls
 			{
 				if (!mouseDownItem.Hidden && mouseDownItem.Bounds.Contains(e.Location))
 				{
-					OnItemMouseClick(mouseDownItem, e);
+					TriggerItemMouseClick(mouseDownItem, e);
 				}
 			}
 
@@ -297,16 +328,102 @@ namespace SlickControls
 			{
 				if (!mouseDownItem.Hidden && mouseDownItem.Bounds.Contains(e.Location))
 				{
-					OnItemMouseClick(mouseDownItem, e);
+					TriggerItemMouseClick(mouseDownItem, e);
 				}
 			}
 
 			base.OnMouseDoubleClick(e);
 		}
 
+		private void TriggerItemMouseClick(DrawableItem<T, R> item, MouseEventArgs e)
+		{
+			if (EnableSelection && e.Button == MouseButtons.Left)
+			{
+				if (ModifierKeys.HasFlag(Keys.Shift) && SelectedItems.Count > 0)
+				{
+					var items = SafeGetItems();
+					var min = SelectedItems.Min(items.IndexOf);
+					var max = SelectedItems.Max(items.IndexOf);
+					var index = items.IndexOf(item);
+
+					if (min > index)
+					{
+						for (var i = index; i < min; i++)
+						{
+							SelectedItems.Add(items[i]);
+							Invalidate(items[i]);
+						}
+					}
+
+					else if (max < index)
+					{
+						for (var i = max + 1; i <= index; i++)
+						{
+							SelectedItems.Add(items[i]);
+							Invalidate(items[i]);
+						}
+					}
+
+					else if (max != index)
+					{
+						for (var i = index; i <= max; i++)
+						{
+							SelectedItems.Remove(items[i]);
+							Invalidate(items[i]);
+						}
+					}
+
+					Focus();
+					SelectedItemsChanged?.Invoke(this, EventArgs.Empty);
+					return;
+				}
+
+				if (ModifierKeys.HasFlag(Keys.Control) || ModifierKeys.HasFlag(Keys.Shift))
+				{
+					if (SelectedItems.Contains(item))
+					{
+						SelectedItems.Remove(item);
+					}
+					else
+					{
+						SelectedItems.Add(item);
+					}
+
+					Invalidate(item);
+					Focus();
+					SelectedItemsChanged?.Invoke(this, EventArgs.Empty);
+					return;
+				}
+			}
+
+			OnItemMouseClick(item, e);
+		}
+
 		protected virtual void OnItemMouseClick(DrawableItem<T, R> item, MouseEventArgs e)
 		{
 			ItemMouseClick?.Invoke(item.Item, e);
+		}
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape && SelectedItems.Any())
+			{
+				SelectedItems.Clear();
+				Invalidate();
+				SelectedItemsChanged?.Invoke(this, EventArgs.Empty);
+				return true;
+			}
+
+			if (keyData == (Keys.Control | Keys.A))
+			{
+				SelectedItems.Clear();
+				SelectedItems.AddRange(SafeGetItems());
+				Invalidate();
+				SelectedItemsChanged?.Invoke(this, EventArgs.Empty);
+				return true;
+			}
+
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e)
@@ -322,7 +439,7 @@ namespace SlickControls
 					{
 						item.HoverState |= HoverState.Hovered;
 						itemActionHovered |= (mouseDownItem == null || mouseDownItem == item) && IsItemActionHovered(item, e.Location);
-						
+
 						if (!isToolTipSet && item.Rectangles != null && item.Rectangles.GetToolTip(this, e.Location, out var text, out var point))
 						{
 							isToolTipSet = true;
@@ -507,7 +624,7 @@ namespace SlickControls
 
 			scrollIndex -= e.Delta.Sign() * (int)Math.Ceiling(Math.Abs(e.Delta) / (double)(GridView ? GridItemSize.Height : ItemHeight));
 			Invalidate();
-			
+
 			SlickTip.SetTo(this, string.Empty);
 		}
 
@@ -553,19 +670,25 @@ namespace SlickControls
 
 		protected virtual void OnPaintItemList(ItemPaintEventArgs<T, R> e)
 		{
+			if (e.BackColor == Color.Empty)
+			{
+				e.BackColor = BackColor;
+			}
+
 			if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
+			{
+				e.BackColor = e.BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90);
+			}
+
+			if (e.BackColor != BackColor)
 			{
 				var rect = e.ClipRectangle;
 				var filledRect = rect.Pad(0, -Padding.Top, 0, -Padding.Bottom);
 
-				using (var brush = new SolidBrush(e.BackColor = BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90)))
+				using (var brush = new SolidBrush(e.BackColor))
 				{
 					e.Graphics.FillRectangle(brush, filledRect);
 				}
-			}
-			else
-			{
-				e.BackColor = BackColor;
 			}
 
 			PaintItemList?.Invoke(this, e);
@@ -649,7 +772,8 @@ namespace SlickControls
 						item,
 						e.Graphics,
 						GridView ? item.Bounds.Pad(GridPadding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
-						mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal));
+						mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal,
+						SelectedItems.Contains(item)));
 
 					e.Graphics.ResetClip();
 				}

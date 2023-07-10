@@ -9,13 +9,15 @@ namespace SlickControls
 		public DrawableItem<T, R> DrawableItem { get; }
 		public HoverState HoverState { get; set; }
         public Color BackColor { get; set; }
+        public bool IsSelected { get; }
 		public R Rects => DrawableItem.Rectangles;
 
-		public ItemPaintEventArgs(DrawableItem<T, R> item, Graphics graphics, Rectangle bounds, HoverState hoverState) : base(graphics, bounds)
+		public ItemPaintEventArgs(DrawableItem<T, R> item, Graphics graphics, Rectangle bounds, HoverState hoverState, bool isSelected) : base(graphics, bounds)
 		{
 			DrawableItem = item;
 			Item = item.Item;
 			HoverState = hoverState;
+			IsSelected = isSelected;
 		}
 	}
 

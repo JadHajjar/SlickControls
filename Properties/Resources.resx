@@ -250,7 +250,7 @@
   <data name="Tiny_Play" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Tiny_Play.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Tiny_Trash" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="I_Trash_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Tiny_Trash.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Big_File" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -687,5 +687,11 @@
   </data>
   <data name="I_User_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\I_User_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Trash_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Trash_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_Trash_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_Trash_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

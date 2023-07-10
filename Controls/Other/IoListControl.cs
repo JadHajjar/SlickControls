@@ -76,34 +76,42 @@ namespace SlickControls.Controls.Other
 			{
 				SlickToolStrip.Show(FindForm() as SlickForm, (Controller.RightClickContext?.Invoke(item.Item) ?? new[]
 				{
-					new SlickStripItem(item.Item.FileObject != null ? "Select File" : "Open Folder", () =>
-					{
-						if (item.Item.FileObject != null)
-							Controller.fileOpened(item.Item.FileObject);
-						else if (item.Item.FolderObject != null)
-							Controller.folderOpened(item.Item.FolderObject);
-					}, item.Item.FileObject != null ? Properties.Resources.Tiny_Play : Properties.Resources.I_FolderSearch_16)
+					new SlickStripItem(
+						item.Item.FileObject != null ? "Select File" : "Open Folder",
+						item.Item.FileObject != null ? "I_Ok" : "I_Folder", 
+						action: () =>
+						{
+							if (item.Item.FileObject != null)
+								Controller.fileOpened(item.Item.FileObject);
+							else if (item.Item.FolderObject != null)
+								Controller.folderOpened(item.Item.FolderObject);
+						})
 				})
 				.Concat(new[]
 				{
 					SlickStripItem.Empty,
 
-					new SlickStripItem("View in Explorer", () =>
+					new SlickStripItem("Open File", "I_Search", item.Item.FileObject != null, action: () =>
+					{
+						new BackgroundAction(() => System.Diagnostics.Process.Start(item.Item.FileObject.FullName)).Run();
+					}),
+
+					new SlickStripItem("View in Explorer", "I_Folder", action: () =>
 					{
 						if (item.Item.FileObject != null)
 							new BackgroundAction(() => System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{item.Item.FileObject.FullName}\"")).Run();
 						else
 							new BackgroundAction(() => System.Diagnostics.Process.Start(item.Item.FolderObject.FullName)).Run();
-					}, Properties.Resources.I_Folder_16),
+					}),
 
-					new SlickStripItem("Delete", () =>
+					new SlickStripItem("Delete", "I_Trash", action: () =>
 					{
 						if (MessagePrompt.Show($"Are you sure you want to delete '{Text}'", "Confirm Action", PromptButtons.OKCancel, PromptIcons.Warning, FindForm() as SlickForm) == DialogResult.OK)
 						{
 							new BackgroundAction(() => FileOperationAPIWrapper.MoveToRecycleBin(item.Item.FileObject?.FullName ?? item.Item.FolderObject.FullName)).Run();
 							Dispose();
 						}
-					}, Properties.Resources.Tiny_Trash)
+					})
 				}).ToArray());
 			}
 		}

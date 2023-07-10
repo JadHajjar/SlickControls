@@ -8,6 +8,7 @@
 		YesNoCancel,
 		YesNo,
 		RetryCancel,
-		None
+		None,
+		OKIgnore
 	}
 }

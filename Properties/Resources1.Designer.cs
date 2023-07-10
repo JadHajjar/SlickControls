@@ -1453,6 +1453,36 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Trash_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Trash_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Trash_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Trash_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Trash_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Trash_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Undo_16 {
             get {
                 object obj = ResourceManager.GetObject("I_Undo_16", resourceCulture);
@@ -1934,16 +1964,6 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap Tiny_Today {
             get {
                 object obj = ResourceManager.GetObject("Tiny_Today", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Tiny_Trash {
-            get {
-                object obj = ResourceManager.GetObject("Tiny_Trash", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

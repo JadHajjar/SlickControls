@@ -89,6 +89,7 @@ namespace SlickControls
 					{
 						case PromptButtons.OK:
 						case PromptButtons.OKCancel:
+						case PromptButtons.OKIgnore:
 							B_OK.Focus();
 							break;
 
@@ -330,10 +331,8 @@ namespace SlickControls
 				switch (selectedButtons)
 				{
 					case PromptButtons.OK:
-						B_OK_Click(this, new EventArgs());
-						break;
-
 					case PromptButtons.OKCancel:
+					case PromptButtons.OKIgnore:
 						B_OK_Click(this, new EventArgs());
 						break;
 
@@ -365,6 +364,7 @@ namespace SlickControls
 				switch (selectedButtons)
 				{
 					case PromptButtons.OK:
+					case PromptButtons.OKIgnore:
 						B_OK_Click(this, new EventArgs());
 						break;
 
@@ -452,6 +452,11 @@ namespace SlickControls
 				case PromptButtons.OKCancel:
 					B_OK.Visible = B_Cancel.Visible = true;
 					B_Cancel.ColorStyle = ColorStyle.Yellow;
+					break;
+
+				case PromptButtons.OKIgnore:
+					B_OK.Visible = B_Ignore.Visible = true;
+					B_Ignore.ColorStyle = ColorStyle.Yellow;
 					break;
 
 				case PromptButtons.AbortRetryIgnore:
