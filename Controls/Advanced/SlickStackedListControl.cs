@@ -696,7 +696,10 @@ namespace SlickControls
 
 		protected virtual void OnPaintItemGrid(ItemPaintEventArgs<T, R> e)
 		{
-			e.BackColor = BackColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Dark ? 4 : -5);
+			if (e.BackColor == Color.Empty)
+			{
+				e.BackColor = BackColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Dark ? 4 : -5);
+			}
 
 			if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
 			{
@@ -707,6 +710,7 @@ namespace SlickControls
 			{
 				e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.Pad(-GridPadding.Left, -GridPadding.Top, -GridPadding.Right, -GridPadding.Bottom), (int)(5 * UI.FontScale));
 			}
+
 			PaintItemGrid?.Invoke(this, e);
 		}
 
