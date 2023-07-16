@@ -130,7 +130,7 @@ namespace SlickControls
 				UI.OnUiChanged();
 			}
 
-			UI._instance.Save(appName: "Shared");
+			UI._instance.Save(appName: "SlickUI");
 
 			savedNightModeSetting = CB_NightMode.Checked;
 			savedUseSystemThemeSetting = CB_UseSystemTheme.Checked;
@@ -188,10 +188,10 @@ namespace SlickControls
 
 		private void Theme_Changer_Load(object sender, EventArgs e)
 		{
-			var settings = ISave.LoadRaw("Settings.tf", "Shared");
+			var settings = ISave.LoadRaw("Settings.tf", "SlickUI");
 			if (settings == null || !(bool)settings.TutorialShown)
 			{
-				ISave.Save(new { TutorialShown = true }, "Settings.tf", appName: "Shared");
+				ISave.Save(new { TutorialShown = true }, "Settings.tf", appName: "SlickUI");
 
 				Notification.Create(LocaleHelper.GetGlobalText("Welcome to Theme Changer!"), LocaleHelper.GetGlobalText("Customize the size and colors in the App however you want to.") + "\r\n" + LocaleHelper.GetGlobalText("Click on any color to change it, or right-click to reset it."), PromptIcons.Info, null)
 					.Show(Form, 30);

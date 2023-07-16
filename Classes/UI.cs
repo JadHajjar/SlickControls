@@ -24,7 +24,7 @@ namespace SlickControls
 		public double uiScale { get; set; } = 1;
 		public bool noAnimations { get => _noAnimations; set => AnimationHandler.NoAnimations = _noAnimations = value; }
 
-		internal static readonly UI _instance = Load<UI>("UI.tf", "Shared");
+		internal static readonly UI _instance = Load<UI>("UI.tf", "SlickUI");
 
 		private bool _noAnimations;
 

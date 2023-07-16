@@ -26,7 +26,8 @@ namespace SlickControls
 				if (Live)
 				{
 					if (image != null)
-						return new Bitmap(image);
+						lock (image)
+							return new Bitmap(image);
 
 					if (LargeImage)
 						return ImageName?.Large;

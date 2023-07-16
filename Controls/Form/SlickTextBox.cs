@@ -1,5 +1,7 @@
 using Extensions;
 
+using Newtonsoft.Json.Linq;
+
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -26,10 +28,9 @@ namespace SlickControls
 		private bool warning;
 		private bool minimumSizeSet;
 		protected readonly TextBox _textBox;
+
 		public SlickTextBox()
 		{
-			EnterTriggersClick = false;
-
 			_textBox = new TextBox
 			{
 				BorderStyle = BorderStyle.None,
@@ -44,8 +45,9 @@ namespace SlickControls
 			_textBox.KeyDown += TB_KeyDown;
 			_textBox.KeyUp += (s, e) => OnKeyUp(e);
 			_textBox.KeyPress += (s, e) => OnKeyPress(e);
-
 			Controls.Add(_textBox);
+
+			base.EnterTriggersClick = false;
 		}
 
 		protected override void OnImageChanged(EventArgs e)
@@ -57,6 +59,9 @@ namespace SlickControls
 				UIChanged();
 			}
 		}
+
+		[DefaultValue(false), Category("Behavior"), DisplayName("Enter Triggers Click")]
+		public new bool EnterTriggersClick { get => base.EnterTriggersClick; set => base.EnterTriggersClick = value; }
 
 		[Category("Behavior"), DefaultValue(false)]
 		public bool Password { get => _textBox.UseSystemPasswordChar; set => _textBox.UseSystemPasswordChar = value; }

@@ -122,8 +122,8 @@ namespace SlickControls
 			}
 			else
 			{
-				var y = SystemInformation.VirtualScreen.Height - 10 - ((10 + Height) * (Notifications[Empty].IndexOf(this) + 1));
-				var x = SystemInformation.VirtualScreen.Width - 20 - Width;
+				var y = Screen.PrimaryScreen.Bounds.Height - 10 - ((10 + Height) * (Notifications[Empty].IndexOf(this) + 1));
+				var x = Screen.PrimaryScreen.Bounds.Width - 20 - Width;
 
 				Location = new Point(x, y);
 			}

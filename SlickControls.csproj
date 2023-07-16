@@ -101,6 +101,9 @@
     <Compile Include="Controls\Generic\SmartFlowPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Generic\SmartTablePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Internal\DateTimePickerPrompt.cs">
       <SubType>Form</SubType>
     </Compile>

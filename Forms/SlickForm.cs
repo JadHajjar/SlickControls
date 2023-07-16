@@ -26,8 +26,11 @@ namespace SlickControls
 		[Category("Behavior"), EditorBrowsable(EditorBrowsableState.Always), Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Bindable(true)]
 		public bool CloseForm { get; set; } = true;
 
-		[Category("Appearance")]
+		[Category("Appearance"), DefaultValue(false)]
 		public bool NoBorder { get; set; }
+
+		[Category("Appearance"), DefaultValue(false)]
+		public bool FullScreenIgnoresTaskbar { get; set; }
 
 		public virtual Image FormIcon { get; set; }
 		public virtual Rectangle IconBounds { get; set; }
@@ -57,7 +60,7 @@ namespace SlickControls
 
 				if (screen != null)
 				{
-					MaximizedBounds = new Rectangle(screen.Bounds.X - screen.WorkingArea.X, screen.Bounds.Y - screen.WorkingArea.Y, screen.WorkingArea.Width, screen.WorkingArea.Height);
+					MaximizedBounds = FullScreenIgnoresTaskbar ? screen.Bounds : new Rectangle(screen.Bounds.X - screen.WorkingArea.X, screen.Bounds.Y - screen.WorkingArea.Y, screen.WorkingArea.Width, screen.WorkingArea.Height);
 				}
 
 				base.WindowState = value;

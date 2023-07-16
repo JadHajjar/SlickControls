@@ -22,6 +22,7 @@ namespace SlickControls
 		private bool smallMenu;
 		private bool hideMenu;
 		private bool menuSetUp;
+		private object lastPanelData;
 
 		public event Func<Message, Keys, bool> HandleKeyPress;
 
@@ -71,7 +72,7 @@ namespace SlickControls
 
 				if (IsHandleCreated)
 				{
-					ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "Shared");
+					ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "SlickUI");
 				}
 			}
 		}
@@ -93,7 +94,7 @@ namespace SlickControls
 
 				if (IsHandleCreated)
 				{
-					ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "Shared");
+					ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "SlickUI");
 				}
 			}
 		}
@@ -243,6 +244,8 @@ namespace SlickControls
 					Form = this
 				};
 
+				newPanel.UseTransitoryData(lastPanelData);
+
 				base_P_Content.SuspendDrawing();
 
 				if (CurrentPanel != null)
@@ -359,6 +362,8 @@ namespace SlickControls
 			CurrentPanel.PanelItem = panelItem;
 			CurrentPanel.Form = this;
 
+			CurrentPanel.UseTransitoryData(lastPanelData);
+
 			base_B_Close.Visible = base_B_Max.Visible = base_B_Min.Visible = !CurrentPanel.HideWindowIcons;
 			base_P_Content.BackColor = CurrentPanel.GetTopBarColor();
 			base_TLP_Side.Invalidate();
@@ -469,7 +474,7 @@ namespace SlickControls
 				mouseDetector = new MouseDetector();
 				mouseDetector.MouseMove += mouseDetector_MouseMove;
 
-				var options = ISave.LoadRaw("PanelForm.tf", "Shared");
+				var options = ISave.LoadRaw("PanelForm.tf", "SlickUI");
 
 				if (options != null)
 				{
@@ -581,33 +586,37 @@ namespace SlickControls
 
 		protected override void WndProc(ref Message m)
 		{
-			if (!(CurrentPanel?.OnWndProc(m) ?? false) && !HandleWndProc(ref m))
+			try
 			{
-				if (m.Msg == 0x210 && m.WParam == (IntPtr)0x1020b && PanelHistory.Any())
+				if (!(CurrentPanel?.OnWndProc(m) ?? false) && !HandleWndProc(ref m))
 				{
-					PushBack();
-				}
-
-				if (m.Msg == 0x20e && PanelHistory.Any())
-				{
-					var newPad = new Padding(Math.Min((int)(120 * UI.UIScale), base_P_PanelContent.Padding.Left - (m.WParam.ToInt32() / 65536)), 0, 0, 0);
-					
-					if (newPad != base_P_PanelContent.Padding)
+					if (m.Msg == 0x210 && m.WParam == (IntPtr)0x1020b && PanelHistory.Any())
 					{
-						base_P_PanelContent.Padding = newPad;
-						base_P_PanelContent.Invalidate();
-					}
-					else
-					{
-						base_P_PanelContent.Padding = Padding.Empty;
 						PushBack();
 					}
-				}
-				else if (base_P_PanelContent.Padding.Left != 0 && m.Msg != 0x20)
-				{
-					AnimationHandler.Animate(base_P_PanelContent, Padding.Empty, 2);
+
+					if (m.Msg == 0x20e && PanelHistory.Any())
+					{
+						var newPad = new Padding(Math.Min((int)(120 * UI.UIScale), base_P_PanelContent.Padding.Left - (m.WParam.ToInt32() / 65536)), 0, 0, 0);
+
+						if (newPad != base_P_PanelContent.Padding)
+						{
+							base_P_PanelContent.Padding = newPad;
+							base_P_PanelContent.Invalidate();
+						}
+						else
+						{
+							base_P_PanelContent.Padding = Padding.Empty;
+							PushBack();
+						}
+					}
+					else if (base_P_PanelContent.Padding.Left != 0 && m.Msg != 0x20)
+					{
+						AnimationHandler.Animate(base_P_PanelContent, Padding.Empty, 2);
+					}
 				}
 			}
+			catch { }
 		}
 
 		protected override void OnDeactivate(EventArgs e)
@@ -633,6 +642,11 @@ namespace SlickControls
 		{
 			if (panel != null)
 			{
+				if (CurrentPanel == panel)
+				{
+					lastPanelData = panel.GetTransitoryData();
+				}
+
 				panel.SuspendDrawing();
 				panel.Parent = null;
 				OnNextIdle(() =>

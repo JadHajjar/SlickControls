@@ -68,6 +68,29 @@ namespace SlickControls
 			return rectangle;
 		}
 
+		public static Size MeasureLabel(this PaintEventArgs e, string text, Bitmap icon, bool smaller = false, bool large = false)
+		{
+			if (text == null)
+			{
+				return default;
+			}
+
+			using (var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F)))
+			{
+				var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
+				var size = e.Graphics.Measure(text, font).ToSize();
+
+				if (icon != null)
+				{
+					size.Width += icon.Width + padding.Left;
+				}
+
+				size.Width += padding.Left;
+
+				return size;
+			}
+		}
+
 		public static void SetUp(this Graphics graphics, Color? backColor = null)
 		{
 			if (backColor != null)

@@ -325,7 +325,17 @@ namespace SlickControls
 			}
 		}
 
-		public virtual void GlobalMouseMove(Point p)
+		internal protected virtual void GlobalMouseMove(Point p)
+		{
+
+		}
+
+		internal protected virtual object GetTransitoryData()
+		{
+			return null;
+		}
+
+		internal protected virtual void UseTransitoryData(object data)
 		{
 
 		}

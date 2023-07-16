@@ -64,7 +64,7 @@ namespace SlickControls
 			UI._instance.fontScale = SS_Scale.Value / 100;
 			UI._instance.uiScale = SS_Scale.Value.If(x => x > 100, x => x * .9 + 10, x => x * 1.1 - 10) / 100;
 
-			UI._instance.Save(appName: "Shared");
+			UI._instance.Save(appName: "SlickUI");
 			UI.OnUiChanged();
 		}
 
@@ -98,10 +98,10 @@ namespace SlickControls
 
 		private void Theme_Changer_Load(object sender, EventArgs e)
 		{
-			var settings = ISave.LoadRaw("Settings.tf", "Shared");
+			var settings = ISave.LoadRaw("Settings.tf", "SlickUI");
 			if (settings == null || !(bool)settings.TutorialShown)
 			{
-				ISave.Save(new { TutorialShown = true }, "Settings.tf", appName: "Shared");
+				ISave.Save(new { TutorialShown = true }, "Settings.tf", appName: "SlickUI");
 				Notification.Create("Welcome to Theme Changer!", "Customize the size and colors in the App to fit your desire.\nClick on any color-square to change it, right-click the square to reset it.", PromptIcons.Info, null)
 					.Show(this, 10);
 			}

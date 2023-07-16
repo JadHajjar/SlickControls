@@ -34,7 +34,7 @@ namespace SlickControls
 
 			TB_Hex.ValidationCustom = x => Regex.IsMatch(x, @"#?([a-f]|[0-9]){6}", RegexOptions.IgnoreCase);
 
-			ISave.Load(out LastColors, "LastColors.tf", "Shared");
+			ISave.Load(out LastColors, "LastColors.tf", "SlickUI");
 			LastColors = LastColors?.Take(21).ToList() ?? new List<Color>();
 			ShowLastColors();
 
@@ -200,14 +200,14 @@ namespace SlickControls
 
 			try
 			{
-				ISave.Load(out List<Color> colors, "LastColors.tf", "Shared");
+				ISave.Load(out List<Color> colors, "LastColors.tf", "SlickUI");
 				if (colors == null)
 				{
 					colors = new List<Color>();
 				}
 
 				colors.Insert(0, Color);
-				ISave.Save(colors.Take(21), "LastColors.tf", appName: "Shared");
+				ISave.Save(colors.Take(21), "LastColors.tf", appName: "SlickUI");
 			}
 			catch { }
 		}

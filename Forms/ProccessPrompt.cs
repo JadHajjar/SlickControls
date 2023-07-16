@@ -53,7 +53,7 @@ namespace SlickControls
 			}
 			else
 			{
-				Owner.Location = SystemInformation.VirtualScreen.Size.Center(Owner.Size);
+				Owner.Location = Screen.PrimaryScreen.Bounds.Center(Owner.Size);
 			}
 
 			base.OnCreateControl();
