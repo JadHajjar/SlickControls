@@ -1,16 +1,16 @@
 {
   "Search": "Szukaj",
   "Loading": "Ładowanie..",
-  "Back": "Z powrotem",
+  "Back": "Powrót",
   "Filters": "Filtry",
   "Enable": "Włączać",
   "Settings": "Ustawienia",
   "Actions": "działania",
   "Utilities": "Narzędzia",
   "Options": "Opcje",
-  "Total": "Całkowity",
+  "Total": "Razem",
   "Sorting": "Sortowanie",
-  "Content": "Treść",
+  "Content": "Zawartość",
   "Other": "Inny",
   "Date Modified": "Data modyfikacji",
   "Date Created": "Data utworzenia",
@@ -21,7 +21,7 @@
   "Common Folders": "Zwykłe foldery",
   "Select a file": "Wybierz plik",
   "Select a folder": "Wybierz folder",
-  "Open File": "Open File",
+  "Open File": "Otwórz plik",
   "Continue": "Kontynuuj",
   "Ok": "Ok",
   "No": "Nie",
@@ -103,54 +103,54 @@
   "Click on any color to change it, or right-click to reset it.": "Kliknij na dowolny kolor, aby go zmienić, lub kliknij prawym przyciskiem myszy, aby go zresetować.",
   "Custom Theme": "Niestandardowy motyw",
   "Do you want to apply your changes before leaving?": "Czy chcesz zastosować zmiany przed wyjściem?",
-  "TaskCompleted": "Task Completed",
-  "UnexpectedError": "An unexpected error occurred",
-  "{0} ago": "{0} ago",
-  "in {0}": "in {0}",
-  "Today at {0}": "Today at {0}",
-  "Yesterday at {0}": "Yesterday at {0}",
-  "Tomorrow at {0}": "Tomorrow at {0}",
-  "Last {0} at {1}": "Last {0} at {1}",
-  "Next {0} at {1}": "Next {0} at {1}",
+  "TaskCompleted": "Zadanie Zakończone",
+  "UnexpectedError": "Wystąpił nieoczekiwany błąd",
+  "{0} ago": "{0} temu",
+  "in {0}": "w {0}",
+  "Today at {0}": "Dzisiaj o {0}",
+  "Yesterday at {0}": "Wczoraj o {0}",
+  "Tomorrow at {0}": "Jutro o {0}",
+  "Last {0} at {1}": "Ostatni {0} w {1}",
+  "Next {0} at {1}": "Następny {0} w {1}",
   "{0} month ago on {1}": {
-    "One": "{0} month ago on {1}",
-    "Plural": "{0} months ago on {1}"
+    "One": "{0} miesiąc temu w {1}",
+    "Plural": "{0} miesięcy temu w {1}"
   },
   "in {0} month on {1}": {
-    "One": "in {0} month on {1}",
-    "Plural": "in {0} months on {1}"
+    "One": "w {0} miesiąc w {1}",
+    "Plural": "w {0} miesięcy na {1}"
   },
   "{0} day ago": {
-    "One": "{0} day ago",
-    "Plural": "{0} days ago"
+    "One": "{0} dzień temu",
+    "Plural": "{0} dni temu"
   },
   "in {0} day": {
-    "One": "in {0} day",
-    "Plural": "in {0} days"
+    "One": "za {0} dzień",
+    "Plural": "za {0} dni"
   },
   "{0} year": {
-    "One": "{0} year",
-    "Plural": "{0} years"
+    "One": "{0} rok",
+    "Plural": "{0} lat"
   },
   "{0} month": {
-    "One": "{0} month",
-    "Plural": "{0} months"
+    "One": "{0} miesiąc",
+    "Plural": "{0} miesięcy"
   },
   "{0} day": {
-    "One": "{0} day",
-    "Plural": "{0} days"
+    "One": "{0} dzień",
+    "Plural": "{0} dni"
   },
   "{0} hour": {
-    "One": "{0} hour",
-    "Plural": "{0} hours"
+    "One": "{0} godzina",
+    "Plural": "{0} godzin/y"
   },
   "{0} minute": {
-    "One": "{0} minute",
-    "Plural": "{0} minutes"
+    "One": "{0} minuta",
+    "Plural": "{0} minut(y)"
   },
   "{0} second": {
-    "One": "{0} second",
-    "Plural": "{0} seconds"
+    "One": "{0} sekunda",
+    "Plural": "{0} sekund(y)"
   },
   "{0}d": "{0}d",
   "{0}h": "{0}h",
