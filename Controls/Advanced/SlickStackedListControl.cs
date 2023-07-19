@@ -19,7 +19,7 @@ namespace SlickControls
 		protected Rectangle scrollThumbRectangle;
 		protected int scrollMouseDown = -1;
 		protected DrawableItem<T, R> mouseDownItem;
-		private int baseHeight;
+		protected int baseHeight;
 		private List<DrawableItem<T, R>> _sortedItems;
 		private Size baseSize;
 		private bool scrollHovered;
