@@ -748,6 +748,13 @@ namespace SlickControls
 				e.Graphics.FillRoundedRectangle(scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), scrollThumbRectangle.Pad(2, 0, 2, 0), 3);
 			}
 
+			if (StartHeight > 0)
+			{
+				e.Graphics.SetClip(new Rectangle(0,0,Width,StartHeight));
+
+				DrawHeader(e);
+			}
+
 			var start = scrollIndex;
 
 			if (GridView)
@@ -807,6 +814,10 @@ namespace SlickControls
 					break;
 				}
 			}
+		}
+
+		protected virtual void DrawHeader(PaintEventArgs e)
+		{
 		}
 
 		protected virtual bool IsFlowBreak(int index, DrawableItem<T, R> currentItem, DrawableItem<T, R> nextItem)
