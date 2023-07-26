@@ -56,7 +56,7 @@ namespace SlickControls
 				using (var foreBrush = new SolidBrush(color.GetTextColor()))
 				{
 					graphics.FillRoundedRectangle(backBrush, rectangle, (int)(3 * UI.FontScale));
-					graphics.DrawString(text, font, foreBrush, icon is null ? rectangle : rectangle.Pad(icon.Width + (padding.Left * 2) - 2, 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+					graphics.DrawString(text, font, foreBrush, icon is null ? rectangle : rectangle.Pad(icon.Width + padding.Left , 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 				}
 
 				if (icon != null)
@@ -109,7 +109,7 @@ namespace SlickControls
 				using (var textBrush = new SolidBrush(brush.Color.GetTextColor()))
 				{
 					graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
-					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width + pad.Horizontal , 0, -pad.Horizontal , 0), new StringFormat { LineAlignment = StringAlignment.Center });
+					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width, 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 				}
 
 				graphics.DrawRoundImage(bitmap, iconRect);
@@ -118,9 +118,9 @@ namespace SlickControls
 			}
 		}
 
-		public static Rectangle DrawLargeLabel(this Graphics graphics, Point point, string text, DynamicIcon icon, Color? color = null, ContentAlignment alignment = ContentAlignment.TopLeft, Padding? padding = null, int height = 0, Point? cursorLocation = null)
+		public static Rectangle DrawLargeLabel(this Graphics graphics, Point point, string text, DynamicIcon icon, Color? color = null, ContentAlignment alignment = ContentAlignment.TopLeft, Padding? padding = null, int height = 0, Point? cursorLocation = null, bool smaller = false)
 		{
-			using (var font = UI.Font(8.25F, FontStyle.Bold))
+			using (var font = UI.Font(smaller ? 7.5F:8.25F, FontStyle.Bold))
 			{
 				if (height == 0)
 				{
@@ -136,7 +136,7 @@ namespace SlickControls
 				using (var textBrush = new SolidBrush(brush.Color.GetTextColor()))
 				{
 					graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
-					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width + pad.Horizontal , 0, -pad.Horizontal , 0), new StringFormat { LineAlignment = StringAlignment.Center });
+					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width , 0, 0, 0), new StringFormat { Alignment =  StringAlignment.Center, LineAlignment = StringAlignment.Center });
 
 					using (var bitmap = icon.Get(iconRect.Height).Color(textBrush.Color))
 					{
