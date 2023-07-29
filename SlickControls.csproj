@@ -1193,6 +1193,117 @@
   <ItemGroup>
     <None Include="Resources\I_Trash_48.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Unavailable_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Unavailable_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Unavailable_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Retry_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Skip_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Skip_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Retry_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_CircleArrowDown_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_CircleArrowUp_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_CircleArrowUp_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_CircleArrowDown_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Warning_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Warning_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Ok_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Ok_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Question_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Question_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Question_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Question_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Question_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Edit_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Edit_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Info_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Info_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Hand_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Hand_96.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Hand_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Hand_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Hand_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Warning_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Warning_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Warning_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Error_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Error_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Error_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Error_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Error_96.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>

@@ -29,7 +29,14 @@ namespace SlickControls
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MessagePrompt));
+			SlickControls.DynamicIcon dynamicIcon18 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon19 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon20 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon21 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon22 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon23 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon24 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon17 = new SlickControls.DynamicIcon();
 			this.TLP_Main = new System.Windows.Forms.TableLayoutPanel();
 			this.P_Spacer_1 = new System.Windows.Forms.Panel();
 			this.FLP_Buttons = new System.Windows.Forms.FlowLayoutPanel();
@@ -127,7 +134,8 @@ namespace SlickControls
 			this.B_Cancel.AutoSize = true;
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Cancel.Image = ((System.Drawing.Image)(resources.GetObject("B_Cancel.Image")));
+			dynamicIcon18.Name = "I_Cancel";
+			this.B_Cancel.ImageName = dynamicIcon18;
 			this.B_Cancel.Location = new System.Drawing.Point(229, 7);
 			this.B_Cancel.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Cancel.Name = "B_Cancel";
@@ -146,7 +154,8 @@ namespace SlickControls
 			this.B_Ignore.AutoSize = true;
 			this.B_Ignore.ColorShade = null;
 			this.B_Ignore.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Ignore.Image = ((System.Drawing.Image)(resources.GetObject("B_Ignore.Image")));
+			dynamicIcon19.Name = "I_Skip";
+			this.B_Ignore.ImageName = dynamicIcon19;
 			this.B_Ignore.Location = new System.Drawing.Point(129, 7);
 			this.B_Ignore.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Ignore.Name = "B_Ignore";
@@ -165,7 +174,8 @@ namespace SlickControls
 			this.B_Retry.AutoSize = true;
 			this.B_Retry.ColorShade = null;
 			this.B_Retry.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Retry.Image = ((System.Drawing.Image)(resources.GetObject("B_Retry.Image")));
+			dynamicIcon20.Name = "I_Retry";
+			this.B_Retry.ImageName = dynamicIcon20;
 			this.B_Retry.Location = new System.Drawing.Point(29, 7);
 			this.B_Retry.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Retry.Name = "B_Retry";
@@ -184,7 +194,8 @@ namespace SlickControls
 			this.B_Abort.AutoSize = true;
 			this.B_Abort.ColorShade = null;
 			this.B_Abort.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Abort.Image = ((System.Drawing.Image)(resources.GetObject("B_Abort.Image")));
+			dynamicIcon21.Name = "I_Unavailable";
+			this.B_Abort.ImageName = dynamicIcon21;
 			this.B_Abort.Location = new System.Drawing.Point(229, 49);
 			this.B_Abort.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Abort.Name = "B_Abort";
@@ -203,7 +214,8 @@ namespace SlickControls
 			this.B_OK.AutoSize = true;
 			this.B_OK.ColorShade = null;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_OK.Image = ((System.Drawing.Image)(resources.GetObject("B_OK.Image")));
+			dynamicIcon22.Name = "I_Ok";
+			this.B_OK.ImageName = dynamicIcon22;
 			this.B_OK.Location = new System.Drawing.Point(129, 49);
 			this.B_OK.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_OK.Name = "B_OK";
@@ -222,7 +234,8 @@ namespace SlickControls
 			this.B_No.AutoSize = true;
 			this.B_No.ColorShade = null;
 			this.B_No.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_No.Image = ((System.Drawing.Image)(resources.GetObject("B_No.Image")));
+			dynamicIcon23.Name = "I_Cancel";
+			this.B_No.ImageName = dynamicIcon23;
 			this.B_No.Location = new System.Drawing.Point(29, 49);
 			this.B_No.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_No.Name = "B_No";
@@ -241,7 +254,8 @@ namespace SlickControls
 			this.B_Yes.AutoSize = true;
 			this.B_Yes.ColorShade = null;
 			this.B_Yes.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Yes.Image = ((System.Drawing.Image)(resources.GetObject("B_Yes.Image")));
+			dynamicIcon24.Name = "I_Ok";
+			this.B_Yes.ImageName = dynamicIcon24;
 			this.B_Yes.Location = new System.Drawing.Point(229, 91);
 			this.B_Yes.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Yes.Name = "B_Yes";
@@ -257,7 +271,7 @@ namespace SlickControls
 			// 
 			this.TLP_ImgText.ColumnCount = 2;
 			this.TLP_Main.SetColumnSpan(this.TLP_ImgText, 2);
-			this.TLP_ImgText.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 60F));
+			this.TLP_ImgText.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
 			this.TLP_ImgText.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.TLP_ImgText.Controls.Add(this.TB_Input, 0, 2);
 			this.TLP_ImgText.Controls.Add(this.L_Text, 1, 1);
@@ -281,14 +295,15 @@ namespace SlickControls
 			this.TB_Input.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.TB_Input.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(21)))), ((int)(((byte)(26)))), ((int)(((byte)(32)))));
 			this.TB_Input.LabelText = "";
-			this.TB_Input.Location = new System.Drawing.Point(63, 73);
+			this.TB_Input.Location = new System.Drawing.Point(41, 73);
 			this.TB_Input.Name = "TB_Input";
+			this.TB_Input.Padding = new System.Windows.Forms.Padding(0, 7, 0, 7);
 			this.TB_Input.Placeholder = "Input";
 			this.TB_Input.SelectedText = "";
 			this.TB_Input.SelectionLength = 0;
 			this.TB_Input.SelectionStart = 0;
 			this.TB_Input.ShowLabel = false;
-			this.TB_Input.Size = new System.Drawing.Size(371, 34);
+			this.TB_Input.Size = new System.Drawing.Size(393, 34);
 			this.TB_Input.TabIndex = 0;
 			this.TB_Input.Visible = false;
 			this.TB_Input.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TB_Input_KeyDown);
@@ -297,35 +312,37 @@ namespace SlickControls
 			// 
 			this.L_Text.AutoEllipsis = true;
 			this.L_Text.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.L_Text.Location = new System.Drawing.Point(75, 49);
+			this.L_Text.Location = new System.Drawing.Point(53, 49);
 			this.L_Text.Margin = new System.Windows.Forms.Padding(15);
 			this.L_Text.Name = "L_Text";
-			this.L_Text.Size = new System.Drawing.Size(347, 6);
+			this.L_Text.Size = new System.Drawing.Size(369, 6);
 			this.L_Text.TabIndex = 0;
 			this.L_Text.Text = "Text";
 			this.L_Text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.L_Text.UseMnemonic = false;
 			// 
 			// PB_Icon
 			// 
 			this.PB_Icon.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.PB_Icon.LoaderSpeed = 1D;
-			this.PB_Icon.Location = new System.Drawing.Point(14, 39);
+			this.PB_Icon.Location = new System.Drawing.Point(3, 39);
 			this.PB_Icon.Name = "PB_Icon";
 			this.TLP_ImgText.SetRowSpan(this.PB_Icon, 3);
 			this.PB_Icon.Size = new System.Drawing.Size(32, 32);
-			this.PB_Icon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.PB_Icon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
 			this.PB_Icon.TabIndex = 1;
 			this.PB_Icon.TabStop = false;
 			// 
 			// L_Title
 			// 
 			this.L_Title.AutoSize = true;
-			this.L_Title.Location = new System.Drawing.Point(70, 15);
+			this.L_Title.Location = new System.Drawing.Point(48, 15);
 			this.L_Title.Margin = new System.Windows.Forms.Padding(10, 15, 3, 0);
 			this.L_Title.Name = "L_Title";
 			this.L_Title.Size = new System.Drawing.Size(45, 19);
 			this.L_Title.TabIndex = 2;
 			this.L_Title.Text = "label1";
+			this.L_Title.UseMnemonic = false;
 			// 
 			// B_Details
 			// 
@@ -334,7 +351,8 @@ namespace SlickControls
 			this.B_Details.AutoSize = true;
 			this.B_Details.ColorShade = null;
 			this.B_Details.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Details.Image = ((System.Drawing.Image)(resources.GetObject("B_Details.Image")));
+			dynamicIcon17.Name = "I_CircleArrowDown";
+			this.B_Details.ImageName = dynamicIcon17;
 			this.B_Details.Location = new System.Drawing.Point(5, 160);
 			this.B_Details.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.B_Details.Name = "B_Details";

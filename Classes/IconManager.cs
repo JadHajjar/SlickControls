@@ -51,18 +51,22 @@ namespace SlickControls
 
 		public static Bitmap GetIcon(string name)
 		{
-			return GetIcon(name, UI.FontScale >= 3 ? 48 : UI.FontScale >= 1.25 ? 24 : 16);
+			return GetIcon(name, GetNormalScale());
 		}
 
 		public static Bitmap GetSmallIcon(string name)
 		{
-			return GetIcon(name, UI.FontScale >= 3.5 ? 48 : UI.FontScale >= 1.8 ? 24 : 16);
+			return GetIcon(name, GetSmallScale());
 		}
 
 		public static Bitmap GetLargeIcon(string name)
 		{
-			return GetIcon(name, UI.FontScale >= 4 ? 96 : UI.FontScale >= 2 ? 48 : 24);
+			return GetIcon(name, GetLargeScale());
 		}
+
+		public static int GetNormalScale() => (int)(-27.42857 + 52.57143 * UI.FontScale - 9.142857 * Math.Pow(UI.FontScale, 2));
+		public static int GetSmallScale() => (int)(8.964706 + 5.388235 * UI.FontScale + 1.647059 * Math.Pow(UI.FontScale, 2));
+		public static int GetLargeScale() => (int)(24 * UI.FontScale);
 
 		public static Bitmap GetIcon(string name, int preferredSize)
 		{

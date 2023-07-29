@@ -391,7 +391,7 @@
 			this.B_Reset.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Reset.ColorShade = null;
 			this.B_Reset.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Reset.Image = global::SlickControls.Properties.Resources.Tiny_Retry;
+			this.B_Reset.Image = global::SlickControls.Properties.Resources.I_Retry_16;
 			this.B_Reset.Location = new System.Drawing.Point(767, 206);
 			this.B_Reset.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
 			this.B_Reset.Name = "B_Reset";
@@ -536,7 +536,7 @@
 			this.B_Random.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Random.ColorShade = null;
 			this.B_Random.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.B_Random.Image = global::SlickControls.Properties.Resources.Tiny_Retry;
+			this.B_Random.Image = global::SlickControls.Properties.Resources.I_Retry_16;
 			this.B_Random.Location = new System.Drawing.Point(637, 206);
 			this.B_Random.Margin = new System.Windows.Forms.Padding(0, 10, 30, 10);
 			this.B_Random.Name = "B_Random";
