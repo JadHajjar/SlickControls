@@ -34,15 +34,7 @@ namespace SlickControls
 		{
 			return new Font(
 			(style.HasFlag(FontStyle.Italic) && FontFamily == "Nirmala UI") ? "Century Gothic" : FontFamily,
-			(float)(_instance.fontScale * size).RoundToMultipleOf(0.75F),
-			style);
-		}
-
-		public static Font Font(float size, Graphics g, FontStyle style = FontStyle.Regular)
-		{
-			return new Font(
-			(style.HasFlag(FontStyle.Italic) && FontFamily == "Nirmala UI") ? "Century Gothic" : FontFamily,
-			(float)(_instance.fontScale * size).RoundToMultipleOf(0.75F),
+			(float)(_instance.fontScale * size).RoundToMultipleOf(0.25F),
 			style);
 		}
 
@@ -50,15 +42,7 @@ namespace SlickControls
 		{
 			return new Font(
 			fontFamily,
-			(float)(_instance.fontScale * size).RoundToMultipleOf(0.75F),
-			style);
-		}
-
-		public static Font Font(string fontFamily, float size, Graphics g, FontStyle style = FontStyle.Regular)
-		{
-			return new Font(
-			fontFamily,
-			(float)(_instance.fontScale * size).RoundToMultipleOf(0.75F),
+			(float)(_instance.fontScale * size).RoundToMultipleOf(0.25F),
 			style);
 		}
 

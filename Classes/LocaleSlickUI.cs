@@ -16,6 +16,7 @@ namespace SlickControls
 		public static Translation Cancel => _instance.GetText(nameof(Cancel));
 		public static Translation Download => _instance.GetText(nameof(Download));
 		public static Translation Remove => _instance.GetText(nameof(Remove));
+		public static Translation Confirmation => _instance.GetText(nameof(Confirmation));
 
 		public static void Load() { _ = _instance; }
 	}

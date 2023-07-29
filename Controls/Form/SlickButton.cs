@@ -316,12 +316,14 @@ namespace SlickControls
 			SlickButton slickButton = null)
 		{
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+			var rect = new Rectangle(2 + location.X, 2 + location.Y, size.Width - 2, size.Height - 2);
 
-			e.Graphics.FillRoundedRectangle(Gradient(new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), back), new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), (int)(4 * UI.FontScale));
+			using (var brush= Gradient(rect, back))
+			e.Graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
 
 			if (!hoverState.HasFlag(HoverState.Pressed))
 			{
-				DrawFocus(e.Graphics, new Rectangle(1 + location.X, 1 + location.Y, size.Width - 3, size.Height - 3), hoverState, (int)(4 * UI.FontScale), colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade));
+				DrawFocus(e.Graphics, rect, hoverState, (int)(4 * UI.FontScale), colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade));
 			}
 
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;

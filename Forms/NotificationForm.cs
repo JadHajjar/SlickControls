@@ -122,8 +122,8 @@ namespace SlickControls
 			}
 			else
 			{
-				var y = Screen.PrimaryScreen.Bounds.Height - 10 - ((10 + Height) * (Notifications[Empty].IndexOf(this) + 1));
-				var x = Screen.PrimaryScreen.Bounds.Width - 20 - Width;
+				var y = Screen.PrimaryScreen.WorkingArea.Height - 10 - ((10 + Height) * (Notifications[Empty].IndexOf(this) + 1));
+				var x = Screen.PrimaryScreen.WorkingArea.Width - 20 - Width;
 
 				Location = new Point(x, y);
 			}
@@ -221,37 +221,37 @@ namespace SlickControls
 			switch (Notification.Icon)
 			{
 				case PromptIcons.Hand:
-					icon = Properties.Resources.Icon_Hand.Color(design.LabelColor);
+					icon = IconManager.GetLargeIcon("I_Hand").Color(design.LabelColor);
 					color = design.ActiveColor;
 					break;
 
 				case PromptIcons.Info:
-					icon = Properties.Resources.Icon_Info.Color(design.LabelColor);
+					icon = IconManager.GetLargeIcon("I_Info").Color(design.LabelColor);
 					color = design.ActiveColor;
 					break;
 
 				case PromptIcons.Input:
-					icon = Properties.Resources.Icon_Change.Color(design.LabelColor);
+					icon = IconManager.GetLargeIcon("I_Edit").Color(design.LabelColor);
 					color = design.ActiveColor;
 					break;
 
 				case PromptIcons.Question:
-					icon = Properties.Resources.Icon_Question.Color(design.LabelColor);
+					icon = IconManager.GetLargeIcon("I_Question").Color(design.LabelColor);
 					color = design.ActiveColor;
 					break;
 
 				case PromptIcons.Warning:
-					icon = Properties.Resources.Icon_Warning.Color(design.YellowColor);
+					icon = IconManager.GetLargeIcon("I_Warning").Color(design.YellowColor);
 					color = design.YellowColor;
 					break;
 
 				case PromptIcons.Error:
-					icon = Properties.Resources.Icon_No.Color(design.RedColor);
+					icon = IconManager.GetLargeIcon("I_Error").Color(design.RedColor);
 					color = design.RedColor;
 					break;
 
 				case PromptIcons.Ok:
-					icon = Properties.Resources.Icon_OK.Color(design.GreenColor);
+					icon = IconManager.GetLargeIcon("I_Ok").Color(design.GreenColor);
 					color = design.GreenColor;
 					break;
 

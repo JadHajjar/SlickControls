@@ -59,7 +59,7 @@ namespace SlickControls
 		{
 			base.UIChanged();
 
-			TB_Input.Margin = UI.Scale(new Padding(20), UI.FontScale);
+			PB_Icon.Margin=TB_Input.Margin = UI.Scale(new Padding(20), UI.FontScale);
 
 			B_Details.Margin = UI.Scale(new Padding(5), UI.FontScale);
 			foreach (Control item in FLP_Buttons.Controls)
@@ -500,27 +500,27 @@ namespace SlickControls
 			switch (selectedIcon)
 			{
 				case PromptIcons.Hand:
-					PB_Icon.Image = Properties.Resources.Icon_Hand.Color(design.IconColor);
+					PB_Icon.Image = IconManager.GetIcon("I_Hand", IconManager.GetLargeScale() * 3 / 2).Color(design.IconColor);
 					base.CurrentFormState = FormState.Active;
 					break;
 
 				case PromptIcons.Info:
-					PB_Icon.Image = Properties.Resources.Icon_Info.Color(design.ActiveColor);
+					PB_Icon.Image = IconManager.GetIcon("I_Info", IconManager.GetLargeScale() * 3 / 2).Color(design.ActiveColor);
 					base.CurrentFormState = FormState.Active;
 					break;
 
 				case PromptIcons.Input:
-					PB_Icon.Image = Properties.Resources.Icon_Change.Color(design.IconColor);
+					PB_Icon.Image = IconManager.GetIcon("I_Edit", IconManager.GetLargeScale() * 3 / 2).Color(design.IconColor);
 					base.CurrentFormState = FormState.Active;
 					break;
 
 				case PromptIcons.Question:
-					PB_Icon.Image = Properties.Resources.Icon_Question.Color(design.IconColor);
+					PB_Icon.Image = IconManager.GetIcon("I_Question", IconManager.GetLargeScale() * 3 / 2).Color(design.IconColor);
 					base.CurrentFormState = FormState.Active;
 					break;
 
 				case PromptIcons.Ok:
-					PB_Icon.Image = Properties.Resources.Icon_OK.Color(design.GreenColor);
+					PB_Icon.Image = IconManager.GetIcon("I_Ok", IconManager.GetLargeScale() * 3 / 2).Color(design.GreenColor);
 					base.CurrentFormState = FormState.Running;
 					break;
 
@@ -530,12 +530,12 @@ namespace SlickControls
 					break;
 
 				case PromptIcons.Warning:
-					PB_Icon.Image = Properties.Resources.Icon_Warning.Color(design.YellowColor);
+					PB_Icon.Image = IconManager.GetIcon("I_Warning", IconManager.GetLargeScale() * 3 / 2).Color(design.YellowColor);
 					base.CurrentFormState = FormState.Working;
 					break;
 
 				case PromptIcons.Error:
-					PB_Icon.Image = Properties.Resources.Icon_No.Color(design.RedColor);
+					PB_Icon.Image = IconManager.GetIcon("I_Error", IconManager.GetLargeScale() * 3 / 2).Color(design.RedColor);
 					base.CurrentFormState = FormState.Busy;
 					break;
 
@@ -659,7 +659,7 @@ namespace SlickControls
 			TLP_Main.RowStyles[0] = val ? new RowStyle() : new RowStyle(SizeType.Percent, 100);
 			TLP_Main.RowStyles[3].Height = val ? 100 : 0;
 			B_Details.Text = val ? "Less Info" : "More Info";
-			B_Details.Image = val ? Properties.Resources.Tiny_ArrowUp : Properties.Resources.Tiny_ArrowDown;
+			B_Details.ImageName = val ? "I_CircleArrowUp" : "I_CircleArrowDown";
 			Height += (int)((val ? 200 : -200) * UI.FontScale);
 		}
 

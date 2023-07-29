@@ -10,7 +10,7 @@ namespace SlickControls
 {
 	public static class DesignExtensions
 	{
-		public static Rectangle DrawLabel(this PaintEventArgs e, string text, Bitmap icon, Color color, Rectangle rectangle, ContentAlignment alignment, bool smaller = false, bool large = false, Point? mousePosition = null)
+		public static Rectangle DrawLabel(this Graphics graphics, string text, Bitmap icon, Color color, Rectangle rectangle, ContentAlignment alignment, bool smaller = false, bool large = false, Point? mousePosition = null)
 		{
 			if (text == null)
 			{
@@ -20,7 +20,7 @@ namespace SlickControls
 			using (var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F)))
 			{
 				var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
-				var size = e.Graphics.Measure(text, font).ToSize();
+				var size = graphics.Measure(text, font).ToSize();
 
 				if (icon != null)
 				{
@@ -55,20 +55,20 @@ namespace SlickControls
 				using (var backBrush = rectangle.Gradient(color, 0.35F))
 				using (var foreBrush = new SolidBrush(color.GetTextColor()))
 				{
-					e.Graphics.FillRoundedRectangle(backBrush, rectangle, (int)(3 * UI.FontScale));
-					e.Graphics.DrawString(text, font, foreBrush, icon is null ? rectangle : rectangle.Pad(icon.Width + (padding.Left * 2) - 2, 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+					graphics.FillRoundedRectangle(backBrush, rectangle, (int)(3 * UI.FontScale));
+					graphics.DrawString(text, font, foreBrush, icon is null ? rectangle : rectangle.Pad(icon.Width + padding.Left , 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 				}
 
 				if (icon != null)
 				{
-					e.Graphics.DrawImage(icon.Color(color.GetTextColor()), rectangle.Pad(padding.Left, 0, 0, 0).Align(icon.Size, ContentAlignment.MiddleLeft));
+					graphics.DrawImage(icon.Color(color.GetTextColor()), rectangle.Pad(padding.Left, 0, 0, 0).Align(icon.Size, ContentAlignment.MiddleLeft));
 				}
 			}
 
 			return rectangle;
 		}
 
-		public static Size MeasureLabel(this PaintEventArgs e, string text, Bitmap icon, bool smaller = false, bool large = false)
+		public static Size MeasureLabel(this Graphics graphics, string text, Bitmap icon, bool smaller = false, bool large = false)
 		{
 			if (text == null)
 			{
@@ -78,7 +78,7 @@ namespace SlickControls
 			using (var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F)))
 			{
 				var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
-				var size = e.Graphics.Measure(text, font).ToSize();
+				var size = graphics.Measure(text, font).ToSize();
 
 				if (icon != null)
 				{
@@ -91,10 +91,69 @@ namespace SlickControls
 			}
 		}
 
+
+		public static Rectangle DrawLargeLabel(this Graphics graphics, Point point, string text, Bitmap bitmap, Color? color = null, ContentAlignment alignment = ContentAlignment.TopLeft, Padding? padding = null, int height = 0, Point? cursorLocation = null)
+		{
+			using (var font = UI.Font(8.25F, FontStyle.Bold))
+			{
+				if (height == 0)
+				{
+					height = (int)(24 * UI.FontScale);
+				}
+
+				var pad = padding ?? UI.Scale(new Padding(3), UI.FontScale);
+				var size = new Size(string.IsNullOrEmpty(text) ? height : ((int)graphics.Measure(text, font).Width + pad.Horizontal + height * 3 / 4), height);
+				var rect = new Rectangle(point.X, point.Y, 0, 0).Align(size, alignment);
+				var iconRect = rect.Pad(pad).Align(new Size(height * 3 / 4, height * 3 / 4), text == "" ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
+				using (var brush = new SolidBrush(color.HasValue ? Color.FromArgb(!cursorLocation.HasValue || rect.Contains(cursorLocation.Value) ? 255 : 160, color.Value) : Color.FromArgb(120, !cursorLocation.HasValue || rect.Contains(cursorLocation.Value) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor.MergeColor(FormDesign.Design.AccentBackColor, 40))))
+				using (var textBrush = new SolidBrush(brush.Color.GetTextColor()))
+				{
+					graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
+					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width, 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				}
+
+				graphics.DrawRoundImage(bitmap, iconRect);
+
+				return rect;
+			}
+		}
+
+		public static Rectangle DrawLargeLabel(this Graphics graphics, Point point, string text, DynamicIcon icon, Color? color = null, ContentAlignment alignment = ContentAlignment.TopLeft, Padding? padding = null, int height = 0, Point? cursorLocation = null, bool smaller = false)
+		{
+			using (var font = UI.Font(smaller ? 7.5F:8.25F, FontStyle.Bold))
+			{
+				if (height == 0)
+				{
+					height = (int)(24 * UI.FontScale);
+				}
+
+				var pad = padding ?? UI.Scale(new Padding(3), UI.FontScale);
+				var size = new Size(string.IsNullOrEmpty(text) ? height : ((int)graphics.Measure(text, font).Width + pad.Horizontal + height * 3 / 4), height);
+				var rect = new Rectangle(point.X, point.Y, 0, 0).Align(size, alignment);
+				var iconRect = rect.Pad(pad).Align(new Size(height * 3 / 4, height * 3 / 4), text == "" ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
+
+				using (var brush = new SolidBrush(color.HasValue ? Color.FromArgb(!cursorLocation.HasValue || rect.Contains(cursorLocation.Value) ? 255 : 160, color.Value) : Color.FromArgb(120, !cursorLocation.HasValue || rect.Contains(cursorLocation.Value) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor.MergeColor(FormDesign.Design.AccentBackColor, 40))))
+				using (var textBrush = new SolidBrush(brush.Color.GetTextColor()))
+				{
+					graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
+					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width , 0, 0, 0), new StringFormat { Alignment =  StringAlignment.Center, LineAlignment = StringAlignment.Center });
+
+					using (var bitmap = icon.Get(iconRect.Height).Color(textBrush.Color))
+					{
+						graphics.DrawImage(bitmap, iconRect.CenterR(bitmap.Size));
+					}
+				}
+
+				return rect;
+			}
+		}
+
 		public static void SetUp(this Graphics graphics, Color? backColor = null)
 		{
 			if (backColor != null)
+			{
 				graphics.Clear(backColor.Value);
+			}
 
 			graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 			graphics.SmoothingMode = SmoothingMode.HighQuality;

@@ -393,6 +393,16 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_ArrowRight_32 {
+            get {
+                object obj = ResourceManager.GetObject("I_ArrowRight_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_ArrowRight_48 {
             get {
                 object obj = ResourceManager.GetObject("I_ArrowRight_48", resourceCulture);
@@ -516,6 +526,66 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap I_Checked_ON_48 {
             get {
                 object obj = ResourceManager.GetObject("I_Checked_ON_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_CircleArrowDown_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_CircleArrowDown_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_CircleArrowDown_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_CircleArrowDown_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_CircleArrowDown_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_CircleArrowDown_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_CircleArrowUp_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_CircleArrowUp_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_CircleArrowUp_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_CircleArrowUp_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_CircleArrowUp_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_CircleArrowUp_48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -673,6 +743,76 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Edit_64 {
+            get {
+                object obj = ResourceManager.GetObject("I_Edit_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Edit_96 {
+            get {
+                object obj = ResourceManager.GetObject("I_Edit_96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Error_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Error_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Error_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Error_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Error_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Error_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Error_64 {
+            get {
+                object obj = ResourceManager.GetObject("I_Error_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Error_96 {
+            get {
+                object obj = ResourceManager.GetObject("I_Error_96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_FileName_16 {
             get {
                 object obj = ResourceManager.GetObject("I_FileName_16", resourceCulture);
@@ -793,6 +933,56 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Hand_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Hand_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Hand_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Hand_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Hand_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Hand_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Hand_64 {
+            get {
+                object obj = ResourceManager.GetObject("I_Hand_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Hand_96 {
+            get {
+                object obj = ResourceManager.GetObject("I_Hand_96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Home_16 {
             get {
                 object obj = ResourceManager.GetObject("I_Home_16", resourceCulture);
@@ -846,6 +1036,26 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap I_Info_48 {
             get {
                 object obj = ResourceManager.GetObject("I_Info_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Info_64 {
+            get {
+                object obj = ResourceManager.GetObject("I_Info_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Info_96 {
+            get {
+                object obj = ResourceManager.GetObject("I_Info_96", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1003,6 +1213,26 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Ok_64 {
+            get {
+                object obj = ResourceManager.GetObject("I_Ok_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Ok_96 {
+            get {
+                object obj = ResourceManager.GetObject("I_Ok_96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Paint_16 {
             get {
                 object obj = ResourceManager.GetObject("I_Paint_16", resourceCulture);
@@ -1086,6 +1316,56 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap I_PC_48 {
             get {
                 object obj = ResourceManager.GetObject("I_PC_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Question_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Question_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Question_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Question_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Question_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Question_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Question_64 {
+            get {
+                object obj = ResourceManager.GetObject("I_Question_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Question_96 {
+            get {
+                object obj = ResourceManager.GetObject("I_Question_96", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1183,6 +1463,36 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Retry_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Retry_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Retry_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Retry_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Retry_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Retry_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Save_16 {
             get {
                 object obj = ResourceManager.GetObject("I_Save_16", resourceCulture);
@@ -1236,6 +1546,36 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap I_Search_48 {
             get {
                 object obj = ResourceManager.GetObject("I_Search_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Skip_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Skip_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Skip_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Skip_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Skip_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Skip_48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1483,6 +1823,36 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Unavailable_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_Unavailable_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Unavailable_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_Unavailable_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Unavailable_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Unavailable_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Undo_16 {
             get {
                 object obj = ResourceManager.GetObject("I_Undo_16", resourceCulture);
@@ -1633,9 +2003,9 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Icon_ArrowRight_32 {
+        internal static System.Drawing.Bitmap I_Warning_16 {
             get {
-                object obj = ResourceManager.GetObject("Icon_ArrowRight_32", resourceCulture);
+                object obj = ResourceManager.GetObject("I_Warning_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1643,9 +2013,39 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Icon_Change {
+        internal static System.Drawing.Bitmap I_Warning_24 {
             get {
-                object obj = ResourceManager.GetObject("Icon_Change", resourceCulture);
+                object obj = ResourceManager.GetObject("I_Warning_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Warning_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_Warning_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Warning_64 {
+            get {
+                object obj = ResourceManager.GetObject("I_Warning_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_Warning_96 {
+            get {
+                object obj = ResourceManager.GetObject("I_Warning_96", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1656,26 +2056,6 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap Icon_Close {
             get {
                 object obj = ResourceManager.GetObject("Icon_Close", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Icon_Hand {
-            get {
-                object obj = ResourceManager.GetObject("Icon_Hand", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Icon_Info {
-            get {
-                object obj = ResourceManager.GetObject("Icon_Info", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1703,36 +2083,6 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Icon_No {
-            get {
-                object obj = ResourceManager.GetObject("Icon_No", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Icon_OK {
-            get {
-                object obj = ResourceManager.GetObject("Icon_OK", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Icon_Question {
-            get {
-                object obj = ResourceManager.GetObject("Icon_Question", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap Icon_Restore {
             get {
                 object obj = ResourceManager.GetObject("Icon_Restore", resourceCulture);
@@ -1746,16 +2096,6 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap Icon_Search {
             get {
                 object obj = ResourceManager.GetObject("Icon_Search", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Icon_Warning {
-            get {
-                object obj = ResourceManager.GetObject("Icon_Warning", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1775,36 +2115,6 @@ namespace SlickControls.Properties {
         internal static System.IO.UnmanagedMemoryStream Notif_Quick {
             get {
                 return ResourceManager.GetStream("Notif_Quick", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Tiny_Abort {
-            get {
-                object obj = ResourceManager.GetObject("Tiny_Abort", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Tiny_ArrowDown {
-            get {
-                object obj = ResourceManager.GetObject("Tiny_ArrowDown", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Tiny_ArrowUp {
-            get {
-                object obj = ResourceManager.GetObject("Tiny_ArrowUp", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -1934,26 +2244,6 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap Tiny_Refresh {
             get {
                 object obj = ResourceManager.GetObject("Tiny_Refresh", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Tiny_Retry {
-            get {
-                object obj = ResourceManager.GetObject("Tiny_Retry", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Tiny_Skip {
-            get {
-                object obj = ResourceManager.GetObject("Tiny_Skip", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
