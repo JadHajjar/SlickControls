@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -17,7 +16,10 @@ namespace SlickControls
 		private readonly PromptIcons selectedIcon;
 		private readonly bool isInput;
 
-		private MessagePrompt() => InitializeComponent();
+		private MessagePrompt()
+		{
+			InitializeComponent();
+		}
 
 		private MessagePrompt(string title, string msg, string details, PromptButtons buttons, PromptIcons icons, bool input)
 		{
@@ -27,8 +29,8 @@ namespace SlickControls
 			L_Title.Text = title;
 			L_Text.Text = msg;
 			L_Details.Text = details;
-			L_Title.Font = UI.Font(12.75F, FontStyle.Bold);
-			L_Text.Font = UI.Font(8.25F);
+			L_Title.Font = UI.Font(13.5F, FontStyle.Bold);
+			L_Text.Font = UI.Font(9F);
 
 			selectedButtons = buttons;
 			selectedIcon = icons;
@@ -40,10 +42,10 @@ namespace SlickControls
 				TLP_Main.SetColumn(FLP_Buttons, 0);
 				TLP_Main.SetColumnSpan(FLP_Buttons, 2);
 			}
-			
+
 			if (string.IsNullOrEmpty(title))
 			{
-				L_Text.Font = UI.Font(9.75F);
+				L_Text.Font = UI.Font(10.5F);
 				L_Title.Parent = null;
 			}
 
@@ -59,9 +61,10 @@ namespace SlickControls
 		{
 			base.UIChanged();
 
-			PB_Icon.Margin=TB_Input.Margin = UI.Scale(new Padding(20), UI.FontScale);
-
+			PB_Icon.Margin = TB_Input.Margin = UI.Scale(new Padding(20), UI.FontScale);
+			L_Title.Margin = UI.Scale(new Padding(5, 15, 5, 5), UI.FontScale);
 			B_Details.Margin = UI.Scale(new Padding(5), UI.FontScale);
+
 			foreach (Control item in FLP_Buttons.Controls)
 			{
 				item.Margin = UI.Scale(new Padding(5), UI.FontScale);
@@ -70,7 +73,7 @@ namespace SlickControls
 
 		public string OutputText { get; private set; } = string.Empty;
 
-		public override FormState CurrentFormState 
+		public override FormState CurrentFormState
 		{
 			get => base.CurrentFormState;
 			set { }
@@ -81,8 +84,11 @@ namespace SlickControls
 			PlaySound();
 
 			if (TB_Input.Visible)
+			{
 				BeginInvoke(new Action(() => { TB_Input.Focus(); TB_Input.SelectAll(); }));
+			}
 			else
+			{
 				BeginInvoke(new Action(() =>
 				{
 					switch (selectedButtons)
@@ -107,34 +113,45 @@ namespace SlickControls
 							break;
 					}
 				}));
+			}
 		}
 
 		protected override void OnCreateControl()
 		{
 			Opacity = 0;
-			var w = (int)((L_Details.Text.Length != 0 || L_Title.Text.Length != 0 ? 400 : 320) * UI.UIScale);
-			var h = 80;
-			var lastH = h;
+			var w = (int)((L_Details.Text.Length != 0 || L_Title.Text.Length != 0 ? 300 : 220) * UI.UIScale);
+			var h = 0;
+			var screen = Screen.FromHandle(Handle);
 
 			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{
-				do
+				var heightDiff = Height - L_Text.Height;
+				var widthDiff = Width - L_Text.Width;
+
+				while (true)
 				{
-					var diff = TLP_ImgText.Height - L_Text.Height + 5;
+					h = heightDiff + Math.Max(80, (int)(1.05F * g.Measure(L_Text.Text, L_Text.Font, w).Height));
 
-					lastH = h;
-					h = 6 + FLP_Buttons.Height + Math.Max(80, (int)g.Measure(L_Text.Text, L_Text.Font, L_Text.Width +w - Width).Height + diff + Padding.Vertical);
-
-					if (L_Title.Parent != null)
+					if (h > screen.WorkingArea.Height * 95 / 100)
 					{
-						h += L_Title.Height + L_Title.Margin.Vertical;
+						h = screen.WorkingArea.Height * 95 / 100;
+
+						w += (int)(20 * UI.UIScale);
 					}
+					else if (w + widthDiff > screen.WorkingArea.Width * 95 / 100)
+					{
+						h = Math.Min(h, screen.WorkingArea.Height * 95 / 100);
+						w = Math.Min(w, screen.WorkingArea.Width * 95 / 100);
 
-					if (h < Screen.PrimaryScreen.WorkingArea.Height - 100 || w > Screen.PrimaryScreen.WorkingArea.Width - 150)
 						break;
+					}
+					else
+					{
+						break;
+					}
+				}
 
-					w += 50;
-				} while (lastH != h);
+				w += widthDiff;
 			}
 
 			Size = new Size(w, h);
@@ -164,27 +181,39 @@ namespace SlickControls
 			  Exception exception
 			, PromptButtons buttons = PromptButtons.OK
 			, PromptIcons icon = PromptIcons.Error
-			, SlickForm form = null) => Show(exception, string.Empty, string.Empty, buttons, icon, form);
+			, SlickForm form = null)
+		{
+			return Show(exception, string.Empty, string.Empty, buttons, icon, form);
+		}
 
 		public static DialogResult Show(
 			  Exception exception
 			, string message
 			, PromptButtons buttons = PromptButtons.OK
 			, PromptIcons icon = PromptIcons.Error
-			, SlickForm form = null) => Show(exception, message, string.Empty, buttons, icon, form);
+			, SlickForm form = null)
+		{
+			return Show(exception, message, string.Empty, buttons, icon, form);
+		}
 
 		public static DialogResult Show(
 			  string message
 			, PromptButtons buttons = PromptButtons.OK
 			, PromptIcons icon = PromptIcons.None
-			, SlickForm form = null) => Show(null, message, string.Empty, buttons, icon, form);
+			, SlickForm form = null)
+		{
+			return Show(null, message, string.Empty, buttons, icon, form);
+		}
 
 		public static DialogResult Show(
 			  string message
 			, string title
 			, PromptButtons buttons = PromptButtons.OK
 			, PromptIcons icon = PromptIcons.None
-			, SlickForm form = null) => Show(null, message, title, buttons, icon, form);
+			, SlickForm form = null)
+		{
+			return Show(null, message, title, buttons, icon, form);
+		}
 
 		public static DialogResult Show(
 			  Exception exception
@@ -208,7 +237,9 @@ namespace SlickControls
 					form.ShowUp();
 				}
 				else
+				{
 					prompt.StartPosition = FormStartPosition.CenterScreen;
+				}
 
 				try
 				{
@@ -253,7 +284,9 @@ namespace SlickControls
 					form.ShowUp();
 				}
 				else
+				{
 					prompt.StartPosition = FormStartPosition.CenterScreen;
+				}
 
 				try
 				{
@@ -285,9 +318,13 @@ namespace SlickControls
 			}
 
 			if (string.IsNullOrEmpty(text))
+			{
 				message = string.Empty;
+			}
 			else
+			{
 				message = text + ":";
+			}
 
 			details = message;
 
@@ -314,9 +351,13 @@ namespace SlickControls
 									.ListStrings("\r\n");
 
 				if (exception.InnerException != null)
+				{
 					exception = exception.InnerException;
+				}
 				else
+				{
 					break;
+				}
 			}
 		}
 

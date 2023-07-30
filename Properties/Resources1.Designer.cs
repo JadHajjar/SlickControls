@@ -1583,6 +1583,16 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_Skip_96 {
+            get {
+                object obj = ResourceManager.GetObject("I_Skip_96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_SortAsc_16 {
             get {
                 object obj = ResourceManager.GetObject("I_SortAsc_16", resourceCulture);

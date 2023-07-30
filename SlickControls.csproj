@@ -1304,6 +1304,9 @@
   <ItemGroup>
     <None Include="Resources\I_Error_96.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Skip_96.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>
