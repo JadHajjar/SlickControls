@@ -1,6 +1,7 @@
 ﻿using Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -13,7 +14,7 @@ namespace SlickControls
 	public partial class PC_Changelog : PanelContent
 	{
 		private readonly VersionChangeLog Current;
-		private readonly VersionChangeLog[] ChangeLogs;
+		private readonly List<VersionChangeLog> ChangeLogs;
 		private readonly PanelItemControl base_P_Tabs;
 
 		public PC_Changelog(Assembly assembly, string resourceName, Version currentVersion)
@@ -26,8 +27,10 @@ namespace SlickControls
 			using (var stream = assembly.GetManifestResourceStream(resourceName))
 			using (var reader = new StreamReader(stream))
 			{
-				ChangeLogs = Newtonsoft.Json.JsonConvert.DeserializeObject<VersionChangeLog[]>(reader.ReadToEnd());
+				ChangeLogs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VersionChangeLog>>(reader.ReadToEnd());
 			}
+
+			PrepareChangelog(ChangeLogs);
 
 			Current = ChangeLogs.FirstOrDefault(x => x.Version.Major == currentVersion.Major && x.Version.Minor == currentVersion.Minor && x.Version.Build == currentVersion.Build && Math.Max(0, x.Version.Revision) == Math.Max(0, currentVersion.Revision));
 
@@ -54,6 +57,9 @@ namespace SlickControls
 				}
 			}
 		}
+
+		protected virtual void PrepareChangelog(List<VersionChangeLog> changeLogs)
+		{ }
 
 		protected virtual void PrepareCurrentVersion(VersionChangeLog current)
 		{ }

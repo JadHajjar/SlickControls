@@ -2,7 +2,6 @@
 
 using System;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -27,15 +26,18 @@ namespace SlickControls
 			DrawItems(e.Graphics, true);
 		}
 
-		private int GetHeight() => DrawItems(Graphics.FromHwnd(IntPtr.Zero), false);
+		private int GetHeight()
+		{
+			return DrawItems(Graphics.FromHwnd(IntPtr.Zero), false);
+		}
 
 		private int DrawItems(Graphics g, bool draw)
 		{
 			var tab = 0D;
-			var h = 4;
+			var h = (int)(4 * UI.FontScale);
 
 			var versionSize = g.DrawStringItem("v" + inf.Version
-				, UI.Font(14F, FontStyle.Bold)
+				, UI.Font(15.5F, FontStyle.Bold)
 				, FormDesign.Design.ForeColor
 				, Width
 				, tab
@@ -43,7 +45,9 @@ namespace SlickControls
 				, draw);
 
 			if (draw)
+			{
 				g.DrawLine(new Pen(FormDesign.Design.AccentColor, (float)Math.Ceiling(UI.FontScale * 1.5)), (int)(12 * UI.FontScale), h, (int)(12 * UI.FontScale), Height - 13);
+			}
 
 			if (draw && inf.Date != null)
 			{
@@ -51,16 +55,16 @@ namespace SlickControls
 				g.DrawString($"on {inf.Date?.ToReadableString(inf.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}",
 					UI.Font(8.25F),
 					new SolidBrush(FormDesign.Design.LabelColor),
-					new Point((int)(9 * UI.FontScale)+versionSize.Width, (int)(h - bnds.Height - (4 * UI.FontScale))));
+					new Point((int)(9 * UI.FontScale) + versionSize.Width, (int)(h - bnds.Height - (4 * UI.FontScale))));
 			}
 
 			tab = 1;
 
 			if (!string.IsNullOrWhiteSpace(inf.Tagline))
 			{
-				h += 2;
+				h += (int)(2 * UI.FontScale);
 
-				g.DrawStringItem(inf.Tagline
+				g.DrawStringItem(LocaleHelper.GetGlobalText(inf.Tagline)
 					 , UI.Font(8.25F, FontStyle.Italic)
 					 , FormDesign.Design.ButtonForeColor
 					 , Width
@@ -68,17 +72,19 @@ namespace SlickControls
 					 , ref h
 					, draw);
 
-				h += 4;
+				h += (int)(4 * UI.FontScale);
 			}
 
-			h += 2;
+			h += (int)(2 * UI.FontScale);
 
 			foreach (var item in inf.ChangeGroups)
 			{
 				tab = 1;
 
-				g.DrawStringItem(item.Name
-					, UI.Font(8.25F, FontStyle.Bold)
+				h += (int)(2 * UI.FontScale);
+
+				g.DrawStringItem(LocaleHelper.GetGlobalText(item.Name)
+					, UI.Font(9.75F, FontStyle.Bold)
 					, FormDesign.Design.LabelColor
 					, Width
 					, tab
@@ -89,7 +95,7 @@ namespace SlickControls
 
 				foreach (var ch in item.Changes)
 				{
-					g.DrawStringItem((ch.StartsWith("-") ? "     " : "•  ") + ch
+					g.DrawStringItem("•  " + LocaleHelper.GetGlobalText(ch).One.Replace("\r\n", "\r\n    ")
 						, UI.Font(8.25F)
 						, FormDesign.Design.InfoColor
 						, Width
@@ -98,7 +104,7 @@ namespace SlickControls
 						, draw);
 				}
 
-				h += 10;
+				h += (int)(10 * UI.FontScale);
 			}
 
 			return h;
@@ -108,7 +114,9 @@ namespace SlickControls
 		{
 			var ch = GetHeight();
 			if (Height != ch)
+			{
 				Height = ch;
+			}
 		}
 	}
 }
