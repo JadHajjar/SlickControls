@@ -21,6 +21,7 @@
   "Common Folders": "Dossiers communs",
   "Select a file": "Sélectionner un fichier",
   "Select a folder": "Sélectionner un dossier",
+  "Open File": "Ouvrir un fichier",
   "Continue": "Continuer",
   "Ok": "OK",
   "No": "Non",
@@ -97,6 +98,7 @@
   "Yellow": "Jaune",
   "Download": "Télécharger",
   "Remove": "Supprimer",
+  "Confirmation": "Confirmation",
   "Welcome to Theme Changer!": "Bienvenue dans Theme Changer!",
   "Customize the size and colors in the App however you want to.": "Personnaliser la taille et les couleurs de l'appli comme vous le souhaitez.",
   "Click on any color to change it, or right-click to reset it.": "Cliquez sur n'importe quelle couleur pour la modifier, ou faites un clic droit pour la réinitialiser.",
@@ -112,8 +114,8 @@
   "Last {0} at {1}": "Dernier {0} à {1}",
   "Next {0} at {1}": "Suivant {0} à {1}",
   "{0} month ago on {1}": {
-    "One": "Il y a {0} mois sur {1}",
-    "Plural": "Il y a {0} mois sur {1}"
+    "One": "Il y a {0} mois le {1}",
+    "Plural": "Il y a {0} mois le {1}"
   },
   "in {0} month on {1}": {
     "One": "dans {0} mois sur {1}",
