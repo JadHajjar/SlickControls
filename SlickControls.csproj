@@ -586,6 +586,8 @@
     <EmbeddedResource Include="Properties\SlickUI\vi-VN.json" />
     <EmbeddedResource Include="Properties\SlickUI\zh-CN.json" />
     <EmbeddedResource Include="Properties\SlickUI\zh-TW.json" />
+    <EmbeddedResource Include="Properties\SlickUI\el-GR.json" />
+    <EmbeddedResource Include="Properties\SlickUI\sr-CS.json" />
     <None Include="Resources\Icon_Hand.png" />
   </ItemGroup>
   <ItemGroup>
