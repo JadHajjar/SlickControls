@@ -316,10 +316,12 @@ namespace SlickControls
 			SlickButton slickButton = null)
 		{
 			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			var rect = new Rectangle(2 + location.X, 2 + location.Y, size.Width - 2, size.Height - 2);
+			var rect = new Rectangle(1 + location.X, 1 + location.Y, size.Width - 2, size.Height - 2);
 
-			using (var brush= Gradient(rect, back))
-			e.Graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
+			using (var brush = Gradient(rect, back))
+			{
+				e.Graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
+			}
 
 			if (!hoverState.HasFlag(HoverState.Pressed))
 			{
@@ -340,26 +342,28 @@ namespace SlickControls
 					var color = colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade);
 
 					if (color == back)
+					{
 						color = fore;
+					}
 
 					if (noText)
 					{
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + ((size.Width - iconSize) / 2), location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
+						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + 1 + ((size.Width - iconSize) / 2), location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
 					}
 					else
 					{
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + padding.Left, location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
+						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + 1 + padding.Left, location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
 					}
 				}
 				else if (image != null)
 				{
 					if (noText)
 					{
-						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + ((size.Width - iconSize) / 2), location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize));
+						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + 1 + ((size.Width - iconSize) / 2), location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize));
 					}
 					else
 					{
-						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + padding.Left, location.Y + ((size.Height - iconSize) / 2), iconSize, iconSize));
+						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + 1 + padding.Left, location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize));
 					}
 				}
 			}

@@ -17,7 +17,7 @@ namespace SlickControls
 				return Rectangle.Empty;
 			}
 
-			using (var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F)))
+			using (var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F), large ? FontStyle.Bold : FontStyle.Regular))
 			{
 				var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
 				var size = graphics.Measure(text, font).ToSize();
@@ -75,7 +75,7 @@ namespace SlickControls
 				return default;
 			}
 
-			using (var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F)))
+			using (var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F), large ? FontStyle.Bold : FontStyle.Regular))
 			{
 				var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
 				var size = graphics.Measure(text, font).ToSize();

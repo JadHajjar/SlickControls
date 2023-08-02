@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -24,7 +25,7 @@ namespace SlickControls
 		public double uiScale { get; set; } = 1;
 		public bool noAnimations { get => _noAnimations; set => AnimationHandler.NoAnimations = _noAnimations = value; }
 
-		internal static readonly UI _instance = Load<UI>("UI.tf", "SlickUI");
+		internal static readonly UI _instance;
 
 		private bool _noAnimations;
 
@@ -111,6 +112,22 @@ namespace SlickControls
 
 		static UI()
 		{
+			if (!Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SlickUI")))
+			{
+				try
+				{
+					if (Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Shared")))
+					{
+						Directory.Move(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Shared"), Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SlickUI"));
+					}
+				}
+				catch { }
+
+				Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SlickUI"));
+			}
+
+			_instance = Load<UI>("UI.tf", "SlickUI");
+
 			int dpiX;
 			using (var graphics = Graphics.FromHwnd(IntPtr.Zero))
 			{
