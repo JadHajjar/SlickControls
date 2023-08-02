@@ -98,7 +98,7 @@
   "Yellow": "Giallo",
   "Download": "Scarica",
   "Remove": "Rimuovi",
-  "Confirmation": "Confirmation",
+  "Confirmation": "Conferma",
   "Welcome to Theme Changer!": "Benvenuto in Modifica Temi!",
   "Customize the size and colors in the App however you want to.": "Personalizza dimensione e colori dell'App come preferisci.",
   "Click on any color to change it, or right-click to reset it.": "Fai clic su qualsiasi colore per cambiarlo, o fai clic col tasto destro per reimpostarlo.",
@@ -157,5 +157,5 @@
   "{0}h": "{0}h",
   "{0}m": "{0}m",
   "{0}s": "{0}s",
-  "Midnight": "Midnight"
+  "Midnight": "Mezzanotte"
 }
