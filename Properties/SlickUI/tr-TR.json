@@ -64,7 +64,7 @@
   "Go back to {0}": "Go back to {0}",
   "All Versions": "All Versions",
   "Current Version": "Current Version",
-  "Profiles": "Profiles",
+  "Profiles": "Profiller",
   "Drives": "Drives",
   "Switch to Grid-View": "Switch to Grid-View",
   "Switch to List-View": "Switch to List-View",
@@ -156,5 +156,6 @@
   "{0}d": "{0}d",
   "{0}h": "{0}h",
   "{0}m": "{0}m",
-  "{0}s": "{0}s"
+  "{0}s": "{0}s",
+  "Midnight": "Midnight"
 }

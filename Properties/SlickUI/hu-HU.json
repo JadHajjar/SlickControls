@@ -156,5 +156,6 @@
   "{0}d": "{0} nap",
   "{0}h": "{0} óra",
   "{0}m": "{0}perc",
-  "{0}s": "{0}másodperc"
+  "{0}s": "{0}másodperc",
+  "Midnight": "Midnight"
 }

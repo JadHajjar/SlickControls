@@ -21,7 +21,7 @@
   "Common Folders": "Vanlige mapper",
   "Select a file": "Velg en fil",
   "Select a folder": "Velg en mappe",
-  "Open File": "Open File",
+  "Open File": "Åpne fil",
   "Continue": "Fortsett",
   "Ok": "OK",
   "No": "Nei",
@@ -96,65 +96,66 @@
   "Red": "Rød",
   "Green": "Grønn",
   "Yellow": "Gul",
-  "Download": "Download",
-  "Remove": "Remove",
-  "Confirmation": "Confirmation",
+  "Download": "Nedlasting",
+  "Remove": "Fjern",
+  "Confirmation": "Bekreftelse",
   "Welcome to Theme Changer!": "Velkommen til tema endre!",
   "Customize the size and colors in the App however you want to.": "Tilpass størrelse og farger i appen, men du vil.",
   "Click on any color to change it, or right-click to reset it.": "Klikk på en hvilken som helst farge for å endre den, eller høyreklikk for å tilbakestille den.",
   "Custom Theme": "Egendefinert tema",
   "Do you want to apply your changes before leaving?": "Vil du bruke endringene før du drener?",
-  "TaskCompleted": "Task Completed",
-  "UnexpectedError": "An unexpected error occurred",
-  "{0} ago": "{0} ago",
-  "in {0}": "in {0}",
-  "Today at {0}": "Today at {0}",
-  "Yesterday at {0}": "Yesterday at {0}",
-  "Tomorrow at {0}": "Tomorrow at {0}",
-  "Last {0} at {1}": "Last {0} at {1}",
-  "Next {0} at {1}": "Next {0} at {1}",
+  "TaskCompleted": "Oppgave fullført",
+  "UnexpectedError": "Det oppstod en uventet feil",
+  "{0} ago": "{0} siden",
+  "in {0}": "i {0}",
+  "Today at {0}": "I dag ved {0}",
+  "Yesterday at {0}": "I går til {0}",
+  "Tomorrow at {0}": "I morgen ved {0}",
+  "Last {0} at {1}": "Siste {0} ved {1}",
+  "Next {0} at {1}": "Neste {0} på {1}",
   "{0} month ago on {1}": {
-    "One": "{0} month ago on {1}",
-    "Plural": "{0} months ago on {1}"
+    "One": "{0} måned siden på {1}",
+    "Plural": "{0} måneder siden på {1}"
   },
   "in {0} month on {1}": {
-    "One": "in {0} month on {1}",
-    "Plural": "in {0} months on {1}"
+    "One": "i {0} måned på {1}",
+    "Plural": "i {0} måneder på {1}"
   },
   "{0} day ago": {
-    "One": "{0} day ago",
-    "Plural": "{0} days ago"
+    "One": "{0} dag siden",
+    "Plural": "{0} dager siden"
   },
   "in {0} day": {
-    "One": "in {0} day",
-    "Plural": "in {0} days"
+    "One": "i {0} dag",
+    "Plural": "i {0} dager"
   },
   "{0} year": {
     "One": "{0} year",
-    "Plural": "{0} years"
+    "Plural": "{0} år"
   },
   "{0} month": {
-    "One": "{0} month",
+    "One": "{0} måned",
     "Plural": "{0} months"
   },
   "{0} day": {
-    "One": "{0} day",
-    "Plural": "{0} days"
+    "One": "{0} dag",
+    "Plural": "{0} dager"
   },
   "{0} hour": {
     "One": "{0} hour",
     "Plural": "{0} hours"
   },
   "{0} minute": {
-    "One": "{0} minute",
-    "Plural": "{0} minutes"
+    "One": "{0} minutt",
+    "Plural": "{0} minutter"
   },
   "{0} second": {
-    "One": "{0} second",
-    "Plural": "{0} seconds"
+    "One": "{0} sekund",
+    "Plural": "{0} sekunder"
   },
   "{0}d": "{0}d",
   "{0}h": "{0}h",
   "{0}m": "{0}m",
-  "{0}s": "{0}s"
+  "{0}s": "{0}s",
+  "Midnight": "Midnatt"
 }

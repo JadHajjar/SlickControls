@@ -21,7 +21,7 @@
   "Common Folders": "مجلدات عامة",
   "Select a file": "حدد ملف",
   "Select a folder": "حدد مجلد",
-  "Open File": "Open File",
+  "Open File": "فتح ملف",
   "Continue": "متابعة",
   "Ok": "حسناً",
   "No": "لا",
@@ -96,65 +96,66 @@
   "Red": "أحمر",
   "Green": "أخضر",
   "Yellow": "أصفر",
-  "Download": "Download",
-  "Remove": "Remove",
-  "Confirmation": "Confirmation",
+  "Download": "تنزيل",
+  "Remove": "إزالة",
+  "Confirmation": "تأكيد",
   "Welcome to Theme Changer!": "مرحبا بكم في تغيير الموضوع!",
   "Customize the size and colors in the App however you want to.": "تخصيص الحجم والألوان في التطبيق مهما كنت تريد ذلك.",
   "Click on any color to change it, or right-click to reset it.": "انقر على أي لون لتغييره، أو انقر بالزر الأيمن لإعادة تعيينه.",
   "Custom Theme": "سمة مخصصة",
   "Do you want to apply your changes before leaving?": "هل تريد تطبيق التغييرات الخاصة بك قبل المغادرة؟",
-  "TaskCompleted": "Task Completed",
-  "UnexpectedError": "An unexpected error occurred",
+  "TaskCompleted": "اكتملت المهمة",
+  "UnexpectedError": "حدث خطأ غير متوقع",
   "{0} ago": "{0} ago",
-  "in {0}": "in {0}",
-  "Today at {0}": "Today at {0}",
-  "Yesterday at {0}": "Yesterday at {0}",
-  "Tomorrow at {0}": "Tomorrow at {0}",
-  "Last {0} at {1}": "Last {0} at {1}",
-  "Next {0} at {1}": "Next {0} at {1}",
+  "in {0}": "في {0}",
+  "Today at {0}": "اليوم في {0}",
+  "Yesterday at {0}": "أمس في {0}",
+  "Tomorrow at {0}": "غدا في {0}",
+  "Last {0} at {1}": "آخر {0} في {1}",
+  "Next {0} at {1}": "التالي {0} في {1}",
   "{0} month ago on {1}": {
     "One": "{0} month ago on {1}",
     "Plural": "{0} months ago on {1}"
   },
   "in {0} month on {1}": {
-    "One": "in {0} month on {1}",
-    "Plural": "in {0} months on {1}"
+    "One": "في شهر {0} على {1}",
+    "Plural": "في الشهور {0} على {1}"
   },
   "{0} day ago": {
     "One": "{0} day ago",
     "Plural": "{0} days ago"
   },
   "in {0} day": {
-    "One": "in {0} day",
+    "One": "في يوم {0}",
     "Plural": "in {0} days"
   },
   "{0} year": {
-    "One": "{0} year",
-    "Plural": "{0} years"
+    "One": "{0} سنة",
+    "Plural": "{0} سنة"
   },
   "{0} month": {
-    "One": "{0} month",
-    "Plural": "{0} months"
+    "One": "{0} شهر",
+    "Plural": "شهور {0}"
   },
   "{0} day": {
-    "One": "{0} day",
-    "Plural": "{0} days"
+    "One": "{0} يوم",
+    "Plural": "{0} أيام"
   },
   "{0} hour": {
-    "One": "{0} hour",
+    "One": "{0} ساعة",
     "Plural": "{0} hours"
   },
   "{0} minute": {
-    "One": "{0} minute",
-    "Plural": "{0} minutes"
+    "One": "{0} دقيقة",
+    "Plural": "{0} دقيقة"
   },
   "{0} second": {
-    "One": "{0} second",
-    "Plural": "{0} seconds"
+    "One": "{0} ثانية",
+    "Plural": "{0} ثانية"
   },
-  "{0}d": "{0}d",
-  "{0}h": "{0}h",
-  "{0}m": "{0}m",
-  "{0}s": "{0}s"
+  "{0}d": "{0}يوم",
+  "{0}h": "{0}ساعة",
+  "{0}m": "{0}دقيقة",
+  "{0}s": "{0}ثانية",
+  "Midnight": "منتصف الليل"
 }

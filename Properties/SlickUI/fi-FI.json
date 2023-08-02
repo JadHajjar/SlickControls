@@ -21,7 +21,7 @@
   "Common Folders": "Yhteiset kansiot",
   "Select a file": "Valitse tiedosto",
   "Select a folder": "Valitse kansio",
-  "Open File": "Open File",
+  "Open File": "Avaa Tiedosto",
   "Continue": "Jatka",
   "Ok": "Selvä",
   "No": "Ei",
@@ -98,7 +98,7 @@
   "Yellow": "Keltainen",
   "Download": "Lataa",
   "Remove": "Poista",
-  "Confirmation": "Confirmation",
+  "Confirmation": "Vahvistus",
   "Welcome to Theme Changer!": "Tervetuloa teemavaihtajaan!",
   "Customize the size and colors in the App however you want to.": "Muokkaa kokoja ja värejä sovelluksessa kuin haluat.",
   "Click on any color to change it, or right-click to reset it.": "Klikkaa mitä tahansa väriä muuttaaksesi sitä, tai hiiren oikealla painikkeella nollataksesi sen.",
@@ -156,5 +156,6 @@
   "{0}d": "{0} pv",
   "{0}h": "{0} t",
   "{0}m": "{0} min",
-  "{0}s": "{0} s"
+  "{0}s": "{0} s",
+  "Midnight": "Keskiyö"
 }

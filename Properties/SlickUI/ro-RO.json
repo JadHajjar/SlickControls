@@ -21,7 +21,7 @@
   "Common Folders": "Dosare comune",
   "Select a file": "Selectați un fișier",
   "Select a folder": "Selectați un folder",
-  "Open File": "Open File",
+  "Open File": "Deschide fișier",
   "Continue": "Continuă",
   "Ok": "Ok",
   "No": "Nu",
@@ -96,9 +96,9 @@
   "Red": "Roșu",
   "Green": "Verde",
   "Yellow": "Galben",
-  "Download": "Download",
-  "Remove": "Remove",
-  "Confirmation": "Confirmation",
+  "Download": "Descărcare",
+  "Remove": "Elimină",
+  "Confirmation": "Confirmare",
   "Welcome to Theme Changer!": "Bun venit la Schimbarea Temei!",
   "Customize the size and colors in the App however you want to.": "Personalizați dimensiunea și culorile în aplicație oricât doriți.",
   "Click on any color to change it, or right-click to reset it.": "Faceți clic pe orice culoare pentru a o modifica, sau faceți clic dreapta pentru a o reseta.",
@@ -106,55 +106,56 @@
   "Do you want to apply your changes before leaving?": "Doriți să aplicați modificările înainte de a pleca?",
   "TaskCompleted": "Sarcină terminată",
   "UnexpectedError": "A apărut o eroare neașteptată",
-  "{0} ago": "{0} ago",
-  "in {0}": "in {0}",
-  "Today at {0}": "Today at {0}",
-  "Yesterday at {0}": "Yesterday at {0}",
-  "Tomorrow at {0}": "Tomorrow at {0}",
-  "Last {0} at {1}": "Last {0} at {1}",
-  "Next {0} at {1}": "Next {0} at {1}",
+  "{0} ago": "{0} în urmă",
+  "in {0}": "în {0}",
+  "Today at {0}": "Azi la {0}",
+  "Yesterday at {0}": "Ieri la {0}",
+  "Tomorrow at {0}": "Mâine la {0}",
+  "Last {0} at {1}": "Ultimul {0} la {1}",
+  "Next {0} at {1}": "Următorul {0} la {1}",
   "{0} month ago on {1}": {
-    "One": "{0} month ago on {1}",
-    "Plural": "{0} months ago on {1}"
+    "One": "{0} lună în urmă pe {1}",
+    "Plural": "{0} luni în urmă pe {1}"
   },
   "in {0} month on {1}": {
-    "One": "in {0} month on {1}",
-    "Plural": "in {0} months on {1}"
+    "One": "în {0} lună pe {1}",
+    "Plural": "în {0} luni pe {1}"
   },
   "{0} day ago": {
-    "One": "{0} day ago",
-    "Plural": "{0} days ago"
+    "One": "{0} zi în urmă",
+    "Plural": "{0} zile în urmă"
   },
   "in {0} day": {
-    "One": "in {0} day",
-    "Plural": "in {0} days"
+    "One": "în {0} zi",
+    "Plural": "în {0} zile"
   },
   "{0} year": {
-    "One": "{0} year",
-    "Plural": "{0} years"
+    "One": "{0} an",
+    "Plural": "{0} ani"
   },
   "{0} month": {
-    "One": "{0} month",
-    "Plural": "{0} months"
+    "One": "{0} lună",
+    "Plural": "{0} luni"
   },
   "{0} day": {
-    "One": "{0} day",
-    "Plural": "{0} days"
+    "One": "{0} zi",
+    "Plural": "{0} zile"
   },
   "{0} hour": {
-    "One": "{0} hour",
-    "Plural": "{0} hours"
+    "One": "{0} oră",
+    "Plural": "{0} ore"
   },
   "{0} minute": {
-    "One": "{0} minute",
-    "Plural": "{0} minutes"
+    "One": "{0} minut",
+    "Plural": "{0} minute"
   },
   "{0} second": {
-    "One": "{0} second",
-    "Plural": "{0} seconds"
+    "One": "{0} secundă",
+    "Plural": "{0} secunde"
   },
   "{0}d": "{0}d",
   "{0}h": "{0}h",
   "{0}m": "{0}m",
-  "{0}s": "{0}s"
+  "{0}s": "{0}s",
+  "Midnight": "Miezul nopţii"
 }

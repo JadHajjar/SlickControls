@@ -21,7 +21,7 @@
   "Common Folders": "Běžné složky",
   "Select a file": "Vyberte soubor",
   "Select a folder": "Vyberte složku",
-  "Open File": "Open File",
+  "Open File": "Otevřít soubor",
   "Continue": "Pokračovat",
   "Ok": "Ok",
   "No": "Ne",
@@ -96,65 +96,66 @@
   "Red": "Červená",
   "Green": "Zelená",
   "Yellow": "Žlutá",
-  "Download": "Download",
-  "Remove": "Remove",
-  "Confirmation": "Confirmation",
+  "Download": "Stáhnout",
+  "Remove": "Odebrat",
+  "Confirmation": "Potvrzení",
   "Welcome to Theme Changer!": "Vítejte ve změně motivů!",
   "Customize the size and colors in the App however you want to.": "Přizpůsobte si velikost a barvy v aplikaci, ale chcete.",
   "Click on any color to change it, or right-click to reset it.": "Kliknutím na libovolnou barvu ji změníte, nebo kliknutím pravým tlačítkem myši ji resetujte.",
   "Custom Theme": "Vlastní šablona",
   "Do you want to apply your changes before leaving?": "Chcete použít změny před odchodem?",
-  "TaskCompleted": "Task Completed",
-  "UnexpectedError": "An unexpected error occurred",
-  "{0} ago": "{0} ago",
-  "in {0}": "in {0}",
-  "Today at {0}": "Today at {0}",
-  "Yesterday at {0}": "Yesterday at {0}",
-  "Tomorrow at {0}": "Tomorrow at {0}",
-  "Last {0} at {1}": "Last {0} at {1}",
-  "Next {0} at {1}": "Next {0} at {1}",
+  "TaskCompleted": "Úkol dokončen",
+  "UnexpectedError": "Došlo k neočekávané chybě",
+  "{0} ago": "{0} před",
+  "in {0}": "v {0}",
+  "Today at {0}": "Dnes v {0}",
+  "Yesterday at {0}": "Včera v {0}",
+  "Tomorrow at {0}": "Zítra v {0}",
+  "Last {0} at {1}": "Poslední {0} v {1}",
+  "Next {0} at {1}": "Další {0} na {1}",
   "{0} month ago on {1}": {
-    "One": "{0} month ago on {1}",
-    "Plural": "{0} months ago on {1}"
+    "One": "{0} před měsícem na {1}",
+    "Plural": "{0} před měsíci na {1}"
   },
   "in {0} month on {1}": {
-    "One": "in {0} month on {1}",
-    "Plural": "in {0} months on {1}"
+    "One": "za {0} měsíc na {1}",
+    "Plural": "během {0} měsíců na {1}"
   },
   "{0} day ago": {
     "One": "{0} day ago",
     "Plural": "{0} days ago"
   },
   "in {0} day": {
-    "One": "in {0} day",
-    "Plural": "in {0} days"
+    "One": "během {0} dne",
+    "Plural": "během {0} dní"
   },
   "{0} year": {
-    "One": "{0} year",
+    "One": "{0} rok",
     "Plural": "{0} years"
   },
   "{0} month": {
-    "One": "{0} month",
-    "Plural": "{0} months"
+    "One": "{0} měsíc",
+    "Plural": "{0} měsíce"
   },
   "{0} day": {
-    "One": "{0} day",
-    "Plural": "{0} days"
+    "One": "{0} den",
+    "Plural": "{0} dny"
   },
   "{0} hour": {
     "One": "{0} hour",
-    "Plural": "{0} hours"
+    "Plural": "{0} hodin"
   },
   "{0} minute": {
     "One": "{0} minute",
-    "Plural": "{0} minutes"
+    "Plural": "{0} minuty"
   },
   "{0} second": {
-    "One": "{0} second",
-    "Plural": "{0} seconds"
+    "One": "{0} sekunda",
+    "Plural": "{0} sekund"
   },
   "{0}d": "{0}d",
   "{0}h": "{0}h",
   "{0}m": "{0}m",
-  "{0}s": "{0}s"
+  "{0}s": "{0}s",
+  "Midnight": "půlnoc"
 }

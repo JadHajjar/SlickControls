@@ -21,7 +21,7 @@
   "Common Folders": "Загальні теки",
   "Select a file": "Виберіть файл",
   "Select a folder": "Виберіть теку",
-  "Open File": "Open File",
+  "Open File": "Відкрити файл",
   "Continue": "Продовжити",
   "Ok": "Гаразд",
   "No": "Ні",
@@ -96,21 +96,21 @@
   "Red": "Червоний",
   "Green": "Зелений",
   "Yellow": "Жовтий",
-  "Download": "Download",
-  "Remove": "Remove",
-  "Confirmation": "Confirmation",
+  "Download": "Звантажити",
+  "Remove": "Видалити",
+  "Confirmation": "Підтвердження",
   "Welcome to Theme Changer!": "Ласкаво просимо до \"Редактора Тем\"!",
   "Customize the size and colors in the App however you want to.": "Налаштуйте розміри та кольори у додатку, як тільки ви забажаєте.",
   "Click on any color to change it, or right-click to reset it.": "Натисніть на будь-який колір, щоб змінити його, або клацніть правою кнопкою миші, щоб скинути його.",
   "Custom Theme": "Користувацька тема",
   "Do you want to apply your changes before leaving?": "Бажаєте застосувати зміни перед виходом?",
-  "TaskCompleted": "Task Completed",
-  "UnexpectedError": "An unexpected error occurred",
+  "TaskCompleted": "Завдання завершене",
+  "UnexpectedError": "Сталась непередбачена помилка",
   "{0} ago": "{0} ago",
-  "in {0}": "in {0}",
-  "Today at {0}": "Today at {0}",
-  "Yesterday at {0}": "Yesterday at {0}",
-  "Tomorrow at {0}": "Tomorrow at {0}",
+  "in {0}": "в {0}",
+  "Today at {0}": "Сьогодні в {0}",
+  "Yesterday at {0}": "Вчора в {0}",
+  "Tomorrow at {0}": "Завтра в {0}",
   "Last {0} at {1}": "Last {0} at {1}",
   "Next {0} at {1}": "Next {0} at {1}",
   "{0} month ago on {1}": {
@@ -119,23 +119,23 @@
   },
   "in {0} month on {1}": {
     "One": "in {0} month on {1}",
-    "Plural": "in {0} months on {1}"
+    "Plural": "в {0} місяців на {1}"
   },
   "{0} day ago": {
     "One": "{0} day ago",
-    "Plural": "{0} days ago"
+    "Plural": "{0} днів тому"
   },
   "in {0} day": {
-    "One": "in {0} day",
+    "One": "через день {0}",
     "Plural": "in {0} days"
   },
   "{0} year": {
-    "One": "{0} year",
+    "One": "{0} рік",
     "Plural": "{0} years"
   },
   "{0} month": {
-    "One": "{0} month",
-    "Plural": "{0} months"
+    "One": "{0} місяць",
+    "Plural": "{0} місяців"
   },
   "{0} day": {
     "One": "{0} day",
@@ -151,10 +151,11 @@
   },
   "{0} second": {
     "One": "{0} second",
-    "Plural": "{0} seconds"
+    "Plural": "{0} секунд"
   },
   "{0}d": "{0}d",
   "{0}h": "{0}h",
   "{0}m": "{0}m",
-  "{0}s": "{0}s"
+  "{0}s": "{0}s",
+  "Midnight": "Північ"
 }
