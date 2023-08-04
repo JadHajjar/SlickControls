@@ -292,9 +292,10 @@ namespace SlickControls
 			Padding? padding = null,
 			HoverState hoverState = HoverState.Normal,
 			ColorStyle colorStyle = ColorStyle.Active,
-			Color backColor = default)
+			Color backColor = default,
+			ButtonType buttonType = ButtonType.Normal)
 		{
-			GetColors(out var fore, out var back, hoverState, colorStyle, null, Color.Empty, backColor, true);
+			GetColors(out var fore, out var back, hoverState, colorStyle, null, Color.Empty, backColor, true, buttonType);
 
 			DrawButton(e, rectangle.Location, rectangle.Size, text, font, back, fore, icon, padding ?? UI.Scale(new Padding(7), UI.UIScale), true, hoverState, colorStyle);
 		}
