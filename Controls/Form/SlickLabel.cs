@@ -59,7 +59,7 @@ namespace SlickControls
 					fore,
 					img,
 					Padding,
-					Enabled,
+					true,
 					HoverState,
 					ColorStyle,
 					ColorShade,

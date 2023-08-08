@@ -360,15 +360,15 @@ namespace SlickControls
 		public const int HT_CAPTION = 0x2;
 		public const int WM_NCLBUTTONDOWN = 0xA1;
 
-		protected override CreateParams CreateParams
-		{
-			get
-			{
-				var cp = base.CreateParams;
-				cp.Style |= 0x20000; // <--- use 0x20000
-				return cp;
-			}
-		}
+		//protected override CreateParams CreateParams
+		//{
+		//	get
+		//	{
+		//		var cp = base.CreateParams;
+		//		cp.Style |= 0x20000; // <--- use 0x20000
+		//		return cp;
+		//	}
+		//}
 
 		[DllImport("user32.dll", CharSet = CharSet.Unicode)]
 		private static extern bool ReleaseCapture();

@@ -63,6 +63,9 @@ namespace SlickControls
 		public bool SeparateWithLines { get; set; }
 
 		[Category("Appearance"), DefaultValue(false)]
+		public bool DynamicSizing { get; set; }
+
+		[Category("Appearance"), DefaultValue(false)]
 		public bool HighlightOnHover { get; set; }
 
 		[Category("Behavior"), DefaultValue(false)]
@@ -750,12 +753,13 @@ namespace SlickControls
 
 			if (StartHeight > 0)
 			{
-				e.Graphics.SetClip(new Rectangle(0,0,Width,StartHeight));
+				e.Graphics.SetClip(new Rectangle(0, 0, Width, StartHeight));
 
 				DrawHeader(e);
 			}
 
 			var start = scrollIndex;
+			var maxHeight = 0;
 
 			if (GridView)
 			{
@@ -765,19 +769,23 @@ namespace SlickControls
 			for (var i = start; i < itemList.Count; i++)
 			{
 				var item = itemList[i];
+				var height = DynamicSizing && item.CachedHeight != 0 ? item.CachedHeight : GridView ? GridItemSize.Height : ItemHeight;
+				maxHeight = Math.Max(maxHeight, height);
 
 				if (GridView)
 				{
-					item.Bounds = new Rectangle(loc, GridItemSize).Pad(Padding);
+					item.Bounds = new Rectangle(loc, new Size(GridItemSize.Width, height)).Pad(Padding);
 				}
 				else
 				{
-					item.Bounds = new Rectangle(loc, new Size(Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0), ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
+					item.Bounds = new Rectangle(loc, new Size(Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0), height + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
 				}
 
 				if (invalidRect.IntersectsWith(item.Bounds))
 				{
 					e.Graphics.SetClip(item.Bounds);
+
+					var currentHeight = item.CachedHeight;
 
 					OnPaintItem(new ItemPaintEventArgs<T, R>(
 						item,
@@ -785,6 +793,11 @@ namespace SlickControls
 						GridView ? item.Bounds.Pad(GridPadding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
 						mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal,
 						SelectedItems.Contains(item)));
+
+					if (DynamicSizing && currentHeight != item.CachedHeight)
+					{
+						Invalidate();
+					}
 
 					e.Graphics.ResetClip();
 				}
@@ -796,7 +809,8 @@ namespace SlickControls
 					if (loc.X + item.Bounds.Width + Padding.Horizontal > Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0) || IsFlowBreak(i, item, i == itemList.Count - 1 ? default : itemList[i + 1]))
 					{
 						loc.X = 0;
-						loc.Y += item.Bounds.Height + Padding.Vertical;
+						loc.Y += maxHeight;
+						maxHeight = 0;
 					}
 				}
 				else
@@ -855,6 +869,31 @@ namespace SlickControls
 
 		public int GetTotalHeight(List<DrawableItem<T, R>> itemList)
 		{
+			if (DynamicSizing)
+			{
+				if (GridView)
+				{
+					var height = 0;
+					var columns = Math.Floor((double)(Width / GridItemSize.Width));
+
+					for (var i = 0; i < itemList.Count;)
+					{
+						var maxHeight = 0;
+
+						for (var j = 0; j < columns && i < itemList.Count; j++, i++)
+						{
+							maxHeight = Math.Max(maxHeight, itemList[i].CachedHeight.If(0, GridItemSize.Height));
+						}
+
+						height += maxHeight;
+					}
+
+					return height;
+				}
+
+				return itemList.Sum(x => x.CachedHeight.If(0, ItemHeight));
+			}
+
 			if (GridView)
 			{
 				var numRows = GetNumRows(itemList);

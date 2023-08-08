@@ -222,7 +222,7 @@ namespace SlickControls
 			Invalidate();
 		}
 
-		public static void GetColors(out Color fore, out Color back, HoverState HoverState, ColorStyle ColorStyle = ColorStyle.Active, Color? ColorShade = null, Color? clearColor = null, Color? BackColor = null, bool Enabled = true, ButtonType buttonType = ButtonType.Normal)
+		public static void GetColors(out Color fore, out Color back, HoverState HoverState, ColorStyle ColorStyle = ColorStyle.Active, Color? ColorShade = null, Color? clearColor = null, Color? BackColor = null, ButtonType buttonType = ButtonType.Normal)
 		{
 			if (buttonType == ButtonType.Active)
 			{
@@ -253,7 +253,7 @@ namespace SlickControls
 			}
 			else
 			{
-				fore = Enabled ? FormDesign.Design.ButtonForeColor : FormDesign.Design.ButtonForeColor.MergeColor(FormDesign.Design.ButtonColor);
+				fore = FormDesign.Design.ButtonForeColor;
 				back = buttonType == ButtonType.Hidden ? default : (clearColor == null || BackColor == null || (Color)clearColor == (Color)BackColor) ? FormDesign.Design.ButtonColor : (Color)BackColor;
 			}
 		}
@@ -264,7 +264,7 @@ namespace SlickControls
 
 			using (var img = AutoSizeIcon ? ImageName.Get(Height - Padding.Vertical) : Image)
 			{
-				GetColors(out var fore, out var back, HoverState, ColorStyle, colorShade, Parent?.BackColor ?? BackColor, BackColor, Enabled, ButtonType);
+				GetColors(out var fore, out var back, HoverState, ColorStyle, colorShade, Parent?.BackColor ?? BackColor, BackColor, ButtonType);
 
 				DrawButton(e,
 					Point.Empty,
@@ -295,7 +295,7 @@ namespace SlickControls
 			Color backColor = default,
 			ButtonType buttonType = ButtonType.Normal)
 		{
-			GetColors(out var fore, out var back, hoverState, colorStyle, null, Color.Empty, backColor, true, buttonType);
+			GetColors(out var fore, out var back, hoverState, colorStyle, null, Color.Empty, backColor, buttonType);
 
 			DrawButton(e, rectangle.Location, rectangle.Size, text, font, back, fore, icon, padding ?? UI.Scale(new Padding(7), UI.UIScale), true, hoverState, colorStyle);
 		}
@@ -316,7 +316,12 @@ namespace SlickControls
 			Color? colorShade = null,
 			SlickButton slickButton = null)
 		{
-			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+			if (!enabled)
+			{
+				fore = fore.MergeColor(FormDesign.Design.BackColor, 50);
+				back = Color.FromArgb(100, back);
+			}
+
 			var rect = new Rectangle(1 + location.X, 1 + location.Y, size.Width - 2, size.Height - 2);
 
 			using (var brush = Gradient(rect, back))
