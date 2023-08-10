@@ -16,6 +16,7 @@ namespace SlickControls
 		internal readonly PanelItemControl base_P_Tabs;
 		private Image formIcon;
 		private readonly List<PanelContent> panelHistory = new List<PanelContent>();
+		private readonly List<PanelContent> panelsToDispose = new List<PanelContent>();
 		private PanelItem[] sidebarItems = new PanelItem[0];
 		private bool autoHideMenu;
 		private MouseDetector mouseDetector;
@@ -175,6 +176,8 @@ namespace SlickControls
 					panelHistory.Remove(CurrentPanel);
 					panelHistory.Insert(panelHistory.Count - 1, CurrentPanel);
 				}
+
+				CurrentPanel.SuspendDrawing();
 				base_P_PanelContent.Controls.Remove(CurrentPanel);
 				CurrentPanel.CanExit(false);
 				CurrentPanel = null;
@@ -203,6 +206,8 @@ namespace SlickControls
 					panelHistory.Remove(CurrentPanel);
 					panelHistory.Insert(panelHistory.Count - 1, CurrentPanel);
 				}
+
+				CurrentPanel.SuspendDrawing();
 				base_P_PanelContent.Controls.Remove(CurrentPanel);
 				CurrentPanel.CanExit(false);
 				CurrentPanel = null;
@@ -247,15 +252,16 @@ namespace SlickControls
 				newPanel.UseTransitoryData(lastPanelData);
 
 				base_P_Content.SuspendDrawing();
-
-				if (CurrentPanel != null)
-				{
-					base_P_PanelContent.Controls.Remove(CurrentPanel);
-				}
+				base_P_PanelContent.SuspendDrawing();
 
 				if (dispose)
 				{
 					handleDispose(CurrentPanel);
+				}
+				else if (CurrentPanel != null)
+				{
+					CurrentPanel.SuspendDrawing();
+					base_P_PanelContent.Controls.Remove(CurrentPanel);
 				}
 
 				CurrentPanel = newPanel;
@@ -307,8 +313,10 @@ namespace SlickControls
 			}
 
 			CurrentPanel.OnShown();
+			CurrentPanel.ResumeDrawing(false);
 
 			base_P_Content.ResumeDrawing();
+			base_P_PanelContent.ResumeDrawing();
 
 			if (!CurrentPanel.Focus() && IsHandleCreated)
 			{
@@ -345,6 +353,7 @@ namespace SlickControls
 			}
 
 			base_P_Content.SuspendDrawing();
+			base_P_PanelContent.SuspendDrawing();
 
 			if (dispose)
 			{
@@ -352,6 +361,7 @@ namespace SlickControls
 			}
 			else if (CurrentPanel != null)
 			{
+				CurrentPanel.SuspendDrawing();
 				base_P_PanelContent.Controls.Remove(CurrentPanel);
 			}
 
@@ -411,8 +421,10 @@ namespace SlickControls
 			panelContent.Visible = true;
 
 			CurrentPanel.OnShown();
+			CurrentPanel.ResumeDrawing(false);
 
 			base_P_Content.ResumeDrawing();
+			base_P_PanelContent.ResumeDrawing();
 
 			if (!CurrentPanel.Focus() && IsHandleCreated)
 			{
@@ -633,6 +645,17 @@ namespace SlickControls
 
 				base_P_Tabs.Invalidate();
 			}
+
+			if (CurrentFormState != FormState.ForcedFocused)
+			{
+				foreach (var panel in panelsToDispose)
+				{
+					panel.Dispose();
+				}
+
+				GC.Collect();
+				panelsToDispose.Clear();
+			}
 		}
 
 		[DllImport("user32.dll")]
@@ -649,11 +672,7 @@ namespace SlickControls
 
 				panel.SuspendDrawing();
 				panel.Parent = null;
-				OnNextIdle(() =>
-				{
-					panel.Dispose();
-					GC.Collect();
-				});
+				panelsToDispose.Add(panel);
 			}
 		}
 

@@ -58,105 +58,132 @@ namespace SlickControls
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 		public bool AlignLeft { get; set; }
 
-		protected override void OnCreateControl()
-		{
-			base.OnCreateControl();
-
-			UIChanged();
-		}
-
 		protected override void OnParentFontChanged(EventArgs e)
 		{
+			cachedSize = default;
+
 			base.OnParentFontChanged(e);
-			UIChanged();
-			Invalidate();
 		}
 
 		protected override void OnFontChanged(EventArgs e)
 		{
+			cachedSize = default;
+
 			base.OnFontChanged(e);
-			UIChanged();
-			Invalidate();
 		}
 
 		protected override void UIChanged()
 		{
+			cachedSize = default;
+
 			if (Live && Padding == Padding.Empty)
 			{
 				Padding = UI.Scale(new Padding(7), UI.UIScale);
 			}
 
-			if (Live && HandleUiScale)
+			if (live && HandleUiScale)
 			{
-				Size = GetAutoSize();
+				PerformLayout();
 			}
 		}
 
 		protected override void LocaleChanged()
 		{
-			if (Live)
+			if (live)
 			{
-				lastAvailableSize = Size.Empty;
-				Size = GetAutoSize();
-				Invalidate();
+				cachedSize = default;
+
+				PerformLayout();
 			}
 		}
 
 		protected override void OnImageChanged(EventArgs e)
 		{
+			cachedSize = default;
+
 			base.OnImageChanged(e);
 
-			lastAvailableSize = Size.Empty;
-			Size = GetAutoSize();
+			PerformLayout();
 		}
 
-		private double lastUiScale;
-		private string lastText;
-		private Size lastAvailableSize;
-		private Size lastSize;
+		private Size cachedSize;
+		private bool live;
 
 		public override Size GetPreferredSize(Size proposedSize)
 		{
 			return GetAutoSize();
 		}
 
-		public Size GetAutoSize(bool forced = false)
+		protected override void OnPaddingChanged(EventArgs e)
+		{
+			cachedSize = default;
+
+			base.OnPaddingChanged(e);
+		}
+
+		protected override void OnMarginChanged(EventArgs e)
+		{
+			cachedSize = default;
+
+			base.OnMarginChanged(e);
+		}
+
+		protected override void OnTextChanged(EventArgs e)
+		{
+			cachedSize = default;
+
+			base.OnTextChanged(e);
+		}
+
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+
+			live = true;
+
+			PerformLayout();
+		}
+
+		protected override void OnSizeChanged(EventArgs e)
+		{
+			base.OnSizeChanged(e);
+
+			if (live&& cachedSize != default&& cachedSize!=Size)
+			{
+				cachedSize = default;
+			}
+		}
+
+		public  Size GetAutoSize(bool forced = false)
 		{
 			using (var image = Image)
 			{
-				if (!Live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && image == null))
+				if (!live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && image == null))
 				{
 					return Size;
 				}
 
+				if (!forced && cachedSize != default)
+					return cachedSize;
+
 				var availableSize = GetAvailableSize();
-
-				if (!forced && lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
-				{
-					return lastSize;
-				}
-
 				var IconSize = image?.Width ?? 16;
 
 				if (string.IsNullOrWhiteSpace(Text) || (AutoSize && availableSize.Width.IsWithin(0, (int)(64 * UI.FontScale))))
 				{
-					lastUiScale = UI.FontScale;
-					lastText = Text;
-					lastAvailableSize = availableSize;
-
 					if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 					{
-						return lastSize = new Size(Height, Height);
+						return cachedSize = new Size(Height, Height);
 					}
 					else if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
 					{
-						return lastSize = new Size(Width, Width);
+						return cachedSize = new Size(Width, Width);
 					}
 					else
 					{
 						var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
 
-						return lastSize = new Size(IconSize + pad, IconSize + pad);
+						return cachedSize = new Size(IconSize + pad, IconSize + pad);
 					}
 				}
 
@@ -188,11 +215,7 @@ namespace SlickControls
 				w = w.Between(MinimumSize.Width, MaximumSize.Width.If(0, w));
 				h = h.Between(MinimumSize.Height, MaximumSize.Height.If(0, h));
 
-				lastUiScale = UI.FontScale;
-				lastText = Text;
-				lastAvailableSize = availableSize;
-
-				return lastSize = new Size(w, h);
+				return cachedSize = new Size(w, h);
 			}
 		}
 

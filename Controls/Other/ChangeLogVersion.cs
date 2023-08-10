@@ -8,12 +8,12 @@ namespace SlickControls
 {
 	public partial class ChangeLogVersion : SlickControl
 	{
-		private readonly VersionChangeLog inf;
+		private readonly VersionChangeLog _changelog;
 
-		public ChangeLogVersion(VersionChangeLog inf)
+		public ChangeLogVersion(VersionChangeLog changelog)
 		{
 			InitializeComponent();
-			this.inf = inf;
+			_changelog = changelog;
 			Dock = DockStyle.Top;
 			TabStop = false;
 			Height = GetHeight();
@@ -35,76 +35,88 @@ namespace SlickControls
 		{
 			var tab = 0D;
 			var h = (int)(4 * UI.FontScale);
-
-			var versionSize = g.DrawStringItem("v" + inf.Version
-				, UI.Font(15.5F, FontStyle.Bold)
-				, FormDesign.Design.ForeColor
-				, Width
-				, tab
-				, ref h
-				, draw);
-
-			if (draw)
+			using (var font1 = UI.Font(15.5F, FontStyle.Bold))
+			using (var font2 = UI.Font(8.25F))
+			using (var font3 = UI.Font(8.25F, FontStyle.Italic))
+			using (var font4 = UI.Font(9.75F, FontStyle.Bold))
 			{
-				g.DrawLine(new Pen(FormDesign.Design.AccentColor, (float)Math.Ceiling(UI.FontScale * 1.5)), (int)(12 * UI.FontScale), h, (int)(12 * UI.FontScale), Height - 13);
-			}
-
-			if (draw && inf.Date != null)
-			{
-				var bnds = g.Measure($"on {inf.Date?.ToReadableString(inf.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}", UI.Font(8.25F));
-				g.DrawString($"on {inf.Date?.ToReadableString(inf.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}",
-					UI.Font(8.25F),
-					new SolidBrush(FormDesign.Design.LabelColor),
-					new Point((int)(9 * UI.FontScale) + versionSize.Width, (int)(h - bnds.Height - (4 * UI.FontScale))));
-			}
-
-			tab = 1;
-
-			if (!string.IsNullOrWhiteSpace(inf.Tagline))
-			{
-				h += (int)(2 * UI.FontScale);
-
-				g.DrawStringItem(LocaleHelper.GetGlobalText(inf.Tagline)
-					 , UI.Font(8.25F, FontStyle.Italic)
-					 , FormDesign.Design.ButtonForeColor
-					 , Width
-					 , tab
-					 , ref h
-					, draw);
-
-				h += (int)(4 * UI.FontScale);
-			}
-
-			h += (int)(2 * UI.FontScale);
-
-			foreach (var item in inf.ChangeGroups)
-			{
-				tab = 1;
-
-				h += (int)(2 * UI.FontScale);
-
-				g.DrawStringItem(LocaleHelper.GetGlobalText(item.Name)
-					, UI.Font(9.75F, FontStyle.Bold)
-					, FormDesign.Design.LabelColor
+				var versionSize = g.DrawStringItem("v" + _changelog.Version
+					, font1
+					, FormDesign.Design.ForeColor
 					, Width
 					, tab
 					, ref h
 					, draw);
 
-				tab++;
-
-				foreach (var ch in item.Changes)
+				if (draw)
 				{
-					g.DrawStringItem("•  " + LocaleHelper.GetGlobalText(ch).One.Replace("\r\n", "\r\n    ")
-						, UI.Font(8.25F)
-						, FormDesign.Design.InfoColor
+					using (var pen = new Pen(FormDesign.Design.AccentColor, (float)Math.Ceiling(UI.FontScale * 1.5)))
+					{
+						g.DrawLine(pen, (int)(12 * UI.FontScale), h, (int)(12 * UI.FontScale), Height - 13);
+					}
+				}
+
+				if (draw && _changelog.Date != null)
+				{
+					var bnds = g.Measure($"on {_changelog.Date?.ToReadableString(_changelog.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}", font2);
+
+					using (var brush = new SolidBrush(FormDesign.Design.LabelColor))
+					{
+						g.DrawString($"on {_changelog.Date?.ToReadableString(_changelog.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}",
+							font2,
+							brush,
+							new Point((int)(9 * UI.FontScale) + versionSize.Width, (int)((h - 4 * UI.FontScale - bnds.Height) / 2 + 4 * UI.FontScale)));
+					}
+				}
+
+				tab = 1;
+
+				if (!string.IsNullOrWhiteSpace(_changelog.Tagline))
+				{
+					h += (int)(2 * UI.FontScale);
+
+					g.DrawStringItem(LocaleHelper.GetGlobalText(_changelog.Tagline)
+						 , font3
+						 , FormDesign.Design.ButtonForeColor
+						 , Width
+						 , tab
+						 , ref h
+						, draw);
+
+					h += (int)(4 * UI.FontScale);
+				}
+
+				h += (int)(2 * UI.FontScale);
+
+				foreach (var item in _changelog.ChangeGroups)
+				{
+					tab = 1;
+
+					h += (int)(2 * UI.FontScale);
+
+					g.DrawStringItem(LocaleHelper.GetGlobalText(item.Name)
+						, font4
+						, FormDesign.Design.LabelColor
 						, Width
 						, tab
 						, ref h
 						, draw);
-				}
 
-				h += (int)(10 * UI.FontScale);
+					tab++;
+
+					foreach (var ch in item.Changes)
+					{
+						g.DrawStringItem("•  " + LocaleHelper.GetGlobalText(ch).One.Replace("\r\n", "\r\n    ")
+							, font2
+							, FormDesign.Design.InfoColor
+							, Width
+							, tab
+							, ref h
+							, draw);
+					}
+
+					h += (int)(10 * UI.FontScale);
+				}
 			}
 
 			return h;
