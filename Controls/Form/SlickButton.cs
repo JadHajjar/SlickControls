@@ -11,6 +11,9 @@ namespace SlickControls
 	public partial class SlickButton : SlickImageControl
 	{
 		private Color? colorShade = null;
+		private Size cachedSize;
+		private Size lastAvailableSize;
+		private bool live;
 
 		public SlickButton()
 		{
@@ -106,9 +109,6 @@ namespace SlickControls
 			PerformLayout();
 		}
 
-		private Size cachedSize;
-		private bool live;
-
 		public override Size GetPreferredSize(Size proposedSize)
 		{
 			return GetAutoSize();
@@ -156,17 +156,20 @@ namespace SlickControls
 
 		public  Size GetAutoSize(bool forced = false)
 		{
+			if (!live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill)
+			{
+				return Size;
+			}
+
+			var availableSize = GetAvailableSize();
+
+			if (!forced && cachedSize != default && lastAvailableSize == availableSize)
+				return cachedSize;
+
 			using (var image = Image)
 			{
-				if (!live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill || (string.IsNullOrWhiteSpace(Text) && image == null))
-				{
-					return Size;
-				}
+				lastAvailableSize = availableSize;
 
-				if (!forced && cachedSize != default)
-					return cachedSize;
-
-				var availableSize = GetAvailableSize();
 				var IconSize = image?.Width ?? 16;
 
 				if (string.IsNullOrWhiteSpace(Text) || (AutoSize && availableSize.Width.IsWithin(0, (int)(64 * UI.FontScale))))
