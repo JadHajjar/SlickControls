@@ -17,6 +17,7 @@ namespace SlickControls
 
 		public SlickButton()
 		{
+			AutoSize = true;
 			Cursor = Cursors.Hand;
 			Size = new Size(100, 30);
 			SpaceTriggersClick = true;
