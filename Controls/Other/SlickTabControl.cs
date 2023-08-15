@@ -74,7 +74,7 @@ namespace SlickControls
 			P_Tabs.Controls.AddRange(Tabs.Reverse().ToArray());
 
 			if (Tabs.Length > 0)
-				Tabs[0].Selected = true;
+				Tabs.FirstOrAny(x => x.PreSelected).Selected = true;
 		}
 
 		private void P_Tabs_PaddingChanged(object sender, EventArgs e) => UIChanged();
@@ -172,6 +172,9 @@ namespace SlickControls
 
 			[Category("Behavior"), DefaultValue(false)]
 			public bool FillTab { get; set; }
+
+			[Category("Behavior"), DefaultValue(false)]
+			public bool PreSelected { get; set; }
 		}
 
 		[System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
