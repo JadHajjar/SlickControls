@@ -98,6 +98,7 @@ namespace SlickControls
 				cachedSize = default;
 
 				PerformLayout();
+				Invalidate();
 			}
 		}
 

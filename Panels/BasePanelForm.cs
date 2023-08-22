@@ -177,7 +177,7 @@ namespace SlickControls
 					panelHistory.Insert(panelHistory.Count - 1, CurrentPanel);
 				}
 
-				CurrentPanel.SuspendDrawing();
+				CurrentPanel.SuspendLayout();
 				base_P_PanelContent.Controls.Remove(CurrentPanel);
 				CurrentPanel.CanExit(false);
 				CurrentPanel = null;
@@ -207,7 +207,7 @@ namespace SlickControls
 					panelHistory.Insert(panelHistory.Count - 1, CurrentPanel);
 				}
 
-				CurrentPanel.SuspendDrawing();
+				CurrentPanel.SuspendLayout();
 				base_P_PanelContent.Controls.Remove(CurrentPanel);
 				CurrentPanel.CanExit(false);
 				CurrentPanel = null;
@@ -361,7 +361,7 @@ namespace SlickControls
 			}
 			else if (CurrentPanel != null)
 			{
-				CurrentPanel.SuspendDrawing();
+				CurrentPanel.SuspendLayout();
 				base_P_PanelContent.Controls.Remove(CurrentPanel);
 			}
 
@@ -420,8 +420,8 @@ namespace SlickControls
 
 			panelContent.Visible = true;
 
-			CurrentPanel.OnShown();
-			CurrentPanel.ResumeDrawing(false);
+			CurrentPanel.OnShown();	
+			CurrentPanel.ResumeLayout(true);
 
 			base_P_Content.ResumeDrawing();
 			base_P_PanelContent.ResumeDrawing();
