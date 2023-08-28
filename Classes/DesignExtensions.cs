@@ -182,6 +182,23 @@ namespace SlickControls
 			return bnds.ToSize();
 		}
 
+		public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, Rectangle rectangle, ref int height, bool draw = true)
+		{
+			var bnds = graphics.Measure(item?.ToString(), font, rectangle.Width);
+
+			if (draw)
+			{
+				using (var brush = new SolidBrush(foreColor))
+				{
+					graphics.DrawString(item?.ToString(), font, brush, new Rectangle(rectangle.X, height, rectangle.Width, (int)Math.Ceiling(bnds.Height)));
+				}
+			}
+
+			height += (int)(bnds.Height * 1.1F);
+
+			return bnds.ToSize();
+		}
+
 		public static void DrawLoader(this Graphics g, double loaderPercentage, Rectangle rectangle, Color? color = null)
 		{
 			var width = Math.Min(Math.Min(rectangle.Width, rectangle.Height), (int)(32 * UI.UIScale));
