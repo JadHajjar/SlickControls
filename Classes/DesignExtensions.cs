@@ -177,7 +177,7 @@ namespace SlickControls
 				}
 			}
 
-			height += (int)(bnds.Height * 1.1F);
+			height += (int)(bnds.Height + 4 * UI.FontScale);
 
 			return bnds.ToSize();
 		}
@@ -194,7 +194,7 @@ namespace SlickControls
 				}
 			}
 
-			height += (int)(bnds.Height * 1.1F);
+			height += (int)(bnds.Height + 4 * UI.FontScale);
 
 			return bnds.ToSize();
 		}
