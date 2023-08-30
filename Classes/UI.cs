@@ -178,17 +178,17 @@ namespace SlickControls
 			}
 		}
 
-		public static Rectangle AlignToFontSize(this Rectangle rectangle, Font font, ContentAlignment contentAlignment = ContentAlignment.MiddleCenter, Graphics graphics = null)
+		public static Rectangle AlignToFontSize(this Rectangle rectangle, Font font, ContentAlignment contentAlignment = ContentAlignment.MiddleCenter, Graphics graphics = null, bool upperBounds = false)
 		{
 			var newSize = new Size(rectangle.Width, 0);
 
 			if (graphics == null)
 			{
-				newSize.Height = (int)Measure(" ", font).Height.ClosestMultipleTo(rectangle.Height);
+				newSize.Height = (int)Measure(" ", font, rectangle.Width).Height.ClosestMultipleTo(rectangle.Height, upperBounds);
 			}
 			else
 			{
-				newSize.Height = (int)Measure(graphics, " ", font).Height.ClosestMultipleTo(rectangle.Height);
+				newSize.Height = (int)Measure(graphics, " ", font, rectangle.Width).Height.ClosestMultipleTo(rectangle.Height, upperBounds);
 			}
 
 			return rectangle.Align(newSize, contentAlignment);

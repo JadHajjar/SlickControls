@@ -70,7 +70,7 @@ namespace SlickControls
 		{
 			AutoScaleMode = AutoScaleMode.None;
 			DoubleBuffered = ResizeRedraw = true;
-			timer = new Timer { Interval = 30 };
+			timer = new Timer { Interval = 1000 / 40 };
 			timer.Tick += timer_Tick;
 
 			FormDesign.DesignChanged += DesignChanged;
@@ -80,7 +80,7 @@ namespace SlickControls
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			LoaderPercentage += 1 + (Math.Abs(50 - LoaderPercentage) / 25);
+			LoaderPercentage += 0.75 + (Math.Abs(50 - LoaderPercentage) / 25);
 			if (LoaderPercentage >= 200)
 			{
 				LoaderPercentage = 0;

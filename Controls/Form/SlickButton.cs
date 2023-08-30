@@ -82,7 +82,7 @@ namespace SlickControls
 
 			if (Live && Padding == Padding.Empty)
 			{
-				Padding = UI.Scale(new Padding(7), UI.UIScale);
+				Padding = UI.Scale(new Padding(4), UI.UIScale);
 			}
 
 			if (live && HandleUiScale)
@@ -194,10 +194,10 @@ namespace SlickControls
 					}
 				}
 
-				var extraWidth = (image == null ? 0 : (IconSize + Padding.Left)) + (int)(5 * UI.FontScale) + Padding.Horizontal;
-				var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
-				var h = Math.Max(IconSize + 6, (int)bnds.Height + Padding.Top + 3);
-				var w = (int)Math.Ceiling(bnds.Width) + extraWidth;
+				var extraWidthForIcon = (image == null ? 0 : (image.Width + Padding.Left)) + (int)(2 * UI.FontScale);
+				var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidthForIcon - Padding.Horizontal - 2);
+				var h = Math.Max(IconSize + (int)(4 * UI.FontScale) + 2, (int)bnds.Height + Padding.Horizontal + 2);
+				var w = (int)Math.Ceiling(bnds.Width) + extraWidthForIcon + Padding.Horizontal + 2;
 
 				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 				{
@@ -226,11 +226,11 @@ namespace SlickControls
 			}
 		}
 
-		public static Size GetSize(Graphics g, Image image, string text, Font font, Padding? padding = null)
+		public static Size GetSize(Graphics g, Image image, string text, Font font, Padding? padding = null, int maxWidth = int.MaxValue)
 		{
 			var iconSize = image?.Width ?? 16;
 
-			padding = padding ?? UI.Scale(new Padding(7), UI.UIScale);
+			padding = padding ?? UI.Scale(new Padding(4), UI.UIScale);
 
 			if (string.IsNullOrWhiteSpace(text))
 			{
@@ -239,10 +239,10 @@ namespace SlickControls
 				return new Size(iconSize + pad, iconSize + pad);
 			}
 
-			var bnds = g.Measure(LocaleHelper.GetGlobalText(text), font);
-			var extraWidth = (image == null ? 0 : (iconSize + padding.Value.Left)) + (int)(5 * UI.FontScale);
-			var h = Math.Max(iconSize + 6, (int)bnds.Height + padding.Value.Top + 3);
-			var w = (int)Math.Ceiling(bnds.Width) + extraWidth + padding.Value.Horizontal;
+			var extraWidthForIcon = (image == null ? 0 : (image.Width + padding.Value.Left)) + (int)(2 * UI.FontScale);
+			var bnds = g.Measure(LocaleHelper.GetGlobalText(text), font, maxWidth - extraWidthForIcon - padding.Value.Horizontal - 2);
+			var h = Math.Max(iconSize + (int)(4 * UI.FontScale) + 2, (int)bnds.Height + padding.Value.Horizontal + 2);
+			var w = (int)Math.Ceiling(bnds.Width) + extraWidthForIcon + padding.Value.Horizontal + 2;
 
 			return new Size(w, h);
 		}
@@ -392,22 +392,22 @@ namespace SlickControls
 				DrawFocus(e.Graphics, rect, buttonArgs.HoverState, (int)(4 * UI.FontScale), buttonArgs.ColorShade == null ? buttonArgs.ColorStyle.GetColor() : buttonArgs.ColorStyle.GetColor().Tint(buttonArgs.ColorShade?.GetHue()).MergeColor((Color)buttonArgs.ColorShade));
 			}
 
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-
-			if (buttonArgs.Icon != null)
+			if (buttonArgs.Icon != null && buttonArgs.Image == null)
 			{
 				buttonArgs.Image = buttonArgs.Icon;
 			}
 
 			if (buttonArgs.Padding == default)
 			{
-				buttonArgs.Padding = UI.Scale(new Padding(7), UI.UIScale);
+				buttonArgs.Padding = UI.Scale(new Padding(4), UI.UIScale);
 			}
 
-			var iconSize = buttonArgs.Image?.Width ?? 16;
-			var extraWidth = (buttonArgs.Image == null ? 0 : (iconSize + buttonArgs.Padding.Left)) + (int)(2 * UI.FontScale);
-			var bnds = e.Graphics.Measure(buttonArgs.Text, buttonArgs.Font, rect.Width - extraWidth - buttonArgs.Padding.Horizontal);
-			var noText = string.IsNullOrWhiteSpace(buttonArgs.Text) || (((buttonArgs.Control as SlickButton)?.AutoHideText ?? false) && rect.Width.IsWithin(0, (int)(50 * UI.FontScale)));
+			rect = rect.Pad(buttonArgs.Padding);
+
+			var extraWidthForIcon = (buttonArgs.Image == null ? 0 : (buttonArgs.Image.Width + buttonArgs.Padding.Left)) + (int)(2 * UI.FontScale);
+			var noText = string.IsNullOrWhiteSpace(buttonArgs.Text) || (((buttonArgs.Control as SlickButton)?.AutoHideText ?? false) && rect.Width.IsWithin(0, (int)(50 * UI.FontScale)) && buttonArgs.Text.Length > 4);
+			var iconRect = rect.Align(buttonArgs.Image?.Size ?? UI.Scale(new Size(16, 16), UI.FontScale), ContentAlignment.MiddleLeft);
+			//var bnds = e.Graphics.Measure(buttonArgs.Text, buttonArgs.Font, rect.Width - extraWidthForIcon - buttonArgs.Padding.Horizontal);
 
 			try
 			{
@@ -422,22 +422,22 @@ namespace SlickControls
 
 					if (noText)
 					{
-						buttonArgs.Control.DrawLoader(e.Graphics, new Rectangle(rect.X + ((rect.Width - iconSize) / 2), rect.Y + ((rect.Height - iconSize) / 2), iconSize, iconSize), color);
+						buttonArgs.Control.DrawLoader(e.Graphics, iconRect, color);
 					}
 					else
 					{
-						buttonArgs.Control.DrawLoader(e.Graphics, new Rectangle(rect.X + buttonArgs.Padding.Left, rect.Y + ((rect.Height - iconSize) / 2), iconSize, iconSize), color);
+						buttonArgs.Control.DrawLoader(e.Graphics, iconRect, color);
 					}
 				}
 				else if (buttonArgs.Image != null)
 				{
 					if (noText)
 					{
-						e.Graphics.DrawImage(buttonArgs.Image.Color(buttonArgs.ForeColor), new Rectangle(rect.X + ((rect.Width - iconSize) / 2), rect.Y + ((rect.Height - iconSize) / 2), iconSize, iconSize));
+						e.Graphics.DrawImage(buttonArgs.Image.Color(buttonArgs.ForeColor), iconRect);
 					}
 					else
 					{
-						e.Graphics.DrawImage(buttonArgs.Image.Color(buttonArgs.ForeColor), new Rectangle(rect.X + buttonArgs.Padding.Left, rect.Y + ((rect.Height - iconSize) / 2), iconSize, iconSize));
+						e.Graphics.DrawImage(buttonArgs.Image.Color(buttonArgs.ForeColor), iconRect);
 					}
 				}
 			}
@@ -448,16 +448,13 @@ namespace SlickControls
 				return;
 			}
 
-			var textRect = rect.Pad(buttonArgs.Padding);
+			var textRect = rect.Pad(extraWidthForIcon, 0, 0, 0).AlignToFontSize(buttonArgs.Font, ContentAlignment.MiddleCenter, e.Graphics, true);
 
-			textRect.X += extraWidth;
-			textRect.Width -= extraWidth;
-
-			if (textRect.Height < bnds.Height)
-			{
-				textRect.Y -= ((int)bnds.Height - textRect.Height + 2) / 2;
-				textRect.Height = 3 + (int)bnds.Height;
-			}
+			//if (textRect.Height < bnds.Height)
+			//{
+			//	textRect.Y -= ((int)bnds.Height - textRect.Height + 2) / 2;
+			//	textRect.Height = 3 + (int)bnds.Height;
+			//}
 
 			using (var stl = new StringFormat()
 			{
