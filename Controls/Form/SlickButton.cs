@@ -150,13 +150,13 @@ namespace SlickControls
 		{
 			base.OnSizeChanged(e);
 
-			if (live&& cachedSize != default&& cachedSize!=Size)
+			if (live && cachedSize != default && cachedSize != Size)
 			{
 				cachedSize = default;
 			}
 		}
 
-		public  Size GetAutoSize(bool forced = false)
+		public Size GetAutoSize(bool forced = false)
 		{
 			if (!live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill)
 			{
@@ -166,7 +166,9 @@ namespace SlickControls
 			var availableSize = GetAvailableSize();
 
 			if (!forced && cachedSize != default && lastAvailableSize == availableSize)
+			{
 				return cachedSize;
+			}
 
 			using (var image = Image)
 			{
@@ -344,60 +346,98 @@ namespace SlickControls
 			Color? colorShade = null,
 			SlickButton slickButton = null)
 		{
-			if (!enabled)
+			Draw(e, new ButtonDrawArgs
 			{
-				fore = fore.MergeColor(FormDesign.Design.BackColor, 50);
-				back = Color.FromArgb(100, back);
+				Control = slickButton,
+				Location = location,
+				Size = size,
+				Text = text,
+				Font = font,
+				ColorShade = colorShade,
+				BackColor = back,
+				ColorStyle = colorStyle,
+				Enabled = enabled,
+				ForeColor = fore,
+				HoverState = hoverState,
+				Image = image,
+				Padding = padding,
+			});
+		}
+
+		public static void Draw(PaintEventArgs e, ButtonDrawArgs buttonArgs)
+		{
+			if (buttonArgs.ForeColor.A == 0 && buttonArgs.BackColor.A == 0)
+			{
+				GetColors(out var fore, out var back, buttonArgs.HoverState, buttonArgs.ColorStyle, buttonArgs.ColorShade, null, buttonArgs.BackColor, buttonArgs.ButtonType);
+
+				buttonArgs.ForeColor = fore;
+				buttonArgs.BackColor = back;
 			}
 
-			var rect = new Rectangle(1 + location.X, 1 + location.Y, size.Width - 2, size.Height - 2);
+			if (!buttonArgs.Enabled)
+			{
+				buttonArgs.ForeColor = buttonArgs.ForeColor.MergeColor(FormDesign.Design.BackColor, 50);
+				buttonArgs.BackColor = Color.FromArgb(100, buttonArgs.BackColor);
+			}
 
-			using (var brush = Gradient(rect, back))
+			var rect = (buttonArgs.Rectangle == default ? new Rectangle(buttonArgs.Location, buttonArgs.Size) : buttonArgs.Rectangle).Pad(1);
+
+			using (var brush = Gradient(rect, buttonArgs.BackColor))
 			{
 				e.Graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
 			}
 
-			if (!hoverState.HasFlag(HoverState.Pressed))
+			if (!buttonArgs.HoverState.HasFlag(HoverState.Pressed))
 			{
-				DrawFocus(e.Graphics, rect, hoverState, (int)(4 * UI.FontScale), colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade));
+				DrawFocus(e.Graphics, rect, buttonArgs.HoverState, (int)(4 * UI.FontScale), buttonArgs.ColorShade == null ? buttonArgs.ColorStyle.GetColor() : buttonArgs.ColorStyle.GetColor().Tint(buttonArgs.ColorShade?.GetHue()).MergeColor((Color)buttonArgs.ColorShade));
 			}
 
 			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
-			var iconSize = image?.Width ?? 16;
-			var extraWidth = (image == null ? 0 : (iconSize + padding.Left)) + (int)(2 * UI.FontScale);
-			var bnds = e.Graphics.Measure(text, font, size.Width - extraWidth - padding.Horizontal);
-			var noText = string.IsNullOrWhiteSpace(text) || ((slickButton?.AutoHideText ?? false) && size.Width.IsWithin(0, (int)(50 * UI.FontScale)));
+			if (buttonArgs.Icon != null)
+			{
+				buttonArgs.Image = buttonArgs.Icon;
+			}
+
+			if (buttonArgs.Padding == default)
+			{
+				buttonArgs.Padding = UI.Scale(new Padding(7), UI.UIScale);
+			}
+
+			var iconSize = buttonArgs.Image?.Width ?? 16;
+			var extraWidth = (buttonArgs.Image == null ? 0 : (iconSize + buttonArgs.Padding.Left)) + (int)(2 * UI.FontScale);
+			var bnds = e.Graphics.Measure(buttonArgs.Text, buttonArgs.Font, rect.Width - extraWidth - buttonArgs.Padding.Horizontal);
+			var noText = string.IsNullOrWhiteSpace(buttonArgs.Text) || (((buttonArgs.Control as SlickButton)?.AutoHideText ?? false) && rect.Width.IsWithin(0, (int)(50 * UI.FontScale)));
 
 			try
 			{
-				if (slickButton?.Loading ?? false)
+				if (buttonArgs.Control?.Loading ?? false)
 				{
-					var color = colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade);
+					var color = buttonArgs.ColorShade == null ? buttonArgs.ColorStyle.GetColor() : buttonArgs.ColorStyle.GetColor().Tint(buttonArgs.ColorShade?.GetHue()).MergeColor((Color)buttonArgs.ColorShade);
 
-					if (color == back)
+					if (color == buttonArgs.BackColor)
 					{
-						color = fore;
+						color = buttonArgs.ForeColor;
 					}
 
 					if (noText)
 					{
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + 1 + ((size.Width - iconSize) / 2), location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
+						buttonArgs.Control.DrawLoader(e.Graphics, new Rectangle(rect.X + ((rect.Width - iconSize) / 2), rect.Y + ((rect.Height - iconSize) / 2), iconSize, iconSize), color);
 					}
 					else
 					{
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + 1 + padding.Left, location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
+						buttonArgs.Control.DrawLoader(e.Graphics, new Rectangle(rect.X + buttonArgs.Padding.Left, rect.Y + ((rect.Height - iconSize) / 2), iconSize, iconSize), color);
 					}
 				}
-				else if (image != null)
+				else if (buttonArgs.Image != null)
 				{
 					if (noText)
 					{
-						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + 1 + ((size.Width - iconSize) / 2), location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize));
+						e.Graphics.DrawImage(buttonArgs.Image.Color(buttonArgs.ForeColor), new Rectangle(rect.X + ((rect.Width - iconSize) / 2), rect.Y + ((rect.Height - iconSize) / 2), iconSize, iconSize));
 					}
 					else
 					{
-						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + 1 + padding.Left, location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize));
+						e.Graphics.DrawImage(buttonArgs.Image.Color(buttonArgs.ForeColor), new Rectangle(rect.X + buttonArgs.Padding.Left, rect.Y + ((rect.Height - iconSize) / 2), iconSize, iconSize));
 					}
 				}
 			}
@@ -408,14 +448,7 @@ namespace SlickControls
 				return;
 			}
 
-			var stl = new StringFormat()
-			{
-				Alignment = image == null && slickButton is SlickButton button && button.AlignLeft ? StringAlignment.Near : StringAlignment.Center,
-				LineAlignment = StringAlignment.Center,
-				Trimming = StringTrimming.EllipsisCharacter
-			};
-
-			var textRect = new Rectangle(location, size).Pad(padding);
+			var textRect = rect.Pad(buttonArgs.Padding);
 
 			textRect.X += extraWidth;
 			textRect.Width -= extraWidth;
@@ -426,12 +459,45 @@ namespace SlickControls
 				textRect.Height = 3 + (int)bnds.Height;
 			}
 
-			e.Graphics.DrawString(text, font, new SolidBrush(fore), textRect, stl);
+			using (var stl = new StringFormat()
+			{
+				Alignment = buttonArgs.Image == null && buttonArgs.Control is SlickButton button && button.AlignLeft ? StringAlignment.Near : StringAlignment.Center,
+				LineAlignment = StringAlignment.Center,
+				Trimming = StringTrimming.EllipsisCharacter
+			})
+			{
+				e.Graphics.DrawString(buttonArgs.Text, buttonArgs.Font, new SolidBrush(buttonArgs.ForeColor), textRect, stl);
+			}
+
+			if (buttonArgs.Icon != null)
+			{
+				buttonArgs.Image?.Dispose();
+			}
 		}
 
 		public new void OnClick(EventArgs e)
 		{
 			base.OnClick(e);
 		}
+	}
+
+	public class ButtonDrawArgs
+	{
+		public Rectangle Rectangle { get; set; }
+		public Point Location { get; set; }
+		public Size Size { get; set; }
+		public string Text { get; set; }
+		public Font Font { get; set; }
+		public Color BackColor { get; set; }
+		public Color ForeColor { get; set; }
+		public DynamicIcon Icon { get; set; }
+		public Image Image { get; set; }
+		public Padding Padding { get; set; }
+		public bool Enabled { get; set; } = true;
+		public HoverState HoverState { get; set; } = HoverState.Normal;
+		public ColorStyle ColorStyle { get; set; } = ColorStyle.Active;
+		public Color? ColorShade { get; set; }
+		public ILoaderControl Control { get; set; }
+		public ButtonType ButtonType { get; set; }
 	}
 }

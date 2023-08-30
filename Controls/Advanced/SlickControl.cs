@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace SlickControls
 {
-	public class SlickControl : UserControl, IHoverControl
+	public class SlickControl : UserControl, IHoverControl, ILoaderControl
 	{
 		public event
 #if !NET47
