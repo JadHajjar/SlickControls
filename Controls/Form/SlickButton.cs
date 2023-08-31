@@ -327,7 +327,7 @@ namespace SlickControls
 		{
 			GetColors(out var fore, out var back, hoverState, colorStyle, null, Color.Empty, backColor, buttonType);
 
-			DrawButton(e, rectangle.Location, rectangle.Size, text, font, back, fore, icon, padding ?? UI.Scale(new Padding(7), UI.UIScale), true, hoverState, colorStyle);
+			DrawButton(e, rectangle.Location, rectangle.Size, text, font, back, fore, icon, padding ?? UI.Scale(new Padding(4), UI.UIScale), true, hoverState, colorStyle);
 		}
 
 		public static void DrawButton(
@@ -406,7 +406,7 @@ namespace SlickControls
 
 			var extraWidthForIcon = (buttonArgs.Image == null ? 0 : (buttonArgs.Image.Width + buttonArgs.Padding.Left)) + (int)(2 * UI.FontScale);
 			var noText = string.IsNullOrWhiteSpace(buttonArgs.Text) || (((buttonArgs.Control as SlickButton)?.AutoHideText ?? false) && rect.Width.IsWithin(0, (int)(50 * UI.FontScale)) && buttonArgs.Text.Length > 4);
-			var iconRect = rect.Align(buttonArgs.Image?.Size ?? UI.Scale(new Size(16, 16), UI.FontScale), ContentAlignment.MiddleLeft);
+			var iconRect = rect.Align(buttonArgs.Image?.Size ?? UI.Scale(new Size(16, 16), UI.FontScale), noText ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
 			//var bnds = e.Graphics.Measure(buttonArgs.Text, buttonArgs.Font, rect.Width - extraWidthForIcon - buttonArgs.Padding.Horizontal);
 
 			try
