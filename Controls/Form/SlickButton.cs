@@ -384,7 +384,7 @@ namespace SlickControls
 
 			using (var brush = Gradient(rect, buttonArgs.BackColor))
 			{
-				e.Graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
+				e.Graphics.FillRoundedRectangle(brush, rect, buttonArgs.BorderRadius == 0 ? (int)(4 * UI.FontScale) : buttonArgs.BorderRadius);
 			}
 
 			if (!buttonArgs.HoverState.HasFlag(HoverState.Pressed))
@@ -496,5 +496,6 @@ namespace SlickControls
 		public Color? ColorShade { get; set; }
 		public ILoaderControl Control { get; set; }
 		public ButtonType ButtonType { get; set; }
+		public int BorderRadius { get; set; }
 	}
 }
