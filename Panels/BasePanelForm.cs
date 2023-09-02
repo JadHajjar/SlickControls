@@ -670,6 +670,7 @@ namespace SlickControls
 					lastPanelData = panel.GetTransitoryData();
 				}
 
+				panel.SoftDispose();
 				panel.SuspendDrawing();
 				panel.Parent = null;
 				panelsToDispose.Add(panel);

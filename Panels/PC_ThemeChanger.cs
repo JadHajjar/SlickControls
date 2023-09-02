@@ -16,6 +16,7 @@ namespace SlickControls
 		private bool changesMade;
 		private bool savedNightModeSetting;
 		private bool savedUseSystemThemeSetting;
+		private bool savedWindowsButtons;
 		private FormDesign savedCustom = FormDesign.Custom;
 
 		public PC_ThemeChanger()
@@ -25,6 +26,7 @@ namespace SlickControls
 			UD_BaseTheme.Items = FormDesign.List.ToArray();
 			CB_NightMode.Checked = savedNightModeSetting = FormDesign.NightModeEnabled;
 			CB_UseSystemTheme.Checked = savedUseSystemThemeSetting = FormDesign.UseSystemTheme;
+			CB_WindowsButtons.Checked = savedWindowsButtons = FormDesign.WindowsButtons;
 			FormDesign.UseSystemTheme = FormDesign.IsDarkMode = false;
 			FormDesign.NightModeEnabled = false;
 			FormDesign.Custom.Temporary = true;
@@ -70,7 +72,7 @@ namespace SlickControls
 			base.UIChanged();
 
 			SS_Scale.Width = (int)(350 * UI.FontScale);
-			DD_Font.Margin = CB_DisableAnimations.Margin = CB_NightMode.Margin = CB_UseSystemTheme.Margin = UD_BaseTheme.Margin = UI.Scale(new System.Windows.Forms.Padding(5), UI.FontScale);
+			DD_Font.Margin = CB_DisableAnimations.Margin = CB_NightMode.Margin =CB_WindowsButtons.Margin= CB_UseSystemTheme.Margin = UD_BaseTheme.Margin = UI.Scale(new System.Windows.Forms.Padding(5), UI.FontScale);
 			DD_Font.Width = UD_BaseTheme.Width = (int)(250 * UI.FontScale);
 			B_Random.Margin = B_Reset.Margin = B_Save.Margin = UI.Scale(new System.Windows.Forms.Padding(10,0,10,10), UI.FontScale);
 			P_UI.Margin = P_Theme.Margin = UI.Scale(new System.Windows.Forms.Padding(10), UI.FontScale);
@@ -97,6 +99,7 @@ namespace SlickControls
 
 			FormDesign.NightModeEnabled = savedNightModeSetting;
 			FormDesign.UseSystemTheme = savedUseSystemThemeSetting;
+			FormDesign.WindowsButtons = savedWindowsButtons;
 			FormDesign.ForceRefresh();
 			FormDesign.Save();
 
@@ -134,6 +137,7 @@ namespace SlickControls
 
 			savedNightModeSetting = CB_NightMode.Checked;
 			savedUseSystemThemeSetting = CB_UseSystemTheme.Checked;
+			savedWindowsButtons = CB_WindowsButtons.Checked;
 
 			if (!FormDesign.IsCustomEligible())
 			{
@@ -249,6 +253,13 @@ namespace SlickControls
 
 		private void CB_DisableAnimations_CheckChanged(object sender, EventArgs e)
 		{
+			changesMade = true;
+		}
+
+		private void CB_WindowsButtons_CheckChanged(object sender, EventArgs e)
+		{
+			FormDesign.WindowsButtons = CB_WindowsButtons.Checked;
+			Form?.Invalidate(true);
 			changesMade = true;
 		}
 	}

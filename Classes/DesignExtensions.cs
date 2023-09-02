@@ -164,39 +164,65 @@ namespace SlickControls
 			graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 		}
 
-		public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, int maxWidth, double tab, ref int height, bool draw = true)
+		public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, int maxWidth, double tab, ref int height, bool draw = true, DynamicIcon dIcon = null)
 		{
-			var x = (int)(((tab * 12) + 6) * UI.FontScale);
-			var bnds = graphics.Measure(item?.ToString(), font, maxWidth - x);
-
-			if (draw)
+			var margin = (int)(6 * UI.FontScale);
+			using (var icon = dIcon?.Get(font.Height + margin))
 			{
-				using (var brush = new SolidBrush(foreColor))
+				var x = (int)(((tab * 12) + 6) * UI.FontScale);
+				var bnds = graphics.Measure(item?.ToString(), font, maxWidth - x - (icon == null ? 0 : (icon.Width + margin)));
+
+				if (draw)
 				{
-					graphics.DrawString(item?.ToString(), font, brush, new Rectangle(x, height, maxWidth - x, (int)Math.Ceiling(bnds.Height)));
+					var textRect = new Rectangle(x, height, maxWidth - x, (int)Math.Ceiling(bnds.Height));
+
+					if (icon != null)
+					{
+						graphics.DrawImage(icon.Color(foreColor), textRect.Align(icon.Size, ContentAlignment.MiddleLeft));
+
+						textRect = textRect.Pad(icon.Width + margin, 0, 0, 0);
+					}
+
+					using (var brush = new SolidBrush(foreColor))
+					{
+						graphics.DrawString(item?.ToString(), font, brush, textRect);
+					}
 				}
+
+				height += (int)(bnds.Height + margin);
+
+				return bnds.ToSize();
 			}
-
-			height += (int)(bnds.Height + 6 * UI.FontScale);
-
-			return bnds.ToSize();
 		}
 
-		public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, Rectangle rectangle, ref int height, bool draw = true)
+		public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, Rectangle rectangle, ref int height, bool draw = true, DynamicIcon dIcon = null)
 		{
-			var bnds = graphics.Measure(item?.ToString(), font, rectangle.Width);
-
-			if (draw)
+			var margin = (int)(6 * UI.FontScale);
+			using (var icon = dIcon?.Get(font.Height + margin))
 			{
-				using (var brush = new SolidBrush(foreColor))
+				var bnds = graphics.Measure(item?.ToString(), font, rectangle.Width - (icon == null ? 0 : (icon.Width + margin)));
+
+				if (draw)
 				{
-					graphics.DrawString(item?.ToString(), font, brush, new Rectangle(rectangle.X, height, rectangle.Width, (int)Math.Ceiling(bnds.Height)));
+					var textRect = new Rectangle(rectangle.X, height, rectangle.Width, (int)Math.Ceiling(bnds.Height));
+
+					if (icon != null)
+					{
+						graphics.DrawImage(icon.Color(foreColor), textRect.Align(icon.Size, ContentAlignment.MiddleLeft));
+
+						textRect = textRect.Pad(icon.Width + margin, 0, 0, 0);
+					}
+
+					using (var brush = new SolidBrush(foreColor))
+					{
+						graphics.DrawString(item?.ToString(), font, brush, textRect);
+					}
 				}
+
+				height += (int)(bnds.Height + margin);
+
+				return bnds.ToSize();
 			}
-
-			height += (int)(bnds.Height + 6 * UI.FontScale);
-
-			return bnds.ToSize();
 		}
 
 		public static void DrawLoader(this Graphics g, double loaderPercentage, Rectangle rectangle, Color? color = null)

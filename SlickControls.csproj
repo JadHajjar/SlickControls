@@ -1309,6 +1309,15 @@
   <ItemGroup>
     <None Include="Resources\I_Skip_96.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Notification_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Notification_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Notification_24.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>

@@ -373,6 +373,10 @@ namespace SlickControls
 				buttonArgs.ForeColor = fore;
 				buttonArgs.BackColor = back;
 			}
+			else if (buttonArgs.ForeColor.A == 0)
+			{
+				buttonArgs.ForeColor = buttonArgs.BackColor.GetTextColor();
+			}
 
 			if (!buttonArgs.Enabled)
 			{
