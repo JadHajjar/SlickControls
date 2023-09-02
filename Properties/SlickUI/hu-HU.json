@@ -157,5 +157,6 @@
   "{0}h": "{0} óra",
   "{0}m": "{0}perc",
   "{0}s": "{0}másodperc",
-  "Midnight": "Éjfél"
+  "Midnight": "Éjfél",
+  "Use Windows-style top bar buttons": "Use Windows-style top bar buttons"
 }
