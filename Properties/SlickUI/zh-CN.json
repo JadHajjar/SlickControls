@@ -157,5 +157,6 @@
   "{0}h": "{0} 小时",
   "{0}m": "{0} 分钟",
   "{0}s": "{0} 秒",
-  "Midnight": "午夜主题"
+  "Midnight": "午夜主题",
+  "Use Windows-style top bar buttons": "Use Windows-style top bar buttons"
 }
