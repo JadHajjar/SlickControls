@@ -106,57 +106,57 @@
   "Do you want to apply your changes before leaving?": "Бажаєте застосувати зміни перед виходом?",
   "TaskCompleted": "Завдання завершене",
   "UnexpectedError": "Сталась непередбачена помилка",
-  "{0} ago": "{0} ago",
+  "{0} ago": "{0} тому",
   "in {0}": "в {0}",
   "Today at {0}": "Сьогодні в {0}",
   "Yesterday at {0}": "Вчора в {0}",
   "Tomorrow at {0}": "Завтра в {0}",
-  "Last {0} at {1}": "Last {0} at {1}",
-  "Next {0} at {1}": "Next {0} at {1}",
+  "Last {0} at {1}": "Минуле {0} о {1}",
+  "Next {0} at {1}": "Наступне {0} о {1}",
   "{0} month ago on {1}": {
-    "One": "{0} month ago on {1}",
-    "Plural": "{0} months ago on {1}"
+    "One": "{0} місяць тому на {1}",
+    "Plural": "{0} місяців тому на {1}"
   },
   "in {0} month on {1}": {
-    "One": "in {0} month on {1}",
+    "One": "в {0} місяць на {1}",
     "Plural": "в {0} місяців на {1}"
   },
   "{0} day ago": {
-    "One": "{0} day ago",
+    "One": "{0} день тому",
     "Plural": "{0} днів тому"
   },
   "in {0} day": {
     "One": "через день {0}",
-    "Plural": "in {0} days"
+    "Plural": "через {0} днів"
   },
   "{0} year": {
     "One": "{0} рік",
-    "Plural": "{0} years"
+    "Plural": "{0} роки"
   },
   "{0} month": {
     "One": "{0} місяць",
     "Plural": "{0} місяців"
   },
   "{0} day": {
-    "One": "{0} day",
-    "Plural": "{0} days"
+    "One": "{0} день",
+    "Plural": "{0} днів"
   },
   "{0} hour": {
-    "One": "{0} hour",
-    "Plural": "{0} hours"
+    "One": "{0} година",
+    "Plural": "{0} годин"
   },
   "{0} minute": {
-    "One": "{0} minute",
-    "Plural": "{0} minutes"
+    "One": "{0} хвилина",
+    "Plural": "{0} хвилин"
   },
   "{0} second": {
-    "One": "{0} second",
+    "One": "{0} секунда",
     "Plural": "{0} секунд"
   },
-  "{0}d": "{0}d",
-  "{0}h": "{0}h",
-  "{0}m": "{0}m",
-  "{0}s": "{0}s",
+  "{0}d": "{0} д",
+  "{0}h": "{0} г",
+  "{0}m": "{0}м",
+  "{0}s": "{0} с",
   "Midnight": "Північ",
-  "Use Windows-style top bar buttons": "Use Windows-style top bar buttons"
+  "Use Windows-style top bar buttons": "Кнопки верхнього меню у стилі Windows"
 }
