@@ -247,6 +247,50 @@ namespace SlickControls
 			return new Size(w, h);
 		}
 
+		public static ButtonDrawArgs AlignAndDraw(PaintEventArgs e, ButtonDrawArgs args, Rectangle area, ContentAlignment alignment, (HoverState hoverState, Point cursorLocation)? hoverInfo = null)
+		{
+			var icon = args.Image == null && args.Icon != null;
+			var noFont = args.Font == null;
+
+			if (icon)
+			{
+				args.Image = args.Icon;
+			}
+
+			if (noFont)
+			{
+				args.Font = UI.Font(8.25F);
+			}
+
+			if (args.Padding == default)
+			{
+				args.Padding = UI.Scale(new Padding(4), UI.UIScale);
+			}
+
+			var size = GetSize(e.Graphics, args.Image, args.Text, args.Font, args.Padding, area.Width);
+
+			args.Rectangle = area.Align(size, alignment);
+
+			if (hoverInfo != null && args.Rectangle.Contains(hoverInfo.Value.cursorLocation))
+			{
+				args.HoverState = hoverInfo.Value.hoverState & ~HoverState.Focused;
+			}
+
+			Draw(e, args);
+
+			if (noFont)
+			{
+				args.Font.Dispose();
+			}
+
+			if (icon)
+			{
+				args.Image?.Dispose();
+			}
+
+			return args;
+		}
+
 		protected override void DesignChanged(FormDesign design)
 		{
 			Invalidate();
@@ -411,7 +455,6 @@ namespace SlickControls
 			var extraWidthForIcon = (buttonArgs.Image == null ? 0 : (buttonArgs.Image.Width + buttonArgs.Padding.Left)) + (int)(2 * UI.FontScale);
 			var noText = string.IsNullOrWhiteSpace(buttonArgs.Text) || (((buttonArgs.Control as SlickButton)?.AutoHideText ?? false) && rect.Width.IsWithin(0, (int)(50 * UI.FontScale)) && buttonArgs.Text.Length > 4);
 			var iconRect = rect.Align(buttonArgs.Image?.Size ?? UI.Scale(new Size(16, 16), UI.FontScale), noText ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
-			//var bnds = e.Graphics.Measure(buttonArgs.Text, buttonArgs.Font, rect.Width - extraWidthForIcon - buttonArgs.Padding.Horizontal);
 
 			try
 			{
@@ -452,6 +495,13 @@ namespace SlickControls
 				return;
 			}
 
+			var disposeFont = buttonArgs.Font == null;
+
+			if (disposeFont)
+			{
+				buttonArgs.Font = UI.Font(8.25F);
+			}
+
 			var textRect = rect.Pad(extraWidthForIcon, 0, 0, 0).AlignToFontSize(buttonArgs.Font, ContentAlignment.MiddleCenter, e.Graphics, true);
 
 			//if (textRect.Height < bnds.Height)
@@ -473,6 +523,11 @@ namespace SlickControls
 			if (buttonArgs.Icon != null)
 			{
 				buttonArgs.Image?.Dispose();
+			}
+
+			if (disposeFont)
+			{
+				buttonArgs.Font.Dispose();
 			}
 		}
 
