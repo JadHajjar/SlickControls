@@ -247,6 +247,7 @@ namespace SlickControls
 			return new Size(w, h);
 		}
 
+#if NET47
 		public static ButtonDrawArgs AlignAndDraw(PaintEventArgs e, ButtonDrawArgs args, Rectangle area, ContentAlignment alignment, (HoverState hoverState, Point cursorLocation)? hoverInfo = null)
 		{
 			var icon = args.Image == null && args.Icon != null;
@@ -290,6 +291,7 @@ namespace SlickControls
 
 			return args;
 		}
+#endif
 
 		protected override void DesignChanged(FormDesign design)
 		{
@@ -432,7 +434,7 @@ namespace SlickControls
 
 			using (var brush = Gradient(rect, buttonArgs.BackColor))
 			{
-				e.Graphics.FillRoundedRectangle(brush, rect, buttonArgs.BorderRadius == 0 ? (int)(4 * UI.FontScale) : buttonArgs.BorderRadius);
+				e.Graphics.FillRoundedRectangle(brush, rect, buttonArgs.BorderRadius ?? (int)(4 * UI.FontScale));
 			}
 
 			if (!buttonArgs.HoverState.HasFlag(HoverState.Pressed))
@@ -555,6 +557,6 @@ namespace SlickControls
 		public Color? ColorShade { get; set; }
 		public ILoaderControl Control { get; set; }
 		public ButtonType ButtonType { get; set; }
-		public int BorderRadius { get; set; }
+		public int? BorderRadius { get; set; }
 	}
 }

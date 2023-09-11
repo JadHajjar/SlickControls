@@ -41,6 +41,24 @@ namespace SlickControls
 			}
 		}
 
+		[Category("Data"), Browsable(false)]
+		public IEnumerable<T> FilteredItems
+		{
+			get
+			{
+				lock (_sync)
+				{
+					foreach (var item in _items)
+					{
+						if (!item.Hidden)
+						{
+							yield return item.Item;
+						}
+					}
+				}
+			}
+		}
+
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 		public int ItemCount
 		{
@@ -139,11 +157,6 @@ namespace SlickControls
 
 		public virtual void FilterChanged()
 		{
-			if (CanDrawItem == null)
-			{
-				return;
-			}
-
 			List<DrawableItem<T, R>> itemCopy;
 
 			lock (_sync)
@@ -155,7 +168,7 @@ namespace SlickControls
 			{
 				var canDraw = new CanDrawItemEventArgs<T>(x.Item);
 
-				CanDrawItem(this, canDraw);
+				CanDrawItemInternal(canDraw);
 
 				x.Bounds = Rectangle.Empty;
 				x.Hidden = canDraw.DoNotDraw;
@@ -166,6 +179,11 @@ namespace SlickControls
 			this.TryInvoke(() => SelectedItemsChanged?.Invoke(this, EventArgs.Empty));
 
 			Invalidate();
+		}
+
+		protected virtual void CanDrawItemInternal(CanDrawItemEventArgs<T> args)
+		{
+			CanDrawItem?.Invoke(this, args);
 		}
 
 		protected override void OnSizeChanged(EventArgs e)
@@ -473,7 +491,7 @@ namespace SlickControls
 				Invalidate(new Rectangle(scrollThumbRectangle.X, -1, scrollThumbRectangle.Width + 1, Height + 2));
 			}
 
-			Cursor = itemActionHovered || scrollMouseDown >= 0 || scrollThumbRectangle.Contains(e.Location) ? Cursors.Hand : Cursors.Default;
+			Cursor = itemActionHovered || scrollMouseDown >= 0 || scrollThumbRectangle.Contains(e.Location) || IsHeaderActionHovered(e.Location) ? Cursors.Hand : Cursors.Default;
 
 			if (!isToolTipSet)
 			{
@@ -484,6 +502,11 @@ namespace SlickControls
 			{
 				Invalidate();
 			}
+		}
+
+		protected virtual bool IsHeaderActionHovered(Point location)
+		{
+			return false;
 		}
 
 		private void Invalidate(DrawableItem<T, R> item)
