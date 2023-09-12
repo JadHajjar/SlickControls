@@ -71,6 +71,28 @@ namespace SlickControls
 			}
 		}
 
+		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
+		public int FilteredCount
+		{
+			get
+			{
+				var count = 0;
+
+				lock (_sync)
+				{
+					foreach (var item in _items)
+					{
+						if (!item.Hidden)
+						{
+							count++;
+						}
+					}
+				}
+
+				return count;
+			}
+		}
+
 		[Category("Appearance"), DefaultValue(false)]
 		public bool GridView { get => _gridView; set { _gridView = value; OnViewChanged(); Invalidate(); } }
 
@@ -897,7 +919,7 @@ namespace SlickControls
 				if (GridView)
 				{
 					var height = 0;
-					var columns = Math.Floor((double)(Width / GridItemSize.Width));
+					var columns = Math.Floor((double)(Width / GridItemSize.Width.If(0, 1)));
 
 					for (var i = 0; i < itemList.Count;)
 					{
