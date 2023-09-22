@@ -158,5 +158,6 @@
   "{0}m": "{0} 分钟",
   "{0}s": "{0} 秒",
   "Midnight": "午夜主题",
-  "Use Windows-style top bar buttons": "使用 Windows 系统样式的标题栏窗口按钮"
+  "Use Windows-style top bar buttons": "使用 Windows 系统样式的标题栏窗口按钮",
+  "All": "All"
 }
