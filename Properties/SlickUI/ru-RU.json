@@ -158,5 +158,6 @@
   "{0}m": "{0} мин.",
   "{0}s": "{0} сек.",
   "Midnight": "Полночь",
-  "Use Windows-style top bar buttons": "Использовать Windows-стиль верхних кнопок"
+  "Use Windows-style top bar buttons": "Использовать Windows-стиль верхних кнопок",
+  "All": "All"
 }
