@@ -18,13 +18,13 @@ namespace SlickControls
 			Form = form;
 			ItemHeight = 24;
 			TabStop = false;
-
-			CanDrawItem += PanelItemControl_CanDrawItem;
 		}
 
-		private void PanelItemControl_CanDrawItem(object sender, CanDrawItemEventArgs<PanelTab> e)
+		protected override void CanDrawItemInternal(CanDrawItemEventArgs<PanelTab> args)
 		{
-			e.DoNotDraw = e.Item.IsGroupHeader && (Form?.SmallMenu ?? false);
+			args.DoNotDraw = args.Item.IsGroupHeader && (Form?.SmallMenu ?? false);
+
+			base.CanDrawItemInternal(args);
 		}
 
 		protected override void OnPaintItemList(ItemPaintEventArgs<PanelTab, Rectangles> e)

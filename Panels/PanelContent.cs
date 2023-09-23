@@ -18,6 +18,7 @@ namespace SlickControls
 	{
 		private BasePanelForm form;
 		private Thread LoadThread;
+		private bool softDispose;
 		private Padding? defaultPadding;
 
 		public event EventHandler Shown;
@@ -169,6 +170,13 @@ namespace SlickControls
 			SetBackIcon();
 
 			base.OnCreateControl();
+		}
+
+		internal void SoftDispose()
+		{
+			softDispose = true;
+			Dispose();
+			softDispose = false;
 		}
 
 		private void SetBackIcon()

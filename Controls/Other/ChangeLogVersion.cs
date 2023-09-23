@@ -113,6 +113,8 @@ namespace SlickControls
 							, tab
 							, ref h
 							, draw);
+
+						h -= (int)(3 * UI.FontScale);
 					}
 
 					h += (int)(10 * UI.FontScale);

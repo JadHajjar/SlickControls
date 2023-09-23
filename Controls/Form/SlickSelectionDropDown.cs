@@ -136,7 +136,7 @@ namespace SlickControls
 					listDropDown.BringToFront();
 					listDropDown.SetItems(Items);
 
-					new AnimationHandler(listDropDown, new Size(Width, Math.Min((listDropDown.ItemHeight + listDropDown.Padding.Vertical + (int)UI.FontScale) * Math.Min(10, Items.Length), _form.Height - listDropDown.Top - 15)), 3).StartAnimation();
+					new AnimationHandler(listDropDown, new Size(Width, Math.Min((listDropDown.ItemHeight + listDropDown.Padding.Vertical + (int)UI.FontScale) * Math.Min(11, Items.Length), _form.Height - listDropDown.Top - 15)), 3).StartAnimation();
 				}
 				else
 				{

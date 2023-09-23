@@ -296,6 +296,8 @@ namespace SlickControls
 				Select(Text.Length - ind[0], ind[1]);
 				e.IsInputKey = true;
 			}
+			else if (e.KeyData == (Keys.Control | Keys.Back))
+				e.IsInputKey = true;
 			else
 			{
 				OnPreviewKeyDown(e);
@@ -309,6 +311,24 @@ namespace SlickControls
 				&& ValidInput)
 			{
 				e.Handled = true;
+			}
+			else if (e.KeyData == (Keys.Control | Keys.Back))
+			{
+				var text = Text;
+
+				for (var i = _textBox.SelectionStart - 2; i > 0; i--)
+				{
+					if (text[i] == ' ')
+					{
+						Text = text.Remove(i + 1, _textBox.SelectionStart - 1 - i);
+						_textBox.Select(i, 0);
+						e.Handled = true;
+						return;
+					}
+				}
+
+				e.Handled = true;
+				Text = string.Empty;
 			}
 			else
 			{
@@ -361,6 +381,13 @@ namespace SlickControls
 					{ Text = _textBox.Text; TextChanged?.Invoke(this, e); }
 					break;
 				}
+			}
+			else if (_textBox.Text.Contains('\u007f'))
+			{
+				var index = _textBox.SelectionStart;
+				var length = _textBox.SelectionLength;
+				_textBox.Text = _textBox.Text.Remove("\u007f");
+				_textBox.Select(index, length);
 			}
 			else
 			{

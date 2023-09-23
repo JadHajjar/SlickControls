@@ -82,7 +82,7 @@ namespace SlickControls
 
 			if (Live && Padding == Padding.Empty)
 			{
-				Padding = UI.Scale(new Padding(7), UI.UIScale);
+				Padding = UI.Scale(new Padding(4), UI.UIScale);
 			}
 
 			if (live && HandleUiScale)
@@ -98,6 +98,7 @@ namespace SlickControls
 				cachedSize = default;
 
 				PerformLayout();
+				Invalidate();
 			}
 		}
 
@@ -149,13 +150,13 @@ namespace SlickControls
 		{
 			base.OnSizeChanged(e);
 
-			if (live&& cachedSize != default&& cachedSize!=Size)
+			if (live && cachedSize != default && cachedSize != Size)
 			{
 				cachedSize = default;
 			}
 		}
 
-		public  Size GetAutoSize(bool forced = false)
+		public Size GetAutoSize(bool forced = false)
 		{
 			if (!live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill)
 			{
@@ -165,7 +166,9 @@ namespace SlickControls
 			var availableSize = GetAvailableSize();
 
 			if (!forced && cachedSize != default && lastAvailableSize == availableSize)
+			{
 				return cachedSize;
+			}
 
 			using (var image = Image)
 			{
@@ -191,10 +194,10 @@ namespace SlickControls
 					}
 				}
 
-				var extraWidth = (image == null ? 0 : (IconSize + Padding.Left)) + (int)(5 * UI.FontScale) + Padding.Horizontal;
-				var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
-				var h = Math.Max(IconSize + 6, (int)bnds.Height + Padding.Top + 3);
-				var w = (int)Math.Ceiling(bnds.Width) + extraWidth;
+				var extraWidthForIcon = (image == null ? 0 : (image.Width + Padding.Left)) + (int)(2 * UI.FontScale);
+				var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidthForIcon - Padding.Horizontal - 2);
+				var h = Math.Max(IconSize + (int)(4 * UI.FontScale) + 2, (int)bnds.Height + Padding.Horizontal + 2);
+				var w = (int)Math.Ceiling(bnds.Width) + extraWidthForIcon + Padding.Horizontal + 2;
 
 				if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
 				{
@@ -223,11 +226,11 @@ namespace SlickControls
 			}
 		}
 
-		public static Size GetSize(Graphics g, Image image, string text, Font font, Padding? padding = null)
+		public static Size GetSize(Graphics g, Image image, string text, Font font, Padding? padding = null, int maxWidth = int.MaxValue)
 		{
 			var iconSize = image?.Width ?? 16;
 
-			padding = padding ?? UI.Scale(new Padding(7), UI.UIScale);
+			padding = padding ?? UI.Scale(new Padding(4), UI.UIScale);
 
 			if (string.IsNullOrWhiteSpace(text))
 			{
@@ -236,13 +239,59 @@ namespace SlickControls
 				return new Size(iconSize + pad, iconSize + pad);
 			}
 
-			var bnds = g.Measure(LocaleHelper.GetGlobalText(text), font);
-			var extraWidth = (image == null ? 0 : (iconSize + padding.Value.Left)) + (int)(5 * UI.FontScale);
-			var h = Math.Max(iconSize + 6, (int)bnds.Height + padding.Value.Top + 3);
-			var w = (int)Math.Ceiling(bnds.Width) + extraWidth + padding.Value.Horizontal;
+			var extraWidthForIcon = (image == null ? 0 : (image.Width + padding.Value.Left)) + (int)(2 * UI.FontScale);
+			var bnds = g.Measure(LocaleHelper.GetGlobalText(text), font, maxWidth - extraWidthForIcon - padding.Value.Horizontal - 2);
+			var h = Math.Max(iconSize + (int)(4 * UI.FontScale) + 2, (int)bnds.Height + padding.Value.Horizontal + 2);
+			var w = (int)Math.Ceiling(bnds.Width) + extraWidthForIcon + padding.Value.Horizontal + 2;
 
 			return new Size(w, h);
 		}
+
+#if NET47
+		public static ButtonDrawArgs AlignAndDraw(PaintEventArgs e, ButtonDrawArgs args, Rectangle area, ContentAlignment alignment, (HoverState hoverState, Point cursorLocation)? hoverInfo = null)
+		{
+			var icon = args.Image == null && args.Icon != null;
+			var noFont = args.Font == null;
+
+			if (icon)
+			{
+				args.Image = args.Icon;
+			}
+
+			if (noFont)
+			{
+				args.Font = UI.Font(8.25F);
+			}
+
+			if (args.Padding == default)
+			{
+				args.Padding = UI.Scale(new Padding(4), UI.UIScale);
+			}
+
+			var size = GetSize(e.Graphics, args.Image, args.Text, args.Font, args.Padding, area.Width);
+
+			args.Rectangle = area.Align(size, alignment);
+
+			if (hoverInfo != null && args.Rectangle.Contains(hoverInfo.Value.cursorLocation))
+			{
+				args.HoverState = hoverInfo.Value.hoverState & ~HoverState.Focused;
+			}
+
+			Draw(e, args);
+
+			if (noFont)
+			{
+				args.Font.Dispose();
+			}
+
+			if (icon)
+			{
+				args.Image?.Dispose();
+			}
+
+			return args;
+		}
+#endif
 
 		protected override void DesignChanged(FormDesign design)
 		{
@@ -324,7 +373,7 @@ namespace SlickControls
 		{
 			GetColors(out var fore, out var back, hoverState, colorStyle, null, Color.Empty, backColor, buttonType);
 
-			DrawButton(e, rectangle.Location, rectangle.Size, text, font, back, fore, icon, padding ?? UI.Scale(new Padding(7), UI.UIScale), true, hoverState, colorStyle);
+			DrawButton(e, rectangle.Location, rectangle.Size, text, font, back, fore, icon, padding ?? UI.Scale(new Padding(4), UI.UIScale), true, hoverState, colorStyle);
 		}
 
 		public static void DrawButton(
@@ -343,60 +392,101 @@ namespace SlickControls
 			Color? colorShade = null,
 			SlickButton slickButton = null)
 		{
-			if (!enabled)
+			Draw(e, new ButtonDrawArgs
 			{
-				fore = fore.MergeColor(FormDesign.Design.BackColor, 50);
-				back = Color.FromArgb(100, back);
+				Control = slickButton,
+				Location = location,
+				Size = size,
+				Text = text,
+				Font = font,
+				ColorShade = colorShade,
+				BackColor = back,
+				ColorStyle = colorStyle,
+				Enabled = enabled,
+				ForeColor = fore,
+				HoverState = hoverState,
+				Image = image,
+				Padding = padding,
+			});
+		}
+
+		public static void Draw(PaintEventArgs e, ButtonDrawArgs buttonArgs)
+		{
+			if (buttonArgs.ForeColor.A == 0 && buttonArgs.BackColor.A == 0)
+			{
+				GetColors(out var fore, out var back, buttonArgs.HoverState, buttonArgs.ColorStyle, buttonArgs.ColorShade, null, buttonArgs.BackColor, buttonArgs.ButtonType);
+
+				buttonArgs.ForeColor = fore;
+				buttonArgs.BackColor = back;
+			}
+			else if (buttonArgs.ForeColor.A == 0)
+			{
+				buttonArgs.ForeColor = buttonArgs.BackColor.GetTextColor();
 			}
 
-			var rect = new Rectangle(1 + location.X, 1 + location.Y, size.Width - 2, size.Height - 2);
-
-			using (var brush = Gradient(rect, back))
+			if (!buttonArgs.Enabled)
 			{
-				e.Graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
+				buttonArgs.ForeColor = buttonArgs.ForeColor.MergeColor(FormDesign.Design.BackColor, 50);
+				buttonArgs.BackColor = Color.FromArgb(100, buttonArgs.BackColor);
 			}
 
-			if (!hoverState.HasFlag(HoverState.Pressed))
+			var rect = (buttonArgs.Rectangle == default ? new Rectangle(buttonArgs.Location, buttonArgs.Size) : buttonArgs.Rectangle).Pad(1);
+
+			using (var brush = Gradient(rect, buttonArgs.BackColor))
 			{
-				DrawFocus(e.Graphics, rect, hoverState, (int)(4 * UI.FontScale), colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade));
+				e.Graphics.FillRoundedRectangle(brush, rect, buttonArgs.BorderRadius ?? (int)(4 * UI.FontScale));
 			}
 
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+			if (!buttonArgs.HoverState.HasFlag(HoverState.Pressed))
+			{
+				DrawFocus(e.Graphics, rect, buttonArgs.HoverState, (int)(4 * UI.FontScale), buttonArgs.ColorShade == null ? buttonArgs.ColorStyle.GetColor() : buttonArgs.ColorStyle.GetColor().Tint(buttonArgs.ColorShade?.GetHue()).MergeColor((Color)buttonArgs.ColorShade));
+			}
 
-			var iconSize = image?.Width ?? 16;
-			var extraWidth = (image == null ? 0 : (iconSize + padding.Left)) + (int)(2 * UI.FontScale);
-			var bnds = e.Graphics.Measure(text, font, size.Width - extraWidth - padding.Horizontal);
-			var noText = string.IsNullOrWhiteSpace(text) || ((slickButton?.AutoHideText ?? false) && size.Width.IsWithin(0, (int)(50 * UI.FontScale)));
+			if (buttonArgs.Icon != null && buttonArgs.Image == null)
+			{
+				buttonArgs.Image = buttonArgs.Icon;
+			}
+
+			if (buttonArgs.Padding == default)
+			{
+				buttonArgs.Padding = UI.Scale(new Padding(4), UI.UIScale);
+			}
+
+			rect = rect.Pad(buttonArgs.Padding);
+
+			var extraWidthForIcon = (buttonArgs.Image == null ? 0 : (buttonArgs.Image.Width + buttonArgs.Padding.Left)) + (int)(2 * UI.FontScale);
+			var noText = string.IsNullOrWhiteSpace(buttonArgs.Text) || (((buttonArgs.Control as SlickButton)?.AutoHideText ?? false) && rect.Width.IsWithin(0, (int)(50 * UI.FontScale)) && buttonArgs.Text.Length > 4);
+			var iconRect = rect.Align(buttonArgs.Image?.Size ?? UI.Scale(new Size(16, 16), UI.FontScale), noText ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
 
 			try
 			{
-				if (slickButton?.Loading ?? false)
+				if (buttonArgs.Control?.Loading ?? false)
 				{
-					var color = colorShade == null ? colorStyle.GetColor() : colorStyle.GetColor().Tint(colorShade?.GetHue()).MergeColor((Color)colorShade);
+					var color = buttonArgs.ColorShade == null ? buttonArgs.ColorStyle.GetColor() : buttonArgs.ColorStyle.GetColor().Tint(buttonArgs.ColorShade?.GetHue()).MergeColor((Color)buttonArgs.ColorShade);
 
-					if (color == back)
+					if (color == buttonArgs.BackColor)
 					{
-						color = fore;
+						color = buttonArgs.ForeColor;
 					}
 
 					if (noText)
 					{
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + 1 + ((size.Width - iconSize) / 2), location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
+						buttonArgs.Control.DrawLoader(e.Graphics, iconRect, color);
 					}
 					else
 					{
-						slickButton.DrawLoader(e.Graphics, new Rectangle(location.X + 1 + padding.Left, location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize), color);
+						buttonArgs.Control.DrawLoader(e.Graphics, iconRect, color);
 					}
 				}
-				else if (image != null)
+				else if (buttonArgs.Image != null)
 				{
 					if (noText)
 					{
-						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + 1 + ((size.Width - iconSize) / 2), location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize));
+						e.Graphics.DrawImage(buttonArgs.Image.Color(buttonArgs.ForeColor), iconRect);
 					}
 					else
 					{
-						e.Graphics.DrawImage(image.Color(fore), new Rectangle(location.X + 1 + padding.Left, location.Y + 1 + ((size.Height - iconSize) / 2), iconSize, iconSize));
+						e.Graphics.DrawImage(buttonArgs.Image.Color(buttonArgs.ForeColor), iconRect);
 					}
 				}
 			}
@@ -407,30 +497,66 @@ namespace SlickControls
 				return;
 			}
 
-			var stl = new StringFormat()
+			var disposeFont = buttonArgs.Font == null;
+
+			if (disposeFont)
 			{
-				Alignment = image == null && slickButton is SlickButton button && button.AlignLeft ? StringAlignment.Near : StringAlignment.Center,
-				LineAlignment = StringAlignment.Center,
-				Trimming = StringTrimming.EllipsisCharacter
-			};
-
-			var textRect = new Rectangle(location, size).Pad(padding);
-
-			textRect.X += extraWidth;
-			textRect.Width -= extraWidth;
-
-			if (textRect.Height < bnds.Height)
-			{
-				textRect.Y -= ((int)bnds.Height - textRect.Height + 2) / 2;
-				textRect.Height = 3 + (int)bnds.Height;
+				buttonArgs.Font = UI.Font(8.25F);
 			}
 
-			e.Graphics.DrawString(text, font, new SolidBrush(fore), textRect, stl);
+			var textRect = rect.Pad(extraWidthForIcon, 0, 0, 0).AlignToFontSize(buttonArgs.Font, ContentAlignment.MiddleCenter, e.Graphics, true);
+
+			//if (textRect.Height < bnds.Height)
+			//{
+			//	textRect.Y -= ((int)bnds.Height - textRect.Height + 2) / 2;
+			//	textRect.Height = 3 + (int)bnds.Height;
+			//}
+
+			using (var stl = new StringFormat()
+			{
+				Alignment = buttonArgs.Image == null && buttonArgs.Control is SlickButton button && button.AlignLeft ? StringAlignment.Near : StringAlignment.Center,
+				LineAlignment = StringAlignment.Center,
+				Trimming = StringTrimming.EllipsisCharacter
+			})
+			{
+				e.Graphics.DrawString(buttonArgs.Text, buttonArgs.Font, new SolidBrush(buttonArgs.ForeColor), textRect, stl);
+			}
+
+			if (buttonArgs.Icon != null)
+			{
+				buttonArgs.Image?.Dispose();
+			}
+
+			if (disposeFont)
+			{
+				buttonArgs.Font.Dispose();
+			}
 		}
 
 		public new void OnClick(EventArgs e)
 		{
 			base.OnClick(e);
 		}
+	}
+
+	public class ButtonDrawArgs
+	{
+		public Rectangle Rectangle { get; set; }
+		public Point Location { get; set; }
+		public Size Size { get; set; }
+		public string Text { get; set; }
+		public Font Font { get; set; }
+		public Color BackColor { get; set; }
+		public Color ForeColor { get; set; }
+		public DynamicIcon Icon { get; set; }
+		public Image Image { get; set; }
+		public Padding Padding { get; set; }
+		public bool Enabled { get; set; } = true;
+		public HoverState HoverState { get; set; } = HoverState.Normal;
+		public ColorStyle ColorStyle { get; set; } = ColorStyle.Active;
+		public Color? ColorShade { get; set; }
+		public ILoaderControl Control { get; set; }
+		public ButtonType ButtonType { get; set; }
+		public int? BorderRadius { get; set; }
 	}
 }

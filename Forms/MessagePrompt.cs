@@ -127,13 +127,17 @@ namespace SlickControls
 			{
 				var heightDiff = Height - L_Text.Height;
 				var widthDiff = Width - L_Text.Width;
+				var heightLimit = false;
 
 				while (true)
 				{
+					if(!heightLimit)
 					h = heightDiff + Math.Max(80, (int)(1.05F * g.Measure(L_Text.Text, L_Text.Font, w).Height));
 
 					if (h > screen.WorkingArea.Height * 95 / 100)
 					{
+						heightLimit = true;
+
 						h = screen.WorkingArea.Height * 95 / 100;
 
 						w += (int)(20 * UI.UIScale);

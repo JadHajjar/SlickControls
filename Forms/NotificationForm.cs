@@ -337,7 +337,9 @@ namespace SlickControls
 
 			if (Notification.Action == null)
 			{
-				PictureBox.Cursor = new Rectangle(Width - 20, 4, 16, 16).Contains(PointToClient(MousePosition))
+				var iconSize = Padding.Horizontal + IconManager.GetNormalScale();
+				
+				PictureBox.Cursor = ClientRectangle.Align(new Size(iconSize, iconSize), ContentAlignment.TopRight).Contains(PointToClient(MousePosition))
 					? Cursors.Hand
 					: Cursors.Default;
 			}
@@ -347,7 +349,9 @@ namespace SlickControls
 		{
 			if (e.Button == MouseButtons.Left)
 			{
-				if (!new Rectangle(Width - 20, 4, 16, 16).Contains(PointToClient(MousePosition)))
+				var iconSize = Padding.Horizontal + IconManager.GetNormalScale();
+
+				if (!ClientRectangle.Align(new Size(iconSize, iconSize), ContentAlignment.TopRight).Contains(PointToClient(MousePosition)))
 				{
 					if (Notification.Action != null)
 					{

@@ -77,9 +77,9 @@ namespace SlickControls
 			base.UIChanged();
 
 			base_L_Title.Padding = UI.Scale(new Padding(5, 0, 0, 0), UI.FontScale);
-			base_L_Title.Font = UI.Font(7.5F, FontStyle.Bold);
-			base_P_Top.Height = (int)(24 * UI.UIScale);
-			base_B_Close.Size = base_B_Max.Size = base_B_Min.Size = new Size((int)(24 * UI.UIScale) - 6, (int)(24 * UI.UIScale));
+			base_L_Title.Font = UI.Font(8.25F, FontStyle.Bold);
+			base_P_Top.Height = (int)(28 * UI.UIScale);
+			base_B_Close.Size = base_B_Max.Size = base_B_Min.Size = new Size(base_P_Top.Height - 6, base_P_Top.Height);
 			base_P_Top_Spacer.Height = (int)Math.Ceiling(3F * (float)UI.FontScale);
 		}
 

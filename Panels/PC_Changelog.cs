@@ -24,11 +24,7 @@ namespace SlickControls
 			base_P_Tabs = new PanelItemControl(null) { Dock = DockStyle.Fill };
 			base_TLP_Side.Controls.Add(base_P_Tabs);
 
-			using (var stream = assembly.GetManifestResourceStream(resourceName))
-			using (var reader = new StreamReader(stream))
-			{
-				ChangeLogs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<VersionChangeLog>>(reader.ReadToEnd());
-			}
+			ChangeLogs = GetChangelogs(assembly, resourceName);
 
 			PrepareChangelog(ChangeLogs);
 
@@ -55,6 +51,15 @@ namespace SlickControls
 				{
 					AddVersion(item);
 				}
+			}
+		}
+
+		public static List<VersionChangeLog> GetChangelogs(Assembly assembly, string resourceName)
+		{
+			using (var stream = assembly.GetManifestResourceStream(resourceName))
+			using (var reader = new StreamReader(stream))
+			{
+				return Newtonsoft.Json.JsonConvert.DeserializeObject<List<VersionChangeLog>>(reader.ReadToEnd());
 			}
 		}
 
