@@ -157,5 +157,6 @@
   "{0}h": "{0}h",
   "{0}m": "{0}m",
   "{0}s": "{0}s",
-  "Midnight": "Północ"
+  "Midnight": "Północ",
+  "Use Windows-style top bar buttons": "Use Windows-style top bar buttons"
 }

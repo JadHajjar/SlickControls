@@ -23,8 +23,8 @@
   "Select a folder": "选择文件夹",
   "Open File": "打开文件",
   "Continue": "继续",
-  "Ok": "确定",
-  "No": "取消",
+  "Ok": "OK",
+  "No": "否",
   "Abort": "中止",
   "Cancel": "取消",
   "Ignore": "忽略",
@@ -60,7 +60,7 @@
   "Dark": "深色主题",
   "Golden Forest": "金色森林主题",
   "Custom": "自定义主题",
-  "Yes": "确定",
+  "Yes": "是",
   "Go back to {0}": "返回 {0}",
   "All Versions": "所有版本",
   "Current Version": "当前版本",
@@ -157,5 +157,6 @@
   "{0}h": "{0} 小时",
   "{0}m": "{0} 分钟",
   "{0}s": "{0} 秒",
-  "Midnight": "午夜主题"
+  "Midnight": "午夜主题",
+  "Use Windows-style top bar buttons": "使用 Windows 系统样式的标题栏窗口按钮"
 }

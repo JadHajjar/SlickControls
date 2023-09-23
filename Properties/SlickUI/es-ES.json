@@ -64,7 +64,7 @@
   "Go back to {0}": "Volver a {0}",
   "All Versions": "Todas las versiones",
   "Current Version": "Versión actual",
-  "Profiles": "Perfiles",
+  "Profiles": "Playsets",
   "Drives": "Discos",
   "Switch to Grid-View": "Cambiar a vista de cuadrícula",
   "Switch to List-View": "Cambiar a vista de lista",
@@ -157,5 +157,6 @@
   "{0}h": "{0}h",
   "{0}m": "{0}m",
   "{0}s": "{0}s",
-  "Midnight": "Medianoche"
+  "Midnight": "Medianoche",
+  "Use Windows-style top bar buttons": "Usar botones de la barra superior estilo Windows"
 }
