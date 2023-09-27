@@ -1,8 +1,7 @@
 ﻿using Extensions;
 
-using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -14,22 +13,28 @@ namespace SlickControls
 		public BasePanelForm Form { get; }
 
 		public PanelItemControl(BasePanelForm form)
-        {
+		{
 			Form = form;
 			ItemHeight = 24;
 			TabStop = false;
+			DynamicSizing = true;
 		}
 
 		protected override void CanDrawItemInternal(CanDrawItemEventArgs<PanelTab> args)
 		{
-			args.DoNotDraw = args.Item.IsGroupHeader && (Form?.SmallMenu ?? false);
+			args.DoNotDraw =
+				(args.Item.IsGroupHeader && (Form?.SmallMenu ?? false)) ||
+				args.Item.PanelItem?.Hidden == true ||
+				(args.Item.IsSubItem && !(args.Item.ParentItem.Selected || args.Item.ParentItem.SubItems.Any(x => x.Selected)));
 
 			base.CanDrawItemInternal(args);
 		}
 
 		protected override void OnPaintItemList(ItemPaintEventArgs<PanelTab, Rectangles> e)
 		{
-			e.Item.Paint(e, (Form?.SmallMenu ?? false));
+			e.DrawableItem.CachedHeight = ItemHeight;
+
+			e.Item.Paint(e, Form?.SmallMenu ?? false);
 		}
 
 		protected override void OnItemMouseClick(DrawableItem<PanelTab, Rectangles> item, MouseEventArgs e)

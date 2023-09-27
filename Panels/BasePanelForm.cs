@@ -17,6 +17,7 @@ namespace SlickControls
 		private Image formIcon;
 		private readonly List<PanelContent> panelHistory = new List<PanelContent>();
 		private readonly List<PanelContent> panelsToDispose = new List<PanelContent>();
+		private List<PanelItem> AllSidebarItems = new List<PanelItem>();
 		private PanelItem[] sidebarItems = new PanelItem[0];
 		private bool autoHideMenu;
 		private MouseDetector mouseDetector;
@@ -161,7 +162,10 @@ namespace SlickControls
 			}
 		}
 
-		public bool PushPanel<T>() where T : PanelContent, new() => PushPanel<T>(null);
+		public bool PushPanel<T>() where T : PanelContent, new()
+		{
+			return PushPanel<T>(null);
+		}
 
 		public bool PushPanel<T>(PanelItem panelItem) where T : PanelContent, new()
 		{
@@ -186,7 +190,10 @@ namespace SlickControls
 			return SetPanel<T>(panelItem, false, false);
 		}
 
-		public bool PushPanel(PanelContent panelContent) => PushPanel(null, panelContent);
+		public bool PushPanel(PanelContent panelContent)
+		{
+			return PushPanel(null, panelContent);
+		}
 
 		public bool PushPanel(PanelItem panelItem, PanelContent panelContent)
 		{
@@ -304,12 +311,12 @@ namespace SlickControls
 
 			if (SidebarItems != null && panelItem != null)
 			{
-				foreach (var item in SidebarItems)
+				foreach (var item in AllSidebarItems)
 				{
 					item.Selected = item == panelItem;
 				}
 
-				base_P_Tabs.Invalidate();
+				base_P_Tabs.FilterChanged();
 			}
 
 			CurrentPanel.OnShown();
@@ -410,17 +417,17 @@ namespace SlickControls
 
 			if (SidebarItems != null && panelItem != null)
 			{
-				foreach (var item in SidebarItems)
+				foreach (var item in AllSidebarItems)
 				{
 					item.Selected = item == panelItem;
 				}
 
-				base_P_Tabs.Invalidate();
+				base_P_Tabs.FilterChanged();
 			}
 
 			panelContent.Visible = true;
 
-			CurrentPanel.OnShown();	
+			CurrentPanel.OnShown();
 			CurrentPanel.ResumeLayout(true);
 
 			base_P_Content.ResumeDrawing();
@@ -438,7 +445,7 @@ namespace SlickControls
 		{
 			base.UIChanged();
 
-			base_P_Side.Width = (int)(165 * UI.FontScale);
+			base_P_Side.Width = (int)(180 * UI.FontScale);
 			base_TLP_Side.Padding = UI.Scale(new Padding(5), UI.FontScale);
 			base_P_Side.Padding = UI.Scale(new Padding(5, 5, 0, 5), UI.FontScale);
 
@@ -680,6 +687,7 @@ namespace SlickControls
 		private void GenerateTabs()
 		{
 			var tabs = new List<PanelTab>();
+			AllSidebarItems = new List<PanelItem>();
 
 			foreach (var group in sidebarItems.Select(x => x.Group).Distinct())
 			{
@@ -693,6 +701,20 @@ namespace SlickControls
 				foreach (var item in items)
 				{
 					tabs.Add(new PanelTab(item));
+
+					AllSidebarItems.Add(item);
+
+					if (item.SubItems.Length > 0)
+					{
+						item.OnClick += OpenTabSubItems;
+					}
+
+					foreach (var subItem in item.SubItems)
+					{
+						tabs.Add(new PanelTab(subItem, item));
+
+						AllSidebarItems.Add(subItem);
+					}
 				}
 
 				if (group != sidebarItems.Select(x => x.Group).Distinct().Last())
@@ -702,6 +724,21 @@ namespace SlickControls
 			}
 
 			base_P_Tabs.SetItems(tabs);
+		}
+
+		private void OpenTabSubItems(object sender, MouseEventArgs e)
+		{
+			if (((PanelItem)sender).SubItems.Any(x => x.Selected))
+			{
+				return;
+			}
+
+			foreach (var item in AllSidebarItems)
+			{
+				item.Selected = item == sender;
+			}
+
+			base_P_Tabs.FilterChanged();
 		}
 
 		private void RecursiveMouseDown(Control ctrl)
@@ -745,7 +782,9 @@ namespace SlickControls
 				foreach (var item in SidebarItems)
 				{
 					if (i++ <= 10)
+					{
 						item.ShowKey = (i % 10).ToString();
+					}
 
 					item.Highlighted = item.Selected;
 				}
@@ -804,7 +843,7 @@ namespace SlickControls
 			{
 				var close = !base_P_Side.Bounds.Pad(-30).Contains(base_P_Side.PointToClient(p));
 				var animation = AnimationHandler.GetAnimation(base_P_Side, AnimationOption.IgnoreHeight);
-				var newSize = new Size(close ? 0 : (int)((smallMenu ? 55 : 165) * UI.UIScale), 0);
+				var newSize = new Size(close ? 0 : (int)((smallMenu ? 55 : 180) * UI.UIScale), 0);
 
 				if (!IsHandleCreated || DesignMode || !menuSetUp)
 				{
@@ -825,7 +864,7 @@ namespace SlickControls
 			base_P_SideControls.Visible = !smallMenu;
 			base_PB_Icon.Size = UI.Scale(smallMenu ? new Size(26, 26) : new Size(32, 32), UI.UIScale);
 
-			var newSize = new Size((int)((smallMenu ? 55 : 165) * UI.UIScale), 0);
+			var newSize = new Size((int)((smallMenu ? 55 : 180) * UI.UIScale), 0);
 
 			if (!IsHandleCreated || !menuSetUp)
 			{
