@@ -32,9 +32,12 @@ namespace SlickControls
 
 		protected override void OnPaintItemList(ItemPaintEventArgs<PanelTab, Rectangles> e)
 		{
-			e.DrawableItem.CachedHeight = ItemHeight;
-
 			e.Item.Paint(e, Form?.SmallMenu ?? false);
+
+			if (e.DrawableItem.CachedHeight == 0 || AnimationHandler.IsAnimated(Parent?.Parent))
+			{
+				e.DrawableItem.CachedHeight = ItemHeight;
+			}
 		}
 
 		protected override void OnItemMouseClick(DrawableItem<PanelTab, Rectangles> item, MouseEventArgs e)

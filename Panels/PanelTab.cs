@@ -164,15 +164,18 @@ namespace SlickControls
 			{
 				using (var brush = SlickControl.Gradient(clientRectangle, fore))
 				{
-					var textRect = new Rectangle((int)(10 * UI.FontScale) + iconWidth + clientRectangle.X, clientRectangle.Y, clientRectangle.Right - ((int)(10 * UI.FontScale) + iconWidth + clientRectangle.X), clientRectangle.Height);
+					var textRect = new Rectangle(clientRectangle.X, clientRectangle.Y, clientRectangle.Width, (int)(24 * UI.FontScale));
 					var text = LocaleHelper.GetGlobalText(PanelItem.Text);
+
+					textRect = textRect.Pad((int)(10 * UI.FontScale) + iconWidth, 0, bar, 0);
+
 					using (var font = UI.Font(8.25F))
 					{
-						var textSize = e.Graphics.Measure(text, font, clientRectangle.Width);
+						var textSize = e.Graphics.Measure(text, font, textRect.Width);
 
 						textRect.Height = Math.Max(textRect.Height, (int)textSize.Height + bar * 2);
 
-						e.Graphics.DrawString(text, font, brush, textRect.Align(textSize.ToSize(), ContentAlignment.MiddleLeft));
+						e.Graphics.DrawString(text, font, brush, textRect.Align(new Size(textRect.Width, (int)textSize.Height + 1), ContentAlignment.MiddleLeft));
 
 						e.DrawableItem.CachedHeight = textRect.Height;
 					}
