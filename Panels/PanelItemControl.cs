@@ -1,12 +1,13 @@
 ﻿using Extensions;
 
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace SlickControls
 {
-	internal class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemControl.Rectangles>
+	public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemControl.Rectangles>
 	{
 		public event MouseEventHandler OnFormMove;
 
@@ -18,6 +19,24 @@ namespace SlickControls
 			ItemHeight = 24;
 			TabStop = false;
 			DynamicSizing = true;
+		}
+
+		public override void SetItems(IEnumerable<PanelTab> items)
+		{
+			base.SetItems(items);
+
+			foreach (var item in items)
+			{
+				if (item.PanelItem != null)
+				{
+					item.PanelItem.LoadingStateChanged += PanelItem_LoadingStateChanged;
+				}
+			}
+		}
+
+		private void PanelItem_LoadingStateChanged(object sender, System.EventArgs e)
+		{
+			Loading = Items.Any(x => x.PanelItem?.Loading == true);
 		}
 
 		protected override void CanDrawItemInternal(CanDrawItemEventArgs<PanelTab> args)
@@ -32,7 +51,7 @@ namespace SlickControls
 
 		protected override void OnPaintItemList(ItemPaintEventArgs<PanelTab, Rectangles> e)
 		{
-			e.Item.Paint(e, Form?.SmallMenu ?? false);
+			e.Item.Paint(e, this, Form?.SmallMenu ?? false);
 
 			if (e.DrawableItem.CachedHeight == 0 || AnimationHandler.IsAnimated(Parent?.Parent))
 			{
@@ -60,7 +79,7 @@ namespace SlickControls
 			}
 		}
 
-		internal class Rectangles : IDrawableItemRectangles<PanelTab>
+		public class Rectangles : IDrawableItemRectangles<PanelTab>
 		{
 			public PanelTab Item { get; set; }
 

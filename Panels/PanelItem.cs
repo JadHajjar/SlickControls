@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,6 +8,8 @@ namespace SlickControls
 	[DefaultEvent("OnClick")]
 	public class PanelItem : Component
 	{
+		private bool _loading;
+
 		[Category("Appearance"), DisplayName("Text"), DefaultValue(null)]
 		public string Text { get; set; }
 		[Category("Appearance"), DisplayName("Image"), DefaultValue(null)]
@@ -31,10 +34,13 @@ namespace SlickControls
 
 		[Category("Design"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public PanelItem[] SubItems { get; set; } = new PanelItem[0];
-		public bool Loading { get; set; }
+		public bool Loading { get => _loading; set { _loading = value; LoadingStateChanged?.Invoke(this, EventArgs.Empty); } }
 
 		[Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), EditorBrowsable(EditorBrowsableState.Always), Bindable(true)]
 		public event MouseEventHandler OnClick;
+
+		[Browsable(false)]
+		internal event EventHandler LoadingStateChanged;
 
 		public void MouseClick(MouseEventArgs e) => OnClick?.Invoke(this, e);
 

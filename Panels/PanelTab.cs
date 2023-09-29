@@ -1,5 +1,7 @@
 ﻿using Extensions;
 
+using Newtonsoft.Json.Serialization;
+
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -9,7 +11,7 @@ using static SlickControls.PanelItemControl;
 
 namespace SlickControls
 {
-	internal class PanelTab
+	public class PanelTab
 	{
 		public static PanelTab Separator()
 		{
@@ -42,7 +44,7 @@ namespace SlickControls
 			IsSubItem = true;
 		}
 
-		public void Paint(ItemPaintEventArgs<PanelTab, Rectangles> e, bool small)
+		public void Paint(ItemPaintEventArgs<PanelTab, Rectangles> e, PanelItemControl panelItemControl, bool small)
 		{
 			var clientRectangle = e.ClipRectangle;
 
@@ -73,11 +75,11 @@ namespace SlickControls
 
 			if (IsSubItem)
 			{
-				clientRectangle = clientRectangle.Pad(IconManager.GetNormalScale(), 0, 0, 0);
+				clientRectangle = clientRectangle.Pad(small ? bar : IconManager.GetNormalScale(), 0, 0, 0);
 
 				using (var pen = new Pen(Color.FromArgb(200, FormDesign.Design.AccentColor), (float)(1.5 * UI.FontScale)))
 				{
-					e.Graphics.DrawLine(pen, clientRectangle.X / 2 + bar, clientRectangle.Y / 2, clientRectangle.X / 2+bar, clientRectangle.Bottom);
+					e.Graphics.DrawLine(pen, clientRectangle.X / 2 + bar, clientRectangle.Y / 2, clientRectangle.X / 2 + bar, clientRectangle.Bottom);
 				}
 			}
 
@@ -130,13 +132,28 @@ namespace SlickControls
 
 			if (!string.IsNullOrEmpty(PanelItem.ShowKey))
 			{
-				var roundRect = clientRectangle.AlignToFontSize(UI.Font(8.25F, FontStyle.Bold), ContentAlignment.MiddleLeft);
+				using (var font = UI.Font(8.25F, FontStyle.Bold))
+				{
+					var roundRect = clientRectangle.Align(new Size(clientRectangle.Width, IconManager.GetNormalScale()), ContentAlignment.MiddleLeft);
 
-				roundRect = roundRect.Pad(small ? ((clientRectangle.Width - roundRect.Height) / 2) : (int)(7 * UI.FontScale), 0, 0, 0);
-				roundRect.Width = iconWidth = roundRect.Height;
+					roundRect = roundRect.Pad(small ? ((clientRectangle.Width - roundRect.Height) / 2) : (int)(7 * UI.FontScale), 0, 0, 0);
+					roundRect.Width = iconWidth = roundRect.Height;
 
-				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), roundRect, bar);
-				e.Graphics.DrawString(PanelItem.ShowKey, UI.Font(8.25F, FontStyle.Bold), new SolidBrush(FormDesign.Design.ActiveForeColor), roundRect.Pad(0, 1, -1, -1), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+					e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), roundRect, bar);
+					e.Graphics.DrawString(PanelItem.ShowKey, font, new SolidBrush(FormDesign.Design.ActiveForeColor), roundRect.Pad(0, 1, -1, -1), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				}
+			}
+			else if (PanelItem.Loading)
+			{
+				using (var font = UI.Font(8.25F, FontStyle.Bold))
+				{
+					var roundRect = clientRectangle.Align(new Size(clientRectangle.Width, IconManager.GetNormalScale()), ContentAlignment.MiddleLeft);
+
+					roundRect = roundRect.Pad(small ? ((clientRectangle.Width - roundRect.Height) / 2) : (int)(7 * UI.FontScale), 0, 0, 0);
+					roundRect.Width = iconWidth = roundRect.Height;
+
+					panelItemControl.DrawLoader(e.Graphics, roundRect);
+				}
 			}
 			else if (PanelItem.Icon != null)
 			{

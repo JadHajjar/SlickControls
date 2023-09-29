@@ -13,7 +13,7 @@ namespace SlickControls
 {
 	public partial class BasePanelForm : SlickForm
 	{
-		internal readonly PanelItemControl base_P_Tabs;
+		internal protected readonly PanelItemControl base_P_Tabs;
 		private Image formIcon;
 		private readonly List<PanelContent> panelHistory = new List<PanelContent>();
 		private readonly List<PanelContent> panelsToDispose = new List<PanelContent>();
