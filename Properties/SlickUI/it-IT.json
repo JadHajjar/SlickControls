@@ -1,6 +1,6 @@
 {
   "Search": "Cerca",
-  "Loading": "Caricamento..",
+  "Loading": "Caricamento...",
   "Back": "Indietro",
   "Filters": "Filtri",
   "Enable": "Abilita",
@@ -41,7 +41,7 @@
   "End of Month": "Fine del mese",
   "Start of Year": "Inizio dell'anno",
   "End of Year": "Fine dell'anno",
-  "Any Date": "Qualsiasi Data",
+  "Any Date": "Qualsiasi data",
   "Tomorrow": "Domani",
   "User Interface": "Interfaccia Utente",
   "Minimize": "Minimizza",
@@ -158,6 +158,6 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Mezzanotte",
-  "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
+  "Use Windows-style top bar buttons": "Usa pulsanti della barra di stato in stile Windows",
   "All": "Tutto"
 }
