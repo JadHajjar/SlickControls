@@ -1,11 +1,8 @@
 ﻿using Extensions;
 
-using Newtonsoft.Json.Serialization;
-
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 using static SlickControls.PanelItemControl;
 
@@ -79,7 +76,7 @@ namespace SlickControls
 
 				using (var pen = new Pen(Color.FromArgb(200, FormDesign.Design.AccentColor), (float)(1.5 * UI.FontScale)))
 				{
-					e.Graphics.DrawLine(pen, clientRectangle.X / 2 + bar, clientRectangle.Y / 2, clientRectangle.X / 2 + bar, clientRectangle.Bottom);
+					e.Graphics.DrawLine(pen, (clientRectangle.X / 2) + bar, clientRectangle.Y / 2, (clientRectangle.X / 2) + bar, clientRectangle.Bottom);
 				}
 			}
 
@@ -117,8 +114,9 @@ namespace SlickControls
 			if (PanelItem.Selected && !e.HoverState.HasFlag(HoverState.Pressed) && !small)
 			{
 				using (var brush = new LinearGradientBrush(clientRectangle.Pad(clientRectangle.Width / 4, 0, 0, 0), Color.Empty, Color.FromArgb(50, FormDesign.Design.ActiveColor), LinearGradientMode.Horizontal))
-
+				{
 					e.Graphics.FillRoundedRectangle(brush, clientRectangle.Pad((clientRectangle.Width / 4) + 1, 1, bar, 1), bar);
+				}
 
 				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), new Rectangle(clientRectangle.Right - (3 * bar / 2) - 1, clientRectangle.Y + 1, bar * 3 / 2, clientRectangle.Height - 2), bar * 3 / 4);
 			}
@@ -143,25 +141,22 @@ namespace SlickControls
 					e.Graphics.DrawString(PanelItem.ShowKey, font, new SolidBrush(FormDesign.Design.ActiveForeColor), roundRect.Pad(0, 1, -1, -1), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 				}
 			}
-			else if (PanelItem.Loading)
-			{
-				using (var font = UI.Font(8.25F, FontStyle.Bold))
-				{
-					var roundRect = clientRectangle.Align(new Size(clientRectangle.Width, IconManager.GetNormalScale()), ContentAlignment.MiddleLeft);
-
-					roundRect = roundRect.Pad(small ? ((clientRectangle.Width - roundRect.Height) / 2) : (int)(7 * UI.FontScale), 0, 0, 0);
-					roundRect.Width = iconWidth = roundRect.Height;
-
-					panelItemControl.DrawLoader(e.Graphics, roundRect);
-				}
-			}
 			else if (PanelItem.Icon != null)
 			{
 				using (var image = new Bitmap(PanelItem.Icon))
 				{
 					iconWidth = image.Width;
 
-					e.Graphics.DrawImage(image.Color(fore), clientRectangle.Pad(small ? (clientRectangle.Width - image.Width) / 2 : (int)(7 * UI.FontScale), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft));
+					var imageRect = clientRectangle.Pad(small ? (clientRectangle.Width - image.Width) / 2 : (int)(7 * UI.FontScale), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft);
+
+					if (PanelItem.Loading)
+					{
+						panelItemControl.DrawLoader(e.Graphics, imageRect);
+					}
+					else
+					{
+						e.Graphics.DrawImage(image.Color(fore), imageRect);
+					}
 				}
 			}
 			else
@@ -171,11 +166,20 @@ namespace SlickControls
 					if (image != null)
 					{
 						iconWidth = image.Width;
-						e.Graphics.DrawImage(image.Color(fore), clientRectangle.Pad(small ? (clientRectangle.Width - image.Width) / 2 : (int)(7 * UI.FontScale), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft));
+
+						var imageRect = clientRectangle.Pad(small ? (clientRectangle.Width - image.Width) / 2 : (int)(7 * UI.FontScale), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft);
+
+						if (PanelItem.Loading)
+						{
+							panelItemControl.DrawLoader(e.Graphics, imageRect);
+						}
+						else
+						{
+							e.Graphics.DrawImage(image.Color(fore), imageRect);
+						}
 					}
 				}
 			}
-
 
 			if (!small)
 			{
@@ -190,7 +194,7 @@ namespace SlickControls
 					{
 						var textSize = e.Graphics.Measure(text, font, textRect.Width);
 
-						textRect.Height = Math.Max(textRect.Height, (int)textSize.Height + bar * 2);
+						textRect.Height = Math.Max(textRect.Height, (int)textSize.Height + (bar * 2));
 
 						e.Graphics.DrawString(text, font, brush, textRect.Align(new Size(textRect.Width, (int)textSize.Height + 1), ContentAlignment.MiddleLeft));
 

@@ -34,6 +34,7 @@ namespace SlickControls
 
 		[Category("Design"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 		public PanelItem[] SubItems { get; set; } = new PanelItem[0];
+		[Browsable(false)]
 		public bool Loading { get => _loading; set { _loading = value; LoadingStateChanged?.Invoke(this, EventArgs.Empty); } }
 
 		[Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), EditorBrowsable(EditorBrowsableState.Always), Bindable(true)]
