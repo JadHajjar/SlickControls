@@ -66,7 +66,7 @@ namespace SlickControls
 
 		private void TB_MouseWheel(object sender, MouseEventArgs e)
 		{
-			if (!ReadOnly)
+			if (!ReadOnly && ClientRectangle.Contains(PointToClient(Cursor.Position)))
 			{
 				if (SelectedItem != null && Items != null)
 				{
