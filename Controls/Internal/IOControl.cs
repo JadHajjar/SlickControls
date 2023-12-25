@@ -75,8 +75,8 @@ namespace SlickControls
 				{
 					Controller.Factory.Add(() =>
 					{
-						Directory.CreateDirectory(System.IO.Path.Combine(ISave.DocsFolder, "Thumbs", "Library"));
-						var filepath = System.IO.Path.Combine(ISave.DocsFolder, "Thumbs", "Library", $"{FileObject.Name}.{FileObject.Length}.jpg");
+						Directory.CreateDirectory(System.IO.Path.Combine(ISave.SaveFolder, "Thumbs", "Library"));
+						var filepath = System.IO.Path.Combine(ISave.SaveFolder, "Thumbs", "Library", $"{FileObject.Name}.{FileObject.Length}.jpg");
 
 						try
 						{

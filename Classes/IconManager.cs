@@ -95,7 +95,14 @@ namespace SlickControls
 			ResourceSet entries;
 			try
 			{
-				var resourceManager = new ResourceManager(appAssembly.GetName().Name + ".Properties.Resources", appAssembly);
+				var attribute = appAssembly.GetCustomAttribute<AssemblyTitleAttribute>();
+
+				if (attribute == null)
+				{ 
+					yield break;
+				}
+
+				var resourceManager = new ResourceManager(attribute.Title + ".Properties.Resources", appAssembly);
 				entries = resourceManager.GetResourceSet(new CultureInfo(""), true, false);
 			}
 			catch
