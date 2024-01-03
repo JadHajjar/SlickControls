@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
@@ -95,14 +96,21 @@ namespace SlickControls
 			ResourceSet entries;
 			try
 			{
+#if NET47
 				var attribute = appAssembly.GetCustomAttribute<AssemblyTitleAttribute>();
-
+#else
+				var attribute = appAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false).FirstOrDefault() as AssemblyTitleAttribute;
+#endif
 				if (attribute == null)
 				{ 
 					yield break;
 				}
-
+#if NET47
 				var resourceManager = new ResourceManager(attribute.Title + ".Properties.Resources", appAssembly);
+#else
+				var resourceManager = new ResourceManager(Path.GetFileNameWithoutExtension(attribute.Title) + ".Properties.Resources", appAssembly);
+#endif
+
 				entries = resourceManager.GetResourceSet(new CultureInfo(""), true, false);
 			}
 			catch
