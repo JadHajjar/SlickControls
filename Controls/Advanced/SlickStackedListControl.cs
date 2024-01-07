@@ -986,5 +986,26 @@ namespace SlickControls
 				Invalidate();
 			}
 		}
+
+		protected override void InvalidateForLoading()
+		{
+			List<DrawableItem<T, R>> items;
+			
+			lock (_sync)
+			{
+				items =_items.Where(x => x.Loading).ToList();
+			}
+
+			if (items.Count == 0)
+			{
+				Invalidate();
+				return;
+			}
+
+            foreach (var item in items)
+            {
+				Invalidate(item);
+            }
+        }
 	}
 }

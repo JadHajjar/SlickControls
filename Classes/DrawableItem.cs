@@ -21,6 +21,7 @@ namespace SlickControls
 		public Rectangle Bounds { get; set; }
 		public HoverState HoverState { get; set; }
 		public int CachedHeight { get; set; }
+		public bool Loading { get; set; }
 		internal bool Hidden { get; set; }
 	}
 }

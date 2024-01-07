@@ -91,6 +91,11 @@ namespace SlickControls
 				timer.Enabled = false;
 			}
 
+			InvalidateForLoading();
+		}
+
+		protected virtual void InvalidateForLoading()
+		{
 			Invalidate();
 		}
 
