@@ -54,9 +54,10 @@ namespace SlickControls
 
 				using (var backBrush = rectangle.Gradient(color, 0.35F))
 				using (var foreBrush = new SolidBrush(color.GetTextColor()))
+				using (var stringFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
 				{
 					graphics.FillRoundedRectangle(backBrush, rectangle, (int)(3 * UI.FontScale));
-					graphics.DrawString(text, font, foreBrush, icon is null ? rectangle : rectangle.Pad(icon.Width + padding.Left, 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+					graphics.DrawString(text, font, foreBrush, icon is null ? rectangle : rectangle.Pad(icon.Width + padding.Left, 0, 0, 0), stringFormat);
 				}
 
 				if (icon != null)
@@ -107,9 +108,10 @@ namespace SlickControls
 				var iconRect = rect.Pad(pad).Align(new Size(height * 3 / 4, height * 3 / 4), text == "" ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
 				using (var brush = new SolidBrush(color.HasValue ? Color.FromArgb(!cursorLocation.HasValue || rect.Contains(cursorLocation.Value) ? 255 : 160, color.Value) : Color.FromArgb(120, !cursorLocation.HasValue || rect.Contains(cursorLocation.Value) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor.MergeColor(FormDesign.Design.AccentBackColor, 40))))
 				using (var textBrush = new SolidBrush(brush.Color.GetTextColor()))
+				using (var stringFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
 				{
 					graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
-					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width, 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width, 0, 0, 0), stringFormat);
 				}
 
 				graphics.DrawRoundImage(bitmap, iconRect);
@@ -134,9 +136,10 @@ namespace SlickControls
 
 				using (var brush = new SolidBrush(color.HasValue ? Color.FromArgb(!cursorLocation.HasValue || rect.Contains(cursorLocation.Value) ? 255 : 160, color.Value) : Color.FromArgb(120, !cursorLocation.HasValue || rect.Contains(cursorLocation.Value) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor.MergeColor(FormDesign.Design.AccentBackColor, 40))))
 				using (var textBrush = new SolidBrush(brush.Color.GetTextColor()))
+				using (var stringFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
 				{
 					graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
-					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width, 0, 0, 0), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+					graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width, 0, 0, 0), stringFormat);
 
 					if (icon != null)
 					{

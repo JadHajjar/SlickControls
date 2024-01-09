@@ -59,6 +59,37 @@ namespace SlickControls
 			}
 		}
 
+		[Category("Data"), Browsable(false)]
+		public IEnumerable<T> SelectedOrFilteredItems
+		{
+			get
+			{
+				lock (_sync)
+				{
+					if (SelectedItems.Count > 0)
+					{
+						foreach (var item in SelectedItems)
+						{
+							if (!item.Hidden)
+							{
+								yield return item.Item;
+							}
+						}
+
+						yield break;
+					}
+
+					foreach (var item in _items)
+					{
+						if (!item.Hidden)
+						{
+							yield return item.Item;
+						}
+					}
+				}
+			}
+		}
+
 		[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 		public int ItemCount
 		{
@@ -697,6 +728,8 @@ namespace SlickControls
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
+			base.OnPaintBackground(e);
+
 			CursorLocation = PointToClient(Cursor.Position);
 
 			e.Graphics.Clear(BackColor);
@@ -873,6 +906,8 @@ namespace SlickControls
 					break;
 				}
 			}
+
+			base.OnPaint(e);
 		}
 
 		protected virtual void DrawHeader(PaintEventArgs e)

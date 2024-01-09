@@ -1,12 +1,8 @@
 ﻿using Extensions;
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,7 +10,8 @@ namespace SlickControls
 {
 	public class SlickPictureBox : PictureBox, IHoverControl
 	{
-		private readonly Timer timer = new Timer();
+		private long epoch;
+		private long lastTick;
 		private bool loading;
 
 		[DefaultValue(false), Category("Behavior")]
@@ -25,19 +22,21 @@ namespace SlickControls
 			{
 				loading = value;
 
-				if (!DesignMode)
+				if (value)
 				{
-					if (!loading)
-						LoaderPercentage = 0;
+					epoch = DateTime.Now.Ticks;
+					lastTick = 0;
+				}
 
-					this.TryInvoke(() =>
-					{
-						timer.Enabled = loading && Visible && Parent != null;
-						Invalidate();
-					});
+				if (Live)
+				{
+					InvalidateForLoading();
 				}
 			}
 		}
+
+		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+		public bool Live { get; private set; }
 
 		[DefaultValue(false), Category("Behavior"), DisplayName("User Draw")]
 		public bool UserDraw { get; set; }
@@ -52,7 +51,15 @@ namespace SlickControls
 		public bool AutoInvalidate { get; set; } = true;
 
 		[DefaultValue(null)]
-		public new Image Image { get => base.Image; set => this.TryInvoke(() => { base.Image = value; Loading = false; }); }
+		public new Image Image
+		{
+			get => base.Image; 
+			set => this.TryInvoke(() =>
+			{
+				base.Image = value;
+				Loading = false;
+			});
+		}
 
 		[DefaultValue(1), Category("Behavior"), DisplayName("Loader Speed")]
 		public double LoaderSpeed { get; set; } = 1;
@@ -60,26 +67,13 @@ namespace SlickControls
 		public SlickPictureBox()
 		{
 			DoubleBuffered = ResizeRedraw = true;
-			timer = new Timer { Interval = 30 };
-			timer.Tick += timer_Tick;
 
-			VisibleChanged += (s, e) => timer.Enabled = Visible && loading;
-			LoadCompleted += (s, e) => loading = false;
+			LoadCompleted += (s, e) => Loading = false;
 		}
 
-		public void OnImageLoaded(AsyncCompletedEventArgs e = null) 
-			=> this.TryInvoke(() => OnLoadCompleted(e ?? new AsyncCompletedEventArgs(null, false, null)));
-
-		private void timer_Tick(object sender, EventArgs e)
+		public void OnImageLoaded(AsyncCompletedEventArgs e = null)
 		{
-			LoaderPercentage += (1 + (Math.Abs(50 - LoaderPercentage) / 25)) * LoaderSpeed;
-			if (LoaderPercentage >= 200)
-				LoaderPercentage = 0;
-
-			if (!loading)
-				timer.Enabled = false;
-
-			Invalidate();
+			this.TryInvoke(() => OnLoadCompleted(e ?? new AsyncCompletedEventArgs(null, false, null)));
 		}
 
 		protected override void OnPaint(PaintEventArgs e)
@@ -91,17 +85,37 @@ namespace SlickControls
 				DrawLoader(e.Graphics, new Rectangle(Point.Empty, Size));
 			}
 			else
+			{
 				base.OnPaint(e);
+			}
+		}
+
+		protected override async void OnPaintBackground(PaintEventArgs e)
+		{
+			base.OnPaintBackground(e);
+
+			if (loading && Live)
+			{
+				var oldTick = lastTick;
+				lastTick = (DateTime.Now.Ticks - epoch) / TimeSpan.TicksPerMillisecond;
+
+				var val = lastTick / 600D % Math.PI;
+				LoaderPercentage = 100 - (100 * Math.Cos(val));
+
+				await Task.Delay(Math.Max(2, 25 - (int)(lastTick - oldTick)));
+
+				InvalidateForLoading();
+			}
+		}
+
+		protected virtual void InvalidateForLoading()
+		{
+			Invalidate(ClientRectangle);
 		}
 
 		public void DrawLoader(Graphics g, Rectangle rectangle, Color? color = null)
-			=> g.DrawLoader(LoaderPercentage, rectangle, color);
-
-		protected override void Dispose(bool disposing)
 		{
-			if (disposing) timer?.Dispose();
-
-			try { base.Dispose(disposing); } catch { }
+			g.DrawLoader(LoaderPercentage, rectangle, color);
 		}
 
 		protected override void OnMouseEnter(EventArgs e)
@@ -109,7 +123,9 @@ namespace SlickControls
 			HoverState |= HoverState.Hovered;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnMouseEnter(e);
 		}
@@ -119,7 +135,9 @@ namespace SlickControls
 			HoverState &= ~HoverState.Hovered;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnMouseLeave(e);
 		}
@@ -129,7 +147,9 @@ namespace SlickControls
 			HoverState |= HoverState.Pressed;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnMouseDown(e);
 		}
@@ -139,9 +159,18 @@ namespace SlickControls
 			HoverState &= ~HoverState.Pressed;
 
 			if (AutoInvalidate)
+			{
 				Invalidate();
+			}
 
 			base.OnMouseUp(e);
+		}
+
+		protected override void OnHandleCreated(EventArgs e)
+		{
+			base.OnHandleCreated(e);
+
+			Live = !DesignMode;
 		}
 	}
 }

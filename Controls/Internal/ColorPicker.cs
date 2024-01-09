@@ -174,6 +174,8 @@ namespace SlickControls
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
+			base.OnPaintBackground(e);
+
 			e.Graphics.SetUp(Parent.BackColor);
 
 			e.Graphics.FillRoundedRectangle(new SolidBrush(Color), ClientRectangle.Pad(1, 1, 2, 1), Padding.Left);

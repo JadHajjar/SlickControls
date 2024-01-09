@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls
@@ -16,7 +17,8 @@ namespace SlickControls
 #endif
 			EventHandler<HoverState> HoverStateChanged;
 
-		private readonly Timer timer = new Timer();
+		private long epoch;
+		private long lastTick;
 		private bool loading;
 		private static bool focusFromTab;
 		private HoverState hoverState = HoverState.Normal;
@@ -25,7 +27,14 @@ namespace SlickControls
 		public double LoaderPercentage { get; private set; }
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-		public virtual HoverState HoverState { get => hoverState; protected set { hoverState = value; OnHoverStateChanged(); } }
+		public virtual HoverState HoverState
+		{
+			get => hoverState; protected set
+			{
+				hoverState = value;
+				OnHoverStateChanged();
+			}
+		}
 
 		[DefaultValue(true), Category("Behavior"), DisplayName("Auto Invalidate")]
 		public bool AutoInvalidate { get; set; } = true;
@@ -47,18 +56,15 @@ namespace SlickControls
 			{
 				loading = value;
 
+				if (value)
+				{
+					epoch = DateTime.Now.Ticks;
+					lastTick = 0;
+				}
+
 				if (Live)
 				{
-					if (!loading)
-					{
-						LoaderPercentage = 0;
-					}
-
-					this.TryInvoke(() =>
-					{
-						timer.Enabled = loading && Visible && Parent != null;
-						Invalidate();
-					});
+					InvalidateForLoading();
 				}
 			}
 		}
@@ -70,33 +76,33 @@ namespace SlickControls
 		{
 			AutoScaleMode = AutoScaleMode.None;
 			DoubleBuffered = ResizeRedraw = true;
-			timer = new Timer { Interval = 1000 / 40 };
-			timer.Tick += timer_Tick;
 
 			FormDesign.DesignChanged += DesignChanged;
 			UI.UIChanged += UIChanged;
 			LocaleHelper.LanguageChanged += LocaleChanged;
 		}
 
-		private void timer_Tick(object sender, EventArgs e)
+		protected override async void OnPaintBackground(PaintEventArgs e)
 		{
-			LoaderPercentage += 0.75 + (Math.Abs(50 - LoaderPercentage) / 25);
-			if (LoaderPercentage >= 200)
-			{
-				LoaderPercentage = 0;
-			}
+			base.OnPaintBackground(e);
 
-			if (!loading)
+			if (loading && Live)
 			{
-				timer.Enabled = false;
-			}
+				var oldTick = lastTick;
+				lastTick = (DateTime.Now.Ticks - epoch) / TimeSpan.TicksPerMillisecond;
 
-			InvalidateForLoading();
+				var val = lastTick / 600D % Math.PI;
+				LoaderPercentage = 100 - (100 * Math.Cos(val));
+
+				await Task.Delay(Math.Max(2, 25 - (int)(lastTick - oldTick)));
+
+				InvalidateForLoading();
+			}
 		}
 
 		protected virtual void InvalidateForLoading()
 		{
-			Invalidate();
+			Invalidate(ClientRectangle);
 		}
 
 		public void DrawLoader(Graphics g, Rectangle rectangle, Color? color = null)
@@ -266,20 +272,6 @@ namespace SlickControls
 			base.OnEnter(e);
 		}
 
-		protected override void OnParentChanged(EventArgs e)
-		{
-			base.OnParentChanged(e);
-
-			timer.Enabled = loading && Visible && Parent != null;
-		}
-
-		protected override void OnVisibleChanged(EventArgs e)
-		{
-			base.OnVisibleChanged(e);
-
-			timer.Enabled = loading && Visible && Parent != null;
-		}
-
 		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 		{
 			if (HoverState.HasFlag(HoverState.Focused) && (
@@ -323,12 +315,13 @@ namespace SlickControls
 		protected override void Dispose(bool disposing)
 		{
 			try
-			{ base.Dispose(disposing); }
+			{
+				base.Dispose(disposing);
+			}
 			catch { }
 
 			if (disposing)
 			{
-				timer?.Dispose();
 				FormDesign.DesignChanged -= DesignChanged;
 				UI.UIChanged -= UIChanged;
 				LocaleHelper.LanguageChanged -= LocaleChanged;
@@ -385,7 +378,9 @@ namespace SlickControls
 			else
 			{
 				if (Dock == DockStyle.None && !Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) && !Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right))
+				{
 					return new Size(int.MaxValue, int.MaxValue);
+				}
 
 				availableWidth = parent.ClientSize.Width;
 				availableHeight = parent.ClientSize.Height;
@@ -403,10 +398,14 @@ namespace SlickControls
 				if ((parent as ScrollableControl).AutoSize)
 				{
 					if (parent.Dock != DockStyle.Left && parent.Dock != DockStyle.Right)
+					{
 						availableHeight = int.MaxValue;
+					}
 
 					if (parent.Dock != DockStyle.Top && parent.Dock != DockStyle.Bottom)
+					{
 						availableWidth = int.MaxValue;
+					}
 				}
 			}
 

@@ -207,6 +207,8 @@ namespace SlickControls
 
 		protected override void OnPaintBackground(PaintEventArgs e)
 		{
+			base.OnPaintBackground(e);
+
 			CursorLocation = PointToClient(Cursor.Position);
 		}
 
