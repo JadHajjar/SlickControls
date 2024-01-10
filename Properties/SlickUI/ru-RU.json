@@ -113,6 +113,10 @@
   "Tomorrow at {0}": "Завтра в {0}",
   "Last {0} at {1}": "Прошлый Last {0} в {1}",
   "Next {0} at {1}": "Следующий {0} в {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} месяца назад {1}",
     "Plural": "{0} месяцев назад {1}"
