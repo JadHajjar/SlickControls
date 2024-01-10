@@ -113,6 +113,10 @@
   "Tomorrow at {0}": "Amanhã, às {0}",
   "Last {0} at {1}": "Último {0} às {1}",
   "Next {0} at {1}": "Próximo {0} às {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} mês atrás na {1}",
     "Plural": "{0} meses atrás na {1}"
