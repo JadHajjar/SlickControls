@@ -113,6 +113,10 @@
   "Tomorrow at {0}": "Morgen om {0}",
   "Last {0} at {1}": "Afgelopen {0} om {1}",
   "Next {0} at {1}": "Volgende {0} om {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} maand geleden op {1}",
     "Plural": "{0} maanden geleden op {1}"
