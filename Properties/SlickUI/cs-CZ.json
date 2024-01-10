@@ -113,6 +113,10 @@
   "Tomorrow at {0}": "Zítra v {0}",
   "Last {0} at {1}": "Poslední {0} v {1}",
   "Next {0} at {1}": "Další {0} na {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} před měsícem na {1}",
     "Plural": "{0} před měsíci na {1}"
