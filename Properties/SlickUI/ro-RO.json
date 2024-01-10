@@ -113,6 +113,10 @@
   "Tomorrow at {0}": "Mâine la {0}",
   "Last {0} at {1}": "Ultimul {0} la {1}",
   "Next {0} at {1}": "Următorul {0} la {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} lună în urmă pe {1}",
     "Plural": "{0} luni în urmă pe {1}"
