@@ -113,6 +113,10 @@
   "Tomorrow at {0}": "I morgen ved {0}",
   "Last {0} at {1}": "Siste {0} ved {1}",
   "Next {0} at {1}": "Neste {0} på {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} måned siden på {1}",
     "Plural": "{0} måneder siden på {1}"
