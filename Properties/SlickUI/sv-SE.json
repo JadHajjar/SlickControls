@@ -113,6 +113,10 @@
   "Tomorrow at {0}": "Imorgon kl. {0}",
   "Last {0} at {1}": "Senaste {0} kl. {1}",
   "Next {0} at {1}": "Nästa {0} kl. {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} månad sedan den {1}",
     "Plural": "{0} månader sedan på {1}"
