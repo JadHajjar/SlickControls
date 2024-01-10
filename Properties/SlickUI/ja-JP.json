@@ -113,6 +113,10 @@
   "Tomorrow at {0}": "明日 {0}",
   "Last {0} at {1}": "先週の {0} / {1}",
   "Next {0} at {1}": "次週の {0} / {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{1} / {0} ヶ月前",
     "Plural": "{1} / {0} ヶ月前"
