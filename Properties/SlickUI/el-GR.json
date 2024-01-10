@@ -113,6 +113,10 @@
   "Tomorrow at {0}": "Αύριο στο {0}",
   "Last {0} at {1}": "Τελευταία {0} στο {1}",
   "Next {0} at {1}": "Επόμενο {0} στο {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} μήνα πριν στο {1}",
     "Plural": "{0} months ago on {1}"
