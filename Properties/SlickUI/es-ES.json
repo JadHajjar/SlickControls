@@ -114,8 +114,8 @@
   "Last {0} at {1}": "Último {0} a las {1}",
   "Next {0} at {1}": "Siguiente {0} a las {1}",
   "{0} month ago": {
-    "One": "{0} month ago",
-    "Plural": "{0} months ago"
+    "One": "hace {0} mes",
+    "Plural": "hace {0} meses"
   },
   "{0} month ago on {1}": {
     "One": "hace {0} mes en {1}",
