@@ -91,12 +91,12 @@ namespace SlickControls.Controls.Other
 				{
 					SlickStripItem.Empty,
 
-					new SlickStripItem("Open File", "I_Search", item.Item.FileObject != null, action: () =>
+					item.Item.FileObject == null ? null : new SlickStripItem("Open File", "I_Search", () =>
 					{
 						new BackgroundAction(() => System.Diagnostics.Process.Start(item.Item.FileObject.FullName)).Run();
 					}),
 
-					new SlickStripItem("View in Explorer", "I_Folder", action: () =>
+					new SlickStripItem("View in Explorer", "I_Folder", () =>
 					{
 						if (item.Item.FileObject != null)
 							new BackgroundAction(() => System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{item.Item.FileObject.FullName}\"")).Run();
@@ -104,7 +104,7 @@ namespace SlickControls.Controls.Other
 							new BackgroundAction(() => System.Diagnostics.Process.Start(item.Item.FolderObject.FullName)).Run();
 					}),
 
-					new SlickStripItem("Delete", "I_Trash", action: () =>
+					new SlickStripItem("Delete", "I_Trash", () =>
 					{
 						if (MessagePrompt.Show($"Are you sure you want to delete '{Text}'", "Confirm Action", PromptButtons.OKCancel, PromptIcons.Warning, FindForm() as SlickForm) == DialogResult.OK)
 						{

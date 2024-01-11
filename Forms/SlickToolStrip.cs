@@ -5,436 +5,571 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SlickControls
+namespace SlickControls;
+
+public partial class SlickToolStrip : Form
 {
-	public partial class SlickToolStrip : Form
+	public readonly SlickStripItem[] Items;
+
+	private readonly SlickForm _form;
+	private long epoch;
+	private long lastTick;
+	private bool loaded;
+	private double percentage;
+	private bool mouseDown;
+	private Point startingCursorPosition;
+	private Point lastCursorPosition;
+	private bool reversed;
+	private readonly WaitIdentifier leaveIdentifier = new();
+
+	private SlickToolStrip(IEnumerable<SlickStripItem> items, SlickForm form = null, Point? location = null)
 	{
-		public Dictionary<SlickStripItem, List<SlickStripItem>> Items = new Dictionary<SlickStripItem, List<SlickStripItem>>();
+		_form = form;
+		Items = items.ToArray();
+		startingCursorPosition = location ?? Cursor.Position;
+		loaded = AnimationHandler.NoAnimations;
+		percentage = loaded ? 1 : 0;
 
-		private readonly SlickForm form;
-		private bool mouseDown;
-		private Point startingCursorPosition;
-		private Point lastCursorPosition;
-		private bool reversed;
-		private AnimationHandler animation;
-		private readonly WaitIdentifier leaveIdentifier = new WaitIdentifier();
+		FormBorderStyle = FormBorderStyle.None;
+		AutoScaleMode = AutoScaleMode.None;
+		StartPosition = FormStartPosition.Manual;
+		DoubleBuffered = true;
+		ResizeRedraw = true;
+		ShowIcon = false;
+		ShowInTaskbar = false;
+		Font = UI.Font(8.25F);
+		Padding = UI.Scale(new Padding(3), UI.FontScale);
+		BackColor = TransparencyKey = Color.FromArgb(64, 64, 0);
+		Size = Size.Empty;
 
-		private SlickToolStrip(SlickStripItem[] items, SlickForm form = null, Point? location = null)
+		var first = Items.FirstOrDefault(x => !x.Disabled && !x.IsEmpty);
+
+		if (first != null)
 		{
-			InitializeComponent();
+			first.IsFocused = true;
+		}
 
-			Location = Cursor.Position;
-			BackColor = FormDesign.Design.AccentColor;
-			DoubleBuffered = ResizeRedraw = true;
+		if (form == null || form.TopMost)
+		{
+			TopMost = true;
+		}
+		else
+		{
+			form.CurrentFormState = FormState.ForcedFocused;
+			form.FormIsActive = false;
+		}
+	}
 
-			this.form = form;
-			startingCursorPosition = location ?? Cursor.Position;
-			Font = UI.Font(8.25F);
-			Size = Size.Empty;
+	private Size GetSize(IEnumerable<SlickStripItem> items, Point startPosition)
+	{
+		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
 
-			var prevIsOpenable = false;
-			foreach (var item in items)
+		var fontHeight = (int)graphics.Measure(" ", Font).Height;
+		var height = 2 * (int)Math.Floor(UI.UIScale);
+		var width = 0;
+
+		startPosition.Y += height / 2;
+
+		foreach (var item in items)
+		{
+			var itemHeight = Padding.Vertical + (int)Math.Floor(UI.UIScale) + (item.IsEmpty ? 0 : fontHeight);
+			var itemWidth = getWidth(item, itemHeight);
+
+			item.Rectangle = new Rectangle(startPosition, new Size(itemWidth, itemHeight));
+
+			startPosition.Y += itemHeight;
+			height += itemHeight;
+			width = Math.Max(width, itemWidth);
+		}
+
+		return new Size(width, height);
+
+		int getWidth(SlickStripItem item, int height)
+		{
+			var textSize = (int)(graphics.Measure(item.Text, Font).Width * 1.05f);
+			var imageSize = 0;
+
+			if (item.Image != null)
 			{
-				if (item.Fade && item.Tab == 0 && (items.Next(item)?.Tab ?? 0) > 0)
+				using var img = item.Image.Get(height * 3 / 4);
+
+				imageSize = img.Width;
+			}
+
+			return textSize + imageSize + Padding.Horizontal + Padding.Left;
+		}
+	}
+
+	protected override async void OnPaintBackground(PaintEventArgs e)
+	{
+		base.OnPaintBackground(e);
+
+		if (!loaded)
+		{
+			var oldTick = lastTick;
+
+			lastTick = (DateTime.Now.Ticks - epoch) / TimeSpan.TicksPerMillisecond;
+			percentage = (1 - Math.Cos(lastTick / 50D)) / 2d;
+
+			if (lastTick > Math.PI * 50)
+			{
+				percentage = 1;
+				loaded = true;
+				return;
+			}
+
+			await Task.Delay(Math.Max(2, 20 - (int)(lastTick - oldTick)));
+
+			Invalidate();
+		}
+	}
+
+	protected override void OnPaint(PaintEventArgs e)
+	{
+		e.Graphics.Clear(BackColor);
+
+		var clip = new Rectangle(PointToClient(startingCursorPosition), default).CenterR(new Size((int)(Width * percentage * 2), (int)(Height * percentage * 2)));
+		e.Graphics.SetClip(clip);
+
+		var design = FormDesign.Design;
+		var workRect = reversed ? new Rectangle(1, /*(animation?.Animating ?? false) ? animation.NewBounds.Height :*/ Height - 1, 0, 0) : new Rectangle(1, 1, 0, 0);
+		var mousePos = PointToClient(Cursor.Position);
+		var mousedIn = false;
+
+		drawItems(Items);
+
+		void drawItems(IEnumerable<SlickStripItem> items)
+		{
+			var rectangle = items.Select(x => x.Rectangle).Aggregate(Rectangle.Union);
+
+			e.Graphics.FillRectangle(SlickControl.Gradient(rectangle, design.BackColor), rectangle);
+
+			foreach (var item in items.Where(x => !x.IsEmpty))
+			{
+				using var brush = new SolidBrush(item.IsOpened ? design.ActiveColor : item.Disabled ? design.InfoColor : /*mouseIn &&*/ mouseDown ? design.ActiveForeColor : design.ForeColor);
+				using var image = item.Image?.Get(item.Rectangle.Height * 3 / 4);
+
+				if (image != null)
 				{
-					item.IsOpenable = prevIsOpenable = true;
-					item.Fade = false;
-					Items.Add(item, new List<SlickStripItem> { item });
-				}
-				else if (prevIsOpenable && item.Tab > 0)
-				{
-					item.IsContent = true;
-					Items.Last().Value.Add(item);
+					e.Graphics.DrawImage(image.Color(brush.Color), item.Rectangle.Pad(Padding).Align(image.Size, ContentAlignment.MiddleLeft));
+					
+					if (!string.IsNullOrWhiteSpace(item.Text))
+					{
+						e.Graphics.DrawString(item.Text, Font, brush, item.Rectangle.Pad(Padding).Pad(image.Width + Padding.Left, 0, 0, 0));
+					}
 				}
 				else
 				{
-					prevIsOpenable = false;
-					Items.Add(item, new List<SlickStripItem> { item });
+					e.Graphics.DrawString(item.Text, Font, brush, item.Rectangle.Pad(Padding).Pad(image.Width + Padding.Left, 0, 0, 0));
 				}
+
+				if (item.IsOpened)
+					drawItems(item.SubItems);
 			}
 
-			Items.First(x => !x.Key.Fade && !x.Key.IsEmpty).Value.First().IsFocused = true;
-
-			if (form == null || form.TopMost)
+			using (var pen = new Pen(design.AccentColor, (float)Math.Floor(UI.UIScale)))
 			{
-				TopMost = true;
+				e.Graphics.DrawRectangle(pen, Rectangle.Intersect(rectangle, clip).Pad((int)pen.Width));
+			}
+		}
+
+		Cursor = mousedIn ? Cursors.Hand : Cursors.Default;
+	}
+
+	protected override void OnLeave(EventArgs e)
+	{
+		base.OnLeave(e);
+
+		this.TryInvoke(Dispose);
+	}
+
+	protected override void OnDeactivate(EventArgs e)
+	{
+		base.OnDeactivate(e);
+
+		this.TryInvoke(Dispose);
+	}
+
+	protected override void OnCreateControl()
+	{
+		base.OnCreateControl();
+
+		new BackgroundAction(() => this.TryInvoke(this.ShowUp)).RunIn(100);
+
+		var size = GetSize(Items, default);
+
+		if (startingCursorPosition.Y + size.Height > SystemInformation.WorkingArea.Bottom)
+		{
+			reversed = true;
+
+			if (startingCursorPosition.X + size.Width > SystemInformation.WorkingArea.Right)
+			{
+				Bounds = new Rectangle(new Point(startingCursorPosition.X - size.Width, startingCursorPosition.Y - size.Height), size);
 			}
 			else
 			{
-				form.CurrentFormState = FormState.ForcedFocused;
-				form.FormIsActive = false;
-			}
-
-			Disposed += FlatToolStrip_Disposed;
-			Paint += FlatToolStrip_Paint;
-		}
-
-		private void updateHeight()
-		{
-			var bounds = getBounds();
-
-			if (!(animation?.Animating ?? false) || bounds != animation.NewBounds)
-			{
-				Bounds = bounds;
-				animation?.Dispose();
+				Bounds = new Rectangle(new Point(startingCursorPosition.X, startingCursorPosition.Y - size.Height), size);
 			}
 		}
-
-		private Rectangle getBounds()
+		else if (startingCursorPosition.X + size.Width > SystemInformation.WorkingArea.Right)
 		{
-			var h = (int)UI.FontScale * 2;
-			var padding = UI.Scale(new Padding(3), UI.FontScale);
+			Bounds = new Rectangle(new Point(startingCursorPosition.X - size.Width, startingCursorPosition.Y), size);
+		}
+		else
+		{
+			Bounds = new Rectangle(startingCursorPosition, size);
+		}
 
-			using (var g = Graphics.FromHwnd(IntPtr.Zero))
+		epoch = DateTime.Now.Ticks;
+	}
+
+	protected override void OnMouseDown(MouseEventArgs e)
+	{
+		base.OnMouseDown(e);
+
+		mouseDown = true;
+		Invalidate();
+	}
+
+	protected override void OnMouseUp(MouseEventArgs e)
+	{
+		base.OnMouseUp(e);
+
+		mouseDown = false;
+		Invalidate();
+	}
+
+	protected override void OnMouseMove(MouseEventArgs e)
+	{
+		base.OnMouseMove(e);
+
+		if (lastCursorPosition != PointToScreen(e.Location))
+		{
+			try
 			{
-				foreach (var stripItem in Items)
+				if (CheckSubItemHover(Items, e.Location))
 				{
-					foreach (var item in stripItem.Key.IsOpenable && stripItem.Key.IsOpened ? stripItem.Value : new List<SlickStripItem> { stripItem.Key })
-					{
-						h += padding.Vertical + (item.IsEmpty ? 0 : (int)g.Measure(" ", Font).Height);
-					}
+					leaveIdentifier.Cancel();
 				}
 
-				var diff = UI.FontScale >= 3.5 ? 48 : UI.FontScale >= 1.8 ? 24 : 16;
-				var size = new Size(Math.Max(150, padding.Horizontal + padding.Left + diff + (int)(1 * UI.FontScale) + (int)Items.SelectMany(x => x.Value).Max(x => (x.Tab * 12 * UI.FontScale) + g.Measure(LocaleHelper.GetGlobalText(x.Text), Font).Width))
-					, h);
+				CloseAll();
+			}
+			finally
+			{
+				Invalidate();
+				lastCursorPosition = PointToScreen(e.Location);
+			}
+		}
+	}
 
-				if (startingCursorPosition.Y + Items.SelectMany(x => x.Value).Sum(x => x.IsEmpty ? (int)(7 * UI.UIScale) : ((int)g.Measure(x.Text, Font).Height + 4)) + 2 > SystemInformation.WorkingArea.Height)
+	private bool CheckSubItemHover(IEnumerable<SlickStripItem> subItems, Point point)
+	{
+		var found = false;
+
+		foreach (var grp in subItems)
+		{
+			if (found)
+			{
+				if (grp.IsOpened)
 				{
-					reversed = true;
-					if (startingCursorPosition.X + size.Width > SystemInformation.WorkingArea.Width)
+					grp.IsOpened = false;
+					UpdateSize();
+				}
+
+				continue;
+			}
+
+			if (grp.IsOpened && grp.SubItems.Count > 0)
+			{
+				if (CheckSubItemHover(grp.SubItems, point))
+				{
+					found = true;
+					continue;
+				}
+			}
+
+			if (grp.Rectangle.Contains(point))
+			{
+				found = true;
+
+				if (!grp.IsOpened && grp.SubItems.Count > 0)
+				{
+					grp.IsOpened = true;
+					UpdateSize();
+				}
+
+				continue;
+			}
+
+			if (grp.IsOpened)
+			{
+				grp.IsOpened = false;
+				UpdateSize();
+			}
+		}
+
+		return found;
+	}
+
+	private void UpdateSize()
+	{
+		UpdateSize(Items);
+
+		var bounds = Items[0].Rectangle;
+
+		void run(IEnumerable<SlickStripItem> items)
+		{
+			foreach (var item in items)
+			{
+				bounds = Rectangle.Union(bounds, item.Rectangle);
+
+				if (item.IsOpened)
+				{
+					run(item.SubItems);
+				}
+			}
+		}
+
+		if (!IsDisposed)
+		{this.TryInvoke(()=>			Bounds = bounds);
+		}
+	}
+
+	private void UpdateSize(IEnumerable<SlickStripItem> items)
+	{
+		foreach (var item in items)
+		{
+			if (item.IsOpened)
+			{
+				var size = GetSize(item.SubItems, default);
+				var itemRect = new Rectangle(PointToScreen(item.Rectangle.Location), item.Rectangle.Size);
+				var left = itemRect.Right + size.Width > SystemInformation.WorkingArea.Right;
+				int y;
+
+				if (reversed)
+				{
+					if (itemRect.Bottom - size.Height < 0)
 					{
-						return new Rectangle(new Point(startingCursorPosition.X - size.Width, startingCursorPosition.Y - size.Height), size);
+						y = 0;
 					}
 					else
 					{
-						return new Rectangle(new Point(startingCursorPosition.X, startingCursorPosition.Y - size.Height), size);
+						y = itemRect.Bottom - size.Height;
 					}
-				}
-				else if (startingCursorPosition.X + size.Width > SystemInformation.WorkingArea.Width)
-				{
-					return new Rectangle(new Point(startingCursorPosition.X - size.Width, startingCursorPosition.Y), size);
 				}
 				else
 				{
-					return new Rectangle(startingCursorPosition, size);
+					if (itemRect.Y + size.Height > SystemInformation.WorkingArea.Bottom)
+					{
+						y = SystemInformation.WorkingArea.Bottom - size.Height;
+					}
+					else
+					{
+						y = itemRect.Y;
+					}
 				}
+
+				GetSize(item.SubItems, PointToClient(new Point(left ? itemRect.X - size.Width : itemRect.Right, y)));
+
+				UpdateSize(item.SubItems);
 			}
 		}
+	}
 
-		public static void Show(params SlickStripItem[] stripItems)
-		{
-			Show(null, null, stripItems);
-		}
+	protected override void OnMouseLeave(EventArgs e)
+	{
+		base.OnMouseLeave(e);
 
-		public static void Show(SlickForm form, params SlickStripItem[] stripItems)
-		{
-			Show(form, null, stripItems);
-		}
+		CloseAll();
+	}
 
-		public static void Show(SlickForm form, Point? location, params SlickStripItem[] stripItems)
+	protected override void Dispose(bool disposing)
+	{
+		if (disposing)
 		{
-			if (location.HasValue && !Screen.PrimaryScreen.Bounds.Contains(location.Value))
+			leaveIdentifier?.Dispose();
+
+			if (_form != null)
 			{
-				location = null;
-			}
-
-			stripItems = stripItems.Where(x => x.Show).Trim(x => x.IsEmpty).ToArray();
-
-			if (stripItems.Length > 0)
-			{
-				(new SlickToolStrip(stripItems, form, location) as Form).Show();
-			}
-		}
-
-		private void FlatToolStrip_Paint(object sender, PaintEventArgs e)
-		{
-			var d = FormDesign.Design;
-			var workRect = reversed ? new Rectangle(1, ((animation?.Animating ?? false) ? animation.NewBounds.Height : Height) - 1, 0, 0) : new Rectangle(1, 1, 0, 0);
-			var mousePos = PointToClient(Cursor.Position);
-			var mousedIn = false;
-			var diff = (UI.FontScale >= 3.5 ? 48 : UI.FontScale >= 1.8 ? 24 : 16) / 2;
-			var padding = UI.Scale(new Padding(3), UI.FontScale);
-
-			e.Graphics.SetUp(d.AccentColor);
-
-			e.Graphics.FillRectangle(SlickControl.Gradient(ClientRectangle, d.BackColor), ClientRectangle.Pad((int)UI.FontScale));
-
-			foreach (var grp in Items)
-			{
-				if (grp.Key.IsOpenable && grp.Key.IsOpened)
+				if (_form.Bounds.Contains(System.Windows.Forms.Cursor.Position))
 				{
-					var start = 0;
-					foreach (var item in grp.Value)
+					_form.TryBeginInvoke(() =>
 					{
-						drawItem(item);
-						if (start == 0)
-						{
-							start = workRect.Y + (reversed ? 0 : workRect.Height);
-						}
-					}
-
-					e.Graphics.DrawLine(new Pen(FormDesign.Design.ActiveColor, (float)(2.5 * UI.FontScale)) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dot, DashCap = System.Drawing.Drawing2D.DashCap.Round },
-						diff, start,
-						diff, workRect.Y + (grp.Value.Last().IsEmpty != reversed ? 0 : workRect.Height));
-				}
-				else if (grp.Key.IsOpenable)
-				{
-					foreach (var item in grp.Value)
-					{
-						item.IsVisible = false;
-					}
-				}
-
-				if (!grp.Key.IsOpened)
-				{
-					drawItem(grp.Key);
-				}
-
-				void drawItem(SlickStripItem stripItem)
-				{
-					var text = LocaleHelper.GetGlobalText(stripItem.Text);
-					var h = padding.Vertical + (stripItem.IsEmpty ? 0 : (int)e.Graphics.Measure(" ", Font).Height);
-					stripItem.DrawRectangle = workRect = new Rectangle(0, reversed ? (workRect.Y - h) : (workRect.Y + workRect.Height), Width, h);
-
-					var mouseIn = !stripItem.IsOpenable && !stripItem.Fade && !stripItem.IsEmpty && workRect.Contains(mousePos);
-
-					if (mouseIn && workRect.Width > 0)
-					{
-						e.Graphics.FillRectangle(SlickControl.Gradient(workRect, mouseIn.If(d.ButtonColor.If(mouseDown, d.ActiveColor), d.BackColor)), workRect);
-					}
-
-					if (stripItem.IsFocused)
-					{
-						SlickControl.DrawFocus(e.Graphics, workRect.Pad(-10, 0, -10, 1), HoverState.Focused, 0);
-					}
-
-					if (stripItem.IsEmpty)
-					{
-						return;
-					}
-
-					mousedIn |= mouseIn;
-
-					workRect.X += (int)(stripItem.Tab * 12 * UI.FontScale);
-
-					if (stripItem.Image != null)
-					{
-						e.Graphics.DrawImage(stripItem.Image.Color(stripItem.IsOpened ? d.ActiveColor : stripItem.Fade ? d.InfoColor : mouseIn && mouseDown ? d.ActiveForeColor : d.ForeColor), workRect.Pad(padding).Align(stripItem.Image.Size, ContentAlignment.MiddleLeft));
-						workRect.X += stripItem.Image.Width + padding.Left;
-					}
-					else if (stripItem.ImageName != null)
-					{
-						using (var img = stripItem.ImageName.Small)
-						{
-							e.Graphics.DrawImage(img.Color(stripItem.IsOpened ? d.ActiveColor : stripItem.Fade ? d.InfoColor : mouseIn && mouseDown ? d.ActiveForeColor : d.ForeColor), workRect.Pad(padding).Align(img.Size, ContentAlignment.MiddleLeft));
-							workRect.X += img.Width + padding.Left;
-						}
-					}
-
-					if (!string.IsNullOrEmpty(text))
-					{
-						if (workRect.Width > 0)
-						{
-							e.Graphics.DrawString(text + (stripItem.IsOpenable && !stripItem.IsOpened ? ".." : ""), Font, new SolidBrush(stripItem.IsOpened ? d.ActiveColor : stripItem.Fade ? d.InfoColor : mouseIn && mouseDown ? d.ActiveForeColor : d.ForeColor)
-								, workRect.Pad(padding).Pad(0,-(int)UI.FontScale,0,0));
-						}
-					}
-
-					stripItem.IsVisible = true;
-				}
-			}
-
-			Cursor = mousedIn ? Cursors.Hand : Cursors.Default;
-		}
-
-		private void FlatToolStrip_Disposed(object sender, EventArgs e)
-		{
-			if (form != null)
-			{
-				if (form.Bounds.Contains(Cursor.Position))
-				{
-					form.TryBeginInvoke(() => { form.Focus(); form.CurrentFormState = FormState.NormalFocused; });
-				}
-
-				form.CurrentFormState = FormState.NormalFocused;
-				form.FormIsActive = true;
-			}
-		}
-
-		private void FlatToolStrip_Leave(object sender, EventArgs e)
-		{
-			this.TryInvoke(Dispose);
-		}
-
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-		{
-			switch (keyData)
-			{
-				case Keys.Escape:
-					Dispose();
-					return true;
-
-				case Keys.Up:
-				case Keys.Down:
-				case Keys.Tab:
-					var items = Items.SelectMany(x => x.Value).Where(x => x.IsVisible && !x.IsEmpty && !x.Fade).ToList();
-					var current = items.FirstOrDefault(x => x.IsFocused);
-
-					if (items.Count == 0)
-					{
-						return false;
-					}
-
-					var next = (reversed != (keyData == Keys.Up) ? items.Previous(current, true) : items.Next(current, true)) ?? items.FirstOrDefault();
-
-					if (current != null)
-					{
-						current.IsFocused = false;
-					}
-
-					next.IsFocused = true;
-
-					foreach (var grp in Items)
-					{
-						if (grp.Key.IsOpenable)
-						{
-							grp.Key.IsOpened = grp.Value.Any(x => x.IsFocused);
-						}
-					}
-
-					updateHeight();
-					Invalidate();
-					return true;
-
-				case Keys.Enter:
-				case Keys.Space:
-					var stripItem = Items.SelectMany(x => x.Value).FirstOrDefault(x => !x.IsOpenable && x.IsVisible && x.IsFocused);
-
-					if (stripItem != null && !stripItem.Fade && !stripItem.IsEmpty)
-					{
-						stripItem.Action?.Invoke(stripItem);
-
-						if (stripItem.CloseOnClick)
-						{
-							Dispose();
-						}
-						else
-						{
-							Invalidate();
-						}
-					}
-					return true;
-			}
-
-			return base.ProcessCmdKey(ref msg, keyData);
-		}
-
-		private void FlatToolStrip_Load(object sender, EventArgs e)
-		{
-			new BackgroundAction(() => this.TryInvoke(this.ShowUp)).RunIn(100);
-
-			Bounds = new Rectangle(startingCursorPosition, Size.Empty);
-			Opacity = 0;
-
-			animation = new AnimationHandler(this, getBounds()) { Speed = 3 };
-			animation.OnAnimationTick += animation_OnAnimationTick;
-			animation.StartAnimation();
-		}
-
-		private void animation_OnAnimationTick(AnimationHandler handler, Control control, bool finished)
-		{
-			Opacity = animation.NewBounds.Height > animation.NewBounds.Width
-				? (double)Height / animation.NewBounds.Height
-				: (double)Width / animation.NewBounds.Width;
-		}
-
-		private void FlatToolStrip_MouseDown(object sender, MouseEventArgs e)
-		{
-			mouseDown = true;
-			Invalidate();
-		}
-
-		private void FlatToolStrip_MouseUp(object sender, MouseEventArgs e)
-		{
-			mouseDown = false;
-			Invalidate();
-		}
-
-		private void FlatToolStrip_MouseMove(object sender, MouseEventArgs e)
-		{
-			if (lastCursorPosition != PointToScreen(e.Location))
-			{
-				try
-				{
-					foreach (var grp in Items)
-					{
-						if (grp.Key.IsOpenable)
-						{
-							if (grp.Value.Any(x => x.IsVisible && x.DrawRectangle.Contains(e.Location)))
-							{
-								foreach (var item in Items)
-								{
-									item.Key.IsOpened = item.Key == grp.Key;
-								}
-
-								leaveIdentifier.Cancel();
-								return;
-							}
-						}
-					}
-
-					closeAll();
-				}
-				finally
-				{
-					updateHeight();
-					Invalidate();
-					lastCursorPosition = PointToScreen(e.Location);
-				}
-			}
-		}
-
-		private void FlatToolStrip_MouseLeave(object sender, EventArgs e)
-		{
-			closeAll();
-		}
-
-		private void closeAll()
-		{
-			leaveIdentifier.Wait(() =>
-			{
-				Items.Foreach(x => x.Key.IsOpened = false);
-
-				if (!IsDisposed)
-				{
-					this.TryInvoke(() =>
-					{
-						updateHeight();
-						Invalidate();
+						_form.Focus();
+						_form.CurrentFormState = FormState.NormalFocused;
 					});
 				}
-			}, 750);
+
+				_form.CurrentFormState = FormState.NormalFocused;
+				_form.FormIsActive = true;
+			}
 		}
 
-		private void FlatToolStrip_MouseClick(object sender, MouseEventArgs e)
+		base.Dispose(disposing);
+	}
+
+	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+	{
+		//switch (keyData)
+		//{
+		//	case Keys.Escape:
+		//		Dispose();
+		//		return true;
+
+		//	case Keys.Up:
+		//	case Keys.Down:
+		//	case Keys.Tab:
+		//		var items = Items.SelectMany(x => x.Value).Where(x => x.IsVisible && !x.IsEmpty && !x.Disabled).ToList();
+		//		var current = items.FirstOrDefault(x => x.IsFocused);
+
+		//		if (items.Count == 0)
+		//		{
+		//			return false;
+		//		}
+
+		//		var next = (reversed != (keyData == Keys.Up) ? items.Previous(current, true) : items.Next(current, true)) ?? items.FirstOrDefault();
+
+		//		if (current != null)
+		//		{
+		//			current.IsFocused = false;
+		//		}
+
+		//		next.IsFocused = true;
+
+		//		foreach (var grp in Items)
+		//		{
+		//			if (grp.Key.IsOpenable)
+		//			{
+		//				grp.Key.IsOpened = grp.Value.Any(x => x.IsFocused);
+		//			}
+		//		}
+
+		//		Invalidate();
+		//		return true;
+
+		//	case Keys.Enter:
+		//	case Keys.Space:
+		//		var stripItem = Items.SelectMany(x => x.Value).FirstOrDefault(x => !x.IsOpenable && x.IsVisible && x.IsFocused);
+
+		//		if (stripItem != null && !stripItem.Disabled && !stripItem.IsEmpty)
+		//		{
+		//			stripItem.Action?.Invoke(stripItem);
+
+		//			if (stripItem.CloseOnClick)
+		//			{
+		//				Dispose();
+		//			}
+		//			else
+		//			{
+		//				Invalidate();
+		//			}
+		//		}
+
+		//		return true;
+		//}
+
+		return base.ProcessCmdKey(ref msg, keyData);
+	}
+
+	private void CloseAll()
+	{
+		leaveIdentifier.Wait(() => { CloseAll(Items); UpdateSize(); }, 750);
+	}
+
+	private void CloseAll(IEnumerable<SlickStripItem> items)
+	{
+		foreach (var item in items)
 		{
-			var stripItem = Items.SelectMany(x => x.Value).FirstOrDefault(x => !x.IsOpenable && x.IsVisible && x.DrawRectangle.Contains(e.Location));
+			item.IsOpened = false;
 
-			if (stripItem != null && !stripItem.IsEmpty && !stripItem.Fade)
+			CloseAll(item.SubItems);
+		}
+	}
+
+	protected override void OnMouseClick(MouseEventArgs e)
+	{
+		base.OnMouseClick(e);
+
+		var stripItem = GetHovered(Items, e.Location);
+
+		if (stripItem != null && !stripItem.IsEmpty && !stripItem.Disabled)
+		{
+			stripItem.Action?.Invoke();
+
+			if (stripItem.CloseOnClick)
 			{
-				stripItem.Action?.Invoke(stripItem);
+				Dispose();
+			}
+			else
+			{
+				Invalidate();
+			}
+		}
+	}
 
-				if (stripItem.CloseOnClick)
+	private SlickStripItem GetHovered(IEnumerable<SlickStripItem> items, Point location)
+	{
+		foreach (var item in items)
+		{
+			if (item.Rectangle.Contains(location))
+			{
+				return item;
+			}
+
+			if (item.IsOpened)
+			{
+				var subItem = GetHovered(item.SubItems, location);
+
+				if (subItem != null)
 				{
-					Dispose();
+					return subItem;
 				}
-				else
+			}
+		}
+		return null;
+	}
+
+	public static void Show(params SlickStripItem[] stripItems)
+	{
+		Show(null, null, stripItems);
+	}
+
+	public static void Show(SlickForm form, params SlickStripItem[] stripItems)
+	{
+		Show(form, null, stripItems);
+	}
+
+	public static void Show(SlickForm form, Point? location, params SlickStripItem[] stripItems)
+	{
+		if (location.HasValue && !Screen.PrimaryScreen.Bounds.Contains(location.Value))
+		{
+			location = null;
+		}
+
+		(new SlickToolStrip(PrepareItems(stripItems), form, location) as Form).Show();
+	}
+
+	private static IEnumerable<SlickStripItem> PrepareItems(IEnumerable<SlickStripItem> stripItems)
+	{
+		foreach (var item in stripItems.Where(x => x != null).Trim(x => x.IsEmpty))
+		{
+			yield return item;
+
+			if (item.SubItems?.Any() ?? false)
+			{
+				item.SubItems = new List<SlickStripItem>(PrepareItems(item.SubItems));
+
+				foreach (var subItem in item.SubItems)
 				{
-					Invalidate();
+					subItem.Parent = item;
 				}
+			}
+			else
+			{
+				item.SubItems = [];
 			}
 		}
 	}

@@ -251,38 +251,38 @@ namespace SlickControls
 
 				var items = new List<SlickStripItem>
 				{
-					new SlickStripItem("Minimize", "I_Minimize", MinimizeBox, action: () => WindowState = FormWindowState.Minimized),
+					MinimizeBox ? new SlickStripItem("Minimize", "I_Minimize", () => WindowState = FormWindowState.Minimized) : null,
 
-					new SlickStripItem(WindowState == FormWindowState.Maximized ? "Restore" : "Maximize", WindowState == FormWindowState.Maximized ? "I_Restore" : "I_Maximize", MaximizeBox, action: () => WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized),
+					MaximizeBox ? new SlickStripItem(WindowState == FormWindowState.Maximized ? "Restore" : "Maximize", WindowState == FormWindowState.Maximized ? "I_Restore" : "I_Maximize", () => WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized) : null,
 
-					new SlickStripItem("Close", "I_Close", action: Close),
+					new SlickStripItem("Close", "I_Close", Close),
 
-					new SlickStripItem("", show: panelForm && !bpf.HideMenu),
+					panelForm && !bpf.HideMenu ? SlickStripItem.Empty : null,
 
-					new SlickStripItem("Smaller Menu", panelForm && bpf.SmallMenu ? "I_Checked_ON" : "I_Checked_OFF",panelForm && !bpf.HideMenu,action: () => bpf.SmallMenu = !bpf.SmallMenu ),
-					new SlickStripItem("Auto-Hide Menu", panelForm && bpf.AutoHideMenu ? "I_Checked_ON" : "I_Checked_OFF", panelForm && !bpf.HideMenu,action:() => bpf.AutoHideMenu = !bpf.AutoHideMenu),
+					panelForm && !bpf.HideMenu?new SlickStripItem("Smaller Menu", panelForm && bpf.SmallMenu ? "I_Checked_ON" : "I_Checked_OFF", () => bpf.SmallMenu = !bpf.SmallMenu ):null,
+					panelForm && !bpf.HideMenu?new SlickStripItem("Auto-Hide Menu", panelForm && bpf.AutoHideMenu ? "I_Checked_ON" : "I_Checked_OFF", () => bpf.AutoHideMenu = !bpf.AutoHideMenu):null,
 
-					new SlickStripItem("", show: !isThemeChanger),
+					!isThemeChanger ? SlickStripItem.Empty : null,
 
-					new SlickStripItem("Theme Changer", "I_Paint", show: !isThemeChanger, action: () =>
+					!isThemeChanger ? new SlickStripItem("Theme Changer", "I_Paint",  () =>
 						{
 							if (panelForm) { (this as BasePanelForm).PushPanel<PC_ThemeChanger>(PanelItem.Empty); } else { Theme_Changer.ThemeForm = Theme_Changer.ThemeForm.ShowUp(true); }
-						}),
+						}):null,
 
-					new SlickStripItem("Switch To", "I_Switch", fade: true, show: !isThemeChanger)
+				!isThemeChanger ?new SlickStripItem("Switch To", "I_Switch", true):null
 				};
 
 				if (!isThemeChanger)
 				{
-					foreach (var item in FormDesign.List)
+					items.Add(new SlickStripItem("Switch To", "I_Switch", true)
 					{
-						items.Add(new SlickStripItem(item.Name, item.Name == FormDesign.Design.Name ? "I_ArrowRight" : null, tab: 1, action: () =>
+						SubItems = FormDesign.List.ToList(item => new SlickStripItem(item.Name, item.Name == FormDesign.Design.Name ? "I_Checked_ON" : null, () =>
 						{
 							Cursor = Cursors.WaitCursor;
 							FormDesign.Switch(item, true, true);
 							Cursor = Cursors.Default;
-						}));
-					}
+						}))
+					});
 				}
 
 				SlickToolStrip.Show(this, items.ToArray());

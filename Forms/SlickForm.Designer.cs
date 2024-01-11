@@ -1,4 +1,5 @@
-﻿namespace SlickControls
+﻿
+namespace SlickControls
 {
 	partial class SlickForm
 	{
