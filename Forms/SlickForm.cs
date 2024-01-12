@@ -268,8 +268,6 @@ namespace SlickControls
 						{
 							if (panelForm) { (this as BasePanelForm).PushPanel<PC_ThemeChanger>(PanelItem.Empty); } else { Theme_Changer.ThemeForm = Theme_Changer.ThemeForm.ShowUp(true); }
 						}):null,
-
-				!isThemeChanger ?new SlickStripItem("Switch To", "I_Switch", true):null
 				};
 
 				if (!isThemeChanger)
