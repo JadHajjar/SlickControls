@@ -10,8 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using Timer = System.Windows.Forms.Timer;
-
 namespace SlickControls
 {
 	public partial class PanelContent : SlickControl
@@ -33,11 +31,6 @@ namespace SlickControls
 			DoubleBuffered = true;
 			ResizeRedraw = false;
 			EnterTriggersClick = false;
-			Font = UI.Font(8.25F);
-
-			timer.Tick += Timer_Tick;
-			
-			VisibleChanged += (s, e) => timer.Enabled = Visible && loading;
 
 			if (!DesignMode)
 				DataLoaded = !load;
@@ -92,14 +85,11 @@ namespace SlickControls
 
 		public virtual bool CanExit(bool toBeDisposed) => true;
 
-		public virtual bool KeyPressed(ref Message msg, Keys keyData)
-			=> false;
+		public virtual bool KeyPressed(ref Message msg, Keys keyData) => false;
 
-		public virtual bool KeyPressed(char keyChar)
-			=> false;
+		public virtual bool KeyPressed(char keyChar) => false;
 
-		public virtual Color GetTopBarColor()
-			=> FormDesign.Design.BackColor;
+		public virtual Color GetTopBarColor() => FormDesign.Design.BackColor;
 
 		protected void AbortLoad()
 		{
@@ -120,9 +110,10 @@ namespace SlickControls
 			Font = UI.Font(8.25F);
 			Padding = UI.Scale(defaultPadding ?? new Padding(5, 30, 5, 5), UI.FontScale);
 			SetBackIcon();
+			base_Text.Padding = UI.Scale(new Padding(4, 2, 3, 2), UI.FontScale);
 			base_Text.Font = UI.Font(10F, FontStyle.Bold);
 			base_Text.Size = base_Text.GetAutoSize(true);
-			base_Text.Location = new Point((int)Math.Ceiling(3F * (float)UI.FontScale) + ((int)(5 * UI.UIScale) - Padding.Left), (int)Math.Ceiling(3F * (float)UI.FontScale));
+			base_Text.Location = new Point((int)(5 * UI.FontScale), ((int)(30 * UI.FontScale) - base_Text.Height) / 2);
 		}
 
 		protected override void DesignChanged(FormDesign design)
@@ -183,8 +174,9 @@ namespace SlickControls
 		{
 			if (Form?.PanelHistory?.Any(x => x != this) ?? false)
 			{
-				base_Text.Image = UI.FontScale > 2 ? Properties.Resources.I_ArrowLeft_32 : UI.FontScale >= 1.5 ? Properties.Resources.I_ArrowLeft_24 : Properties.Resources.I_ArrowLeft_16;
+				base_Text.ImageName="I_ArrowLeft";
 				base_Text.Enabled = true;
+				base_Text.PerformAutoScale();
 				SlickTip.SetTo(base_Text, string.Format(LocaleHelper.GetGlobalText("Go back to {0}"), Form.PanelHistory.Last().Text));
 			}
 		}
@@ -212,8 +204,7 @@ namespace SlickControls
 		protected virtual void OnLoadFail()
 		{ }
 
-		public virtual bool OnWndProc(Message m)
-			=> false;
+		public virtual bool OnWndProc(Message m) => false;
 
 		protected void StartDataLoad()
 		{
@@ -279,58 +270,55 @@ namespace SlickControls
 
 		#region Loader
 
-		private readonly Timer timer = new Timer { Interval = 14 };
-		private double perc = -20;
 		private bool loading;
 
 		public void StartLoader()
 		{
-			this.TryInvoke(() => timer.Enabled = loading = true);
+			Loading = true;
 		}
 
 		public void StopLoader()
 		{
-			this.TryInvoke(() =>
-			{
-				timer.Enabled = loading = false;
-				Invalidate(new Rectangle(0, 0, Width, (int)Math.Ceiling(3F * (float)UI.FontScale)));
-			});
+			Loading = false;
 		}
 
-		private void Timer_Tick(object sender, EventArgs e)
+		protected override void InvalidateForLoading()
 		{
-			try
+			Invalidate();
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+
+			var maxwWidth = Width - (int)(115 * UI.FontScale);
+			var width = maxwWidth / 2;
+			var x = (int)((LoaderPercentage - 100) * maxwWidth / 100) + width;
+			var rect = Rectangle.Intersect(new Rectangle(x, 0, width, (int)Math.Ceiling(3F * (float)UI.FontScale)), new Rectangle(0, 0, maxwWidth, (int)Math.Ceiling(3F * (float)UI.FontScale)));
+
+			if (rect.Width <= 5)
+				return;
+
+			using var brush = new LinearGradientBrush(rect.Pad(-1), default, default, 0f);
+
+			if (rect.Width > (int)(200 * UI.FontScale))
 			{
-				if (Parent != null)
+				brush.InterpolationColors = new ColorBlend(5)
 				{
-					perc += (1 + (Math.Abs(50 - perc) / 25)) / 1.75;
-					if (perc >= 200)
-						perc = 0;
-
-					Invalidate(new Rectangle(0, 0, Width, (int)Math.Ceiling(3F * (float)UI.FontScale)));
-				}
+					Colors = [default, Color.FromArgb(100, FormDesign.Design.ActiveColor), FormDesign.Design.ActiveColor, Color.FromArgb(100, FormDesign.Design.ActiveColor), default],
+					Positions = [0f, 0.25f, 0.5f, 0.75f, 1f]
+				};
 			}
-			catch { }
-		}
-
-		private void PanelContent_Paint(object sender, PaintEventArgs e)
-		{
-			var w = Width - 115;
-			e.Graphics.FillRectangle(new SolidBrush(BackColor), 0, 0, w, 2);
-
-			if (loading)
+			else
 			{
-				var width = (int)((w / 2 * 50 / Math.Abs(25 - perc)).Between(50, w / 2) - (Math.Pow(Math.Abs(25 - perc), 2) * w / 12500 / (perc - 75).Between(20, 35) / 20).Between(0, w / 4));
-				var x = (int)(perc * (w + 0) / 100) - width;
-
-				if (x >= w)
-					perc = -35;
-
-				var rect = new RectangleF(x, 0, Math.Min(width, w-x), 3F * (float)UI.FontScale);
-				e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.ActiveColor), rect);
-				e.Graphics.FillRectangle(new LinearGradientBrush(new PointF(0, 0), new PointF(150, 0), BackColor, Color.Empty), new RectangleF(0, 0, 150, rect.Height));
-				e.Graphics.FillRectangle(new LinearGradientBrush(new PointF(w - 150, 0), new PointF(w, 0), Color.Empty, BackColor), new RectangleF(w - 150, 0, 151, rect.Height));
+				brush.InterpolationColors = new ColorBlend(3)
+				{
+					Colors = [default, Color.FromArgb(Math.Min((int)(rect.Width / UI.FontScale / 2), 100), FormDesign.Design.ActiveColor), default],
+					Positions = [0f, 0.5f, 1f]
+				};
 			}
+
+			e.Graphics.FillRectangle(brush, rect);
 		}
 
 		internal protected virtual void GlobalMouseMove(Point p)

@@ -51,7 +51,7 @@ namespace SlickControls
 						item.Checked = false;
 				}
 
-				Image = @checked ? Properties.Resources.Tiny_Circle_Filled : Properties.Resources.Tiny_Circle_Empty;
+				ImageName = @checked ? "I_Circle_ON" : "I_Circle_OFF";
 			}
 		}
 

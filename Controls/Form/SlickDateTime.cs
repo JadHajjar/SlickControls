@@ -232,7 +232,7 @@ namespace SlickControls
 			}
 
 			if (DateType != DateType.Time)
-			using (var Image = Properties.Resources.Tiny_Calendar)
+			using (var Image = IconManager.GetIcon("I_Calendar"))
 			{
 				var active = iconRect.Contains(PointToClient(Cursor.Position));
 

@@ -52,16 +52,21 @@ namespace SlickControls
 					e.Graphics.DrawLine(pen, small ? 0 : (int)(10 * UI.FontScale), clientRectangle.Y + (clientRectangle.Height / 2), clientRectangle.Width - (small ? 0 : (2 * (int)(10 * UI.FontScale))), clientRectangle.Y + (clientRectangle.Height / 2));
 				}
 
+				e.DrawableItem.CachedHeight = panelItemControl.ItemHeight;
+
 				return;
 			}
 
 			if (IsGroupHeader)
 			{
 				using (var brush = new SolidBrush(FormDesign.Design.LabelColor))
+					using (var font = UI.Font(8.25F, FontStyle.Bold))
 				{
-					var h = e.Graphics.Measure(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), UI.Font(8.25F, FontStyle.Bold)).Height;
-					e.Graphics.DrawString(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), UI.Font(8.25F, FontStyle.Bold), brush, new Rectangle(0, clientRectangle.Y + ((clientRectangle.Height - (int)h) / 2), clientRectangle.Width, (int)h));
+					var h = e.Graphics.Measure(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), font).Height;
+					e.Graphics.DrawString(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), font, brush, new Rectangle(0, clientRectangle.Y + ((clientRectangle.Height - (int)h) / 2), clientRectangle.Width, (int)h));
 				}
+
+				e.DrawableItem.CachedHeight = panelItemControl.ItemHeight;
 
 				return;
 			}
@@ -118,12 +123,14 @@ namespace SlickControls
 					e.Graphics.FillRoundedRectangle(brush, clientRectangle.Pad((clientRectangle.Width / 4) + 1, 1, bar, 1), bar);
 				}
 
-				e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), new Rectangle(clientRectangle.Right - (3 * bar / 2) - 1, clientRectangle.Y + 1, bar * 3 / 2, clientRectangle.Height - 2), bar * 3 / 4);
+				using (var brush = new SolidBrush(FormDesign.Design.ActiveColor))
+				e.Graphics.FillRoundedRectangle(brush, new Rectangle(clientRectangle.Right - (3 * bar / 2) - 1, clientRectangle.Y + 1, bar * 3 / 2, clientRectangle.Height - 2), bar * 3 / 4);
 			}
 
 			if (PanelItem.Highlighted)
 			{
-				e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(100, FormDesign.Design.ActiveForeColor), 2F) { DashStyle = DashStyle.Dash }, clientRectangle.Pad(0, 1, 0, 1), bar);
+				using (var pen= new Pen(Color.FromArgb(100, FormDesign.Design.ActiveForeColor), 2F) { DashStyle = DashStyle.Dash })
+				e.Graphics.DrawRoundedRectangle(pen, clientRectangle.Pad(0, 1, 0, 1), bar);
 			}
 
 			var iconWidth = 0;
@@ -137,8 +144,11 @@ namespace SlickControls
 					roundRect = roundRect.Pad(small ? ((clientRectangle.Width - roundRect.Height) / 2) : (int)(7 * UI.FontScale), 0, 0, 0);
 					roundRect.Width = iconWidth = roundRect.Height;
 
-					e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.ActiveColor), roundRect, bar);
-					e.Graphics.DrawString(PanelItem.ShowKey, font, new SolidBrush(FormDesign.Design.ActiveForeColor), roundRect.Pad(0, 1, -1, -1), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+					using (var brush= new SolidBrush(FormDesign.Design.ActiveColor))
+					e.Graphics.FillRoundedRectangle(brush, roundRect, bar);
+					using (var brush= new SolidBrush(FormDesign.Design.ActiveForeColor))
+					using (var stringFormat= new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
+					e.Graphics.DrawString(PanelItem.ShowKey, font, brush, roundRect.Pad(0, 1, -1, -1), stringFormat);
 				}
 			}
 			else if (PanelItem.Icon != null)
@@ -161,7 +171,7 @@ namespace SlickControls
 			}
 			else
 			{
-				using (var image = (Bitmap)PanelItem.IconName)
+				using (var image = PanelItem.IconName?.Get((int)(18 * UI.FontScale)))
 				{
 					if (image != null)
 					{

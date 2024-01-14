@@ -48,7 +48,6 @@
 			this.base_Text.Font = new System.Drawing.Font("Nirmala UI", 11.25F);
 			this.base_Text.Location = new System.Drawing.Point(3, 3);
 			this.base_Text.Name = "base_Text";
-			this.base_Text.Padding = new System.Windows.Forms.Padding(3, 2, 0, 3);
 			this.base_Text.Selected = false;
 			this.base_Text.Size = new System.Drawing.Size(150, 30);
 			this.base_Text.SpaceTriggersClick = true;
@@ -69,7 +68,6 @@
 			this.Padding = new System.Windows.Forms.Padding(5, 30, 5, 5);
 			this.Size = new System.Drawing.Size(783, 438);
 			this.Load += new System.EventHandler(this.PanelContent_Load);
-			this.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelContent_Paint);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

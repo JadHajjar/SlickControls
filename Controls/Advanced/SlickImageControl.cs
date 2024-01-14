@@ -12,7 +12,7 @@ namespace SlickControls
 {
 	public class SlickImageControl : SlickControl
 	{
-		private Image image;
+		protected Image image;
 		private DynamicIcon _imageName;
 
 		public event AsyncCompletedEventHandler LoadCompleted;

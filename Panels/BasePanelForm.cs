@@ -613,26 +613,6 @@ namespace SlickControls
 					{
 						PushBack();
 					}
-
-					if (m.Msg == 0x20e && PanelHistory.Any())
-					{
-						var newPad = new Padding(Math.Min((int)(120 * UI.UIScale), base_P_PanelContent.Padding.Left - (m.WParam.ToInt32() / 65536)), 0, 0, 0);
-
-						if (newPad != base_P_PanelContent.Padding)
-						{
-							base_P_PanelContent.Padding = newPad;
-							base_P_PanelContent.Invalidate();
-						}
-						else
-						{
-							base_P_PanelContent.Padding = Padding.Empty;
-							PushBack();
-						}
-					}
-					else if (base_P_PanelContent.Padding.Left != 0 && m.Msg != 0x20)
-					{
-						AnimationHandler.Animate(base_P_PanelContent, Padding.Empty, 2);
-					}
 				}
 			}
 			catch { }
@@ -823,18 +803,6 @@ namespace SlickControls
 			}
 
 			base.OnKeyUp(e);
-		}
-
-		private void base_P_PanelContent_Paint(object sender, PaintEventArgs e)
-		{
-			if (base_P_PanelContent.Padding.Left != 0)
-			{
-				e.Graphics.DrawImage(Properties.Resources.Huge_Back.Color(FormDesign.Design.ActiveColor), new Rectangle((base_P_PanelContent.Padding.Left / 2) - 32, (base_P_PanelContent.Height / 2) - 32, 64, 64));
-				if (base_P_PanelContent.Padding.Left < 120)
-				{
-					e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(255 - (255 * Math.Max(0, base_P_PanelContent.Padding.Left - 20) / 100), base_P_PanelContent.BackColor)), new Rectangle((base_P_PanelContent.Padding.Left / 2) - 32, (base_P_PanelContent.Height / 2) - 32, 64, 64));
-				}
-			}
 		}
 
 		private void mouseDetector_MouseMove(object sender, Point p)

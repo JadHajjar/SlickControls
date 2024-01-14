@@ -91,20 +91,20 @@ namespace SlickControls
 			var mainRect = new Rectangle(3, 3, Width - (int)(100 * UI.FontScale), Height - 10).Pad(0, topRect.Height, 0, 0);
 
 			if (!canIncrement(-1))
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronLeft.Alpha(100), new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16));
+				e.Graphics.DrawImage(IconManager.GetIcon("I_ArrowLeft").Alpha(100), new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16));
 			else
 			{
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronLeft.Color(new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16));
+				e.Graphics.DrawImage(IconManager.GetIcon("I_ArrowLeft").Color(new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16));
 
 				if (new Rectangle(4, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse))
 					action = () => increment(-1);
 			}
 
 			if (!canIncrement(1))
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronRight.Alpha(100), new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16));
+				e.Graphics.DrawImage(IconManager.GetIcon("I_ArrowRight").Alpha(100), new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16));
 			else
 			{
-				e.Graphics.DrawImage(Properties.Resources.Tiny_ChevronRight.Color(new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16));
+				e.Graphics.DrawImage(IconManager.GetIcon("I_ArrowRight").Color(new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16));
 
 				if (new Rectangle(mainRect.Width - 22, topRect.Y + topRect.Height / 2 - 8, 16, 16).Contains(Mouse))
 					action = () => increment(1);

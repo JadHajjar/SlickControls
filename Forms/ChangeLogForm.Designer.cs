@@ -194,7 +194,6 @@
 			this.ClientSize = new System.Drawing.Size(800, 450);
 			this.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(58)))), ((int)(((byte)(69)))));
-			this.FormIcon = global::SlickControls.Properties.Resources.Tiny_Log;
 			this.IconBounds = new System.Drawing.Rectangle(5, 5, 16, 16);
 			this.MinimumSize = new System.Drawing.Size(450, 300);
 			this.Name = "ChangeLogForm";

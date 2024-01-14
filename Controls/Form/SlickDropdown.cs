@@ -87,7 +87,7 @@ namespace SlickControls
 		public Func<object, string> Conversion { get; set; }
 
 		[Category("Data")]
-		public object[] Items { get => _items; set { _items = value; Image = Properties.Resources.ArrowDown; } }
+		public object[] Items { get => _items; set { _items = value; Image = IconManager.GetIcon("I_DropChevron"); } }
 
 		[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 		public bool FontDropdown { get; set; }
@@ -184,11 +184,11 @@ namespace SlickControls
 					new AnimationHandler(DropDownItems, new Size(Width, Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15))).StartAnimation();
 					//DropDownItems.Height = Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15);
 					DropDownItems.ItemSelected += (item) => { Text = Conversion == null ? item.ToString() : Conversion(item); DropDownItems = null; };
-					DropDownItems.Disposed += (s, ea) => Image = Properties.Resources.ArrowDown;
+					DropDownItems.Disposed += (s, ea) => Image = IconManager.GetIcon("I_DropChevron");
 					DropDownItems.Parent = FindForm();
 					DropDownItems.BringToFront();
 					DropDownItems.SetItems(Items);
-					Image = Properties.Resources.ArrowUp;
+					Image = IconManager.GetIcon("I_DropChevron").Rotate(RotateFlipType.RotateNoneFlipY);
 					_textBox.Focus();
 				}
 				else
@@ -267,11 +267,11 @@ namespace SlickControls
 							new AnimationHandler(DropDownItems, new Size(Width, Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15))).StartAnimation();
 							//DropDownItems.Height = Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15);
 							DropDownItems.ItemSelected += (item) => { Text = Conversion == null ? item.ToString() : Conversion(item); DropDownItems = null; };
-							DropDownItems.Disposed += (s, ea) => Image = Properties.Resources.ArrowDown;
+							DropDownItems.Disposed += (s, ea) => Image = IconManager.GetIcon("I_DropChevron");
 							DropDownItems.Parent = FindForm();
 							DropDownItems.BringToFront();
 							DropDownItems.SetItems(items.Where(x => x.ToLower() != txt && x.ToLower().StartsWith(txt)));
-							Image = Properties.Resources.ArrowUp;
+							Image = IconManager.GetIcon("I_DropChevron").Rotate(RotateFlipType.RotateNoneFlipY);
 							_textBox.Focus();
 						}
 						_textBox.Select(index, _textBox.Text.Length - index);

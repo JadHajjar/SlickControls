@@ -1316,6 +1316,222 @@
   <ItemGroup>
     <None Include="Resources\I_Notification_24.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_DropChevron_32png.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Add_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Cancel_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Checked_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Checked_OFF_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Checked_ON_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_CircleArrowDown_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_CircleArrowUp_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_ClearSearch_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Close_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Drive_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Edit_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Error_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_FileName_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Folder_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_FolderSearch_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Grid_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Hand_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Home_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Info_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_List_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Maximize_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_MicroSd_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Minimize_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Notification_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Ok_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Paint_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Paste_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PC_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Question_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Random_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Refresh_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Restore_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Retry_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Save_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Search_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Skip_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_SortAsc_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_SortCreated_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_SortDesc_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_SortEdit_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Switch_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Toggle_OFF_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Toggle_ON_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Trash_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Unavailable_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Undo_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_User_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_UserFolder_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_UserInterface_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Wait_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Warning_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_VertialMore_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_VertialMore_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_VertialMore_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_VertialMore_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_More_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_More_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_More_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_More_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Calendar_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Calendar_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Calendar_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Calendar_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Circle_OFF_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Circle_OFF_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Circle_OFF_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Circle_ON_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Circle_ON_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Circle_ON_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Circle_ON_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Circle_OFF_48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>

@@ -122,12 +122,10 @@ namespace SlickControls
 				{
 					fontFamily = UI._instance.fontFamily,
 					fontScale = UI._instance.fontScale,
-					uiScale = UI._instance.uiScale,
 				};
 
 				UI._instance.fontFamily = DD_Font.Conversion(DD_Font.SelectedItem);
 				UI._instance.fontScale = SS_Scale.Value / 100;
-				UI._instance.uiScale = SS_Scale.Value.If(x => x > 100, x => x * .9 + 10, x => x * 1.1 - 10) / 100;
 				UI._instance.noAnimations = CB_DisableAnimations.Checked;
 
 				UI.OnUiChanged();

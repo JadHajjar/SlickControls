@@ -47,9 +47,12 @@ namespace SlickControls
 
 				rectangle = rectangle.Pad(smaller ? padding.Left / 2 : padding.Left).Align(size, alignment);
 
-				if (mousePosition.HasValue && !rectangle.Contains(mousePosition.Value))
+				if (mousePosition.HasValue)
 				{
-					color = color.MergeColor(FormDesign.Design.BackColor, 50);
+					if (color == default && rectangle.Contains(mousePosition.Value))
+						color = FormDesign.Design.BackColor.MergeColor(FormDesign.Design.ForeColor, 75);
+					else if (!rectangle.Contains(mousePosition.Value))
+						color = color.MergeColor(FormDesign.Design.BackColor, 50);
 				}
 
 				using (var backBrush = rectangle.Gradient(color, 0.35F))

@@ -100,7 +100,7 @@ namespace SlickControls
 
 				if (Enabled && EnableDots)
 					e.Graphics.DrawImage(
-						(Width - ImageBounds.Width < 20 ? Properties.Resources.Tiny_Dots_H : Properties.Resources.Tiny_Dots_V)
+						(Width - ImageBounds.Width < 20 ? IconManager.GetSmallIcon("I_More") : IconManager.GetSmallIcon("I_VerticalMore"))
 							.Color(DotsHovered ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor),
 						DotsBounds);
 

@@ -21,8 +21,7 @@ namespace SlickControls
 		public static double WindowsScale { get; }
 
 		public string fontFamily { get; set; }
-		public double fontScale { get; set; } = 1;
-		public double uiScale { get; set; } = 1;
+		public double fontScale { get; set; } = 1.25;
 		public bool noAnimations { get => _noAnimations; set => AnimationHandler.NoAnimations = _noAnimations = value; }
 
 		internal static readonly UI _instance;

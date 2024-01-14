@@ -116,7 +116,6 @@
 			this.base_P_PanelContent.Name = "base_P_PanelContent";
 			this.base_P_PanelContent.Size = new System.Drawing.Size(683, 477);
 			this.base_P_PanelContent.TabIndex = 1;
-			this.base_P_PanelContent.Paint += new System.Windows.Forms.PaintEventHandler(this.base_P_PanelContent_Paint);
 			// 
 			// base_P_Side
 			// 

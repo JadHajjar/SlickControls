@@ -251,35 +251,42 @@ namespace SlickControls
 
 				var items = new List<SlickStripItem>
 				{
-					MinimizeBox ? new SlickStripItem("Minimize", "I_Minimize", () => WindowState = FormWindowState.Minimized) : null,
+					new SlickStripItem("Minimize", "I_Minimize", () => WindowState = FormWindowState.Minimized, visible: MinimizeBox),
 
-					MaximizeBox ? new SlickStripItem(WindowState == FormWindowState.Maximized ? "Restore" : "Maximize", WindowState == FormWindowState.Maximized ? "I_Restore" : "I_Maximize", () => WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized) : null,
+					new SlickStripItem(WindowState == FormWindowState.Maximized ? "Restore" : "Maximize", WindowState == FormWindowState.Maximized ? "I_Restore" : "I_Maximize", () => WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized, visible: MaximizeBox),
 
 					new SlickStripItem("Close", "I_Close", Close),
 
 					panelForm && !bpf.HideMenu ? SlickStripItem.Empty : null,
 
-					panelForm && !bpf.HideMenu?new SlickStripItem("Smaller Menu", panelForm && bpf.SmallMenu ? "I_Checked_ON" : "I_Checked_OFF", () => bpf.SmallMenu = !bpf.SmallMenu ):null,
-					panelForm && !bpf.HideMenu?new SlickStripItem("Auto-Hide Menu", panelForm && bpf.AutoHideMenu ? "I_Checked_ON" : "I_Checked_OFF", () => bpf.AutoHideMenu = !bpf.AutoHideMenu):null,
+					new SlickStripItem("Smaller Menu", panelForm && bpf.SmallMenu ? "I_Checked_ON" : "I_Checked_OFF", () => bpf.SmallMenu = !bpf.SmallMenu, visible: panelForm && !bpf.HideMenu),
+					new SlickStripItem("Auto-Hide Menu", panelForm && bpf.AutoHideMenu ? "I_Checked_ON" : "I_Checked_OFF", () => bpf.AutoHideMenu = !bpf.AutoHideMenu, visible: panelForm && !bpf.HideMenu),
 
-					!isThemeChanger ? SlickStripItem.Empty : null,
+					SlickStripItem.Empty,
 
-					!isThemeChanger ? new SlickStripItem("Theme Changer", "I_Paint",  () =>
+					new SlickStripItem("Theme Changer", "I_Paint",  () =>
+					{
+						if (panelForm) 
 						{
-							if (panelForm) { (this as BasePanelForm).PushPanel<PC_ThemeChanger>(PanelItem.Empty); } else { Theme_Changer.ThemeForm = Theme_Changer.ThemeForm.ShowUp(true); }
-						}):null,
+							(this as BasePanelForm).PushPanel<PC_ThemeChanger>(PanelItem.Empty);
+						}
+						else
+						{
+							Theme_Changer.ThemeForm = Theme_Changer.ThemeForm.ShowUp(true);
+						}
+					}, visible: !isThemeChanger),
 				};
 
 				if (!isThemeChanger)
 				{
 					items.Add(new SlickStripItem("Switch To", "I_Switch", true)
 					{
-						SubItems = FormDesign.List.ToList(item => new SlickStripItem(item.Name, item.Name == FormDesign.Design.Name ? "I_Checked_ON" : null, () =>
+						SubItems = FormDesign.List.ToList(item => new SlickStripItem(item.Name, item.Name == FormDesign.Design.Name ? "I_Checked_ON" : "I_Checked_OFF", () =>
 						{
 							Cursor = Cursors.WaitCursor;
 							FormDesign.Switch(item, true, true);
 							Cursor = Cursors.Default;
-						}))
+						}, item.Name == FormDesign.Design.Name))
 					});
 				}
 

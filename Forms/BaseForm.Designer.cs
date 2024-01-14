@@ -63,14 +63,12 @@
 			// 
 			// base_B_Close
 			// 
-			this.base_B_Close.Image = global::SlickControls.Properties.Resources.Circle;
 			this.base_B_Close.Location = new System.Drawing.Point(32, 0);
 			this.base_B_Close.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
 			this.base_B_Close.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			// 
 			// base_B_Max
 			// 
-			this.base_B_Max.Image = global::SlickControls.Properties.Resources.Circle;
 			this.base_B_Max.Location = new System.Drawing.Point(16, 0);
 			this.base_B_Max.Margin = new System.Windows.Forms.Padding(0);
 			this.base_B_Max.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
@@ -78,7 +76,6 @@
 			// 
 			// base_B_Min
 			// 
-			this.base_B_Min.Image = global::SlickControls.Properties.Resources.Circle;
 			this.base_B_Min.Padding = new System.Windows.Forms.Padding(0, 6, 6, 6);
 			this.base_B_Min.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			// 
