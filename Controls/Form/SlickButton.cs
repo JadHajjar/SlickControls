@@ -378,6 +378,11 @@ public partial class SlickButton : SlickImageControl
 			arg.Rectangle = new Rectangle(arg.Location, arg.Size);
 		}
 
+		if (arg.Padding == default)
+		{
+			arg.Padding = UI.Scale(new Padding(4), UI.UIScale);
+		}
+
 		if (arg.Font == null)
 		{
 			arg.DisposeFont = true;
@@ -387,12 +392,15 @@ public partial class SlickButton : SlickImageControl
 		if (arg.Icon != null)
 		{
 			arg.DisposeImage = true;
-			arg.Image = arg.Icon.Get(arg.Font.Height * 4 / 3);
-		}
 
-		if (arg.Padding == default)
-		{
-			arg.Padding = UI.Scale(new Padding(4), UI.UIScale);
+			if (!string.IsNullOrWhiteSpace(arg.Text) || arg.Rectangle.Width <= 0)
+			{
+				arg.Image = arg.Icon.Get(arg.Font.Height * 4 / 3);
+			}
+			else
+			{
+				arg.Image = arg.Icon.Get(Math.Max(arg.Rectangle.Width, arg.Rectangle.Height) * 3 / 4);
+			}
 		}
 
 		if (arg.Rectangle.Width <= 0)
