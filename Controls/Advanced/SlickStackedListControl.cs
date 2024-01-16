@@ -201,7 +201,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		AutoScroll = true;
 	}
 
-	public virtual void SortingChanged(bool resetScroll = true)
+	public virtual void SortingChanged(bool resetScroll = true, bool invalidate = true)
 	{
 		lock (_sync)
 		{
@@ -210,10 +210,12 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 
 		if (resetScroll)
 		{
-			ResetScroll();
+			ResetScroll(invalidate);
 		}
-
-		Invalidate();
+		else if (invalidate)
+		{
+			Invalidate();
+		}
 	}
 
 	public virtual void FilterChanged()
@@ -284,7 +286,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 			_items.Add(new DrawableItem<T, R>(item));
 		}
 
-		SortingChanged(false);
+		SortingChanged(false, false);
 		FilterChanged();
 	}
 
@@ -295,7 +297,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 			_items.AddRange(items.Select(item => new DrawableItem<T, R>(item)));
 		}
 
-		SortingChanged(false);
+		SortingChanged(false, false);
 		FilterChanged();
 	}
 
@@ -307,7 +309,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 			_items.AddRange(items.Select(item => new DrawableItem<T, R>(item)));
 		}
 
-		SortingChanged(false);
+		SortingChanged(false, false);
 		FilterChanged();
 	}
 
@@ -323,7 +325,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 			_items.RemoveAll(item => predicate(item.Item));
 		}
 
-		SortingChanged(false);
+		SortingChanged(false, false);
 		FilterChanged();
 	}
 
@@ -337,10 +339,14 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		SortingChanged(false);
 	}
 
-	public void ResetScroll()
+	public void ResetScroll(bool invalidate = true)
 	{
 		scrollIndex = 0;
-		Invalidate();
+
+		if (invalidate)
+		{
+			Invalidate();
+		}
 	}
 
 	public void SelectAll()
