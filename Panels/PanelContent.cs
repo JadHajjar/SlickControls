@@ -270,8 +270,6 @@ namespace SlickControls
 
 		#region Loader
 
-		private bool loading;
-
 		public void StartLoader()
 		{
 			Loading = true;

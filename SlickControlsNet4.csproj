@@ -11,6 +11,7 @@
     <AssemblyName>SlickControls</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <LangVersion>latest</LangVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
@@ -57,7 +58,9 @@
     <Compile Include="Classes\IDrawableItemRectangles.cs" />
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
     <Compile Include="Classes\CanDrawItemEventArgs.cs" />
+    <Compile Include="Classes\LocaleSlickUI.cs" />
     <Compile Include="Classes\SizeSourceEventArgs.cs" />
+    <Compile Include="Classes\SlickStripItem.cs" />
     <Compile Include="Controls\Advanced\DateRangePopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -128,8 +131,10 @@
     <Compile Include="Forms\IoForm.Designer.cs">
       <DependentUpon>IoForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\SlickToolStrip.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Interfaces\Delegates.cs" />
-    <Compile Include="Classes\FlatStripItem.cs" />
     <Compile Include="Classes\FormValidation.cs" />
     <Compile Include="Classes\IO.cs" />
     <Compile Include="Interfaces\IHoverControl.cs" />
@@ -332,12 +337,6 @@
     <Compile Include="Controls\Internal\DropDownItems.Designer.cs">
       <DependentUpon>DropDownItems.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SlickToolStrip.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SlickToolStrip.Designer.cs">
-      <DependentUpon>SlickToolStrip.cs</DependentUpon>
-    </Compile>
     <Compile Include="Interfaces\ISlickForm.cs" />
     <Compile Include="Forms\IOSelectionForm.cs">
       <SubType>Form</SubType>
@@ -500,9 +499,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\IoForm.resx">
       <DependentUpon>IoForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SlickToolStrip.resx">
-      <DependentUpon>SlickToolStrip.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\IOSelectionForm.resx">
       <DependentUpon>IOSelectionForm.cs</DependentUpon>

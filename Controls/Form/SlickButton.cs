@@ -194,6 +194,8 @@ public partial class SlickButton : SlickImageControl
 			return cachedSize;
 		}
 
+		lastAvailableSize = availableSize;
+
 		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
 		using var args = new ButtonDrawArgs
 		{

@@ -98,7 +98,11 @@ public partial class SlickToolStrip : Form
 		epoch = DateTime.Now.Ticks;
 	}
 
+#if NET47
 	protected override async void OnPaintBackground(PaintEventArgs e)
+#else
+	protected override void OnPaintBackground(PaintEventArgs e)
+#endif
 	{
 		base.OnPaintBackground(e);
 
@@ -116,7 +120,9 @@ public partial class SlickToolStrip : Form
 				return;
 			}
 
+#if NET47
 			await Task.Delay(Math.Max(2, 20 - (int)(lastTick - oldTick)));
+#endif
 
 			Invalidate();
 		}
