@@ -3,141 +3,179 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SlickControls
+namespace SlickControls;
+
+public class SlickImageBackgroundControlCollection : IList<SlickImageBackgroundControl>, ICollection<SlickImageBackgroundControl>, IEnumerable
 {
-	public class SlickImageBackgroundControlCollection : IList<SlickImageBackgroundControl>, ICollection<SlickImageBackgroundControl>, IEnumerable
+	private readonly List<SlickImageBackgroundControl> controls = [];
+	private readonly object lockObj = new();
+
+	public int Count
 	{
-		private readonly List<SlickImageBackgroundControl> controls = new List<SlickImageBackgroundControl>();
-		private readonly object lockObj = new object();
-
-		public int Count
-		{
-			get
-			{
-				lock (lockObj)
-					return controls.Count;
-			}
-		}
-
-		public bool IsReadOnly { get; }
-
-		public SlickImageBackgroundPanel Owner { get; }
-
-		public SlickImageBackgroundControl this[int index]
-		{
-			get
-			{
-				lock (lockObj)
-					return controls[index];
-			}
-			set
-			{
-				lock (lockObj)
-					controls[index] = value;
-			}
-		}
-
-		public SlickImageBackgroundControlCollection(SlickImageBackgroundPanel owner)
-		{
-			Owner = owner;
-		}
-
-		public void Add(SlickImageBackgroundControl value)
+		get
 		{
 			lock (lockObj)
 			{
-				value.Parent = Owner;
-				value.Container = Owner.Container;
-
-				if (!controls.Contains(value))
-					controls.Add(value);
-
-				if (value is SlickImageBackgroundPanel panel)
-					panel.Controls.AddRange(panel.Controls.ToArray());
+				return controls.Count;
 			}
 		}
+	}
 
-		public void AddRange(SlickImageBackgroundControl[] SlickImageBackgroundControls)
+	public bool IsReadOnly { get; }
+
+	public SlickImageBackgroundPanel Owner { get; }
+
+	public SlickImageBackgroundControl this[int index]
+	{
+		get
 		{
 			lock (lockObj)
 			{
-				foreach (var value in SlickImageBackgroundControls)
-					Add(value);
+				return controls[index];
 			}
 		}
-
-		public void Clear()
+		set
 		{
 			lock (lockObj)
-				controls.Clear();
+			{
+				controls[index] = value;
+			}
 		}
+	}
 
-		public bool Contains(SlickImageBackgroundControl SlickImageBackgroundControl)
+	public SlickImageBackgroundControlCollection(SlickImageBackgroundPanel owner)
+	{
+		Owner = owner;
+	}
+
+	public void Add(SlickImageBackgroundControl value)
+	{
+		lock (lockObj)
 		{
-			lock (lockObj)
-				return controls.Contains(SlickImageBackgroundControl);
-		}
+			value.Parent = Owner;
+			value.Container = Owner.Container;
 
-		public void CopyTo(SlickImageBackgroundControl[] array, int arrayIndex)
+			if (!controls.Contains(value))
+			{
+				controls.Add(value);
+			}
+
+			if (value is SlickImageBackgroundPanel panel)
+			{
+				panel.Controls.AddRange(panel.Controls.ToArray());
+			}
+		}
+	}
+
+	public void AddRange(SlickImageBackgroundControl[] SlickImageBackgroundControls)
+	{
+		lock (lockObj)
 		{
-			lock (lockObj)
-				controls.CopyTo(array, arrayIndex);
+			foreach (var value in SlickImageBackgroundControls)
+			{
+				Add(value);
+			}
 		}
+	}
 
-		public int GetChildIndex(SlickImageBackgroundControl child)
+	public void Clear()
+	{
+		lock (lockObj)
 		{
-			lock (lockObj)
-				return controls.IndexOf(child);
+			controls.Clear();
 		}
+	}
 
-		public IEnumerator<SlickImageBackgroundControl> GetEnumerator()
+	public bool Contains(SlickImageBackgroundControl SlickImageBackgroundControl)
+	{
+		lock (lockObj)
 		{
-			lock (lockObj)
-				foreach (var item in controls)
-					yield return item;
+			return controls.Contains(SlickImageBackgroundControl);
 		}
+	}
 
-		IEnumerator IEnumerable.GetEnumerator() => controls.GetEnumerator();
-
-		public int IndexOf(SlickImageBackgroundControl SlickImageBackgroundControl)
+	public void CopyTo(SlickImageBackgroundControl[] array, int arrayIndex)
+	{
+		lock (lockObj)
 		{
-			lock (lockObj)
-				return controls.IndexOf(SlickImageBackgroundControl);
+			controls.CopyTo(array, arrayIndex);
 		}
+	}
 
-		public void Insert(int index, SlickImageBackgroundControl item)
+	public int GetChildIndex(SlickImageBackgroundControl child)
+	{
+		lock (lockObj)
 		{
-			lock (lockObj)
-				controls.Insert(index, item);
+			return controls.IndexOf(child);
 		}
+	}
 
-		public void Remove(SlickImageBackgroundControl value)
+	public IEnumerator<SlickImageBackgroundControl> GetEnumerator()
+	{
+		lock (lockObj)
 		{
-			lock (lockObj)
-				controls.Remove(value);
+			foreach (var item in controls)
+			{
+				yield return item;
+			}
 		}
+	}
 
-		bool ICollection<SlickImageBackgroundControl>.Remove(SlickImageBackgroundControl item)
-		{
-			lock (lockObj)
-				return controls.Remove(item);
-		}
+	IEnumerator IEnumerable.GetEnumerator()
+	{
+		return controls.GetEnumerator();
+	}
 
-		public void RemoveAt(int index)
+	public int IndexOf(SlickImageBackgroundControl SlickImageBackgroundControl)
+	{
+		lock (lockObj)
 		{
-			lock (lockObj)
-				controls.RemoveAt(index);
+			return controls.IndexOf(SlickImageBackgroundControl);
 		}
+	}
 
-		public void SetChildIndex(SlickImageBackgroundControl child, int newIndex)
+	public void Insert(int index, SlickImageBackgroundControl item)
+	{
+		lock (lockObj)
 		{
-			lock (lockObj)
-				controls.Insert(newIndex, child);
+			controls.Insert(index, item);
 		}
+	}
 
-		public void Add(object p)
+	public void Remove(SlickImageBackgroundControl value)
+	{
+		lock (lockObj)
 		{
-			throw new NotImplementedException();
+			controls.Remove(value);
 		}
+	}
+
+	bool ICollection<SlickImageBackgroundControl>.Remove(SlickImageBackgroundControl item)
+	{
+		lock (lockObj)
+		{
+			return controls.Remove(item);
+		}
+	}
+
+	public void RemoveAt(int index)
+	{
+		lock (lockObj)
+		{
+			controls.RemoveAt(index);
+		}
+	}
+
+	public void SetChildIndex(SlickImageBackgroundControl child, int newIndex)
+	{
+		lock (lockObj)
+		{
+			controls.Insert(newIndex, child);
+		}
+	}
+
+	public void Add(object p)
+	{
+		throw new NotImplementedException();
 	}
 }

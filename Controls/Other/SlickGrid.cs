@@ -4,70 +4,71 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SlickControls
+namespace SlickControls;
+
+public partial class SlickGrid : DataGridView
 {
-	public partial class SlickGrid : DataGridView
+	public SlickGrid()
 	{
-		public SlickGrid()
+		InitializeComponent();
+
+		if (DesignMode)
 		{
-			InitializeComponent();
-
-			if (DesignMode)
-				DesignChanged(FormDesign.Design);
-
-			FormDesign.DesignChanged += DesignChanged;
-			Disposed += (s, e) => FormDesign.DesignChanged -= DesignChanged;
+			DesignChanged(FormDesign.Design);
 		}
 
-		private void DesignChanged(FormDesign design)
+		FormDesign.DesignChanged += DesignChanged;
+		Disposed += (s, e) => FormDesign.DesignChanged -= DesignChanged;
+	}
+
+	private void DesignChanged(FormDesign design)
+	{
+		BackgroundColor = GridColor = design.BackColor;
+		Font = UI.Font(9.75F, FontStyle.Bold);
+
+		ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle()
 		{
-			BackgroundColor = GridColor = design.BackColor;
-			Font = UI.Font(9.75F, FontStyle.Bold);
+			BackColor = design.MenuColor,
+			Font = UI.Font(9.75F, FontStyle.Bold),
+			ForeColor = design.MenuForeColor,
+			SelectionBackColor = design.MenuColor,
+			SelectionForeColor = design.MenuForeColor,
+			Alignment = DataGridViewContentAlignment.MiddleCenter
+		};
 
-			ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle()
-			{
-				BackColor = design.MenuColor,
-				Font = UI.Font(9.75F, FontStyle.Bold),
-				ForeColor = design.MenuForeColor,
-				SelectionBackColor = design.MenuColor,
-				SelectionForeColor = design.MenuForeColor,
-				Alignment = DataGridViewContentAlignment.MiddleCenter
-			};
+		RowsDefaultCellStyle = new DataGridViewCellStyle()
+		{
+			BackColor = design.ButtonColor.MergeColor(design.BackColor),
+			Font = UI.Font(8.25F),
+			ForeColor = design.ButtonForeColor,
+			SelectionBackColor = design.ActiveColor,
+			SelectionForeColor = design.ActiveForeColor,
+			Alignment = DataGridViewContentAlignment.MiddleLeft
+		};
 
-			RowsDefaultCellStyle = new DataGridViewCellStyle()
-			{
-				BackColor = design.ButtonColor.MergeColor(design.BackColor),
-				Font = UI.Font(8.25F),
-				ForeColor = design.ButtonForeColor,
-				SelectionBackColor = design.ActiveColor,
-				SelectionForeColor = design.ActiveForeColor,
-				Alignment = DataGridViewContentAlignment.MiddleLeft
-			};
-
-			if (!DesignMode)
-			{
-				using (var g = Graphics.FromHwnd(IntPtr.Zero))
-				{
-					RowTemplate.Height = UI.Font(8.25F).Height + 6;
-					ColumnHeadersHeight = UI.Font(9.75F, FontStyle.Bold).Height + 6;
-				}
-			}
+		if (!DesignMode)
+		{
+			using var g = Graphics.FromHwnd(IntPtr.Zero);
+			RowTemplate.Height = UI.Font(8.25F).Height + 6;
+			ColumnHeadersHeight = UI.Font(9.75F, FontStyle.Bold).Height + 6;
 		}
+	}
 
-		protected override void OnCreateControl()
+	protected override void OnCreateControl()
+	{
+		base.OnCreateControl();
+
+		BorderStyle = BorderStyle.None;
+		CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+		ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+		ColumnHeadersHeight = 28;
+		EnableHeadersVisualStyles = false;
+		ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+		RowHeadersVisible = false;
+
+		if (!DesignMode)
 		{
-			base.OnCreateControl();
-
-			BorderStyle = BorderStyle.None;
-			CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-			ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-			ColumnHeadersHeight = 28;
-			EnableHeadersVisualStyles = false;
-			ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-			RowHeadersVisible = false;
-
-			if (!DesignMode)
-				DesignChanged(FormDesign.Design);
+			DesignChanged(FormDesign.Design);
 		}
 	}
 }

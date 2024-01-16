@@ -1,11 +1,10 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public enum ValidationType
 {
-	public enum ValidationType
-	{
-		None,
-		Number,
-		Decimal,
-		Regex,
-		Custom
-	}
+	None,
+	Number,
+	Decimal,
+	Regex,
+	Custom
 }

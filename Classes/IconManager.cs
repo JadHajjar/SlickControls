@@ -6,217 +6,237 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Text.RegularExpressions;
-using System.Windows;
 
-namespace SlickControls
+namespace SlickControls;
+
+public class IconManager
 {
-	public class IconManager
+	private static readonly Dictionary<string, Dictionary<int, Bitmap>> _iconLibrary;
+
+	static IconManager()
 	{
-		private static readonly Dictionary<string, Dictionary<int, Bitmap>> _iconLibrary;
+		var list = new List<KeyAndIcon>();
 
-		static IconManager()
+		foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
 		{
-			var list = new List<KeyAndIcon>();
-
-			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+			if (!assembly.IsDynamic)
 			{
-				if (!assembly.IsDynamic)
+				list.AddRange(GetIconNames(assembly));
+			}
+		}
+
+		_iconLibrary = [];
+
+		foreach (var item in list)
+		{
+			var match = Regex.Match(item.Name, @"^(I_[A-Za-z]+(?:_[A-Za-z]+)*)?_([0-9]+)$");
+
+			if (match.Success)
+			{
+
+				if (!_iconLibrary.ContainsKey(match.Groups[1].Value))
 				{
-					list.AddRange(GetIconNames(assembly));
-				}
-			}
-
-			_iconLibrary = new Dictionary<string, Dictionary<int, Bitmap>>();
-
-			foreach (var item in list)
-			{
-				var match = Regex.Match(item.Name, @"^(I_[A-Za-z]+(?:_[A-Za-z]+)*)?_([0-9]+)$");
-
-				if (match.Success)
-				{
-
-					if (!_iconLibrary.ContainsKey(match.Groups[1].Value))
-					{
-						_iconLibrary[match.Groups[1].Value] = new Dictionary<int, Bitmap>();
-					}
-
-					_iconLibrary[match.Groups[1].Value][match.Groups[2].Value.SmartParse(16)] = item.Icon;
-				}
-			}
-		}
-
-		public static Bitmap GetIcon(string name)
-		{
-			return GetIcon(name, GetNormalScale());
-		}
-
-		public static Bitmap GetSmallIcon(string name)
-		{
-			return GetIcon(name, GetSmallScale());
-		}
-
-		public static Bitmap GetLargeIcon(string name)
-		{
-			return GetIcon(name, GetLargeScale());
-		}
-
-		public static int GetNormalScale() => (int)(-27.42857 + 52.57143 * UI.FontScale - 9.142857 * Math.Pow(UI.FontScale, 2));
-		public static int GetSmallScale() => (int)(8.964706 + 5.388235 * UI.FontScale + 1.647059 * Math.Pow(UI.FontScale, 2));
-		public static int GetLargeScale() => (int)(24 * UI.FontScale);
-
-		public static Bitmap GetIcon(string name, int preferredSize)
-		{
-			if (name == null || !_iconLibrary.ContainsKey(name))
-			{
-				return null;
-			}
-
-			var key = _iconLibrary[name].Keys.Where(x => x <= preferredSize).DefaultIfEmpty(_iconLibrary[name].Keys.Min()).Max();
-
-			return new Bitmap(_iconLibrary[name][key]);
-		}
-
-		public static Dictionary<int, Bitmap> GetIcons(string name)
-		{
-			if (name == null || !_iconLibrary.ContainsKey(name))
-			{
-				return new Dictionary<int, Bitmap>();
-			}
-
-			return _iconLibrary[name];
-		}
-
-		private static IEnumerable<KeyAndIcon> GetIconNames(Assembly appAssembly)
-		{
-			ResourceSet entries;
-			try
-			{
-#if NET47
-				var attribute = appAssembly.GetCustomAttribute<AssemblyTitleAttribute>();
-#else
-				var attribute = appAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false).FirstOrDefault() as AssemblyTitleAttribute;
-#endif
-				if (attribute == null)
-				{ 
-					yield break;
-				}
-#if NET47
-				var resourceManager = new ResourceManager(attribute.Title + ".Properties.Resources", appAssembly);
-#else
-				var resourceManager = new ResourceManager(Path.GetFileNameWithoutExtension(attribute.Title) + ".Properties.Resources", appAssembly);
-#endif
-
-				entries = resourceManager.GetResourceSet(new CultureInfo(""), true, false);
-			}
-			catch
-			{
-				yield break;
-			}
-
-			if (entries == null)
-			{
-				yield break;
-			}
-
-			foreach (DictionaryEntry entry in entries)
-			{
-				if (entry.Value is Bitmap bitmap)
-				{
-					yield return new KeyAndIcon((string)entry.Key, bitmap);
-				}
-			}
-		}
-
-		public class IconConverter : TypeConverter
-		{
-			public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
-			{
-				return true;
-			}
-
-			public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
-			{
-				return new StandardValuesCollection(_iconLibrary?.Keys.OrderBy(x => x).Select(x => new DynamicIcon(x)).ToArray());
-			}
-
-			public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-			{
-				return destinationType == typeof(string);
-			}
-
-			public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-			{
-				return sourceType == typeof(string);
-			}
-
-			public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
-			{
-				if (value is DynamicIcon icon)
-				{
-					return icon.Name;
+					_iconLibrary[match.Groups[1].Value] = [];
 				}
 
-				return null;
-			}
-
-			public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
-			{
-				if (value is string str && !string.IsNullOrEmpty(str))
-				{
-					return new DynamicIcon(str);
-				}
-
-				return null;
-			}
-		}
-
-		private struct KeyAndIcon
-		{
-			public string Name;
-			public Bitmap Icon;
-
-			public KeyAndIcon(string name, Bitmap icon)
-			{
-				Name = name;
-				Icon = icon;
+				_iconLibrary[match.Groups[1].Value][match.Groups[2].Value.SmartParse(16)] = item.Icon;
 			}
 		}
 	}
 
-	public class DynamicIcon
+	public static Bitmap GetIcon(string name)
 	{
-		public DynamicIcon()
-		{
+		return GetIcon(name, GetNormalScale());
+	}
 
+	public static Bitmap GetSmallIcon(string name)
+	{
+		return GetIcon(name, GetSmallScale());
+	}
+
+	public static Bitmap GetLargeIcon(string name)
+	{
+		return GetIcon(name, GetLargeScale());
+	}
+
+	public static int GetNormalScale()
+	{
+		return (int)(-27.42857 + (52.57143 * UI.FontScale) - (9.142857 * Math.Pow(UI.FontScale, 2)));
+	}
+
+	public static int GetSmallScale()
+	{
+		return (int)(8.964706 + (5.388235 * UI.FontScale) + (1.647059 * Math.Pow(UI.FontScale, 2)));
+	}
+
+	public static int GetLargeScale()
+	{
+		return (int)(24 * UI.FontScale);
+	}
+
+	public static Bitmap GetIcon(string name, int preferredSize)
+	{
+		if (name == null || !_iconLibrary.ContainsKey(name))
+		{
+			return null;
 		}
 
-		public DynamicIcon(string name)
+		var key = _iconLibrary[name].Keys.Where(x => x <= preferredSize).DefaultIfEmpty(_iconLibrary[name].Keys.Min()).Max();
+
+		return new Bitmap(_iconLibrary[name][key]);
+	}
+
+	public static Dictionary<int, Bitmap> GetIcons(string name)
+	{
+		if (name == null || !_iconLibrary.ContainsKey(name))
+		{
+			return [];
+		}
+
+		return _iconLibrary[name];
+	}
+
+	private static IEnumerable<KeyAndIcon> GetIconNames(Assembly appAssembly)
+	{
+		ResourceSet entries;
+		try
+		{
+#if NET47
+			var attribute = appAssembly.GetCustomAttribute<AssemblyTitleAttribute>();
+#else
+			var attribute = appAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), false).FirstOrDefault() as AssemblyTitleAttribute;
+#endif
+			if (attribute == null)
+			{
+				yield break;
+			}
+#if NET47
+			var resourceManager = new ResourceManager(attribute.Title + ".Properties.Resources", appAssembly);
+#else
+			var resourceManager = new ResourceManager(Path.GetFileNameWithoutExtension(attribute.Title) + ".Properties.Resources", appAssembly);
+#endif
+
+			entries = resourceManager.GetResourceSet(new CultureInfo(""), true, false);
+		}
+		catch
+		{
+			yield break;
+		}
+
+		if (entries == null)
+		{
+			yield break;
+		}
+
+		foreach (DictionaryEntry entry in entries)
+		{
+			if (entry.Value is Bitmap bitmap)
+			{
+				yield return new KeyAndIcon((string)entry.Key, bitmap);
+			}
+		}
+	}
+
+	public class IconConverter : TypeConverter
+	{
+		public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
+		{
+			return true;
+		}
+
+		public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+		{
+			return new StandardValuesCollection(_iconLibrary?.Keys.OrderBy(x => x).Select(x => new DynamicIcon(x)).ToArray());
+		}
+
+		public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+		{
+			return destinationType == typeof(string);
+		}
+
+		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+		{
+			return sourceType == typeof(string);
+		}
+
+		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+		{
+			if (value is DynamicIcon icon)
+			{
+				return icon.Name;
+			}
+
+			return null;
+		}
+
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+		{
+			if (value is string str && !string.IsNullOrEmpty(str))
+			{
+				return new DynamicIcon(str);
+			}
+
+			return null;
+		}
+	}
+
+	private struct KeyAndIcon
+	{
+		public string Name;
+		public Bitmap Icon;
+
+		public KeyAndIcon(string name, Bitmap icon)
 		{
 			Name = name;
+			Icon = icon;
 		}
+	}
+}
 
-		public string Name { get; set; }
+public class DynamicIcon
+{
+	public DynamicIcon()
+	{
 
-		public Bitmap Small => IconManager.GetSmallIcon(Name);
-		public Bitmap Large => IconManager.GetLargeIcon(Name);
-		public Bitmap Default => IconManager.GetIcon(Name);
+	}
 
-		public static implicit operator DynamicIcon(string name) => name == null ? null : new DynamicIcon(name);
+	public DynamicIcon(string name)
+	{
+		Name = name;
+	}
 
-		public static implicit operator Bitmap(DynamicIcon icon) => icon == null ? null : IconManager.GetIcon(icon.Name);
+	public string Name { get; set; }
 
-		public static implicit operator Image(DynamicIcon icon) => icon == null ? null : IconManager.GetIcon(icon.Name);
+	public Bitmap Small => IconManager.GetSmallIcon(Name);
+	public Bitmap Large => IconManager.GetLargeIcon(Name);
+	public Bitmap Default => IconManager.GetIcon(Name);
 
-		public Bitmap Get(int preferredSize) => IconManager.GetIcon(Name, preferredSize);
+	public static implicit operator DynamicIcon(string name)
+	{
+		return name == null ? null : new DynamicIcon(name);
+	}
 
-		public override string ToString()
-		{
-			return Name;
-		}
+	public static implicit operator Bitmap(DynamicIcon icon)
+	{
+		return icon == null ? null : IconManager.GetIcon(icon.Name);
+	}
+
+	public static implicit operator Image(DynamicIcon icon)
+	{
+		return icon == null ? null : IconManager.GetIcon(icon.Name);
+	}
+
+	public Bitmap Get(int preferredSize)
+	{
+		return IconManager.GetIcon(Name, preferredSize);
+	}
+
+	public override string ToString()
+	{
+		return Name;
 	}
 }

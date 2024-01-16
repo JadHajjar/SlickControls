@@ -1,10 +1,9 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public enum ProgressBarType
 {
-	public enum ProgressBarType
-	{
-		Normal,
-		Fast,
-		Slow,
-		VerySlow
-	}
+	Normal,
+	Fast,
+	Slow,
+	VerySlow
 }

@@ -1,7 +1,6 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public interface ISupportsReset
 {
-	public interface ISupportsReset
-	{
-		void ResetValue();
-	}
+	void ResetValue();
 }

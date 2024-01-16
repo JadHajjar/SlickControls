@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace SlickControls;
 
-namespace SlickControls
+public enum ButtonType
 {
-	public enum ButtonType
-	{
-		Normal,
-		Hidden,
-		Active
-	}
+	Normal,
+	Hidden,
+	Active
 }

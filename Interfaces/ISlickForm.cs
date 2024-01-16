@@ -2,13 +2,12 @@
 
 using System.Drawing;
 
-namespace SlickControls
+namespace SlickControls;
+
+public interface ISlickForm
 {
-	public interface ISlickForm
-	{
-		bool CloseForm { get; set; }
-		Image FormIcon { get; set; }
-		Rectangle IconBounds { get; set; }
-		FormState CurrentFormState { get; set; }
-	}
+	bool CloseForm { get; set; }
+	Image FormIcon { get; set; }
+	Rectangle IconBounds { get; set; }
+	FormState CurrentFormState { get; set; }
 }

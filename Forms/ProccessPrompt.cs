@@ -4,119 +4,132 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SlickControls
+namespace SlickControls;
+
+public partial class ProccessPrompt : SlickForm
 {
-	public partial class ProccessPrompt : SlickForm
+	public event Action<FormClosingEventArgs> ActionCanceled;
+
+	public bool CancelClicked { get; private set; } = false;
+
+	private ProccessPrompt(string msg, bool showCancel)
 	{
-		public event Action<FormClosingEventArgs> ActionCanceled;
+		InitializeComponent();
 
-		public bool CancelClicked { get; private set; } = false;
+		Text = "Working..";
+		L_Text.Font = UI.Font(9.75F);
+		L_Text.Text = msg;
 
-		private ProccessPrompt(string msg, bool showCancel)
+		PB_Icon.MouseDown += Form_MouseDown;
+		L_Text.MouseDown += Form_MouseDown;
+		TLP_ImgText.MouseDown += Form_MouseDown;
+
+		B_Cancel.Visible = P_Spacer_1.Visible = showCancel;
+
+		if (!showCancel)
 		{
-			InitializeComponent();
+			TLP_Main.RowStyles[2].Height = TLP_Main.RowStyles[1].Height = 0;
+		}
+	}
 
-			Text = "Working..";
-			L_Text.Font = UI.Font(9.75F);
-			L_Text.Text = msg;
+	public override FormState CurrentFormState
+	{
+		get => FormState.ForcedFocused;
+		set => base.CurrentFormState = FormState.ForcedFocused;
+	}
 
-			PB_Icon.MouseDown += Form_MouseDown;
-			L_Text.MouseDown += Form_MouseDown;
-			TLP_ImgText.MouseDown += Form_MouseDown;
+	protected override void OnCreateControl()
+	{
+		Opacity = 0;
+		Width = (int)(350 * UI.UIScale);
+		Height = Math.Max(80, (int)Graphics.FromHwnd(IntPtr.Zero).Measure(L_Text.Text, L_Text.Font, Width - 135).Height + Padding.Vertical)
+			+ 135;
 
-			B_Cancel.Visible = P_Spacer_1.Visible = showCancel;
-
-			if (!showCancel)
-				TLP_Main.RowStyles[2].Height = TLP_Main.RowStyles[1].Height = 0;
+		if (B_Cancel.Visible)
+		{
+			TLP_Main.RowStyles[2].Height = (float)(42D * UI.UIScale);
 		}
 
-		public override FormState CurrentFormState
+		if (Owner != null)
 		{
-			get => FormState.ForcedFocused;
-			set => base.CurrentFormState = FormState.ForcedFocused;
+			Location = Owner.Bounds.Center(Size);
+			TopMost = false;
+		}
+		else
+		{
+			Owner.Location = Screen.PrimaryScreen.Bounds.Center(Owner.Size);
 		}
 
-		protected override void OnCreateControl()
+		base.OnCreateControl();
+	}
+
+	public static ProccessPrompt Create(string message, bool showCancel = false)
+	{
+		return new ProccessPrompt(message, showCancel);
+	}
+
+	public new void Close()
+	{
+		this.TryInvoke(base.Close);
+	}
+
+	public void SetText(string text)
+	{
+		this.TryInvoke(() => L_Text.Text = text);
+	}
+
+	public void Show(SlickForm form = null)
+	{
+		if (form != null)
 		{
-			Opacity = 0;
-			Width = (int)(350 * UI.UIScale);
-			Height = Math.Max(80, (int)Graphics.FromHwnd(IntPtr.Zero).Measure(L_Text.Text, L_Text.Font, Width - 135).Height + Padding.Vertical)
-				+ 135;
-
-			if (B_Cancel.Visible)
-				TLP_Main.RowStyles[2].Height = (float)(42D * UI.UIScale);
-
-			if (Owner != null)
-			{
-				Location = Owner.Bounds.Center(Size);
-				TopMost = false;
-			}
-			else
-			{
-				Owner.Location = Screen.PrimaryScreen.Bounds.Center(Owner.Size);
-			}
-
-			base.OnCreateControl();
+			form.CurrentFormState = FormState.ForcedFocused;
+		}
+		else
+		{
+			StartPosition = FormStartPosition.CenterScreen;
 		}
 
-		public static ProccessPrompt Create(string message, bool showCancel = false)
-			=> new ProccessPrompt(message, showCancel);
-
-		public new void Close() => this.TryInvoke(base.Close);
-
-		public void SetText(string text) => this.TryInvoke(() => L_Text.Text = text);
-
-		public void Show(SlickForm form = null)
+		try
+		{
+			ShowDialog();
+		}
+		finally
 		{
 			if (form != null)
 			{
-				form.CurrentFormState = FormState.ForcedFocused;
-			}
-			else
-			{
-				StartPosition = FormStartPosition.CenterScreen;
-			}
-
-			try
-			{
-				ShowDialog();
-			}
-			finally
-			{
-				if (form != null)
-					form.CurrentFormState = FormState.NormalFocused;
+				form.CurrentFormState = FormState.NormalFocused;
 			}
 		}
+	}
 
-		protected override void DesignChanged(FormDesign design)
+	protected override void DesignChanged(FormDesign design)
+	{
+		base.DesignChanged(design);
+		base_P_Content.BackColor = design.BackColor;
+
+		P_Spacer_1.BackColor = design.AccentColor;
+	}
+
+	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+	{
+		if (keyData == Keys.Escape && B_Cancel.Visible)
 		{
-			base.DesignChanged(design);
-			base_P_Content.BackColor = design.BackColor;
+			B_Cancel_Click(this, new EventArgs());
 
-			P_Spacer_1.BackColor = design.AccentColor;
+			return true;
 		}
 
-		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		return base.ProcessCmdKey(ref msg, keyData);
+	}
+
+	private void B_Cancel_Click(object sender, EventArgs e)
+	{
+		var ea = new FormClosingEventArgs(CloseReason.UserClosing, false);
+		ActionCanceled?.Invoke(ea);
+		if (!ea.Cancel)
 		{
-			if (keyData == Keys.Escape && B_Cancel.Visible)
-			{
-				B_Cancel_Click(this, new EventArgs());
-
-				return true;
-			}
-
-			return base.ProcessCmdKey(ref msg, keyData);
-		}
-
-		private void B_Cancel_Click(object sender, EventArgs e)
-		{
-			var ea = new FormClosingEventArgs(CloseReason.UserClosing, false);
-			ActionCanceled?.Invoke(ea);
-			if (!ea.Cancel)
-			{
-				Close();
-				CancelClicked = true;
-			}
+			Close();
+			CancelClicked = true;
 		}
 	}
 }

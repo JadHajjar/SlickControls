@@ -1,9 +1,8 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public enum TextStyle
 {
-	public enum TextStyle
-	{
-		ImageAndText,
-		ImageOnly,
-		TextOnly
-	}
+	ImageAndText,
+	ImageOnly,
+	TextOnly
 }

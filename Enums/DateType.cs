@@ -1,9 +1,8 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public enum DateType
 {
-	public enum DateType
-	{
-		Date,
-		DateTime,
-		Time
-	}
+	Date,
+	DateTime,
+	Time
 }

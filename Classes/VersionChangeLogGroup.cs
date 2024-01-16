@@ -1,8 +1,7 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public class VersionChangeLogGroup
 {
-	public class VersionChangeLogGroup
-	{
-		public string Name { get; set; }
-		public string[] Changes { get; set; }
-	}
+	public string Name { get; set; }
+	public string[] Changes { get; set; }
 }

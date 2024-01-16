@@ -1,12 +1,11 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public enum BannerStyle
 {
-	public enum BannerStyle
-	{
-		Active,
-		Green,
-		Yellow,
-		Red,
-		Text,
-		Custom,
-	}
+	Active,
+	Green,
+	Yellow,
+	Red,
+	Text,
+	Custom,
 }

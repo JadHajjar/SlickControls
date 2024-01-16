@@ -1,14 +1,13 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public enum PromptButtons
 {
-	public enum PromptButtons
-	{
-		OK,
-		OKCancel,
-		AbortRetryIgnore,
-		YesNoCancel,
-		YesNo,
-		RetryCancel,
-		None,
-		OKIgnore
-	}
+	OK,
+	OKCancel,
+	AbortRetryIgnore,
+	YesNoCancel,
+	YesNo,
+	RetryCancel,
+	None,
+	OKIgnore
 }

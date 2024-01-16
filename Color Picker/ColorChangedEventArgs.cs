@@ -3,27 +3,25 @@
 using System;
 using System.Drawing;
 
-namespace MechanikaDesign.WinForms.UI.ColorPicker
+namespace MechanikaDesign.WinForms.UI.ColorPicker;
+
+public class ColorChangedEventArgs : EventArgs
 {
-	public class ColorChangedEventArgs : EventArgs
+	private HslColor selectedHslColor;
+
+	public ColorChangedEventArgs(Color selectedColor)
 	{
-		private readonly Color selectedColor;
-		private HslColor selectedHslColor;
-
-		public ColorChangedEventArgs(Color selectedColor)
-		{
-			this.selectedColor = selectedColor;
-			selectedHslColor = HslColor.FromColor(selectedColor);
-		}
-
-		public ColorChangedEventArgs(HslColor selectedHslColor)
-		{
-			selectedColor = selectedHslColor.RgbValue;
-			this.selectedHslColor = selectedHslColor;
-		}
-
-		public Color SelectedColor => selectedColor;
-
-		public HslColor SelectedHslColor => selectedHslColor;
+		SelectedColor = selectedColor;
+		selectedHslColor = HslColor.FromColor(selectedColor);
 	}
+
+	public ColorChangedEventArgs(HslColor selectedHslColor)
+	{
+		SelectedColor = selectedHslColor.RgbValue;
+		this.selectedHslColor = selectedHslColor;
+	}
+
+	public Color SelectedColor { get; }
+
+	public HslColor SelectedHslColor => selectedHslColor;
 }

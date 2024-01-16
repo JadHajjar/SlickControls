@@ -1,15 +1,14 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public enum PromptIcons
 {
-	public enum PromptIcons
-	{
-		None,
-		Hand,
-		Info,
-		Input,
-		Question,
-		Warning,
-		Error,
-		Ok,
-		Loading
-	}
+	None,
+	Hand,
+	Info,
+	Input,
+	Question,
+	Warning,
+	Error,
+	Ok,
+	Loading
 }

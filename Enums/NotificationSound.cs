@@ -1,9 +1,8 @@
-﻿namespace SlickControls
+﻿namespace SlickControls;
+
+public enum NotificationSound
 {
-	public enum NotificationSound
-	{
-		Short,
-		Long,
-		None
-	}
+	Short,
+	Long,
+	None
 }

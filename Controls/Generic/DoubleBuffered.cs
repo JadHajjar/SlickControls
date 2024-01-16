@@ -1,40 +1,39 @@
 ﻿using System.Windows.Forms;
 
-namespace SlickControls
+namespace SlickControls;
+
+public class DBPanel : Panel
 {
-	public class DBPanel : Panel
+	public DBPanel()
 	{
-		public DBPanel()
-		{
-			DoubleBuffered = true;
-			ResizeRedraw = true;
-		}
+		DoubleBuffered = true;
+		ResizeRedraw = true;
 	}
+}
 
-	public class DBTableLayoutPanel : TableLayoutPanel
+public class DBTableLayoutPanel : TableLayoutPanel
+{
+	public DBTableLayoutPanel()
 	{
-		public DBTableLayoutPanel()
-		{
-			DoubleBuffered = true;
-			ResizeRedraw = true;
-		}
+		DoubleBuffered = true;
+		ResizeRedraw = true;
 	}
+}
 
-	public class DBFlowLayoutPanel : FlowLayoutPanel
+public class DBFlowLayoutPanel : FlowLayoutPanel
+{
+	public DBFlowLayoutPanel()
 	{
-		public DBFlowLayoutPanel()
-		{
-			DoubleBuffered = true;
-			ResizeRedraw = true;
-		}
+		DoubleBuffered = true;
+		ResizeRedraw = true;
 	}
+}
 
-	public class DBPictureBox : PictureBox
+public class DBPictureBox : PictureBox
+{
+	public DBPictureBox()
 	{
-		public DBPictureBox()
-		{
-			DoubleBuffered = true;
-			ResizeRedraw = true;
-		}
+		DoubleBuffered = true;
+		ResizeRedraw = true;
 	}
 }

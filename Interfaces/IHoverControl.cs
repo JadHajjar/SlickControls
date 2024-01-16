@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
-namespace SlickControls
+namespace SlickControls;
+
+public interface IHoverControl
 {
-	public interface IHoverControl
-	{
-		HoverState HoverState { get; }
-	}
+	HoverState HoverState { get; }
+}
 
-	public interface ILoaderControl
-	{
-		bool Loading { get; set; }
-		void DrawLoader(Graphics g, Rectangle rectangle, Color? color = null);
-	}
+public interface ILoaderControl
+{
+	bool Loading { get; set; }
+	void DrawLoader(Graphics g, Rectangle rectangle, Color? color = null);
 }

@@ -1,12 +1,11 @@
-﻿namespace MechanikaDesign.WinForms.UI.ColorPicker
+﻿namespace MechanikaDesign.WinForms.UI.ColorPicker;
+
+public enum ColorModes
 {
-	public enum ColorModes
-	{
-		Red,
-		Green,
-		Blue,
-		Hue,
-		Saturation,
-		Luminance
-	}
+	Red,
+	Green,
+	Blue,
+	Hue,
+	Saturation,
+	Luminance
 }

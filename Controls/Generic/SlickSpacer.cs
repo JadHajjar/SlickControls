@@ -3,27 +3,26 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SlickControls
+namespace SlickControls;
+
+public class SlickSpacer : Control
 {
-	public class SlickSpacer : Control
+	public SlickSpacer()
 	{
-		public SlickSpacer()
-		{
-			Height = 1;
-			Dock = DockStyle.Top;
-			ResizeRedraw = DoubleBuffered = true;
-			TabStop = false;
+		Height = 1;
+		Dock = DockStyle.Top;
+		ResizeRedraw = DoubleBuffered = true;
+		TabStop = false;
 
-			Paint += SlickSpacer_Paint;
-		}
+		Paint += SlickSpacer_Paint;
+	}
 
-		private void SlickSpacer_Paint(object sender, PaintEventArgs e)
+	private void SlickSpacer_Paint(object sender, PaintEventArgs e)
+	{
+		if (!DesignMode)
 		{
-			if (!DesignMode)
-			{
-				e.Graphics.Clear(BackColor);
-				e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.AccentColor), new Rectangle(Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical));
-			}
+			e.Graphics.Clear(BackColor);
+			e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.AccentColor), new Rectangle(Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical));
 		}
 	}
 }

@@ -2,30 +2,35 @@
 using System.IO;
 using System.Windows.Forms;
 
-namespace SlickControls
+namespace SlickControls;
+
+public delegate void HoverStateChanged(HoverState newState);
+
+public delegate void SimpleAction();
+
+public delegate void SetColor(Color color);
+
+public delegate void StateChangingEventHandler(object sender, StateChangingEventArgs eventArgs);
+
+public delegate void FileOpenedEventHandler(object sender, FileOpenedEventArgs e);
+
+public class StateChangingEventArgs
 {
-	public delegate void HoverStateChanged(HoverState newState);
+	public bool Cancel { get; set; }
+	public FormWindowState WindowState { get; }
 
-	public delegate void SimpleAction();
-
-	public delegate void SetColor(Color color);
-
-	public delegate void StateChangingEventHandler(object sender, StateChangingEventArgs eventArgs);
-
-	public delegate void FileOpenedEventHandler(object sender, FileOpenedEventArgs e);
-
-	public class StateChangingEventArgs
+	public StateChangingEventArgs(FormWindowState state)
 	{
-		public bool Cancel { get; set; }
-		public FormWindowState WindowState { get; }
-
-		public StateChangingEventArgs(FormWindowState state) => WindowState = state;
+		WindowState = state;
 	}
+}
 
-	public class FileOpenedEventArgs
+public class FileOpenedEventArgs
+{
+	public FileInfo File { get; set; }
+
+	public FileOpenedEventArgs(FileInfo file)
 	{
-		public FileInfo File { get; set; }
-
-		public FileOpenedEventArgs(FileInfo file) => File = file;
+		File = file;
 	}
 }
