@@ -114,8 +114,8 @@
   "Last {0} at {1}": "上个{0} {1}",
   "Next {0} at {1}": "下个{0} {1}",
   "{0} month ago": {
-    "One": "{0} month ago",
-    "Plural": "{0} months ago"
+    "One": "{0} 个月前",
+    "Plural": "{0} 个月前"
   },
   "{0} month ago on {1}": {
     "One": "{0} 个月前，于 {1}",
