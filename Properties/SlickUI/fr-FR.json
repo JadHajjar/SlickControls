@@ -17,7 +17,6 @@
   "Copy": "Copier",
   "Tags": "Tags",
   "This PC": "Ce PC",
-  "PinnedFolders": "Dossiers épinglés",
   "Common Folders": "Dossiers communs",
   "Select a file": "Sélectionner un fichier",
   "Select a folder": "Sélectionner un dossier",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "minuit",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Utiliser des boutons de style Windows pour la barre de titre",
   "All": "Tout"
 }
