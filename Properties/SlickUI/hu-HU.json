@@ -17,7 +17,6 @@
   "Copy": "Másolás",
   "Tags": "Cimke",
   "This PC": "Ez a gép",
-  "PinnedFolders": "Rögzített mappák",
   "Common Folders": "Közös mappák",
   "Select a file": "Fájl kiválasztása",
   "Select a folder": "Válassz egy mappát",
@@ -162,6 +161,7 @@
   "{0}m": "{0}perc",
   "{0}s": "{0}másodperc",
   "Midnight": "Éjfél",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Használd a Windows-sílusú felső sáv gombjait",
   "All": "Mind"
 }
