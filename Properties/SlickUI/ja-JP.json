@@ -17,7 +17,6 @@
   "Copy": "クリップボードにコピー",
   "Tags": "タグ",
   "This PC": "このPC",
-  "PinnedFolders": "フォルダをピン留め",
   "Common Folders": "共通のフォルダ",
   "Select a file": "ファイルを選択",
   "Select a folder": "フォルダを選択",
@@ -162,6 +161,7 @@
   "{0}m": "{0}分",
   "{0}s": "{0}秒",
   "Midnight": "ミッドナイト",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Windowsスタイルのトップバーボタンを使用",
   "All": "全て"
 }
