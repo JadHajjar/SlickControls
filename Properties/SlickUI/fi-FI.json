@@ -17,7 +17,6 @@
   "Copy": "Kopioi",
   "Tags": "Tunnisteet",
   "This PC": "Tämä tietokone",
-  "PinnedFolders": "Kiinnitetyt kansiot",
   "Common Folders": "Yhteiset kansiot",
   "Select a file": "Valitse tiedosto",
   "Select a folder": "Valitse kansio",
@@ -162,6 +161,7 @@
   "{0}m": "{0} min",
   "{0}s": "{0} s",
   "Midnight": "Keskiyö",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Käytä Windows-tyylisiä yläpalkin nappuloita",
   "All": "Kaikki"
 }
