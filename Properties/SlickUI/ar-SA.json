@@ -17,7 +17,6 @@
   "Copy": "ينسخ",
   "Tags": "العلامات",
   "This PC": "هذا الكمبيوتر",
-  "PinnedFolders": "المجلدات المثبتة",
   "Common Folders": "مجلدات عامة",
   "Select a file": "حدد ملف",
   "Select a folder": "حدد مجلد",
@@ -162,6 +161,7 @@
   "{0}m": "{0}دقيقة",
   "{0}s": "{0}ثانية",
   "Midnight": "منتصف الليل",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
