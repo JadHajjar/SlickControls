@@ -17,7 +17,6 @@
   "Copy": "Kopya",
   "Tags": "Etiketler",
   "This PC": "Bu PC",
-  "PinnedFolders": "Sabitlenmiş Klasörler",
   "Common Folders": "Common Folders",
   "Select a file": "Bir dosya seç",
   "Select a folder": "Bir klasör seçin",
@@ -68,7 +67,7 @@
   "Drives": "Drives",
   "Switch to Grid-View": "Switch to Grid-View",
   "Switch to List-View": "Switch to List-View",
-  "Pinned Folders": "Sabitlenmiş Klasörler",
+  "Pinned Folders": "Pinned Folders",
   "Name": "İsim",
   "Size": "Size",
   "Enable Animations": "Enable Animations",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Midnight",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
