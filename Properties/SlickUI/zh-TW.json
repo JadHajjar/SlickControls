@@ -17,7 +17,6 @@
   "Copy": "複製",
   "Tags": "標籤",
   "This PC": "此電腦",
-  "PinnedFolders": "置頂資料夾",
   "Common Folders": "普通資料夾",
   "Select a file": "選擇檔",
   "Select a folder": "選擇資料夾",
@@ -162,6 +161,7 @@
   "{0}m": "{0}分",
   "{0}s": "{0}秒",
   "Midnight": "Midnight",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
