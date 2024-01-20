@@ -17,7 +17,6 @@
   "Copy": "Copia",
   "Tags": "Tag",
   "This PC": "Questo PC",
-  "PinnedFolders": "Cartelle fissate",
   "Common Folders": "Cartelle comuni",
   "Select a file": "Seleziona un file",
   "Select a folder": "Seleziona una cartella",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Mezzanotte",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Usa pulsanti della barra di stato in stile Windows",
   "All": "Tutto"
 }
