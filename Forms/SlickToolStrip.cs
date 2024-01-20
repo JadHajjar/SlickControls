@@ -13,7 +13,7 @@ namespace SlickControls;
 
 public partial class SlickToolStrip : Form
 {
-	public readonly SlickStripItem[] Items;
+	public SlickStripItem[] Items;
 
 	private readonly SlickForm _form;
 	private long epoch;
@@ -85,6 +85,8 @@ public partial class SlickToolStrip : Form
 			{
 				startLocation = new Point(startingCursorPosition.X, startingCursorPosition.Y - size.Height);
 			}
+
+			Items = Reverse(Items).ToArray();
 		}
 		else if (startingCursorPosition.X + size.Width > SystemInformation.WorkingArea.Right)
 		{
@@ -96,6 +98,16 @@ public partial class SlickToolStrip : Form
 		UpdateSize();
 
 		epoch = DateTime.Now.Ticks;
+	}
+
+	private IEnumerable<SlickStripItem> Reverse(IEnumerable<SlickStripItem> enumerable)
+	{
+		foreach (var item in enumerable)
+		{
+			item.SubItems = Reverse(item.SubItems).ToList();
+		}
+
+		return enumerable.Reverse();
 	}
 
 #if NET47

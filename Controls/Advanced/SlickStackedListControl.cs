@@ -810,6 +810,10 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 	protected override void OnPaint(PaintEventArgs e)
 	{
 		var invalidRect = e.ClipRectangle;
+		var invalidRects = allInvalidated || _invalidatedRectangles.Count == 0 || invalidRect == ClientRectangle ? [invalidRect] : _invalidatedRectangles.ToArray();
+
+		allInvalidated = false;
+		_invalidatedRectangles.Clear();
 
 		e.Graphics.SetUp();
 
@@ -880,6 +884,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 				OnPaintItem(new ItemPaintEventArgs<T, R>(
 					item,
 					e.Graphics,
+					invalidRects.Where(x => x.IntersectsWith(item.Bounds)),
 					GridView ? item.Bounds.Pad(GridPadding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
 					mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal,
 					SelectedItems.Contains(item)));
@@ -1031,6 +1036,28 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		{
 			scrollIndex = items.IndexOf(scrollTo);
 			Invalidate();
+		}
+	}
+
+	public new void Invalidate()
+	{
+		if (!allInvalidated)
+		{
+			allInvalidated = true;
+
+			base.Invalidate();
+		}
+	}
+
+	private bool allInvalidated;
+	private List<Rectangle> _invalidatedRectangles = new List<Rectangle>();
+
+	public new void Invalidate(Rectangle rectangle)
+	{
+		if (!allInvalidated)
+		{
+			_invalidatedRectangles.Add(rectangle);
+			base.Invalidate(rectangle);
 		}
 	}
 

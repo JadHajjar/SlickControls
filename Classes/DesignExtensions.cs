@@ -22,6 +22,8 @@ public static class DesignExtensions
 			var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
 			var size = graphics.Measure(text, font).ToSize();
 
+			size.Width = (int)(size.Width * 1.1f);
+
 			if (icon != null)
 			{
 				size.Width += icon.Width + padding.Left;
@@ -86,6 +88,8 @@ public static class DesignExtensions
 		using var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F), large ? FontStyle.Bold : FontStyle.Regular);
 		var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
 		var size = graphics.Measure(text, font).ToSize();
+
+		size.Width = (int)(size.Width * 1.1f);
 
 		if (icon != null)
 		{

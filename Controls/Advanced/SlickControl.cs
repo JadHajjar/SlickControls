@@ -51,17 +51,21 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 		get => loading;
 		set
 		{
-			loading = value;
-
-			if (value)
+			if (value != loading)
 			{
-				epoch = DateTime.Now.Ticks;
-				lastTick = 0;
-			}
+				loading = value;
 
-			if (Live)
-			{
-				InvalidateForLoading();
+				if (loading)
+				{
+					LoaderPercentage = 0;
+					epoch = DateTime.Now.Ticks;
+					lastTick = 0;
+				}
+
+				if (Live)
+				{
+					InvalidateForLoading();
+				}
 			}
 		}
 	}
@@ -86,12 +90,11 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 		if (loading && Live)
 		{
 			var oldTick = lastTick;
-			lastTick = (DateTime.Now.Ticks - epoch) / TimeSpan.TicksPerMillisecond;
+			lastTick = (DateTime.Now.Ticks - epoch);
 
-			var val = lastTick / 600D % Math.PI;
-			LoaderPercentage = 100 - (100 * Math.Cos(val));
+			LoaderPercentage = (LoaderPercentage + 2.5 + 0.5* Math.Cos(lastTick / 1000D)) % 200;
 
-			await Task.Delay(Math.Max(2, 25 - (int)(lastTick - oldTick)));
+			await Task.Delay(Math.Max(2, 25 - (int)((lastTick - oldTick) / TimeSpan.TicksPerMillisecond)));
 
 			InvalidateForLoading();
 		}
@@ -99,7 +102,7 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 
 	protected virtual void InvalidateForLoading()
 	{
-		Invalidate(ClientRectangle);
+		Invalidate();
 	}
 
 	public void DrawLoader(Graphics g, Rectangle rectangle, Color? color = null)
