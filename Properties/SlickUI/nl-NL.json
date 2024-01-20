@@ -17,7 +17,6 @@
   "Copy": "Kopiëren",
   "Tags": "Labels",
   "This PC": "Deze PC",
-  "PinnedFolders": "Vastgezette mappen",
   "Common Folders": "Algemene mappen",
   "Select a file": "Selecteer een bestand",
   "Select a folder": "Selecteer een map",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Middernacht",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
