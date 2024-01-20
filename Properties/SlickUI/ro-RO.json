@@ -17,7 +17,6 @@
   "Copy": "Copie",
   "Tags": "Etichete",
   "This PC": "Acest PC",
-  "PinnedFolders": "Dosare fixate",
   "Common Folders": "Dosare comune",
   "Select a file": "Selectați un fișier",
   "Select a folder": "Selectați un folder",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Miezul nopţii",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
