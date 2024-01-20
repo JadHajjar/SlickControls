@@ -17,7 +17,6 @@
   "Copy": "Копировать",
   "Tags": "Теги",
   "This PC": "Этот компьютер",
-  "PinnedFolders": "Закреплённые папки",
   "Common Folders": "Общие папки",
   "Select a file": "Выберите файл",
   "Select a folder": "Выберите папку",
@@ -162,6 +161,7 @@
   "{0}m": "{0} мин.",
   "{0}s": "{0} сек.",
   "Midnight": "Полночь",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Использовать Windows-стиль верхних кнопок",
   "All": "All"
 }
