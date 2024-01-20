@@ -17,7 +17,6 @@
   "Copy": "คัดลอก",
   "Tags": "แท็ก",
   "This PC": "PC เครื่องนี้",
-  "PinnedFolders": "โฟล์เดอร์ปักหมุด",
   "Common Folders": "โฟลเดอร์ทั่วไป",
   "Select a file": "เลือกไฟล์",
   "Select a folder": "เลือกโฟลเดอร์",
@@ -162,6 +161,7 @@
   "{0}m": "{0}น.",
   "{0}s": "{0}วิ.",
   "Midnight": "เที่ยงคืน",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "ใช้ปุ่มบนแถบด้านบนแบบวินโดวส์",
   "All": "ทั้งหมด"
 }
