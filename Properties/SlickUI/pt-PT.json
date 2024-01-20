@@ -17,7 +17,6 @@
   "Copy": "cópia de",
   "Tags": "Tag",
   "This PC": "Este PC",
-  "PinnedFolders": "Pastas fixadas",
   "Common Folders": "Pastas comuns",
   "Select a file": "Selecione um arquivo",
   "Select a folder": "Selecionar uma pasta",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0} s",
   "Midnight": "Meia-noite",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
