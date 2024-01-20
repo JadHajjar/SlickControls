@@ -17,7 +17,6 @@
   "Copy": "Kopiuj",
   "Tags": "Tagi",
   "This PC": "Ten PC",
-  "PinnedFolders": "Przypięte foldery",
   "Common Folders": "Zwykłe foldery",
   "Select a file": "Wybierz plik",
   "Select a folder": "Wybierz folder",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Północ",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
