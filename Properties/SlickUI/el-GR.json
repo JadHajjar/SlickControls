@@ -17,7 +17,6 @@
   "Copy": "Αντιγραφή",
   "Tags": "Ετικέτες",
   "This PC": "Αυτός Ο Υπολογιστής",
-  "PinnedFolders": "Καρφιτσωμένοι Φάκελοι",
   "Common Folders": "Κοινοί Φάκελοι",
   "Select a file": "Επιλέξτε ένα αρχείο",
   "Select a folder": "Επιλογή φακέλου",
@@ -68,7 +67,7 @@
   "Drives": "Δίσκοι",
   "Switch to Grid-View": "Εναλλαγή σε προβολή πλέγματος",
   "Switch to List-View": "Εναλλαγή σε προβολή λίστας",
-  "Pinned Folders": "Καρφιτσωμένοι Φάκελοι",
+  "Pinned Folders": "Pinned Folders",
   "Name": "Όνομα",
   "Size": "Μέγεθος",
   "Enable Animations": "Ενεργοποίηση Εφέ Κίνησης",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0}δ",
   "Midnight": "Μεσάνυχτα",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
