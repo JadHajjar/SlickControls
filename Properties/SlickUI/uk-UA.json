@@ -17,7 +17,6 @@
   "Copy": "Копіювати",
   "Tags": "Теги",
   "This PC": "Цей комп'ютер",
-  "PinnedFolders": "Закріплені теки",
   "Common Folders": "Загальні теки",
   "Select a file": "Виберіть файл",
   "Select a folder": "Виберіть теку",
@@ -162,6 +161,7 @@
   "{0}m": "{0} м",
   "{0}s": "{0} с",
   "Midnight": "Опівніч",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Кнопки верхнього меню у стилі Windows",
   "All": "Усі"
 }
