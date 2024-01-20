@@ -17,7 +17,6 @@
   "Copy": "Sao chép",
   "Tags": "Tags",
   "This PC": "This PC",
-  "PinnedFolders": "Pinned Folders",
   "Common Folders": "Common Folders",
   "Select a file": "Select a file",
   "Select a folder": "Select a folder",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Midnight",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
