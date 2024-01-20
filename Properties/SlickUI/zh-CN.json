@@ -17,7 +17,6 @@
   "Copy": "复制",
   "Tags": "标签",
   "This PC": "此电脑",
-  "PinnedFolders": "置顶文件夹",
   "Common Folders": "普通文件夹",
   "Select a file": "选择文件",
   "Select a folder": "选择文件夹",
@@ -162,6 +161,7 @@
   "{0}m": "{0} 分钟",
   "{0}s": "{0} 秒",
   "Midnight": "午夜主题",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "使用 Windows 系统样式的标题栏窗口按钮",
   "All": "全部"
 }
