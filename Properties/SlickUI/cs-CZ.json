@@ -17,7 +17,6 @@
   "Copy": "kopírovat",
   "Tags": "Tagy",
   "This PC": "Tento PC",
-  "PinnedFolders": "Připnuté složky",
   "Common Folders": "Běžné složky",
   "Select a file": "Vyberte soubor",
   "Select a folder": "Vyberte složku",
@@ -162,6 +161,7 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "půlnoc",
+  "Use the System's Theme": "Use the System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
   "All": "All"
 }
