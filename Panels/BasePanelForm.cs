@@ -866,7 +866,7 @@ public partial class BasePanelForm : SlickForm
 		base_P_SideControls.Visible = !smallMenu;
 		base_PB_Icon.Size = UI.Scale(smallMenu ? new Size(26, 26) : new Size(32, 32), UI.UIScale);
 
-		var newSize = new Size((int)((smallMenu ? 55 : 180) * UI.UIScale), 0);
+		var newSize = new Size((int)((smallMenu ? 55 : 180) * UI.FontScale), 0);
 
 		if (!IsHandleCreated || !menuSetUp)
 		{

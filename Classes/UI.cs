@@ -155,10 +155,9 @@ public static class FontMeasuring
 			return _cache[key];
 		}
 
-		return _cache[key] = graphics.MeasureString(
-			text,
-			new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit),
-			width);
+		using var dpiFont = new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit);
+
+		return _cache[key] = graphics.MeasureString(text, dpiFont, width);
 	}
 
 	public static SizeF Measure(string text, Font font, int width = int.MaxValue)
@@ -171,10 +170,9 @@ public static class FontMeasuring
 		}
 
 		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
-		return _cache[key] = graphics.MeasureString(
-			text,
-			new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit),
-			width);
+		using var dpiFont = new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit);
+		
+		return _cache[key] = graphics.MeasureString(text, dpiFont, width);
 	}
 
 	public static Rectangle AlignToFontSize(this Rectangle rectangle, Font font, ContentAlignment contentAlignment = ContentAlignment.MiddleCenter, Graphics graphics = null, bool upperBounds = false)
@@ -191,6 +189,52 @@ public static class FontMeasuring
 		}
 
 		return rectangle.Align(newSize, contentAlignment);
+	}
+
+	public static Font FitToHeight(this Font font, string text, Rectangle rectangle, Graphics graphics = null)
+	{
+		var _graphics = graphics ?? Graphics.FromHwnd(IntPtr.Zero);
+
+		try
+		{
+			while (font.Size > 0.75f && Measure(_graphics, text, font, rectangle.Width).Height > rectangle.Height)
+			{
+				font.Dispose();
+				font = new Font(font.FontFamily, font.Size - 0.75f, font.Style);
+			}
+
+			return font;
+		}
+		finally
+		{
+			if (graphics is null)
+			{
+				_graphics.Dispose();
+			}
+		}
+	}
+
+	public static Font FitToWidth(this Font font, string text, Rectangle rectangle, Graphics graphics = null)
+	{
+		var _graphics = graphics ?? Graphics.FromHwnd(IntPtr.Zero);
+
+		try
+		{
+			while (font.Size > 0.75f && Measure(_graphics, text, font).Width * 1.1f > rectangle.Width)
+			{
+				font.Dispose();
+				font = new Font(font.FontFamily, font.Size - 0.75f, font.Style);
+			}
+
+			return font;
+		}
+		finally
+		{
+			if (graphics is null)
+			{
+				_graphics.Dispose();
+			}
+		}
 	}
 
 	private struct StringCache

@@ -52,7 +52,7 @@
 			// 
 			// base_P_Container
 			// 
-			this.base_P_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(217)))), ((int)(((byte)(179)))));
+			this.base_P_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(203)))), ((int)(((byte)(145)))));
 			this.base_P_Container.Controls.Add(this.base_P_Content);
 			this.base_P_Container.Size = new System.Drawing.Size(850, 479);
 			this.base_P_Container.TabIndex = 5;

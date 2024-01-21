@@ -46,6 +46,14 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+	<PropertyGroup>
+		<LocaleJsonToClassExe>$([System.IO.Path]::GetFullPath('..\Extensions\LocaleJsonToClass\LocaleJsonToClass.exe'))</LocaleJsonToClassExe>
+		<LocaleJsonFile>"$([System.IO.Path]::GetFullPath('..\SlickControls\Properties\SlickUI.json'))"</LocaleJsonFile>
+		<LocaleCsFile>"$([System.IO.Path]::GetFullPath('..\SlickControls\Classes\LocaleSlickUI.cs'))"</LocaleCsFile>
+	</PropertyGroup>
+	<Target Name="BuildLocale" BeforeTargets="PreBuildEvent">
+		<Exec Command="$(LocaleJsonToClassExe) $(LocaleJsonFile) $(LocaleCsFile)" />
+	</Target>
   <ItemGroup>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
