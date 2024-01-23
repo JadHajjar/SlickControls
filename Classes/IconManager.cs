@@ -117,7 +117,7 @@ public class IconManager
 #if NET47
 			var resourceManager = new ResourceManager(attribute.Title + ".Properties.Resources", appAssembly);
 #else
-			var resourceManager = new ResourceManager(Path.GetFileNameWithoutExtension(attribute.Title) + ".Properties.Resources", appAssembly);
+			var resourceManager = new ResourceManager(System.IO.Path.GetFileNameWithoutExtension(attribute.Title) + ".Properties.Resources", appAssembly);
 #endif
 
 			entries = resourceManager.GetResourceSet(new CultureInfo(""), true, false);
