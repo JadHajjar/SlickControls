@@ -75,8 +75,6 @@
   "Auto Night-Mode": "自动开启夜间模式",
   "UI Scale": "用户界面缩放比例",
   "Font Family": "字体库",
-  "Base Theme": "基础主题",
-  "Select how the app interacts with your theme": "选择应用程序与系统主题的交互方式",
   "Randomize": "随机",
   "Reset": "重置",
   "Apply": "应用",
@@ -101,7 +99,7 @@
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "欢迎使用主题编辑器！",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "自定义主题",
   "Do you want to apply your changes before leaving?": "即将离开此页面，要保存并应用更改吗？",
@@ -163,7 +161,10 @@
   "{0}m": "{0} 分钟",
   "{0}s": "{0} 秒",
   "Midnight": "午夜主题",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "使用 Windows 系统样式的标题栏窗口按钮",
-  "All": "全部"
+  "All": "全部",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
