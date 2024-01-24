@@ -98,11 +98,11 @@
   "Download": "Letöltés",
   "Remove": "Eltávolítás",
   "Confirmation": "Megerősítés",
-  "Edit Color": "Edit Color",
-  "Reset Color": "Reset Color",
+  "Edit Color": "Szín szerkesztése",
+  "Reset Color": "Színek visszaállítása",
   "Welcome to Theme Changer!": "Üdvözlünk a Témaváltoztatási funkcióban!",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
-  "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
+  "In here, you can customize the scale and colors of the App however you want to.": "Itt tetszés szerint testreszabhatod az alkalmazás léptékét és színeit.",
+  "Click on any color to change it, or middle-click to reset it.": "Kattintson bármelyik színre a módosításához, vagy kattintson a középső gombbal az alaphelyzetbe állításához.",
   "Custom Theme": "Egyéni téma",
   "Do you want to apply your changes before leaving?": "Alkalmazod a módosításokat, mielőtt kilépsz?",
   "TaskCompleted": "Feladat teljesítve",
@@ -115,8 +115,8 @@
   "Last {0} at {1}": "Dátum: {0}, idő: {1}",
   "Next {0} at {1}": "Következő {0}, {1}",
   "{0} month ago": {
-    "One": "{0} month ago",
-    "Plural": "{0} months ago"
+    "One": "{0} hónapja",
+    "Plural": "{0} hónapja"
   },
   "{0} month ago on {1}": {
     "One": "{0} hónapja itt: {1}",
@@ -163,7 +163,7 @@
   "{0}m": "{0}perc",
   "{0}s": "{0}másodperc",
   "Midnight": "Éjfél",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Használja a rendszer témáját",
   "Use Windows-style top bar buttons": "Használd a Windows-sílusú felső sáv gombjait",
   "All": "Mind"
 }
