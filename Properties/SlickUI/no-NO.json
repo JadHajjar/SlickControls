@@ -75,8 +75,6 @@
   "Auto Night-Mode": "Automatisk natt-modus",
   "UI Scale": "UI skala",
   "Font Family": "Skriftfamilie",
-  "Base Theme": "Basis tema",
-  "Select how the app interacts with your theme": "Velg hvordan appen skal samhandle med ditt tema",
   "Randomize": "Tilfeldig",
   "Reset": "Reset",
   "Apply": "Bruk",
@@ -101,7 +99,7 @@
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "Velkommen til tema endre!",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "Egendefinert tema",
   "Do you want to apply your changes before leaving?": "Vil du bruke endringene før du drener?",
@@ -163,7 +161,10 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Midnatt",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
-  "All": "All"
+  "All": "All",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
