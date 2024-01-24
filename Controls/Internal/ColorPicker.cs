@@ -138,18 +138,14 @@ public partial class ColorPicker : SlickControl
 			return (Color)propertyInfo.GetValue(FormDesign.List[frm.UD_BaseTheme.Text], null);
 		}
 
-		var p = Parent;
-		while (p is not null and not PanelContent)
-		{
-			p = p.Parent;
-		}
+		var p = PanelContent.GetParentPanel(this);
 
 		if (p == null)
 		{
 			return Color.Empty;
 		}
 
-		return (Color)propertyInfo.GetValue(FormDesign.List[(p as PC_ThemeChanger).UD_BaseTheme.Text], null);
+		return (Color)propertyInfo.GetValue(FormDesign.List[(p as PC_ThemeChanger).savedDesignName], null);
 	}
 
 	public Color GetDefaultColor()
@@ -177,34 +173,16 @@ public partial class ColorPicker : SlickControl
 				FormDesign.SetCustomBaseDesign(FormDesign.List[frm.UD_BaseTheme.Text]);
 			}
 
-			var p = Parent;
-			while (p is not null and not PanelContent)
-			{
-				p = p.Parent;
-			}
+			var p = PanelContent.GetParentPanel(this);
 
 			if (p != null)
 			{
-				FormDesign.SetCustomBaseDesign(FormDesign.List[(p as PC_ThemeChanger).UD_BaseTheme.Text]);
+				FormDesign.SetCustomBaseDesign(FormDesign.List[(p as PC_ThemeChanger).savedDesignName]);
 			}
 		}
 
 		var propertyInfo = typeof(FormDesign).GetProperty(ColorName);
 		propertyInfo.SetValue(FormDesign.Custom, color, null);
-	}
-
-	private void Picker_Paint(object sender, PaintEventArgs e)
-	{
-		var size = (sender as Control).Size;
-		var color = (sender as Control).BackColor;
-		if (color == null)
-		{
-			return;
-		}
-
-		e.Graphics.Clear(FormDesign.Design.BackColor);
-		e.Graphics.FillRectangle(new SolidBrush(Color), new Rectangle(1, 1, size.Width - 3, size.Height - 3));
-		e.Graphics.DrawRectangle(new Pen(Color.FromArgb(175, ExtensionClass.ColorFromHSL(Color.GetHue(), Color.GetSaturation(), (1D - Color.GetBrightness()).Between(.2, .8))), 1), new Rectangle(0, 0, size.Width - 3, size.Height - 3));
 	}
 
 	protected override void OnPaintBackground(PaintEventArgs e)
@@ -213,11 +191,10 @@ public partial class ColorPicker : SlickControl
 
 		e.Graphics.SetUp(Parent.BackColor);
 
-		var i = (int)(UI.FontScale);
 		using var brush = new SolidBrush(Color);
-		e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 1 + i, 1), Padding.Left);
+		e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 1 + (int)(UI.FontScale), 1), Padding.Left);
 
-		var bounds = ClientRectangle.Pad(0, 0, 1, 1 + 2 * i);
+		var bounds = ClientRectangle.Pad(0, 0, 1, 1 + (int)(2.5 * UI.FontScale));
 		using var backBrush = new SolidBrush(HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : HoverState.HasFlag(HoverState.Hovered) ? FormDesign.Design.AccentBackColor.MergeColor(FormDesign.Design.ForeColor, 90) : FormDesign.Design.AccentBackColor);
 		e.Graphics.FillRoundedRectangle(backBrush, bounds, Padding.Left);
 

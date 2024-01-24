@@ -25,7 +25,6 @@ public partial class SlickLabel : SlickButton
 
 	public SlickLabel()
 	{
-		AutoHideText = false;
 		AlignLeft = true;
 	}
 
@@ -38,7 +37,7 @@ public partial class SlickLabel : SlickButton
 		}
 		else if (HoverState.HasFlag(HoverState.Hovered))
 		{
-			fore = FormDesign.Design.ForeColor.Tint(Lum: FormDesign.Design.Type.If(FormDesignType.Dark, -7, 7));
+			fore = FormDesign.Design.ForeColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? -7 : 7);
 			back = FormDesign.Design.ButtonColor.MergeColor(BackColor, 75);
 		}
 		else
@@ -93,7 +92,7 @@ public partial class SlickLabel : SlickButton
 		}
 		else if (hoverState.HasFlag(HoverState.Hovered))
 		{
-			fore = colorStyle.GetBackColor().Tint(Lum: FormDesign.Design.Type.If(FormDesignType.Dark, -7, 7));
+			fore = colorStyle.GetBackColor().Tint(Lum: FormDesign.Design.IsDarkTheme ? -7 : 7);
 			back = Color.FromArgb(160, colorStyle.GetColor());
 		}
 		else

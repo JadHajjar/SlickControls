@@ -16,7 +16,7 @@ public partial class SideBarPanelContent : PanelContent
 	{
 		base.DesignChanged(design);
 
-		base_P_Sidebar.BackColor = base_Text.BackColor = design.BackColor.Tint(Lum: design.Type.If(FormDesignType.Dark, 3, -3));
+		base_P_Sidebar.BackColor = base_Text.BackColor = design.AccentBackColor;
 	}
 
 	private void SideBarPanelContent_Paint(object sender, PaintEventArgs e)

@@ -228,7 +228,7 @@ public static class DesignExtensions
 		var width = Math.Min(Math.Min(rectangle.Width, rectangle.Height), (int)(32 * UI.UIScale));
 		var size = (float)Math.Max(2, width / (8D - (Math.Abs(100 - loaderPercentage) / 50)));
 		var arc = 100 + (1.7 * (50 - Math.Abs(100 - loaderPercentage)));
-		var angle = ((loaderPercentage * 36 / 20) + (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 3)) % 360D;
+		var angle = ((loaderPercentage * 36 / 20) + (DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond / 2.5)) % 360D;
 		var drawSize = new SizeF(width - size, width - size);
 		var rect = new RectangleF(new PointF(rectangle.X + ((rectangle.Width - drawSize.Width) / 2), rectangle.Y + ((rectangle.Height - drawSize.Height) / 2)), drawSize).Pad(size / 2);
 		var sm = g.SmoothingMode;
@@ -321,7 +321,7 @@ public static class DesignExtensions
 		{
 			BannerStyle.Active => FormDesign.Design.ActiveForeColor,
 			BannerStyle.Text => FormDesign.Design.MenuColor,
-			_ => FormDesign.Design.Type.If(FormDesignType.Light, FormDesign.Design.ForeColor, FormDesign.Design.MenuColor),
+			_ => !FormDesign.Design.IsDarkTheme ? FormDesign.Design.ForeColor : FormDesign.Design.MenuColor,
 		};
 	}
 

@@ -58,7 +58,7 @@
 			// 
 			this.base_P_Container.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(203)))), ((int)(((byte)(145)))));
 			this.base_P_Container.Controls.Add(this.TLP_Main);
-			this.base_P_Container.Size = new System.Drawing.Size(677, 279);
+			this.base_P_Container.Size = new System.Drawing.Size(719, 279);
 			// 
 			// TLP_Main
 			// 
@@ -91,7 +91,7 @@
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
 			this.TLP_Main.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.TLP_Main.Size = new System.Drawing.Size(675, 277);
+			this.TLP_Main.Size = new System.Drawing.Size(717, 277);
 			this.TLP_Main.TabIndex = 0;
 			// 
 			// colorBox2D
@@ -128,7 +128,7 @@
 			// 
 			this.TB_Lum.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.TB_Lum.LabelText = "Luminance";
-			this.TB_Lum.Location = new System.Drawing.Point(583, 189);
+			this.TB_Lum.Location = new System.Drawing.Point(614, 182);
 			this.TB_Lum.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
 			this.TB_Lum.Name = "TB_Lum";
 			this.TB_Lum.Placeholder = "0";
@@ -147,7 +147,7 @@
 			// 
 			this.TB_Red.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.TB_Red.LabelText = "Red";
-			this.TB_Red.Location = new System.Drawing.Point(454, 91);
+			this.TB_Red.Location = new System.Drawing.Point(464, 84);
 			this.TB_Red.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
 			this.TB_Red.Name = "TB_Red";
 			this.TB_Red.Placeholder = "0";
@@ -166,7 +166,7 @@
 			// 
 			this.TB_Sat.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.TB_Sat.LabelText = "Saturation";
-			this.TB_Sat.Location = new System.Drawing.Point(583, 140);
+			this.TB_Sat.Location = new System.Drawing.Point(614, 133);
 			this.TB_Sat.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
 			this.TB_Sat.Name = "TB_Sat";
 			this.TB_Sat.Placeholder = "0";
@@ -185,7 +185,7 @@
 			// 
 			this.TB_Green.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.TB_Green.LabelText = "Green";
-			this.TB_Green.Location = new System.Drawing.Point(454, 140);
+			this.TB_Green.Location = new System.Drawing.Point(464, 133);
 			this.TB_Green.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
 			this.TB_Green.Name = "TB_Green";
 			this.TB_Green.Placeholder = "0";
@@ -204,7 +204,7 @@
 			// 
 			this.TB_Hue.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.TB_Hue.LabelText = "Hue";
-			this.TB_Hue.Location = new System.Drawing.Point(583, 91);
+			this.TB_Hue.Location = new System.Drawing.Point(614, 84);
 			this.TB_Hue.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
 			this.TB_Hue.Name = "TB_Hue";
 			this.TB_Hue.Placeholder = "0";
@@ -223,7 +223,7 @@
 			// 
 			this.TB_Blue.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.TB_Blue.LabelText = "Blue";
-			this.TB_Blue.Location = new System.Drawing.Point(454, 189);
+			this.TB_Blue.Location = new System.Drawing.Point(464, 182);
 			this.TB_Blue.Margin = new System.Windows.Forms.Padding(0, 15, 0, 0);
 			this.TB_Blue.Name = "TB_Blue";
 			this.TB_Blue.Placeholder = "0";
@@ -241,7 +241,7 @@
 			// colorPreview
 			// 
 			this.colorPreview.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.colorPreview.Location = new System.Drawing.Point(460, 5);
+			this.colorPreview.Location = new System.Drawing.Point(470, 5);
 			this.colorPreview.Name = "colorPreview";
 			this.colorPreview.Size = new System.Drawing.Size(48, 48);
 			this.colorPreview.TabIndex = 3;
@@ -251,7 +251,7 @@
 			// 
 			this.TB_Hex.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
 			this.TB_Hex.LabelText = "Hex";
-			this.TB_Hex.Location = new System.Drawing.Point(583, 12);
+			this.TB_Hex.Location = new System.Drawing.Point(614, 12);
 			this.TB_Hex.Margin = new System.Windows.Forms.Padding(12);
 			this.TB_Hex.Name = "TB_Hex";
 			this.TB_Hex.Placeholder = null;
@@ -283,9 +283,9 @@
 			this.TLP_Main.SetColumnSpan(this.flowLayoutPanel1, 2);
 			this.flowLayoutPanel1.Controls.Add(this.B_Confirm);
 			this.flowLayoutPanel1.Controls.Add(this.B_Cancel);
-			this.flowLayoutPanel1.Location = new System.Drawing.Point(530, 244);
+			this.flowLayoutPanel1.Location = new System.Drawing.Point(519, 230);
 			this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-			this.flowLayoutPanel1.Size = new System.Drawing.Size(142, 30);
+			this.flowLayoutPanel1.Size = new System.Drawing.Size(195, 44);
 			this.flowLayoutPanel1.TabIndex = 10;
 			// 
 			// B_Confirm
@@ -300,7 +300,7 @@
 			this.B_Confirm.ImageName = dynamicIcon1;
 			this.B_Confirm.Location = new System.Drawing.Point(3, 3);
 			this.B_Confirm.Name = "B_Confirm";
-			this.B_Confirm.Size = new System.Drawing.Size(63, 24);
+			this.B_Confirm.Size = new System.Drawing.Size(89, 38);
 			this.B_Confirm.SpaceTriggersClick = true;
 			this.B_Confirm.TabIndex = 8;
 			this.B_Confirm.Text = "Apply";
@@ -315,9 +315,9 @@
 			this.B_Cancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
 			dynamicIcon2.Name = "I_Cancel";
 			this.B_Cancel.ImageName = dynamicIcon2;
-			this.B_Cancel.Location = new System.Drawing.Point(72, 3);
+			this.B_Cancel.Location = new System.Drawing.Point(98, 3);
 			this.B_Cancel.Name = "B_Cancel";
-			this.B_Cancel.Size = new System.Drawing.Size(67, 24);
+			this.B_Cancel.Size = new System.Drawing.Size(94, 38);
 			this.B_Cancel.SpaceTriggersClick = true;
 			this.B_Cancel.TabIndex = 9;
 			this.B_Cancel.Text = "Cancel";
@@ -327,10 +327,10 @@
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-			this.ClientSize = new System.Drawing.Size(688, 290);
+			this.ClientSize = new System.Drawing.Size(730, 290);
 			this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(58)))), ((int)(((byte)(69)))));
 			this.MaximizeBox = false;
-			this.MaximizedBounds = new System.Drawing.Rectangle(0, 0, 1920, 1032);
+			this.MaximizedBounds = new System.Drawing.Rectangle(0, 0, 2560, 1380);
 			this.MinimizeBox = false;
 			this.Name = "SlickColorPicker";
 			this.ShowIcon = false;

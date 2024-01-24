@@ -496,7 +496,7 @@ public partial class BasePanelForm : SlickForm
 		base_TLP_Side.BackColor = design.MenuColor;
 		base_P_Side.ForeColor = design.LabelColor;
 		base_P_Side.Invalidate(true);
-		base_P_SideControls.ForeColor = design.LabelColor.MergeColor(design.ID.If(0, design.AccentColor, design.MenuColor), 80);
+		base_P_SideControls.ForeColor = design.LabelColor.MergeColor(!design.IsDarkTheme ?design.AccentColor: design.MenuColor, 80);
 
 		base_PB_Icon.Color(design.MenuForeColor);
 	}
@@ -779,7 +779,7 @@ public partial class BasePanelForm : SlickForm
 		switch (CurrentFormState)
 		{
 			case FormState.NormalUnfocused:
-				e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.MenuColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Dark ? 3 : -3)), new Rectangle(0, 0, base_P_Side.Width + 1, base_P_Side.Height + 2));
+				e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.MenuColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 3 : -3)), new Rectangle(0, 0, base_P_Side.Width + 1, base_P_Side.Height + 2));
 				break;
 
 			case FormState.ForcedFocused:

@@ -791,7 +791,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 	{
 		if (e.BackColor == Color.Empty)
 		{
-			e.BackColor = BackColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Dark ? 4 : -5);
+			e.BackColor = BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 4 : -5);
 		}
 
 		if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
@@ -839,7 +839,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 
 			if (isMouseDown || (HoverState.HasFlag(HoverState.Hovered) && CursorLocation.X >= scrollThumbRectangle.X))
 			{
-				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(7, FormDesign.Design.Type == FormDesignType.Dark ? Color.White : Color.Black)), new Rectangle(scrollThumbRectangle.X, -1, scrollThumbRectangle.Width + 1, Height + 2));
+				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(7, FormDesign.Design.IsDarkTheme ? Color.White : Color.Black)), new Rectangle(scrollThumbRectangle.X, -1, scrollThumbRectangle.Width + 1, Height + 2));
 			}
 
 			e.Graphics.FillRoundedRectangle(scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), scrollThumbRectangle.Pad(2, 0, 2, 0), 3);

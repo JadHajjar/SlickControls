@@ -33,12 +33,12 @@ public class Notification
 		return NotificationForm.Push(this, form, Sound, timeoutSeconds);
 	}
 
-	public static Notification Create(string title, string description, PromptIcons icon, ExtensionClass.action action, NotificationSound sound = NotificationSound.Short, Size? size = null)
+	public static Notification Create(string title, string description, PromptIcons icon, ExtensionClass.action action = null, NotificationSound sound = NotificationSound.Short, Size? size = null)
 	{
 		return new Notification(title, description, icon, action, sound, size);
 	}
 
-	public static Notification Create(Action<Control, Graphics> onpaint, ExtensionClass.action action, NotificationSound sound = NotificationSound.Short, Size? size = null)
+	public static Notification Create(Action<Control, Graphics> onpaint, ExtensionClass.action action = null, NotificationSound sound = NotificationSound.Short, Size? size = null)
 	{
 		return new Notification(string.Empty, string.Empty, PromptIcons.Input, action, sound, size) { OnPaint = onpaint };
 	}

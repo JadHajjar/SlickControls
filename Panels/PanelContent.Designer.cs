@@ -39,7 +39,6 @@
 			// 
 			// base_Text
 			// 
-			this.base_Text.AutoHideText = false;
 			this.base_Text.AutoSize = true;
 			this.base_Text.ColorShade = null;
 			this.base_Text.Cursor = System.Windows.Forms.Cursors.Hand;

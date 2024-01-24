@@ -160,11 +160,6 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Background => _instance.GetText("Background");
 
 	/// <summary>
-	/// Base Theme
-	/// </summary>
-	public static Translation BaseTheme => _instance.GetText("Base Theme");
-
-	/// <summary>
 	/// Before
 	/// </summary>
 	public static Translation Before => _instance.GetText("Before");
@@ -340,6 +335,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Green => _instance.GetText("Green");
 
 	/// <summary>
+	/// Hue
+	/// </summary>
+	public static Translation Hue => _instance.GetText("Hue");
+
+	/// <summary>
 	/// Ice
 	/// </summary>
 	public static Translation Ice => _instance.GetText("Ice");
@@ -372,9 +372,9 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation InMonthOn => _instance.GetText("in {0} month on {1}");
 
 	/// <summary>
-	/// In here, you can customize the scale and colors of the App however you want to.
+	/// In here, you can customize the scale and colors of the App to your liking.
 	/// </summary>
-	public static Translation InHereYouCanCustomizeTheScaleAndColorsOfTheAppHoweverYouWantTo => _instance.GetText("In here, you can customize the scale and colors of the App however you want to.");
+	public static Translation InHereYouCanCustomizeTheScaleAndColorsOfTheAppToYourLiking => _instance.GetText("In here, you can customize the scale and colors of the App to your liking.");
 
 	/// <summary>
 	/// Info Text
@@ -400,6 +400,11 @@ public class LocaleSlickUI : LocaleHelper
 	/// Loading..
 	/// </summary>
 	public static Translation Loading => _instance.GetText("Loading");
+
+	/// <summary>
+	/// Luminance
+	/// </summary>
+	public static Translation Luminance => _instance.GetText("Luminance");
 
 	/// <summary>
 	/// Maximize
@@ -517,6 +522,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Retry => _instance.GetText("Retry");
 
 	/// <summary>
+	/// Saturation
+	/// </summary>
+	public static Translation Saturation => _instance.GetText("Saturation");
+
+	/// <summary>
 	/// Search
 	/// </summary>
 	public static Translation Search => _instance.GetText("Search");
@@ -530,11 +540,6 @@ public class LocaleSlickUI : LocaleHelper
 	/// Select a folder
 	/// </summary>
 	public static Translation SelectAFolder => _instance.GetText("Select a folder");
-
-	/// <summary>
-	/// Select how the app interacts with your theme
-	/// </summary>
-	public static Translation SelectHowTheAppInteractsWithYourTheme => _instance.GetText("Select how the app interacts with your theme");
 
 	/// <summary>
 	/// Settings
@@ -647,7 +652,7 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation UnexpectedError => _instance.GetText("UnexpectedError");
 
 	/// <summary>
-	/// Use the System's Theme
+	/// Use your System's Theme
 	/// </summary>
 	public static Translation UseTheSystemsTheme => _instance.GetText("Use the System's Theme");
 

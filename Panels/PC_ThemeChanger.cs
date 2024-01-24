@@ -20,17 +20,18 @@ public partial class PC_ThemeChanger : PanelContent
 	private bool savedUseSystemThemeSetting;
 	private bool savedWindowsButtons;
 	private FormDesign savedCustom = FormDesign.Custom;
+	internal string savedDesignName = FormDesign.Design.Name;
 
 	public PC_ThemeChanger()
 	{
 		InitializeComponent();
 		verticalScroll1.LinkedControl = FLP_Pickers;
-		UD_BaseTheme.Items = FormDesign.List.ToArray();
 		CB_NightMode.Checked = savedNightModeSetting = FormDesign.NightModeEnabled;
 		CB_UseSystemTheme.Checked = savedUseSystemThemeSetting = FormDesign.UseSystemTheme;
 		CB_WindowsButtons.Checked = savedWindowsButtons = FormDesign.WindowsButtons;
-		FormDesign.UseSystemTheme = FormDesign.IsDarkMode = false;
-		FormDesign.NightModeEnabled = false;
+		//FormDesign.UseSystemTheme = FormDesign.IsDarkMode = false;
+		//FormDesign.NightModeEnabled = false;
+		FormDesign.Custom = FormDesign.Custom.CloneTo<IFormDesign, FormDesign>();
 		FormDesign.Custom.Temporary = true;
 
 		if (FormDesign.IsCustomEligible())
@@ -43,7 +44,6 @@ public partial class PC_ThemeChanger : PanelContent
 		}
 
 		UD_BaseThemeIdentifier.Disable();
-		UD_BaseTheme.Text = FormDesign.List[FormDesign.Design.ID].Name;
 		UD_BaseThemeIdentifier.Enable();
 
 		using (var fontsCollection = new InstalledFontCollection())
@@ -74,9 +74,9 @@ public partial class PC_ThemeChanger : PanelContent
 		base.UIChanged();
 
 		SS_Scale.Width = (int)(350 * UI.FontScale);
-		DD_Font.Margin = CB_DisableAnimations.Margin = CB_NightMode.Margin = CB_WindowsButtons.Margin = CB_UseSystemTheme.Margin = UD_BaseTheme.Margin = UI.Scale(new System.Windows.Forms.Padding(5), UI.FontScale);
-		DD_Font.Width = UD_BaseTheme.Width = (int)(250 * UI.FontScale);
-		B_Random.Margin = B_Reset.Margin = B_Save.Margin = UI.Scale(new System.Windows.Forms.Padding(10, 0, 10, 10), UI.FontScale);
+		DD_Font.Margin = CB_DisableAnimations.Margin = CB_NightMode.Margin = CB_WindowsButtons.Margin = CB_UseSystemTheme.Margin = UI.Scale(new System.Windows.Forms.Padding(5), UI.FontScale);
+		DD_Font.Width = (int)(250 * UI.FontScale);
+		B_Random.Margin = B_Reset.Margin = B_Save.Margin = UI.Scale(new System.Windows.Forms.Padding(10), UI.FontScale);
 		P_UI.Margin = P_Theme.Margin = UI.Scale(new System.Windows.Forms.Padding(10), UI.FontScale);
 	}
 
@@ -85,7 +85,7 @@ public partial class PC_ThemeChanger : PanelContent
 		base.DesignChanged(design);
 
 		L_UiScale.ForeColor = design.LabelColor;
-		P_UI.BackColor = P_Theme.BackColor = design.BackColor.Tint(Lum: design.Type.If(FormDesignType.Dark, -1, 1));
+		P_UI.BackColor = P_Theme.BackColor = design.BackColor.Tint(Lum: design.IsDarkTheme ? -1 : 1);
 	}
 
 	public override bool CanExit(bool toBeDisposed)
@@ -97,6 +97,7 @@ public partial class PC_ThemeChanger : PanelContent
 		else
 		{
 			FormDesign.Custom = savedCustom;
+			FormDesign.Switch(FormDesign.List[savedDesignName]);
 		}
 
 		FormDesign.NightModeEnabled = savedNightModeSetting;
@@ -139,18 +140,17 @@ public partial class PC_ThemeChanger : PanelContent
 		savedUseSystemThemeSetting = CB_UseSystemTheme.Checked;
 		savedWindowsButtons = CB_WindowsButtons.Checked;
 
-		if (!FormDesign.IsCustomEligible())
+		FormDesign.Custom.Temporary = false;
+		FormDesign.Custom.DarkMode = null;
+		savedCustom = FormDesign.Custom;
+
+		FormDesign.Custom = FormDesign.Custom.CloneTo<IFormDesign, FormDesign>();
+
+		if (FormDesign.IsCustomEligible())
 		{
-			FormDesign.Switch(FormDesign.List[UD_BaseTheme.Text], true, true);
-		}
-		else
-		{
-			FormDesign.Custom.Temporary = false;
-			FormDesign.Custom.DarkMode = null;
+			savedDesignName = FormDesign.Custom.Name;
 			FormDesign.Switch(FormDesign.Custom, true, true);
 		}
-
-		savedCustom = FormDesign.Custom;
 	}
 
 	private void B_Reset_Click(object sender, EventArgs e)
@@ -158,7 +158,7 @@ public partial class PC_ThemeChanger : PanelContent
 		if (sender == null || ShowPrompt("Are you sure you want to reset your theme?", PromptButtons.YesNo, PromptIcons.Warning) == System.Windows.Forms.DialogResult.Yes)
 		{
 			FormDesign.ResetCustomTheme();
-			FormDesign.Switch(FormDesign.List[UD_BaseTheme.Text]);
+			FormDesign.Switch(FormDesign.List[savedDesignName]);
 		}
 	}
 
@@ -180,7 +180,7 @@ public partial class PC_ThemeChanger : PanelContent
 
 				if (!FormDesign.IsCustomEligible())
 				{
-					FormDesign.Switch(FormDesign.List[UD_BaseTheme.Text]);
+					FormDesign.Switch(FormDesign.List[savedDesignName]);
 				}
 			}
 
@@ -201,7 +201,7 @@ public partial class PC_ThemeChanger : PanelContent
 
 			var notification = Notification.Create(
 				LocaleHelper.GetGlobalText("Welcome to Theme Changer!"),
-				LocaleHelper.GetGlobalText("In here, you can customize the scale and colors of the App however you want to.") + "\r\n" + LocaleHelper.GetGlobalText("Click on any color to change it, or middle-click to reset it."),
+				LocaleHelper.GetGlobalText("In here, you can customize the scale and colors of the App to your liking.") + "\r\n" + LocaleHelper.GetGlobalText("Click on any color to change it, or middle-click to reset it."),
 				PromptIcons.Info,
 				null,
 				size: new Size(350, 90));
@@ -212,28 +212,10 @@ public partial class PC_ThemeChanger : PanelContent
 		changesMade = false;
 	}
 
-	private void UD_BaseTheme_TextChanged(object sender, EventArgs e)
-	{
-		if (UD_BaseThemeIdentifier.Disabled)
-		{
-			return;
-		}
-
-		if (!FormDesign.IsCustomEligible())
-		{
-			B_Reset_Click(null, null);
-		}
-		else
-		{
-			FormDesign.SetCustomBaseDesign(FormDesign.List[UD_BaseTheme.Text]);
-		}
-	}
-
 	private void B_Random_Click(object sender, EventArgs e)
 	{
-		UD_BaseTheme.SelectedItem = UD_BaseTheme.Items.Random();
 		FormDesign.ResetCustomTheme();
-		FormDesign.SetCustomBaseDesign(FormDesign.List[UD_BaseTheme.Text]);
+		FormDesign.SetCustomBaseDesign(FormDesign.List.Random());
 
 		var baseColor = Color.FromArgb(ExtensionClass.RNG.Next(256), ExtensionClass.RNG.Next(256), ExtensionClass.RNG.Next(256));
 

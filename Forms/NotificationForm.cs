@@ -43,7 +43,6 @@ public partial class NotificationForm : Form
 		ResizeRedraw = true;
 		ShowIcon = false;
 		ShowInTaskbar = false;
-		Font = UI.Font(8.25F);
 		Padding = UI.Scale(new Padding(5), UI.FontScale);
 		TransparencyKey = BackColor = Color.FromArgb(64, 64, 0);
 		Size = Size.Empty;
@@ -251,7 +250,9 @@ public partial class NotificationForm : Form
 
 			if (loading && IsHandleCreated)
 			{
-				loaderPercentage = (loaderPercentage + 2.5 + 0.5 * Math.Cos(lastTick / 1000D)) % 200;
+				var val = lastTick / 600D % Math.PI;
+
+				loaderPercentage = 100 - (100 * Math.Cos(val));
 			}
 
 			if (!loaded)

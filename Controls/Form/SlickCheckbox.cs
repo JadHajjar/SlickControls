@@ -354,7 +354,7 @@ public partial class SlickCheckbox : SlickControl, ISupportsReset
 		}
 		else if (HoverState.HasFlag(HoverState.Hovered))
 		{
-			fore = FormDesign.Design.ForeColor.Tint(Lum: FormDesign.Design.Type.If(FormDesignType.Dark, -7, 7));
+			fore = FormDesign.Design.ForeColor.Tint(Lum: FormDesign.Design.IsDarkTheme? -7: 7);
 			back = FormDesign.Design.ButtonColor.MergeColor(BackColor, 75);
 		}
 		else

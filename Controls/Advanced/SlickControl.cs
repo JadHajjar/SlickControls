@@ -90,11 +90,12 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 		if (loading && Live)
 		{
 			var oldTick = lastTick;
-			lastTick = (DateTime.Now.Ticks - epoch);
+			lastTick = (DateTime.Now.Ticks - epoch) / TimeSpan.TicksPerMillisecond;
 
-			LoaderPercentage = (LoaderPercentage + 2.5 + 0.5* Math.Cos(lastTick / 1000D)) % 200;
+			var val = lastTick / 600D % Math.PI;
+			LoaderPercentage = 100 - (100 * Math.Cos(val));
 
-			await Task.Delay(Math.Max(2, 25 - (int)((lastTick - oldTick) / TimeSpan.TicksPerMillisecond)));
+			await Task.Delay(Math.Max(2, 25 - (int)(lastTick - oldTick)));
 
 			InvalidateForLoading();
 		}

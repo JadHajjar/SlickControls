@@ -175,7 +175,7 @@ public static class FontMeasuring
 
 		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
 		using var dpiFont = new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit);
-		
+
 		return _cache[key] = graphics.MeasureString(text, dpiFont, width);
 	}
 
@@ -201,10 +201,10 @@ public static class FontMeasuring
 
 		try
 		{
-			while (font.Size > 0.75f && Measure(_graphics, text, font, rectangle.Width).Height > rectangle.Height)
+			while (font.Size > 4.5f && Measure(_graphics, text, font, rectangle.Width).Height > rectangle.Height)
 			{
 				font.Dispose();
-				font = new Font(font.FontFamily, font.Size - 0.75f, font.Style);
+				font = new Font(font.FontFamily, font.Size - 0.25f, font.Style);
 			}
 
 			return font;
@@ -224,10 +224,10 @@ public static class FontMeasuring
 
 		try
 		{
-			while (font.Size > 0.75f && Measure(_graphics, text, font).Width * 1.1f > rectangle.Width)
+			while (font.Size > 4.5f && Measure(_graphics, text, font).Width * 1.1f > rectangle.Width)
 			{
 				font.Dispose();
-				font = new Font(font.FontFamily, font.Size - 0.75f, font.Style);
+				font = new Font(font.FontFamily, font.Size - 0.25f, font.Style);
 			}
 
 			return font;
@@ -241,17 +241,39 @@ public static class FontMeasuring
 		}
 	}
 
-	private struct StringCache
+	public static Font FitTo(this Font font, string text, Rectangle rectangle, Graphics graphics = null)
 	{
-		public string Text { get; set; }
-		public int Font { get; set; }
-		public int Width { get; set; }
+		var _graphics = graphics ?? Graphics.FromHwnd(IntPtr.Zero);
 
-		public StringCache(string text, int font, int width)
+		try
 		{
-			Text = text;
-			Font = font;
-			Width = width;
+			var heightFont = new Font(font.FontFamily, font.Size, font.Style).FitToHeight(text, rectangle, _graphics);
+			var widthFont = new Font(font.FontFamily, font.Size, font.Style).FitToWidth(text, rectangle, _graphics);
+
+			font.Dispose();
+
+			if (heightFont.Size > widthFont.Size)
+			{
+				widthFont.Dispose();
+				return heightFont;
+			}
+
+			heightFont.Dispose();
+			return widthFont;
 		}
+		finally
+		{
+			if (graphics is null)
+			{
+				_graphics.Dispose();
+			}
+		}
+	}
+
+	private struct StringCache(string text, int font, int width)
+	{
+		public string Text { get; set; } = text;
+		public int Font { get; set; } = font;
+		public int Width { get; set; } = width;
 	}
 }

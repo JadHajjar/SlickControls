@@ -27,7 +27,6 @@ public partial class Theme_Changer : BaseForm
 		}
 
 		UD_BaseThemeIdentifier.Disable();
-		UD_BaseTheme.Text = FormDesign.List[FormDesign.Design.ID].Name;
 		UD_BaseThemeIdentifier.Enable();
 
 		using (var fontsCollection = new InstalledFontCollection())

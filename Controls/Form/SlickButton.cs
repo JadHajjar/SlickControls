@@ -32,9 +32,6 @@ public partial class SlickButton : SlickImageControl
 	[Category("Appearance"), DisplayName("Button Type"), DefaultValue(ButtonType.Normal)]
 	public ButtonType ButtonType { get; set; }
 
-	[Category("Appearance"), DisplayName("Auto-hide Text"), DefaultValue(true)]
-	public bool AutoHideText { get; set; } = true;
-
 	[Category("Appearance"), DisplayName("Auto-size Icon"), DefaultValue(false)]
 	public bool AutoSizeIcon { get; set; }
 
@@ -75,6 +72,9 @@ public partial class SlickButton : SlickImageControl
 
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 	public bool AlignLeft { get; set; }
+
+	[Category("Appearance"), DisplayName("Multi-Line"), DefaultValue(false)]
+	public bool MultiLine { get; set; }
 
 	protected override void OnParentFontChanged(EventArgs e)
 	{
@@ -205,6 +205,7 @@ public partial class SlickButton : SlickImageControl
 			Image = image,
 			Text = Text,
 			Padding = Padding,
+			AvailableSize = MultiLine ? availableSize : default
 		};
 
 		PrepareLayout(graphics, args);
@@ -290,8 +291,8 @@ public partial class SlickButton : SlickImageControl
 		}
 		else if (HoverState.HasFlag(HoverState.Hovered))
 		{
-			fore = FormDesign.Design.ButtonForeColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Light ? -7 : 7);
-			back = FormDesign.Design.ButtonColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Light ? -7 : 7);
+			fore = FormDesign.Design.ButtonForeColor.Tint(Lum: !FormDesign.Design.IsDarkTheme ? -7 : 7);
+			back = FormDesign.Design.ButtonColor.Tint(Lum: !FormDesign.Design.IsDarkTheme ? -7 : 7);
 		}
 		else
 		{
@@ -302,6 +303,11 @@ public partial class SlickButton : SlickImageControl
 
 	public static Size GetSize(Graphics graphics, Image image, string text, Font font, Padding? padding = null, int maxWidth = 0, bool isLoading = false)
 	{
+		return GetSize(out _, graphics, image, text, font, padding, maxWidth, isLoading);
+	}
+
+	public static Size GetSize(out Padding textPaddingForAvailableSpace, Graphics graphics, Image image, string text, Font font, Padding? padding = null, int maxWidth = 0, bool isLoading = false)
+	{
 		padding ??= UI.Scale(new Padding(4), UI.UIScale);
 		font ??= UI.Font(8.25F);
 
@@ -311,16 +317,25 @@ public partial class SlickButton : SlickImageControl
 		{
 			var pad = Math.Max(padding.Value.Horizontal, padding.Value.Vertical);
 
+			textPaddingForAvailableSpace = default;
+
 			return new Size(iconSize.Width + pad, iconSize.Height + pad);
 		}
 
 		var size = new Size(padding.Value.Horizontal, padding.Value.Vertical);
 
+		textPaddingForAvailableSpace = new Padding(padding.Value.Left, 0, padding.Value.Right, 0);
+
 		if (isLoading || image != null)
 		{
 			size.Width += iconSize.Width + padding.Value.Left;
 			size.Height += iconSize.Height;
+
+			textPaddingForAvailableSpace.Left += iconSize.Width + padding.Value.Left;
 		}
+
+		if (maxWidth > int.MaxValue - size.Width)
+			maxWidth = 0;
 
 		var textSize = graphics.Measure(LocaleHelper.GetGlobalText(text), font, maxWidth == 0 ? int.MaxValue : (maxWidth - size.Width)).ToSize();
 
@@ -407,13 +422,22 @@ public partial class SlickButton : SlickImageControl
 
 		if (arg.Rectangle.Width <= 0)
 		{
-			arg.Rectangle = new Rectangle(arg.Rectangle.Location, GetSize(graphics, arg.Image, arg.Text, arg.Font, arg.Padding, isLoading: arg.Control?.Loading ?? false));
+			arg.Rectangle = new Rectangle(arg.Rectangle.Location, GetSize(graphics, arg.Image, arg.Text, arg.Font, arg.Padding, arg.AvailableSize.Width, isLoading: arg.Control?.Loading ?? false));
 		}
-		else if ((arg.Control as SlickButton)?.AutoHideText ?? false)
+		else
 		{
-			if (arg.Rectangle.Width < GetSize(graphics, arg.Image, arg.Text, arg.Font, arg.Padding, isLoading: arg.Control?.Loading ?? false).Width * 8 / 10)
+			if (arg.Rectangle.Width < GetSize(out var textPad, graphics, arg.Image, arg.Text, arg.Font, arg.Padding, isLoading: arg.Control?.Loading ?? false).Width * 95 / 100)
 			{
-				arg.Text = string.Empty;
+				if (arg.DisposeFont)
+				{
+					arg.Font = arg.Font.FitTo(LocaleHelper.GetGlobalText(arg.Text), arg.Rectangle.Pad(textPad), graphics);
+				}
+				else
+				{
+					arg.Font = new Font(arg.Font.FontFamily, arg.Font.Size, arg.Font.Style).FitTo(LocaleHelper.GetGlobalText(arg.Text), arg.Rectangle.Pad(textPad), graphics);
+				}
+
+				arg.DisposeFont = true;
 			}
 		}
 	}
@@ -530,6 +554,7 @@ public class ButtonDrawArgs : IDisposable
 	public int? BorderRadius { get; set; }
 	public Point? Cursor { get; set; }
 	public bool LeftAlign { get; set; }
+	public Size AvailableSize { get; set; }
 
 	public void Dispose()
 	{

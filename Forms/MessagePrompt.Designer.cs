@@ -130,7 +130,6 @@ namespace SlickControls
 			// B_Cancel
 			// 
 			this.B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_Cancel.AutoHideText = false;
 			this.B_Cancel.AutoSize = true;
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -150,7 +149,6 @@ namespace SlickControls
 			// B_Ignore
 			// 
 			this.B_Ignore.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_Ignore.AutoHideText = false;
 			this.B_Ignore.AutoSize = true;
 			this.B_Ignore.ColorShade = null;
 			this.B_Ignore.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -170,7 +168,6 @@ namespace SlickControls
 			// B_Retry
 			// 
 			this.B_Retry.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_Retry.AutoHideText = false;
 			this.B_Retry.AutoSize = true;
 			this.B_Retry.ColorShade = null;
 			this.B_Retry.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -190,7 +187,6 @@ namespace SlickControls
 			// B_Abort
 			// 
 			this.B_Abort.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_Abort.AutoHideText = false;
 			this.B_Abort.AutoSize = true;
 			this.B_Abort.ColorShade = null;
 			this.B_Abort.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -210,7 +206,6 @@ namespace SlickControls
 			// B_OK
 			// 
 			this.B_OK.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_OK.AutoHideText = false;
 			this.B_OK.AutoSize = true;
 			this.B_OK.ColorShade = null;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -230,7 +225,6 @@ namespace SlickControls
 			// B_No
 			// 
 			this.B_No.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_No.AutoHideText = false;
 			this.B_No.AutoSize = true;
 			this.B_No.ColorShade = null;
 			this.B_No.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -250,7 +244,6 @@ namespace SlickControls
 			// B_Yes
 			// 
 			this.B_Yes.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_Yes.AutoHideText = false;
 			this.B_Yes.AutoSize = true;
 			this.B_Yes.ColorShade = null;
 			this.B_Yes.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -347,7 +340,6 @@ namespace SlickControls
 			// B_Details
 			// 
 			this.B_Details.Anchor = System.Windows.Forms.AnchorStyles.Right;
-			this.B_Details.AutoHideText = false;
 			this.B_Details.AutoSize = true;
 			this.B_Details.ColorShade = null;
 			this.B_Details.Cursor = System.Windows.Forms.Cursors.Hand;

@@ -73,7 +73,7 @@ public partial class DateRangePopup : SlickControl
 			LocaleHelper.GetGlobalText("Clear"),
 		};
 
-		e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.AccentBackColor.Tint(Lum: FormDesign.Design.Type == FormDesignType.Light ? 3 : -3)), new Rectangle(1, 0, Width - 3, tabHeight));
+		e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.AccentBackColor.Tint(Lum: !FormDesign.Design.IsDarkTheme ? 3 : -3)), new Rectangle(1, 0, Width - 3, tabHeight));
 
 		for (var i = 0; i < typeRects.Length; i++)
 		{

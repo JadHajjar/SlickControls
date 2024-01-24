@@ -73,8 +73,8 @@ public partial class SlickTileButton : SlickControl
 		switch (hoverState)
 		{
 			case HoverState.Hovered:
-				fore = FormDesign.Design.ForeColor.Tint(HueShade, FormDesign.Design.Type == FormDesignType.Light ? -7 : 7);
-				back = FormDesign.Design.ButtonColor.Tint(HueShade, FormDesign.Design.Type == FormDesignType.Light ? -7 : 7);
+				fore = FormDesign.Design.ForeColor.Tint(HueShade, !FormDesign.Design.IsDarkTheme ? -7 : 7);
+				back = FormDesign.Design.ButtonColor.Tint(HueShade, !FormDesign.Design.IsDarkTheme ? -7 : 7);
 				break;
 
 			case HoverState.Pressed:
