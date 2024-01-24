@@ -75,8 +75,6 @@
   "Auto Night-Mode": "Modalità notturna automatica",
   "UI Scale": "Scala UI",
   "Font Family": "Famiglia caratteri",
-  "Base Theme": "Tema base",
-  "Select how the app interacts with your theme": "Seleziona come l'app interagisce col tuo tema",
   "Randomize": "Casuale",
   "Reset": "Reimposta",
   "Apply": "Applica",
@@ -101,7 +99,7 @@
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "Benvenuto in Modifica temi!",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "Tema personalizzato",
   "Do you want to apply your changes before leaving?": "Vuoi applicare le modifiche prima di uscire?",
@@ -163,7 +161,10 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Mezzanotte",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Usa pulsanti della barra di stato in stile Windows",
-  "All": "Tutto"
+  "All": "Tutto",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
