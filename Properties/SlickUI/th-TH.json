@@ -75,8 +75,6 @@
   "Auto Night-Mode": "โหมดกลางคืนอัตโนมัติ",
   "UI Scale": "ขนาดของ UI",
   "Font Family": "ตระกูลฟอนต์",
-  "Base Theme": "ธิมพื้นฐาน",
-  "Select how the app interacts with your theme": "เลือกวิธีที่แอปโต้ตอบกับธีมของคุณ",
   "Randomize": "สุ่ม",
   "Reset": "รีเซ็ต",
   "Apply": "ปรับใช้",
@@ -101,7 +99,7 @@
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "ยินดีต้อนรับสู่การปรับแต่งธิม!",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "ธีมที่กำหนดเอง",
   "Do you want to apply your changes before leaving?": "คุณต้องการปรับใช้การเปลี่ยนแปลงก่อนออกจากที่นี่หรือไม่",
@@ -163,7 +161,10 @@
   "{0}m": "{0}น.",
   "{0}s": "{0}วิ.",
   "Midnight": "เที่ยงคืน",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "ใช้ปุ่มบนแถบด้านบนแบบวินโดวส์",
-  "All": "ทั้งหมด"
+  "All": "ทั้งหมด",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
