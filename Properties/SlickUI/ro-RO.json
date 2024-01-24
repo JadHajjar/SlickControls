@@ -75,8 +75,6 @@
   "Auto Night-Mode": "Mod noapte automat",
   "UI Scale": "Dimensiune UI",
   "Font Family": "Familia de fonturi",
-  "Base Theme": "Tema de bază",
-  "Select how the app interacts with your theme": "Selectați modul în care aplicația interacționează cu tema dvs.",
   "Randomize": "Randomizați",
   "Reset": "Resetează",
   "Apply": "Aplică",
@@ -101,7 +99,7 @@
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "Bun venit la Schimbarea Temei!",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "Temă personalizată",
   "Do you want to apply your changes before leaving?": "Doriți să aplicați modificările înainte de a pleca?",
@@ -163,7 +161,10 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Miezul nopţii",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
-  "All": "All"
+  "All": "All",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
