@@ -75,8 +75,6 @@
   "Auto Night-Mode": "Automatikus éjszakai mód",
   "UI Scale": "Felhasználói felület méretezése",
   "Font Family": "Betűkészlet",
-  "Base Theme": "Alaptéma",
-  "Select how the app interacts with your theme": "Válassza ki, hogy az alkalmazás hogyan kommunikáljon a témával",
   "Randomize": "Véletlenszerű",
   "Reset": "Visszaállítás",
   "Apply": "Alkalmaz",
@@ -101,7 +99,7 @@
   "Edit Color": "Szín szerkesztése",
   "Reset Color": "Színek visszaállítása",
   "Welcome to Theme Changer!": "Üdvözlünk a Témaváltoztatási funkcióban!",
-  "In here, you can customize the scale and colors of the App however you want to.": "Itt tetszés szerint testreszabhatod az alkalmazás léptékét és színeit.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Kattintson bármelyik színre a módosításához, vagy kattintson a középső gombbal az alaphelyzetbe állításához.",
   "Custom Theme": "Egyéni téma",
   "Do you want to apply your changes before leaving?": "Alkalmazod a módosításokat, mielőtt kilépsz?",
@@ -163,7 +161,10 @@
   "{0}m": "{0}perc",
   "{0}s": "{0}másodperc",
   "Midnight": "Éjfél",
-  "Use the System's Theme": "Használja a rendszer témáját",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Használd a Windows-sílusú felső sáv gombjait",
-  "All": "Mind"
+  "All": "Mind",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
