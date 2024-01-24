@@ -75,8 +75,6 @@
   "Auto Night-Mode": "Авто Ночной режим",
   "UI Scale": "Масштабирование",
   "Font Family": "Семейство шрифтов",
-  "Base Theme": "Основная тема",
-  "Select how the app interacts with your theme": "Выберите, как приложение взаимодействует с вашей темой",
   "Randomize": "Случайно",
   "Reset": "Сбросить",
   "Apply": "Применить",
@@ -101,7 +99,7 @@
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "Добро пожаловать в \"Редактор темы\"!",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "Настраиваемая тема",
   "Do you want to apply your changes before leaving?": "Вы хотите применить изменения перед закрытием?",
@@ -163,7 +161,10 @@
   "{0}m": "{0} мин.",
   "{0}s": "{0} сек.",
   "Midnight": "Полночь",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Использовать Windows-стиль верхних кнопок",
-  "All": "All"
+  "All": "All",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
