@@ -75,8 +75,6 @@
   "Auto Night-Mode": "Modo Noturno Automático",
   "UI Scale": "Escala da Interface",
   "Font Family": "Família de Fontes",
-  "Base Theme": "Tema Básico",
-  "Select how the app interacts with your theme": "Selecione como o aplicativo interage com o seu tema",
   "Randomize": "Aleatório",
   "Reset": "Redefinir",
   "Apply": "Aplicar",
@@ -101,7 +99,7 @@
   "Edit Color": "Editar Cor",
   "Reset Color": "Redefinir cor",
   "Welcome to Theme Changer!": "Bem-vindo ao Modificador de Temas!",
-  "In here, you can customize the scale and colors of the App however you want to.": "Aqui você pode personalizar a escala e as cores do aplicativo da forma que desejar.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Clique em qualquer cor para alterá-la, ou clique com o botão do meio para redefini-la.",
   "Custom Theme": "Tema Personalizado",
   "Do you want to apply your changes before leaving?": "Gostaria de aplicar as alterações antes de sair?",
@@ -163,7 +161,10 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Meia Noite",
-  "Use the System's Theme": "Usar Tema do Sistema",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Usar botões da barra superior no estilo Windows",
-  "All": "Todos"
+  "All": "Todos",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
