@@ -75,8 +75,6 @@
   "Auto Night-Mode": "Automatický noční režim",
   "UI Scale": "Měřítko uživatelského rozhraní",
   "Font Family": "Rodina písma",
-  "Base Theme": "Základní motiv",
-  "Select how the app interacts with your theme": "Vyberte, jak aplikace komunikuje s vaším motivem",
   "Randomize": "Náhodně",
   "Reset": "Reset",
   "Apply": "Použít",
@@ -101,7 +99,7 @@
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "Vítejte ve změně motivů!",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "Vlastní šablona",
   "Do you want to apply your changes before leaving?": "Chcete použít změny před odchodem?",
@@ -163,7 +161,10 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "půlnoc",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
-  "All": "All"
+  "All": "All",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
