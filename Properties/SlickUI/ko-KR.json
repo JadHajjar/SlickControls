@@ -75,8 +75,6 @@
   "Auto Night-Mode": "자동으로 야간모드 전환",
   "UI Scale": "UI 크기",
   "Font Family": "폰트 패밀리",
-  "Base Theme": "기본 테마",
-  "Select how the app interacts with your theme": "앱과 테마가 어떻게 상호작용하는지 선택",
   "Randomize": "무작위",
   "Reset": "재설정",
   "Apply": "적용",
@@ -101,7 +99,7 @@
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "테마 변환기에 오신 것을 환영합니다!",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "사용자 정의 테마",
   "Do you want to apply your changes before leaving?": "종료하기 전에 변경 사항을 저장하시겠습니까?",
@@ -163,7 +161,10 @@
   "{0}m": "{0}분",
   "{0}s": "{0}초",
   "Midnight": "미드나이트",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Windows 스타일 상단바 버튼 사용하기",
-  "All": "모든"
+  "All": "모든",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
