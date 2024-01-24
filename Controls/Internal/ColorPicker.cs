@@ -13,19 +13,8 @@ public partial class ColorPicker : SlickControl
 
 	public ColorPicker()
 	{
-		InitializeComponent();
-
-		PB_Color.Paint += Picker_Paint;
-		PB_Color.Click += Picker_Click;
-		tableLayoutPanel1.Click += Picker_Click;
-		label1.Click += Picker_Click;
-	}
-
-	protected override void UIChanged()
-	{
-		label1.Font = UI.Font(9F);
-		Size = UI.Scale(new Size(188, 37), UI.UIScale);
-		Padding = UI.Scale(new Padding(5), UI.FontScale);
+		AutoScaleMode = AutoScaleMode.None;
+		Cursor = Cursors.Hand;
 	}
 
 	public event Action<object, bool> ColorChanged;
@@ -42,7 +31,6 @@ public partial class ColorPicker : SlickControl
 				ColorChanged?.Invoke(this, false);
 				if (color == value)
 				{
-					PB_Color?.Invalidate();
 					Invalidate();
 				}
 			}
@@ -50,11 +38,7 @@ public partial class ColorPicker : SlickControl
 	}
 
 	[EditorBrowsable(EditorBrowsableState.Always), Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Visible), Bindable(true)]
-	public override string Text
-	{
-		get => label1.Text;
-		set => label1.Text = LocaleHelper.GetGlobalText(value);
-	}
+	public override string Text { get; set; }
 
 	[Category("Appearance"), DisplayName("Default Color")]
 	public Color DefaultColor { get; set; }
@@ -62,52 +46,77 @@ public partial class ColorPicker : SlickControl
 	[Category("Behavior"), DisplayName("Color Name")]
 	public string ColorName { get; set; }
 
+	protected override void UIChanged()
+	{
+		Size = UI.Scale(new Size(188, 37), UI.UIScale);
+		Padding = UI.Scale(new Padding(5), UI.FontScale);
+	}
+
 	protected override void DesignChanged(FormDesign design)
 	{
-		BackColor = design.AccentBackColor;
-		tableLayoutPanel1.ForeColor = design.ForeColor;
+		Invalidate();
+
 		if (!string.IsNullOrWhiteSpace(ColorName))
 		{
 			Color = GetDefaultColor();
 		}
 	}
 
-	private void Picker_Click(object sender, EventArgs e)
+	protected override void OnMouseClick(MouseEventArgs e)
 	{
-		if ((e as MouseEventArgs).Button == MouseButtons.Left)
+		base.OnMouseClick(e);
+
+		if (e.Button == MouseButtons.Left)
 		{
-			var colorDialog = new SlickColorPicker(Color);
-			if (!string.IsNullOrWhiteSpace(ColorName))
-			{
-				colorDialog.ColorChanged += (s, ea) =>
-					this.TryInvoke(() =>
-					{
-						ColorSetter(colorDialog.Color);
-						FormDesign.Switch(FormDesign.Custom, false, true);
-					});
-			}
-
-			if (colorDialog.ShowDialog() != DialogResult.OK)
-			{
-				return;
-			}
-
-			color = colorDialog.Color;
-			ColorSetter(color);
-
-			ColorChanged?.Invoke(this, true);
-			PB_Color.Invalidate();
-			Invalidate();
+			EditColor_Click();
 		}
-		else if ((e as MouseEventArgs).Button == MouseButtons.Right)
+		else if (e.Button == MouseButtons.Middle)
 		{
-			Color = ResetColor();
-			ColorSetter(Color);
-
-			ColorChanged?.Invoke(this, true);
-			PB_Color.Invalidate();
-			Invalidate();
+			ResetColor_Click();
 		}
+		else if (e.Button == MouseButtons.Right)
+		{
+			SlickToolStrip.Show(new SlickStripItem("Edit Color", "I_Edit", EditColor_Click), new SlickStripItem("Reset Color", "I_Undo", ResetColor_Click));
+		}
+	}
+
+	private void ResetColor_Click()
+	{
+		Color = ResetColor();
+		ColorSetter(Color);
+
+		ColorChanged?.Invoke(this, true);
+		Invalidate();
+
+		if (!string.IsNullOrWhiteSpace(ColorName))
+		{
+			FormDesign.Switch(FormDesign.Custom, true, true);
+		}
+	}
+
+	private void EditColor_Click()
+	{
+		var colorDialog = new SlickColorPicker(Color);
+		if (!string.IsNullOrWhiteSpace(ColorName))
+		{
+			colorDialog.ColorChanged += (s, ea) =>
+				this.TryInvoke(() =>
+				{
+					ColorSetter(colorDialog.Color);
+					FormDesign.Switch(FormDesign.Custom, false, true);
+				});
+		}
+
+		if (colorDialog.ShowDialog() != DialogResult.OK)
+		{
+			return;
+		}
+
+		color = colorDialog.Color;
+		ColorSetter(color);
+
+		ColorChanged?.Invoke(this, true);
+		Invalidate();
 
 		if (!string.IsNullOrWhiteSpace(ColorName))
 		{
@@ -204,8 +213,25 @@ public partial class ColorPicker : SlickControl
 
 		e.Graphics.SetUp(Parent.BackColor);
 
-		e.Graphics.FillRoundedRectangle(new SolidBrush(Color), ClientRectangle.Pad(1, 1, 2, 1), Padding.Left);
+		var i = (int)(UI.FontScale);
+		using var brush = new SolidBrush(Color);
+		e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 1 + i, 1), Padding.Left);
 
-		e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), Padding.Left);
+		var bounds = ClientRectangle.Pad(0, 0, 1, 1 + 2 * i);
+		using var backBrush = new SolidBrush(HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : HoverState.HasFlag(HoverState.Hovered) ? FormDesign.Design.AccentBackColor.MergeColor(FormDesign.Design.ForeColor, 90) : FormDesign.Design.AccentBackColor);
+		e.Graphics.FillRoundedRectangle(backBrush, bounds, Padding.Left);
+
+		var colorRect = bounds.Pad(Padding).Align(UI.Scale(new Size(20, 20), UI.FontScale), ContentAlignment.MiddleRight);
+		using var brush2 = new SolidBrush(Color.FromArgb(175, ExtensionClass.ColorFromHSL(Color.GetHue(), Color.GetSaturation(), (1D - Color.GetBrightness()).Between(.2, .8))));
+		e.Graphics.FillEllipse(brush2, colorRect);
+		e.Graphics.FillEllipse(brush, colorRect.Pad(1));
+
+		var textRect = bounds.Pad(Padding.Left, Padding.Top, Padding.Horizontal + colorRect.Width, Padding.Bottom);
+		var text = LocaleHelper.GetGlobalText(Text);
+		using var font = UI.Font(9.75f).FitToWidth(text, textRect, e.Graphics);
+		using var textBrush = new SolidBrush(backBrush.Color.GetTextColor());
+		using var stringFormat = new StringFormat { LineAlignment = StringAlignment.Center };
+
+		e.Graphics.DrawString(text, font, textBrush, textRect, stringFormat);
 	}
 }

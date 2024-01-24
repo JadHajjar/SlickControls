@@ -292,6 +292,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 		_textBox.ForeColor = design.ForeColor;
 		_textBox.BackColor = BackColor == FormDesign.Design.AccentBackColor ? FormDesign.Design.BackColor : FormDesign.Design.AccentBackColor;
 		BackColor = Color.Empty;
+		Invalidate();
 	}
 
 	private void TB_Enter(object sender, EventArgs e)

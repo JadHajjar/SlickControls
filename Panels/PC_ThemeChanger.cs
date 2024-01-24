@@ -1,5 +1,7 @@
 ﻿using Extensions;
 
+using SlickControls.Classes;
+
 using System;
 using System.Drawing;
 using System.Drawing.Text;
@@ -190,13 +192,21 @@ public partial class PC_ThemeChanger : PanelContent
 
 	private void Theme_Changer_Load(object sender, EventArgs e)
 	{
-		var settings = ISave.LoadRaw("Settings.tf", "SlickUI");
-		if (settings == null || !(bool)settings.TutorialShown)
-		{
-			ISave.Save(new { TutorialShown = true }, "Settings.tf", appName: "SlickUI");
+		var settings = ISave.Load<SlickUISettings>("Settings.tf", "SlickUI");
 
-			Notification.Create(LocaleHelper.GetGlobalText("Welcome to Theme Changer!"), LocaleHelper.GetGlobalText("Customize the size and colors in the App however you want to.") + "\r\n" + LocaleHelper.GetGlobalText("Click on any color to change it, or right-click to reset it."), PromptIcons.Info, null)
-				.Show(Form, 30);
+		if (!settings.TutorialShown)
+		{
+			settings.TutorialShown = true;
+			settings.Save("Settings.tf", appName: "SlickUI");
+
+			var notification = Notification.Create(
+				LocaleHelper.GetGlobalText("Welcome to Theme Changer!"),
+				LocaleHelper.GetGlobalText("In here, you can customize the scale and colors of the App however you want to.") + "\r\n" + LocaleHelper.GetGlobalText("Click on any color to change it, or middle-click to reset it."),
+				PromptIcons.Info,
+				null,
+				size: new Size(350, 90));
+			
+			notification.Show(Form, 30);
 		}
 
 		changesMade = false;

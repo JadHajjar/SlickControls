@@ -4,51 +4,54 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls;
 
 public partial class NotificationForm : Form
 {
+	private readonly Form _form;
+	private long epoch;
+	private long lastTick;
+	private bool closing;
+	private bool loaded;
+	private readonly bool loading;
+	private double percentage;
+	private double loaderPercentage;
+
+	private static DateTime lastSoundPlay;
+	private Rectangle closeRect;
+	private bool hovered;
 	private static readonly Dictionary<Form, List<NotificationForm>> Notifications = [];
+	private static readonly List<NotificationForm> Notifications_Screen = [];
 
 	public Notification Notification { get; }
-	private readonly Form Form;
 
 	private NotificationForm(Notification notification, Form form = null, NotificationSound sound = NotificationSound.Short, int? timeoutSeconds = null)
 	{
-		InitializeComponent();
-
+		_form = form;
 		Notification = notification;
-		Form = form;
-		Padding = UI.Scale(new Padding(4), UI.FontScale);
+		loaded = AnimationHandler.NoAnimations;
+		percentage = loaded ? 1 : 0;
+		loading = notification.Icon == PromptIcons.Loading;
 
-		if (notification.Icon == PromptIcons.Loading)
-		{
-			PictureBox.Loading = true;
-		}
+		FormBorderStyle = FormBorderStyle.None;
+		AutoScaleMode = AutoScaleMode.None;
+		StartPosition = FormStartPosition.Manual;
+		DoubleBuffered = true;
+		ResizeRedraw = true;
+		ShowIcon = false;
+		ShowInTaskbar = false;
+		Font = UI.Font(8.25F);
+		Padding = UI.Scale(new Padding(5), UI.FontScale);
+		TransparencyKey = BackColor = Color.FromArgb(64, 64, 0);
+		Size = Size.Empty;
 
 		if (notification.Action != null)
 		{
 			Cursor = Cursors.Hand;
 		}
-
-		Disposed += (s, e) =>
-		{
-			Notifications[Form ?? Empty].Remove(this);
-			FormDesign.DesignChanged -= DesignChanged;
-
-			if (form != null)
-			{
-				form.LocationChanged -= Form_Move;
-				form.Resize -= Form_Move;
-			}
-
-			foreach (var item in Notifications[Form ?? Empty])
-			{
-				item.SetLocation();
-			}
-		};
 
 		if (form != null)
 		{
@@ -63,18 +66,19 @@ public partial class NotificationForm : Form
 
 		if (timeoutSeconds is not null and > 0)
 		{
-			new System.Timers.Timer((double)timeoutSeconds * 1000) { Enabled = true, AutoReset = false }
-				.Elapsed += (s, e) =>
-				{
-					if (!IsDisposed)
-					{
-						this.TryInvoke(Close);
-					} (s as System.Timers.Timer).Dispose();
-				};
+			CreateTimeoutTimer(timeoutSeconds.Value);
 		}
 
-		FormDesign.DesignChanged += DesignChanged;
+		PlaySound(sound);
 
+		FormDesign.DesignChanged += DesignChanged;
+		UI.UIChanged += UI_UIChanged;
+
+		epoch = DateTime.Now.Ticks;
+	}
+
+	private static void PlaySound(NotificationSound sound)
+	{
 		if (Notification.PlaySounds && (DateTime.Now - lastSoundPlay).TotalSeconds > 5)
 		{
 			switch (sound)
@@ -100,9 +104,34 @@ public partial class NotificationForm : Form
 		}
 	}
 
+	private void CreateTimeoutTimer(int timeoutSeconds)
+	{
+		var timer = new System.Timers.Timer(timeoutSeconds * 1000D) { Enabled = true, AutoReset = false };
+
+		timer.Elapsed += (s, e) =>
+		{
+			if (!IsDisposed)
+			{
+				this.TryInvoke(Close);
+			}
+
+			(s as System.Timers.Timer).Dispose();
+		};
+	}
+
+	private void UI_UIChanged()
+	{
+		Size = UI.Scale(Notification.Size, UI.FontScale);
+	}
+
 	internal static void Clear()
 	{
-		foreach (var item in Notifications.ConvertEnumerable(x => x.Value).ToArray())
+		foreach (var item in Notifications.Values.SelectMany(x => x))
+		{
+			item.TryInvoke(item.Dispose);
+		}
+
+		foreach (var item in Notifications_Screen)
 		{
 			item.TryInvoke(item.Dispose);
 		}
@@ -126,7 +155,7 @@ public partial class NotificationForm : Form
 
 	private void DesignChanged(FormDesign design)
 	{
-		PictureBox.Invalidate();
+		Invalidate();
 	}
 
 	private void Form_Move(object sender, EventArgs e)
@@ -136,17 +165,17 @@ public partial class NotificationForm : Form
 
 	private void SetLocation()
 	{
-		if (Form != null)
+		if (_form != null)
 		{
-			var y = Form.Bottom - 10 - Notifications[Form].Take(Notifications[Form].IndexOf(this) + 1).Sum(f => 10 + f.Height);
-			var x = Form.Right - 20 - Width;
+			var y = _form.Bottom - Padding.Vertical - Notifications[_form].Take(Notifications[_form].IndexOf(this) + 1).Sum(f => Padding.Vertical + f.Height);
+			var x = _form.Right - Padding.Horizontal * 2 - Width;
 
 			Location = new Point(x, y);
 		}
 		else
 		{
-			var y = Screen.PrimaryScreen.WorkingArea.Height - 10 - ((10 + Height) * (Notifications[Empty].IndexOf(this) + 1));
-			var x = Screen.PrimaryScreen.WorkingArea.Width - 20 - Width;
+			var y = Screen.PrimaryScreen.WorkingArea.Height - Padding.Vertical - ((Padding.Vertical + Height) * (Notifications_Screen.IndexOf(this) + 1));
+			var x = Screen.PrimaryScreen.WorkingArea.Width - Padding.Vertical * 2 - Width;
 
 			Location = new Point(x, y);
 		}
@@ -154,19 +183,15 @@ public partial class NotificationForm : Form
 
 	public void SetText(string text)
 	{
-		this.TryInvoke(() =>
-		{
-			Notification.Description = text;
-			PictureBox.Invalidate();
-		});
+		Notification.Description = text;
+		Invalidate();
 	}
 
-	private static readonly Form Empty = new();
-	private static DateTime lastSoundPlay;
 
 	public static NotificationForm Push(Notification notification, Form form, NotificationSound sound = NotificationSound.Short, int? timeoutSeconds = null)
 	{
 		NotificationForm frm = null;
+
 		form?.TryInvoke(() =>
 		{
 			if (form != null && (!form.Visible || form.WindowState == FormWindowState.Minimized))
@@ -174,19 +199,22 @@ public partial class NotificationForm : Form
 				form = null;
 			}
 
-			frm = new NotificationForm(notification, form, sound, timeoutSeconds) { Size = new Size(0, UI.Scale(notification.Size, UI.FontScale).Height) };
-			frm.PictureBox.Size = UI.Scale(notification.Size, UI.FontScale);
-
-			var animationHandler = new AnimationHandler(frm, frm.PictureBox.Size, AnimationOption.IgnoreHeight);
-			animationHandler.OnAnimationTick += (s, e, p) => frm.SetLocation();
-
-			if (Notifications.ContainsKey(form ?? Empty))
+			frm = new NotificationForm(notification, form, sound, timeoutSeconds)
 			{
-				Notifications[form ?? Empty].Add(frm);
+				Size = UI.Scale(notification.Size, UI.FontScale)
+			};
+
+			if (form is null)
+			{
+				Notifications_Screen.Add(frm);
+			}
+			else if (Notifications.ContainsKey(form))
+			{
+				Notifications[form].Add(frm);
 			}
 			else
 			{
-				Notifications.TryAdd(form ?? Empty, [frm]);
+				Notifications.TryAdd(form, [frm]);
 			}
 
 			frm.SetLocation();
@@ -202,81 +230,141 @@ public partial class NotificationForm : Form
 			}
 
 			frm.BringToFront();
-			animationHandler.StartAnimation();
 		});
 
 		return frm;
 	}
 
-	private void NotificationForm_Paint(object sender, PaintEventArgs e)
+#if NET47
+	protected override async void OnPaintBackground(PaintEventArgs e)
+#else
+	protected override void OnPaintBackground(PaintEventArgs e)
+#endif
 	{
-		e.Graphics.SetUp(FormDesign.Design.AccentColor);
+		base.OnPaintBackground(e);
+
+		if (!loaded || loading)
+		{
+			var oldTick = lastTick;
+
+			lastTick = (DateTime.Now.Ticks - epoch) / TimeSpan.TicksPerMillisecond;
+
+			if (loading && IsHandleCreated)
+			{
+				loaderPercentage = (loaderPercentage + 2.5 + 0.5 * Math.Cos(lastTick / 1000D)) % 200;
+			}
+
+			if (!loaded)
+			{
+				percentage = (1 - Math.Cos(lastTick / 150D)) / 2d;
+
+				if (lastTick > Math.PI * 150)
+				{
+					percentage = 1;
+					loaded = true;
+
+					if (closing)
+					{
+						Dispose();
+					}
+
+					if (!loading)
+					{
+						return;
+					}
+				}
+			}
+
+#if NET47
+			await Task.Delay(Math.Max(2, 20 - (int)(lastTick - oldTick)));
+#endif
+
+			Invalidate();
+		}
+	}
+
+	protected override void OnPaint(PaintEventArgs e)
+	{
+		if (IsDisposed)
+		{
+			return;
+		}
+
+		e.Graphics.SetUp(BackColor);
+
+		var mousePos = PointToClient(Cursor.Position);
+		var clip = new Rectangle(closing ? (int)(Width * percentage) : (Width - (int)(Width * percentage)), 0, Width, Height);
+		e.Graphics.SetClip(clip);
+
+		e.Graphics.Clear(FormDesign.Design.AccentColor);
 
 		GetColorIcons(out var icon, out var color);
 
 		using (var brush = new SolidBrush(FormDesign.Design.BackColor))
 		{
-			e.Graphics.FillRectangle(brush, PictureBox.ClientRectangle.Pad((int)UI.FontScale));
+			e.Graphics.FillRectangle(brush, clip.Pad((int)UI.FontScale));
 		}
 
 		using (var brush = new SolidBrush(color))
 		{
-			e.Graphics.FillRectangle(brush, 0, 0, (int)(3 * UI.FontScale), PictureBox.Height);
+			e.Graphics.FillRectangle(brush, clip.X, 0, (int)(3 * UI.FontScale), Height);
 		}
 
 		if (Notification.OnPaint != null)
 		{
-			Notification.OnPaint(PictureBox, e.Graphics);
+			Notification.OnPaint(this, e.Graphics);
 		}
 		else
 		{
 			using var titleFont = UI.Font(9.75F);
-			using var font = UI.Font(8.25F);
-			var imgRect = Rectangle.Empty;
+			var imgRect = clip.Pad(Padding).Align(UI.Scale(new Size(26, 26), UI.FontScale), ContentAlignment.MiddleLeft);
 
-			if (PictureBox.Loading)
+			imgRect.X += imgRect.Width / 2;
+
+			if (loading)
 			{
-				imgRect = PictureBox.ClientRectangle.Pad(Padding).Align(UI.Scale(new Size(32, 32), UI.FontScale), ContentAlignment.MiddleLeft);
-
-				PictureBox.DrawLoader(e.Graphics, imgRect);
+				e.Graphics.DrawLoader(loaderPercentage, imgRect);
 			}
 			else if (icon != null)
 			{
-				imgRect = PictureBox.ClientRectangle.Pad(Padding).Align(icon.Size, ContentAlignment.MiddleLeft);
-				imgRect.X += imgRect.Width / 3;
-
 				using (icon)
 				{
-					e.Graphics.DrawImage(icon, imgRect);
+					e.Graphics.DrawImage(icon, imgRect.CenterR(icon.Size));
 				}
 			}
 
 			using (var brush = new SolidBrush(FormDesign.Design.ForeColor))
 			{
+				var titleRect = clip.Pad(Padding).Pad(imgRect.Width + (2 * imgRect.Width / 2), 0, 0, 0);
+				using var format = new StringFormat { LineAlignment = string.IsNullOrWhiteSpace(Notification.Description) ? StringAlignment.Center : StringAlignment.Near };
+
 				e.Graphics.DrawString(
-				Notification.Title,
-				titleFont,
-				brush,
-				new Rectangle(imgRect.Right + Padding.Left + (imgRect.Width / 3), Padding.Top, PictureBox.Width - Padding.Horizontal - imgRect.Right, PictureBox.Height - Padding.Vertical),
-				new StringFormat() { LineAlignment = string.IsNullOrWhiteSpace(Notification.Description) ? StringAlignment.Center : StringAlignment.Near });
+					Notification.Title,
+					titleFont,
+					brush,
+					titleRect,
+					format);
 			}
 
 			using (var brush = new SolidBrush(FormDesign.Design.InfoColor))
 			{
+				var textRect = clip.Pad(Padding).Pad(imgRect.Width + (2 * imgRect.Width / 2), string.IsNullOrWhiteSpace(Notification.Title) ? 0 : ((int)e.Graphics.Measure(Notification.Title, titleFont).Height + Padding.Vertical), 0, 0);
+				using var font = UI.Font(8.25F).FitToHeight(Notification.Description, textRect, e.Graphics);
+				using var format = new StringFormat { LineAlignment = string.IsNullOrWhiteSpace(Notification.Title) ? StringAlignment.Center : StringAlignment.Near };
+
 				e.Graphics.DrawString(
-				Notification.Description,
-				font,
-				brush,
-				new Rectangle(imgRect.Right + Padding.Left + (imgRect.Width / 3), (int)e.Graphics.Measure(Notification.Title, titleFont).Height + Padding.Vertical, PictureBox.Width - Padding.Horizontal - imgRect.Right, PictureBox.Height - Padding.Vertical),
-				new StringFormat() { Trimming = StringTrimming.EllipsisCharacter });
+					Notification.Description,
+					font,
+					brush,
+					textRect);
 			}
 		}
 
 		using var closeIcon = IconManager.GetIcon("I_Close");
-		var hovered = PictureBox.ClientRectangle.Align(closeIcon.Size + Padding.Size, ContentAlignment.TopRight).Contains(PointToClient(MousePosition));
+		closeRect = clip.Align(closeIcon.Size + Padding.Size, ContentAlignment.TopRight);
+		var hovered = this.hovered && closeRect.Contains(PointToClient(MousePosition));
 
-		e.Graphics.DrawImage(closeIcon.Color(hovered ? FormDesign.Design.RedColor : FormDesign.Design.IconColor)
-			, PictureBox.ClientRectangle.Pad(Padding).Align(closeIcon.Size, ContentAlignment.TopRight));
+		e.Graphics.DrawImage(closeIcon.Color(hovered ? FormDesign.Design.RedColor : FormDesign.Design.IconColor), closeRect.CenterR(closeIcon.Size));
 	}
 
 	private void GetColorIcons(out Bitmap icon, out Color color)
@@ -285,37 +373,37 @@ public partial class NotificationForm : Form
 		switch (Notification.Icon)
 		{
 			case PromptIcons.Hand:
-				icon = IconManager.GetIcon("I_Hand", IconManager.GetLargeScale() * 3 / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("I_Hand", Height / 2).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Info:
-				icon = IconManager.GetIcon("I_Info", IconManager.GetLargeScale() * 3 / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("I_Info", Height / 2).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Input:
-				icon = IconManager.GetIcon("I_Edit", IconManager.GetLargeScale() * 3 / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("I_Edit", Height / 2).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Question:
-				icon = IconManager.GetIcon("I_Question", IconManager.GetLargeScale() * 3 / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("I_Question", Height / 2).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Warning:
-				icon = IconManager.GetIcon("I_Warning", IconManager.GetLargeScale() * 3 / 2).Color(design.YellowColor);
+				icon = IconManager.GetIcon("I_Warning", Height / 2).Color(design.YellowColor);
 				color = design.YellowColor;
 				break;
 
 			case PromptIcons.Error:
-				icon = IconManager.GetIcon("I_Error", IconManager.GetLargeScale() * 3 / 2).Color(design.RedColor);
+				icon = IconManager.GetIcon("I_Error", Height / 2).Color(design.RedColor);
 				color = design.RedColor;
 				break;
 
 			case PromptIcons.Ok:
-				icon = IconManager.GetIcon("I_Ok", IconManager.GetLargeScale() * 3 / 2).Color(design.GreenColor);
+				icon = IconManager.GetIcon("I_Ok", Height / 2).Color(design.GreenColor);
 				color = design.GreenColor;
 				break;
 
@@ -331,59 +419,80 @@ public partial class NotificationForm : Form
 		}
 	}
 
-	private void NotificationForm_MouseMove(object sender, MouseEventArgs e)
+	protected override void OnMouseMove(MouseEventArgs e)
 	{
-		PictureBox.Invalidate();
+		base.OnMouseMove(e);
+
+		Invalidate();
 
 		if (Notification.Action == null)
 		{
 			var iconSize = Padding.Horizontal + IconManager.GetNormalScale();
 
-			PictureBox.Cursor = ClientRectangle.Align(new Size(iconSize, iconSize), ContentAlignment.TopRight).Contains(PointToClient(MousePosition))
+			Cursor = closeRect.Contains(PointToClient(MousePosition))
 				? Cursors.Hand
 				: Cursors.Default;
 		}
 	}
 
-	private void NotificationForm_MouseClick(object sender, MouseEventArgs e)
+	protected override void OnMouseEnter(EventArgs e)
 	{
+		base.OnMouseEnter(e);
+
+		hovered = true;
+		Invalidate();
+	}
+
+	protected override void OnMouseLeave(EventArgs e)
+	{
+		base.OnMouseLeave(e);
+
+		hovered = false;
+		Invalidate();
+	}
+
+	protected override void OnMouseClick(MouseEventArgs e)
+	{
+		base.OnMouseClick(e);
+
 		if (e.Button == MouseButtons.Left)
 		{
 			var iconSize = Padding.Horizontal + IconManager.GetNormalScale();
 
-			if (!ClientRectangle.Align(new Size(iconSize, iconSize), ContentAlignment.TopRight).Contains(PointToClient(MousePosition)))
+			if (!closeRect.Contains(PointToClient(MousePosition)))
 			{
 				Notification.Action?.Invoke();
-				Close();
 			}
-			else
-			{
-				Close();
-			}
+
+			Close();
 		}
 
-		Form?.ShowUp();
+		_form?.ShowUp();
 	}
 
 	public new void Close()
 	{
-		if (Notifications.Sum(x => x.Value.Count) > 1)
+		if (Notifications.Sum(x => x.Value.Count) > 1 || AnimationHandler.NoAnimations)
 		{
 			Dispose();
 		}
 		else
 		{
-			var aH = new AnimationHandler(this, Size.Empty, AnimationOption.IgnoreHeight);
-			aH.OnAnimationTick += (s, e, p) => SetLocation();
-			aH.StartAnimation(Dispose);
+			epoch = DateTime.Now.Ticks;
+			closing = true;
+			loaded = false;
+			percentage = 0;
+			Invalidate();
 		}
 	}
 
-	private void NotificationForm_Load(object sender, EventArgs e)
+	protected override void OnCreateControl()
 	{
-		if (Form is SlickForm slickForm)
+		base.OnCreateControl();
+
+		if (_form is SlickForm slickForm)
 		{
-			Form.BeginInvoke(new Action(() =>
+			_form.BeginInvoke(new Action(() =>
 			{
 				slickForm.Focus();
 				slickForm.CurrentFormState = FormState.NormalFocused;
@@ -391,11 +500,43 @@ public partial class NotificationForm : Form
 		}
 	}
 
-	private void NotificationForm_Activated(object sender, EventArgs e)
+	protected override void OnActivated(EventArgs e)
 	{
-		if (Form is SlickForm slickForm)
+		base.OnActivated(e);
+
+		if (_form is SlickForm slickForm)
 		{
 			slickForm.CurrentFormState = FormState.ForcedFocused;
+		}
+	}
+
+	protected override void Dispose(bool disposing)
+	{
+		if (disposing)
+		{
+			if (_form != null)
+			{
+				_form.LocationChanged -= Form_Move;
+				_form.Resize -= Form_Move;
+
+				Notifications[_form].Remove(this);
+
+				foreach (var item in Notifications[_form])
+				{
+					item.SetLocation();
+				}
+			}
+			else
+			{
+				Notifications_Screen.Remove(this);
+
+				foreach (var item in Notifications_Screen)
+				{
+					item.SetLocation();
+				}
+			}
+
+			base.Dispose(disposing);
 		}
 	}
 }

@@ -144,6 +144,9 @@ public partial class SlickToolStrip : Form
 	{
 		e.Graphics.Clear(BackColor);
 
+		e.Graphics.TextRenderingHint = UI.WindowsScale >= 1.5 ? System.Drawing.Text.TextRenderingHint.AntiAliasGridFit : System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+		e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
 		var clip = new Rectangle(PointToClient(startingCursorPosition), default).CenterR(new Size((int)(Width * percentage * 2), (int)(Height * percentage * 2)));
 		e.Graphics.SetClip(clip);
 

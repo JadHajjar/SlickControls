@@ -205,9 +205,9 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Clear => _instance.GetText("Clear");
 
 	/// <summary>
-	/// Click on any color to change it, or right-click to reset it.
+	/// Click on any color to change it, or middle-click to reset it.
 	/// </summary>
-	public static Translation ClickOnAnyColorToChangeItOrRightclickToResetIt => _instance.GetText("Click on any color to change it, or right-click to reset it.");
+	public static Translation ClickOnAnyColorToChangeItOrMiddleclickToResetIt => _instance.GetText("Click on any color to change it, or middle-click to reset it.");
 
 	/// <summary>
 	/// Close
@@ -255,11 +255,6 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation CustomTheme => _instance.GetText("Custom Theme");
 
 	/// <summary>
-	/// Customize the size and colors in the App however you want to.
-	/// </summary>
-	public static Translation CustomizeTheSizeAndColorsInTheAppHoweverYouWantTo => _instance.GetText("Customize the size and colors in the App however you want to.");
-
-	/// <summary>
 	/// Dark
 	/// </summary>
 	public static Translation Dark => _instance.GetText("Dark");
@@ -293,6 +288,11 @@ public class LocaleSlickUI : LocaleHelper
 	/// Drives
 	/// </summary>
 	public static Translation Drives => _instance.GetText("Drives");
+
+	/// <summary>
+	/// Edit Color
+	/// </summary>
+	public static Translation EditColor => _instance.GetText("Edit Color");
 
 	/// <summary>
 	/// Enable
@@ -370,6 +370,11 @@ public class LocaleSlickUI : LocaleHelper
 	/// <para>Plural: in {0} months on {1}</para>
 	/// </summary>
 	public static Translation InMonthOn => _instance.GetText("in {0} month on {1}");
+
+	/// <summary>
+	/// In here, you can customize the scale and colors of the App however you want to.
+	/// </summary>
+	public static Translation InHereYouCanCustomizeTheScaleAndColorsOfTheAppHoweverYouWantTo => _instance.GetText("In here, you can customize the scale and colors of the App however you want to.");
 
 	/// <summary>
 	/// Info Text
@@ -495,6 +500,11 @@ public class LocaleSlickUI : LocaleHelper
 	/// Reset
 	/// </summary>
 	public static Translation Reset => _instance.GetText("Reset");
+
+	/// <summary>
+	/// Reset Color
+	/// </summary>
+	public static Translation ResetColor => _instance.GetText("Reset Color");
 
 	/// <summary>
 	/// Restore

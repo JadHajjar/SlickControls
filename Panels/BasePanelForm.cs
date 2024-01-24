@@ -495,6 +495,7 @@ public partial class BasePanelForm : SlickForm
 		base_P_Content.BackColor = CurrentPanel?.GetTopBarColor() ?? design.BackColor;
 		base_TLP_Side.BackColor = design.MenuColor;
 		base_P_Side.ForeColor = design.LabelColor;
+		base_P_Side.Invalidate(true);
 		base_P_SideControls.ForeColor = design.LabelColor.MergeColor(design.ID.If(0, design.AccentColor, design.MenuColor), 80);
 
 		base_PB_Icon.Color(design.MenuForeColor);

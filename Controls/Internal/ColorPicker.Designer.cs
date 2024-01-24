@@ -28,67 +28,18 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.label1 = new System.Windows.Forms.Label();
-			this.PB_Color = new System.Windows.Forms.PictureBox();
-			this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-			((System.ComponentModel.ISupportInitialize)(this.PB_Color)).BeginInit();
-			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// label1
-			// 
-			this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(3, 10);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(44, 16);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "label1";
-			// 
-			// PB_Color
-			// 
-			this.PB_Color.Anchor = System.Windows.Forms.AnchorStyles.None;
-			this.PB_Color.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.PB_Color.Location = new System.Drawing.Point(161, 7);
-			this.PB_Color.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-			this.PB_Color.Name = "PB_Color";
-			this.PB_Color.Size = new System.Drawing.Size(22, 22);
-			this.PB_Color.TabIndex = 2;
-			this.PB_Color.TabStop = false;
-			// 
-			// tableLayoutPanel1
-			// 
-			this.tableLayoutPanel1.ColumnCount = 2;
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-			this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.PB_Color, 1, 0);
-			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
-			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-			this.tableLayoutPanel1.RowCount = 1;
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-			this.tableLayoutPanel1.Size = new System.Drawing.Size(188, 37);
-			this.tableLayoutPanel1.TabIndex = 4;
 			// 
 			// ColorPicker
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.Controls.Add(this.tableLayoutPanel1);
 			this.Margin = new System.Windows.Forms.Padding(5);
 			this.Name = "ColorPicker";
 			this.Size = new System.Drawing.Size(188, 37);
-			((System.ComponentModel.ISupportInitialize)(this.PB_Color)).EndInit();
-			this.tableLayoutPanel1.ResumeLayout(false);
-			this.tableLayoutPanel1.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.PictureBox PB_Color;
-		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 	}
 }

@@ -59,8 +59,8 @@ public partial class SlickColorPicker : SlickForm
 		colorPreview.Size = UI.Scale(new Size(48, 48), UI.FontScale);
 		TLP_Main.ColumnStyles[0].Width = (int)(108 * UI.FontScale);
 		TLP_Main.Padding = UI.Scale(new Padding(10), UI.FontScale);
-		B_Cancel.Margin = B_Confirm.Margin = UI.Scale(new Padding(5, 5, 0, 0), UI.FontScale);
-		TLP_Main.Controls.OfType<SlickTextBox>().Foreach(x => x.Width = (int)(60 * UI.FontScale));
+		B_Cancel.Margin = B_Confirm.Margin = UI.Scale(new Padding(15, 5, 0, 0), UI.FontScale);
+		TLP_Main.Controls.OfType<SlickTextBox>().Foreach(x => x.Width = (int)(70 * UI.FontScale));
 	}
 
 	private void SlickColorPicker_ColorChanged(object sender, EventArgs e)

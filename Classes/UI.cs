@@ -21,7 +21,11 @@ public class UI : ISave
 	public static double WindowsScale { get; }
 
 	public string fontFamily { get; set; }
+#if NET47
 	public double fontScale { get; set; } = 1.25;
+#else
+	public double fontScale { get; set; } = 1;
+#endif
 	public bool noAnimations { get => _noAnimations; set => AnimationHandler.NoAnimations = _noAnimations = value; }
 
 	internal static readonly UI _instance;

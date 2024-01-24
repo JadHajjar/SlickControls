@@ -14,7 +14,7 @@ public class Notification
 	public string Description { get; set; }
 	public PromptIcons Icon { get; }
 	public ExtensionClass.action Action { get; }
-	public Action<SlickPictureBox, Graphics> OnPaint { get; set; }
+	public Action<Control, Graphics> OnPaint { get; set; }
 	public Size Size { get; }
 	public NotificationSound Sound { get; }
 
@@ -25,7 +25,7 @@ public class Notification
 		Icon = icon;
 		Action = action;
 		Sound = sound;
-		Size = size ?? new Size(350, 70);
+		Size = size ?? new Size(350, 75);
 	}
 
 	public NotificationForm Show(Form form, int? timeoutSeconds = null)
@@ -38,7 +38,7 @@ public class Notification
 		return new Notification(title, description, icon, action, sound, size);
 	}
 
-	public static Notification Create(Action<SlickPictureBox, Graphics> onpaint, ExtensionClass.action action, NotificationSound sound = NotificationSound.Short, Size? size = null)
+	public static Notification Create(Action<Control, Graphics> onpaint, ExtensionClass.action action, NotificationSound sound = NotificationSound.Short, Size? size = null)
 	{
 		return new Notification(string.Empty, string.Empty, PromptIcons.Input, action, sound, size) { OnPaint = onpaint };
 	}

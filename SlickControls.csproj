@@ -46,14 +46,14 @@
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
-	<PropertyGroup>
-		<LocaleJsonToClassExe>$([System.IO.Path]::GetFullPath('..\Extensions\LocaleJsonToClass\LocaleJsonToClass.exe'))</LocaleJsonToClassExe>
-		<LocaleJsonFile>"$([System.IO.Path]::GetFullPath('..\SlickControls\Properties\SlickUI.json'))"</LocaleJsonFile>
-		<LocaleCsFile>"$([System.IO.Path]::GetFullPath('..\SlickControls\Classes\LocaleSlickUI.cs'))"</LocaleCsFile>
-	</PropertyGroup>
-	<Target Name="BuildLocale" BeforeTargets="PreBuildEvent">
-		<Exec Command="$(LocaleJsonToClassExe) $(LocaleJsonFile) $(LocaleCsFile)" />
-	</Target>
+  <PropertyGroup>
+    <LocaleJsonToClassExe>$([System.IO.Path]::GetFullPath('..\Extensions\LocaleJsonToClass\LocaleJsonToClass.exe'))</LocaleJsonToClassExe>
+    <LocaleJsonFile>"$([System.IO.Path]::GetFullPath('..\SlickControls\Properties\SlickUI.json'))"</LocaleJsonFile>
+    <LocaleCsFile>"$([System.IO.Path]::GetFullPath('..\SlickControls\Classes\LocaleSlickUI.cs'))"</LocaleCsFile>
+  </PropertyGroup>
+  <Target Name="BuildLocale" BeforeTargets="PreBuildEvent">
+    <Exec Command="$(LocaleJsonToClassExe) $(LocaleJsonFile) $(LocaleCsFile)" />
+  </Target>
   <ItemGroup>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -79,6 +79,7 @@
     <Compile Include="Classes\CanDrawItemEventArgs.cs" />
     <Compile Include="Classes\LocaleSlickUI.cs" />
     <Compile Include="Classes\SizeSourceEventArgs.cs" />
+    <Compile Include="Classes\SlickUISettings.cs" />
     <Compile Include="Controls\Advanced\DateRangePopup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -387,9 +388,6 @@
     <Compile Include="Forms\NotificationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\NotificationForm.Designer.cs">
-      <DependentUpon>NotificationForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\SlickColorPicker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -531,9 +529,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MessagePrompt.resx">
       <DependentUpon>MessagePrompt.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\NotificationForm.resx">
-      <DependentUpon>NotificationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SlickColorPicker.resx">
       <DependentUpon>SlickColorPicker.cs</DependentUpon>
