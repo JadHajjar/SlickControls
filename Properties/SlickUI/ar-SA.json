@@ -75,8 +75,6 @@
   "Auto Night-Mode": "الوضع الليلي التلقائي",
   "UI Scale": "مقياس واجهة المستخدم",
   "Font Family": "عائلة الخط",
-  "Base Theme": "السمة الأساسية",
-  "Select how the app interacts with your theme": "حدد كيفية تفاعل التطبيق مع السمة الخاصة بك",
   "Randomize": "عشوائي",
   "Reset": "Reset",
   "Apply": "تطبيق",
@@ -101,7 +99,7 @@
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "مرحبا بكم في تغيير الموضوع!",
-  "In here, you can customize the scale and colors of the App however you want to.": "In here, you can customize the scale and colors of the App however you want to.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "سمة مخصصة",
   "Do you want to apply your changes before leaving?": "هل تريد تطبيق التغييرات الخاصة بك قبل المغادرة؟",
@@ -163,7 +161,10 @@
   "{0}m": "{0}دقيقة",
   "{0}s": "{0}ثانية",
   "Midnight": "منتصف الليل",
-  "Use the System's Theme": "Use the System's Theme",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
-  "All": "All"
+  "All": "All",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance"
 }
