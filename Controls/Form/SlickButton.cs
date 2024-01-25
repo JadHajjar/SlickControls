@@ -196,6 +196,11 @@ public partial class SlickButton : SlickImageControl
 
 		lastAvailableSize = availableSize;
 
+		return cachedSize = CalculateAutoSize(availableSize);
+	}
+
+	protected virtual Size CalculateAutoSize(Size availableSize)
+	{
 		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
 		using var args = new ButtonDrawArgs
 		{
@@ -210,7 +215,7 @@ public partial class SlickButton : SlickImageControl
 
 		PrepareLayout(graphics, args);
 
-		return cachedSize = args.Rectangle.Size;
+		return args.Rectangle.Size;
 	}
 
 	protected override void DesignChanged(FormDesign design)
@@ -308,39 +313,46 @@ public partial class SlickButton : SlickImageControl
 
 	public static Size GetSize(out Padding textPaddingForAvailableSpace, Graphics graphics, Image image, string text, Font font, Padding? padding = null, int maxWidth = 0, bool isLoading = false)
 	{
-		padding ??= UI.Scale(new Padding(4), UI.UIScale);
-		font ??= UI.Font(8.25F);
+		var padding_ = padding ?? UI.Scale(new Padding(4), UI.UIScale);
+		var font_ = font ?? UI.Font(8.25F);
 
-		var iconSize = image?.Size ?? new Size(font.Height * 4 / 3, font.Height * 4 / 3);
+		var iconSize = image?.Size ?? new Size(font_.Height * 4 / 3, font_.Height * 4 / 3);
 
 		if (string.IsNullOrWhiteSpace(text))
 		{
-			var pad = Math.Max(padding.Value.Horizontal, padding.Value.Vertical);
+			var pad = Math.Max(padding_.Horizontal, padding_.Vertical);
 
 			textPaddingForAvailableSpace = default;
 
 			return new Size(iconSize.Width + pad, iconSize.Height + pad);
 		}
 
-		var size = new Size(padding.Value.Horizontal, padding.Value.Vertical);
+		var size = new Size(padding_.Horizontal, padding_.Vertical);
 
-		textPaddingForAvailableSpace = new Padding(padding.Value.Left, 0, padding.Value.Right, 0);
+		textPaddingForAvailableSpace = new Padding(padding_.Left, 0, padding_.Right, 0);
 
 		if (isLoading || image != null)
 		{
-			size.Width += iconSize.Width + padding.Value.Left;
+			size.Width += iconSize.Width + padding_.Left;
 			size.Height += iconSize.Height;
 
-			textPaddingForAvailableSpace.Left += iconSize.Width + padding.Value.Left;
+			textPaddingForAvailableSpace.Left += iconSize.Width + padding_.Left;
 		}
 
 		if (maxWidth > int.MaxValue - size.Width)
+		{
 			maxWidth = 0;
+		}
 
-		var textSize = graphics.Measure(LocaleHelper.GetGlobalText(text), font, maxWidth == 0 ? int.MaxValue : (maxWidth - size.Width)).ToSize();
+		var textSize = graphics.Measure(LocaleHelper.GetGlobalText(text), font_, maxWidth == 0 ? int.MaxValue : (maxWidth - size.Width)).ToSize();
 
-		size.Width = Math.Max(maxWidth, size.Width + (maxWidth == 0 ? (int)(textSize.Width * 1.1f) : textSize.Width));
-		size.Height = Math.Max(size.Height, textSize.Height + padding.Value.Vertical);
+		size.Width = Math.Max(maxWidth, padding_.Right + size.Width + (maxWidth == 0 ? (int)(textSize.Width * 1.00f) : textSize.Width));
+		size.Height = Math.Max(size.Height, textSize.Height + padding_.Vertical);
+
+		if (font is null)
+		{
+			font_.Dispose();
+		}
 
 		return size;
 	}
@@ -388,7 +400,7 @@ public partial class SlickButton : SlickImageControl
 		return buttonArgs;
 	}
 
-	private static void PrepareLayout(Graphics graphics, ButtonDrawArgs arg)
+	protected static void PrepareLayout(Graphics graphics, ButtonDrawArgs arg)
 	{
 		if (arg.Rectangle == default)
 		{
@@ -426,7 +438,10 @@ public partial class SlickButton : SlickImageControl
 		}
 		else
 		{
-			if (arg.Rectangle.Width < GetSize(out var textPad, graphics, arg.Image, arg.Text, arg.Font, arg.Padding, isLoading: arg.Control?.Loading ?? false).Width * 95 / 100)
+			var width = arg.Rectangle.Width;
+			var maxWidth = GetSize(out var textPad, graphics, arg.Image, arg.Text, arg.Font, arg.Padding, isLoading: arg.Control?.Loading ?? false).Width;
+			
+			if (width < maxWidth)
 			{
 				if (arg.DisposeFont)
 				{
@@ -442,7 +457,7 @@ public partial class SlickButton : SlickImageControl
 		}
 	}
 
-	private static void SetUpColors(ButtonDrawArgs arg)
+	protected static void SetUpColors(ButtonDrawArgs arg)
 	{
 		if (arg.Cursor.HasValue && !arg.Rectangle.Contains(arg.Cursor.Value))
 		{
@@ -468,7 +483,7 @@ public partial class SlickButton : SlickImageControl
 		}
 	}
 
-	private static void DrawButton(Graphics graphics, ButtonDrawArgs arg)
+	protected static void DrawButton(Graphics graphics, ButtonDrawArgs arg)
 	{
 		using (var backBrush = Gradient(arg.Rectangle, arg.BackColor))
 		{
@@ -502,12 +517,24 @@ public partial class SlickButton : SlickImageControl
 		}
 		else if (arg.Image != null)
 		{
-			graphics.DrawImage(arg.Image.Color(arg.ForeColor), iconRect);
+			if (!arg.DoNotDrawIcon)
+			{
+				if (arg.ColoredIcon)
+				{
+					graphics.DrawImage(arg.Image, iconRect);
+				}
+				else
+				{
+					graphics.DrawImage(arg.Image.Color(arg.ForeColor), iconRect);
+				}
+			}
 		}
 		else
 		{
 			iconRect = default;
 		}
+
+		arg.IconRectangle = iconRect;
 
 		if (noText)
 		{
@@ -518,12 +545,14 @@ public partial class SlickButton : SlickImageControl
 			.Pad(arg.Padding.Left + (iconRect.Width > 0 ? (iconRect.Width + arg.Padding.Left) : 0), arg.Padding.Top, arg.Padding.Right, arg.Padding.Bottom)
 			.AlignToFontSize(arg.Font, arg.LeftAlign ? ContentAlignment.MiddleLeft : ContentAlignment.MiddleCenter, graphics, true);
 
+		textRect.Width += arg.Padding.Right;
+
 		using var brush = new SolidBrush(arg.ForeColor);
 		using var stl = new StringFormat()
 		{
 			Alignment = arg.LeftAlign ? StringAlignment.Near : StringAlignment.Center,
 			LineAlignment = StringAlignment.Center,
-			Trimming = StringTrimming.EllipsisCharacter
+			//Trimming = StringTrimming.EllipsisCharacter
 		};
 
 		graphics.DrawString(LocaleHelper.GetGlobalText(arg.Text), arg.Font, brush, textRect, stl);
@@ -534,6 +563,8 @@ public class ButtonDrawArgs : IDisposable
 {
 	internal bool DisposeFont;
 	internal bool DisposeImage;
+
+	public Rectangle IconRectangle { get; internal set; }
 
 	public Rectangle Rectangle { get; set; }
 	public Point Location { get; set; }
@@ -555,6 +586,8 @@ public class ButtonDrawArgs : IDisposable
 	public Point? Cursor { get; set; }
 	public bool LeftAlign { get; set; }
 	public Size AvailableSize { get; set; }
+	public bool ColoredIcon { get; set; }
+	public bool DoNotDrawIcon { get; set; }
 
 	public void Dispose()
 	{

@@ -133,10 +133,10 @@ public partial class ColorPicker : SlickControl
 
 		var propertyInfo = typeof(FormDesign).GetProperty(ColorName);
 
-		if (FindForm() is Theme_Changer frm)
-		{
-			return (Color)propertyInfo.GetValue(FormDesign.List[frm.UD_BaseTheme.Text], null);
-		}
+		//if (FindForm() is Theme_Changer frm)
+		//{
+		//	return (Color)propertyInfo.GetValue(FormDesign.List[frm.UD_BaseTheme.Text], null);
+		//}
 
 		var p = PanelContent.GetParentPanel(this);
 
@@ -145,7 +145,19 @@ public partial class ColorPicker : SlickControl
 			return Color.Empty;
 		}
 
-		return (Color)propertyInfo.GetValue(FormDesign.List[(p as PC_ThemeChanger).savedDesignName], null);
+		var design = FormDesign.List[(p as PC_ThemeChanger).savedDesignName];
+
+		if (FormDesign.NightModeEnabled && FormDesign.NightMode && !design.IsDarkTheme)
+		{
+			design = design.DarkMode;
+		}
+
+		if (FormDesign.UseSystemTheme && FormDesign.IsDarkMode && !design.IsDarkTheme)
+		{
+			design = design.DarkMode;
+		}
+
+		return (Color)propertyInfo.GetValue(design, null);
 	}
 
 	public Color GetDefaultColor()

@@ -8,7 +8,7 @@ using System.Windows.Forms;
 namespace SlickControls;
 
 [DefaultEvent("CheckChanged")]
-public partial class SlickCheckbox : SlickControl, ISupportsReset
+public partial class SlickCheckbox : SlickButton, ISupportsReset
 {
 	private bool @checked;
 
@@ -26,19 +26,6 @@ public partial class SlickCheckbox : SlickControl, ISupportsReset
 
 	public event EventHandler CheckChanged;
 
-	[Browsable(true)]
-	[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-	[EditorBrowsable(EditorBrowsableState.Always)]
-	[Bindable(true)]
-	public override string Text
-	{
-		get => base.Text; set
-		{
-			base.Text = value;
-			UIChanged();
-		}
-	}
-
 	[Category("Appearance"), DefaultValue(false), DisplayName("Use Toggle Icon")]
 	public bool UseToggleIcon
 	{
@@ -48,9 +35,6 @@ public partial class SlickCheckbox : SlickControl, ISupportsReset
 			Checked = Checked;
 		}
 	}
-
-	[Category("Appearance"), DefaultValue(ColorStyle.Active)]
-	public ColorStyle ColorStyle { get; set; }
 
 	[Category("Behavior"), DefaultValue(false)]
 	public bool OverrideCheckClick { get; set; }
@@ -67,8 +51,6 @@ public partial class SlickCheckbox : SlickControl, ISupportsReset
 			if (!string.IsNullOrEmpty(CheckedText))
 			{
 				Text = @checked ? CheckedText : UncheckedText.IfEmpty(CheckedText);
-
-				Size = GetAutoSize();
 			}
 
 			DefaultValue ??= value;
@@ -122,9 +104,6 @@ public partial class SlickCheckbox : SlickControl, ISupportsReset
 		}
 	}
 
-	[Category("Behavior"), DefaultValue("true")]
-	public new bool AutoSize { get; set; }
-
 	public void ResetValue()
 	{
 		Checked = DefaultValue ?? true;
@@ -140,23 +119,6 @@ public partial class SlickCheckbox : SlickControl, ISupportsReset
 		}
 	}
 
-	protected override void LocaleChanged()
-	{
-		if (Live)
-		{
-			lastAvailableSize = Size.Empty;
-			Size = GetAutoSize();
-		}
-	}
-
-	protected override void UIChanged()
-	{
-		if (Live)
-		{
-			Padding = UI.Scale(new Padding(5), UI.FontScale);
-		}
-	}
-
 	protected override void OnCreateControl()
 	{
 		base.OnCreateControl();
@@ -164,150 +126,79 @@ public partial class SlickCheckbox : SlickControl, ISupportsReset
 		base.AutoSize = true;
 	}
 
-	public override Size GetPreferredSize(Size proposedSize)
+	protected override Size CalculateAutoSize(Size availableSize)
 	{
-		return GetAutoSize();
-	}
-
-	private double lastUiScale;
-	private string lastText;
-	private Size lastAvailableSize;
-	private Size lastSize;
-
-	private Size GetAutoSize()
-	{
-		try
+		using var image = GetIcon();
+		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
+		using var args = new ButtonDrawArgs
 		{
-			var availableSize = GetAvailableSize();
+			Control = this,
+			Font = Font,
+			Icon = ImageName,
+			Image = image,
+			Text = Text,
+			Padding = Padding,
+			AvailableSize = MultiLine ? availableSize : default
+		};
 
-			if (lastUiScale == UI.FontScale && lastText == Text && (availableSize == lastAvailableSize || availableSize.Width <= 0))
-			{
-				return lastSize;
-			}
+		PrepareLayout(graphics, args);
 
-			using var image = GetIcon();
-			var iconSize = image?.Width ?? 16;
-
-			if (string.IsNullOrWhiteSpace(Text))
-			{
-				var pad = Math.Max(Padding.Horizontal, Padding.Vertical);
-
-				lastUiScale = UI.FontScale;
-				lastText = Text;
-				lastAvailableSize = availableSize;
-
-				return new Size(iconSize + pad + 1, iconSize + pad + 1);
-			}
-
-			var extraWidth = (image == null ? 0 : iconSize + Padding.Left) + Padding.Right + 3;
-			var bnds = FontMeasuring.Measure(LocaleHelper.GetGlobalText(Text), Font, availableSize.Width - extraWidth);
-			var h = Math.Max(iconSize + 6, (int)bnds.Height + Padding.Top + 3);
-			var w = (int)bnds.Width + extraWidth;
-
-			if (Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom) || Dock == DockStyle.Left || Dock == DockStyle.Right)
-			{
-				h = Height;
-			}
-
-			if (Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right) || Dock == DockStyle.Top || Dock == DockStyle.Bottom)
-			{
-				w = Width;
-			}
-
-			lastUiScale = UI.FontScale;
-			lastText = Text;
-			lastAvailableSize = availableSize;
-
-			if (w > availableSize.Width)
-			{
-				w = availableSize.Width;
-			}
-
-			if (h > availableSize.Height)
-			{
-				h = availableSize.Height;
-			}
-
-			return lastSize = new Size(w, h);
-		}
-		catch
-		{
-			return Size;
-		}
+		return args.Rectangle.Size;
 	}
 
 	protected override void OnPaint(PaintEventArgs e)
 	{
-		e.Graphics.SetUp(BackColor);
+		e.Graphics.SetUp(Parent?.BackColor ?? BackColor);
 
 		try
 		{
 			GetColors(out var fore, out var back);
 
-			var image = GetIcon();
-			var iconSize = image.Width;
-			var extraWidth = (image == null ? 0 : iconSize + Padding.Left) + Padding.Right;
-			var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), Font, Width - extraWidth);
-			var corner = (int)(5 * UI.FontScale);
-			var iconRect = ClientRectangle.Pad(Padding).Pad(1, 1, 2, 2).Align(new Size(iconSize, iconSize), ContentAlignment.MiddleLeft);
-			var textRect = ClientRectangle.Pad(iconSize + Padding.Horizontal + 1, 1, 2, 2).Align(bnds.ToSize(), ContentAlignment.MiddleLeft);
+			using var image = GetIcon();
 
-			textRect.Width += Padding.Left;
-
-			if (back != Color.Empty)
+			var args = new ButtonDrawArgs
 			{
-				e.Graphics.FillRoundedRectangle(Gradient(ClientRectangle, back), ClientRectangle.Pad(1, 1, 2, 2), corner);
-			}
-
-			if (!HoverState.HasFlag(HoverState.Pressed))
-			{
-				DrawFocus(e.Graphics, ClientRectangle.Pad(1, 1, 2, 2), HoverState, corner, ColorStyle.GetColor());
-			}
-
-			using (image)
-			{
-				if (Loading)
-				{
-					if (string.IsNullOrWhiteSpace(Text))
-					{
-						DrawLoader(e.Graphics, iconRect, HoverState.HasFlag(HoverState.Pressed) ? fore : null);
-					}
-					else
-					{
-						DrawLoader(e.Graphics, iconRect, HoverState.HasFlag(HoverState.Pressed) ? fore : null);
-					}
-				}
-				else if (image != null)
-				{
-					if (!HoverState.HasFlag(HoverState.Pressed) && @checked && !UseToggleIcon && CheckedIcon == null && UnCheckedIcon == null)
-					{
-						e.Graphics.FillRectangle(new SolidBrush(ColorStyle.GetBackColor()), iconRect.CenterR(iconSize * 2 / 3, iconSize * 2 / 3));
-						image.Color(ColorStyle.GetColor());
-					}
-					else
-					{
-						image.Color(fore);
-					}
-
-					if (string.IsNullOrWhiteSpace(Text))
-					{
-						e.Graphics.DrawImage(image, iconRect);
-					}
-					else
-					{
-						e.Graphics.DrawImage(image, iconRect);
-					}
-				}
-			}
-
-			var stl = new StringFormat()
-			{
-				Alignment = StringAlignment.Near,
-				LineAlignment = StringAlignment.Center,
-				Trimming = StringTrimming.EllipsisCharacter
+				Control = this,
+				Font = Font,
+				BackColor = back,
+				ForeColor = fore,
+				Image = image,				Text = Text,
+				Padding = Padding,
+				ButtonType = ButtonType,
+				ColorShade = ColorShade,
+				ColorStyle = ColorStyle,
+				Enabled = Enabled,
+				HoverState = HoverState,
+				LeftAlign = true,
+				ColoredIcon = true,
+				DoNotDrawIcon  = true,
+				Rectangle = ClientRectangle
 			};
 
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, new SolidBrush(fore), textRect, stl);
+			Draw(e.Graphics, args);
+
+			if (!Loading && image != null)
+			{
+				if (!HoverState.HasFlag(HoverState.Pressed) && @checked && !UseToggleIcon && CheckedIcon == null && UnCheckedIcon == null)
+				{
+					using var brush = new SolidBrush(ColorStyle.GetBackColor());
+					e.Graphics.FillRectangle(brush, args.IconRectangle.CenterR(args.IconRectangle.Width * 2 / 3, args.IconRectangle.Width * 2 / 3));
+					image.Color(ColorStyle.GetColor());
+				}
+				else
+				{
+					image.Color(fore);
+				}
+
+				if (string.IsNullOrWhiteSpace(Text))
+				{
+					e.Graphics.DrawImage(image, args.IconRectangle);
+				}
+				else
+				{
+					e.Graphics.DrawImage(image, args.IconRectangle);
+				}
+			}
 
 			if (FadeUnchecked && HoverState == HoverState.Normal)
 			{
@@ -318,7 +209,8 @@ public partial class SlickCheckbox : SlickControl, ISupportsReset
 				}
 				else
 				{
-					e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(85, BackColor)), new Rectangle(Point.Empty, Size));
+					using var brush = new SolidBrush(Color.FromArgb(85, BackColor));
+					e.Graphics.FillRectangle(brush, new Rectangle(Point.Empty, Size));
 				}
 			}
 		}
@@ -354,7 +246,7 @@ public partial class SlickCheckbox : SlickControl, ISupportsReset
 		}
 		else if (HoverState.HasFlag(HoverState.Hovered))
 		{
-			fore = FormDesign.Design.ForeColor.Tint(Lum: FormDesign.Design.IsDarkTheme? -7: 7);
+			fore = FormDesign.Design.ForeColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? -7 : 7);
 			back = FormDesign.Design.ButtonColor.MergeColor(BackColor, 75);
 		}
 		else

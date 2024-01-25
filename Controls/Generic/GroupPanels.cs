@@ -77,29 +77,27 @@ public class RoundedGroupPanel : DBPanel
 		{
 			var padding = UI.Scale(new Padding(5), UI.FontScale);
 
-			using (var g = Graphics.FromHwnd(IntPtr.Zero))
+			using var g = Graphics.FromHwnd(IntPtr.Zero);
+			var iconWidth = 0;
+			if (Image != null)
 			{
-				var iconWidth = 0;
-				if (Image != null)
-				{
-					iconWidth = Image.Width;
-				}
-				else if (ImageName != null)
-				{
-					iconWidth = ImageName.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16)?.Width ?? 0;
-				}
+				iconWidth = Image.Width;
+			}
+			else if (ImageName != null)
+			{
+				iconWidth = ImageName.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16)?.Width ?? 0;
+			}
 
-				if (AddPaddingForIcon)
-				{
-					padding.Left = (padding.Left * 2) + iconWidth;
-				}
+			if (AddPaddingForIcon)
+			{
+				padding.Left = (padding.Left * 2) + iconWidth;
+			}
 
-				var titleHeight = Math.Max(iconWidth, (int)g.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth <= 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
+			var titleHeight = Math.Max(iconWidth, (int)g.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth <= 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
 
-				if (titleHeight > 0)
-				{
-					padding.Top += padding.Top + titleHeight;
-				}
+			if (titleHeight > 0)
+			{
+				padding.Top += padding.Top + titleHeight;
 			}
 
 			Padding = padding;
@@ -127,24 +125,31 @@ public class RoundedGroupPanel : DBPanel
 
 		try
 		{
+			var text = LocaleHelper.GetGlobalText(Text);
+			var info = LocaleHelper.GetGlobalText(Info);
 			using var icon = Image == null ? ImageName?.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16) : new Bitmap(Image);
-			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
 			var iconWidth = icon?.Width ?? 0;
-			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
+			using var font = UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold).FitToWidth(text + info, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, Height), e.Graphics);
+			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
+			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(" ", font).Height);
 			var iconRectangle = new Rectangle(Padding.Right * 3 / 2, (Padding.Bottom * 4 / 3) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
+			using var brush = new SolidBrush(textColor);
+			using var format = new StringFormat { LineAlignment = StringAlignment.Center };
 
 			if (icon != null)
 			{
 				e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 			}
 
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+			e.Graphics.DrawString(text, font, brush, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, titleHeight), format);
 
 			if (!string.IsNullOrWhiteSpace(Info))
 			{
-				var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold));
+				using var brush2 = new SolidBrush(Color.FromArgb(200, textColor));
+				using var font2 = new Font(font.FontFamily, font.Size - 1.25f);
+				var bnds = e.Graphics.Measure(text, font);
 
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info), UI.Font(iconWidth == 16 ? 7.5F : 8.25F), new SolidBrush(Color.FromArgb(200, textColor)), new Rectangle(iconWidth + (Padding.Right * 4) + (int)bnds.Width, Padding.Bottom, Width - (iconWidth + (Padding.Right * 4) + (int)bnds.Width + Padding.Right), titleHeight).AlignToFontSize(UI.Font(iconWidth == 16 ? 7.5F : 8.25F), ContentAlignment.MiddleLeft), new StringFormat { LineAlignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter });
+				e.Graphics.DrawString(info, font2, brush2, new Rectangle(iconWidth + (Padding.Right * 2) + (int)(bnds.Width * 1.05), Padding.Bottom, Width - (iconWidth + (Padding.Right * 4) + (int)bnds.Width + Padding.Right), titleHeight + Padding.Bottom / 2), format);
 			}
 		}
 		catch { }
@@ -271,24 +276,31 @@ public class RoundedGroupFlowLayoutPanel : DBFlowLayoutPanel
 
 		try
 		{
+			var text = LocaleHelper.GetGlobalText(Text);
+			var info = LocaleHelper.GetGlobalText(Info);
 			using var icon = Image == null ? ImageName?.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16) : new Bitmap(Image);
-			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
 			var iconWidth = icon?.Width ?? 0;
-			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
+			using var font = UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold).FitToWidth(text + info, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, Height), e.Graphics);
+			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
+			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(" ", font).Height);
 			var iconRectangle = new Rectangle(Padding.Right * 3 / 2, (Padding.Bottom * 4 / 3) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
+			using var brush = new SolidBrush(textColor);
+			using var format = new StringFormat { LineAlignment = StringAlignment.Center };
 
 			if (icon != null)
 			{
 				e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 			}
 
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+			e.Graphics.DrawString(text, font, brush, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, titleHeight), format);
 
 			if (!string.IsNullOrWhiteSpace(Info))
 			{
-				var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold));
+				using var brush2 = new SolidBrush(Color.FromArgb(200, textColor));
+				using var font2 = new Font(font.FontFamily, font.Size - 1.25f);
+				var bnds = e.Graphics.Measure(text, font);
 
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info), UI.Font(iconWidth == 16 ? 7.5F : 8.25F), new SolidBrush(Color.FromArgb(200, textColor)), new Rectangle(iconWidth + (Padding.Right * 4) + (int)bnds.Width, Padding.Bottom, Width - (iconWidth + (Padding.Right * 4) + (int)bnds.Width + Padding.Right), titleHeight).AlignToFontSize(UI.Font(iconWidth == 16 ? 7.5F : 8.25F), ContentAlignment.MiddleLeft), new StringFormat { LineAlignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter });
+				e.Graphics.DrawString(info, font2, brush2, new Rectangle(iconWidth + (Padding.Right * 2) + (int)(bnds.Width * 1.05), Padding.Bottom, Width - (iconWidth + (Padding.Right * 4) + (int)bnds.Width + Padding.Right), titleHeight + Padding.Bottom / 2), format);
 			}
 		}
 		catch { }
@@ -432,24 +444,31 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 
 		try
 		{
+			var text = LocaleHelper.GetGlobalText(Text);
+			var info = LocaleHelper.GetGlobalText(Info);
 			using var icon = Image == null ? ImageName?.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16) : new Bitmap(Image);
-			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
 			var iconWidth = icon?.Width ?? 0;
-			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
+			using var font = UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold).FitToWidth(text + info, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, Height), e.Graphics);
+			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
+			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(" ", font).Height);
 			var iconRectangle = new Rectangle(Padding.Right * 3 / 2, (Padding.Bottom * 4 / 3) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
+			using var brush = new SolidBrush(textColor);
+			using var format = new StringFormat { LineAlignment = StringAlignment.Center };
 
 			if (icon != null)
 			{
 				e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 			}
 
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold), new SolidBrush(textColor), new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, titleHeight), new StringFormat { LineAlignment = StringAlignment.Center });
+			e.Graphics.DrawString(text, font, brush, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, titleHeight), format);
 
 			if (!string.IsNullOrWhiteSpace(Info))
 			{
-				var bnds = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold));
+				using var brush2 = new SolidBrush(Color.FromArgb(200, textColor));
+				using var font2 = new Font(font.FontFamily, font.Size - 1.25f);
+				var bnds = e.Graphics.Measure(text, font);
 
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Info), UI.Font(iconWidth == 16 ? 7.5F : 8.25F), new SolidBrush(Color.FromArgb(200, textColor)), new Rectangle(iconWidth + (Padding.Right * 4) + (int)bnds.Width, Padding.Bottom, Width - (iconWidth + (Padding.Right * 4) + (int)bnds.Width + Padding.Right), titleHeight).AlignToFontSize(UI.Font(iconWidth == 16 ? 7.5F : 8.25F), ContentAlignment.MiddleLeft), new StringFormat { LineAlignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter });
+				e.Graphics.DrawString(info, font2, brush2, new Rectangle(iconWidth + (Padding.Right * 2) + (int)(bnds.Width * 1.05), Padding.Bottom, Width - (iconWidth + (Padding.Right * 4) + (int)bnds.Width + Padding.Right), titleHeight + Padding.Bottom / 2), format);
 			}
 		}
 		catch { }
