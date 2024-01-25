@@ -99,7 +99,7 @@
   "Edit Color": "Modifier la couleur",
   "Reset Color": "Réinitialiser la couleur",
   "Welcome to Theme Changer!": "Bienvenue dans le changement de thème!",
-  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
+  "In here, you can customize the scale and colors of the App to your liking.": "Ici, vous pouvez personnaliser l'échelle et les couleurs de l'application à votre préférence.",
   "Click on any color to change it, or middle-click to reset it.": "Cliquez sur une couleur pour la changer, ou faites un clic du milieu pour la réinitialiser.",
   "Custom Theme": "Thème Personnalisé",
   "Do you want to apply your changes before leaving?": "Voulez-vous sauvegarder les modifications avant de partir ?",
@@ -161,10 +161,10 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "minuit",
-  "Use the System's Theme": "Use your System's Theme",
+  "Use the System's Theme": "Utiliser le thème du système",
   "Use Windows-style top bar buttons": "Utiliser des boutons de style Windows pour la barre de titre",
   "All": "Tout",
-  "Hue": "Hue",
+  "Hue": "Teinte",
   "Saturation": "Saturation",
-  "Luminance": "Luminance"
+  "Luminance": "Luminosité"
 }
