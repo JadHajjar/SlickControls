@@ -29,8 +29,6 @@ public partial class PC_ThemeChanger : PanelContent
 		CB_NightMode.Checked = savedNightModeSetting = FormDesign.NightModeEnabled;
 		CB_UseSystemTheme.Checked = savedUseSystemThemeSetting = FormDesign.UseSystemTheme;
 		CB_WindowsButtons.Checked = savedWindowsButtons = FormDesign.WindowsButtons;
-		//FormDesign.UseSystemTheme = FormDesign.IsDarkMode = false;
-		//FormDesign.NightModeEnabled = false;
 		FormDesign.Custom = FormDesign.Custom.CloneTo<IFormDesign, FormDesign>();
 		FormDesign.Custom.Temporary = true;
 
@@ -58,6 +56,9 @@ public partial class PC_ThemeChanger : PanelContent
 		SS_Scale.Value = UI._instance.fontScale * 100;
 		SS_Scale.ValueOutput = (x) => $"{x}%";
 		CB_DisableAnimations.Checked = AnimationHandler.NoAnimations;
+
+		SlickTip.SetTo(CB_UseSystemTheme, "Converts your theme into Light or Dark mode based on your computer's theme");
+		SlickTip.SetTo(CB_NightMode, "Automatically switches to a Light mode during the day and Dark mode during the night");
 
 		if (CrossIO.CurrentPlatform != Platform.Windows)
 		{
@@ -205,7 +206,7 @@ public partial class PC_ThemeChanger : PanelContent
 				PromptIcons.Info,
 				null,
 				size: new Size(350, 90));
-			
+
 			notification.Show(Form, 30);
 		}
 
@@ -239,6 +240,31 @@ public partial class PC_ThemeChanger : PanelContent
 	private void CB_NightMode_CheckChanged(object sender, EventArgs e)
 	{
 		changesMade = true;
+		FormDesign.NightModeEnabled = CB_NightMode.Checked;
+		
+		if (CB_NightMode.Checked && CB_UseSystemTheme.Checked)
+		{
+			CB_UseSystemTheme.Checked = false;
+		}
+		else
+		{
+			FormDesign.ForceRefresh();
+		}
+	}
+
+	private void CB_UseSystemTheme_CheckChanged(object sender, EventArgs e)
+	{
+		changesMade = true;
+		FormDesign.UseSystemTheme = CB_UseSystemTheme.Checked;
+
+		if (CB_NightMode.Checked && CB_UseSystemTheme.Checked)
+		{
+			CB_NightMode.Checked = false;
+		}
+		else
+		{
+			FormDesign.ForceRefresh();
+		}
 	}
 
 	private void CB_DisableAnimations_CheckChanged(object sender, EventArgs e)

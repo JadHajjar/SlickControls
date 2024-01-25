@@ -150,6 +150,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation AutoHideMenu => _instance.GetText("Auto-Hide Menu");
 
 	/// <summary>
+	/// Automatically switches to a Light mode during the day and Dark mode during the night
+	/// </summary>
+	public static Translation AutomaticallySwitchesToALightModeDuringTheDayAndDarkModeDuringTheNight => _instance.GetText("Automatically switches to a Light mode during the day and Dark mode during the night");
+
+	/// <summary>
 	/// Back
 	/// </summary>
 	public static Translation Back => _instance.GetText("Back");
@@ -228,6 +233,11 @@ public class LocaleSlickUI : LocaleHelper
 	/// Continue
 	/// </summary>
 	public static Translation Continue => _instance.GetText("Continue");
+
+	/// <summary>
+	/// Converts your theme into Light or Dark mode based on your computer's theme
+	/// </summary>
+	public static Translation ConvertsYourThemeIntoLightOrDarkModeBasedOnYourComputersTheme => _instance.GetText("Converts your theme into Light or Dark mode based on your computer's theme");
 
 	/// <summary>
 	/// Copy

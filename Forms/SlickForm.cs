@@ -250,6 +250,7 @@ public partial class SlickForm : Form, ISlickForm
 			var panelForm = this is BasePanelForm;
 			var bpf = panelForm ? this as BasePanelForm : null;
 			var isThemeChanger = panelForm && bpf.CurrentPanel is PC_ThemeChanger;
+			var canSwitch = !isThemeChanger || !FormDesign.IsCustomEligible();
 
 			var items = new List<SlickStripItem>
 			{
@@ -279,14 +280,21 @@ public partial class SlickForm : Form, ISlickForm
 				}, visible: !isThemeChanger),
 			};
 
-			if (!isThemeChanger)
+			if (canSwitch)
 			{
 				items.Add(new SlickStripItem("Switch To", "I_Switch", true)
 				{
 					SubItems = FormDesign.List.ToList(item => new SlickStripItem(item.Name, item.Name == FormDesign.Design.Name ? "I_Checked_ON" : "I_Checked_OFF", () =>
 					{
 						Cursor = Cursors.WaitCursor;
+
+						if (isThemeChanger)
+						{
+							(bpf.CurrentPanel as PC_ThemeChanger).savedDesignName = item.Name;
+						}
+
 						FormDesign.Switch(item, true, true);
+
 						Cursor = Cursors.Default;
 					}, item.Name == FormDesign.Design.Name))
 				});
