@@ -152,11 +152,11 @@ public static class FontMeasuring
 
 	public static SizeF Measure(this Graphics graphics, string text, Font font, int width = int.MaxValue)
 	{
-		var key = new StringCache(text, font.GetHashCode(), width);
+		var key = new StringCache(text, font.FontFamily.Name, font.Size, font.Style, width);
 
-		if (_cache.ContainsKey(key))
+		if (_cache.TryGetValue(key, out var size))
 		{
-			return _cache[key];
+			return size;
 		}
 
 		using var dpiFont = new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit);
@@ -166,11 +166,11 @@ public static class FontMeasuring
 
 	public static SizeF Measure(string text, Font font, int width = int.MaxValue)
 	{
-		var key = new StringCache(text, font.GetHashCode(), width);
+		var key = new StringCache(text, font.FontFamily.Name, font.Size, font.Style, width);
 
-		if (_cache.ContainsKey(key))
+		if (_cache.TryGetValue(key, out var size))
 		{
-			return _cache[key];
+			return size;
 		}
 
 		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
@@ -270,10 +270,5 @@ public static class FontMeasuring
 		}
 	}
 
-	private struct StringCache(string text, int font, int width)
-	{
-		public string Text { get; set; } = text;
-		public int Font { get; set; } = font;
-		public int Width { get; set; } = width;
-	}
+	private record struct StringCache(string Text, string FontName, float FontSize, FontStyle FontStyle, int width);
 }
