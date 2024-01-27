@@ -167,6 +167,6 @@
   "Hue": "Teinte",
   "Saturation": "Saturation",
   "Luminance": "Luminosité",
-  "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Synchronise le thème de Skyve avec le thème de votre ordinateur",
   "Automatically switches to a Light mode during the day and Dark mode during the night": "Bascule automatiquement au thème clair pendant la journée et au thème sombre pendant la nuit"
 }
