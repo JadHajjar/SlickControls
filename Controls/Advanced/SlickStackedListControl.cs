@@ -1026,6 +1026,14 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		}
 	}
 
+	public bool AnyVisibleItems()
+	{
+		lock (_sync)
+		{
+			return _items.Any(x => !x.Hidden);
+		}
+	}
+
 	public void ScrollTo(T item)
 	{
 		var items = SafeGetItems();
