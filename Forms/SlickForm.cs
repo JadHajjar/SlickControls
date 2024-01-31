@@ -70,7 +70,7 @@ public partial class SlickForm : Form, ISlickForm
 				WindowStateChanged?.Invoke(this, new EventArgs());
 			}
 
-			ResumeLayout();
+			ResumeLayout(true);
 		}
 	}
 
