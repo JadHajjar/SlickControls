@@ -168,5 +168,9 @@
   "Saturation": "Saturation",
   "Luminance": "Luminance",
   "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
-  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night"
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
+  "Email Address": "Email Address",
+  "Password": "Password",
+  "Login": "Login",
+  "Remember me": "Remember me"
 }
