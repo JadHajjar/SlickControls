@@ -1535,6 +1535,30 @@
   <ItemGroup>
     <None Include="Resources\I_Circle_OFF_48.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PasswordShow_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PasswordShow_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PasswordHide_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PasswordShow_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PasswordHide_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PasswordShow_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PasswordHide_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_PasswordHide_48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>

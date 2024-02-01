@@ -300,6 +300,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation EditColor => _instance.GetText("Edit Color");
 
 	/// <summary>
+	/// Email Address
+	/// </summary>
+	public static Translation EmailAddress => _instance.GetText("Email Address");
+
+	/// <summary>
 	/// Enable
 	/// </summary>
 	public static Translation Enable => _instance.GetText("Enable");
@@ -412,6 +417,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Loading => _instance.GetText("Loading");
 
 	/// <summary>
+	/// Login
+	/// </summary>
+	public static Translation Login => _instance.GetText("Login");
+
+	/// <summary>
 	/// Luminance
 	/// </summary>
 	public static Translation Luminance => _instance.GetText("Luminance");
@@ -487,6 +497,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Other => _instance.GetText("Other");
 
 	/// <summary>
+	/// Password
+	/// </summary>
+	public static Translation Password => _instance.GetText("Password");
+
+	/// <summary>
 	/// Pinned Folders
 	/// </summary>
 	public static Translation PinnedFolders => _instance.GetText("Pinned Folders");
@@ -505,6 +520,11 @@ public class LocaleSlickUI : LocaleHelper
 	/// Red
 	/// </summary>
 	public static Translation Red => _instance.GetText("Red");
+
+	/// <summary>
+	/// Remember me
+	/// </summary>
+	public static Translation RememberMe => _instance.GetText("Remember me");
 
 	/// <summary>
 	/// Remove
