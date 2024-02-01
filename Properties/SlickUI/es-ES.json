@@ -168,5 +168,9 @@
   "Saturation": "Saturación",
   "Luminance": "Luminancia",
   "Converts your theme into Light or Dark mode based on your computer's theme": "Convierte tu tema en modo Claro u Oscuro, basado en el tema de tu ordenador",
-  "Automatically switches to a Light mode during the day and Dark mode during the night": "Cambia automáticamente al modo Claro durante el día y al modo Oscuro durante la noche"
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Cambia automáticamente al modo Claro durante el día y al modo Oscuro durante la noche",
+  "Email Address": "Email Address",
+  "Password": "Password",
+  "Login": "Login",
+  "Remember me": "Remember me"
 }
