@@ -168,5 +168,9 @@
   "Saturation": "饱和度",
   "Luminance": "亮度",
   "Converts your theme into Light or Dark mode based on your computer's theme": "根据系统主题，自动切换到浅色或深色模式",
-  "Automatically switches to a Light mode during the day and Dark mode during the night": "白天自动切换到浅色模式，夜间自动切换到深色模式"
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "白天自动切换到浅色模式，夜间自动切换到深色模式",
+  "Email Address": "Email Address",
+  "Password": "Password",
+  "Login": "Login",
+  "Remember me": "Remember me"
 }
