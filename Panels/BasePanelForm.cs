@@ -622,7 +622,7 @@ public partial class BasePanelForm : SlickForm
 				{
 					item.Highlighted = false;
 
-					if (item.ShowKey[0] == numb)
+					if (item.ShowKey != null && item.ShowKey[0] == numb)
 					{
 						item.Highlighted = true;
 						item.MouseClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));

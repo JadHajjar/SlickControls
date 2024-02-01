@@ -460,6 +460,13 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 		Invalidate();
 	}
 
+	public void ResetError()
+	{
+		error = false;
+		warning = false;
+		Invalidate();
+	}
+
 	protected override void Dispose(bool disposing)
 	{
 		if (disposing)

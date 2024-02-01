@@ -126,7 +126,7 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 		base.AutoSize = true;
 	}
 
-	protected override Size CalculateAutoSize(Size availableSize)
+	public override Size CalculateAutoSize(Size availableSize)
 	{
 		using var image = GetIcon();
 		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
@@ -162,7 +162,8 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 				Font = Font,
 				BackColor = back,
 				ForeColor = fore,
-				Image = image,				Text = Text,
+				Image = image,
+				Text = Text,
 				Padding = Padding,
 				ButtonType = ButtonType,
 				ColorShade = ColorShade,

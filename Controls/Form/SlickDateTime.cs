@@ -541,6 +541,10 @@ public class SlickDateTime : SlickControl, IValidationControl, ISupportsReset
 
 	public void SetError(bool warning = false) { }
 
+	public void ResetError()
+	{
+	}
+
 	public void ResetValue()
 	{
 		Value = _defaultValue;

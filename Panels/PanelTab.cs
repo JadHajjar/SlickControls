@@ -52,21 +52,17 @@ public class PanelTab
 				e.Graphics.DrawLine(pen, small ? 0 : (int)(10 * UI.FontScale), clientRectangle.Y + (clientRectangle.Height / 2), clientRectangle.Width - (small ? 0 : (2 * (int)(10 * UI.FontScale))), clientRectangle.Y + (clientRectangle.Height / 2));
 			}
 
-			e.DrawableItem.CachedHeight = panelItemControl.ItemHeight;
-
 			return;
 		}
 
 		if (IsGroupHeader)
 		{
 			using (var brush = new SolidBrush(FormDesign.Design.LabelColor))
-			using (var font = UI.Font(8.25F, FontStyle.Bold))
+			using (var format = new StringFormat { LineAlignment = StringAlignment.Center })
+			using (var font = UI.Font(8.25F, FontStyle.Bold).FitTo(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), clientRectangle, e.Graphics))
 			{
-				var h = e.Graphics.Measure(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), font).Height;
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), font, brush, new Rectangle(0, clientRectangle.Y + ((clientRectangle.Height - (int)h) / 2), clientRectangle.Width, (int)h));
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), font, brush, clientRectangle, format);
 			}
-
-			e.DrawableItem.CachedHeight = panelItemControl.ItemHeight;
 
 			return;
 		}
@@ -193,19 +189,15 @@ public class PanelTab
 		if (!small)
 		{
 			using var brush = SlickControl.Gradient(clientRectangle, fore);
-			var textRect = new Rectangle(clientRectangle.X, clientRectangle.Y, clientRectangle.Width, (int)(24 * UI.FontScale));
+			using var format = new StringFormat { LineAlignment = StringAlignment.Center };
+			var textRect = new Rectangle(clientRectangle.X, clientRectangle.Y, clientRectangle.Width, clientRectangle.Height);
 			var text = LocaleHelper.GetGlobalText(PanelItem.Text);
 
 			textRect = textRect.Pad((int)(10 * UI.FontScale) + iconWidth, 0, bar, 0);
 
-			using var font = UI.Font(8.25F);
-			var textSize = e.Graphics.Measure(text, font, textRect.Width);
+			using var font = UI.Font(8.25F).FitTo(text,textRect,e.Graphics);
 
-			textRect.Height = Math.Max(textRect.Height, (int)textSize.Height + (bar * 2));
-
-			e.Graphics.DrawString(text, font, brush, textRect.Align(new Size(textRect.Width, (int)textSize.Height + 1), ContentAlignment.MiddleLeft));
-
-			e.DrawableItem.CachedHeight = textRect.Height;
+			e.Graphics.DrawString(text, font, brush, textRect,format);
 		}
 	}
 }

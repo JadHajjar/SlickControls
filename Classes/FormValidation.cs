@@ -8,16 +8,20 @@ public static class FormValidation
 	{
 		var b = true;
 
-		if (ctrl is IValidationControl tb)
+		if (ctrl is IValidationControl validationControl)
 		{
-			if (tb.Required && tb.Visible)
+			if (validationControl.Required && validationControl.Visible)
 			{
-				b = tb.ValidInput;
+				b = validationControl.ValidInput;
 			}
 
 			if (!b)
 			{
-				tb.SetError();
+				validationControl.SetError();
+			}
+			else
+			{
+				validationControl.ResetError();
 			}
 		}
 

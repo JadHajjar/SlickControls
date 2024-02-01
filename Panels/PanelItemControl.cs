@@ -18,7 +18,6 @@ public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemContr
 		Form = form;
 		ItemHeight = 24;
 		TabStop = false;
-		DynamicSizing = true;
 	}
 
 	public override void SetItems(IEnumerable<PanelTab> items)

@@ -9,7 +9,9 @@ namespace SlickControls;
 
 public partial class SlickTip : Control
 {
-	//private readonly Timer _timer;
+	private static Timer timer;
+	private static Control hoveredControl;
+
 	public Control Control { get; }
 	public Form Form { get; }
 	private TipInfo Info { get; set; }
@@ -185,6 +187,9 @@ public partial class SlickTip : Control
 				}
 			}
 
+			if (hoveredControl == control)
+				timer?.Dispose();
+
 			return;
 		}
 
@@ -199,7 +204,7 @@ public partial class SlickTip : Control
 			control.Disposed += Control_Disposed;
 			controlsDictionary.Add(control, new TipInfo(title, text, offset, alignToBottom));
 
-			if (mouseIsIn(control, Cursor.Position))
+			if (IsMouseIn(control, Cursor.Position))
 			{
 				Control_MouseEnter(control, null);
 			}
@@ -215,7 +220,7 @@ public partial class SlickTip : Control
 			}
 			else
 			{
-				if (/*control.FindForm() is SlickForm frm && frm.FormIsActive &&*/ mouseIsIn(control, MousePosition))
+				if (/*control.FindForm() is SlickForm frm && frm.FormIsActive &&*/ IsMouseIn(control, MousePosition))
 				{
 					Control_MouseEnter(control, null);
 				}
@@ -243,20 +248,22 @@ public partial class SlickTip : Control
 	{
 		var control = sender as Control;
 
-		if (control.FindForm() is not SlickForm frm /*|| !frm.FormIsActive*/)
+		if (hoveredControl == control || control.FindForm() is not SlickForm frm /*|| !frm.FormIsActive*/)
 		{
 			return;
 		}
 
-		var timer = new System.Timers.Timer(1000) { Enabled = true, AutoReset = false };
+		timer?.Dispose();
+		timer = new Timer() { Interval = 1000, Enabled = true };
 
-		timer.Elapsed += (s, et) =>
+		timer.Start();
+		timer.Tick += (s, et) =>
 		{
 			timer.Dispose();
 
 			control.TryInvoke(() =>
 			{
-				if (controlsDictionary.ContainsKey(control) && mouseIsIn(control, MousePosition))
+				if (controlsDictionary.ContainsKey(control) && IsMouseIn(control, MousePosition))
 				{
 					if (currentControl != null)
 					{
@@ -278,7 +285,7 @@ public partial class SlickTip : Control
 		};
 	}
 
-	private static bool mouseIsIn(Control control, Point point)
+	private static bool IsMouseIn(Control control, Point point)
 	{
 		try
 		{

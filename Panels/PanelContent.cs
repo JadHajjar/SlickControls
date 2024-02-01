@@ -61,8 +61,8 @@ public partial class PanelContent : SlickControl
 	[Category("Design")]
 	protected Control FirstFocusedControl { get; set; }
 
-	[Category("Design"), DisplayName("Label Bounds")]
-	public Point LabelBounds { get => base_Text.Location; set => base_Text.Location = value; }
+	[Category("Design"), DisplayName("Label Bounds"), DefaultValue(typeof(Point), "0, 0")]
+	public Point CustomTitleBounds { get; set; }
 
 	public static PanelContent GetParentPanel(Control ctrl)
 	{
@@ -130,7 +130,7 @@ public partial class PanelContent : SlickControl
 		base_Text.Padding = UI.Scale(new Padding(4, 2, 3, 2), UI.FontScale);
 		base_Text.Font = UI.Font(10F, FontStyle.Bold);
 		base_Text.Size = base_Text.GetAutoSize(true);
-		base_Text.Location = new Point((int)(5 * UI.FontScale), ((int)(30 * UI.FontScale) - base_Text.Height) / 2);
+		base_Text.Location = new Point(CustomTitleBounds.X == 0 ? (int)(5 * UI.FontScale) : CustomTitleBounds.X, CustomTitleBounds.Y == 0 ? ((int)(30 * UI.FontScale) - base_Text.Height) / 2 : CustomTitleBounds.Y);
 	}
 
 	protected override void DesignChanged(FormDesign design)

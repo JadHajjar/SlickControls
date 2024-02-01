@@ -7,4 +7,5 @@ public interface IValidationControl
 	bool Visible { get; set; }
 
 	void SetError(bool warning = false);
+	void ResetError();
 }

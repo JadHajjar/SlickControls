@@ -199,7 +199,7 @@ public partial class SlickButton : SlickImageControl
 		return cachedSize = CalculateAutoSize(availableSize);
 	}
 
-	protected virtual Size CalculateAutoSize(Size availableSize)
+	public virtual Size CalculateAutoSize(Size availableSize)
 	{
 		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
 		using var args = new ButtonDrawArgs
