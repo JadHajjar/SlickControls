@@ -477,7 +477,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 			e.Graphics.FillRectangle(brush, e.Graphics.ClipBounds);
 		}
 
-		var selected = this is not SlickMultiSelectionDropDown<T> && e.Item.Equals(selectedItem);
+		var selected = this is not SlickMultiSelectionDropDown<T> && (e.Item?.Equals(selectedItem) ?? selectedItem is null);
 
 		if (selected && !e.HoverState.HasFlag(HoverState.Pressed))
 		{
