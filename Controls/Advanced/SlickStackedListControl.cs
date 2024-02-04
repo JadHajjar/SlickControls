@@ -381,7 +381,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 			}
 
 			GridItemSize = UI.Scale(baseSize, UI.FontScale);
-			ItemHeight = (int)(baseHeight * UI.FontScale);
+			ItemHeight = (int)(baseHeight * UI.FontScale) / 2 * 2;
 
 			Invalidate();
 		}

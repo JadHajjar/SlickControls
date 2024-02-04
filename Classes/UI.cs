@@ -53,8 +53,8 @@ public class UI : ISave
 	public static Size Scale(Size size, double scale)
 	{
 		return new Size(
-		(int)(size.Width * scale),
-		(int)(size.Height * scale));
+		(int)(size.Width * scale) / 2 * 2,
+		(int)(size.Height * scale) / 2 * 2);
 	}
 
 	public static Rectangle Scale(Rectangle rect, double scale)
@@ -78,8 +78,8 @@ public class UI : ISave
 		return new RectangleF(
 		rect.X - (float)(((rect.Width * scale) - rect.Width) * 0.5),
 		rect.Y - (float)(((rect.Height * scale) - rect.Height) * 0.5),
-		(float)(rect.Width * scale),
-		(float)(rect.Height * scale));
+		(float)(rect.Width * scale) / 2 * 2,
+		(float)(rect.Height * scale) / 2 * 2);
 	}
 
 	public static Padding Scale(Padding padding, double scale)

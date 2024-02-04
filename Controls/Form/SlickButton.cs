@@ -464,6 +464,13 @@ public partial class SlickButton : SlickImageControl
 			arg.HoverState = default;
 		}
 
+		if (arg.BackgroundColor.A != 0 && (!arg.HoverState.HasFlag(HoverState.Pressed) || arg.ActiveColor.A != 0))
+		{
+			arg.BackColor = arg.HoverState.HasFlag(HoverState.Pressed) ? arg.ActiveColor
+				: arg.HoverState.HasFlag(HoverState.Hovered) ? arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 10 : -10)
+				: arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 18 : -18);
+		}
+
 		if (arg.ForeColor.A == 0 && arg.BackColor.A == 0)
 		{
 			GetColors(out var fore, out var back, arg.HoverState, arg.ColorStyle, arg.ColorShade, null, arg.BackColor, arg.ButtonType);
@@ -588,6 +595,8 @@ public class ButtonDrawArgs : IDisposable
 	public Size AvailableSize { get; set; }
 	public bool ColoredIcon { get; set; }
 	public bool DoNotDrawIcon { get; set; }
+	public Color BackgroundColor { get; set; }
+	public Color ActiveColor { get; set; }
 
 	public void Dispose()
 	{
@@ -601,4 +610,7 @@ public class ButtonDrawArgs : IDisposable
 			Font?.Dispose();
 		}
 	}
+
+	public static implicit operator Rectangle(ButtonDrawArgs args) => args.Rectangle;
+	public static implicit operator Size(ButtonDrawArgs args) => args.Rectangle.Size;
 }
