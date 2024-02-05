@@ -467,8 +467,8 @@ public partial class SlickButton : SlickImageControl
 		if (arg.BackgroundColor.A != 0 && (!arg.HoverState.HasFlag(HoverState.Pressed) || arg.ActiveColor.A != 0))
 		{
 			arg.BackColor = arg.HoverState.HasFlag(HoverState.Pressed) ? arg.ActiveColor
-				: arg.HoverState.HasFlag(HoverState.Hovered) ? arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 10 : -10)
-				: arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 18 : -18);
+				: arg.HoverState.HasFlag(HoverState.Hovered) ? arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 18 : -14)
+				: arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 10 : -8);
 		}
 
 		if (arg.ForeColor.A == 0 && arg.BackColor.A == 0)
