@@ -135,7 +135,7 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 				g.FillRoundedRectangle(brush, rectangle, border);
 			}
 
-			using (var pen = new Pen(Color.FromArgb(100, color.Value), 1.5F) { DashStyle = DashStyle.Dash })
+			using (var pen = new Pen(Color.FromArgb(100, color.Value), (float)(1.5 * UI.FontScale)) { DashStyle = DashStyle.Dash })
 			{
 				g.DrawRoundedRectangle(pen, rectangle, border);
 			}
