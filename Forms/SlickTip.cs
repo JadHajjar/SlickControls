@@ -10,7 +10,6 @@ namespace SlickControls;
 public partial class SlickTip : Control
 {
 	private static Timer timer;
-	private static Control hoveredControl;
 
 	public Control Control { get; }
 	public Form Form { get; }
@@ -187,9 +186,6 @@ public partial class SlickTip : Control
 				}
 			}
 
-			if (hoveredControl == control)
-				timer?.Dispose();
-
 			return;
 		}
 
@@ -248,7 +244,7 @@ public partial class SlickTip : Control
 	{
 		var control = sender as Control;
 
-		if (hoveredControl == control || control.FindForm() is not SlickForm frm /*|| !frm.FormIsActive*/)
+		if (control.FindForm() is not SlickForm frm /*|| !frm.FormIsActive*/)
 		{
 			return;
 		}

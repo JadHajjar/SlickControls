@@ -440,7 +440,7 @@ public partial class SlickButton : SlickImageControl
 		{
 			var width = arg.Rectangle.Width;
 			var maxWidth = GetSize(out var textPad, graphics, arg.Image, arg.Text, arg.Font, arg.Padding, isLoading: arg.Control?.Loading ?? false).Width;
-			
+
 			if (width < maxWidth)
 			{
 				if (arg.DisposeFont)
@@ -486,7 +486,11 @@ public partial class SlickButton : SlickImageControl
 		if (!arg.Enabled)
 		{
 			arg.ForeColor = arg.ForeColor.MergeColor(FormDesign.Design.BackColor, 50);
-			arg.BackColor = Color.FromArgb(100, arg.BackColor);
+
+			if (arg.BackColor.A != 0)
+			{
+				arg.BackColor = Color.FromArgb(100, arg.BackColor);
+			}
 		}
 	}
 
@@ -611,6 +615,13 @@ public class ButtonDrawArgs : IDisposable
 		}
 	}
 
-	public static implicit operator Rectangle(ButtonDrawArgs args) => args.Rectangle;
-	public static implicit operator Size(ButtonDrawArgs args) => args.Rectangle.Size;
+	public static implicit operator Rectangle(ButtonDrawArgs args)
+	{
+		return args.Rectangle;
+	}
+
+	public static implicit operator Size(ButtonDrawArgs args)
+	{
+		return args.Rectangle.Size;
+	}
 }

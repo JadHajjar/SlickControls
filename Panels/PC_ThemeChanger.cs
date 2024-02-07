@@ -1,7 +1,5 @@
 ﻿using Extensions;
 
-using SlickControls.Classes;
-
 using System;
 using System.Drawing;
 using System.Drawing.Text;
