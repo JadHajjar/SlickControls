@@ -223,11 +223,6 @@ public partial class SlickForm : Form, ISlickForm
 		e.Graphics.Clear(BackColor);
 	}
 
-	protected override void OnPaint(PaintEventArgs e)
-	{
-		e.Graphics.Clear(BackColor);
-	}
-
 	private void base_B_Max_Click(object sender, EventArgs e)
 	{
 		WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized;

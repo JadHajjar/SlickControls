@@ -21,5 +21,5 @@ public class DrawableItem<T>
 	public HoverState HoverState { get; set; }
 	public int CachedHeight { get; set; }
 	public bool Loading { get; set; }
-	internal bool Hidden { get; set; }
+	public bool Hidden { get; internal set; }
 }

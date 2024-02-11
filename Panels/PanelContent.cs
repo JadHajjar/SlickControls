@@ -336,6 +336,11 @@ public partial class PanelContent : SlickControl
 	{
 		base.OnPaint(e);
 
+		if (!Loading)
+		{
+			return;
+		}
+
 		var maxwWidth = Width - (int)(115 * UI.FontScale);
 		var width = maxwWidth / 2;
 		var x = (int)((LoaderPercentage - 100) * maxwWidth / 100) + width;
