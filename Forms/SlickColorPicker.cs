@@ -34,7 +34,7 @@ public partial class SlickColorPicker : SlickForm
 
 		TB_Hex.ValidationCustom = x => Regex.IsMatch(x, @"#?([a-f]|[0-9]){6}", RegexOptions.IgnoreCase);
 
-		ISave.Load(out LastColors, "LastColors.tf", "SlickUI");
+		SaveHandler.Instance.Load(out LastColors, "LastColors.tf", "SlickUI");
 		LastColors = LastColors?.Take(21).ToList() ?? [];
 		ShowLastColors();
 
@@ -200,11 +200,11 @@ public partial class SlickColorPicker : SlickForm
 
 		try
 		{
-			ISave.Load(out List<Color> colors, "LastColors.tf", "SlickUI");
+			SaveHandler.Instance.Load(out List<Color> colors, "LastColors.tf", "SlickUI");
 			colors ??= [];
 
 			colors.Insert(0, Color);
-			ISave.Save(colors.Take(21), "LastColors.tf", appName: "SlickUI");
+			SaveHandler.Instance.Save(colors.Take(21), "LastColors.tf", appName: "SlickUI");
 		}
 		catch { }
 	}

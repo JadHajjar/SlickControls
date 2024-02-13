@@ -9,7 +9,8 @@ using System.Windows.Forms;
 
 namespace SlickControls;
 
-public class UI : ISave
+[SaveName("UI.tf", "SlickUI")]
+public class UI : ISaveObject
 {
 	public static event UIEventHandler UIChanged;
 
@@ -19,6 +20,8 @@ public class UI : ISave
 	public static double FontScale => _instance.fontScale * WindowsScale;
 	public static double UIScale => Math.Round(FontScale.If(x => x > 1, x => (x * .9) + 0.1, x => (x * 1.1) - 0.1), 2);
 	public static double WindowsScale { get; }
+
+	public SaveHandler Handler { get; set; }
 
 	public string fontFamily { get; set; }
 #if NET47
@@ -131,7 +134,7 @@ public class UI : ISave
 			Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SlickUI"));
 		}
 
-		_instance = Load<UI>("UI.tf", "SlickUI");
+		_instance = SaveHandler.Instance.Load<UI>();
 
 		int dpiX;
 		using (var graphics = Graphics.FromHwnd(IntPtr.Zero))

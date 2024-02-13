@@ -74,8 +74,8 @@ public class IOControl
 			{
 				Controller.Factory.Add(() =>
 				{
-					Directory.CreateDirectory(System.IO.Path.Combine(ISave.SaveFolder, "Thumbs", "Library"));
-					var filepath = System.IO.Path.Combine(ISave.SaveFolder, "Thumbs", "Library", $"{FileObject.Name}.{FileObject.Length}.jpg");
+					Directory.CreateDirectory(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Thumbs", "Library"));
+					var filepath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Thumbs", "Library", $"{FileObject.Name}.{FileObject.Length}.jpg");
 
 					try
 					{

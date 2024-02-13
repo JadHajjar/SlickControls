@@ -74,7 +74,9 @@ public partial class BasePanelForm : SlickForm
 
 			if (IsHandleCreated)
 			{
-				ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "SlickUI");
+				var settings = SaveHandler.Instance.Load<SlickUISettings>();
+				settings.AutoHideMenu = autoHideMenu;
+				settings.Save();
 			}
 		}
 	}
@@ -96,7 +98,9 @@ public partial class BasePanelForm : SlickForm
 
 			if (IsHandleCreated)
 			{
-				ISave.Save(new { AutoHideMenu, SmallMenu }, "PanelForm.tf", true, "SlickUI");
+				var settings = SaveHandler.Instance.Load<SlickUISettings>();
+				settings.SmallMenu = smallMenu;
+				settings.Save();
 			}
 		}
 	}
@@ -522,7 +526,7 @@ public partial class BasePanelForm : SlickForm
 			mouseDetector = new MouseDetector();
 			mouseDetector.MouseMove += mouseDetector_MouseMove;
 
-			var options = ISave.LoadRaw("PanelForm.tf", "SlickUI");
+			var options = SaveHandler.Instance.Load<SlickUISettings>();
 
 			if (options != null)
 			{

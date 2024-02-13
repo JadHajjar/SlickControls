@@ -133,7 +133,7 @@ public partial class PC_ThemeChanger : PanelContent
 			UI.OnUiChanged();
 		}
 
-		UI._instance.Save(appName: "SlickUI");
+		UI._instance.Save();
 
 		savedNightModeSetting = CB_NightMode.Checked;
 		savedUseSystemThemeSetting = CB_UseSystemTheme.Checked;
@@ -191,12 +191,12 @@ public partial class PC_ThemeChanger : PanelContent
 
 	private void Theme_Changer_Load(object sender, EventArgs e)
 	{
-		var settings = ISave.Load<SlickUISettings>("Settings.tf", "SlickUI");
+		var settings = SaveHandler.Instance.Load<SlickUISettings>();
 
 		if (!settings.TutorialShown)
 		{
 			settings.TutorialShown = true;
-			settings.Save("Settings.tf", appName: "SlickUI");
+			settings.Save();
 
 			var notification = Notification.Create(
 				LocaleHelper.GetGlobalText("Welcome to Theme Changer!"),
