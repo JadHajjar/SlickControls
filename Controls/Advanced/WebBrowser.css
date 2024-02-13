@@ -1,0 +1,34 @@
+body {
+	background: BackColor;
+	color: ForeColor;
+	font-family: 'FontFamily', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size: FontSizept;
+	scrollbar-face-color: AccentColor;
+	scrollbar-highlight-color: ActiveColor;
+	scrollbar-3dlight-color: AccentBackColor;
+	scrollbar-darkshadow-color: BackColor;
+	scrollbar-shadow-color: BackColor;
+	scrollbar-arrow-color: AccentBackColor;
+	scrollbar-track-color: BackColor;
+	scrollbar-width: H1FontSizepx;
+}
+
+a, a:visited {
+	color: inherit;
+}
+
+a:hover {
+	color: ActiveColor;
+}
+
+h1 {
+	font-size: H1FontSizept;
+}
+
+h2 {
+	font-size: H2FontSizept;
+}
+
+h3 {
+	font-size: H3FontSizept;
+}

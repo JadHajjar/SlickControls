@@ -92,6 +92,9 @@
     <Compile Include="Controls\Advanced\SlickStackedListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\Advanced\SlickWebBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Form\RoundedPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -1558,6 +1561,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\I_PasswordHide_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controls\Advanced\WebBrowser.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
