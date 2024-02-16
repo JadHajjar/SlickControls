@@ -76,6 +76,9 @@ public partial class SlickButton : SlickImageControl
 	[Category("Appearance"), DisplayName("Multi-Line"), DefaultValue(false)]
 	public bool MultiLine { get; set; }
 
+	[Category("Appearance"), DisplayName("Colored Icon"), DefaultValue(false)]
+	public bool ColoredIcon { get; set; }
+
 	protected override void OnParentFontChanged(EventArgs e)
 	{
 		cachedSize = default;
@@ -240,6 +243,7 @@ public partial class SlickButton : SlickImageControl
 			ColorStyle = ColorStyle,
 			Enabled = Enabled,
 			HoverState = HoverState,
+			ColoredIcon = ColoredIcon,
 			Rectangle = ClientRectangle
 		});
 	}
