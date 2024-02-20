@@ -123,14 +123,17 @@ public partial class SlickTab : SlickControl, IAnimatable
 	{
 		e.Graphics.SetUp(BackColor);
 
+		var point = (int)Math.Ceiling(UI.FontScale);
 		var active = Tint == Color.Empty ? FormDesign.Design.ActiveColor : Tint;
 		var rectangle = ClientRectangle.Pad((int)(5 * UI.FontScale));
 
-		e.Graphics.FillRoundedRectangle(ClientRectangle.Gradient(Selected || Hovered ? active : FormDesign.Design.AccentColor, 0.003F * AnimatedValue),
-			rectangle.Pad(1, 1, 1, 0), (int)(4 * UI.FontScale));
+		using var brush = ClientRectangle.Gradient(Selected || Hovered ? active : FormDesign.Design.AccentColor, 0.003F * AnimatedValue);
+		e.Graphics.FillRoundedRectangle(brush,
+			rectangle.Pad(point, point, point, 0), (int)(4 * UI.FontScale));
 
-		e.Graphics.FillRoundedRectangle(ClientRectangle.Gradient(active.MergeColor(FormDesign.Design.ButtonColor, Math.Max(0, AnimatedValue - 100)).MergeColor(BackColor, Math.Min(100, AnimatedValue)), 0.003F * AnimatedValue),
-			rectangle.Pad(0, 0, 0, 1), (int)(4 * UI.FontScale));
+		using var brush1 = ClientRectangle.Gradient(active.MergeColor(FormDesign.Design.ButtonColor, Math.Max(0, AnimatedValue - 100)).MergeColor(BackColor, Math.Min(100, AnimatedValue)).Tint(Lum: FormDesign.Design.IsDarkTheme ? 3 : -3), 0.003F * AnimatedValue);
+		e.Graphics.FillRoundedRectangle(brush1,
+			rectangle.Pad(0, 0, 0, point), (int)(4 * UI.FontScale));
 
 		var fore = Selected ? (Tint == Color.Empty ? FormDesign.Design.ActiveForeColor : Tint.GetTextColor()).MergeColor(FormDesign.Design.ForeColor, Math.Max(0, AnimatedValue - 100)) : Tint == Color.Empty ? FormDesign.Design.ForeColor : Tint;
 
@@ -141,8 +144,10 @@ public partial class SlickTab : SlickControl, IAnimatable
 			var width = textSize.Width + (img?.Width ?? 0) + (int)(10 * UI.FontScale);
 			var bounds = rectangle.CenterR(Math.Min(width, rectangle.Width), textSize.Height);
 
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), Font, new SolidBrush(fore)
-				, img != null ? bounds.Pad(img.Width + (int)(5 * UI.FontScale), 0, 0, 0) : bounds, new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter });
+			using var brush2 = new SolidBrush(fore);
+			using var format = new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter };
+			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), base.Font, brush2
+				, img != null ? bounds.Pad(img.Width + (int)(5 * UI.FontScale), 0, 0, 0) : bounds, format);
 
 			if (img != null)
 			{
