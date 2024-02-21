@@ -95,6 +95,9 @@
     <Compile Include="Controls\Advanced\SlickWebBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Form\AutoSizeLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Form\RoundedPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
