@@ -42,7 +42,7 @@ public partial class SlickTab : SlickControl, IAnimatable
 	public int AnimatedValue { get; set; } = 15;
 
 	[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-	public int TargetAnimationValue => (Selected ? 100 : 0) + (Selected || Hovered ? 100 : 15);
+	public int TargetAnimationValue => (Selected ? 100 : 0) + (Selected || Hovered ? 100 : 0);
 
 	[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public bool Hovered
@@ -111,11 +111,12 @@ public partial class SlickTab : SlickControl, IAnimatable
 
 	protected override void UIChanged()
 	{
-		Font = UI.Font(8.25F);
+		Padding = UI.Scale(new Padding(5), UI.FontScale);
+		Margin = UI.Scale(new Padding(0, 0,5,0), UI.FontScale);
 
 		if (Parent?.Parent is not SlickTabControl)
 		{
-			Size = UI.Scale(new Size(DefaultSize.Width, 32), UI.FontScale);
+			Size = UI.Scale(new Size(DefaultSize.Width, 48), UI.FontScale);
 		}
 	}
 
@@ -123,40 +124,41 @@ public partial class SlickTab : SlickControl, IAnimatable
 	{
 		e.Graphics.SetUp(BackColor);
 
-		var point = (int)Math.Ceiling(UI.FontScale);
+		var client = ClientRectangle.Pad(Margin);
 		var active = Tint == Color.Empty ? FormDesign.Design.ActiveColor : Tint;
-		var rectangle = ClientRectangle.Pad((int)(5 * UI.FontScale));
+		var activeColor = active.MergeColor(ForeColor.MergeColor(BackColor, 70), Math.Max(0, AnimatedValue - 100));
+		var backColor = Color.FromArgb(Math.Min(150, AnimatedValue) / 2, active);
 
-		using var brush = ClientRectangle.Gradient(Selected || Hovered ? active : FormDesign.Design.AccentColor, 0.003F * AnimatedValue);
-		e.Graphics.FillRoundedRectangle(brush,
-			rectangle.Pad(point, point, point, 0), (int)(4 * UI.FontScale));
+		using var activeBrush = new SolidBrush(activeColor);
 
-		using var brush1 = ClientRectangle.Gradient(active.MergeColor(FormDesign.Design.ButtonColor, Math.Max(0, AnimatedValue - 100)).MergeColor(BackColor, Math.Min(100, AnimatedValue)).Tint(Lum: FormDesign.Design.IsDarkTheme ? 3 : -3), 0.003F * AnimatedValue);
-		e.Graphics.FillRoundedRectangle(brush1,
-			rectangle.Pad(0, 0, 0, point), (int)(4 * UI.FontScale));
-
-		var fore = Selected ? (Tint == Color.Empty ? FormDesign.Design.ActiveForeColor : Tint.GetTextColor()).MergeColor(FormDesign.Design.ForeColor, Math.Max(0, AnimatedValue - 100)) : Tint == Color.Empty ? FormDesign.Design.ForeColor : Tint;
-
-		using var img = (Icon != null ? new Bitmap(Icon) : IconName)?.Color(fore);
-		if (Width > (int)(120 * UI.FontScale))
+		if (backColor.A > 0)
 		{
-			var textSize = Size.Ceiling(e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), Font));
-			var width = textSize.Width + (img?.Width ?? 0) + (int)(10 * UI.FontScale);
-			var bounds = rectangle.CenterR(Math.Min(width, rectangle.Width), textSize.Height);
-
-			using var brush2 = new SolidBrush(fore);
-			using var format = new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter };
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), base.Font, brush2
-				, img != null ? bounds.Pad(img.Width + (int)(5 * UI.FontScale), 0, 0, 0) : bounds, format);
-
-			if (img != null)
-			{
-				e.Graphics.DrawImage(img, bounds.Pad((int)(3 * UI.FontScale)).Align(img.Size, ContentAlignment.MiddleLeft));
-			}
+			using var backBrush = new SolidBrush(backColor);
+			e.Graphics.FillRoundedRectangle(backBrush, client, Padding.Left);
 		}
-		else if (img != null)
+
+		var text = LocaleHelper.GetGlobalText(Text).One.ToUpper();
+		using var font = UI.Font(7F, FontStyle.Bold).FitToWidth(text, client.Pad(Padding), e.Graphics);
+		var textHeight = (int)e.Graphics.Measure(text, font).Height;
+		using var img = (Icon != null ? new Bitmap(Icon) : IconName)?.Color(activeColor);
+
+		if (img == null)
 		{
-			e.Graphics.DrawImage(img, ClientRectangle.CenterR(img.Size));
+			using var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+			e.Graphics.DrawString(text, font, activeBrush, client, format);
+		}
+		else if (Width > Height * 3 / 2)
+		{
+			var rect = client.CenterR(client.Width, textHeight + img.Height);
+
+			e.Graphics.DrawImage(img, rect.Align(img.Size, ContentAlignment.TopCenter));
+
+			using var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Far };
+			e.Graphics.DrawString(text, font, activeBrush, rect, format);
+		}
+		else
+		{
+			e.Graphics.DrawImage(img, client.CenterR(img.Size));
 		}
 	}
 

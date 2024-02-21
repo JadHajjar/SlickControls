@@ -28,11 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.P_Tabs = new System.Windows.Forms.Panel();
+			this.P_Tabs = new SlickControls.RoundedPanel();
 			this.P_Content = new SlickControls.DBPanel();
 			this.ScrollBar = new SlickControls.SlickScroll();
 			this.slickSpacer1 = new SlickControls.SlickSpacer();
+			this.panel1 = new System.Windows.Forms.Panel();
 			this.P_Content.SuspendLayout();
+			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// P_Tabs
@@ -72,32 +74,46 @@
 			// slickSpacer1
 			// 
 			this.slickSpacer1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.slickSpacer1.Location = new System.Drawing.Point(0, 30);
+			this.slickSpacer1.Location = new System.Drawing.Point(0, 0);
 			this.slickSpacer1.Name = "slickSpacer1";
 			this.slickSpacer1.Size = new System.Drawing.Size(612, 1);
 			this.slickSpacer1.TabIndex = 2;
 			this.slickSpacer1.TabStop = false;
 			this.slickSpacer1.Text = "slickSpacer1";
 			// 
+			// panel1
+			// 
+			this.panel1.AutoSize = true;
+			this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+			this.panel1.Controls.Add(this.P_Tabs);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel1.Location = new System.Drawing.Point(0, 1);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(612, 30);
+			this.panel1.TabIndex = 1;
+			// 
 			// SlickTabControl
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
 			this.Controls.Add(this.P_Content);
+			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.slickSpacer1);
-			this.Controls.Add(this.P_Tabs);
 			this.Name = "SlickTabControl";
 			this.Size = new System.Drawing.Size(612, 349);
 			this.Resize += new System.EventHandler(this.SlickTabControl_Resize);
 			this.P_Content.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.Panel P_Tabs;
+		private RoundedPanel P_Tabs;
 		private DBPanel P_Content;
 		public SlickScroll ScrollBar;
 		private SlickSpacer slickSpacer1;
+		private System.Windows.Forms.Panel panel1;
 	}
 }

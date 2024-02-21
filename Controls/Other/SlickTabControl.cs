@@ -14,9 +14,6 @@ public partial class SlickTabControl : SlickControl
 	private string noResults;
 	private Tab[] tabs;
 
-	[DefaultValue(typeof(Padding), "0, 5, 0, 0")]
-	public new Padding Padding { get => P_Tabs.Padding; set => P_Tabs.Padding = value; }
-
 	[DefaultValue(true)]
 	public new bool Enabled { get => P_Tabs.Enabled; set => P_Tabs.Enabled = value; }
 
@@ -42,7 +39,7 @@ public partial class SlickTabControl : SlickControl
 
 	protected override void DesignChanged(FormDesign design)
 	{
-		P_Content.BackColor = ScrollBar.BackColor = design.AccentBackColor;
+		P_Tabs.BackColor = design.BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? -4 : 4);
 	}
 
 	protected override void OnHandleCreated(EventArgs e)
@@ -54,9 +51,9 @@ public partial class SlickTabControl : SlickControl
 
 	protected override void UIChanged()
 	{
-		P_Tabs.Height = (int)(32 * UI.FontScale) + Padding.Vertical;
-
-		P_Tabs.Padding = UI.Scale(new Padding(0, 5, 0, 0), UI.FontScale);
+		P_Tabs.Height = (int)(48 * UI.FontScale) + Padding.Vertical;
+		P_Tabs.Padding = UI.Scale(new Padding(5), UI.FontScale);
+		panel1.Padding = UI.Scale(new Padding(3), UI.FontScale);
 
 		foreach (Control item in P_Tabs.Controls)
 		{
@@ -165,7 +162,7 @@ public partial class SlickTabControl : SlickControl
 
 	private int tabWidth()
 	{
-		return ((Width - Padding.Horizontal) / Tabs.Length).Between((int)(32 * UI.FontScale), (int)(200 * UI.FontScale));
+		return ((Width - Padding.Horizontal) / Tabs.Length).Between((int)(48 * UI.FontScale), (int)(135 * UI.FontScale));
 	}
 
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -242,9 +239,9 @@ public partial class SlickTabControl : SlickControl
 			{
 				Callback = () =>
 				{
-					if (Control?.Parent?.Parent is SlickTabControl)
+					if (Control is SlickTab tab)
 					{
-						((SlickTab)Control).Selected = true;
+						tab.Selected = true;
 					}
 				}
 			};
@@ -295,10 +292,7 @@ public partial class SlickTabControl : SlickControl
 			{
 				public override bool OnMouseUp(Glyph g, MouseButtons button)
 				{
-					if (((ShowTabGlyph)g).control?.Parent?.Parent is SlickTabControl)
-					{
-						((ShowTabGlyph)g).Callback?.Invoke();
-					}
+					((ShowTabGlyph)g).Callback?.Invoke();
 
 					return base.OnMouseUp(g, button);
 				}
