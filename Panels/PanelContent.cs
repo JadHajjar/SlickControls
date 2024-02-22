@@ -129,7 +129,7 @@ public partial class PanelContent : SlickControl
 		SetBackIcon();
 		base_Text.Padding = UI.Scale(new Padding(4, 2, 3, 2), UI.FontScale);
 		base_Text.Font = UI.Font(10F, FontStyle.Bold);
-		base_Text.Size = base_Text.GetAutoSize(true);
+		base_Text.PerformAutoScale();
 		base_Text.Location = new Point(CustomTitleBounds.X == 0 ? (int)(5 * UI.FontScale) : CustomTitleBounds.X, CustomTitleBounds.Y == 0 ? ((int)(30 * UI.FontScale) - base_Text.Height) / 2 : CustomTitleBounds.Y);
 	}
 
@@ -206,6 +206,7 @@ public partial class PanelContent : SlickControl
 			base_Text.ImageName = "I_ArrowLeft";
 			base_Text.Enabled = true;
 			base_Text.PerformAutoScale();
+			base_Text.Location = new Point(CustomTitleBounds.X == 0 ? (int)(5 * UI.FontScale) : CustomTitleBounds.X, CustomTitleBounds.Y == 0 ? ((int)(30 * UI.FontScale) - base_Text.Height) / 2 : CustomTitleBounds.Y);
 			SlickTip.SetTo(base_Text, string.Format(LocaleHelper.GetGlobalText("Go back to {0}"), Form.PanelHistory.Last().Text));
 		}
 	}

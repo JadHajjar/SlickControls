@@ -320,7 +320,7 @@ public partial class SlickButton : SlickImageControl
 		var padding_ = padding ?? UI.Scale(new Padding(4), UI.UIScale);
 		var font_ = font ?? UI.Font(8.25F);
 
-		var iconSize = image?.Size ?? new Size(font_.Height * 4 / 3, font_.Height * 4 / 3);
+		var iconSize = image?.Size ?? new Size(font_.Height * 5 / 4, font_.Height * 5 / 4);
 
 		if (string.IsNullOrWhiteSpace(text))
 		{
@@ -428,7 +428,7 @@ public partial class SlickButton : SlickImageControl
 
 			if (!string.IsNullOrWhiteSpace(arg.Text) || arg.Rectangle.Width <= 0)
 			{
-				arg.Image = arg.Icon.Get(arg.Font.Height * 4 / 3);
+				arg.Image = arg.Icon.Get(arg.Font.Height * 5 / 4);
 			}
 			else
 			{
@@ -517,7 +517,7 @@ public partial class SlickButton : SlickImageControl
 		var noText = string.IsNullOrWhiteSpace(arg.Text);
 		var iconRect = arg.Rectangle
 			.Pad(arg.Padding)
-			.Align(arg.Image?.Size ?? new Size(arg.Font.Height * 4 / 3, arg.Font.Height * 4 / 3), noText ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
+			.Align(arg.Image?.Size ?? new Size(arg.Font.Height * 5 / 4, arg.Font.Height * 5 / 4), noText ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
 
 		if (arg.Control?.Loading ?? false)
 		{
