@@ -87,7 +87,7 @@ public partial class SlickTab : SlickControl, IAnimatable
 			}
 			else if (AnimatedValue != TargetAnimationValue)
 			{
-				AnimationHandler.Animate(this, 1.25);
+				AnimationHandler.Animate(this, 1.35);
 			}
 
 			Invalidate();
@@ -114,7 +114,7 @@ public partial class SlickTab : SlickControl, IAnimatable
 		Padding = UI.Scale(new Padding(5), UI.FontScale);
 		Margin = UI.Scale(new Padding(0, 0,5,0), UI.FontScale);
 
-		if (Parent?.Parent is not SlickTabControl)
+		if (this is not SlickTabControl.Tab)
 		{
 			Size = UI.Scale(new Size(DefaultSize.Width, 48), UI.FontScale);
 		}
@@ -126,8 +126,8 @@ public partial class SlickTab : SlickControl, IAnimatable
 
 		var client = ClientRectangle.Pad(Margin);
 		var active = Tint == Color.Empty ? FormDesign.Design.ActiveColor : Tint;
-		var activeColor = active.MergeColor(ForeColor.MergeColor(BackColor, 70), Math.Max(0, AnimatedValue - 100));
-		var backColor = Color.FromArgb(Math.Min(150, AnimatedValue) / 2, active);
+		var activeColor = active.MergeColor(ForeColor.MergeColor(BackColor, 70), Math.Max(0, AnimatedValue - 110));
+		var backColor = Color.FromArgb(Math.Min(125, AnimatedValue) / 2, active);
 
 		using var activeBrush = new SolidBrush(activeColor);
 
@@ -147,9 +147,9 @@ public partial class SlickTab : SlickControl, IAnimatable
 			using var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
 			e.Graphics.DrawString(text, font, activeBrush, client, format);
 		}
-		else if (Width > Height * 3 / 2)
+		else if (Width > Height * 2)
 		{
-			var rect = client.CenterR(client.Width, textHeight + img.Height);
+			var rect = client.CenterR(client.Width, textHeight + img.Height + (int)(2.5 * UI.FontScale));
 
 			e.Graphics.DrawImage(img, rect.Align(img.Size, ContentAlignment.TopCenter));
 

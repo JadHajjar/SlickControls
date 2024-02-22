@@ -1,6 +1,7 @@
 ﻿using Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace SlickControls;
 public partial class SlickTabControl : SlickControl
 {
 	private string noResults;
-	private Tab[] tabs;
+	private List<Tab> tabs = [];
 
 	[DefaultValue(true)]
 	public new bool Enabled { get => P_Tabs.Enabled; set => P_Tabs.Enabled = value; }
@@ -20,9 +21,10 @@ public partial class SlickTabControl : SlickControl
 	[Category("Behavior")]
 	public Tab[] Tabs
 	{
-		get => tabs ?? new Tab[0]; set
+		get => tabs.ToArray() ?? []; set
 		{
-			tabs = value;
+			tabs = new(value);
+
 			if (IsHandleCreated)
 			{
 				GenerateTabs();
@@ -35,6 +37,13 @@ public partial class SlickTabControl : SlickControl
 	public SlickTabControl()
 	{
 		InitializeComponent();
+	}
+
+	public void RemoveTab(Tab tab)
+	{
+		tabs.Remove(tab);
+
+		UIChanged();
 	}
 
 	protected override void DesignChanged(FormDesign design)
@@ -68,7 +77,7 @@ public partial class SlickTabControl : SlickControl
 			return;
 		}
 
-		foreach (var tab in Tabs)
+		foreach (var tab in tabs)
 		{
 			tab.Size = new Size(tabWidth(), P_Tabs.Height);
 			tab.Dock = DockStyle.Left;
@@ -85,11 +94,11 @@ public partial class SlickTabControl : SlickControl
 		}
 
 		P_Tabs.Controls.Clear();
-		P_Tabs.Controls.AddRange(Tabs.Reverse().ToArray());
+		P_Tabs.Controls.AddRange((tabs as IEnumerable<Tab>).Reverse().ToArray());
 
-		if (Tabs.Length > 0)
+		if (tabs.Count > 0)
 		{
-			Tabs.FirstOrAny(x => x.PreSelected).Selected = true;
+			tabs.FirstOrAny(x => x.PreSelected).Selected = true;
 		}
 	}
 
@@ -100,7 +109,7 @@ public partial class SlickTabControl : SlickControl
 
 	private void SlickTabControl_Resize(object sender, EventArgs e)
 	{
-		foreach (var tab in Tabs)
+		foreach (var tab in tabs)
 		{
 			tab.Width = tabWidth();
 		}
@@ -162,14 +171,14 @@ public partial class SlickTabControl : SlickControl
 
 	private int tabWidth()
 	{
-		return ((Width - Padding.Horizontal) / Tabs.Length).Between((int)(48 * UI.FontScale), (int)(135 * UI.FontScale));
+		return ((Width - Padding.Horizontal) / tabs.Count).Between((int)(48 * UI.FontScale), (int)(100 * UI.FontScale));
 	}
 
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 	{
 		if (keyData == (Keys.Control | Keys.Tab))
 		{
-			var next = Tabs.Where(x => x.Enabled).Next(Tabs.FirstOrDefault(x => x.Selected)) ?? Tabs.FirstOrDefault(x => x.Enabled);
+			var next = tabs.Where(x => x.Enabled).Next(tabs.FirstOrDefault(x => x.Selected)) ?? tabs.FirstOrDefault(x => x.Enabled);
 			if (next != null)
 			{
 				next.Selected = true;
@@ -180,7 +189,7 @@ public partial class SlickTabControl : SlickControl
 
 		if (keyData == (Keys.Control | Keys.Shift | Keys.Tab))
 		{
-			var prev = Tabs.Where(x => x.Enabled).Previous(Tabs.FirstOrDefault(x => x.Selected)) ?? Tabs.LastOrDefault(x => x.Enabled);
+			var prev = tabs.Where(x => x.Enabled).Previous(tabs.FirstOrDefault(x => x.Selected)) ?? tabs.LastOrDefault(x => x.Enabled);
 			if (prev != null)
 			{
 				prev.Selected = true;

@@ -35,6 +35,9 @@ public partial class SlickButton : SlickImageControl
 	[Category("Appearance"), DisplayName("Auto-size Icon"), DefaultValue(false)]
 	public bool AutoSizeIcon { get; set; }
 
+	[Category("Appearance"), DisplayName("Match Background Color"), DefaultValue(false)]
+	public bool MatchBackgroundColor { get; set; }
+
 	[Browsable(true)]
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
 	[EditorBrowsable(EditorBrowsableState.Always)]
@@ -244,7 +247,8 @@ public partial class SlickButton : SlickImageControl
 			Enabled = Enabled,
 			HoverState = HoverState,
 			ColoredIcon = ColoredIcon,
-			Rectangle = ClientRectangle
+			Rectangle = ClientRectangle,
+			BackgroundColor = MatchBackgroundColor ? BackColor : default
 		});
 	}
 

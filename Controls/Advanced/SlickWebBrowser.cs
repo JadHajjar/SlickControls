@@ -1,5 +1,6 @@
 ﻿using Extensions;
 
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -53,16 +54,22 @@ public class SlickWebBrowser : WebBrowser
 		using var resourceStream = GetType().Assembly.GetManifestResourceStream("SlickControls.Controls.Advanced.WebBrowser.css");
 		using var reader = new StreamReader(resourceStream, Encoding.UTF8);
 
+		var headerColor = FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.ActiveColor, 25);
 		style = reader.ReadToEnd()
 			.Replace("AccentColor", rgb(FormDesign.Design.AccentColor))
 			.Replace("AccentBackColor", rgb(FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.BackColor)))
 			.Replace("ActiveColor", rgb(FormDesign.Design.ActiveColor))
 			.Replace("BackColor", rgb(FormDesign.Design.BackColor))
-			.Replace("ForeColor", rgb(FormDesign.Design.ForeColor))
+			.Replace("ForeColor", rgb(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 85)))
+			.Replace("LinkColor", rgb(FormDesign.Design.ForeColor))
+			.Replace("Header1Color", rgb(FormDesign.Design.ForeColor))
+			.Replace("Header2Color", rgb(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 90)))
+			.Replace("Header3Color", rgb(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 80)))
 			.Replace("FontFamily", UI.FontFamily)
-			.Replace("H3FontSize", (UI.FontScale * 9.75).ToString("0.00"))
-			.Replace("H2FontSize", (UI.FontScale * 11.5).ToString("0.00"))
-			.Replace("H1FontSize", (UI.FontScale * 13.5).ToString("0.00"))
+			.Replace("PadSize", (UI.FontScale * 3).ToString("0.00"))
+			.Replace("H3FontSize", (UI.FontScale * 9).ToString("0.00"))
+			.Replace("H2FontSize", (UI.FontScale * 10).ToString("0.00"))
+			.Replace("H1FontSize", (UI.FontScale * 12).ToString("0.00"))
 			.Replace("FontSize", (UI.FontScale * 8.25).ToString("0.00"));
 
 		if (refresh)

@@ -13,8 +13,12 @@ body {
 	scrollbar-width: H1FontSizepx;
 }
 
-a, a:visited {
-	color: inherit;
+strong, a, a:visited {
+	color: LinkColor;
+}
+
+a {
+	font-weight: 500;
 }
 
 a:hover {
@@ -23,12 +27,30 @@ a:hover {
 
 h1 {
 	font-size: H1FontSizept;
+	padding-bottom: H2FontSizepx;
+	color: Header1Color;
+	border-bottom: 2px solid AccentColor;
 }
 
 h2 {
 	font-size: H2FontSizept;
+	padding-bottom: FontSizepx;
+	padding-left: PadSizepx;
+	color: Header2Color;
+	border-bottom: 1px solid AccentBackColor;
 }
 
 h3 {
 	font-size: H3FontSizept;
+	padding-top: FontSizepx;
+	padding-left: PadSizepx;
+	color: Header3Color;
+}
+
+p {
+	margin: FontSizepx;
+}
+
+li p {
+	margin: PadSizepx 0;
 }

@@ -22,6 +22,7 @@ public partial class SlickColorPicker : SlickForm
 	private Color colorRgb = Color.Empty;
 	private readonly Color originColor = Color.Empty;
 	private bool lockUpdates = false;
+	private bool colorChanged;
 	private readonly List<Color> LastColors;
 
 	#endregion Fields
@@ -39,10 +40,16 @@ public partial class SlickColorPicker : SlickForm
 		ShowLastColors();
 
 		originColor = color;
-		SetColor(color.If(Color.Empty, Color.Black), null);
 
 		ColorChanged += SlickColorPicker_ColorChanged;
 		TLP_Main.MouseDown += Form_MouseDown;
+	}
+
+	protected override void OnCreateControl()
+	{
+		base.OnCreateControl();
+
+		SetColor(originColor.If(Color.Empty, Color.Black), null, false);
 	}
 
 	protected override void DesignChanged(FormDesign design)
@@ -139,22 +146,19 @@ public partial class SlickColorPicker : SlickForm
 		}
 	}
 
-	private void SetColor(Color? color, HslColor? colorhsl, bool changeSlider = true)
+	private void SetColor(Color? color, HslColor? colorhsl, bool update = true)
 	{
 		lockUpdates = true;
 
-		if (changeSlider)
+		if (color == null)
 		{
-			if (color == null)
-			{
-				colorSlider.ColorHSL = (HslColor)colorhsl;
-				colorBox2D.ColorHSL = (HslColor)colorhsl;
-			}
-			else
-			{
-				colorSlider.ColorRGB = (Color)color;
-				colorBox2D.ColorRGB = (Color)color;
-			}
+			colorSlider.ColorHSL = (HslColor)colorhsl;
+			colorBox2D.ColorHSL = (HslColor)colorhsl;
+		}
+		else
+		{
+			colorSlider.ColorRGB = (Color)color;
+			colorBox2D.ColorRGB = (Color)color;
 		}
 
 		colorHsl = colorhsl ?? HslColor.FromColor((Color)color);
@@ -173,7 +177,11 @@ public partial class SlickColorPicker : SlickForm
 
 		lockUpdates = false;
 
-		WaitIdentifier.Wait(() => ColorChanged?.Invoke(this, new EventArgs()), 250);
+		if (update)
+		{
+			colorChanged = true;
+			WaitIdentifier.Wait(() => ColorChanged?.Invoke(this, new EventArgs()), 250);
+		}
 	}
 
 	private readonly WaitIdentifier WaitIdentifier = new();
@@ -211,7 +219,7 @@ public partial class SlickColorPicker : SlickForm
 
 	private void B_Cancel_Click(object sender, EventArgs e)
 	{
-		SetColor(originColor, null);
+		SetColor(originColor, null, colorChanged);
 		DialogResult = DialogResult.Cancel;
 		Close();
 	}
