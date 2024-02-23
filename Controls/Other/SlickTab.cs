@@ -147,7 +147,7 @@ public partial class SlickTab : SlickControl, IAnimatable
 			using var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
 			e.Graphics.DrawString(text, font, activeBrush, client, format);
 		}
-		else if (Width > Height * 2)
+		else if (Width > Height * 4 / 3)
 		{
 			var rect = client.CenterR(client.Width, textHeight + img.Height + (int)(2.5 * UI.FontScale));
 

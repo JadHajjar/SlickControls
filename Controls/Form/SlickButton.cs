@@ -436,7 +436,7 @@ public partial class SlickButton : SlickImageControl
 			}
 			else
 			{
-				arg.Image = arg.Icon.Get(Math.Max(arg.Rectangle.Width, arg.Rectangle.Height) * 3 / 4);
+				arg.Image = arg.Icon.Get(Math.Min(arg.Rectangle.Width, arg.Rectangle.Height) * 3 / 4);
 			}
 		}
 

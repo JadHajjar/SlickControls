@@ -171,7 +171,7 @@ public partial class SlickTabControl : SlickControl
 
 	private int tabWidth()
 	{
-		return ((Width - Padding.Horizontal) / tabs.Count).Between((int)(48 * UI.FontScale), (int)(100 * UI.FontScale));
+		return ((P_Tabs.Width - Padding.Horizontal) / tabs.Count).Between((int)(48 * UI.FontScale), (int)(100 * UI.FontScale));
 	}
 
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
