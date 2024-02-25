@@ -17,24 +17,24 @@ public class PanelItem : Component
 
 	[Category("Appearance"), DisplayName("Image Name"), DefaultValue(null), TypeConverter(typeof(IconManager.IconConverter))]
 	public DynamicIcon IconName { get; set; }
-	[Browsable(false)]
+	[Browsable(false), DefaultValue(false)]
 	public bool Selected { get; set; }
 	[Category("Design"), DisplayName("Group"), DefaultValue(null)]
 	public string Group { get; set; }
 	[Category("Behavior"), DisplayName("Force Re-open"), DefaultValue(false)]
 	public bool ForceReopen { get; set; }
-	[Browsable(false)]
+	[Browsable(false), DefaultValue(false)]
 	public bool Highlighted { get; set; }
-	[Browsable(false)]
+	[Browsable(false), DefaultValue(null)]
 	public object Data { get; set; }
 	[Category("Appearance"), DisplayName("Hidden"), DefaultValue(false)]
 	public bool Hidden { get; set; }
-	[Browsable(false)]
+	[Browsable(false), DefaultValue(false)]
 	internal string ShowKey { get; set; }
 
 	[Category("Design"), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 	public PanelItem[] SubItems { get; set; } = new PanelItem[0];
-	[Browsable(false)]
+	[Browsable(false), DefaultValue(false)]
 	public bool Loading
 	{
 		get => _loading; set

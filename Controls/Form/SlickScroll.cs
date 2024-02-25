@@ -17,8 +17,8 @@ public partial class SlickScroll : Control
 {
 	public event ScrollEventHandler Scroll;
 
-	public int BAR_SIZE_MAX => SmallHandle ? BAR_SIZE_MIN : (int)(10 * UI.UIScale).If(x => x % 2 == 0, x => x - 1, x => x);
-	public int BAR_SIZE_MIN => (int)(6 * UI.UIScale);
+	public int BAR_SIZE_MAX => SmallHandle ? BAR_SIZE_MIN : ((int)(12 * UI.UIScale + (Style == StyleType.Vertical ? Padding.Horizontal : Padding.Vertical)) / 2 * 2);
+	public int BAR_SIZE_MIN => (int)((SmallHandle ? 4:6) * UI.UIScale + (Style == StyleType.Vertical ? Padding.Horizontal : Padding.Vertical)) / 2 * 2;
 
 	private static readonly List<SlickScroll> activeScrolls = [];
 	private readonly Timer ScrollTimer = new() { Interval = 14 };
@@ -31,10 +31,24 @@ public partial class SlickScroll : Control
 	private bool Live;
 
 	[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-	public bool Active => linkedControl?.Parent != null
-		&& ControlSize > linkedControl.Parent.Height
-		&& linkedControl.Parent.Height > 1;
-
+	public bool Active
+	{
+		get
+		{
+			if (Style == StyleType.Vertical)
+			{
+				return linkedControl?.Parent != null
+					&& ControlSize > linkedControl.Parent.Height
+					&& linkedControl.Parent.Height > 1;
+			}
+			else
+			{
+				return linkedControl?.Parent != null
+					&& ControlSize > linkedControl.Parent.Width
+					&& linkedControl.Parent.Width > 1;
+			}
+		}
+	}
 	[Category("Behavior"), DefaultValue(false), DisplayName("Auto Size Source")]
 	public bool AutoSizeSource { get; set; }
 
@@ -79,6 +93,9 @@ public partial class SlickScroll : Control
 
 	[Category("Behavior"), DefaultValue(false)]
 	public bool SmallHandle { get; set; }
+
+	[Category("Behavior"), DefaultValue(false)]
+	public bool AlwaysOpen { get; set; }
 
 	[Category("Behavior")]
 	public StyleType Style { get; set; }
@@ -129,11 +146,28 @@ public partial class SlickScroll : Control
 		}
 	}
 
-	private Rectangle Bar => new(
-		0,
-		Padding.Top + (int)(Percentage * (Height - Padding.Vertical - ((Height - Padding.Vertical) * (linkedControl?.Parent?.Height ?? 0) / ControlSize.If(0, 1))) / 100),
-		Width - 4,
-		(Height - Padding.Vertical) * (linkedControl?.Parent?.Height ?? 0) / ControlSize.If(0, 1));
+	private Rectangle Bar
+	{
+		get
+		{
+			if (Style == StyleType.Vertical)
+			{
+				return new(
+					Padding.Left + 1,
+					Padding.Top + (int)(Percentage * (Height - Padding.Vertical - ((Height - Padding.Vertical) * (linkedControl?.Parent?.Height ?? 0) / ControlSize.If(0, 1))) / 100),
+					Width - Padding.Horizontal - 2,
+					(Height - Padding.Vertical) * (linkedControl?.Parent?.Height ?? 0) / ControlSize.If(0, 1));
+			}
+			else
+			{
+				return new(
+					Padding.Left + (int)(Percentage * (Width - Padding.Horizontal - ((Width - Padding.Horizontal) * (linkedControl?.Parent?.Width ?? 0) / ControlSize.If(0, 1))) / 100),
+					Padding.Top + 1,
+					(Width - Padding.Horizontal) * (linkedControl?.Parent?.Width ?? 0) / ControlSize.If(0, 1),
+					Height - Padding.Vertical - 2);
+			}
+		}
+	}
 
 	private int ControlSize
 	{
@@ -144,23 +178,37 @@ public partial class SlickScroll : Control
 				return CustomSizeSource();
 			}
 
-			if (!AutoSizeSource)
+			if (Style == StyleType.Vertical)
 			{
-				return linkedControl?.Height ?? 0;
-			}
+				if (!AutoSizeSource)
+				{
+					return linkedControl?.Height ?? 0;
+				}
 
-			if (linkedControl != null)
+				if (linkedControl != null)
+				{
+					return getControlHeight(linkedControl) - linkedControl.Top;
+				}
+			}
+			else
 			{
-				return getControlHeight(linkedControl) - linkedControl.Top;
+				if (!AutoSizeSource)
+				{
+					return linkedControl?.Width ?? 0;
+				}
+
+				if (linkedControl != null)
+				{
+					return getControlWidth(linkedControl) - linkedControl.Left;
+				}
 			}
 
 			return 0;
 		}
 	}
 
-	private bool Open => Width != BAR_SIZE_MIN;
-
-	private float PenSize => BAR_SIZE_MIN - 3 + (Open && Dock == DockStyle.None ? 1 : 0);
+	private bool Open => AlwaysOpen || (Style == StyleType.Vertical ? Width != BAR_SIZE_MIN : Height != BAR_SIZE_MIN);
+	private bool IsMouseIn { get => AlwaysOpen || mouseIn; set => mouseIn = value; }
 
 	public SlickScroll()
 	{
@@ -206,7 +254,14 @@ public partial class SlickScroll : Control
 	{
 		if (Parent != null)
 		{
-			Height = Parent.Height;
+			if (Style == StyleType.Vertical)
+			{
+				Height = Parent.Height;
+			}
+			else
+			{
+				Width = Parent.Width;
+			}
 		}
 
 		SetPercentage(0, true);
@@ -226,28 +281,58 @@ public partial class SlickScroll : Control
 
 	public void ScrollTo(Control control, int intensity = 1)
 	{
-		var h = 0;
-
-		while (control != LinkedControl)
+		if (Style == StyleType.Vertical)
 		{
-			h += control.Top;
-			control = control.Parent;
-		}
+			var h = 0;
 
-		ScrollTo(-100 * h / (linkedControl.Parent.Height - ControlSize).If(0, 1), intensity);
+			while (control != LinkedControl)
+			{
+				h += control.Top;
+				control = control.Parent;
+			}
+
+			ScrollTo(-100 * h / (linkedControl.Parent.Height - ControlSize).If(0, 1), intensity);
+		}
+		else
+		{
+			var w = 0;
+
+			while (control != LinkedControl)
+			{
+				w += control.Left;
+				control = control.Parent;
+			}
+
+			ScrollTo(-100 * w / (linkedControl.Parent.Width - ControlSize).If(0, 1), intensity);
+		}
 	}
 
 	public void SetPercentage(Control control, bool target = false)
 	{
-		var h = 0;
-
-		while (control != LinkedControl)
+		if (Style == StyleType.Vertical)
 		{
-			h += control.Top;
-			control = control.Parent;
-		}
+			var h = 0;
 
-		SetPercentage(-100 * h / ((linkedControl?.Parent?.Height ?? 0) - ControlSize).If(0, 1), target);
+			while (control != LinkedControl)
+			{
+				h += control.Top;
+				control = control.Parent;
+			}
+
+			SetPercentage(-100 * h / ((linkedControl?.Parent?.Height ?? 0) - ControlSize).If(0, 1), target);
+		}
+		else
+		{
+			var w = 0;
+
+			while (control != LinkedControl)
+			{
+				w += control.Left;
+				control = control.Parent;
+			}
+
+			SetPercentage(-100 * w / ((linkedControl?.Parent?.Width ?? 0) - ControlSize).If(0, 1), target);
+		}
 	}
 
 	public void SetPercentage(double perc, bool target = false)
@@ -263,7 +348,14 @@ public partial class SlickScroll : Control
 
 		if (LinkedControl != null)
 		{
-			LinkedControl.Top = (int)(Percentage * ((linkedControl.Parent?.Height ?? 0) - ControlSize).If(0, 1) / 100);
+			if (Style == StyleType.Vertical)
+			{
+				LinkedControl.Top = (int)(Percentage * ((linkedControl.Parent?.Height ?? 0) - ControlSize).If(0, 1) / 100);
+			}
+			else
+			{
+				LinkedControl.Left = (int)(Percentage * ((linkedControl.Parent?.Width ?? 0) - ControlSize).If(0, 1) / 100);
+			}
 		}
 
 		Invalidate();
@@ -282,11 +374,11 @@ public partial class SlickScroll : Control
 
 		if (Style == StyleType.Vertical)
 		{
-			Width = BAR_SIZE_MIN;
+			Width = AlwaysOpen ? BAR_SIZE_MAX : BAR_SIZE_MIN;
 		}
 		else
 		{
-			Height = BAR_SIZE_MIN;
+			Height = AlwaysOpen ? BAR_SIZE_MAX : BAR_SIZE_MIN;
 		}
 
 		TabStop = false;
@@ -296,7 +388,7 @@ public partial class SlickScroll : Control
 	{
 		base.OnEnabledChanged(e);
 
-		IsMouseDown = mouseIn = false;
+		IsMouseDown = IsMouseIn = false;
 	}
 
 	protected override void OnHandleCreated(EventArgs e)
@@ -316,54 +408,67 @@ public partial class SlickScroll : Control
 	{
 		e.Graphics.Clear(BackColor);
 		e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-		var smallX = Dock == DockStyle.None ? 0 : Width - BAR_SIZE_MIN;
-
-		if (SmallHandle || !Active || DesignMode)
-		{
-			e.Graphics.DrawLine(new Pen(Color.FromArgb(Open ? (IsMouseDown ? 170 : 85) : 40, FormDesign.Design.AccentColor), PenSize), smallX, Padding.Top, smallX, Height - Padding.Bottom);
-		}
-		else
-		{
-			e.Graphics.DrawLine(new Pen(Color.FromArgb(Open ? (IsMouseDown ? 170 : 85) : 40, FormDesign.Design.AccentColor), PenSize), Bar.Width / 2, Padding.Top, Bar.Width / 2, Height - Padding.Bottom);
-		}
 
 		if (!Active || DesignMode)
 		{
 			return;
 		}
 
-		if (Open && !SmallHandle)
+		if (Style == StyleType.Vertical)
 		{
-			var w = Math.Min(18, Bar.Width).If(x => x % 2 != 0, x => x - 1, x => x);
-
-			var barRect = new Rectangle((Bar.Width / 2) - (w / 2), Bar.Top, w, Bar.Height);
-
-			if (barRect.Height > 0 && barRect.Width > 0)
-			{
-				e.Graphics.FillRoundedRectangle(barRect.Gradient(IsMouseDown ? FormDesign.Design.ActiveColor : mouseIn ? FormDesign.Design.AccentColor : BackColor.MergeColor(FormDesign.Design.AccentColor), 1F),
-					barRect,
-					Bar.Height < w ? 1 : w / 2);
-			}
+			DrawVertical(e);
 		}
 		else
 		{
-			if (SmallHandle)
-			{
-				e.Graphics.DrawLine(new Pen(IsMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor, PenSize), smallX, Bar.Top, smallX, Bar.Top + Bar.Height);
-			}
-			else
-			{
-				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, Bar.Width), 0, Bar.Top, 0, Bar.Top + Bar.Height);
-			}
+			DrawHorizontal(e);
+		}
+	}
+
+	private void DrawVertical(PaintEventArgs e)
+	{
+		var bar = Bar;
+
+		using var brush = new SolidBrush(Color.FromArgb(Open ? (IsMouseDown ? 170 : 85) : 40, FormDesign.Design.AccentColor));
+
+		if (SmallHandle)
+			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(BAR_SIZE_MIN, Height - 2), BAR_SIZE_MIN / 2);
+		else
+			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(BAR_SIZE_MIN / 2, Height - 2), BAR_SIZE_MIN / 4);
+
+		if (bar.Height > 0 && bar.Width > 0)
+		{
+			using var barBrush = new SolidBrush(IsMouseDown ? FormDesign.Design.ActiveColor : IsMouseIn ? FormDesign.Design.AccentColor : BackColor.MergeColor(FormDesign.Design.AccentColor));
+
+			e.Graphics.FillRoundedRectangle(barBrush, bar, bar.Height < bar.Width ? 1 : (SmallHandle ? BAR_SIZE_MIN : bar.Width) / 2);
+		}
+	}
+	private void DrawHorizontal(PaintEventArgs e)
+	{
+		var bar = Bar;
+
+		using var brush = new SolidBrush(Color.FromArgb(Open ? (IsMouseDown ? 170 : 85) : 40, FormDesign.Design.AccentColor));
+
+		if (SmallHandle)
+			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(Width - 2, BAR_SIZE_MIN), BAR_SIZE_MIN / 2);
+		else
+			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(Width - 2, BAR_SIZE_MIN / 2), BAR_SIZE_MIN / 4);
+
+		if (bar.Height > 0 && bar.Width > 0)
+		{
+			using var barBrush = new SolidBrush(IsMouseDown ? FormDesign.Design.ActiveColor : IsMouseIn ? FormDesign.Design.AccentColor : BackColor.MergeColor(FormDesign.Design.AccentColor));
+
+			e.Graphics.FillRoundedRectangle(barBrush, bar, bar.Width < bar.Height ? 1 : (SmallHandle ? BAR_SIZE_MIN : bar.Height) / 2);
 		}
 	}
 
 	private void Dismiss()
 	{
-		if (!IsMouseDown && !mouseIn)
+		if (!IsMouseDown && !IsMouseIn)
 		{
 			animationHandler?.Dispose();
-			animationHandler = new AnimationHandler(this, new Size(BAR_SIZE_MIN, 0), AnimationOption.IgnoreHeight) { Speed = .5 };
+			animationHandler = Style == StyleType.Vertical
+				? new AnimationHandler(this, new Size(BAR_SIZE_MIN, 0), AnimationOption.IgnoreHeight) { Speed = .5 }
+				: new AnimationHandler(this, new Size(0, BAR_SIZE_MIN), AnimationOption.IgnoreWidth) { Speed = .5 };
 			animationHandler.StartAnimation();
 		}
 	}
@@ -376,6 +481,14 @@ public partial class SlickScroll : Control
 			: c.Padding.Bottom + c.Controls.Max(getControlHeight))) : 0;
 	}
 
+	private int getControlWidth(Control c)
+	{
+		return c.Visible ? (c.Left + c.Margin.Horizontal +
+			((c.Controls.Count == 0 || c is not Panel)
+			? c.Width
+			: c.Padding.Right + c.Controls.Max(getControlWidth))) : 0;
+	}
+
 	private void LinkedControl_Resize(object sender, EventArgs e)
 	{
 		if (DesignMode || linkedControl?.Parent == null || (linkedControl.FindForm()?.WindowState ?? FormWindowState.Minimized) == FormWindowState.Minimized)
@@ -383,13 +496,27 @@ public partial class SlickScroll : Control
 			return;
 		}
 
-		linkedControl.MaximumSize = new Size(linkedControl.Parent.Width - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0), int.MaxValue);
-		linkedControl.MinimumSize = new Size(linkedControl.Parent.Width - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0), 0);
-
-		foreach (var item in linkedControl.Controls.OfType<SlickSectionPanel>().Where(x => x.Dock == DockStyle.Top))
+		if (Style == StyleType.Vertical)
 		{
-			item.MaximumSize = linkedControl.MaximumSize;
-			item.MinimumSize = new Size(linkedControl.MinimumSize.Width, item.MinimumSize.Height);
+			linkedControl.MaximumSize = new Size(linkedControl.Parent.Width - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0), int.MaxValue);
+			linkedControl.MinimumSize = new Size(linkedControl.Parent.Width - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0), 0);
+
+			foreach (var item in linkedControl.Controls.OfType<SlickSectionPanel>().Where(x => x.Dock == DockStyle.Top))
+			{
+				item.MaximumSize = linkedControl.MaximumSize;
+				item.MinimumSize = new Size(linkedControl.MinimumSize.Width, item.MinimumSize.Height);
+			}
+		}
+		else
+		{
+			linkedControl.MaximumSize = new Size(int.MaxValue, linkedControl.Parent.Width - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0));
+			linkedControl.MinimumSize = new Size(0, linkedControl.Parent.Height - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0));
+
+			foreach (var item in linkedControl.Controls.OfType<SlickSectionPanel>().Where(x => x.Dock == DockStyle.Left))
+			{
+				item.MaximumSize = linkedControl.MaximumSize;
+				item.MinimumSize = new Size(linkedControl.MinimumSize.Width, item.MinimumSize.Height);
+			}
 		}
 
 		Visible = ShowHandle && Active;
@@ -408,42 +535,37 @@ public partial class SlickScroll : Control
 
 		if (new Rectangle(PointToScreen(Point.Empty), Size).Pad((int)(-22 * UI.UIScale)).Contains(p))
 		{
-			if (!mouseIn && ShowHandle)
+			if (!IsMouseIn && ShowHandle)
 			{
-				mouseIn = true;
+				IsMouseIn = true;
 
 				if (!SmallHandle)
 				{
-					animationHandler = new AnimationHandler(this, new Size(BAR_SIZE_MAX, 0), AnimationOption.IgnoreHeight) { Speed = .5 };
+					animationHandler = Style == StyleType.Vertical
+						? new AnimationHandler(this, new Size(BAR_SIZE_MAX, 0), AnimationOption.IgnoreHeight) { Speed = .5 }
+						: new AnimationHandler(this, new Size(0, BAR_SIZE_MAX), AnimationOption.IgnoreWidth) { Speed = .5 };
 					animationHandler.StartAnimation();
 				}
 			}
 		}
 		else
 		{
-			mouseIn = false;
+			IsMouseIn = false;
 			Dismiss();
 		}
 	}
 
 	private void ScrollTimer_Elapsed(object sender, EventArgs e)
 	{
-		if (Active)
+		if (!Active)
 		{
-			//var newValues = linkedControl.Top + getStep((targetPercentage * ((linkedControl.Parent?.Height ?? 0) - ControlSize) / 100) - linkedControl.Top);
+			ScrollTimer.Stop();
+			SetPercentage(0, true);
+			return;
+		}
 
-			//int getStep(double diff)
-			//{
-			//	if (diff == 0) return 0;
-
-			//	var sign = diff.Sign();
-			//	var x = Math.Abs(diff) + 500;
-
-			//	return sign * (int)(1.5 * (15-speedModifier) * (x - 450 - (x * x / 50000)) / (8 * Math.Sqrt(x))).Between(1, Math.Abs(diff));
-			//}
-
-			//SetPercentage(100D * newValues / ((linkedControl.Parent?.Height ?? 0) - ControlSize));
-
+		if (Style == StyleType.Vertical)
+		{
 			var size = ControlSize - linkedControl.Parent.Height;
 			var incPerc = (TargetPercentage - Percentage) > 0;
 			var minStep = 750D / size * speedModifier / 2;
@@ -460,8 +582,19 @@ public partial class SlickScroll : Control
 		}
 		else
 		{
-			ScrollTimer.Stop();
-			SetPercentage(0, true);
+			var size = ControlSize - linkedControl.Parent.Width;
+			var incPerc = (TargetPercentage - Percentage) > 0;
+			var minStep = 750D / size * speedModifier / 2;
+			var maxStep = Math.Max(minStep, ControlSize / (75D / speedModifier) / 2);
+			var perc = (TargetPercentage - Percentage).Between(incPerc.If(minStep, -maxStep), incPerc.If(maxStep, -minStep)) / speedModifier.If(0, 1);
+
+			SetPercentage((Percentage + perc).Between(incPerc ? 0 : TargetPercentage, incPerc ? TargetPercentage : 100));
+
+			if (Percentage == TargetPercentage)
+			{
+				ScrollTimer.Stop();
+				speedModifier = 0;
+			}
 		}
 	}
 
@@ -479,14 +612,30 @@ public partial class SlickScroll : Control
 		if (e.Button == MouseButtons.Left)
 		{
 			IsMouseDown = true;
-			if (!e.Y.IsWithin(Bar.Top, Bar.Top + Bar.Height))
+
+			if (Style == StyleType.Vertical)
 			{
-				SetPercentage(100D * (e.Y - (Bar.Height / 2) - Padding.Top).Between(0, Height - Padding.Vertical) / (Height - Padding.Vertical - Bar.Height), true);
-				MouseDownLocation = new Point(e.X - Bar.Left, Bar.Height / 2);
+				if (!e.Y.IsWithin(Bar.Top, Bar.Top + Bar.Height))
+				{
+					SetPercentage(100D * (e.Y - (Bar.Height / 2) - Padding.Top).Between(0, Height - Padding.Vertical) / (Height - Padding.Vertical - Bar.Height), true);
+					MouseDownLocation = new Point(e.X - Bar.Left, Bar.Height / 2);
+				}
+				else
+				{
+					MouseDownLocation = new Point(e.X - Bar.Left, e.Y - Bar.Top);
+				}
 			}
 			else
 			{
-				MouseDownLocation = new Point(e.X - Bar.Left, e.Y - Bar.Top);
+				if (!e.X.IsWithin(Bar.Left, Bar.Left + Bar.Width))
+				{
+					SetPercentage(100D * (e.X - (Bar.Width / 2) - Padding.Left).Between(0, Width - Padding.Horizontal) / (Width - Padding.Horizontal - Bar.Width), true);
+					MouseDownLocation = new Point(e.X - Bar.Left, Bar.Height / 2);
+				}
+				else
+				{
+					MouseDownLocation = new Point(e.X - Bar.Left, e.Y - Bar.Top);
+				}
 			}
 
 			Invalidate();
@@ -497,12 +646,25 @@ public partial class SlickScroll : Control
 	{
 		if (Live)
 		{
-			if (e.Button == MouseButtons.Left)
+			if (Style == StyleType.Vertical)
 			{
-				SetPercentage(100D * (e.Y - MouseDownLocation.Y - Padding.Top).Between(0, Height - Padding.Vertical) / (Height - Padding.Vertical - Bar.Height), true);
-			}
+				if (e.Button == MouseButtons.Left)
+				{
+					SetPercentage(100D * (e.Y - MouseDownLocation.Y - Padding.Top).Between(0, Height - Padding.Vertical) / (Height - Padding.Vertical - Bar.Height), true);
+				}
 
-			Cursor = e.Y.IsWithin(Bar.Top, Bar.Top + Bar.Height) ? Cursors.Hand : Cursors.Default;
+				Cursor = e.Y.IsWithin(Bar.Top, Bar.Top + Bar.Height) ? Cursors.Hand : Cursors.Default;
+			}
+			else
+			{
+
+				if (e.Button == MouseButtons.Left)
+				{
+					SetPercentage(100D * (e.X - MouseDownLocation.X - Padding.Left).Between(0, Width - Padding.Horizontal) / (Width - Padding.Horizontal - Bar.Width), true);
+				}
+
+				Cursor = e.Y.IsWithin(Bar.Left, Bar.Left + Bar.Width) ? Cursors.Hand : Cursors.Default;
+			}
 		}
 	}
 
@@ -525,7 +687,7 @@ public partial class SlickScroll : Control
 
 		if (Active && !IsMouseDown && Live)
 		{
-			TargetPercentage -= e.Delta * 100D / (ControlSize - linkedControl.Parent.Height);
+			TargetPercentage -= e.Delta * 100D / (ControlSize - (Style == StyleType.Vertical ? linkedControl.Parent.Height : linkedControl.Parent.Width));
 
 			if (e is HandledMouseEventArgs handle)
 			{

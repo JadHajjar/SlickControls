@@ -408,7 +408,7 @@ public partial class SlickButton : SlickImageControl
 		return buttonArgs;
 	}
 
-	protected static void PrepareLayout(Graphics graphics, ButtonDrawArgs arg)
+	public static void PrepareLayout(Graphics graphics, ButtonDrawArgs arg)
 	{
 		if (arg.Rectangle == default)
 		{
@@ -465,7 +465,7 @@ public partial class SlickButton : SlickImageControl
 		}
 	}
 
-	protected static void SetUpColors(ButtonDrawArgs arg)
+	public static void SetUpColors(ButtonDrawArgs arg)
 	{
 		if (arg.Cursor.HasValue && !arg.Rectangle.Contains(arg.Cursor.Value))
 		{
@@ -502,7 +502,7 @@ public partial class SlickButton : SlickImageControl
 		}
 	}
 
-	protected static void DrawButton(Graphics graphics, ButtonDrawArgs arg)
+	public static void DrawButton(Graphics graphics, ButtonDrawArgs arg)
 	{
 		using (var backBrush = Gradient(arg.Rectangle, arg.BackColor))
 		{

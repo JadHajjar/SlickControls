@@ -98,7 +98,7 @@ public partial class SlickTabControl : SlickControl
 
 		if (tabs.Count > 0)
 		{
-			tabs.FirstOrAny(x => x.PreSelected).Selected = true;
+			tabs.Where(x => x.Enabled && x.Visible).FirstOrAny(x => x.PreSelected).Selected = true;
 		}
 	}
 
@@ -171,14 +171,14 @@ public partial class SlickTabControl : SlickControl
 
 	private int tabWidth()
 	{
-		return ((P_Tabs.Width - Padding.Horizontal) / tabs.Count).Between((int)(48 * UI.FontScale), (int)(100 * UI.FontScale));
+		return ((P_Tabs.Width - Padding.Horizontal) / tabs.Count(x => x.Visible)).Between((int)(48 * UI.FontScale), (int)(100 * UI.FontScale));
 	}
 
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 	{
 		if (keyData == (Keys.Control | Keys.Tab))
 		{
-			var next = tabs.Where(x => x.Enabled).Next(tabs.FirstOrDefault(x => x.Selected)) ?? tabs.FirstOrDefault(x => x.Enabled);
+			var next = tabs.Where(x => x.Enabled && x.Visible).Next(tabs.FirstOrDefault(x => x.Selected)) ?? tabs.FirstOrDefault(x => x.Enabled && x.Visible);
 			if (next != null)
 			{
 				next.Selected = true;
@@ -189,7 +189,7 @@ public partial class SlickTabControl : SlickControl
 
 		if (keyData == (Keys.Control | Keys.Shift | Keys.Tab))
 		{
-			var prev = tabs.Where(x => x.Enabled).Previous(tabs.FirstOrDefault(x => x.Selected)) ?? tabs.LastOrDefault(x => x.Enabled);
+			var prev = tabs.Where(x => x.Enabled && x.Visible).Previous(tabs.FirstOrDefault(x => x.Selected)) ?? tabs.LastOrDefault(x => x.Enabled && x.Visible);
 			if (prev != null)
 			{
 				prev.Selected = true;

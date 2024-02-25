@@ -69,7 +69,7 @@ public class PanelTab
 
 		var bar = (int)(4 * UI.FontScale);
 		var back = Color.Empty;
-		var fore = FormDesign.Design.MenuForeColor;
+		var fore = e.BackColor == FormDesign.Design.MenuColor ? FormDesign.Design.MenuForeColor : FormDesign.Design.ForeColor;
 
 		if (IsSubItem)
 		{

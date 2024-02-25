@@ -50,6 +50,8 @@ public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemContr
 
 	protected override void OnPaintItemList(ItemPaintEventArgs<PanelTab, Rectangles> e)
 	{
+		e.BackColor = BackColor;
+
 		e.Item.Paint(e, this, Form?.SmallMenu ?? false);
 
 		if (e.DrawableItem.CachedHeight == 0 || AnimationHandler.IsAnimated(Parent?.Parent))

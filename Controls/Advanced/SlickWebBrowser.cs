@@ -56,15 +56,15 @@ public class SlickWebBrowser : WebBrowser
 
 		var headerColor = FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.ActiveColor, 25);
 		style = reader.ReadToEnd()
-			.Replace("AccentColor", rgb(FormDesign.Design.AccentColor))
-			.Replace("AccentBackColor", rgb(FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.BackColor)))
-			.Replace("ActiveColor", rgb(FormDesign.Design.ActiveColor))
-			.Replace("BackColor", rgb(FormDesign.Design.BackColor))
-			.Replace("ForeColor", rgb(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 85)))
-			.Replace("LinkColor", rgb(FormDesign.Design.ForeColor))
-			.Replace("Header1Color", rgb(FormDesign.Design.ForeColor))
-			.Replace("Header2Color", rgb(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 90)))
-			.Replace("Header3Color", rgb(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 80)))
+			.Replace("AccentColor", RGB(FormDesign.Design.AccentColor))
+			.Replace("AccentBackColor", RGB(FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.BackColor)))
+			.Replace("ActiveColor", RGB(FormDesign.Design.ActiveColor))
+			.Replace("BackColor", RGB(FormDesign.Design.BackColor))
+			.Replace("ForeColor", RGB(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 85)))
+			.Replace("LinkColor", RGB(FormDesign.Design.ForeColor))
+			.Replace("Header1Color", RGB(FormDesign.Design.ForeColor))
+			.Replace("Header2Color", RGB(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 90)))
+			.Replace("Header3Color", RGB(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 80)))
 			.Replace("FontFamily", UI.FontFamily)
 			.Replace("PadSize", (UI.FontScale * 3).ToString("0.00"))
 			.Replace("H3FontSize", (UI.FontScale * 9).ToString("0.00"))
@@ -76,9 +76,9 @@ public class SlickWebBrowser : WebBrowser
 		{
 			UpdateDocument();
 		}
-
-		static string rgb(Color color) => $"rgb({color.R}, {color.G}, {color.B})";
 	}
+
+	public static string RGB(Color color) => $"rgb({color.R}, {color.G}, {color.B})";
 
 	private void UpdateDocument()
 	{

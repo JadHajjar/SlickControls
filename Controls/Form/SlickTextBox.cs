@@ -265,7 +265,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 
 		using (var img = Image)
 		{
-			Padding = new Padding(pad, showLabel ? (int)((FontMeasuring.Measure(" ", UI.Font(6.75F, FontStyle.Bold)).Height * 0.65) + pad) : pad, img != null ? (img.Width + (pad * 2)) : pad, 4);
+			Padding = new Padding(pad, showLabel ? (int)((FontMeasuring.Measure(" ", UI.Font(6.75F, FontStyle.Bold)).Height * 0.65) + pad) : (pad * 2), img != null ? (img.Width + (pad * 2)) : pad, pad);
 		}
 
 		_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
@@ -481,10 +481,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 	{
 		try
 		{
-			e.Graphics.Clear(BackColor);
-
-			e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+			e.Graphics.SetUp(BackColor);
 
 			var pad = (int)(4 * UI.FontScale);
 			var barColor =
@@ -493,17 +490,21 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 				_textBox.Focused ? FormDesign.Design.ActiveColor :
 				FormDesign.Design.AccentColor;
 
-			e.Graphics.FillRoundedRectangle(new SolidBrush(barColor), ClientRectangle.Pad(1, 1, 2, 1), pad);
+			using var brush = new SolidBrush(barColor);
+			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 1), pad);
 
-			e.Graphics.FillRoundedRectangle(new SolidBrush(BackColor == FormDesign.Design.AccentBackColor ? FormDesign.Design.BackColor : FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), pad);
+			using var brush1 = new SolidBrush(BackColor == FormDesign.Design.AccentBackColor ? FormDesign.Design.BackColor : FormDesign.Design.AccentBackColor);
+			e.Graphics.FillRoundedRectangle(brush1, ClientRectangle.Pad(0, 0, 1, 1 + (int)(2* UI.FontScale)), pad);
 
 			if (ShowLabel && !string.IsNullOrEmpty(LabelText))
 			{
 				using var font = UI.Font(6.75F, FontStyle.Bold);
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(pad, pad / 2, Width - Padding.Right, (int)e.Graphics.Measure(" ", font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+				using var brush2 = new SolidBrush(FormDesign.Design.LabelColor);
+				using var format = new StringFormat { Trimming = StringTrimming.EllipsisCharacter };
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, brush2, new Rectangle(pad, pad / 2, Width - Padding.Right, (int)e.Graphics.Measure(" ", font).Height), format);
 			}
 
-			using var img = Image;
+			using var img = ImageName?.Get(Height * 3 / 4) ?? Image;
 			var imgWidth = img?.Width ?? (Loading ? (UI.FontScale >= 3 ? 48 : UI.FontScale >= 1.25 ? 24 : 16) : 0);
 			var iconRect = new Rectangle(Width - imgWidth - (pad * 2), 0, imgWidth + (pad * 2), Height - 2);
 
@@ -511,7 +512,9 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 			{
 				using var font = UI.Font(7.5F, FontStyle.Italic);
 				var height = (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(Placeholder), font).Height;
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Placeholder), font, new SolidBrush(FormDesign.Design.InfoColor), new Rectangle(_textBox.Left + _textBox.Width, Height - height - Padding.Bottom - 1, Width - Padding.Right - _textBox.Left - _textBox.Width, height).Pad(0, 0, iconRect.Width, 0), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+				using var brush2 = new SolidBrush(FormDesign.Design.InfoColor);
+				using var format = new StringFormat { Trimming = StringTrimming.EllipsisCharacter };
+				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Placeholder), font, brush2, new Rectangle(_textBox.Left + _textBox.Width, Height - height - Padding.Bottom - 1, Width - Padding.Right - _textBox.Left - _textBox.Width, height).Pad(0, 0, iconRect.Width, 0), format);
 			}
 
 			if (Loading)
@@ -524,7 +527,8 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 
 				if (active)
 				{
-					e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(20, FormDesign.Design.ForeColor)), iconRect, 4);
+					using var brush2 = new SolidBrush(Color.FromArgb(20, FormDesign.Design.ForeColor));
+					e.Graphics.FillRoundedRectangle(brush2, iconRect, 4);
 				}
 
 				e.Graphics.DrawImage(img.Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), iconRect.CenterR(img.Size));
