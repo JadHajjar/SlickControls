@@ -857,7 +857,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 
 		if (GridView)
 		{
-			start *= (int)Math.Floor((double)Width / GridItemSize.Width);
+			start *= (int)Math.Floor((double)(Width / (GridItemSize.Width + Padding.Horizontal)));
 		}
 
 		for (var i = start; i < itemList.Count; i++)
@@ -971,7 +971,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 			if (GridView)
 			{
 				var height = 0;
-				var columns = Math.Floor((double)(Width / GridItemSize.Width.If(0, 1)));
+				var columns = Math.Floor((double)(Width / (GridItemSize.Width.If(0, 1) + Padding.Horizontal)));
 
 				for (var i = 0; i < itemList.Count;)
 				{
@@ -1015,7 +1015,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 			return itemList.Count();
 		}
 
-		return (int)Math.Ceiling(itemList.Count() / Math.Floor((double)(Width / GridItemSize.Width)));
+		return (int)Math.Ceiling(itemList.Count() / Math.Floor((double)(Width / (GridItemSize.Width + Padding.Horizontal))));
 	}
 
 	public List<DrawableItem<T, R>> SafeGetItems()

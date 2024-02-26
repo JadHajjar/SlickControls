@@ -554,12 +554,6 @@ public partial class BasePanelForm : SlickForm
 
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
 	{
-		//if (keyData == Keys.Apps)
-		//{
-		//	mouse_event(0x00000008, Cursor.Position.X, Cursor.Position.Y, 0, 0);
-		//	mouse_event(0x00000010, Cursor.Position.X, Cursor.Position.Y, 0, 0);
-		//}
-
 		if (CurrentPanel != null && CurrentPanel.KeyPressed(ref msg, keyData))
 		{
 			return true;
@@ -584,7 +578,7 @@ public partial class BasePanelForm : SlickForm
 			}
 		}
 
-		if (keyData == (Keys.ControlKey | Keys.Escape) && SidebarItems != null)
+		/*if (keyData == (Keys.ControlKey | Keys.Escape) && SidebarItems != null)
 		{
 			foreach (var item in SidebarItems)
 			{
@@ -637,7 +631,7 @@ public partial class BasePanelForm : SlickForm
 			}
 
 			return true;
-		}
+		}*/
 
 		return base.ProcessCmdKey(ref msg, keyData);
 	}
@@ -793,7 +787,7 @@ public partial class BasePanelForm : SlickForm
 		}
 	}
 
-	protected override void OnKeyDown(KeyEventArgs e)
+	/*protected override void OnKeyDown(KeyEventArgs e)
 	{
 		if (e.KeyCode == Keys.ControlKey && SidebarItems != null)
 		{
@@ -842,7 +836,7 @@ public partial class BasePanelForm : SlickForm
 		}
 
 		base.OnKeyUp(e);
-	}
+	}*/
 
 	private void mouseDetector_MouseMove(object sender, Point p)
 	{

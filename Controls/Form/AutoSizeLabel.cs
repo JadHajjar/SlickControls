@@ -9,8 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SlickControls.Controls.Form;
-public class AutoSizeLabel : Control
+namespace SlickControls;
+public class AutoSizeLabel : SlickControl
 {
 	[DefaultValue(StringAlignment.Near)]
     public StringAlignment HorizontalAlignment { get; set; }
@@ -24,9 +24,9 @@ public class AutoSizeLabel : Control
 
 	protected override void OnPaint(PaintEventArgs e)
 	{
-		base.OnPaint(e);
-
 		e.Graphics.SetUp(BackColor);
+
+		base.OnPaint(e);
 
 		using var font = new Font(Font, Font.Style).FitTo(Text, ClientRectangle.Pad(Padding), e.Graphics);
 		using var brush = new SolidBrush(ForeColor);
