@@ -1568,6 +1568,30 @@
   <ItemGroup>
     <EmbeddedResource Include="Controls\Advanced\WebBrowser.css" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_ArrowDown_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_ArrowUp_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_ArrowUp_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_ArrowUp_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_ArrowUp_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_ArrowDown_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_ArrowDown_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_ArrowDown_32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>

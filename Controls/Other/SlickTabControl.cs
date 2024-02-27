@@ -56,12 +56,17 @@ public partial class SlickTabControl : SlickControl
 		base.OnHandleCreated(e);
 
 		GenerateTabs();
+
+		if (!Live)
+		{
+			P_Tabs.Height = (int)(48 * UI.FontScale) + P_Tabs.Padding.Vertical;
+		}
 	}
 
 	protected override void UIChanged()
 	{
-		P_Tabs.Height = (int)(48 * UI.FontScale) + Padding.Vertical;
 		P_Tabs.Padding = UI.Scale(new Padding(5), UI.FontScale);
+		P_Tabs.Height = (int)(48 * UI.FontScale) + P_Tabs. Padding.Vertical;
 		panel1.Padding = UI.Scale(new Padding(3), UI.FontScale);
 
 		foreach (Control item in P_Tabs.Controls)

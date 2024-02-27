@@ -191,7 +191,7 @@
 		private System.Windows.Forms.Panel base_P_Side;
 		private System.Windows.Forms.TableLayoutPanel base_TLP_TopButtons;
 		protected System.Windows.Forms.Panel base_P_SideControls;
-		internal RoundedPanel base_TLP_Side;
+		public RoundedPanel base_TLP_Side;
 		internal System.Windows.Forms.TableLayoutPanel base_P_Icon;
 		internal DBPanel base_P_PanelContent;
 	}

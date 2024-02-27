@@ -63,7 +63,7 @@ public partial class SlickButton : SlickImageControl
 		}
 	}
 
-	[Category("Appearance")]
+	[Category("Appearance"), DefaultValue(null)]
 	public Color? ColorShade
 	{
 		get => colorShade; set
@@ -73,7 +73,7 @@ public partial class SlickButton : SlickImageControl
 		}
 	}
 
-	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false), DefaultValue(false)]
 	public bool AlignLeft { get; set; }
 
 	[Category("Appearance"), DisplayName("Multi-Line"), DefaultValue(false)]

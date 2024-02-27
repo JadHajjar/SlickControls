@@ -293,6 +293,46 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_ArrowDown_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_ArrowDown_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_ArrowDown_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_ArrowDown_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_ArrowDown_32 {
+            get {
+                object obj = ResourceManager.GetObject("I_ArrowDown_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_ArrowDown_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_ArrowDown_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_ArrowLeft_16 {
             get {
                 object obj = ResourceManager.GetObject("I_ArrowLeft_16", resourceCulture);
@@ -366,6 +406,46 @@ namespace SlickControls.Properties {
         internal static System.Drawing.Bitmap I_ArrowRight_48 {
             get {
                 object obj = ResourceManager.GetObject("I_ArrowRight_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_ArrowUp_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_ArrowUp_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_ArrowUp_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_ArrowUp_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_ArrowUp_32 {
+            get {
+                object obj = ResourceManager.GetObject("I_ArrowUp_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_ArrowUp_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_ArrowUp_48", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
