@@ -270,7 +270,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 
 		_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
 
-		var height = minimumSizeSet ? MinimumSize.Height : _textBox.Font.Height + Padding.Vertical;
+		var height = minimumSizeSet ? MinimumSize.Height : (_textBox.Font.Height + Padding.Vertical + pad / 2);
 
 		if (Live)
 		{
@@ -512,10 +512,10 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 			if (string.IsNullOrWhiteSpace(_textBox.Text) && !string.IsNullOrWhiteSpace(Placeholder))
 			{
 				var text = LocaleHelper.GetGlobalText(Placeholder);
-				var rect = new Rectangle(_textBox.Left + _textBox.Width, _textBox.Top, Width - Padding.Right - _textBox.Left - _textBox.Width, _textBox.Height + (ShowLabel ? pad : 0));
+				var rect = new Rectangle(_textBox.Left + _textBox.Width, _textBox.Top, Width - Padding.Right - _textBox.Left - _textBox.Width, _textBox.Height + (ShowLabel ? 0 : 0));
 				using var brush2 = new SolidBrush(Color.FromArgb(135, _textBox.ForeColor));
 				using var font = UI.Font(7.5F, FontStyle.Italic).FitToWidth(text, rect, e.Graphics);
-				using var format = new StringFormat { LineAlignment = StringAlignment.Center };
+				using var format = new StringFormat { LineAlignment = ShowLabel && !string.IsNullOrEmpty(LabelText) ? StringAlignment.Far : StringAlignment.Center };
 				e.Graphics.DrawString(text, font, brush2, rect, format);
 			}
 

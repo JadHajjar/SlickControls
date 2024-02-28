@@ -25,20 +25,7 @@ public partial class SlickTip : Control
 		control.MouseLeave += Control_MouseLeave;
 		control.Disposed += Control_MouseLeave;
 
-		//_timer = new Timer
-		//{
-		//	Interval = tipInfo.Timeout
-		//};
-
-		//_timer.Tick += _timer_Tick;
-		//_timer.Start();
-
 		SetData(tipInfo);
-	}
-
-	private void _timer_Tick(object sender, EventArgs e)
-	{
-		this.TryInvoke(Dismiss);
 	}
 
 	private void SetData(TipInfo tipInfo)
@@ -46,8 +33,6 @@ public partial class SlickTip : Control
 		try
 		{
 			Info = tipInfo;
-			//_timer.Stop();
-			//_timer.Start();
 
 			var ctrlPos = Form.PointToClient(Control.PointToScreen(Point.Empty));
 			var bnds = SizeF.Empty;
@@ -125,8 +110,6 @@ public partial class SlickTip : Control
 	{
 		if (disposing)
 		{
-			//_timer?.Dispose();
-
 			if (Control != null)
 			{
 				Control.MouseLeave -= Control_MouseLeave;
@@ -189,11 +172,6 @@ public partial class SlickTip : Control
 			return;
 		}
 
-		//if (timeout == 0)
-		//{
-		//	timeout = 2000 + 325 * text.GetWords().Length + 400 * title.GetWords().Length;
-		//}
-
 		if (!controlsDictionary.ContainsKey(control))
 		{
 			control.MouseEnter += Control_MouseEnter;
@@ -216,7 +194,7 @@ public partial class SlickTip : Control
 			}
 			else
 			{
-				if (/*control.FindForm() is SlickForm frm && frm.FormIsActive &&*/ IsMouseIn(control, MousePosition))
+				if (IsMouseIn(control, MousePosition))
 				{
 					Control_MouseEnter(control, null);
 				}
@@ -244,14 +222,13 @@ public partial class SlickTip : Control
 	{
 		var control = sender as Control;
 
-		if (control.FindForm() is not SlickForm frm /*|| !frm.FormIsActive*/)
+		if (control.FindForm() is not SlickForm frm || (e == null && (timer?.Enabled ?? false)))
 		{
 			return;
 		}
 
 		timer?.Dispose();
 		timer = new Timer() { Interval = 1000, Enabled = true };
-
 		timer.Start();
 		timer.Tick += (s, et) =>
 		{
