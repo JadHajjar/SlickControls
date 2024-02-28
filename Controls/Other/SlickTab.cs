@@ -160,6 +160,8 @@ public partial class SlickTab : SlickControl, IAnimatable
 		{
 			e.Graphics.DrawImage(img, client.CenterR(img.Size));
 		}
+
+		base.OnPaint(e);
 	}
 
 	protected override void OnMouseEnter(EventArgs e)

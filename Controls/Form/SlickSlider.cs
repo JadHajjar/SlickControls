@@ -11,7 +11,7 @@ namespace SlickControls;
 public enum SliderStyle { SingleVertical = 11, SingleHorizontal = 12, DoubleVertical = 21, DoubleHorizontal = 22 }
 
 [DefaultEvent("ValuesChanged")]
-public partial class SlickSlider : SlickControl, IAnimatable
+public class SlickSlider : SlickControl, IAnimatable
 {
 	[Category("Property Changed")]
 	public event EventHandler ValuesChanged;
@@ -24,14 +24,6 @@ public partial class SlickSlider : SlickControl, IAnimatable
 
 	public SlickSlider()
 	{
-		InitializeComponent();
-		ResizeRedraw = true;
-		DoubleBuffered = true;
-		Paint += ActiveSlider_Paint;
-		MouseLeave += SlickSlider_MouseLeave;
-		MouseDown += ActiveSlider_MouseDown;
-		MouseUp += ActiveSlider_MouseUp;
-		MouseMove += ActiveSlider_MouseMove;
 	}
 
 	protected override void DesignChanged(FormDesign design)
@@ -42,9 +34,9 @@ public partial class SlickSlider : SlickControl, IAnimatable
 	protected override void UIChanged()
 	{
 		Font = UI.Font(8F);
-		Height = (int)Math.Round(14 * UI.UIScale) + Padding.Vertical + (ShowValues ? Font.Height + 6 : 0);
 
-		Padding = new Padding((int)Math.Max(Padding.Left, (Math.Round(14 * UI.UIScale) / 2) + penSize), ShowValues ? Height / 4 : Padding.Top, (int)Math.Max(Padding.Right, (Math.Round(14 * UI.UIScale) / 2) + penSize), ShowValues ? Height / 4 : Padding.Bottom);
+		Padding = UI.Scale(new Padding(8, 14, 8, 14), UI.FontScale);
+		Height = (int)Math.Round(14 * UI.UIScale) + Padding.Vertical + (ShowValues ? Font.Height + 6 : 0);
 	}
 
 	protected override void OnCreateControl()
@@ -152,8 +144,10 @@ public partial class SlickSlider : SlickControl, IAnimatable
 	[Browsable(false)]
 	public double[] Values { get; private set; } = { 0, 0 };
 
-	private void ActiveSlider_MouseDown(object sender, MouseEventArgs e)
+	protected override void OnMouseDown(MouseEventArgs e)
 	{
+		base.OnMouseDown(e);
+
 		double? p = null;
 
 		if (Horizontal)
@@ -188,8 +182,10 @@ public partial class SlickSlider : SlickControl, IAnimatable
 		}
 	}
 
-	private void ActiveSlider_MouseMove(object sender, MouseEventArgs e)
+	protected override void OnMouseMove(MouseEventArgs e)
 	{
+		base.OnMouseMove(e);
+
 		switch (mouseDownCode)
 		{
 			case 0:
@@ -256,20 +252,24 @@ public partial class SlickSlider : SlickControl, IAnimatable
 		}
 	}
 
-	private void SlickSlider_MouseLeave(object sender, EventArgs e)
+	protected override void OnMouseLeave(EventArgs e)
 	{
+		base.OnMouseLeave(e);
+
 		mouseHoverCode = -1;
 		Invalidate();
 		TargetAnimationValue = 0;
 		AnimationHandler.Animate(this, 1.5);
 	}
 
-	private void ActiveSlider_MouseUp(object sender, MouseEventArgs e)
+	protected override void OnMouseUp(MouseEventArgs e)
 	{
+		base.OnMouseUp(e);
+
 		mouseDownCode = 0;
 		Invalidate();
 		Values = Values.OrderBy(x => x).ToArray();
-		ActiveSlider_MouseMove(sender, e);
+		OnMouseMove(e);
 	}
 
 	private float penSize => (float)(UI.UIScale * 1.25);
@@ -281,7 +281,7 @@ public partial class SlickSlider : SlickControl, IAnimatable
 	public int AnimatedValue { get; set; }
 	public int TargetAnimationValue { get; set; }
 
-	private void ActiveSlider_Paint(object sender, PaintEventArgs e)
+	protected override void OnPaint(PaintEventArgs e)
 	{
 		e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 

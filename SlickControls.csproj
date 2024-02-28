@@ -317,9 +317,6 @@
     <Compile Include="Controls\Form\SlickSlider.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Form\SlickSlider.Designer.cs">
-      <DependentUpon>SlickSlider.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Other\SlickTile.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -498,9 +495,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Form\SlickButton.resx">
       <DependentUpon>SlickButton.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Form\SlickSlider.resx">
-      <DependentUpon>SlickSlider.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Other\SlickTile.resx">
       <DependentUpon>SlickTile.cs</DependentUpon>
