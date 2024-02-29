@@ -195,6 +195,8 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 	[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public Func<string, bool> ValidationCustom { get; set; }
 
+	public override DynamicIcon ImageName { get => base.ImageName; set { base.ImageName = value; UIChanged(); } }
+
 	public new void Select()
 	{
 		_textBox.Select();
@@ -219,10 +221,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 	{
 		base.OnSizeChanged(e);
 
-		if (!showLabel)
-		{
-			Padding = new Padding(Padding.Left, (Height - _textBox.Height) / 2, Padding.Right, (Height - _textBox.Height) / 2);
-		}
+		UIChanged();
 	}
 
 	protected override void OnCreateControl()
@@ -263,10 +262,8 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 	{
 		var pad = (int)(4 * UI.FontScale);
 
-		using (var img = Image)
-		{
-			Padding = new Padding(pad, showLabel ? (int)((FontMeasuring.Measure(" ", UI.Font(6.75F, FontStyle.Bold)).Height * 0.65) + pad) : (pad * 2), img != null ? (img.Width + (pad * 2)) : pad, pad);
-		}
+		using var font = UI.Font(6.75F, FontStyle.Bold);
+		Padding = new Padding(pad, showLabel ? (int)((FontMeasuring.Measure(" ", font).Height * 0.65) + pad) : (pad * 2), pad, pad);
 
 		_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
 
@@ -277,21 +274,24 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 			MinimumSize = new Size(Padding.Horizontal, height);
 		}
 
-		if (Height == height)
-		{
-			OnSizeChanged(EventArgs.Empty);
-		}
-		else
+		if (Height != height)
 		{
 			Height = height;
+		}
+
+		using var img = ImageName?.Get(Height * 3 / 4 - pad) ?? Image;
+
+		if (img != null)
+		{
+			Padding = new Padding(Padding.Left, Padding.Top, Padding.Right + img.Width + pad, Padding.Bottom);
 		}
 	}
 
 	protected override void DesignChanged(FormDesign design)
 	{
 		BackColor = Color.Empty;
-		_textBox.BackColor = BackColor.Tint(Lum: design.IsDarkTheme ? 5 : -5);
-		_textBox.ForeColor = _textBox.BackColor.GetTextColor();
+		_textBox.BackColor = BackColor.Tint(Lum: Enabled ? (design.IsDarkTheme ? 5 : -5) : (design.IsDarkTheme ? 2 : -2));
+		_textBox.ForeColor = Enabled ? _textBox.BackColor.GetTextColor() : _textBox.BackColor.GetTextColor().MergeColor(BackColor);
 		Invalidate();
 	}
 
@@ -477,6 +477,13 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 		base.Dispose(disposing);
 	}
 
+	protected override void OnEnabledChanged(EventArgs e)
+	{
+		base.OnEnabledChanged(e);
+
+		DesignChanged(FormDesign.Design);
+	}
+
 	protected override void OnPaint(PaintEventArgs e)
 	{
 		try
@@ -496,8 +503,8 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 			using var brush1 = new SolidBrush(_textBox.BackColor);
 			e.Graphics.FillRoundedRectangle(brush1, ClientRectangle.Pad(0, 0, 1, 1 + (int)(2 * UI.FontScale)), pad);
 
-			using var img = ImageName?.Get(Height * 3 / 4) ?? Image;
-			var imgWidth = img?.Width ?? (Loading ? (UI.FontScale >= 3 ? 48 : UI.FontScale >= 1.25 ? 24 : 16) : 0);
+			using var img = ImageName?.Get(Height * 3 / 4 - pad) ?? Image;
+			var imgWidth = img?.Width ?? IconManager.GetNormalScale();
 			var iconRect = new Rectangle(Width - imgWidth - (pad * 2), 0, imgWidth + (pad * 2), Height - 2);
 
 			if (ShowLabel && !string.IsNullOrEmpty(LabelText))

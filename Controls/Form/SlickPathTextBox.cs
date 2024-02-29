@@ -72,9 +72,6 @@ public partial class SlickPathTextBox : SlickTextBox, IValidationControl
 		if (Live)
 		{
 			ImageName = "I_FolderSearch";
-
-			using var img = Image;
-			Padding = new Padding(Padding.Left, Padding.Top, img != null ? (img.Width + 8) : 4, 4);
 		}
 	}
 
