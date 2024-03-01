@@ -263,7 +263,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 		var pad = (int)(4 * UI.FontScale);
 
 		using var font = UI.Font(6.75F, FontStyle.Bold);
-		Padding = new Padding(pad, showLabel ? (int)((FontMeasuring.Measure(" ", font).Height * 0.65) + pad) : (pad * 2), pad, pad);
+		Padding = new Padding(pad, showLabel && !string.IsNullOrWhiteSpace(LabelText) ? (int)((FontMeasuring.Measure(" ", font).Height * 0.65) + pad) : pad, pad, pad);
 
 		_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
 
@@ -279,7 +279,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 			Height = height;
 		}
 
-		using var img = ImageName?.Get(Height * 3 / 4 - pad) ?? Image;
+		using var img = ImageName?.Get(Height * 5 / 7) ?? Image;
 
 		if (img != null)
 		{
@@ -503,7 +503,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 			using var brush1 = new SolidBrush(_textBox.BackColor);
 			e.Graphics.FillRoundedRectangle(brush1, ClientRectangle.Pad(0, 0, 1, 1 + (int)(2 * UI.FontScale)), pad);
 
-			using var img = ImageName?.Get(Height * 3 / 4 - pad) ?? Image;
+			using var img = ImageName?.Get(Height * 5 / 7) ?? Image;
 			var imgWidth = img?.Width ?? IconManager.GetNormalScale();
 			var iconRect = new Rectangle(Width - imgWidth - (pad * 2), 0, imgWidth + (pad * 2), Height - 2);
 
