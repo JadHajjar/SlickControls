@@ -235,7 +235,7 @@ public partial class MessagePrompt : SlickForm
 	{
 		var @out = DialogResult.OK;
 
-		ExtensionClass.TryInvoke(form, () =>
+		WinExtensionClass.TryInvoke(form, () =>
 		{
 			GetError(exception, message, out var newMessage, out var details);
 
@@ -279,7 +279,7 @@ public partial class MessagePrompt : SlickForm
 	{
 		InputResult @out = null;
 
-		ExtensionClass.TryInvoke(form, () =>
+		WinExtensionClass.TryInvoke(form, () =>
 		{
 			var prompt = new MessagePrompt(title, message, string.Empty, buttons, icon, true);
 			prompt.TB_Input.Text = defaultValue;

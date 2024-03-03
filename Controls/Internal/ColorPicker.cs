@@ -211,7 +211,7 @@ public partial class ColorPicker : SlickControl
 		e.Graphics.FillRoundedRectangle(backBrush, bounds, Padding.Left);
 
 		var colorRect = bounds.Pad(Padding).Align(UI.Scale(new Size(20, 20), UI.FontScale), ContentAlignment.MiddleRight);
-		using var brush2 = new SolidBrush(Color.FromArgb(175, ExtensionClass.ColorFromHSL(Color.GetHue(), Color.GetSaturation(), (1D - Color.GetBrightness()).Between(.2, .8))));
+		using var brush2 = new SolidBrush(Color.FromArgb(175, WinExtensionClass.ColorFromHSL(Color.GetHue(), Color.GetSaturation(), (1D - Color.GetBrightness()).Between(.2, .8))));
 		e.Graphics.FillEllipse(brush2, colorRect);
 		e.Graphics.FillEllipse(brush, colorRect.Pad(1));
 
