@@ -90,6 +90,21 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		}
 	}
 
+	[Category("Data"), Browsable(false)]
+	public IEnumerable<T> SortedItems
+	{
+		get
+		{
+			lock (_sync)
+			{
+				foreach (var item in _sortedItems)
+				{
+					yield return item.Item;
+				}
+			}
+		}
+	}
+
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 	public int ItemCount
 	{
