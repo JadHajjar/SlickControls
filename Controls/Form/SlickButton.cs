@@ -337,7 +337,7 @@ public partial class SlickButton : SlickImageControl
 
 		var size = new Size(padding_.Horizontal, padding_.Vertical);
 
-		textPaddingForAvailableSpace = new Padding(padding_.Left, 0, padding_.Right, 0);
+		textPaddingForAvailableSpace = padding_;
 
 		if (isLoading || image != null)
 		{
@@ -457,7 +457,7 @@ public partial class SlickButton : SlickImageControl
 				}
 				else
 				{
-					arg.Font = new Font(arg.Font.FontFamily, arg.Font.Size, arg.Font.Style).FitTo(LocaleHelper.GetGlobalText(arg.Text), arg.Rectangle.Pad(textPad), graphics);
+					arg.Font = new Font(arg.Font, arg.Font.Style).FitTo(LocaleHelper.GetGlobalText(arg.Text), arg.Rectangle.Pad(textPad), graphics);
 				}
 
 				arg.DisposeFont = true;
@@ -521,7 +521,7 @@ public partial class SlickButton : SlickImageControl
 		var noText = string.IsNullOrWhiteSpace(arg.Text);
 		var iconRect = arg.Rectangle
 			.Pad(arg.Padding)
-			.Align(arg.Image?.Size ?? new Size(arg.Font.Height * 5 / 4, arg.Font.Height * 5 / 4), noText ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
+			.Align(arg.Image?.Size ?? new Size(arg.Font.Height * 6 / 5, arg.Font.Height * 6 / 5), noText ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
 
 		if (arg.Control?.Loading ?? false)
 		{
@@ -560,18 +560,15 @@ public partial class SlickButton : SlickImageControl
 			return;
 		}
 
-		var textRect = arg.Rectangle
-			.Pad(arg.Padding.Left + (iconRect.Width > 0 ? (iconRect.Width + arg.Padding.Left) : 0), arg.Padding.Top, arg.Padding.Right, arg.Padding.Bottom)
-			.AlignToFontSize(arg.Font, arg.LeftAlign ? ContentAlignment.MiddleLeft : ContentAlignment.MiddleCenter, graphics, true);
+		var textRect = arg.Rectangle.Pad(arg.Padding.Left + (iconRect.Width > 0 ? (iconRect.Width + arg.Padding.Left) : 0), arg.Padding.Top, arg.Padding.Right, arg.Padding.Bottom);
 
 		textRect.Width += arg.Padding.Right;
 
 		using var brush = new SolidBrush(arg.ForeColor);
-		using var stl = new StringFormat()
+		using var stl = new StringFormat
 		{
 			Alignment = arg.LeftAlign ? StringAlignment.Near : StringAlignment.Center,
-			LineAlignment = StringAlignment.Center,
-			//Trimming = StringTrimming.EllipsisCharacter
+			LineAlignment = StringAlignment.Center
 		};
 
 		graphics.DrawString(LocaleHelper.GetGlobalText(arg.Text), arg.Font, brush, textRect, stl);

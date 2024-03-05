@@ -24,7 +24,6 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 	private bool showLabel = true;
 	private bool error;
 	private bool warning;
-	private bool minimumSizeSet;
 	protected readonly TextBox _textBox;
 
 	public SlickTextBox()
@@ -251,32 +250,32 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 		}
 	}
 
-	protected override void OnHandleCreated(EventArgs e)
-	{
-		minimumSizeSet = MinimumSize.Height != 0;
-
-		base.OnHandleCreated(e);
-	}
-
 	protected override void UIChanged()
 	{
 		var pad = (int)(4 * UI.FontScale);
+		var minimumSizeSet = MinimumSize.Height > 0 || Dock is DockStyle.Right or DockStyle.Left or DockStyle.Fill;
 
 		using var font = UI.Font(6.75F, FontStyle.Bold);
-		Padding = new Padding(pad, showLabel && !string.IsNullOrWhiteSpace(LabelText) ? (int)((FontMeasuring.Measure(" ", font).Height * 0.65) + pad) : pad, pad, pad);
 
 		_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
 
-		var height = minimumSizeSet ? MinimumSize.Height : (_textBox.Font.Height + Padding.Vertical + pad / 2);
-
-		if (Live)
+		if (minimumSizeSet && (!showLabel || string.IsNullOrWhiteSpace(LabelText)))
 		{
-			MinimumSize = new Size(Padding.Horizontal, height);
+			Padding = new Padding(pad, (Height - _textBox.Height) / 2, pad, (Height - _textBox.Height) / 2);
+		}
+		else
+		{
+			Padding = new Padding(pad, showLabel && !string.IsNullOrWhiteSpace(LabelText) ? (int)((FontMeasuring.Measure(" ", font).Height * 0.65) + pad) : pad, pad, pad);
 		}
 
-		if (Height != height)
+		if (!minimumSizeSet)
 		{
-			Height = height;
+			var height = (_textBox.Font.Height + Padding.Vertical + pad / 2);
+
+			if (Height != height)
+			{
+				Height = height;
+			}
 		}
 
 		using var img = ImageName?.Get(Height * 5 / 7) ?? Image;

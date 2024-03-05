@@ -250,8 +250,8 @@ public static class FontMeasuring
 
 		try
 		{
-			var heightFont = new Font(font.FontFamily, font.Size, font.Style).FitToHeight(text, rectangle, _graphics);
-			var widthFont = new Font(font.FontFamily, font.Size, font.Style).FitToWidth(text, rectangle, _graphics);
+			var heightFont = new Font(font, font.Style).FitToHeight(text, rectangle, _graphics);
+			var widthFont = new Font(font, font.Style).FitToWidth(text, rectangle, _graphics);
 
 			font.Dispose();
 
