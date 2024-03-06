@@ -204,7 +204,7 @@ public static class FontMeasuring
 
 		try
 		{
-			while (font.Size > 4.5f && (int)Math.Ceiling(Measure(_graphics, text, font, rectangle.Width + 5 - (rectangle.Width % 5)).Height) > rectangle.Height - (rectangle.Height % 5))
+			while (font.Size > 4.5f && (int)Math.Ceiling(Measure(_graphics, text, font, rectangle.Width).Height) > rectangle.Height - (rectangle.Height % 5))
 			{
 				font.Dispose();
 				font = new Font(font.FontFamily, font.Size - 0.25f, font.Style);

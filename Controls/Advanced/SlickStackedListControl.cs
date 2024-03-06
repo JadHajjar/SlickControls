@@ -9,22 +9,23 @@ using System.Windows.Forms;
 
 namespace SlickControls;
 
-public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableItemRectangles<T>
+public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrectangle : IDrawableItemRectangles<T>
 {
 	private readonly object _sync = new();
-	private readonly List<DrawableItem<T, R>> _items;
+	private readonly List<DrawableItem<T, TRrectangle>> _items;
 	private int visibleItems;
-	protected bool scrollVisible;
 	private int scrollIndex;
-	protected Rectangle scrollThumbRectangle;
-	protected int scrollMouseDown = -1;
-	protected DrawableItem<T, R> mouseDownItem;
-	protected int baseHeight;
-	private List<DrawableItem<T, R>> _sortedItems;
+	private List<DrawableItem<T, TRrectangle>> _sortedItems;
 	private Size baseSize;
 	private bool scrollHovered;
 	private Size lastSize;
 	private bool _gridView;
+	private bool firstDrawDone;
+	protected bool scrollVisible;
+	protected Rectangle scrollThumbRectangle;
+	protected int scrollMouseDown = -1;
+	protected DrawableItem<T, TRrectangle> mouseDownItem;
+	protected int baseHeight;
 
 	[Category("Data"), Browsable(false)]
 	public IEnumerable<T> Items
@@ -142,9 +143,11 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 	[Category("Appearance"), DefaultValue(false)]
 	public bool GridView
 	{
-		get => _gridView; set
+		get => _gridView; 
+		set
 		{
 			_gridView = value;
+			firstDrawDone = false;
 			OnViewChanged();
 			Invalidate();
 		}
@@ -178,10 +181,10 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 	public event EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
 
 	[Category("Appearance"), DisplayName("Paint Item List")]
-	public event EventHandler<ItemPaintEventArgs<T, R>> PaintItemList;
+	public event EventHandler<ItemPaintEventArgs<T, TRrectangle>> PaintItemList;
 
 	[Category("Appearance"), DisplayName("Paint Item Grid")]
-	public event EventHandler<ItemPaintEventArgs<T, R>> PaintItemGrid;
+	public event EventHandler<ItemPaintEventArgs<T, TRrectangle>> PaintItemGrid;
 
 	[Category("Behavior"), DisplayName("Item Mouse Click")]
 	public event EventHandler<MouseEventArgs> ItemMouseClick;
@@ -205,7 +208,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 	protected int StartHeight { get; set; }
 	protected Padding GridPadding { get; set; }
 	protected bool SelectionMode { get; private set; }
-	protected List<DrawableItem<T, R>> SelectedItems { get; } = [];
+	protected List<DrawableItem<T, TRrectangle>> SelectedItems { get; } = [];
 
 	public SlickStackedListControl()
 	{
@@ -220,7 +223,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 	{
 		lock (_sync)
 		{
-			_sortedItems = new List<DrawableItem<T, R>>(OrderItems(_items));
+			_sortedItems = new List<DrawableItem<T, TRrectangle>>(OrderItems(_items));
 		}
 
 		if (resetScroll)
@@ -235,11 +238,11 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 
 	public virtual void FilterChanged()
 	{
-		List<DrawableItem<T, R>> itemCopy;
+		List<DrawableItem<T, TRrectangle>> itemCopy;
 
 		lock (_sync)
 		{
-			itemCopy = new List<DrawableItem<T, R>>(_items);
+			itemCopy = new List<DrawableItem<T, TRrectangle>>(_items);
 		}
 
 		Parallelism.ForEach(itemCopy, x =>
@@ -298,7 +301,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 	{
 		lock (_sync)
 		{
-			_items.Add(new DrawableItem<T, R>(item));
+			_items.Add(new DrawableItem<T, TRrectangle>(item));
 		}
 
 		SortingChanged(false, false);
@@ -309,7 +312,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 	{
 		lock (_sync)
 		{
-			_items.AddRange(items.Select(item => new DrawableItem<T, R>(item)));
+			_items.AddRange(items.Select(item => new DrawableItem<T, TRrectangle>(item)));
 		}
 
 		SortingChanged(false, false);
@@ -321,7 +324,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		lock (_sync)
 		{
 			_items.Clear();
-			_items.AddRange(items.Select(item => new DrawableItem<T, R>(item)));
+			_items.AddRange(items.Select(item => new DrawableItem<T, TRrectangle>(item)));
 		}
 
 		SortingChanged(false, false);
@@ -438,7 +441,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		base.OnMouseDoubleClick(e);
 	}
 
-	private void TriggerItemMouseClick(DrawableItem<T, R> item, MouseEventArgs e)
+	private void TriggerItemMouseClick(DrawableItem<T, TRrectangle> item, MouseEventArgs e)
 	{
 		if (EnableSelection && e.Button == MouseButtons.Left)
 		{
@@ -502,7 +505,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		OnItemMouseClick(item, e);
 	}
 
-	protected virtual void OnItemMouseClick(DrawableItem<T, R> item, MouseEventArgs e)
+	protected virtual void OnItemMouseClick(DrawableItem<T, TRrectangle> item, MouseEventArgs e)
 	{
 		ItemMouseClick?.Invoke(item.Item, e);
 	}
@@ -591,7 +594,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		return false;
 	}
 
-	private void Invalidate(DrawableItem<T, R> item)
+	private void Invalidate(DrawableItem<T, TRrectangle> item)
 	{
 		Invalidate(item.Bounds);
 	}
@@ -736,17 +739,17 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		SlickTip.SetTo(this, string.Empty);
 	}
 
-	protected virtual bool IsItemActionHovered(DrawableItem<T, R> item, Point location)
+	protected virtual bool IsItemActionHovered(DrawableItem<T, TRrectangle> item, Point location)
 	{
 		return item.Rectangles?.IsHovered(this, location) ?? false;
 	}
 
-	protected virtual R GenerateRectangles(T item, Rectangle rectangle)
+	protected virtual TRrectangle GenerateRectangles(T item, Rectangle rectangle)
 	{
 		return default;
 	}
 
-	protected virtual IEnumerable<DrawableItem<T, R>> OrderItems(IEnumerable<DrawableItem<T, R>> items)
+	protected virtual IEnumerable<DrawableItem<T, TRrectangle>> OrderItems(IEnumerable<DrawableItem<T, TRrectangle>> items)
 	{
 		return items;
 	}
@@ -764,7 +767,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		e.Graphics.Clear(BackColor);
 	}
 
-	private void OnPaintItem(ItemPaintEventArgs<T, R> e)
+	private void OnPaintItem(ItemPaintEventArgs<T, TRrectangle> e)
 	{
 		e.DrawableItem.Rectangles = GenerateRectangles(e.Item, e.ClipRectangle);
 
@@ -778,7 +781,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		}
 	}
 
-	protected virtual void OnPaintItemList(ItemPaintEventArgs<T, R> e)
+	protected virtual void OnPaintItemList(ItemPaintEventArgs<T, TRrectangle> e)
 	{
 		if (e.BackColor == Color.Empty)
 		{
@@ -802,7 +805,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		PaintItemList?.Invoke(this, e);
 	}
 
-	protected virtual void OnPaintItemGrid(ItemPaintEventArgs<T, R> e)
+	protected virtual void OnPaintItemGrid(ItemPaintEventArgs<T, TRrectangle> e)
 	{
 		if (e.BackColor == Color.Empty)
 		{
@@ -896,7 +899,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 
 				var currentHeight = item.CachedHeight;
 
-				OnPaintItem(new ItemPaintEventArgs<T, R>(
+				OnPaintItem(new ItemPaintEventArgs<T, TRrectangle>(
 					item,
 					e.Graphics,
 					invalidRects.Where(x => x.IntersectsWith(item.Bounds)),
@@ -940,18 +943,31 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		}
 
 		base.OnPaint(e);
+
+		if (!firstDrawDone)
+		{
+			firstDrawDone = true;
+
+			using var brush = new SolidBrush(ForeColor);
+			using var format = new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center };
+			
+			e.Graphics.Clear(BackColor);
+			e.Graphics.DrawString(LocaleHelper.GetGlobalText("Loading"), base.Font, brush, ClientRectangle, format);
+			
+			Invalidate();
+		}
 	}
 
 	protected virtual void DrawHeader(PaintEventArgs e)
 	{
 	}
 
-	protected virtual bool IsFlowBreak(int index, DrawableItem<T, R> currentItem, DrawableItem<T, R> nextItem)
+	protected virtual bool IsFlowBreak(int index, DrawableItem<T, TRrectangle> currentItem, DrawableItem<T, TRrectangle> nextItem)
 	{
 		return false;
 	}
 
-	private void HandleScrolling(List<DrawableItem<T, R>> itemList)
+	private void HandleScrolling(List<DrawableItem<T, TRrectangle>> itemList)
 	{
 		var totalHeight = GetTotalHeight(itemList);
 		var validHeight = Height - StartHeight;
@@ -979,7 +995,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		}
 	}
 
-	public int GetTotalHeight(List<DrawableItem<T, R>> itemList)
+	public int GetTotalHeight(List<DrawableItem<T, TRrectangle>> itemList)
 	{
 		if (DynamicSizing)
 		{
@@ -1033,7 +1049,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 		return (int)Math.Ceiling(itemList.Count() / Math.Floor((double)(Width / (GridItemSize.Width + Padding.Horizontal))));
 	}
 
-	public List<DrawableItem<T, R>> SafeGetItems()
+	public List<DrawableItem<T, TRrectangle>> SafeGetItems()
 	{
 		lock (_sync)
 		{
@@ -1086,7 +1102,7 @@ public class SlickStackedListControl<T, R> : SlickControl where R : IDrawableIte
 
 	protected override void InvalidateForLoading()
 	{
-		List<DrawableItem<T, R>> items;
+		List<DrawableItem<T, TRrectangle>> items;
 
 		lock (_sync)
 		{

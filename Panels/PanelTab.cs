@@ -193,7 +193,7 @@ public class PanelTab
 			var textRect = new Rectangle(clientRectangle.X, clientRectangle.Y, clientRectangle.Width, clientRectangle.Height);
 			var text = LocaleHelper.GetGlobalText(PanelItem.Text);
 
-			textRect = textRect.Pad((int)(10 * UI.FontScale) + iconWidth, 0, bar, 0);
+			textRect = textRect.Pad((int)(10 * UI.FontScale) + iconWidth, bar, bar, bar);
 
 			using var font = UI.Font(8.25F).FitTo(text,textRect,e.Graphics);
 
