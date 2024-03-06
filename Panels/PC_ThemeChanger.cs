@@ -274,7 +274,6 @@ public partial class PC_ThemeChanger : PanelContent
 	{
 		FormDesign.WindowsButtons = CB_WindowsButtons.Checked;
 		Form?.Invalidate(true);
-		Form?.UpdateTopButtonSizes();
 		changesMade = true;
 	}
 }

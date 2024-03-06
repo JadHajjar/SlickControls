@@ -484,17 +484,14 @@ public partial class BasePanelForm : SlickForm
 		base_P_SideControls.Font = UI.Font(6.75F);
 		base_P_Icon.Height = (int)(70 * UI.UIScale);
 		base_PB_Icon.Size = UI.Scale(new Size(32, 32), UI.UIScale);
-		UpdateTopButtonSizes();
+		base_B_Close.Invalidate();
+		base_B_Max.Invalidate();
+		base_B_Min.Invalidate();
 
 		if (SmallMenu)
 		{
 			setSmallMenu();
 		}
-	}
-
-	internal void UpdateTopButtonSizes()
-	{
-		base_B_Close.Size = base_B_Max.Size = base_B_Min.Size = new Size(6 + (int)((FormDesign.WindowsButtons ? 30 : 20) * UI.UIScale), 6 + (int)(20 * UI.UIScale));
 	}
 
 	protected override void DesignChanged(FormDesign design)

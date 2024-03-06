@@ -72,7 +72,7 @@ namespace SlickControls
 			this.base_B_Close.Size = new System.Drawing.Size(16, 16);
 			this.base_B_Close.TabIndex = 1;
 			this.base_B_Close.TabStop = false;
-			this.base_B_Close.Click += new System.EventHandler(this.base_B_Close_Click);
+			this.base_B_Close.AutomaticSize = true;
 			// 
 			// base_B_Max
 			// 
@@ -85,6 +85,7 @@ namespace SlickControls
 			this.base_B_Max.Size = new System.Drawing.Size(16, 16);
 			this.base_B_Max.TabIndex = 5;
 			this.base_B_Max.TabStop = false;
+			this.base_B_Max.AutomaticSize = true;
 			// 
 			// base_B_Min
 			// 
@@ -97,6 +98,7 @@ namespace SlickControls
 			this.base_B_Min.Size = new System.Drawing.Size(16, 16);
 			this.base_B_Min.TabIndex = 4;
 			this.base_B_Min.TabStop = false;
+			this.base_B_Min.AutomaticSize = true;
 			// 
 			// SlickForm
 			// 

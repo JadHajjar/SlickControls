@@ -173,12 +173,12 @@ public partial class PanelContent : SlickControl
 		return MessagePrompt.Show(message, buttons, icon, Form);
 	}
 
-	protected InputResult ShowInputPrompt(string message, string title, string defaultValue = "", PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None, Func<string, bool> inputValidation = null)
+	protected InputResult ShowInputPrompt(string message, string title, string defaultValue = "", PromptButtons buttons = PromptButtons.OKCancel, PromptIcons icon = PromptIcons.None, Func<string, bool> inputValidation = null)
 	{
 		return MessagePrompt.ShowInput(message, title, defaultValue, buttons, icon, inputValidation, Form);
 	}
 
-	protected InputResult ShowInputPrompt(string message, string defaultValue = "", PromptButtons buttons = PromptButtons.OK, PromptIcons icon = PromptIcons.None, Func<string, bool> inputValidation = null)
+	protected InputResult ShowInputPrompt(string message, string defaultValue = "", PromptButtons buttons = PromptButtons.OKCancel, PromptIcons icon = PromptIcons.None, Func<string, bool> inputValidation = null)
 	{
 		return MessagePrompt.ShowInput(message, "", defaultValue, buttons, icon, inputValidation, Form);
 	}

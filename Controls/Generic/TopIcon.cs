@@ -1,6 +1,7 @@
 ﻿using Extensions;
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -11,8 +12,13 @@ public partial class TopIcon : SlickPictureBox, IAnimatable
 {
 	public enum IconStyle { Minimize, Maximize, Close }
 
+	[Category("Appearance")]
 	public IconStyle Color { get; set; }
+	[Category("Appearance"), DefaultValue(false)]
+	public bool AutomaticSize { get; set; }
+	[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public int AnimatedValue { get; set; }
+	[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public int TargetAnimationValue => !FormDesign.WindowsButtons && HoverState.HasFlag(HoverState.Hovered) ? 100 : 0;
 
 	public TopIcon()
@@ -32,6 +38,16 @@ public partial class TopIcon : SlickPictureBox, IAnimatable
 	protected override void OnPaint(PaintEventArgs e)
 	{
 		e.Graphics.SetUp(BackColor);
+
+		if (AutomaticSize)
+		{
+			var size = new Size(6 + (int)((FormDesign.WindowsButtons ? 30 : 20) * UI.UIScale), 6 + (int)(20 * UI.UIScale));
+
+			if (size != Size)
+			{
+				Size = size;
+			}
+		}
 
 		var color = FormDesign.Design.IconColor;
 
@@ -60,15 +76,11 @@ public partial class TopIcon : SlickPictureBox, IAnimatable
 
 		if (AnimatedValue != 0 || CrossIO.CurrentPlatform != Platform.Windows)
 		{
-			e.Graphics.FillRoundedRectangle(
-				SlickControl.Gradient(new Rectangle(Point.Empty, Size), BackColor.MergeColor(color, 90 * (100 - AnimatedValue) / 100), 2),
-				rect,
-				(rect.Width / 2 * (100 - AnimatedValue) / 100) + (int)(3 * UI.FontScale * AnimatedValue / 100));
+			using var brush = SlickControl.Gradient(new Rectangle(Point.Empty, Size), BackColor.MergeColor(color, 90 * (100 - AnimatedValue) / 100), 2);
+			e.Graphics.FillRoundedRectangle(brush, rect, (rect.Width / 2 * (100 - AnimatedValue) / 100) + (int)(3 * UI.FontScale * AnimatedValue / 100));
 
-			e.Graphics.DrawRoundedRectangle(
-				new Pen(System.Drawing.Color.FromArgb((byte)(255 - (2.55 * AnimatedValue)), color), Math.Max(1.5F, (float)(1.25 * UI.FontScale))) { Alignment = PenAlignment.Outset },
-				rect,
-				(rect.Width / 2 * (100 - AnimatedValue) / 100) + (int)(3 * UI.FontScale * AnimatedValue / 100));
+			using var pen = new Pen(System.Drawing.Color.FromArgb((byte)(255 - (2.55 * AnimatedValue)), color), Math.Max(1.5F, (float)(1.25 * UI.FontScale))) { Alignment = PenAlignment.Outset };
+			e.Graphics.DrawRoundedRectangle(pen, rect, (rect.Width / 2 * (100 - AnimatedValue) / 100) + (int)(3 * UI.FontScale * AnimatedValue / 100));
 
 			Bitmap icon = null;
 			switch (Color)
@@ -96,13 +108,12 @@ public partial class TopIcon : SlickPictureBox, IAnimatable
 		}
 		else
 		{
-			e.Graphics.FillEllipse(
-				SlickControl.Gradient(new Rectangle(Point.Empty, Size), BackColor.MergeColor(color, 90), 2),
-				rect);
+			using var brush = SlickControl.Gradient(new Rectangle(Point.Empty, Size), BackColor.MergeColor(color, 90), 2)
+				;
+			e.Graphics.FillEllipse(brush, rect);
 
-			e.Graphics.DrawEllipse(
-				new Pen(color, Math.Max(1.5F, (float)(1.25 * UI.FontScale))) { },
-				rect);
+			using var pen = new Pen(color, Math.Max(1.5F, (float)(1.25 * UI.FontScale)));
+			e.Graphics.DrawEllipse(pen, rect);
 		}
 	}
 

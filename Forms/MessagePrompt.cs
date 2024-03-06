@@ -62,7 +62,9 @@ public partial class MessagePrompt : SlickForm
 		base.UIChanged();
 
 		PB_Icon.Margin = TB_Input.Margin = UI.Scale(new Padding(20), UI.FontScale);
+		P_Spacer_1.Margin = UI.Scale(new Padding(10, 5, 10, 5), UI.FontScale);
 		L_Title.Margin = UI.Scale(new Padding(5, 15, 5, 5), UI.FontScale);
+		FLP_Buttons.Padding = UI.Scale(new Padding(0, 0, 5, 5), UI.FontScale);
 		B_Details.Margin = UI.Scale(new Padding(5), UI.FontScale);
 
 		foreach (Control item in FLP_Buttons.Controls)
@@ -123,7 +125,7 @@ public partial class MessagePrompt : SlickForm
 	protected override void OnCreateControl()
 	{
 		Opacity = 0;
-		var w = (int)((L_Details.Text.Length != 0 || L_Title.Text.Length != 0 ? 300 : 220) * UI.UIScale);
+		var w = (int)((L_Details.Text.Length != 0 || L_Title.Text.Length != 0 ? 340 : 280) * UI.FontScale);
 		var h = 0;
 		var screen = Screen.FromHandle(Handle);
 
@@ -497,11 +499,13 @@ public partial class MessagePrompt : SlickForm
 			case PromptButtons.OKCancel:
 				B_OK.Visible = B_Cancel.Visible = true;
 				B_Cancel.ColorStyle = ColorStyle.Yellow;
+				B_OK.ButtonType = ButtonType.Active;
 				break;
 
 			case PromptButtons.OKIgnore:
 				B_OK.Visible = B_Ignore.Visible = true;
 				B_Ignore.ColorStyle = ColorStyle.Yellow;
+				B_OK.ButtonType = ButtonType.Active;
 				break;
 
 			case PromptButtons.AbortRetryIgnore:
