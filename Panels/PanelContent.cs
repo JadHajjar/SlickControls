@@ -137,8 +137,8 @@ public partial class PanelContent : SlickControl
 	{
 		base.DesignChanged(design);
 
-		BackColor = design.BackColor;
-		ForeColor = design.ForeColor;
+		BackColor = GetTopBarColor();
+		ForeColor = BackColor.GetTextColor();
 	}
 
 	protected virtual bool LoadData()
