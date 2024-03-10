@@ -22,6 +22,16 @@ public class AutoSizeLabel : SlickControl
         DoubleBuffered = ResizeRedraw = true;
     }
 
+	public override Size GetPreferredSize(Size proposedSize)
+	{
+		if (!AutoSize)
+		return base.GetPreferredSize(proposedSize);
+
+		var availableSize = GetAvailableSize();
+
+		return new Size(proposedSize.Width,Math.Min(availableSize.Height, (int)FontMeasuring.Measure(Text, Font, availableSize.Width - Padding.Horizontal).Height));
+	}
+
 	protected override void OnPaint(PaintEventArgs e)
 	{
 		e.Graphics.SetUp(BackColor);

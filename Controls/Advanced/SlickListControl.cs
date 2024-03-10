@@ -84,6 +84,15 @@ public class SlickListControl<T> : SlickControl
 		}
 	}
 
+	public virtual void SetItems(IEnumerable<T> items)
+	{
+		lock (this.items)
+		{
+			this.items.Clear();
+			this.items.AddRange(items.Select(item => new DrawableItem<T>(item)));
+		}
+	}
+
 	public virtual void Remove(T item)
 	{
 		lock (items)

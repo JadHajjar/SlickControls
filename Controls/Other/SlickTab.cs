@@ -65,7 +65,7 @@ public partial class SlickTab : SlickControl, IAnimatable
 		}
 	}
 
-	[Category("Behavior")]
+	[Category("Behavior"), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public bool Selected
 	{
 		get => selected;

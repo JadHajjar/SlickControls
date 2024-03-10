@@ -252,6 +252,7 @@ public partial class SlickButton : SlickImageControl
 		});
 	}
 
+	[Obsolete]
 	public static void DrawButton(
 		PaintEventArgs e,
 		Rectangle rectangle,
