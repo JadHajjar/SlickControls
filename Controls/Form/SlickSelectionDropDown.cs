@@ -431,6 +431,13 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 
 			e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
 		}
+
+		if (!Enabled)
+		{
+			using var brush = new SolidBrush(Color.FromArgb(120, BackColor));
+
+			e.Graphics.FillRectangle(brush, ClientRectangle);
+		}
 	}
 
 	private void PaintForListOpenNoSearch(PaintEventArgs e, Color fore)

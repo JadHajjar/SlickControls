@@ -37,6 +37,9 @@ public class SlickIcon : SlickImageControl
 	public ColorStyle ColorStyle { get; set; } = ColorStyle.Active;
 
 	[Category("Behavior"), DefaultValue(false)]
+	public bool HasAction { get; set; }
+
+	[Category("Behavior"), DefaultValue(false)]
 	public bool Selected
 	{
 		get => selected; set
@@ -90,6 +93,7 @@ public class SlickIcon : SlickImageControl
 
 			var color =
 				Selected ? activeColor :
+				!base.Enabled && HasAction ? ForeColor.MergeColor(BackColor, 40) :
 				!Enabled ? ForeColor :
 				HoverState.HasFlag(HoverState.Pressed) ? activeColor :
 				HoverState.HasFlag(HoverState.Hovered) ? activeColor.MergeColor(ForeColor) :
