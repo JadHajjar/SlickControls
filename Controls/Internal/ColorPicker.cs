@@ -162,13 +162,14 @@ public partial class ColorPicker : SlickControl
 
 	public Color GetDefaultColor()
 	{
-		if (string.IsNullOrWhiteSpace(ColorName))
+		if (string.IsNullOrWhiteSpace(ColorName) || FormDesign.Custom is null)
 		{
 			return Color.Empty;
 		}
 
 		var propertyInfo = typeof(FormDesign).GetProperty(ColorName);
-		return (Color)propertyInfo.GetValue(FormDesign.Custom, null);
+
+		return (Color)propertyInfo.GetValue(FormDesign.Custom);
 	}
 
 	public void ColorSetter(Color color)

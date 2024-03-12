@@ -284,6 +284,15 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 		{
 			Padding = new Padding(Padding.Left, Padding.Top, Padding.Right + img.Width + pad, Padding.Bottom);
 		}
+
+		Invalidate();
+	}
+
+	protected override void OnBackColorChanged(EventArgs e)
+	{
+		base.OnBackColorChanged(e);
+
+		DesignChanged(FormDesign.Design);
 	}
 
 	protected override void DesignChanged(FormDesign design)

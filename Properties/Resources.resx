@@ -235,9 +235,6 @@
   <data name="I_CircleArrowUp_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Tiny_ArrowUp.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="I_DropChevron_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\I_DropChevron_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="I_Checked_ON_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\I_Checked.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -477,12 +474,6 @@
   </data>
   <data name="File_Log" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\File_Log.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="I_DropChevron_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\I_DropChevron_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="I_DropChevron_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\I_DropChevron_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="I_FileName_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\I_FileName_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -760,9 +751,6 @@
   <data name="I_Drive_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\I_Drive_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="I_DropChevron_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\I_DropChevron_32png.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="I_Edit_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\I_Edit_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -993,5 +981,29 @@
   </data>
   <data name="I_ArrowUp_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\I_ArrowUp_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_DropChevronUp_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_DropChevronUp_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_DropChevronUp_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_DropChevronUp_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_DropChevronUp_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_DropChevronUp_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_DropChevronUp_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_DropChevronUp_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_DropChevron_16" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_DropChevron_16.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_DropChevron_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_DropChevron_24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_DropChevron_32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_DropChevron_32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="I_DropChevron_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\I_DropChevron_48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

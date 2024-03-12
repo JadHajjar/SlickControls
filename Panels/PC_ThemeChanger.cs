@@ -244,7 +244,7 @@ public partial class PC_ThemeChanger : PanelContent
 		{
 			CB_UseSystemTheme.Checked = false;
 		}
-		else
+		else if (Live)
 		{
 			FormDesign.ForceRefresh();
 		}
@@ -259,7 +259,7 @@ public partial class PC_ThemeChanger : PanelContent
 		{
 			CB_NightMode.Checked = false;
 		}
-		else
+		else if (Live)
 		{
 			FormDesign.ForceRefresh();
 		}

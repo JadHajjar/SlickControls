@@ -973,6 +973,46 @@ namespace SlickControls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap I_DropChevronUp_16 {
+            get {
+                object obj = ResourceManager.GetObject("I_DropChevronUp_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_DropChevronUp_24 {
+            get {
+                object obj = ResourceManager.GetObject("I_DropChevronUp_24", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_DropChevronUp_32 {
+            get {
+                object obj = ResourceManager.GetObject("I_DropChevronUp_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap I_DropChevronUp_48 {
+            get {
+                object obj = ResourceManager.GetObject("I_DropChevronUp_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap I_Edit_16 {
             get {
                 object obj = ResourceManager.GetObject("I_Edit_16", resourceCulture);

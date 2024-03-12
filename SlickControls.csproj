@@ -822,9 +822,6 @@
     <None Include="Resources\I_DropChevron.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\I_DropChevron_16.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\I_Unchecked.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1063,12 +1060,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\I_Checked_24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\I_DropChevron_48.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\I_DropChevron_24.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\I_FileName_24.png" />
@@ -1585,6 +1576,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\I_ArrowDown_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_DropChevron_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_DropChevron_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_DropChevron_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_DropChevron_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_DropChevronUp_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_DropChevronUp_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_DropChevronUp_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_DropChevronUp_32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

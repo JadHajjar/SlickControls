@@ -100,7 +100,7 @@ public partial class SlickDropdown : SlickTextBox
 		get => _items; set
 		{
 			_items = value;
-			Image = IconManager.GetIcon("I_DropChevron");
+			ImageName = "I_DropChevron";
 		}
 	}
 
@@ -216,18 +216,18 @@ public partial class SlickDropdown : SlickTextBox
 					MaximumSize = new Size(Width, 9999),
 					MinimumSize = new Size(Width, 0)
 				};
-				new AnimationHandler(DropDownItems, new Size(Width, Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15))).StartAnimation();
+				new AnimationHandler(DropDownItems, new Size(Width, Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15))).StartAnimation(Invalidate);
 				//DropDownItems.Height = Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15);
 				DropDownItems.ItemSelected += (item) =>
 				{
 					Text = Conversion == null ? item.ToString() : Conversion(item);
 					DropDownItems = null;
 				};
-				DropDownItems.Disposed += (s, ea) => Image = IconManager.GetIcon("I_DropChevron");
+				DropDownItems.Disposed += (s, ea) => ImageName = "I_DropChevron";
 				DropDownItems.Parent = FindForm();
 				DropDownItems.BringToFront();
 				DropDownItems.SetItems(Items);
-				Image = IconManager.GetIcon("I_DropChevron").Rotate(RotateFlipType.RotateNoneFlipY);
+				ImageName = "I_DropChevronUp";
 				_textBox.Focus();
 			}
 			else
@@ -317,18 +317,18 @@ public partial class SlickDropdown : SlickTextBox
 							MaximumSize = new Size(Width, 9999),
 							MinimumSize = new Size(Width, 0)
 						};
-						new AnimationHandler(DropDownItems, new Size(Width, Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15))).StartAnimation();
+						new AnimationHandler(DropDownItems, new Size(Width, Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15))).StartAnimation(Invalidate);
 						//DropDownItems.Height = Math.Min(DropDownItems.Height, FindForm().Height - DropDownItems.Top - 15);
 						DropDownItems.ItemSelected += (item) =>
 						{
 							Text = Conversion == null ? item.ToString() : Conversion(item);
 							DropDownItems = null;
 						};
-						DropDownItems.Disposed += (s, ea) => Image = IconManager.GetIcon("I_DropChevron");
+						DropDownItems.Disposed += (s, ea) => ImageName = "I_DropChevron";
 						DropDownItems.Parent = FindForm();
 						DropDownItems.BringToFront();
 						DropDownItems.SetItems(items.Where(x => x.ToLower() != txt && x.ToLower().StartsWith(txt)));
-						Image = IconManager.GetIcon("I_DropChevron").Rotate(RotateFlipType.RotateNoneFlipY);
+						ImageName = "I_DropChevronUp";
 						_textBox.Focus();
 					}
 

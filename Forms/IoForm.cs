@@ -290,7 +290,7 @@ public class IOSelectionDialog : Component
 	{
 		var frm = new IoForm(folder, this)
 		{
-			Icon = form.Icon
+			Icon = form?.Icon
 		};
 
 		try

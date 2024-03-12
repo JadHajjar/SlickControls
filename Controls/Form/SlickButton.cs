@@ -528,7 +528,7 @@ public partial class SlickButton : SlickImageControl
 		{
 			var color = arg.ColorShade == null ? arg.ColorStyle.GetColor() : arg.ColorStyle.GetColor().Tint(arg.ColorShade?.GetHue()).MergeColor((Color)arg.ColorShade);
 
-			if (color == arg.BackColor)
+			if (color.MergeColor(FormDesign.Design.BackColor, 85) == arg.BackColor)
 			{
 				color = arg.ForeColor;
 			}
