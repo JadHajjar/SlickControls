@@ -1,35 +1,45 @@
 ﻿using Extensions;
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls;
 public class AutoSizeLabel : SlickControl
 {
 	[DefaultValue(StringAlignment.Near)]
-    public StringAlignment HorizontalAlignment { get; set; }
+	public StringAlignment HorizontalAlignment { get; set; }
 	[DefaultValue(StringAlignment.Near)]
-    public StringAlignment VerticalAlignment { get; set; }
+	public StringAlignment VerticalAlignment { get; set; }
 
-    public AutoSizeLabel()
-    {
-        DoubleBuffered = ResizeRedraw = true;
-    }
+	[Browsable(true)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+	[EditorBrowsable(EditorBrowsableState.Always)]
+	[Bindable(true)]
+	public override Font Font { get => base.Font; set => base.Font = value; }
+
+	[Browsable(true)]
+	[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+	[EditorBrowsable(EditorBrowsableState.Always)]
+	[Bindable(true)]
+	public override string Text { get => base.Text; set => base.Text = value; }
+
+	public AutoSizeLabel()
+	{
+		DoubleBuffered = ResizeRedraw = true;
+	}
 
 	public override Size GetPreferredSize(Size proposedSize)
 	{
 		if (!AutoSize)
-		return base.GetPreferredSize(proposedSize);
+		{
+			return base.GetPreferredSize(proposedSize);
+		}
 
 		var availableSize = GetAvailableSize();
 
-		return new Size(proposedSize.Width,Math.Min(availableSize.Height, (int)FontMeasuring.Measure(Text, Font, availableSize.Width - Padding.Horizontal).Height));
+		return new Size(proposedSize.Width, Math.Min(availableSize.Height, Padding.Vertical + (int)FontMeasuring.Measure(Text, Font, availableSize.Width - Padding.Horizontal).Height));
 	}
 
 	protected override void OnPaint(PaintEventArgs e)
