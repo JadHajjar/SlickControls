@@ -193,10 +193,10 @@ public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrect
 	public event Extensions.EventHandler<CanDrawItemEventArgs<T>> CanDrawItem;
 
 	[Category("Appearance"), DisplayName("Paint Item List")]
-	public event Extensions.EventHandler<ItemPaintEventArgs<T, R>> PaintItemList;
+	public event Extensions.EventHandler<ItemPaintEventArgs<T, TRrectangle>> PaintItemList;
 
 	[Category("Appearance"), DisplayName("Paint Item Grid")]
-	public event Extensions.EventHandler<ItemPaintEventArgs<T, R>> PaintItemGrid;
+	public event Extensions.EventHandler<ItemPaintEventArgs<T, TRrectangle>> PaintItemGrid;
 
 	[Category("Behavior"), DisplayName("Item Mouse Click")]
 	public event Extensions.EventHandler<MouseEventArgs> ItemMouseClick;

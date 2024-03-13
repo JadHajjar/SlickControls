@@ -169,7 +169,11 @@ public partial class ColorPicker : SlickControl
 
 		var propertyInfo = typeof(FormDesign).GetProperty(ColorName);
 
+#if NET47
 		return (Color)propertyInfo.GetValue(FormDesign.Custom);
+#else
+		return (Color)propertyInfo.GetValue(FormDesign.Custom, null);
+#endif
 	}
 
 	public void ColorSetter(Color color)

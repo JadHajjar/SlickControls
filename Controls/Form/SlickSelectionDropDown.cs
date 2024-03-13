@@ -381,7 +381,11 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 
 	protected override void OnPaint(PaintEventArgs e)
 	{
-		SlickButton.GetColors(out var fore, out var back, listDropDown != null ? HoverState.Normal : HoverState);
+		var hoverState= listDropDown != null ? HoverState.Normal : HoverState;
+		var back = hoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor
+			: hoverState.HasFlag(HoverState.Hovered) ? BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 18 : -14)
+			: BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 10 : -8);
+		var fore = back.GetTextColor();
 
 		e.Graphics.SetUp(BackColor);
 
@@ -472,7 +476,11 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 
 	private void ListDropDown_PaintItem(object sender, ItemPaintEventArgs<T, Rectangles> e)
 	{
-		SlickButton.GetColors(out var fore, out var back, e.HoverState);
+		var hoverState = e.HoverState;
+		var back = hoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor
+			: hoverState.HasFlag(HoverState.Hovered) ? BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 18 : -14)
+			: BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 10 : -8);
+		var fore = back.GetTextColor();
 
 		e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 		e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
