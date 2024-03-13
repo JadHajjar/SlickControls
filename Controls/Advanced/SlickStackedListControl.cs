@@ -106,6 +106,24 @@ public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrect
 		}
 	}
 
+	[Category("Data"), Browsable(false)]
+	public IEnumerable<T> SortedAndFilteredItems
+	{
+		get
+		{
+			lock (_sync)
+			{
+				foreach (var item in _sortedItems)
+				{
+					if (!item.Hidden)
+					{
+						yield return item.Item;
+					}
+				}
+			}
+		}
+	}
+
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 	public int ItemCount
 	{
