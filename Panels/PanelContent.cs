@@ -203,7 +203,7 @@ public partial class PanelContent : SlickControl
 	{
 		if (Form?.PanelHistory?.Any(x => x != this) ?? false)
 		{
-			base_Text.ImageName = "I_ArrowLeft";
+			base_Text.ImageName = "ArrowLeft";
 			base_Text.Enabled = true;
 			base_Text.PerformAutoScale();
 			base_Text.Location = new Point(CustomTitleBounds.X == 0 ? (int)(5 * UI.FontScale) : CustomTitleBounds.X, CustomTitleBounds.Y == 0 ? ((int)(30 * UI.FontScale) - base_Text.Height) / 2 : CustomTitleBounds.Y);

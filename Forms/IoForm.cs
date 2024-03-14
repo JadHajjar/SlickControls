@@ -62,7 +62,7 @@ public partial class IoForm : BasePanelForm
 			Close();
 		};
 
-		add(string.Empty, "This PC", "I_PC");
+		add(string.Empty, "This PC", "PC");
 
 		base_P_Tabs.Add(PanelTab.Separator());
 
@@ -72,7 +72,7 @@ public partial class IoForm : BasePanelForm
 
 			foreach (var item in dialog.PinnedFolders)
 			{
-				add(item.Value, item.Key, "I_Folder");
+				add(item.Value, item.Key, "Folder");
 			}
 
 			base_P_Tabs.Add(PanelTab.Separator());
@@ -88,7 +88,7 @@ public partial class IoForm : BasePanelForm
 			Environment.GetFolderPath(Environment.SpecialFolder.Recent),
 		})
 		{
-			add(item, Path.GetFileName(item).IfEmpty(item), "I_UserFolder");
+			add(item, Path.GetFileName(item).IfEmpty(item), "UserFolder");
 		}
 
 		base_P_Tabs.Add(PanelTab.Separator());
@@ -97,7 +97,7 @@ public partial class IoForm : BasePanelForm
 
 		foreach (var item in libraryViewer.TopFolders)
 		{
-			add(item, item, "I_Drive");
+			add(item, item, "Drive");
 		}
 
 		void add(string path, string name, string icon)
@@ -250,7 +250,7 @@ public partial class IoForm : BasePanelForm
 	private void I_SortDirection_Click(object sender, EventArgs e)
 	{
 		libraryViewer.SortDesc = !libraryViewer.SortDesc;
-		I_SortDirection.ImageName = libraryViewer.SortDesc ? "I_SortDesc" : "I_SortAsc";
+		I_SortDirection.ImageName = libraryViewer.SortDesc ? "SortDesc" : "SortAsc";
 		libraryViewer.SortingChanged();
 	}
 

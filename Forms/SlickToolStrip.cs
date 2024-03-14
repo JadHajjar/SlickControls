@@ -178,7 +178,7 @@ public partial class SlickToolStrip : Form
 
 				if (item.IsOpened)
 				{
-					using var icon = IconManager.GetIcon("I_ArrowRight", rectangle.Height * 3 / 4).Color(design.ForeColor);
+					using var icon = IconManager.GetIcon("ArrowRight", rectangle.Height * 3 / 4).Color(design.ForeColor);
 					using var backBrush = new LinearGradientBrush(rectangle, Color.FromArgb(50, design.ActiveColor), Color.FromArgb(200, design.ActiveColor), 0f);
 
 					e.Graphics.FillRectangle(backBrush, rectangle);
@@ -186,7 +186,7 @@ public partial class SlickToolStrip : Form
 				}
 				else if (item.SubItems.Count > 0)
 				{
-					using var icon = IconManager.GetIcon("I_ArrowRight", rectangle.Height * 3 / 4).Color(design.AccentColor);
+					using var icon = IconManager.GetIcon("ArrowRight", rectangle.Height * 3 / 4).Color(design.AccentColor);
 
 					e.Graphics.DrawImage(icon, rectangle.Pad(Padding).Align(icon.Size, ContentAlignment.MiddleRight));
 				}
@@ -631,7 +631,7 @@ public partial class SlickToolStrip : Form
 
 			if (item.SubItems.Count > 0)
 			{
-				using var img = IconManager.GetIcon("I_ArrowRight", height * 3 / 4);
+				using var img = IconManager.GetIcon("ArrowRight", height * 3 / 4);
 
 				imageSize += img.Width + Padding.Horizontal;
 			}

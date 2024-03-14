@@ -361,7 +361,7 @@ public partial class NotificationForm : Form
 			}
 		}
 
-		using var closeIcon = IconManager.GetIcon("I_Close");
+		using var closeIcon = IconManager.GetIcon("Close");
 		closeRect = clip.Align(closeIcon.Size + Padding.Size, ContentAlignment.TopRight);
 		var hovered = this.hovered && closeRect.Contains(PointToClient(MousePosition));
 
@@ -374,37 +374,37 @@ public partial class NotificationForm : Form
 		switch (Notification.Icon)
 		{
 			case PromptIcons.Hand:
-				icon = IconManager.GetIcon("I_Hand", Height / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("Hand", Height / 2).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Info:
-				icon = IconManager.GetIcon("I_Info", Height / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("Info", Height / 2).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Input:
-				icon = IconManager.GetIcon("I_Edit", Height / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("Edit", Height / 2).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Question:
-				icon = IconManager.GetIcon("I_Question", Height / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("Question", Height / 2).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Warning:
-				icon = IconManager.GetIcon("I_Warning", Height / 2).Color(design.YellowColor);
+				icon = IconManager.GetIcon("Warning", Height / 2).Color(design.YellowColor);
 				color = design.YellowColor;
 				break;
 
 			case PromptIcons.Error:
-				icon = IconManager.GetIcon("I_Error", Height / 2).Color(design.RedColor);
+				icon = IconManager.GetIcon("Error", Height / 2).Color(design.RedColor);
 				color = design.RedColor;
 				break;
 
 			case PromptIcons.Ok:
-				icon = IconManager.GetIcon("I_Ok", Height / 2).Color(design.GreenColor);
+				icon = IconManager.GetIcon("Ok", Height / 2).Color(design.GreenColor);
 				color = design.GreenColor;
 				break;
 

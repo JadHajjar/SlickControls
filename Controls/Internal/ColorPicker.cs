@@ -76,7 +76,7 @@ public partial class ColorPicker : SlickControl
 		}
 		else if (e.Button == MouseButtons.Right)
 		{
-			SlickToolStrip.Show(new SlickStripItem("Edit Color", "I_Edit", EditColor_Click), new SlickStripItem("Reset Color", "I_Undo", ResetColor_Click));
+			SlickToolStrip.Show(new SlickStripItem("Edit Color", "Edit", EditColor_Click), new SlickStripItem("Reset Color", "Undo", ResetColor_Click));
 		}
 	}
 

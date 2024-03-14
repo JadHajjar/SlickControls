@@ -228,11 +228,11 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 		}
 		else if (UseToggleIcon)
 		{
-			image = IconManager.GetIcon(@checked ? "I_Toggle_ON" : "I_Toggle_OFF");
+			image = IconManager.GetIcon(@checked ? "Toggle_ON" : "Toggle_OFF");
 		}
 		else
 		{
-			image = IconManager.GetIcon(@checked ? "I_Checked_ON" : "I_Checked_OFF");
+			image = IconManager.GetIcon(@checked ? "Checked_ON" : "Checked_OFF");
 		}
 
 		return image;

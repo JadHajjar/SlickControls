@@ -350,7 +350,7 @@
 			this.B_Save.ButtonType = SlickControls.ButtonType.Active;
 			this.B_Save.ColorShade = null;
 			this.B_Save.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon4.Name = "I_Ok";
+			dynamicIcon4.Name = "Ok";
 			this.B_Save.ImageName = dynamicIcon4;
 			this.B_Save.Location = new System.Drawing.Point(905, 620);
 			this.B_Save.Name = "B_Save";
@@ -451,7 +451,7 @@
 			this.P_UI.Controls.Add(this.CB_NightMode, 1, 2);
 			this.P_UI.Controls.Add(this.CB_WindowsButtons, 1, 3);
 			this.P_UI.Dock = System.Windows.Forms.DockStyle.Top;
-			dynamicIcon5.Name = "I_UserInterface";
+			dynamicIcon5.Name = "UserInterface";
 			this.P_UI.ImageName = dynamicIcon5;
 			this.P_UI.Location = new System.Drawing.Point(3, 3);
 			this.P_UI.Name = "P_UI";
@@ -516,7 +516,7 @@
 			this.P_Theme.Controls.Add(this.panel1, 0, 2);
 			this.P_Theme.Controls.Add(this.B_Random, 1, 0);
 			this.P_Theme.Dock = System.Windows.Forms.DockStyle.Fill;
-			dynamicIcon3.Name = "I_Paint";
+			dynamicIcon3.Name = "Paint";
 			this.P_Theme.ImageName = dynamicIcon3;
 			this.P_Theme.Location = new System.Drawing.Point(3, 215);
 			this.P_Theme.Name = "P_Theme";
@@ -535,7 +535,7 @@
 			this.B_Reset.AutoSize = true;
 			this.B_Reset.ColorShade = null;
 			this.B_Reset.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon1.Name = "I_Undo";
+			dynamicIcon1.Name = "Undo";
 			this.B_Reset.ImageName = dynamicIcon1;
 			this.B_Reset.Location = new System.Drawing.Point(891, 13);
 			this.B_Reset.Name = "B_Reset";
@@ -551,7 +551,7 @@
 			this.B_Random.AutoSize = true;
 			this.B_Random.ColorShade = null;
 			this.B_Random.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon2.Name = "I_Random";
+			dynamicIcon2.Name = "Random";
 			this.B_Random.ImageName = dynamicIcon2;
 			this.B_Random.Location = new System.Drawing.Point(755, 13);
 			this.B_Random.Name = "B_Random";

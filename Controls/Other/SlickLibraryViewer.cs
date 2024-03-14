@@ -378,7 +378,7 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 		var w = PB_Bar.Padding.Left;
 		var validRect = PB_Bar.ClientRectangle.Pad(PB_Bar.Padding);
 
-		using (var arrow = IconManager.GetIcon("I_ArrowRight").Color(FormDesign.Design.ForeColor))
+		using (var arrow = IconManager.GetIcon("ArrowRight").Color(FormDesign.Design.ForeColor))
 		using (var font = UI.Font(9F))
 		using (var brush = new SolidBrush(FormDesign.Design.ForeColor))
 		{
@@ -442,7 +442,7 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 				}
 				else
 				{
-					using var homeIcon = IconManager.GetIcon("I_Home").Color(rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor);
+					using var homeIcon = IconManager.GetIcon("Home").Color(rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor);
 					e.Graphics.DrawImage(homeIcon, rect.CenterR(homeIcon.Size));
 				}
 

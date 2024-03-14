@@ -71,7 +71,7 @@ public partial class SlickPathTextBox : SlickTextBox, IValidationControl
 
 		if (Live)
 		{
-			ImageName = "I_FolderSearch";
+			ImageName = "FolderSearch";
 		}
 	}
 

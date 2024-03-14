@@ -114,8 +114,8 @@ public partial class DateRangePopup : SlickControl
 		var topRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), (int)e.Graphics.Measure(" ", UI.Font(8.25F, FontStyle.Bold)).Height + 6);
 		var mainRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), Height - 10 - tabHeight).Pad(0, topRect.Height, 0, 0);
 
-		using (var leftArrow = IconManager.GetSmallIcon("I_ArrowLeft"))
-		using (var rightArrow = IconManager.GetSmallIcon("I_ArrowRight"))
+		using (var leftArrow = IconManager.GetSmallIcon("ArrowLeft"))
+		using (var rightArrow = IconManager.GetSmallIcon("ArrowRight"))
 		{
 			var leftRect = topRect.Align(leftArrow.Size, ContentAlignment.MiddleLeft);
 			var rightRect = topRect.Align(rightArrow.Size, ContentAlignment.MiddleRight);

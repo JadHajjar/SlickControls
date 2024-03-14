@@ -132,7 +132,7 @@ namespace SlickControls
 			this.B_Cancel.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Cancel.AutoSize = true;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon1.Name = "I_Cancel";
+			dynamicIcon1.Name = "Cancel";
 			this.B_Cancel.ImageName = dynamicIcon1;
 			this.B_Cancel.Location = new System.Drawing.Point(219, 7);
 			this.B_Cancel.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -150,7 +150,7 @@ namespace SlickControls
 			this.B_Ignore.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Ignore.AutoSize = true;
 			this.B_Ignore.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon2.Name = "I_Skip";
+			dynamicIcon2.Name = "Skip";
 			this.B_Ignore.ImageName = dynamicIcon2;
 			this.B_Ignore.Location = new System.Drawing.Point(118, 7);
 			this.B_Ignore.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -168,7 +168,7 @@ namespace SlickControls
 			this.B_Retry.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Retry.AutoSize = true;
 			this.B_Retry.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon3.Name = "I_Retry";
+			dynamicIcon3.Name = "Retry";
 			this.B_Retry.ImageName = dynamicIcon3;
 			this.B_Retry.Location = new System.Drawing.Point(25, 7);
 			this.B_Retry.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -186,7 +186,7 @@ namespace SlickControls
 			this.B_Abort.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Abort.AutoSize = true;
 			this.B_Abort.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon4.Name = "I_Unavailable";
+			dynamicIcon4.Name = "Unavailable";
 			this.B_Abort.ImageName = dynamicIcon4;
 			this.B_Abort.Location = new System.Drawing.Point(224, 51);
 			this.B_Abort.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -204,7 +204,7 @@ namespace SlickControls
 			this.B_OK.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_OK.AutoSize = true;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon5.Name = "I_Ok";
+			dynamicIcon5.Name = "Ok";
 			this.B_OK.ImageName = dynamicIcon5;
 			this.B_OK.Location = new System.Drawing.Point(145, 51);
 			this.B_OK.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -222,7 +222,7 @@ namespace SlickControls
 			this.B_No.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_No.AutoSize = true;
 			this.B_No.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon6.Name = "I_Cancel";
+			dynamicIcon6.Name = "Cancel";
 			this.B_No.ImageName = dynamicIcon6;
 			this.B_No.Location = new System.Drawing.Point(66, 51);
 			this.B_No.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -240,7 +240,7 @@ namespace SlickControls
 			this.B_Yes.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Yes.AutoSize = true;
 			this.B_Yes.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon7.Name = "I_Ok";
+			dynamicIcon7.Name = "Ok";
 			this.B_Yes.ImageName = dynamicIcon7;
 			this.B_Yes.Location = new System.Drawing.Point(239, 95);
 			this.B_Yes.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);
@@ -335,7 +335,7 @@ namespace SlickControls
 			this.B_Details.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Details.AutoSize = true;
 			this.B_Details.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon8.Name = "I_CircleArrowDown";
+			dynamicIcon8.Name = "CircleArrowDown";
 			this.B_Details.ImageName = dynamicIcon8;
 			this.B_Details.Location = new System.Drawing.Point(5, 156);
 			this.B_Details.Margin = new System.Windows.Forms.Padding(5, 7, 5, 7);

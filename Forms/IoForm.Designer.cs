@@ -150,11 +150,11 @@
 			this.I_SortDirection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
 			this.I_SortDirection.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon1.Name = "I_SortAsc";
+			dynamicIcon1.Name = "SortAsc";
 			this.I_SortDirection.ImageName = dynamicIcon1;
 			this.I_SortDirection.Location = new System.Drawing.Point(0, 0);
 			this.I_SortDirection.Margin = new System.Windows.Forms.Padding(0, 0, 7, 0);
-			this.I_SortDirection.Name = "I_SortDirection";
+			this.I_SortDirection.Name = "SortDirection";
 			this.I_SortDirection.Size = new System.Drawing.Size(14, 35);
 			this.I_SortDirection.SpaceTriggersClick = true;
 			this.I_SortDirection.TabIndex = 0;
@@ -166,7 +166,7 @@
 			this.B_ListView.ActiveColor = null;
 			this.B_ListView.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.B_ListView.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon2.Name = "I_List";
+			dynamicIcon2.Name = "List";
 			this.B_ListView.ImageName = dynamicIcon2;
 			this.B_ListView.Location = new System.Drawing.Point(3, 424);
 			this.B_ListView.Name = "B_ListView";
@@ -181,7 +181,7 @@
 			this.B_Cancel.AutoSize = true;
 			this.B_Cancel.ColorStyle = Extensions.ColorStyle.Red;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon3.Name = "I_Cancel";
+			dynamicIcon3.Name = "Cancel";
 			this.B_Cancel.ImageName = dynamicIcon3;
 			this.B_Cancel.Location = new System.Drawing.Point(502, 427);
 			this.B_Cancel.Name = "B_Cancel";
@@ -197,7 +197,7 @@
 			this.B_OK.AutoSize = true;
 			this.B_OK.ButtonType = SlickControls.ButtonType.Active;
 			this.B_OK.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon4.Name = "I_Ok";
+			dynamicIcon4.Name = "Ok";
 			this.B_OK.ImageName = dynamicIcon4;
 			this.B_OK.Location = new System.Drawing.Point(425, 427);
 			this.B_OK.Name = "B_OK";
@@ -212,7 +212,7 @@
 			this.TB_Search.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.TLP_Main.SetColumnSpan(this.TB_Search, 3);
 			this.TB_Search.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			dynamicIcon5.Name = "I_Search";
+			dynamicIcon5.Name = "Search";
 			this.TB_Search.ImageName = dynamicIcon5;
 			this.TB_Search.LabelText = "";
 			this.TB_Search.Location = new System.Drawing.Point(3, 16);
@@ -273,7 +273,7 @@
 			this.B_GridView.ActiveColor = null;
 			this.B_GridView.Anchor = System.Windows.Forms.AnchorStyles.Left;
 			this.B_GridView.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon6.Name = "I_Grid";
+			dynamicIcon6.Name = "Grid";
 			this.B_GridView.ImageName = dynamicIcon6;
 			this.B_GridView.Location = new System.Drawing.Point(43, 424);
 			this.B_GridView.Name = "B_GridView";

@@ -430,7 +430,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), UI.Font(6.5F), new SolidBrush(Color.FromArgb(200, fore)), ClientRectangle.Pad(Padding.Left, Padding.Top / 4, 0, 0));
 			}
 
-			using var chevron = IconManager.GetIcon("I_DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90));
+			using var chevron = IconManager.GetIcon("DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90));
 			PaintSelectedItem(e, fore, (string.IsNullOrWhiteSpace(Text) || HideLabel ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2)).Pad(0, 0, chevron.Width, 0));
 
 			e.Graphics.DrawImage(chevron, ClientRectangle.Pad(Padding).Align(chevron.Size, ContentAlignment.MiddleRight));
@@ -470,7 +470,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 			e.Graphics.FillRoundedRectangle(new SolidBrush(_searchBox.BackColor), _searchBox.Bounds.Pad(-pad).Pad(0, 0, -_searchBox.Height - Padding.Right, 0), pad);
 		}
 
-		using var icon = IconManager.GetIcon("I_Search", _searchBox.Height);
+		using var icon = IconManager.GetIcon("Search", _searchBox.Height);
 		e.Graphics.DrawImage(icon.Color(FormDesign.Design.IconColor), new Rectangle(new Point(_searchBox.Right + Padding.Left, _searchBox.Top + ((_searchBox.Height - icon.Height) / 2)), icon.Size));
 	}
 

@@ -118,7 +118,7 @@ public abstract class SlickMultiSelectionDropDown<T> : SlickSelectionDropDown<T>
 	{
 		base.PaintForListOpen(e, fore);
 
-		using var image = IconManager.GetIcon("I_Cancel", _searchBox.Height);
+		using var image = IconManager.GetIcon("Cancel", _searchBox.Height);
 		var hoverState = ClearRectangle.Contains(PointToClient(MousePosition)) ? (HoverState & ~HoverState.Focused) : HoverState.Normal;
 
 		var color =

@@ -146,10 +146,10 @@
 			// 
 			this.I_Back.ActiveColor = null;
 			this.I_Back.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon1.Name = "I_ArrowLeft";
+			dynamicIcon1.Name = "ArrowLeft";
 			this.I_Back.ImageName = dynamicIcon1;
 			this.I_Back.Location = new System.Drawing.Point(42, 44);
-			this.I_Back.Name = "I_Back";
+			this.I_Back.Name = "Back";
 			this.I_Back.Size = new System.Drawing.Size(14, 15);
 			this.I_Back.TabIndex = 7;
 			this.I_Back.Click += new System.EventHandler(this.I_Back_Click);

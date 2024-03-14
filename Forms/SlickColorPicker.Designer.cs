@@ -296,7 +296,7 @@
 			this.B_Confirm.ColorShade = null;
 			this.B_Confirm.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Confirm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			dynamicIcon1.Name = "I_Ok";
+			dynamicIcon1.Name = "Ok";
 			this.B_Confirm.ImageName = dynamicIcon1;
 			this.B_Confirm.Location = new System.Drawing.Point(3, 3);
 			this.B_Confirm.Name = "B_Confirm";
@@ -313,7 +313,7 @@
 			this.B_Cancel.ColorShade = null;
 			this.B_Cancel.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.B_Cancel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-			dynamicIcon2.Name = "I_Cancel";
+			dynamicIcon2.Name = "Cancel";
 			this.B_Cancel.ImageName = dynamicIcon2;
 			this.B_Cancel.Location = new System.Drawing.Point(98, 3);
 			this.B_Cancel.Name = "B_Cancel";

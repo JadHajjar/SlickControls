@@ -100,7 +100,7 @@ public partial class SlickDropdown : SlickTextBox
 		get => _items; set
 		{
 			_items = value;
-			ImageName = "I_DropChevron";
+			ImageName = "DropChevron";
 		}
 	}
 
@@ -223,11 +223,11 @@ public partial class SlickDropdown : SlickTextBox
 					Text = Conversion == null ? item.ToString() : Conversion(item);
 					DropDownItems = null;
 				};
-				DropDownItems.Disposed += (s, ea) => ImageName = "I_DropChevron";
+				DropDownItems.Disposed += (s, ea) => ImageName = "DropChevron";
 				DropDownItems.Parent = FindForm();
 				DropDownItems.BringToFront();
 				DropDownItems.SetItems(Items);
-				ImageName = "I_DropChevronUp";
+				ImageName = "DropChevronUp";
 				_textBox.Focus();
 			}
 			else
@@ -324,11 +324,11 @@ public partial class SlickDropdown : SlickTextBox
 							Text = Conversion == null ? item.ToString() : Conversion(item);
 							DropDownItems = null;
 						};
-						DropDownItems.Disposed += (s, ea) => ImageName = "I_DropChevron";
+						DropDownItems.Disposed += (s, ea) => ImageName = "DropChevron";
 						DropDownItems.Parent = FindForm();
 						DropDownItems.BringToFront();
 						DropDownItems.SetItems(items.Where(x => x.ToLower() != txt && x.ToLower().StartsWith(txt)));
-						ImageName = "I_DropChevronUp";
+						ImageName = "DropChevronUp";
 						_textBox.Focus();
 					}
 

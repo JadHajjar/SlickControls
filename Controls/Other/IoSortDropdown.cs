@@ -31,10 +31,10 @@ internal class IoSortDropdown : SlickSelectionDropDown<IoSortingOption>
 	{
 		var di = item switch
 		{
-			IoSortingOption.DateModified => (DynamicIcon)"I_SortEdit",
-			IoSortingOption.DateCreated => (DynamicIcon)"I_SortCreated",
-			IoSortingOption.Size => (DynamicIcon)"I_MicroSd",
-			_ => (DynamicIcon)"I_FileName",
+			IoSortingOption.DateModified => (DynamicIcon)"SortEdit",
+			IoSortingOption.DateCreated => (DynamicIcon)"SortCreated",
+			IoSortingOption.Size => (DynamicIcon)"MicroSd",
+			_ => (DynamicIcon)"FileName",
 		};
 		using var icon = di.Get(rectangle.Height - 2).Color(foreColor);
 		e.Graphics.DrawImage(icon, rectangle.Align(icon.Size, ContentAlignment.MiddleLeft));

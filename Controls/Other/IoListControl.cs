@@ -82,7 +82,7 @@ internal class IoListControl : SlickStackedListControl<IOControl, IoListControl.
 			{
 				new SlickStripItem(
 					item.Item.FileObject != null ? "Select File" : "Open Folder",
-					item.Item.FileObject != null ? "I_Ok" : "I_Folder",
+					item.Item.FileObject != null ? "Ok" : "Folder",
 					action: () =>
 					{
 						if (item.Item.FileObject != null) { Controller.fileOpened(item.Item.FileObject); } else if (item.Item.FolderObject != null) { Controller.folderOpened(item.Item.FolderObject); } })
@@ -91,16 +91,16 @@ internal class IoListControl : SlickStackedListControl<IOControl, IoListControl.
 			{
 				SlickStripItem.Empty,
 
-				item.Item.FileObject == null ? null : new SlickStripItem("Open File", "I_Search", () =>
+				item.Item.FileObject == null ? null : new SlickStripItem("Open File", "Search", () =>
 				{
 					new BackgroundAction(() => System.Diagnostics.Process.Start(item.Item.FileObject.FullName)).Run();
 				}),
 
-				new SlickStripItem("View in Explorer", "I_Folder", () =>
+				new SlickStripItem("View in Explorer", "Folder", () =>
 				{
 					if (item.Item.FileObject != null) { new BackgroundAction(() => System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{item.Item.FileObject.FullName}\"")).Run(); } else { new BackgroundAction(() => System.Diagnostics.Process.Start(item.Item.FolderObject.FullName)).Run(); } }),
 
-				new SlickStripItem("Delete", "I_Trash", () =>
+				new SlickStripItem("Delete", "Trash", () =>
 				{
 					if (MessagePrompt.Show($"Are you sure you want to delete '{Text}'", "Confirm Action", PromptButtons.OKCancel, PromptIcons.Warning, FindForm() as SlickForm) == DialogResult.OK)
 					{

@@ -549,27 +549,27 @@ public partial class MessagePrompt : SlickForm
 		switch (selectedIcon)
 		{
 			case PromptIcons.Hand:
-				PB_Icon.Image = IconManager.GetIcon("I_Hand", IconManager.GetLargeScale() * 3 / 2).Color(design.IconColor);
+				PB_Icon.Image = IconManager.GetIcon("Hand", IconManager.GetLargeScale() * 3 / 2).Color(design.IconColor);
 				base.CurrentFormState = FormState.Active;
 				break;
 
 			case PromptIcons.Info:
-				PB_Icon.Image = IconManager.GetIcon("I_Info", IconManager.GetLargeScale() * 3 / 2).Color(design.ActiveColor);
+				PB_Icon.Image = IconManager.GetIcon("Info", IconManager.GetLargeScale() * 3 / 2).Color(design.ActiveColor);
 				base.CurrentFormState = FormState.Active;
 				break;
 
 			case PromptIcons.Input:
-				PB_Icon.Image = IconManager.GetIcon("I_Edit", IconManager.GetLargeScale() * 3 / 2).Color(design.IconColor);
+				PB_Icon.Image = IconManager.GetIcon("Edit", IconManager.GetLargeScale() * 3 / 2).Color(design.IconColor);
 				base.CurrentFormState = FormState.Active;
 				break;
 
 			case PromptIcons.Question:
-				PB_Icon.Image = IconManager.GetIcon("I_Question", IconManager.GetLargeScale() * 3 / 2).Color(design.IconColor);
+				PB_Icon.Image = IconManager.GetIcon("Question", IconManager.GetLargeScale() * 3 / 2).Color(design.IconColor);
 				base.CurrentFormState = FormState.Active;
 				break;
 
 			case PromptIcons.Ok:
-				PB_Icon.Image = IconManager.GetIcon("I_Ok", IconManager.GetLargeScale() * 3 / 2).Color(design.GreenColor);
+				PB_Icon.Image = IconManager.GetIcon("Ok", IconManager.GetLargeScale() * 3 / 2).Color(design.GreenColor);
 				base.CurrentFormState = FormState.Running;
 				break;
 
@@ -579,12 +579,12 @@ public partial class MessagePrompt : SlickForm
 				break;
 
 			case PromptIcons.Warning:
-				PB_Icon.Image = IconManager.GetIcon("I_Warning", IconManager.GetLargeScale() * 3 / 2).Color(design.YellowColor);
+				PB_Icon.Image = IconManager.GetIcon("Warning", IconManager.GetLargeScale() * 3 / 2).Color(design.YellowColor);
 				base.CurrentFormState = FormState.Working;
 				break;
 
 			case PromptIcons.Error:
-				PB_Icon.Image = IconManager.GetIcon("I_Error", IconManager.GetLargeScale() * 3 / 2).Color(design.RedColor);
+				PB_Icon.Image = IconManager.GetIcon("Error", IconManager.GetLargeScale() * 3 / 2).Color(design.RedColor);
 				base.CurrentFormState = FormState.Busy;
 				break;
 
@@ -688,7 +688,7 @@ public partial class MessagePrompt : SlickForm
 		TLP_Main.RowStyles[0] = val ? new RowStyle() : new RowStyle(SizeType.Percent, 100);
 		TLP_Main.RowStyles[3].Height = val ? 100 : 0;
 		B_Details.Text = val ? "Less Info" : "More Info";
-		B_Details.ImageName = val ? "I_CircleArrowUp" : "I_CircleArrowDown";
+		B_Details.ImageName = val ? "CircleArrowUp" : "CircleArrowDown";
 		Height += (int)((val ? 200 : -200) * UI.FontScale);
 	}
 

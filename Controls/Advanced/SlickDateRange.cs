@@ -301,7 +301,7 @@ public class SlickDateRange : SlickControl, ISupportsReset
 
 		PaintSelectedItem(e, fore, string.IsNullOrWhiteSpace(Text) ? ClientRectangle.Pad(Padding) : ClientRectangle.Pad(Padding).Pad(0, (int)(labelSize.Height * 0.65), 0, -Padding.Bottom / 2));
 
-		using var chevron = IconManager.GetIcon("I_DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90));
+		using var chevron = IconManager.GetIcon("DropChevron", (ClientRectangle.Height - Padding.Vertical) / 2).Color(fore.MergeColor(back, 90));
 		if (listDropDown != null)
 		{
 			chevron.Rotate(RotateFlipType.RotateNoneFlipY);

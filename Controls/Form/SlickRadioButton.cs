@@ -57,7 +57,7 @@ public partial class SlickRadioButton : SlickLabel
 				}
 			}
 
-			ImageName = @checked ? "I_Circle_ON" : "I_Circle_OFF";
+			ImageName = @checked ? "Circle_ON" : "Circle_OFF";
 		}
 	}
 

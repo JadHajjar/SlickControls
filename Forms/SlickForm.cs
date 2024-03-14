@@ -249,20 +249,20 @@ public partial class SlickForm : Form, ISlickForm
 
 			var items = new List<SlickStripItem>
 			{
-				new("Minimize", "I_Minimize", () => WindowState = FormWindowState.Minimized, visible: MinimizeBox),
+				new("Minimize", "Minimize", () => WindowState = FormWindowState.Minimized, visible: MinimizeBox),
 
-				new(WindowState == FormWindowState.Maximized ? "Restore" : "Maximize", WindowState == FormWindowState.Maximized ? "I_Restore" : "I_Maximize", () => WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized, visible: MaximizeBox),
+				new(WindowState == FormWindowState.Maximized ? "Restore" : "Maximize", WindowState == FormWindowState.Maximized ? "Restore" : "Maximize", () => WindowState = WindowState == FormWindowState.Maximized ? FormWindowState.Normal : FormWindowState.Maximized, visible: MaximizeBox),
 
-				new("Close", "I_Close", Close),
+				new("Close", "Close", Close),
 
 				panelForm && !bpf.HideMenu ? SlickStripItem.Empty : null,
 
-				new("Smaller Menu", panelForm && bpf.SmallMenu ? "I_Checked_ON" : "I_Checked_OFF", () => bpf.SmallMenu = !bpf.SmallMenu, visible: panelForm && !bpf.HideMenu),
-				new("Auto-Hide Menu", panelForm && bpf.AutoHideMenu ? "I_Checked_ON" : "I_Checked_OFF", () => bpf.AutoHideMenu = !bpf.AutoHideMenu, visible: panelForm && !bpf.HideMenu),
+				new("Smaller Menu", panelForm && bpf.SmallMenu ? "Checked_ON" : "Checked_OFF", () => bpf.SmallMenu = !bpf.SmallMenu, visible: panelForm && !bpf.HideMenu),
+				new("Auto-Hide Menu", panelForm && bpf.AutoHideMenu ? "Checked_ON" : "Checked_OFF", () => bpf.AutoHideMenu = !bpf.AutoHideMenu, visible: panelForm && !bpf.HideMenu),
 
 				SlickStripItem.Empty,
 
-				new("Theme Changer", "I_Paint",  () =>
+				new("Theme Changer", "Paint",  () =>
 				{
 					if (panelForm)
 					{
@@ -277,9 +277,9 @@ public partial class SlickForm : Form, ISlickForm
 
 			if (canSwitch)
 			{
-				items.Add(new SlickStripItem("Switch To", "I_Switch", true)
+				items.Add(new SlickStripItem("Switch To", "Switch", true)
 				{
-					SubItems = FormDesign.List.ToList(item => new SlickStripItem(item.Name, item.Name == FormDesign.Design.Name ? "I_Checked_ON" : "I_Checked_OFF", () =>
+					SubItems = FormDesign.List.ToList(item => new SlickStripItem(item.Name, item.Name == FormDesign.Design.Name ? "Checked_ON" : "Checked_OFF", () =>
 					{
 						Cursor = Cursors.WaitCursor;
 

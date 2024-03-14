@@ -96,11 +96,11 @@ internal partial class DateTimePickerPrompt : Form, IAnimatable
 
 		if (!canIncrement(-1))
 		{
-			e.Graphics.DrawImage(IconManager.GetIcon("I_ArrowLeft").Alpha(100), new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
+			e.Graphics.DrawImage(IconManager.GetIcon("ArrowLeft").Alpha(100), new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
 		}
 		else
 		{
-			e.Graphics.DrawImage(IconManager.GetIcon("I_ArrowLeft").Color(new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
+			e.Graphics.DrawImage(IconManager.GetIcon("ArrowLeft").Color(new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
 
 			if (new Rectangle(4, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse))
 			{
@@ -110,11 +110,11 @@ internal partial class DateTimePickerPrompt : Form, IAnimatable
 
 		if (!canIncrement(1))
 		{
-			e.Graphics.DrawImage(IconManager.GetIcon("I_ArrowRight").Alpha(100), new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
+			e.Graphics.DrawImage(IconManager.GetIcon("ArrowRight").Alpha(100), new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
 		}
 		else
 		{
-			e.Graphics.DrawImage(IconManager.GetIcon("I_ArrowRight").Color(new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
+			e.Graphics.DrawImage(IconManager.GetIcon("ArrowRight").Color(new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse) ? FormDesign.Design.ActiveColor : FormDesign.Design.LabelColor), new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16));
 
 			if (new Rectangle(mainRect.Width - 22, topRect.Y + (topRect.Height / 2) - 8, 16, 16).Contains(Mouse))
 			{

@@ -175,7 +175,7 @@ public class SlickAdvancedImageControl : SlickImageControl, IAnimatable
 			if (Enabled && EnableDots)
 			{
 				e.Graphics.DrawImage(
-					(Width - ImageBounds.Width < 20 ? IconManager.GetSmallIcon("I_More") : IconManager.GetSmallIcon("I_VerticalMore"))
+					(Width - ImageBounds.Width < 20 ? IconManager.GetSmallIcon("More") : IconManager.GetSmallIcon("VerticalMore"))
 						.Color(DotsHovered ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor),
 					DotsBounds);
 			}
