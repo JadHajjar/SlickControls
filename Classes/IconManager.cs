@@ -29,7 +29,7 @@ public class IconManager
 			}
 		}
 
-		_iconLibrary = [];
+		_iconLibrary = new Dictionary<string, Dictionary<int, Bitmap>>(StringComparer.InvariantCultureIgnoreCase);
 
 		foreach (var item in list)
 		{
@@ -37,7 +37,6 @@ public class IconManager
 
 			if (match.Success)
 			{
-
 				if (!_iconLibrary.ContainsKey(match.Groups[1].Value))
 				{
 					_iconLibrary[match.Groups[1].Value] = [];
