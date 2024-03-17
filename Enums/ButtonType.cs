@@ -4,5 +4,6 @@ public enum ButtonType
 {
 	Normal,
 	Hidden,
-	Active
+	Active,
+	Dimmed
 }

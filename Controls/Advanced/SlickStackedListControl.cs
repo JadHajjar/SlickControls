@@ -785,7 +785,7 @@ public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrect
 		e.Graphics.Clear(BackColor);
 	}
 
-	private void OnPaintItem(ItemPaintEventArgs<T, TRrectangle> e)
+	protected virtual void OnPaintItem(ItemPaintEventArgs<T, TRrectangle> e)
 	{
 		e.DrawableItem.Rectangles = GenerateRectangles(e.Item, e.ClipRectangle);
 

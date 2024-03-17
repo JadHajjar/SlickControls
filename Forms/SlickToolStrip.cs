@@ -159,12 +159,20 @@ public partial class SlickToolStrip : Form
 		{
 			var backRectangle = PointToClient(items.Select(x => x.Rectangle).Aggregate(Rectangle.Union));
 
+			using var pen = new Pen(design.AccentColor, (float)Math.Floor(UI.UIScale)) { Alignment = PenAlignment.Inset };
 			using var gradientBrush = SlickControl.Gradient(backRectangle, design.BackColor);
 			e.Graphics.FillRectangle(gradientBrush, backRectangle);
 
-			foreach (var item in items.Where(x => !x.IsEmpty))
+			foreach (var item in items)
 			{
 				var rectangle = PointToClient(item.Rectangle);
+
+				if (item.IsEmpty)
+				{
+					e.Graphics.DrawLine(pen, rectangle.X + Padding.Vertical, rectangle.Y + (rectangle.Height / 2), rectangle.Right - Padding.Vertical, rectangle.Y + (rectangle.Height / 2));
+					continue;
+				}
+
 				var isHovered = rectangle.Contains(mousePos);
 				using var brush = new SolidBrush(item.IsOpened ? design.ForeColor : item.Disabled && item.SubItems.Count == 0 ? design.InfoColor : isHovered && mouseDown ? design.ActiveForeColor : design.ForeColor);
 				using var image = item.Image?.Get(rectangle.Height * 3 / 4);
@@ -215,7 +223,6 @@ public partial class SlickToolStrip : Form
 				}
 			}
 
-			using var pen = new Pen(design.AccentColor, (float)Math.Floor(UI.UIScale)) { Alignment = PenAlignment.Inset };
 			e.Graphics.DrawRectangle(pen, Rectangle.Intersect(backRectangle, clip));
 		}
 	}
@@ -600,7 +607,7 @@ public partial class SlickToolStrip : Form
 
 		foreach (var item in items)
 		{
-			var itemHeight = Padding.Vertical + (int)Math.Floor(UI.UIScale) + (item.IsEmpty ? 0 : fontHeight);
+			var itemHeight = Padding.Vertical + (int)Math.Floor(UI.UIScale) + (item.IsEmpty ? (3 * (int)Math.Floor(UI.UIScale)) : fontHeight);
 			var itemWidth = getWidth(item, itemHeight);
 
 			item.Rectangle = new Rectangle(startPosition, new Size(itemWidth, itemHeight));

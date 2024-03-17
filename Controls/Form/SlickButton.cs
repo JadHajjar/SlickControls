@@ -279,7 +279,7 @@ public partial class SlickButton : SlickImageControl
 		});
 	}
 
-	public static void GetColors(out Color fore, out Color back, HoverState HoverState, ColorStyle ColorStyle = ColorStyle.Active, Color? ColorShade = null, Color? clearColor = null, Color? BackColor = null, ButtonType buttonType = ButtonType.Normal)
+	public static void GetColors(out Color fore, out Color back, HoverState HoverState, ColorStyle ColorStyle = ColorStyle.Active, Color? ColorShade = null, Color? clearColor = null, Color? BackColor = null, ButtonType buttonType = ButtonType.Normal, Color? activeColor = null)
 	{
 		if (buttonType == ButtonType.Active)
 		{
@@ -296,7 +296,7 @@ public partial class SlickButton : SlickImageControl
 		if (HoverState.HasFlag(HoverState.Pressed) || (buttonType == ButtonType.Hidden && HoverState.HasFlag(HoverState.Hovered)))
 		{
 			fore = ColorStyle.GetBackColor().Tint(ColorShade?.GetHue());
-			back = ColorShade == null ? ColorStyle.GetColor().MergeColor(FormDesign.Design.BackColor, 85) : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade);
+			back = ColorShade == null ? (activeColor ?? ColorStyle.GetColor().MergeColor(FormDesign.Design.BackColor, 85)) : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade);
 
 			if ((buttonType == ButtonType.Active && HoverState.HasFlag(HoverState.Hovered)) || !HoverState.HasFlag(HoverState.Pressed))
 			{
@@ -305,8 +305,8 @@ public partial class SlickButton : SlickImageControl
 		}
 		else if (HoverState.HasFlag(HoverState.Hovered))
 		{
-			fore = FormDesign.Design.ButtonForeColor.Tint(Lum: !FormDesign.Design.IsDarkTheme ? -7 : 7);
-			back = FormDesign.Design.ButtonColor.Tint(Lum: !FormDesign.Design.IsDarkTheme ? -7 : 7);
+			fore = FormDesign.Design.ButtonForeColor.Tint(Lum: buttonType == ButtonType.Dimmed ? 0 : !FormDesign.Design.IsDarkTheme ? -7 : 7);
+			back = FormDesign.Design.ButtonColor.Tint(Lum: buttonType == ButtonType.Dimmed ? 0 : !FormDesign.Design.IsDarkTheme ? -7 : 7);
 		}
 		else
 		{
@@ -473,16 +473,16 @@ public partial class SlickButton : SlickImageControl
 			arg.HoverState = default;
 		}
 
-		if (arg.BackgroundColor.A != 0 && (!arg.HoverState.HasFlag(HoverState.Pressed) || arg.ActiveColor.A != 0))
+		if (arg.BackgroundColor.A != 0 && (!arg.HoverState.HasFlag(HoverState.Pressed) || arg.ActiveColor.HasValue))
 		{
-			arg.BackColor = arg.HoverState.HasFlag(HoverState.Pressed) ? arg.ActiveColor
+			arg.BackColor = arg.HoverState.HasFlag(HoverState.Pressed) ? arg.ActiveColor.Value
 				: arg.HoverState.HasFlag(HoverState.Hovered) ? arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 18 : -14)
 				: arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 10 : -8);
 		}
 
 		if (arg.ForeColor.A == 0 && arg.BackColor.A == 0)
 		{
-			GetColors(out var fore, out var back, arg.HoverState, arg.ColorStyle, arg.ColorShade, null, arg.BackColor, arg.ButtonType);
+			GetColors(out var fore, out var back, arg.HoverState, arg.ColorStyle, arg.ColorShade, null, arg.BackColor, arg.ButtonType, arg.ActiveColor);
 
 			arg.ForeColor = fore;
 			arg.BackColor = back;
@@ -501,6 +501,12 @@ public partial class SlickButton : SlickImageControl
 				arg.BackColor = Color.FromArgb(100, arg.BackColor);
 			}
 		}
+		else if (arg.ButtonType == ButtonType.Dimmed && arg.HoverState < HoverState.Pressed)
+		{
+			arg.ForeColor = arg.ForeColor.MergeColor(FormDesign.Design.BackColor, 90);
+
+			arg.BackColor = Color.FromArgb(arg.HoverState.HasFlag(HoverState.Hovered) ? 150 : 50, arg.BackColor.MergeColor(FormDesign.Design.BackColor, 75));
+		}
 	}
 
 	public static void DrawButton(Graphics graphics, ButtonDrawArgs arg)
@@ -513,10 +519,16 @@ public partial class SlickButton : SlickImageControl
 		if (!arg.HoverState.HasFlag(HoverState.Pressed))
 		{
 			DrawFocus(graphics,
-			 arg.Rectangle,
-			 arg.HoverState,
-			 arg.BorderRadius ?? arg.Padding.Top,
-			 arg.ColorShade == null ? arg.ColorStyle.GetColor() : arg.ColorStyle.GetColor().Tint(arg.ColorShade?.GetHue()).MergeColor((Color)arg.ColorShade));
+				arg.Rectangle,
+				arg.HoverState,
+				arg.BorderRadius ?? arg.Padding.Top,
+				arg.ColorShade == null ? (arg.ActiveColor ?? arg.ColorStyle.GetColor()) : arg.ColorStyle.GetColor().Tint(arg.ColorShade?.GetHue()).MergeColor((Color)arg.ColorShade));
+		}
+
+		if (arg.ButtonType == ButtonType.Dimmed && arg.HoverState <= HoverState.Normal)
+		{
+			using var pen = new Pen(Color.FromArgb(135, arg.BackColor), (float)(Math.Max(1.5, UI.FontScale))) { Alignment = System.Drawing.Drawing2D.PenAlignment.Inset };
+			graphics.DrawRoundedRectangle(pen, arg.Rectangle, arg.BorderRadius ?? arg.Padding.Top);
 		}
 
 		var noText = string.IsNullOrWhiteSpace(arg.Text);
@@ -526,7 +538,7 @@ public partial class SlickButton : SlickImageControl
 
 		if (arg.Control?.Loading ?? false)
 		{
-			var color = arg.ColorShade == null ? arg.ColorStyle.GetColor() : arg.ColorStyle.GetColor().Tint(arg.ColorShade?.GetHue()).MergeColor((Color)arg.ColorShade);
+			var color = arg.ColorShade == null ? (arg.ActiveColor ?? arg.ColorStyle.GetColor()) : arg.ColorStyle.GetColor().Tint(arg.ColorShade?.GetHue()).MergeColor((Color)arg.ColorShade);
 
 			if (color.MergeColor(FormDesign.Design.BackColor, 85) == arg.BackColor)
 			{
@@ -606,7 +618,7 @@ public class ButtonDrawArgs : IDisposable
 	public bool ColoredIcon { get; set; }
 	public bool DoNotDrawIcon { get; set; }
 	public Color BackgroundColor { get; set; }
-	public Color ActiveColor { get; set; }
+	public Color? ActiveColor { get; set; }
 
 	public void Dispose()
 	{

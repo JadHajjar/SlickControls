@@ -19,7 +19,6 @@ public class SlickWebBrowser : WebBrowser
 	public SlickWebBrowser()
 	{
 		IsWebBrowserContextMenuEnabled = false;
-		WebBrowserShortcutsEnabled = false;
 		FormDesign.DesignChanged += FormDesign_DesignChanged;
 		UI.UIChanged += UI_UIChanged;
 	}
