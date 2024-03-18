@@ -27,6 +27,9 @@ public class RoundedGroupPanel : DBPanel
 	[Category("Appearance"), DefaultValue(false)]
 	public bool AddOutline { get; set; }
 
+	[Category("Appearance"), DefaultValue(false)]
+	public bool AddShadow { get; set; }
+
 	[Category("Behavior"), DefaultValue(false)]
 	public bool AddPaddingForIcon { get; set; }
 
@@ -75,9 +78,9 @@ public class RoundedGroupPanel : DBPanel
 	{
 		try
 		{
-			var padding = UI.Scale(new Padding(5), UI.FontScale);
+			var padding = UI.Scale(new Padding(AddShadow ? 12 : 5), UI.FontScale);
+			var pad = (int)(4 * UI.FontScale);
 
-			using var g = Graphics.FromHwnd(IntPtr.Zero);
 			var iconWidth = 0;
 			if (Image != null)
 			{
@@ -90,14 +93,14 @@ public class RoundedGroupPanel : DBPanel
 
 			if (AddPaddingForIcon)
 			{
-				padding.Left = (padding.Left * 2) + iconWidth;
+				padding.Left = (pad * 2) + iconWidth;
 			}
 
-			var titleHeight = Math.Max(iconWidth, (int)g.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth <= 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
+			var titleHeight = iconWidth * 4 / 3;
 
 			if (titleHeight > 0)
 			{
-				padding.Top += padding.Top + titleHeight;
+				padding.Top += pad + titleHeight;
 			}
 
 			Padding = padding;
@@ -108,19 +111,24 @@ public class RoundedGroupPanel : DBPanel
 
 	protected override void OnPaintBackground(PaintEventArgs e)
 	{
-		e.Graphics.Clear(Parent?.BackColor ?? BackColor);
-		e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-		e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+		e.Graphics.SetUp(Parent?.BackColor ?? BackColor);
 
-		using (var brush = new SolidBrush(BackColor))
+		if (AddShadow)
 		{
-			e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Right);
+			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Right / 2), Padding.Right / 2, Padding.Right / 2, BackColor, ColorStyle == ColorStyle.Text ? null : Color.FromArgb(8, ColorStyle.GetColor()), addOutline: AddOutline);
 		}
-
-		if (AddOutline)
+		else
 		{
-			using var pen = new Pen(ColorStyle == ColorStyle.Text ? FormDesign.Design.AccentColor : ColorStyle.GetColor(), (float)(1.5 * UI.FontScale));
-			e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Right);
+			using (var brush = new SolidBrush(BackColor))
+			{
+				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(2) : ClientRectangle.Pad(1), Padding.Right);
+			}
+
+			if (AddOutline)
+			{
+				using var pen = new Pen(ColorStyle == ColorStyle.Text ? FormDesign.Design.AccentColor : ColorStyle.GetColor(), AddShadow ? 1.5F : (float)(1.5 * UI.FontScale));
+				e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(1).Pad((int)pen.Width), Padding.Right);
+			}
 		}
 
 		try
@@ -129,10 +137,12 @@ public class RoundedGroupPanel : DBPanel
 			var info = LocaleHelper.GetGlobalText(Info);
 			using var icon = Image == null ? ImageName?.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16) : new Bitmap(Image);
 			var iconWidth = icon?.Width ?? 0;
-			using var font = UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold).FitToWidth(text + info, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, Height), e.Graphics);
-			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
+			using var font = UI.Font(9F, FontStyle.Bold).FitToWidth(text + info, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, Height), e.Graphics);
+			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 85);
 			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(" ", font).Height);
-			var iconRectangle = new Rectangle(Padding.Right * 3 / 2, (Padding.Bottom * 4 / 3) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
+			var rectangle = new Rectangle(Padding.Right, Padding.Bottom, Width - (Padding.Right * 2), titleHeight);
+			var iconRectangle = rectangle.Align(new Size(iconWidth, iconWidth), ContentAlignment.MiddleLeft);
+			var textRectangle = rectangle.Pad(icon != null ? iconWidth + (Padding.Right / 2) : 0, 0, 0, 0);
 			using var brush = new SolidBrush(textColor);
 			using var format = new StringFormat { LineAlignment = StringAlignment.Center };
 
@@ -141,15 +151,15 @@ public class RoundedGroupPanel : DBPanel
 				e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 			}
 
-			e.Graphics.DrawString(text, font, brush, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, titleHeight), format);
+			e.Graphics.DrawString(text, font, brush, textRectangle, format);
 
 			if (!string.IsNullOrWhiteSpace(Info))
 			{
-				using var brush2 = new SolidBrush(Color.FromArgb(200, textColor));
-				using var font2 = new Font(font.FontFamily, font.Size - 1.25f);
+				using var brush2 = new SolidBrush(Color.FromArgb(175, textColor));
+				using var font2 = new Font(font.FontFamily, font.Size - 1.5f);
 				var bnds = e.Graphics.Measure(text, font);
 
-				e.Graphics.DrawString(info, font2, brush2, new Rectangle(iconWidth + (Padding.Right * 2) + (int)(bnds.Width * 1.05), Padding.Bottom, Width - (iconWidth + (Padding.Right * 4) + (int)bnds.Width + Padding.Right), titleHeight + Padding.Bottom / 2), format);
+				e.Graphics.DrawString(info, font2, brush2, textRectangle.Pad((int)bnds.Width + (Padding.Right / 2), 0, 0, 0), format);
 			}
 		}
 		catch { }
@@ -175,6 +185,9 @@ public class RoundedGroupFlowLayoutPanel : DBFlowLayoutPanel
 
 	[Category("Appearance"), DefaultValue(false)]
 	public bool AddOutline { get; set; }
+
+	[Category("Appearance"), DefaultValue(false)]
+	public bool AddShadow { get; set; }
 
 	[Category("Behavior"), DefaultValue(false)]
 	public bool AddPaddingForIcon { get; set; }
@@ -224,31 +237,29 @@ public class RoundedGroupFlowLayoutPanel : DBFlowLayoutPanel
 	{
 		try
 		{
-			var padding = UI.Scale(new Padding(5), UI.FontScale);
+			var padding = UI.Scale(new Padding(AddShadow ? 12 : 5), UI.FontScale);
+			var pad = (int)(4 * UI.FontScale);
 
-			using (var g = Graphics.FromHwnd(IntPtr.Zero))
+			var iconWidth = 0;
+			if (Image != null)
 			{
-				var iconWidth = 0;
-				if (Image != null)
-				{
-					iconWidth = Image.Width;
-				}
-				else if (ImageName != null)
-				{
-					iconWidth = ImageName.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16)?.Width ?? 0;
-				}
+				iconWidth = Image.Width;
+			}
+			else if (ImageName != null)
+			{
+				iconWidth = ImageName.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16)?.Width ?? 0;
+			}
 
-				if (AddPaddingForIcon)
-				{
-					padding.Left = (padding.Left * 2) + iconWidth;
-				}
+			if (AddPaddingForIcon)
+			{
+				padding.Left = (pad * 2) + iconWidth;
+			}
 
-				var titleHeight = Math.Max(iconWidth, (int)g.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth <= 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
+			var titleHeight = iconWidth * 4 / 3;
 
-				if (titleHeight > 0)
-				{
-					padding.Top += padding.Top + titleHeight;
-				}
+			if (titleHeight > 0)
+			{
+				padding.Top += pad + titleHeight;
 			}
 
 			Padding = padding;
@@ -259,19 +270,24 @@ public class RoundedGroupFlowLayoutPanel : DBFlowLayoutPanel
 
 	protected override void OnPaintBackground(PaintEventArgs e)
 	{
-		e.Graphics.Clear(Parent?.BackColor ?? BackColor);
-		e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-		e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+		e.Graphics.SetUp(Parent?.BackColor ?? BackColor);
 
-		using (var brush = new SolidBrush(BackColor))
+		if (AddShadow)
 		{
-			e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Right);
+			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Right / 2), Padding.Right / 2, Padding.Right / 2, BackColor, ColorStyle == ColorStyle.Text ? null : Color.FromArgb(8, ColorStyle.GetColor()), addOutline: AddOutline);
 		}
-
-		if (AddOutline)
+		else
 		{
-			using var pen = new Pen(ColorStyle == ColorStyle.Text ? FormDesign.Design.AccentColor : ColorStyle.GetColor(), (float)(1.5 * UI.FontScale));
-			e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Right);
+			using (var brush = new SolidBrush(BackColor))
+			{
+				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(2) : ClientRectangle.Pad(1), Padding.Right);
+			}
+
+			if (AddOutline)
+			{
+				using var pen = new Pen(ColorStyle == ColorStyle.Text ? FormDesign.Design.AccentColor : ColorStyle.GetColor(), AddShadow ? 1.5F : (float)(1.5 * UI.FontScale));
+				e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(1).Pad((int)pen.Width), Padding.Right);
+			}
 		}
 
 		try
@@ -280,10 +296,12 @@ public class RoundedGroupFlowLayoutPanel : DBFlowLayoutPanel
 			var info = LocaleHelper.GetGlobalText(Info);
 			using var icon = Image == null ? ImageName?.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16) : new Bitmap(Image);
 			var iconWidth = icon?.Width ?? 0;
-			using var font = UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold).FitToWidth(text + info, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, Height), e.Graphics);
-			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
+			using var font = UI.Font(9F, FontStyle.Bold).FitToWidth(text + info, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, Height), e.Graphics);
+			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 85);
 			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(" ", font).Height);
-			var iconRectangle = new Rectangle(Padding.Right * 3 / 2, (Padding.Bottom * 4 / 3) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
+			var rectangle = new Rectangle(Padding.Right, Padding.Bottom, Width - (Padding.Right * 2), titleHeight);
+			var iconRectangle = rectangle.Align(new Size(iconWidth, iconWidth), ContentAlignment.MiddleLeft);
+			var textRectangle = rectangle.Pad(icon != null ? iconWidth + (Padding.Right / 2) : 0, 0, 0, 0);
 			using var brush = new SolidBrush(textColor);
 			using var format = new StringFormat { LineAlignment = StringAlignment.Center };
 
@@ -292,15 +310,15 @@ public class RoundedGroupFlowLayoutPanel : DBFlowLayoutPanel
 				e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 			}
 
-			e.Graphics.DrawString(text, font, brush, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, titleHeight), format);
+			e.Graphics.DrawString(text, font, brush, textRectangle, format);
 
 			if (!string.IsNullOrWhiteSpace(Info))
 			{
-				using var brush2 = new SolidBrush(Color.FromArgb(200, textColor));
-				using var font2 = new Font(font.FontFamily, font.Size - 1.25f);
+				using var brush2 = new SolidBrush(Color.FromArgb(175, textColor));
+				using var font2 = new Font(font.FontFamily, font.Size - 1.5f);
 				var bnds = e.Graphics.Measure(text, font);
 
-				e.Graphics.DrawString(info, font2, brush2, new Rectangle(iconWidth + (Padding.Right * 2) + (int)(bnds.Width * 1.05), Padding.Bottom, Width - (iconWidth + (Padding.Right * 4) + (int)bnds.Width + Padding.Right), titleHeight + Padding.Bottom / 2), format);
+				e.Graphics.DrawString(info, font2, brush2, textRectangle.Pad((int)bnds.Width + (Padding.Right / 2), 0, 0, 0), format);
 			}
 		}
 		catch { }
@@ -326,6 +344,9 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 
 	[Category("Appearance"), DefaultValue(false)]
 	public bool AddOutline { get; set; }
+
+	[Category("Appearance"), DefaultValue(false)]
+	public bool AddShadow { get; set; }
 
 	[Category("Behavior"), DefaultValue(false)]
 	public bool AddPaddingForIcon { get; set; }
@@ -378,44 +399,42 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 	{
 		try
 		{
-			var padding = UI.Scale(new Padding(5), UI.FontScale);
+			var padding = UI.Scale(new Padding(AddShadow ? 12 : 5), UI.FontScale);
+			var pad = (int)(4 * UI.FontScale);
 
-			using (var g = Graphics.FromHwnd(IntPtr.Zero))
+			var iconWidth = 0;
+			if (Image != null)
 			{
-				var iconWidth = 0;
-				if (Image != null)
-				{
-					iconWidth = Image.Width;
-				}
-				else if (ImageName != null)
-				{
-					iconWidth = ImageName.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16)?.Width ?? 0;
-				}
+				iconWidth = Image.Width;
+			}
+			else if (ImageName != null)
+			{
+				iconWidth = ImageName.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16)?.Width ?? 0;
+			}
 
-				if (AddPaddingForIcon)
+			if (AddPaddingForIcon)
+			{
+				if (UseFirstRowForPadding)
 				{
-					if (UseFirstRowForPadding)
-					{
-						ColumnStyles[0].Width = padding.Left + iconWidth;
-					}
-					else
-					{
-						padding.Left = (padding.Left * 2) + iconWidth;
-					}
+					ColumnStyles[0].Width = pad + iconWidth;
 				}
-
-				var titleHeight = Math.Max(iconWidth, (int)g.Measure(LocaleHelper.GetGlobalText(Text), UI.Font(iconWidth <= 16 ? 8.25F : 9.75F, FontStyle.Bold), Width - Padding.Horizontal).Height);
-
-				if (titleHeight > 0)
+				else
 				{
-					if (UseFirstRowForPadding)
-					{
-						RowStyles[0].Height = padding.Top + titleHeight;
-					}
-					else
-					{
-						padding.Top += padding.Top + titleHeight;
-					}
+					padding.Left = (pad * 2) + iconWidth;
+				}
+			}
+
+			var titleHeight = iconWidth * 4 / 3;
+
+			if (titleHeight > 0)
+			{
+				if (UseFirstRowForPadding)
+				{
+					RowStyles[0].Height = pad + titleHeight;
+				}
+				else
+				{
+					padding.Top += pad + titleHeight;
 				}
 			}
 
@@ -427,19 +446,24 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 
 	protected override void OnPaintBackground(PaintEventArgs e)
 	{
-		e.Graphics.Clear(Parent?.BackColor ?? BackColor);
-		e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-		e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+		e.Graphics.SetUp(Parent?.BackColor ?? BackColor);
 
-		using (var brush = new SolidBrush(BackColor))
+		if (AddShadow)
 		{
-			e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(1, 1, 2, 2) : ClientRectangle.Pad(0, 0, 1, 1), Padding.Right);
+			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Right / 2), Padding.Right / 2, Padding.Right / 2, BackColor, ColorStyle == ColorStyle.Text ? null : Color.FromArgb(8, ColorStyle.GetColor()), addOutline: AddOutline);
 		}
-
-		if (AddOutline)
+		else
 		{
-			using var pen = new Pen(ColorStyle == ColorStyle.Text ? FormDesign.Design.AccentColor : ColorStyle.GetColor(), (float)(1.5 * UI.FontScale));
-			e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(0, 0, 1, 1).Pad((int)pen.Width), Padding.Right);
+			using (var brush = new SolidBrush(BackColor))
+			{
+				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(2) : ClientRectangle.Pad(1), Padding.Right);
+			}
+
+			if (AddOutline)
+			{
+				using var pen = new Pen(ColorStyle == ColorStyle.Text ? FormDesign.Design.AccentColor : ColorStyle.GetColor(), AddShadow ? 1.5F : (float)(1.5 * UI.FontScale));
+				e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(1).Pad((int)pen.Width), Padding.Right);
+			}
 		}
 
 		try
@@ -448,10 +472,20 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 			var info = LocaleHelper.GetGlobalText(Info);
 			using var icon = Image == null ? ImageName?.Get(UI.FontScale >= 2.5 ? 48 : UI.FontScale >= 1.25 ? 24 : 16) : new Bitmap(Image);
 			var iconWidth = icon?.Width ?? 0;
-			using var font = UI.Font(iconWidth == 16 ? 8.25F : 9.75F, FontStyle.Bold).FitToWidth(text + info, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, Height), e.Graphics);
-			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 70);
+			using var font = UI.Font(9F, FontStyle.Bold).FitToWidth(text + info, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, Height), e.Graphics);
+			var textColor = ColorStyle == ColorStyle.Text ? FormDesign.Design.LabelColor : ColorStyle.GetColor().MergeColor(FormDesign.Design.IconColor, 85);
 			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(" ", font).Height);
-			var iconRectangle = new Rectangle(Padding.Right * 3 / 2, (Padding.Bottom * 4 / 3) + ((titleHeight - iconWidth) / 2), iconWidth, iconWidth);
+			var rectangle = new Rectangle(Padding.Right, Padding.Bottom, Width - (Padding.Right * 2), titleHeight);
+
+			if (UseFirstRowForPadding)
+			{
+				titleHeight = (int)RowStyles[0].Height;
+				rectangle = rectangle.Pad((titleHeight - rectangle.Height) / 2, 0, 0, 0);
+				rectangle.Height = titleHeight;
+			}
+
+			var iconRectangle = rectangle.Align(new Size(iconWidth, iconWidth), ContentAlignment.MiddleLeft);
+			var textRectangle = rectangle.Pad(icon != null ? iconWidth + (Padding.Right / 2) : 0, 0, 0, 0);
 			using var brush = new SolidBrush(textColor);
 			using var format = new StringFormat { LineAlignment = StringAlignment.Center };
 
@@ -460,15 +494,15 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 				e.Graphics.DrawImage(icon.Color(textColor), iconRectangle);
 			}
 
-			e.Graphics.DrawString(text, font, brush, new Rectangle(iconWidth + (Padding.Right * 2), Padding.Bottom, Width - Padding.Horizontal, titleHeight), format);
+			e.Graphics.DrawString(text, font, brush, textRectangle, format);
 
 			if (!string.IsNullOrWhiteSpace(Info))
 			{
-				using var brush2 = new SolidBrush(Color.FromArgb(200, textColor));
-				using var font2 = new Font(font.FontFamily, font.Size - 1.25f);
+				using var brush2 = new SolidBrush(Color.FromArgb(175, textColor));
+				using var font2 = new Font(font.FontFamily, font.Size - 1.5f);
 				var bnds = e.Graphics.Measure(text, font);
 
-				e.Graphics.DrawString(info, font2, brush2, new Rectangle(iconWidth + (Padding.Right * 2) + (int)(bnds.Width * 1.05), Padding.Bottom, Width - (iconWidth + (Padding.Right * 4) + (int)bnds.Width + Padding.Right), titleHeight + Padding.Bottom / 2), format);
+				e.Graphics.DrawString(info, font2, brush2, textRectangle.Pad((int)bnds.Width + (Padding.Right / 2), 0, 0, 0), format);
 			}
 		}
 		catch { }

@@ -58,7 +58,8 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 			UIChanged();
 		}
 	}
-
+	[Category("Appearance"), DisplayName("Match Background Color"), DefaultValue(true)]
+	public bool MatchBackgroundColor { get; set; } = true;
 	[DefaultValue(false), Category("Appearance")]
 	public bool AccentBackColor { get; set; }
 	[DefaultValue(false), Category("Appearance")]
@@ -383,8 +384,8 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 	{
 		var hoverState= listDropDown != null ? HoverState.Normal : HoverState;
 		var back = hoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor
-			: hoverState.HasFlag(HoverState.Hovered) ? BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 18 : -14)
-			: BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 10 : -8);
+			: hoverState.HasFlag(HoverState.Hovered) ? (MatchBackgroundColor ? BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 18 : -14) : FormDesign.Design.ButtonColor.Tint(Lum: !FormDesign.Design.IsDarkTheme ? -7 : 7))
+			: (MatchBackgroundColor ? BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 8 : -6) : FormDesign.Design.ButtonColor);
 		var fore = back.GetTextColor();
 
 		e.Graphics.SetUp(BackColor);

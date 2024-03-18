@@ -29,7 +29,7 @@ public class RoundedPanel : DBPanel
 
 		if (AddShadow)
 		{
-			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Top / 2), Padding.Top / 2, Padding.Top / 2);
+			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Top / 2), Padding.Top / 2, Padding.Top / 2, BackColor, addOutline: AddOutline);
 		}
 		else
 		{
@@ -37,12 +37,12 @@ public class RoundedPanel : DBPanel
 			{
 				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(2) : ClientRectangle.Pad(1), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
 			}
-		}
 
-		if (AddOutline)
-		{
-			using var pen = new Pen(FormDesign.Design.AccentColor, AddShadow ? 1.5F : (float)(1.5 * UI.FontScale));
-			e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(1).Pad((int)pen.Width), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
+			if (AddOutline)
+			{
+				using var pen = new Pen(FormDesign.Design.AccentColor, AddShadow ? 1.5F : (float)(1.5 * UI.FontScale));
+				e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(1).Pad((int)pen.Width), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
+			}
 		}
 	}
 }
@@ -70,7 +70,7 @@ public class RoundedTableLayoutPanel : DBTableLayoutPanel
 
 		if (AddShadow)
 		{
-			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Top / 2), Padding.Top / 2, Padding.Top / 2);
+			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Top / 2), Padding.Top / 2, Padding.Top / 2, BackColor, addOutline: AddOutline);
 		}
 		else
 		{
@@ -78,12 +78,12 @@ public class RoundedTableLayoutPanel : DBTableLayoutPanel
 			{
 				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(2) : ClientRectangle.Pad(1), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
 			}
-		}
 
-		if (AddOutline)
-		{
-			using var pen = new Pen(FormDesign.Design.AccentColor, AddShadow ? 1.5F : (float)(1.5 * UI.FontScale));
-			e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(1).Pad((int)pen.Width), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
+			if (AddOutline)
+			{
+				using var pen = new Pen(FormDesign.Design.AccentColor, AddShadow ? 1.5F : (float)(1.5 * UI.FontScale));
+				e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(1).Pad((int)pen.Width), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
+			}
 		}
 	}
 }
@@ -111,7 +111,7 @@ public class RoundedFlowLayoutPanel : DBFlowLayoutPanel
 
 		if (AddShadow)
 		{
-			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Top / 2), Padding.Top / 2, Padding.Top / 2);
+			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Top / 2), Padding.Top / 2, Padding.Top / 2, BackColor, addOutline: AddOutline);
 		}
 		else
 		{
@@ -119,12 +119,12 @@ public class RoundedFlowLayoutPanel : DBFlowLayoutPanel
 			{
 				e.Graphics.FillRoundedRectangle(brush, AddOutline ? ClientRectangle.Pad(2) : ClientRectangle.Pad(1), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
 			}
-		}
 
-		if (AddOutline)
-		{
-			using var pen = new Pen(FormDesign.Design.AccentColor, AddShadow ? 1.5F : (float)(1.5 * UI.FontScale));
-			e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(1).Pad((int)pen.Width), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
+			if (AddOutline)
+			{
+				using var pen = new Pen(FormDesign.Design.AccentColor, AddShadow ? 1.5F : (float)(1.5 * UI.FontScale));
+				e.Graphics.DrawRoundedRectangle(pen, ClientRectangle.Pad(1).Pad((int)pen.Width), Padding.Top, !TopLeft, !TopRight, !BotRight, !BotLeft);
+			}
 		}
 	}
 }
