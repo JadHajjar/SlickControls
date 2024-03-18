@@ -38,6 +38,7 @@
 			// 
 			// P_Tabs
 			// 
+			this.P_Tabs.AddShadow = true;
 			this.P_Tabs.Dock = System.Windows.Forms.DockStyle.Top;
 			this.P_Tabs.Location = new System.Drawing.Point(0, 0);
 			this.P_Tabs.Name = "P_Tabs";
@@ -61,9 +62,9 @@
 			this.ScrollBar.AutoSizeSource = true;
 			this.ScrollBar.Dock = System.Windows.Forms.DockStyle.Right;
 			this.ScrollBar.LinkedControl = null;
-			this.ScrollBar.Location = new System.Drawing.Point(602, 0);
+			this.ScrollBar.Location = new System.Drawing.Point(608, 0);
 			this.ScrollBar.Name = "ScrollBar";
-			this.ScrollBar.Size = new System.Drawing.Size(10, 319);
+			this.ScrollBar.Size = new System.Drawing.Size(4, 319);
 			this.ScrollBar.SmallHandle = true;
 			this.ScrollBar.Style = SlickControls.StyleType.Vertical;
 			this.ScrollBar.TabIndex = 0;
