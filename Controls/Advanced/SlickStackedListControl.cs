@@ -837,7 +837,7 @@ public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrect
 
 		using (var brush = new SolidBrush(e.BackColor))
 		{
-			e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.Pad(-GridPadding.Left, -GridPadding.Top, -GridPadding.Right, -GridPadding.Bottom), (int)(5 * UI.FontScale));
+			e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.InvertPad(GridPadding), (int)(5 * UI.FontScale));
 		}
 
 		PaintItemGrid?.Invoke(this, e);

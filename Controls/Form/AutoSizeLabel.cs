@@ -39,7 +39,9 @@ public class AutoSizeLabel : SlickControl
 
 		var availableSize = GetAvailableSize();
 
-		return new Size(proposedSize.Width, Math.Min(availableSize.Height, Padding.Vertical + (int)FontMeasuring.Measure(Text, Font, availableSize.Width - Padding.Horizontal).Height));
+		var width = Math.Min(availableSize.Width, Padding.Horizontal + (int)FontMeasuring.Measure(Text, Font).Width);
+
+		return new Size(width, Math.Min(availableSize.Height, Padding.Vertical + (int)FontMeasuring.Measure(Text, Font, width - Padding.Horizontal).Height));
 	}
 
 	protected override void OnPaint(PaintEventArgs e)
