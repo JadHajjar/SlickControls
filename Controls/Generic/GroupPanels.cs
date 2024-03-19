@@ -477,7 +477,7 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 			var titleHeight = Math.Max(iconWidth, (int)e.Graphics.Measure(" ", font).Height);
 			var rectangle = new Rectangle(Padding.Right, Padding.Bottom, Width - (Padding.Right * 2), titleHeight);
 
-			if (UseFirstRowForPadding)
+			if (UseFirstRowForPadding && RowStyles[0].SizeType == SizeType.Absolute)
 			{
 				titleHeight = (int)RowStyles[0].Height;
 				rectangle = rectangle.Pad((titleHeight - rectangle.Height) / 2, 0, 0, 0);
