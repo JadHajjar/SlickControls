@@ -1020,7 +1020,7 @@ public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrect
 			if (GridView)
 			{
 				var height = 0;
-				var columns = Math.Floor((double)(Width / (GridItemSize.Width.If(0, 1) + Padding.Horizontal)));
+				var columns = Math.Floor((double)(Width / (GridItemSize.Width.If(0, 1) + Padding.Horizontal))).If(0, 1);
 
 				for (var i = 0; i < itemList.Count;)
 				{
@@ -1064,7 +1064,7 @@ public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrect
 			return itemList.Count();
 		}
 
-		return (int)Math.Ceiling(itemList.Count() / Math.Floor((double)(Width / (GridItemSize.Width + Padding.Horizontal))));
+		return (int)Math.Ceiling(itemList.Count() / Math.Floor((double)(Width / (GridItemSize.Width + Padding.Horizontal))).If(0, 1));
 	}
 
 	public List<DrawableItem<T, TRrectangle>> SafeGetItems()

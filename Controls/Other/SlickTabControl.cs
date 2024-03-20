@@ -123,50 +123,50 @@ public partial class SlickTabControl : SlickControl
 	private void tab_TabSelected(object sender, EventArgs e)
 	{
 		P_Content.TryInvoke(() =>
-	{
-		if (ScrollBar?.LinkedControl != null)
 		{
-			ScrollBar.LinkedControl.ControlAdded -= ctrl_ControlAdded;
-		}
-
-		var tab = sender as Tab;
-		var ctrl = tab.LinkedControl;
-		noResults = tab.NoControlText.IfEmpty("Nothing to see here");
-
-		P_Content.Controls.Clear(false, x => x != ScrollBar);
-		P_Content.Invalidate();
-
-		Application.DoEvents();
-
-		if (ctrl != null)
-		{
-			ctrl.Location = Point.Empty;
-			ctrl.Parent = P_Content;
-			ctrl.ControlAdded += ctrl_ControlAdded;
-
-			if (!tab.FillTab)
+			if (ScrollBar?.LinkedControl != null)
 			{
-				if (!ScrollBar.IsHandleCreated)
+				ScrollBar.LinkedControl.ControlAdded -= ctrl_ControlAdded;
+			}
+
+			var tab = sender as Tab;
+			var ctrl = tab.LinkedControl;
+			noResults = tab.NoControlText.IfEmpty("Nothing to see here");
+
+			P_Content.Controls.Clear(false, x => x != ScrollBar);
+			P_Content.Invalidate();
+
+			Application.DoEvents();
+
+			if (ctrl != null)
+			{
+				ctrl.Location = Point.Empty;
+				ctrl.Parent = P_Content;
+				ctrl.ControlAdded += ctrl_ControlAdded;
+
+				if (!tab.FillTab)
 				{
-					ScrollBar.Show();
-					ScrollBar.CreateControl();
+					if (!ScrollBar.IsHandleCreated)
+					{
+						ScrollBar.Show();
+						ScrollBar.CreateControl();
+					}
+
+					ScrollBar.LinkedControl = ctrl;
+					ScrollBar.Reset();
+				}
+				else
+				{
+					ScrollBar.Visible = false;
+					ScrollBar.LinkedControl = null;
+					ctrl.Dock = DockStyle.Fill;
 				}
 
-				ScrollBar.LinkedControl = ctrl;
-				ScrollBar.Reset();
-			}
-			else
-			{
-				ScrollBar.Visible = false;
-				ScrollBar.LinkedControl = null;
-				ctrl.Dock = DockStyle.Fill;
+				ctrl.ResetFocus();
 			}
 
-			ctrl.ResetFocus();
-		}
-
-		P_Content.Invalidate();
-	});
+			P_Content.Invalidate();
+		});
 	}
 
 	private void ctrl_ControlAdded(object sender, ControlEventArgs e)
