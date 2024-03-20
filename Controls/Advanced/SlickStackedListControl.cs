@@ -893,7 +893,7 @@ public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrect
 
 		if (GridView)
 		{
-			start *= (int)Math.Floor((double)(Width / (GridItemSize.Width + Padding.Horizontal)));
+			start *= (int)Math.Floor((double)(Width / (GridItemSize.Width + Padding.Horizontal).If(0, 1)));
 		}
 
 		for (var i = start; i < itemList.Count; i++)
