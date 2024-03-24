@@ -172,5 +172,6 @@
   "Email Address": "Correo electrónico",
   "Password": "Contraseña",
   "Login": "Iniciar sesión",
-  "Remember me": "Recordar mis datos"
+  "Remember me": "Recordar mis datos",
+  "SaveChanges": "Save Changes"
 }
