@@ -557,6 +557,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Saturation => _instance.GetText("Saturation");
 
 	/// <summary>
+	/// Save Changes
+	/// </summary>
+	public static Translation SaveChanges => _instance.GetText("SaveChanges");
+
+	/// <summary>
 	/// Search
 	/// </summary>
 	public static Translation Search => _instance.GetText("Search");

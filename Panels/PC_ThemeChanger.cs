@@ -68,6 +68,11 @@ public partial class PC_ThemeChanger : PanelContent
 		changesMade = false;
 	}
 
+	public override Color GetTopBarColor()
+	{
+		return FormDesign.Design.BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 2 : -5);
+	}
+
 	protected override void UIChanged()
 	{
 		base.UIChanged();
@@ -84,7 +89,7 @@ public partial class PC_ThemeChanger : PanelContent
 		base.DesignChanged(design);
 
 		L_UiScale.ForeColor = design.LabelColor;
-		P_UI.BackColor = P_Theme.BackColor = design.BackColor.Tint(Lum: design.IsDarkTheme ? -1 : 1);
+		P_UI.BackColor = P_Theme.BackColor = design.BackColor;
 	}
 
 	public override bool CanExit(bool toBeDisposed)
@@ -275,5 +280,15 @@ public partial class PC_ThemeChanger : PanelContent
 		FormDesign.WindowsButtons = CB_WindowsButtons.Checked;
 		Form?.Invalidate(true);
 		changesMade = true;
+	}
+
+	private void B_ResetInterface_Click(object sender, EventArgs e)
+	{
+		DD_Font.SelectedItem = string.Empty;
+		SS_Scale.Value = 125;
+		CB_DisableAnimations.Checked = false;
+		CB_WindowsButtons.Checked = true;
+		CB_NightMode.Checked = false;
+		CB_UseSystemTheme.Checked = true;
 	}
 }

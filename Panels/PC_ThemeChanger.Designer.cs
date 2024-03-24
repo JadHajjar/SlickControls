@@ -28,12 +28,14 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			SlickControls.DynamicIcon dynamicIcon4 = new SlickControls.DynamicIcon();
-			SlickControls.DynamicIcon dynamicIcon5 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon11 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon14 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon12 = new SlickControls.DynamicIcon();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PC_ThemeChanger));
-			SlickControls.DynamicIcon dynamicIcon3 = new SlickControls.DynamicIcon();
-			SlickControls.DynamicIcon dynamicIcon1 = new SlickControls.DynamicIcon();
-			SlickControls.DynamicIcon dynamicIcon2 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon13 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon10 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon8 = new SlickControls.DynamicIcon();
+			SlickControls.DynamicIcon dynamicIcon9 = new SlickControls.DynamicIcon();
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.verticalScroll1 = new SlickControls.SlickScroll();
 			this.FLP_Pickers = new System.Windows.Forms.FlowLayoutPanel();
@@ -59,6 +61,7 @@
 			this.CB_DisableAnimations = new SlickControls.SlickCheckbox();
 			this.CB_NightMode = new SlickControls.SlickCheckbox();
 			this.P_UI = new SlickControls.RoundedGroupTableLayoutPanel();
+			this.B_ResetInterface = new SlickControls.SlickButton();
 			this.DD_Font = new SlickControls.SlickDropdown();
 			this.CB_WindowsButtons = new SlickControls.SlickCheckbox();
 			this.P_Theme = new SlickControls.RoundedGroupTableLayoutPanel();
@@ -83,20 +86,20 @@
 			this.panel1.Controls.Add(this.verticalScroll1);
 			this.panel1.Controls.Add(this.FLP_Pickers);
 			this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.panel1.Location = new System.Drawing.Point(10, 65);
+			this.panel1.Location = new System.Drawing.Point(18, 61);
 			this.panel1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(978, 324);
+			this.panel1.Size = new System.Drawing.Size(962, 301);
 			this.panel1.TabIndex = 59;
 			// 
 			// verticalScroll1
 			// 
 			this.verticalScroll1.Dock = System.Windows.Forms.DockStyle.Right;
 			this.verticalScroll1.LinkedControl = this.FLP_Pickers;
-			this.verticalScroll1.Location = new System.Drawing.Point(966, 0);
+			this.verticalScroll1.Location = new System.Drawing.Point(954, 0);
 			this.verticalScroll1.Margin = new System.Windows.Forms.Padding(0, 0, 1, 0);
 			this.verticalScroll1.Name = "verticalScroll1";
-			this.verticalScroll1.Size = new System.Drawing.Size(12, 324);
+			this.verticalScroll1.Size = new System.Drawing.Size(8, 301);
 			this.verticalScroll1.Style = SlickControls.StyleType.Vertical;
 			this.verticalScroll1.TabIndex = 1;
 			this.verticalScroll1.TabStop = false;
@@ -124,8 +127,7 @@
 			this.FLP_Pickers.Margin = new System.Windows.Forms.Padding(0);
 			this.FLP_Pickers.MaximumSize = new System.Drawing.Size(800, 0);
 			this.FLP_Pickers.Name = "FLP_Pickers";
-			this.FLP_Pickers.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
-			this.FLP_Pickers.Size = new System.Drawing.Size(684, 335);
+			this.FLP_Pickers.Size = new System.Drawing.Size(654, 335);
 			this.FLP_Pickers.TabIndex = 0;
 			// 
 			// CP_Back
@@ -133,7 +135,7 @@
 			this.CP_Back.ColorName = "BackColor";
 			this.CP_Back.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Back.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Back.Location = new System.Drawing.Point(45, 15);
+			this.CP_Back.Location = new System.Drawing.Point(15, 15);
 			this.CP_Back.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Back.Name = "CP_Back";
 			this.CP_Back.Size = new System.Drawing.Size(188, 37);
@@ -146,7 +148,7 @@
 			this.CP_Text.ColorName = "ForeColor";
 			this.CP_Text.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Text.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Text.Location = new System.Drawing.Point(263, 15);
+			this.CP_Text.Location = new System.Drawing.Point(233, 15);
 			this.CP_Text.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Text.Name = "CP_Text";
 			this.CP_Text.Size = new System.Drawing.Size(188, 37);
@@ -159,7 +161,7 @@
 			this.CP_Menu.ColorName = "MenuColor";
 			this.CP_Menu.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Menu.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Menu.Location = new System.Drawing.Point(481, 15);
+			this.CP_Menu.Location = new System.Drawing.Point(451, 15);
 			this.CP_Menu.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Menu.Name = "CP_Menu";
 			this.CP_Menu.Size = new System.Drawing.Size(188, 37);
@@ -172,7 +174,7 @@
 			this.CP_MenuText.ColorName = "MenuForeColor";
 			this.CP_MenuText.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_MenuText.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_MenuText.Location = new System.Drawing.Point(45, 82);
+			this.CP_MenuText.Location = new System.Drawing.Point(15, 82);
 			this.CP_MenuText.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_MenuText.Name = "CP_MenuText";
 			this.CP_MenuText.Size = new System.Drawing.Size(188, 37);
@@ -185,7 +187,7 @@
 			this.CP_Button.ColorName = "ButtonColor";
 			this.CP_Button.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Button.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Button.Location = new System.Drawing.Point(263, 82);
+			this.CP_Button.Location = new System.Drawing.Point(233, 82);
 			this.CP_Button.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Button.Name = "CP_Button";
 			this.CP_Button.Size = new System.Drawing.Size(188, 37);
@@ -198,7 +200,7 @@
 			this.CP_ButtonText.ColorName = "ButtonForeColor";
 			this.CP_ButtonText.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_ButtonText.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_ButtonText.Location = new System.Drawing.Point(481, 82);
+			this.CP_ButtonText.Location = new System.Drawing.Point(451, 82);
 			this.CP_ButtonText.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_ButtonText.Name = "CP_ButtonText";
 			this.CP_ButtonText.Size = new System.Drawing.Size(188, 37);
@@ -211,7 +213,7 @@
 			this.CP_Active.ColorName = "ActiveColor";
 			this.CP_Active.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Active.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Active.Location = new System.Drawing.Point(45, 149);
+			this.CP_Active.Location = new System.Drawing.Point(15, 149);
 			this.CP_Active.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Active.Name = "CP_Active";
 			this.CP_Active.Size = new System.Drawing.Size(188, 37);
@@ -224,7 +226,7 @@
 			this.CP_ActiveText.ColorName = "ActiveForeColor";
 			this.CP_ActiveText.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_ActiveText.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_ActiveText.Location = new System.Drawing.Point(263, 149);
+			this.CP_ActiveText.Location = new System.Drawing.Point(233, 149);
 			this.CP_ActiveText.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_ActiveText.Name = "CP_ActiveText";
 			this.CP_ActiveText.Size = new System.Drawing.Size(188, 37);
@@ -237,7 +239,7 @@
 			this.CP_Label.ColorName = "LabelColor";
 			this.CP_Label.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Label.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Label.Location = new System.Drawing.Point(481, 149);
+			this.CP_Label.Location = new System.Drawing.Point(451, 149);
 			this.CP_Label.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Label.Name = "CP_Label";
 			this.CP_Label.Size = new System.Drawing.Size(188, 37);
@@ -250,7 +252,7 @@
 			this.CP_Info.ColorName = "InfoColor";
 			this.CP_Info.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Info.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Info.Location = new System.Drawing.Point(45, 216);
+			this.CP_Info.Location = new System.Drawing.Point(15, 216);
 			this.CP_Info.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Info.Name = "CP_Info";
 			this.CP_Info.Size = new System.Drawing.Size(188, 37);
@@ -263,7 +265,7 @@
 			this.CP_Accent.ColorName = "AccentColor";
 			this.CP_Accent.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Accent.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Accent.Location = new System.Drawing.Point(263, 216);
+			this.CP_Accent.Location = new System.Drawing.Point(233, 216);
 			this.CP_Accent.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Accent.Name = "CP_Accent";
 			this.CP_Accent.Size = new System.Drawing.Size(188, 37);
@@ -276,7 +278,7 @@
 			this.CP_Icon.ColorName = "IconColor";
 			this.CP_Icon.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Icon.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Icon.Location = new System.Drawing.Point(481, 216);
+			this.CP_Icon.Location = new System.Drawing.Point(451, 216);
 			this.CP_Icon.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Icon.Name = "CP_Icon";
 			this.CP_Icon.Size = new System.Drawing.Size(188, 37);
@@ -289,7 +291,7 @@
 			this.CP_Red.ColorName = "RedColor";
 			this.CP_Red.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Red.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Red.Location = new System.Drawing.Point(45, 283);
+			this.CP_Red.Location = new System.Drawing.Point(15, 283);
 			this.CP_Red.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Red.Name = "CP_Red";
 			this.CP_Red.Size = new System.Drawing.Size(188, 37);
@@ -302,7 +304,7 @@
 			this.CP_Green.ColorName = "GreenColor";
 			this.CP_Green.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Green.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Green.Location = new System.Drawing.Point(263, 283);
+			this.CP_Green.Location = new System.Drawing.Point(233, 283);
 			this.CP_Green.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Green.Name = "CP_Green";
 			this.CP_Green.Size = new System.Drawing.Size(188, 37);
@@ -315,7 +317,7 @@
 			this.CP_Yellow.ColorName = "YellowColor";
 			this.CP_Yellow.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CP_Yellow.DefaultColor = System.Drawing.Color.Empty;
-			this.CP_Yellow.Location = new System.Drawing.Point(481, 283);
+			this.CP_Yellow.Location = new System.Drawing.Point(451, 283);
 			this.CP_Yellow.Margin = new System.Windows.Forms.Padding(15);
 			this.CP_Yellow.Name = "CP_Yellow";
 			this.CP_Yellow.Size = new System.Drawing.Size(188, 37);
@@ -328,11 +330,10 @@
 			this.CB_UseSystemTheme.AutoSize = true;
 			this.CB_UseSystemTheme.Checked = false;
 			this.CB_UseSystemTheme.CheckedText = null;
-			this.CB_UseSystemTheme.ColorShade = null;
 			this.CB_UseSystemTheme.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_UseSystemTheme.DefaultValue = false;
 			this.CB_UseSystemTheme.EnterTriggersClick = false;
-			this.CB_UseSystemTheme.Location = new System.Drawing.Point(13, 103);
+			this.CB_UseSystemTheme.Location = new System.Drawing.Point(21, 122);
 			this.CB_UseSystemTheme.Name = "CB_UseSystemTheme";
 			this.CB_UseSystemTheme.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
 			this.CB_UseSystemTheme.Size = new System.Drawing.Size(216, 42);
@@ -348,13 +349,12 @@
 			this.B_Save.Anchor = System.Windows.Forms.AnchorStyles.Right;
 			this.B_Save.AutoSize = true;
 			this.B_Save.ButtonType = SlickControls.ButtonType.Active;
-			this.B_Save.ColorShade = null;
 			this.B_Save.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon4.Name = "Ok";
-			this.B_Save.ImageName = dynamicIcon4;
-			this.B_Save.Location = new System.Drawing.Point(905, 620);
+			dynamicIcon11.Name = "Ok";
+			this.B_Save.ImageName = dynamicIcon11;
+			this.B_Save.Location = new System.Drawing.Point(921, 628);
 			this.B_Save.Name = "B_Save";
-			this.B_Save.Size = new System.Drawing.Size(96, 40);
+			this.B_Save.Size = new System.Drawing.Size(80, 32);
 			this.B_Save.SpaceTriggersClick = true;
 			this.B_Save.TabIndex = 2;
 			this.B_Save.Text = "Apply";
@@ -365,7 +365,7 @@
 			this.SS_Scale.AnimatedValue = 0;
 			this.SS_Scale.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.SS_Scale.FromValue = 75D;
-			this.SS_Scale.Location = new System.Drawing.Point(501, 82);
+			this.SS_Scale.Location = new System.Drawing.Point(501, 78);
 			this.SS_Scale.MaxValue = 300D;
 			this.SS_Scale.MinValue = 75D;
 			this.SS_Scale.Name = "SS_Scale";
@@ -386,7 +386,7 @@
 			// L_UiScale
 			// 
 			this.L_UiScale.AutoSize = true;
-			this.L_UiScale.Location = new System.Drawing.Point(508, 60);
+			this.L_UiScale.Location = new System.Drawing.Point(508, 56);
 			this.L_UiScale.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
 			this.L_UiScale.Name = "L_UiScale";
 			this.L_UiScale.Size = new System.Drawing.Size(57, 19);
@@ -399,11 +399,10 @@
 			this.CB_DisableAnimations.AutoSize = true;
 			this.CB_DisableAnimations.Checked = false;
 			this.CB_DisableAnimations.CheckedText = null;
-			this.CB_DisableAnimations.ColorShade = null;
 			this.CB_DisableAnimations.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_DisableAnimations.DefaultValue = false;
 			this.CB_DisableAnimations.EnterTriggersClick = false;
-			this.CB_DisableAnimations.Location = new System.Drawing.Point(13, 151);
+			this.CB_DisableAnimations.Location = new System.Drawing.Point(21, 170);
 			this.CB_DisableAnimations.Name = "CB_DisableAnimations";
 			this.CB_DisableAnimations.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
 			this.CB_DisableAnimations.Size = new System.Drawing.Size(184, 42);
@@ -419,11 +418,10 @@
 			this.CB_NightMode.AutoSize = true;
 			this.CB_NightMode.Checked = false;
 			this.CB_NightMode.CheckedText = null;
-			this.CB_NightMode.ColorShade = null;
 			this.CB_NightMode.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_NightMode.DefaultValue = false;
 			this.CB_NightMode.EnterTriggersClick = false;
-			this.CB_NightMode.Location = new System.Drawing.Point(257, 103);
+			this.CB_NightMode.Location = new System.Drawing.Point(261, 122);
 			this.CB_NightMode.Name = "CB_NightMode";
 			this.CB_NightMode.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
 			this.CB_NightMode.Size = new System.Drawing.Size(176, 42);
@@ -437,33 +435,54 @@
 			// P_UI
 			// 
 			this.P_UI.AddOutline = true;
+			this.P_UI.AddShadow = true;
 			this.P_UI.AutoSize = true;
 			this.P_UI.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.P_UI.ColumnCount = 3;
 			this.P_UI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
 			this.P_UI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
 			this.P_UI.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-			this.P_UI.Controls.Add(this.DD_Font, 0, 0);
-			this.P_UI.Controls.Add(this.L_UiScale, 2, 0);
-			this.P_UI.Controls.Add(this.CB_UseSystemTheme, 0, 2);
-			this.P_UI.Controls.Add(this.SS_Scale, 2, 1);
-			this.P_UI.Controls.Add(this.CB_DisableAnimations, 0, 3);
-			this.P_UI.Controls.Add(this.CB_NightMode, 1, 2);
-			this.P_UI.Controls.Add(this.CB_WindowsButtons, 1, 3);
+			this.P_UI.Controls.Add(this.B_ResetInterface, 2, 0);
+			this.P_UI.Controls.Add(this.DD_Font, 0, 2);
+			this.P_UI.Controls.Add(this.L_UiScale, 2, 2);
+			this.P_UI.Controls.Add(this.CB_UseSystemTheme, 0, 4);
+			this.P_UI.Controls.Add(this.SS_Scale, 2, 3);
+			this.P_UI.Controls.Add(this.CB_DisableAnimations, 0, 5);
+			this.P_UI.Controls.Add(this.CB_NightMode, 1, 4);
+			this.P_UI.Controls.Add(this.CB_WindowsButtons, 1, 5);
 			this.P_UI.Dock = System.Windows.Forms.DockStyle.Top;
-			dynamicIcon5.Name = "UserInterface";
-			this.P_UI.ImageName = dynamicIcon5;
+			dynamicIcon14.Name = "UserInterface";
+			this.P_UI.ImageName = dynamicIcon14;
 			this.P_UI.Location = new System.Drawing.Point(3, 3);
 			this.P_UI.Name = "P_UI";
-			this.P_UI.Padding = new System.Windows.Forms.Padding(10, 60, 10, 10);
-			this.P_UI.RowCount = 4;
+			this.P_UI.Padding = new System.Windows.Forms.Padding(18);
+			this.P_UI.RowCount = 6;
+			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
 			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle());
-			this.P_UI.Size = new System.Drawing.Size(998, 206);
+			this.P_UI.RowStyles.Add(new System.Windows.Forms.RowStyle());
+			this.P_UI.Size = new System.Drawing.Size(998, 233);
 			this.P_UI.TabIndex = 0;
 			this.P_UI.Text = "User Interface";
+			this.P_UI.UseFirstRowForPadding = true;
+			// 
+			// B_ResetInterface
+			// 
+			this.B_ResetInterface.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.B_ResetInterface.AutoSize = true;
+			this.B_ResetInterface.Cursor = System.Windows.Forms.Cursors.Hand;
+			dynamicIcon12.Name = "Undo";
+			this.B_ResetInterface.ImageName = dynamicIcon12;
+			this.B_ResetInterface.Location = new System.Drawing.Point(899, 21);
+			this.B_ResetInterface.Name = "B_ResetInterface";
+			this.P_UI.SetRowSpan(this.B_ResetInterface, 2);
+			this.B_ResetInterface.Size = new System.Drawing.Size(78, 32);
+			this.B_ResetInterface.SpaceTriggersClick = true;
+			this.B_ResetInterface.TabIndex = 69;
+			this.B_ResetInterface.Text = "Reset";
+			this.B_ResetInterface.Click += new System.EventHandler(this.B_ResetInterface_Click);
 			// 
 			// DD_Font
 			// 
@@ -471,17 +490,20 @@
 			this.DD_Font.Conversion = null;
 			this.DD_Font.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.DD_Font.Image = ((System.Drawing.Image)(resources.GetObject("DD_Font.Image")));
+			dynamicIcon13.Name = "DropChevron";
+			this.DD_Font.ImageName = dynamicIcon13;
 			this.DD_Font.Items = null;
 			this.DD_Font.LabelText = "Font Family";
-			this.DD_Font.Location = new System.Drawing.Point(13, 63);
+			this.DD_Font.Location = new System.Drawing.Point(21, 59);
 			this.DD_Font.Name = "DD_Font";
+			this.DD_Font.Padding = new System.Windows.Forms.Padding(6, 19, 44, 6);
 			this.DD_Font.Placeholder = null;
 			this.P_UI.SetRowSpan(this.DD_Font, 2);
 			this.DD_Font.SelectedItem = null;
 			this.DD_Font.SelectedText = "";
 			this.DD_Font.SelectionLength = 0;
 			this.DD_Font.SelectionStart = 0;
-			this.DD_Font.Size = new System.Drawing.Size(246, 34);
+			this.DD_Font.Size = new System.Drawing.Size(246, 57);
 			this.DD_Font.TabIndex = 0;
 			this.DD_Font.TextChanged += new System.EventHandler(this.DD_Font_TextChanged);
 			// 
@@ -490,14 +512,13 @@
 			this.CB_WindowsButtons.AutoSize = true;
 			this.CB_WindowsButtons.Checked = false;
 			this.CB_WindowsButtons.CheckedText = null;
-			this.CB_WindowsButtons.ColorShade = null;
 			this.CB_WindowsButtons.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.CB_WindowsButtons.DefaultValue = false;
 			this.CB_WindowsButtons.EnterTriggersClick = false;
-			this.CB_WindowsButtons.Location = new System.Drawing.Point(257, 151);
+			this.CB_WindowsButtons.Location = new System.Drawing.Point(261, 170);
 			this.CB_WindowsButtons.Name = "CB_WindowsButtons";
 			this.CB_WindowsButtons.Padding = new System.Windows.Forms.Padding(7, 5, 7, 5);
-			this.CB_WindowsButtons.Size = new System.Drawing.Size(238, 42);
+			this.CB_WindowsButtons.Size = new System.Drawing.Size(234, 42);
 			this.CB_WindowsButtons.SpaceTriggersClick = true;
 			this.CB_WindowsButtons.TabIndex = 2;
 			this.CB_WindowsButtons.TabStop = false;
@@ -508,6 +529,7 @@
 			// P_Theme
 			// 
 			this.P_Theme.AddOutline = true;
+			this.P_Theme.AddShadow = true;
 			this.P_Theme.ColumnCount = 3;
 			this.P_Theme.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.P_Theme.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -516,16 +538,16 @@
 			this.P_Theme.Controls.Add(this.panel1, 0, 2);
 			this.P_Theme.Controls.Add(this.B_Random, 1, 0);
 			this.P_Theme.Dock = System.Windows.Forms.DockStyle.Fill;
-			dynamicIcon3.Name = "Paint";
-			this.P_Theme.ImageName = dynamicIcon3;
-			this.P_Theme.Location = new System.Drawing.Point(3, 215);
+			dynamicIcon10.Name = "Paint";
+			this.P_Theme.ImageName = dynamicIcon10;
+			this.P_Theme.Location = new System.Drawing.Point(3, 242);
 			this.P_Theme.Name = "P_Theme";
-			this.P_Theme.Padding = new System.Windows.Forms.Padding(10);
+			this.P_Theme.Padding = new System.Windows.Forms.Padding(18);
 			this.P_Theme.RowCount = 3;
-			this.P_Theme.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+			this.P_Theme.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
 			this.P_Theme.RowStyles.Add(new System.Windows.Forms.RowStyle());
 			this.P_Theme.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.P_Theme.Size = new System.Drawing.Size(998, 399);
+			this.P_Theme.Size = new System.Drawing.Size(998, 380);
 			this.P_Theme.TabIndex = 1;
 			this.P_Theme.Text = "Custom Theme";
 			this.P_Theme.UseFirstRowForPadding = true;
@@ -533,14 +555,13 @@
 			// B_Reset
 			// 
 			this.B_Reset.AutoSize = true;
-			this.B_Reset.ColorShade = null;
 			this.B_Reset.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon1.Name = "Undo";
-			this.B_Reset.ImageName = dynamicIcon1;
-			this.B_Reset.Location = new System.Drawing.Point(891, 13);
+			dynamicIcon8.Name = "Undo";
+			this.B_Reset.ImageName = dynamicIcon8;
+			this.B_Reset.Location = new System.Drawing.Point(899, 21);
 			this.B_Reset.Name = "B_Reset";
 			this.P_Theme.SetRowSpan(this.B_Reset, 2);
-			this.B_Reset.Size = new System.Drawing.Size(94, 40);
+			this.B_Reset.Size = new System.Drawing.Size(78, 32);
 			this.B_Reset.SpaceTriggersClick = true;
 			this.B_Reset.TabIndex = 2;
 			this.B_Reset.Text = "Reset";
@@ -549,14 +570,13 @@
 			// B_Random
 			// 
 			this.B_Random.AutoSize = true;
-			this.B_Random.ColorShade = null;
 			this.B_Random.Cursor = System.Windows.Forms.Cursors.Hand;
-			dynamicIcon2.Name = "Random";
-			this.B_Random.ImageName = dynamicIcon2;
-			this.B_Random.Location = new System.Drawing.Point(755, 13);
+			dynamicIcon9.Name = "Random";
+			this.B_Random.ImageName = dynamicIcon9;
+			this.B_Random.Location = new System.Drawing.Point(779, 21);
 			this.B_Random.Name = "B_Random";
 			this.P_Theme.SetRowSpan(this.B_Random, 2);
-			this.B_Random.Size = new System.Drawing.Size(130, 40);
+			this.B_Random.Size = new System.Drawing.Size(114, 32);
 			this.B_Random.SpaceTriggersClick = true;
 			this.B_Random.TabIndex = 1;
 			this.B_Random.Text = "Randomize";
@@ -638,5 +658,6 @@
 		private RoundedGroupTableLayoutPanel P_Theme;
 		private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 		private SlickCheckbox CB_WindowsButtons;
+		private SlickButton B_ResetInterface;
 	}
 }
