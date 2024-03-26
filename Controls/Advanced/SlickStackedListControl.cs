@@ -222,6 +222,9 @@ public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrect
 	[Category("Behavior"), DisplayName("Selected Items Changed")]
 	public event EventHandler SelectedItemsChanged;
 
+	[Category("Behavior"), DisplayName("Scroll End Reached")]
+	public event EventHandler ScrollEndReached;
+
 	protected Point CursorLocation { get; set; }
 	protected int StartHeight { get; set; }
 	protected Padding GridPadding { get; set; }
@@ -1005,11 +1008,16 @@ public class SlickStackedListControl<T, TRrectangle> : SlickControl where TRrect
 
 			scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + ((validHeight - thumbHeight) * scrollIndex / (rowCount - visibleItems).If(0, 1)), (int)(10 * UI.FontScale), thumbHeight);
 			scrollVisible = true;
+
+			if(scrollIndex ==  rowCount - visibleItems)
+			ScrollEndReached?.Invoke(this, EventArgs.Empty);
 		}
 		else
 		{
 			scrollIndex = 0;
 			scrollVisible = false;
+
+			ScrollEndReached?.Invoke(this, EventArgs.Empty);
 		}
 	}
 
