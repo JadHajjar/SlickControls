@@ -38,7 +38,7 @@ public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemContr
 		Loading = Items.Any(x => x.PanelItem?.Loading == true);
 	}
 
-	protected override void CanDrawItemInternal(CanDrawItemEventArgs<PanelTab> args)
+	protected override void CanDrawItemInternal(CanDrawItemEventArgs<PanelTab, Rectangles> args)
 	{
 		args.DoNotDraw =
 			(args.Item.IsGroupHeader && (Form?.SmallMenu ?? false)) ||
