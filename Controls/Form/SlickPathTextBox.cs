@@ -17,6 +17,9 @@ namespace SlickControls;
 
 public partial class SlickPathTextBox : SlickTextBox, IValidationControl
 {
+	[Category("Action")]
+	public event EventHandler PathSelected;
+
 	public SlickPathTextBox() : base()
 	{
 		InitializeComponent();
@@ -46,12 +49,12 @@ public partial class SlickPathTextBox : SlickTextBox, IValidationControl
 
 				if (ioSelectionDialog.PromptFile(FindForm()) == DialogResult.OK)
 				{
-					Text = Directory.GetParent(ioSelectionDialog.SelectedPath.GetShortcutPath()).FullName;
+					OnPathSelected( Directory.GetParent(ioSelectionDialog.SelectedPath.GetShortcutPath()).FullName);
 				}
 			}
 			else if (ioSelectionDialog.PromptFolder(FindForm()) == DialogResult.OK)
 			{
-				Text = ioSelectionDialog.SelectedPath;
+				OnPathSelected(ioSelectionDialog.SelectedPath);
 			}
 		}
 		else
@@ -60,9 +63,16 @@ public partial class SlickPathTextBox : SlickTextBox, IValidationControl
 
 			if (ioSelectionDialog.PromptFile(FindForm()) == DialogResult.OK)
 			{
-				Text = ioSelectionDialog.SelectedPath;
+				OnPathSelected(ioSelectionDialog.SelectedPath);
 			}
 		}
+	}
+
+	protected virtual void OnPathSelected(string path)
+	{
+		Text = path;
+
+		PathSelected?.Invoke(this, EventArgs.Empty);
 	}
 
 	protected override void OnCreateControl()
