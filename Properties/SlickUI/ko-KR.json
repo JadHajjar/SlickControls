@@ -113,8 +113,8 @@
   "Last {0} at {1}": "지난 {0} {1}",
   "Next {0} at {1}": "다음 {0} {1}",
   "{0} month ago": {
-    "One": "{0} month ago",
-    "Plural": "{0} months ago"
+    "One": "{0}개월 전",
+    "Plural": "{0}개월 전"
   },
   "{0} month ago on {1}": {
     "One": "{0}개월 전, {1}",
@@ -161,17 +161,17 @@
   "{0}m": "{0}분",
   "{0}s": "{0}초",
   "Midnight": "미드나이트",
-  "Use the System's Theme": "Use your System's Theme",
+  "Use the System's Theme": "시스템 테마 사용",
   "Use Windows-style top bar buttons": "Windows 스타일 상단바 버튼 사용하기",
   "All": "모든",
   "Hue": "Hue",
   "Saturation": "Saturation",
   "Luminance": "Luminance",
-  "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "현재 컴퓨터 테마에 맞추기",
   "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
   "Email Address": "Email Address",
   "Password": "Password",
-  "Login": "Login",
+  "Login": "로그인",
   "Remember me": "Remember me",
   "SaveChanges": "Save Changes"
 }
