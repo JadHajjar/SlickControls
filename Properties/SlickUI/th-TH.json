@@ -96,11 +96,11 @@
   "Download": "ดาวน์โหลด",
   "Remove": "ลบ",
   "Confirmation": "การยืนยัน",
-  "Edit Color": "Edit Color",
-  "Reset Color": "Reset Color",
+  "Edit Color": "แก้สี",
+  "Reset Color": "รีเซ็ตสี",
   "Welcome to Theme Changer!": "ยินดีต้อนรับสู่การปรับแต่งธิม!",
-  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
-  "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
+  "In here, you can customize the scale and colors of the App to your liking.": "คุณสามารถปรับแต่งขนาดและสีของแอปที่คุณเชื่อมโยงได้จากที่นี่",
+  "Click on any color to change it, or middle-click to reset it.": "คลิกที่สีเพื่อเปลี่ยนหรือคลิกเมาส์กลางเพื่อรีเซ็ต",
   "Custom Theme": "ธีมที่กำหนดเอง",
   "Do you want to apply your changes before leaving?": "คุณต้องการปรับใช้การเปลี่ยนแปลงก่อนออกจากที่นี่หรือไม่",
   "TaskCompleted": "งานเสร็จสมบูรณ์",
@@ -113,8 +113,8 @@
   "Last {0} at {1}": "ล่าสุด {0} ตอน {1}",
   "Next {0} at {1}": "ครั้งถัดไป {0} ตอน {1}",
   "{0} month ago": {
-    "One": "{0} month ago",
-    "Plural": "{0} months ago"
+    "One": "{0} เดือนก่อน",
+    "Plural": "{0} เดือนก่อน"
   },
   "{0} month ago on {1}": {
     "One": "{0} เดือนที่แแล้ว ตอน {1}",
@@ -161,7 +161,7 @@
   "{0}m": "{0}น.",
   "{0}s": "{0}วิ.",
   "Midnight": "เที่ยงคืน",
-  "Use the System's Theme": "Use your System's Theme",
+  "Use the System's Theme": "ใช้ธิมตามระบบของคุณ",
   "Use Windows-style top bar buttons": "ใช้ปุ่มบนแถบด้านบนแบบวินโดวส์",
   "All": "ทั้งหมด",
   "Hue": "Hue",
@@ -169,9 +169,9 @@
   "Luminance": "Luminance",
   "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
   "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
-  "Email Address": "Email Address",
-  "Password": "Password",
-  "Login": "Login",
-  "Remember me": "Remember me",
-  "SaveChanges": "Save Changes"
+  "Email Address": "ที่อยู่อีเมล",
+  "Password": "รหัสผ่าน",
+  "Login": "เข้าระบบ",
+  "Remember me": "จำการเข้าระบบของฉันไว้",
+  "SaveChanges": "บันทึกการเปลี่ยนแปลง"
 }
