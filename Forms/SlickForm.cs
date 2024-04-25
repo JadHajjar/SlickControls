@@ -53,7 +53,7 @@ public partial class SlickForm : Form, ISlickForm
 			}
 
 			SuspendLayout();
-			Padding = value == FormWindowState.Maximized ? new Padding(0) : new Padding(4, 4, 7, 7);
+			Padding = value == FormWindowState.Maximized ? new Padding(0) : value == FormWindowState.Normal ? new Padding(4, 4, 7, 7) : Padding;
 			base_P_Container.Padding = value == FormWindowState.Maximized || NoBorder ? new Padding(0) : new Padding(1);
 
 			var screen = IsHandleCreated ? Screen.FromHandle(Handle) : null;

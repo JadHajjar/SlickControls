@@ -66,10 +66,10 @@ public class SlickWebBrowser : WebBrowser
 			.Replace("Header3Color", RGB(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor, 80)))
 			.Replace("FontFamily", UI.FontFamily)
 			.Replace("PadSize", (UI.FontScale * 3).ToString("0.00"))
-			.Replace("H3FontSize", (UI.FontScale * 9).ToString("0.00"))
-			.Replace("H2FontSize", (UI.FontScale * 10).ToString("0.00"))
-			.Replace("H1FontSize", (UI.FontScale * 12).ToString("0.00"))
-			.Replace("FontSize", (UI.FontScale * 8.25).ToString("0.00"));
+			.Replace("H3FontSize", (UI.FontScale * 9 / UI.WindowsScale).ToString("0.00"))
+			.Replace("H2FontSize", (UI.FontScale * 10 / UI.WindowsScale).ToString("0.00"))
+			.Replace("H1FontSize", (UI.FontScale * 12 / UI.WindowsScale).ToString("0.00"))
+			.Replace("FontSize", (UI.FontScale * 8.25 / UI.WindowsScale).ToString("0.00"));
 
 		if (refresh)
 		{
