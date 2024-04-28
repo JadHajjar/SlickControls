@@ -171,7 +171,7 @@
   "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
   "Email Address": "Email Address",
   "Password": "Password",
-  "Login": "Login",
-  "Remember me": "Remember me",
-  "SaveChanges": "Save Changes"
+  "Login": "Anmelden",
+  "Remember me": "Anmeldedaten speichern",
+  "SaveChanges": "Änderungen Speichern"
 }
