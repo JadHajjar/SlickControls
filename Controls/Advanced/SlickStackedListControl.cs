@@ -13,8 +13,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 {
 	private readonly object _sync = new();
 	private readonly List<DrawableItem<T, TRectangle>> _items;
-	private int visibleItems;
-	private int scrollIndex;
+	private double scrollIndex;
 	private List<DrawableItem<T, TRectangle>> _sortedItems;
 	private Size baseSize;
 	private bool scrollHovered;
@@ -161,7 +160,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 	[Category("Appearance"), DefaultValue(false)]
 	public bool GridView
 	{
-		get => _gridView; 
+		get => _gridView;
 		set
 		{
 			_gridView = value;
@@ -223,7 +222,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 	public event EventHandler SelectedItemsChanged;
 
 	[Category("Behavior"), DisplayName("Scroll Update")]
-	public event Action<object, int, int> ScrollUpdate;
+	public event Action<object, double, double> ScrollUpdate;
 
 	protected Point CursorLocation { get; set; }
 	protected int StartHeight { get; set; }
@@ -592,7 +591,9 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 		{
 			var itemList = SafeGetItems();
 
-			scrollIndex = (GetNumRows(itemList) - visibleItems) * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height - StartHeight).If(0, 1);
+			var maxIndex = GetMaxScrollIndex(itemList);
+			var visibleItems = GetDisplayedRows();
+			scrollIndex = maxIndex * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height - StartHeight).If(0, 1);
 			Invalidate();
 		}
 
@@ -702,6 +703,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 			}
 			else
 			{
+				var visibleItems = GetDisplayedRows();
 				if (e.Location.Y < scrollThumbRectangle.Y)
 				{
 					scrollIndex -= visibleItems;
@@ -759,7 +761,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 			return;
 		}
 
-		scrollIndex -= e.Delta.Sign() * (int)Math.Ceiling(Math.Abs(e.Delta) / (double)(GridView ? GridItemSize.Height : ItemHeight));
+		scrollIndex -= (DynamicSizing ? e.Delta : (e.Delta / (double)(GridView ? GridItemSize.Height : ItemHeight))) * UI.UIScale;
 		Invalidate();
 
 		SlickTip.SetTo(this, string.Empty);
@@ -870,7 +872,6 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 			}
 		}
 
-		var loc = new Point(0, StartHeight);
 		var itemList = SafeGetItems();
 
 		itemList.ForEach(x => x.Bounds = Rectangle.Empty);
@@ -889,25 +890,63 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 			e.Graphics.FillRoundedRectangle(scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), scrollThumbRectangle.Pad(2, 0, 2, 0), 3);
 		}
 
+		OnPrePaint(e);
+
+		bool shouldInvalidate;
+
+		if (DynamicSizing)
+		{
+			PaintItemsDynamic(e, invalidRect, invalidRects, itemList, out shouldInvalidate);
+		}
+		else
+		{
+			PaintItems(e, invalidRect, invalidRects, itemList, out shouldInvalidate);
+		}
+
 		if (StartHeight > 0)
 		{
 			e.Graphics.SetClip(new Rectangle(0, 0, Width, StartHeight));
+			e.Graphics.Clear(BackColor);
 
 			DrawHeader(e);
 		}
 
-		var start = scrollIndex;
-		var maxHeight = 0;
+		base.OnPaint(e);
 
-		if (GridView)
+		if (!firstDrawDone)
 		{
-			start *= (int)Math.Floor((double)(Width / (GridItemSize.Width + Padding.Horizontal).If(0, 1)));
-		}
+			firstDrawDone = true;
 
-		for (var i = start; i < itemList.Count; i++)
+			using var brush = new SolidBrush(ForeColor);
+			using var format = new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center };
+
+			e.Graphics.Clear(BackColor);
+			e.Graphics.DrawString(LocaleHelper.GetGlobalText("Loading"), base.Font, brush, ClientRectangle, format);
+
+			Invalidate();
+		}
+		else if (shouldInvalidate)
+		{
+			Invalidate();
+		}
+	}
+
+	protected virtual void OnPrePaint(PaintEventArgs e)
+	{
+	}
+
+	private void PaintItemsDynamic(PaintEventArgs e, Rectangle invalidRect, Rectangle[] invalidRects, List<DrawableItem<T, TRectangle>> itemList, out bool shouldInvalidate)
+	{
+		var availableWidth = Width - (scrollVisible ? scrollThumbRectangle.Width + (int)UI.FontScale : 0);
+		var bounds = new Rectangle(0, StartHeight, availableWidth, Height - StartHeight);
+		var loc = new Point(0, -(int)scrollIndex);
+		var maxHeight = 0;
+		shouldInvalidate = false;
+
+		for (var i = 0; i < itemList.Count; i++)
 		{
 			var item = itemList[i];
-			var height = DynamicSizing && item.CachedHeight != 0 ? item.CachedHeight : GridView ? GridItemSize.Height : ItemHeight;
+			var height = item.CachedHeight != 0 ? item.CachedHeight : GridView ? GridItemSize.Height : ItemHeight;
 			maxHeight = Math.Max(maxHeight, height);
 
 			if (GridView)
@@ -916,7 +955,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 			}
 			else
 			{
-				item.Bounds = new Rectangle(loc, new Size(Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0), height + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
+				item.Bounds = new Rectangle(loc, new Size(availableWidth, height + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
 			}
 
 			if (invalidRect.IntersectsWith(item.Bounds))
@@ -933,19 +972,16 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 					mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal,
 					SelectedItems.Contains(item)));
 
-				if (DynamicSizing && currentHeight != item.CachedHeight)
-				{
-					Invalidate();
-				}
+				shouldInvalidate |= currentHeight != item.CachedHeight;
 
 				e.Graphics.ResetClip();
 			}
 
 			if (GridView)
 			{
-				loc.X += item.Bounds.Width + Padding.Horizontal;
+				loc.X += GridItemSize.Width;
 
-				if (loc.X + item.Bounds.Width + Padding.Horizontal > Width - (scrollVisible ? scrollThumbRectangle.Width + 1 : 0) || IsFlowBreak(i, item, i == itemList.Count - 1 ? default : itemList[i + 1]))
+				if (loc.X + GridItemSize.Width > availableWidth || IsFlowBreak(i, item, i == itemList.Count - 1 ? default : itemList[i + 1]))
 				{
 					loc.X = 0;
 					loc.Y += maxHeight;
@@ -962,25 +998,77 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, loc.Y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), loc.Y);
 			}
 
-			if (loc.Y > Height)
+			if (loc.Y > Height && !(i + 1 < itemList.Count && itemList[i + 1].CachedHeight == 0))
 			{
 				break;
 			}
 		}
+	}
 
-		base.OnPaint(e);
 
-		if (!firstDrawDone)
+	private void PaintItems(PaintEventArgs e, Rectangle invalidRect, Rectangle[] invalidRects, List<DrawableItem<T, TRectangle>> itemList, out bool shouldInvalidate)
+	{
+		var availableWidth = Width - (scrollVisible ? scrollThumbRectangle.Width + (int)UI.FontScale : 0);
+		var start = GetStartingIndex();
+		var loc = new Point(0, GetStartingY());
+		shouldInvalidate = false;
+
+		for (var i = start; i < itemList.Count; i++)
 		{
-			firstDrawDone = true;
+			var item = itemList[i];
+			var height = GridView ? GridItemSize.Height : ItemHeight;
 
-			using var brush = new SolidBrush(ForeColor);
-			using var format = new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center };
-			
-			e.Graphics.Clear(BackColor);
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText("Loading"), base.Font, brush, ClientRectangle, format);
-			
-			Invalidate();
+			if (GridView)
+			{
+				item.Bounds = new Rectangle(loc, new Size(GridItemSize.Width, height)).Pad(Padding);
+			}
+			else
+			{
+				item.Bounds = new Rectangle(loc, new Size(availableWidth, height + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
+			}
+
+			if (invalidRect.IntersectsWith(item.Bounds))
+			{
+				e.Graphics.SetClip(item.Bounds);
+
+				var currentHeight = item.CachedHeight;
+
+				OnPaintItem(new ItemPaintEventArgs<T, TRectangle>(
+					item,
+					e.Graphics,
+					invalidRects.Where(x => x.IntersectsWith(item.Bounds)),
+					GridView ? item.Bounds.Pad(GridPadding) : item.Bounds.Pad(0, Padding.Top, 0, Padding.Bottom),
+					mouseDownItem == item ? (HoverState.Pressed | HoverState.Hovered) : mouseDownItem == null ? item.HoverState : HoverState.Normal,
+					SelectedItems.Contains(item)));
+
+				e.Graphics.ResetClip();
+			}
+
+			if (GridView)
+			{
+				loc.X += GridItemSize.Width;
+
+				if (loc.X + GridItemSize.Width > availableWidth || IsFlowBreak(i, item, i == itemList.Count - 1 ? default : itemList[i + 1]))
+				{
+					loc.X = 0;
+					loc.Y += height;
+					height = 0;
+				}
+			}
+			else
+			{
+				loc.Y += item.Bounds.Height;
+			}
+
+			if (SeparateWithLines && !GridView)
+			{
+				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, loc.Y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), loc.Y);
+			}
+
+			if (loc.Y > Height)
+			{
+				break;
+			}
 		}
 	}
 
@@ -1005,16 +1093,23 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 
 		if (totalHeight > validHeight)
 		{
-			var rowCount = GetNumRows(itemList);
-			visibleItems = (int)Math.Floor((float)validHeight / (GridView ? GridItemSize.Height : (ItemHeight + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0))));
-			scrollIndex = Math.Max(0, Math.Min(scrollIndex, rowCount - visibleItems));
+			var maxIndex = GetMaxScrollIndex(itemList);
+			var visibleItems = GetDisplayedRows();
+			scrollIndex = Math.Max(0, Math.Min(scrollIndex, maxIndex));
 
-			var thumbHeight = Math.Max(validHeight * visibleItems / rowCount, validHeight / 24);
+			var thumbHeight = (int)Math.Max(validHeight * visibleItems / (maxIndex + visibleItems), validHeight / 24);
 
-			scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + ((validHeight - thumbHeight) * scrollIndex / (rowCount - visibleItems).If(0, 1)), (int)(10 * UI.FontScale), thumbHeight);
+			scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + (int)((validHeight - thumbHeight) * scrollIndex / ((maxIndex + visibleItems) - visibleItems).If(0, 1)), (int)(10 * UI.FontScale), thumbHeight);
 			scrollVisible = true;
 
-			ScrollUpdate?.Invoke(this, scrollIndex,rowCount - visibleItems);
+			if (DynamicSizing)
+			{
+				ScrollUpdate?.Invoke(this, scrollIndex / (GridView ? (120 * UI.UIScale) : ItemHeight), maxIndex / (GridView ? (120 * UI.UIScale) : ItemHeight));
+			}
+			else
+			{
+				ScrollUpdate?.Invoke(this, scrollIndex, maxIndex);
+			}
 		}
 		else
 		{
@@ -1025,6 +1120,75 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 		}
 	}
 
+	protected double GetMaxScrollIndex(List<DrawableItem<T, TRectangle>> itemList)
+	{
+		double availableHeight = Height - StartHeight;
+
+		if (DynamicSizing)
+		{
+			return GetTotalHeight(itemList) - availableHeight;
+		}
+
+		if (!GridView)
+		{
+			return itemList.Count - availableHeight / ItemHeight.If(0, 1);
+		}
+
+		double availableWidth = Width - (scrollVisible ? scrollThumbRectangle.Width + (int)UI.FontScale : 0);
+
+		return Math.Ceiling(itemList.Count / Math.Floor(availableWidth / GridItemSize.Width.If(0, 1))) - Math.Floor(availableHeight / GridItemSize.Height.If(0, 1));
+	}
+
+	protected double GetDisplayedRows()
+	{
+		double availableHeight = Height - StartHeight;
+
+		if (DynamicSizing)
+		{
+			return availableHeight;
+		}
+
+		if (!GridView)
+		{
+			return availableHeight / ItemHeight.If(0, 1);
+		}
+
+		return availableHeight / GridItemSize.Height.If(0, 1);
+	}
+
+	protected int GetStartingIndex()
+	{
+		if (DynamicSizing)
+		{
+			throw new Exception("Starting index should not be calculated for dynamic sizing");
+		}
+
+		if (!GridView)
+		{
+			return (int)Math.Floor(scrollIndex);
+		}
+
+		double availableWidth = Width - (scrollVisible ? scrollThumbRectangle.Width + (int)UI.FontScale : 0);
+		var columns = (int)Math.Floor(availableWidth / GridItemSize.Width.If(0, 1));
+
+		return (int)Math.Floor(scrollIndex) * columns;
+	}
+
+	protected int GetStartingY()
+	{
+		if (DynamicSizing)
+		{
+			throw new Exception("Starting y should not be calculated for dynamic sizing");
+		}
+
+		if (!GridView)
+		{
+			return StartHeight + (int)(scrollIndex % 1 * -ItemHeight);
+		}
+
+		return StartHeight + (int)(scrollIndex % 1 * -GridItemSize.Height);
+	}
+
 	public int GetTotalHeight(List<DrawableItem<T, TRectangle>> itemList)
 	{
 		if (DynamicSizing)
@@ -1032,7 +1196,8 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 			if (GridView)
 			{
 				var height = 0;
-				var columns = Math.Floor((double)(Width / (GridItemSize.Width.If(0, 1) + Padding.Horizontal))).If(0, 1);
+				double availableWidth = Width - (scrollVisible ? scrollThumbRectangle.Width + (int)UI.FontScale : 0);
+				var columns = Math.Floor((availableWidth / (GridItemSize.Width.If(0, 1) + Padding.Horizontal))).If(0, 1);
 
 				for (var i = 0; i < itemList.Count;)
 				{
@@ -1119,7 +1284,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 	}
 
 	private bool allInvalidated;
-	private List<Rectangle> _invalidatedRectangles = new List<Rectangle>();
+	private readonly List<Rectangle> _invalidatedRectangles = [];
 
 	public new void Invalidate(Rectangle rectangle)
 	{
