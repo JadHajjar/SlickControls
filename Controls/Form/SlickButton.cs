@@ -348,14 +348,14 @@ public partial class SlickButton : SlickImageControl
 			textPaddingForAvailableSpace.Left += iconSize.Width + padding_.Left;
 		}
 
-		if (maxWidth > int.MaxValue - size.Width)
+		if (maxWidth == 0 || maxWidth > int.MaxValue - size.Width)
 		{
-			maxWidth = 0;
+			maxWidth = int.MaxValue;
 		}
 
-		var textSize = graphics.Measure(LocaleHelper.GetGlobalText(text), font_, maxWidth == 0 ? int.MaxValue : (maxWidth - size.Width)).ToSize();
+		var textSize = graphics.Measure(LocaleHelper.GetGlobalText(text), font_, (maxWidth - size.Width)).ToSize();
 
-		size.Width = Math.Max(maxWidth, padding_.Right + size.Width + (maxWidth == 0 ? (int)(textSize.Width * 1.00f) : textSize.Width));
+		size.Width = Math.Min(maxWidth, padding_.Right + size.Width + (maxWidth == 0 ? (int)(textSize.Width * 1.00f) : textSize.Width));
 		size.Height = Math.Max(size.Height, textSize.Height + padding_.Vertical);
 
 		if (font is null)
