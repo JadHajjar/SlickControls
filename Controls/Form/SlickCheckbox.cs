@@ -165,7 +165,7 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 				Image = image,
 				Text = Text,
 				Padding = Padding,
-				ButtonType = ButtonType,
+				ButtonType = ButtonType.Hidden,
 				ColorShade = ColorShade,
 				ColorStyle = ColorStyle,
 				Enabled = Enabled,

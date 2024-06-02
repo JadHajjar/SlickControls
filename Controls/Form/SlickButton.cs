@@ -353,7 +353,7 @@ public partial class SlickButton : SlickImageControl
 			maxWidth = int.MaxValue;
 		}
 
-		var textSize = graphics.Measure(LocaleHelper.GetGlobalText(text), font_, (maxWidth - size.Width)).ToSize();
+		var textSize = graphics.Measure(LocaleHelper.GetGlobalText(text), font_, maxWidth - size.Width).ToSize();
 
 		size.Width = Math.Min(maxWidth, padding_.Right + size.Width + (maxWidth == 0 ? (int)(textSize.Width * 1.00f) : textSize.Width));
 		size.Height = Math.Max(size.Height, textSize.Height + padding_.Vertical);
@@ -480,11 +480,22 @@ public partial class SlickButton : SlickImageControl
 				: arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 10 : -8);
 		}
 
-		if (arg.ForeColor.A == 0 && arg.BackColor.A == 0)
+		if (arg.BackColor.A == 0 && arg.ForeColor.A == 0)
 		{
 			GetColors(out var fore, out var back, arg.HoverState, arg.ColorStyle, arg.ColorShade, null, arg.BackColor, arg.ButtonType, arg.ActiveColor);
 
 			arg.ForeColor = fore;
+			arg.BackColor = back;
+		}
+		else if (arg.BackColor.A == 0)
+		{
+			GetColors(out var fore, out var back, arg.HoverState, arg.ColorStyle, arg.ColorShade, null, arg.BackColor, arg.ButtonType, arg.ActiveColor);
+
+			if (arg.ForeColor.A == 0 || arg.HoverState.HasFlag(HoverState.Pressed))
+			{
+				arg.ForeColor = fore;
+			}
+
 			arg.BackColor = back;
 		}
 		else if (arg.ForeColor.A == 0)
@@ -527,7 +538,7 @@ public partial class SlickButton : SlickImageControl
 
 		if (arg.ButtonType == ButtonType.Dimmed && arg.HoverState <= HoverState.Normal)
 		{
-			using var pen = new Pen(Color.FromArgb(135, arg.BackColor), (float)(Math.Max(1.5, UI.FontScale))) { Alignment = System.Drawing.Drawing2D.PenAlignment.Inset };
+			using var pen = new Pen(Color.FromArgb(135, arg.BackColor), (float)Math.Max(1.5, UI.FontScale)) { Alignment = System.Drawing.Drawing2D.PenAlignment.Inset };
 			graphics.DrawRoundedRectangle(pen, arg.Rectangle, arg.BorderRadius ?? arg.Padding.Top);
 		}
 

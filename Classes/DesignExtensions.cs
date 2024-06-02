@@ -10,7 +10,7 @@ namespace SlickControls;
 
 public static class DesignExtensions
 {
-	public static Rectangle DrawLabel(this Graphics graphics, string text, Bitmap icon, Color color, Rectangle rectangle, ContentAlignment alignment, bool smaller = false, bool large = false, Point? mousePosition = null)
+	public static Rectangle DrawLabel(this Graphics graphics, string text, Bitmap icon, Color color, Rectangle rectangle, ContentAlignment alignment, bool smaller = false, bool large = false, Point? mousePosition = null, bool recolor = true)
 	{
 		if (text == null)
 		{
@@ -71,7 +71,7 @@ public static class DesignExtensions
 
 			if (icon != null)
 			{
-				graphics.DrawImage(icon.Color(color.GetTextColor()), rectangle.Pad(padding.Left, 0, 0, 0).Align(icon.Size, ContentAlignment.MiddleLeft));
+				graphics.DrawImage(recolor ? icon.Color(color.GetTextColor()) : icon, rectangle.Pad(padding.Left, 0, 0, 0).Align(icon.Size, ContentAlignment.MiddleLeft));
 			}
 		}
 

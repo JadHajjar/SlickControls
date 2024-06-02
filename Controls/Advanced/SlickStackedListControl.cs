@@ -951,7 +951,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 				item.Bounds = new Rectangle(loc, new Size(availableWidth, height));
 			}
 
-			if (invalidRect.IntersectsWith(item.Bounds) || (item.CachedHeight == 0 && i < 1000))
+			if (invalidRect.IntersectsWith(item.Bounds) || (item.CachedHeight == 0 && i < 100))
 			{
 				if (!invalidRect.IntersectsWith(item.Bounds))
 				{
@@ -1022,7 +1022,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 			}
 			else
 			{
-				item.Bounds = new Rectangle(loc, new Size(availableWidth, height + Padding.Vertical + (SeparateWithLines ? (int)UI.FontScale : 0)));
+				item.Bounds = new Rectangle(loc, new Size(availableWidth, height));
 			}
 
 			if (invalidRect.IntersectsWith(item.Bounds))
@@ -1136,12 +1136,12 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 
 		if (!GridView)
 		{
-			return itemList.Count - (availableHeight / ItemHeight.If(0, 1)) + 1;
+			return itemList.Count - (availableHeight / ItemHeight.If(0, 1)) + 0.25;
 		}
 
 		double availableWidth = Width - (scrollVisible ? scrollThumbRectangle.Width + (int)UI.FontScale : 0);
 
-		return Math.Ceiling(itemList.Count / Math.Floor(availableWidth / GridItemSize.Width.If(0, 1))) - (availableHeight / GridItemSize.Height.If(0, 1));
+		return Math.Ceiling(itemList.Count / Math.Floor(availableWidth / GridItemSize.Width.If(0, 1))) - (availableHeight / GridItemSize.Height.If(0, 1)) + 0.25;
 	}
 
 	protected double GetDisplayedRows()

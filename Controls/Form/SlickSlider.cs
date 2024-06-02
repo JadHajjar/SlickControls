@@ -397,7 +397,7 @@ public class SlickSlider : SlickControl, IAnimatable
 			rect.X += Math.Min(0, Width - rect.Width - rect.X - 1).If(0, -Math.Min(0, rect.X));
 
 			graphics.FillRoundedRectangle(Gradient(FormDesign.Design.ActiveColor), rect, 5);
-			graphics.DrawString(txt, Font, Brushes.White, rect, format);
+			graphics.DrawString(txt, Font, new SolidBrush(FormDesign.Design.ActiveForeColor), rect, format);
 		}
 		else
 		{
@@ -429,7 +429,7 @@ public class SlickSlider : SlickControl, IAnimatable
 			if (ShowValues)
 			{
 				graphics.FillRoundedRectangle(Gradient(FormDesign.Design.ActiveColor), rect, 7);
-				graphics.DrawString(txt, Font, Brushes.White, new PointF(pt.X + 2, pt.Y - (bnds.Height / 2) + 1), format);
+				graphics.DrawString(txt, Font, new SolidBrush(FormDesign.Design.ActiveForeColor), new PointF(pt.X + 2, pt.Y - (bnds.Height / 2) + 1), format);
 			}
 		}
 	}

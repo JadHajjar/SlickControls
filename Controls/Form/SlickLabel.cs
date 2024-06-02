@@ -64,7 +64,7 @@ public partial class SlickLabel : SlickButton
 			Image = image,
 			Text = Text,
 			Padding = Padding,
-			ButtonType = ButtonType,
+			ButtonType = ButtonType.Hidden,
 			ColorShade = ColorShade,
 			ColorStyle = ColorStyle,
 			HoverState = HoverState,
@@ -112,7 +112,8 @@ public partial class SlickLabel : SlickButton
 			Padding = padding ?? default,
 			ColorStyle = colorStyle,
 			HoverState = hoverState,
-			Rectangle = rectangle
+			Rectangle = rectangle,
+			ButtonType = ButtonType.Hidden
 		});
 	}
 }
