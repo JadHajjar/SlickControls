@@ -25,7 +25,7 @@ internal partial class DateTimePickerPrompt : Form, IAnimatable
 		InitializeComponent();
 
 		Font = UI.Font(8.25F);
-		Size = UI.Scale(new Size(300, 170), UI.FontScale);
+		Size = UI.Scale(new Size(300, 170));
 		Opacity = 0;
 		DateBox = dateBox;
 		DoubleBuffered = true;
@@ -91,8 +91,8 @@ internal partial class DateTimePickerPrompt : Form, IAnimatable
 		Mouse = PointToClient(Cursor.Position);
 		paintButtons(e);
 
-		var topRect = new Rectangle(3, 3, Width - (int)(100 * UI.FontScale), UI.Font(9F, FontStyle.Bold).Height + 6);
-		var mainRect = new Rectangle(3, 3, Width - (int)(100 * UI.FontScale), Height - 10).Pad(0, topRect.Height, 0, 0);
+		var topRect = new Rectangle(3, 3, Width - UI.Scale(100), UI.Font(9F, FontStyle.Bold).Height + 6);
+		var mainRect = new Rectangle(3, 3, Width - UI.Scale(100), Height - 10).Pad(0, topRect.Height, 0, 0);
 
 		if (!canIncrement(-1))
 		{
@@ -408,9 +408,9 @@ internal partial class DateTimePickerPrompt : Form, IAnimatable
 
 	private void paintButtons(PaintEventArgs e)
 	{
-		var rect = new Rectangle(Width - (int)(100 * UI.FontScale) + 5, 0, (int)(100 * UI.FontScale) - 5, Height / 6);
+		var rect = new Rectangle(Width - UI.Scale(100) + 5, 0, UI.Scale(100) - 5, Height / 6);
 
-		e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Width + 5 - (int)(100 * UI.FontScale), 0, (int)(100 * UI.FontScale), Height), FormDesign.Design.AccentBackColor), new Rectangle(Width + 5 - (int)(100 * UI.FontScale), 0, (int)(100 * UI.FontScale), Height));
+		e.Graphics.FillRectangle(SlickControl.Gradient(new Rectangle(Width + 5 - UI.Scale(100), 0, UI.Scale(100), Height), FormDesign.Design.AccentBackColor), new Rectangle(Width + 5 - UI.Scale(100), 0, UI.Scale(100), Height));
 
 		drawButton("Today", DateTime.Today);
 		drawButton("Yesterday", DateTime.Today.AddDays(-1));

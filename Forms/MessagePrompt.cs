@@ -61,15 +61,15 @@ public partial class MessagePrompt : SlickForm
 	{
 		base.UIChanged();
 
-		PB_Icon.Margin = TB_Input.Margin = UI.Scale(new Padding(20), UI.FontScale);
-		P_Spacer_1.Margin = UI.Scale(new Padding(10, 5, 10, 5), UI.FontScale);
-		L_Title.Margin = UI.Scale(new Padding(5, 15, 5, 5), UI.FontScale);
-		FLP_Buttons.Padding = UI.Scale(new Padding(0, 0, 5, 5), UI.FontScale);
-		B_Details.Margin = UI.Scale(new Padding(5), UI.FontScale);
+		PB_Icon.Margin = TB_Input.Margin = UI.Scale(new Padding(20));
+		P_Spacer_1.Margin = UI.Scale(new Padding(10, 5, 10, 5));
+		L_Title.Margin = UI.Scale(new Padding(5, 15, 5, 5));
+		FLP_Buttons.Padding = UI.Scale(new Padding(0, 0, 5, 5));
+		B_Details.Margin = UI.Scale(new Padding(5));
 
 		foreach (Control item in FLP_Buttons.Controls)
 		{
-			item.Margin = UI.Scale(new Padding(5), UI.FontScale);
+			item.Margin = UI.Scale(new Padding(5));
 		}
 	}
 

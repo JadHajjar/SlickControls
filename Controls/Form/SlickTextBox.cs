@@ -252,8 +252,8 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 
 	protected override void UIChanged()
 	{
-		var pad = (int)(4 * UI.FontScale);
-		var minimumSizeSet = MinimumSize.Height > 0 || Dock is DockStyle.Right or DockStyle.Left or DockStyle.Fill;
+		var pad = UI.Scale(4);
+		var minimumSizeSet = MinimumSize.Height > 0 || Dock is DockStyle.Right or DockStyle.Left or DockStyle.Fill || MultiLine;
 
 		using var font = UI.Font(6.75F, FontStyle.Bold);
 
@@ -498,7 +498,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 		{
 			e.Graphics.SetUp(BackColor);
 
-			var pad = (int)(4 * UI.FontScale);
+			var pad = UI.Scale(4);
 			var barColor =
 				error ? FormDesign.Design.RedColor :
 				warning ? FormDesign.Design.YellowColor :
@@ -509,7 +509,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1, 1, 2, 1), pad);
 
 			using var brush1 = new SolidBrush(_textBox.BackColor);
-			e.Graphics.FillRoundedRectangle(brush1, ClientRectangle.Pad(0, 0, 1, 1 + (int)(2 * UI.FontScale)), pad);
+			e.Graphics.FillRoundedRectangle(brush1, ClientRectangle.Pad(0, 0, 1, 1 + UI.Scale(2)), pad);
 
 			using var img = ImageName?.Get(Height * 5 / 7) ?? Image;
 			var imgWidth = img?.Width ?? IconManager.GetNormalScale();

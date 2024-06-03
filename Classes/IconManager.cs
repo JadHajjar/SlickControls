@@ -74,7 +74,7 @@ public class IconManager
 
 	public static int GetLargeScale()
 	{
-		return (int)(24 * UI.FontScale);
+		return UI.Scale(24);
 	}
 
 	public static Bitmap GetIcon(string name, int preferredSize)

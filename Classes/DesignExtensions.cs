@@ -19,7 +19,7 @@ public static class DesignExtensions
 
 		using (var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F), large ? FontStyle.Bold : FontStyle.Regular))
 		{
-			var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
+			var padding = UI.Scale(new Padding(3, 2, 3, 2));
 			var size = graphics.Measure(text, font).ToSize();
 
 			size.Width = (int)(size.Width * 1.1f);
@@ -65,7 +65,7 @@ public static class DesignExtensions
 			using (var foreBrush = new SolidBrush(color.GetTextColor()))
 			using (var stringFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
 			{
-				graphics.FillRoundedRectangle(backBrush, rectangle, (int)(3 * UI.FontScale));
+				graphics.FillRoundedRectangle(backBrush, rectangle, UI.Scale(3));
 				graphics.DrawString(text, font, foreBrush, icon is null ? rectangle : rectangle.Pad(icon.Width + padding.Left, 0, 0, 0), stringFormat);
 			}
 
@@ -86,7 +86,7 @@ public static class DesignExtensions
 		}
 
 		using var font = UI.Font((large ? 9F : 7.5F) - (smaller ? 1F : 0F), large ? FontStyle.Bold : FontStyle.Regular);
-		var padding = UI.Scale(new Padding(3, 2, 3, 2), UI.FontScale);
+		var padding = UI.Scale(new Padding(3, 2, 3, 2));
 		var size = graphics.Measure(text, font).ToSize();
 
 		size.Width = (int)(size.Width * 1.1f);
@@ -107,10 +107,10 @@ public static class DesignExtensions
 		using var font = UI.Font(8.25F, FontStyle.Bold);
 		if (height == 0)
 		{
-			height = (int)(24 * UI.FontScale);
+			height = UI.Scale(24);
 		}
 
-		var pad = padding ?? UI.Scale(new Padding(3), UI.FontScale);
+		var pad = padding ?? UI.Scale(new Padding(3));
 		var size = new Size(string.IsNullOrEmpty(text) ? height : ((int)graphics.Measure(text, font).Width + pad.Horizontal + (height * 3 / 4)), height);
 		var rect = new Rectangle(point.X, point.Y, 0, 0).Align(size, alignment);
 		var iconRect = rect.Pad(pad).Align(new Size(height * 3 / 4, height * 3 / 4), text == "" ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
@@ -118,7 +118,7 @@ public static class DesignExtensions
 		using (var textBrush = new SolidBrush(brush.Color.GetTextColor()))
 		using (var stringFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
 		{
-			graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
+			graphics.FillRoundedRectangle(brush, rect, UI.Scale(4));
 			graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width, 0, 0, 0), stringFormat);
 		}
 
@@ -132,10 +132,10 @@ public static class DesignExtensions
 		using var font = UI.Font(smaller ? 7.5F : 8.25F, FontStyle.Bold);
 		if (height == 0)
 		{
-			height = (int)(24 * UI.FontScale);
+			height = UI.Scale(24);
 		}
 
-		var pad = padding ?? UI.Scale(new Padding(3), UI.FontScale);
+		var pad = padding ?? UI.Scale(new Padding(3));
 		var size = new Size(string.IsNullOrEmpty(text) ? height : ((int)graphics.Measure(text, font).Width + (icon == null ? pad.Left : (pad.Horizontal + (height * 3 / 4)))), height);
 		var rect = new Rectangle(point.X, point.Y, 0, 0).Align(size, alignment);
 		var iconRect = icon == null ? default : rect.Pad(pad).Align(new Size(height * 3 / 4, height * 3 / 4), text == "" ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft);
@@ -144,7 +144,7 @@ public static class DesignExtensions
 		using (var textBrush = new SolidBrush(brush.Color.GetTextColor()))
 		using (var stringFormat = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
 		{
-			graphics.FillRoundedRectangle(brush, rect, (int)(4 * UI.FontScale));
+			graphics.FillRoundedRectangle(brush, rect, UI.Scale(4));
 			graphics.DrawString(text, font, textBrush, rect.Pad(iconRect.Width, 0, 0, 0), stringFormat);
 
 			if (icon != null)
@@ -172,7 +172,7 @@ public static class DesignExtensions
 
 	public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, int maxWidth, double tab, ref int height, bool draw = true, DynamicIcon dIcon = null)
 	{
-		var margin = (int)(6 * UI.FontScale);
+		var margin = UI.Scale(6);
 		using var icon = dIcon?.Get(font.Height + margin);
 		var x = (int)(((tab * 12) + 6) * UI.FontScale);
 		var bnds = graphics.Measure(item?.ToString(), font, maxWidth - x - (icon == null ? 0 : (icon.Width + margin)));
@@ -199,7 +199,7 @@ public static class DesignExtensions
 
 	public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, Rectangle rectangle, ref int height, bool draw = true, DynamicIcon dIcon = null)
 	{
-		var margin = (int)(6 * UI.FontScale);
+		var margin = UI.Scale(6);
 		using var icon = dIcon?.Get(font.Height + margin);
 		var bnds = graphics.Measure(item?.ToString(), font, rectangle.Width - (icon == null ? 0 : (icon.Width + margin)));
 

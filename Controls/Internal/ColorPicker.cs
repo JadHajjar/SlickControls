@@ -49,7 +49,7 @@ public partial class ColorPicker : SlickControl
 	protected override void UIChanged()
 	{
 		Size = UI.Scale(new Size(188, 37), UI.UIScale);
-		Padding = UI.Scale(new Padding(5), UI.FontScale);
+		Padding = UI.Scale(new Padding(5));
 	}
 
 	protected override void DesignChanged(FormDesign design)
@@ -215,7 +215,7 @@ public partial class ColorPicker : SlickControl
 		using var backBrush = new SolidBrush(HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : HoverState.HasFlag(HoverState.Hovered) ? FormDesign.Design.AccentBackColor.MergeColor(FormDesign.Design.ForeColor, 90) : FormDesign.Design.AccentBackColor);
 		e.Graphics.FillRoundedRectangle(backBrush, bounds, Padding.Left);
 
-		var colorRect = bounds.Pad(Padding).Align(UI.Scale(new Size(20, 20), UI.FontScale), ContentAlignment.MiddleRight);
+		var colorRect = bounds.Pad(Padding).Align(UI.Scale(new Size(20, 20)), ContentAlignment.MiddleRight);
 		using var brush2 = new SolidBrush(Color.FromArgb(175, WinExtensionClass.ColorFromHSL(Color.GetHue(), Color.GetSaturation(), (1f - Color.GetBrightness()).Between(.2f, .8f))));
 		e.Graphics.FillEllipse(brush2, colorRect);
 		e.Graphics.FillEllipse(brush, colorRect.Pad(1));

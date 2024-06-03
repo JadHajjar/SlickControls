@@ -43,7 +43,7 @@ public partial class NotificationForm : Form
 		ResizeRedraw = true;
 		ShowIcon = false;
 		ShowInTaskbar = false;
-		Padding = UI.Scale(new Padding(5), UI.FontScale);
+		Padding = UI.Scale(new Padding(5));
 		TransparencyKey = BackColor = Color.FromArgb(64, 64, 0);
 		Size = Size.Empty;
 
@@ -120,7 +120,7 @@ public partial class NotificationForm : Form
 
 	private void UI_UIChanged()
 	{
-		Size = UI.Scale(Notification.Size, UI.FontScale);
+		Size = UI.Scale(Notification.Size);
 	}
 
 	internal static void Clear()
@@ -200,7 +200,7 @@ public partial class NotificationForm : Form
 
 			frm = new NotificationForm(notification, form, sound, timeoutSeconds)
 			{
-				Size = UI.Scale(notification.Size, UI.FontScale)
+				Size = UI.Scale(notification.Size)
 			};
 
 			if (form is null)
@@ -308,7 +308,7 @@ public partial class NotificationForm : Form
 
 		using (var brush = new SolidBrush(color))
 		{
-			e.Graphics.FillRectangle(brush, clip.X, 0, (int)(3 * UI.FontScale), Height);
+			e.Graphics.FillRectangle(brush, clip.X, 0, UI.Scale(3), Height);
 		}
 
 		if (Notification.OnPaint != null)
@@ -318,7 +318,7 @@ public partial class NotificationForm : Form
 		else
 		{
 			using var titleFont = UI.Font(9.75F);
-			var imgRect = clip.Pad(Padding).Align(UI.Scale(new Size(26, 26), UI.FontScale), ContentAlignment.MiddleLeft);
+			var imgRect = clip.Pad(Padding).Align(UI.Scale(new Size(26, 26)), ContentAlignment.MiddleLeft);
 
 			imgRect.X += imgRect.Width / 2;
 

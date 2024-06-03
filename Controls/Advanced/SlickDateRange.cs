@@ -79,7 +79,7 @@ public class SlickDateRange : SlickControl, ISupportsReset
 				listDropDown = new DateRangePopup(this)
 				{
 					BackColor = FormDesign.Design.AccentBackColor,
-					Padding = UI.Scale(new Padding(5), UI.FontScale),
+					Padding = UI.Scale(new Padding(5)),
 					Location = _form.PointToClient(PointToScreen(new Point(0, Height - 3))),
 					Font = UI.Font(7.5F),
 					Cursor = Cursor,
@@ -124,7 +124,7 @@ public class SlickDateRange : SlickControl, ISupportsReset
 		if (Live)
 		{
 			Font = UI.Font(8.25F);
-			Padding = UI.Scale(new Padding(5), UI.FontScale);
+			Padding = UI.Scale(new Padding(5));
 
 			if (Dock == DockStyle.Fill)
 			{

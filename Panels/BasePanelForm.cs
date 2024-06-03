@@ -477,9 +477,9 @@ public partial class BasePanelForm : SlickForm
 	{
 		base.UIChanged();
 
-		base_P_Side.Width = (int)(180 * UI.FontScale);
-		base_TLP_Side.Padding = UI.Scale(new Padding(5), UI.FontScale);
-		base_P_Side.Padding = UI.Scale(new Padding(5, 5, 0, 5), UI.FontScale);
+		base_P_Side.Width = UI.Scale(180);
+		base_TLP_Side.Padding = UI.Scale(new Padding(5));
+		base_P_Side.Padding = UI.Scale(new Padding(5, 5, 0, 5));
 
 		base_P_SideControls.Font = UI.Font(6.75F);
 		base_P_Icon.Height = (int)(70 * UI.UIScale);

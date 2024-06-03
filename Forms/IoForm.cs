@@ -144,15 +144,15 @@ public partial class IoForm : BasePanelForm
 		base.UIChanged();
 
 		tableLayoutPanel1.Height = 0;
-		roundedPanel1.Margin = UI.Scale(new Padding(10, 10, 10, 5), UI.FontScale);
-		B_GridView.Margin = UI.Scale(new Padding(0, 5, 10, 10), UI.FontScale);
-		B_Cancel.Margin = B_OK.Margin = B_ListView.Margin = UI.Scale(new Padding(10, 5, 10, 10), UI.FontScale);
-		roundedPanel1.Padding = UI.Scale(new Padding(10, 5, 5, 5), UI.FontScale);
-		tableLayoutPanel1.Margin = TB_Search.Margin = UI.Scale(new Padding(10, 12, 5, 0), UI.FontScale);
-		L_Title.Margin = UI.Scale(new Padding(10, 10, 5, 0), UI.FontScale);
+		roundedPanel1.Margin = UI.Scale(new Padding(10, 10, 10, 5));
+		B_GridView.Margin = UI.Scale(new Padding(0, 5, 10, 10));
+		B_Cancel.Margin = B_OK.Margin = B_ListView.Margin = UI.Scale(new Padding(10, 5, 10, 10));
+		roundedPanel1.Padding = UI.Scale(new Padding(10, 5, 5, 5));
+		tableLayoutPanel1.Margin = TB_Search.Margin = UI.Scale(new Padding(10, 12, 5, 0));
+		L_Title.Margin = UI.Scale(new Padding(10, 10, 5, 0));
 		L_Title.Font = UI.Font(8.25F, FontStyle.Bold);
-		ioSortDropdown.Width = (int)(125 * UI.FontScale);
-		TB_Search.Width = (int)(200 * UI.FontScale);
+		ioSortDropdown.Width = UI.Scale(125);
+		TB_Search.Width = UI.Scale(200);
 		I_SortDirection.Height = ioSortDropdown.Height = 0;
 	}
 

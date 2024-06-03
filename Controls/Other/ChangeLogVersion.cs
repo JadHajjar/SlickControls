@@ -34,7 +34,7 @@ public partial class ChangeLogVersion : SlickControl
 	private int DrawItems(Graphics g, bool draw)
 	{
 		var tab = 0D;
-		var h = (int)(4 * UI.FontScale);
+		var h = UI.Scale(4);
 		using (var font1 = UI.Font(15.5F, FontStyle.Bold))
 		using (var font2 = UI.Font(8.25F))
 		using (var font3 = UI.Font(8.25F, FontStyle.Italic))
@@ -51,7 +51,7 @@ public partial class ChangeLogVersion : SlickControl
 			if (draw)
 			{
 				using var pen = new Pen(FormDesign.Design.AccentColor, (float)Math.Ceiling(UI.FontScale * 1.5));
-				g.DrawLine(pen, (int)(12 * UI.FontScale), h, (int)(12 * UI.FontScale), Height - 13);
+				g.DrawLine(pen, UI.Scale(12), h, UI.Scale(12), Height - 13);
 			}
 
 			if (draw && _changelog.Date != null)
@@ -62,14 +62,14 @@ public partial class ChangeLogVersion : SlickControl
 				g.DrawString($"on {_changelog.Date?.ToReadableString(_changelog.Date?.Year != DateTime.Now.Year, ExtensionClass.DateFormat.TDMY)}",
 					font2,
 					brush,
-					new Point((int)(9 * UI.FontScale) + versionSize.Width, (int)(((h - (4 * UI.FontScale) - bnds.Height) / 2) + (4 * UI.FontScale))));
+					new Point(UI.Scale(9) + versionSize.Width, (int)(((h - (4 * UI.FontScale) - bnds.Height) / 2) + (4 * UI.FontScale))));
 			}
 
 			tab = 1;
 
 			if (!string.IsNullOrWhiteSpace(_changelog.Tagline))
 			{
-				h += (int)(2 * UI.FontScale);
+				h += UI.Scale(2);
 
 				g.DrawStringItem(LocaleHelper.GetGlobalText(_changelog.Tagline)
 					 , font3
@@ -79,16 +79,16 @@ public partial class ChangeLogVersion : SlickControl
 					 , ref h
 					, draw);
 
-				h += (int)(4 * UI.FontScale);
+				h += UI.Scale(4);
 			}
 
-			h += (int)(2 * UI.FontScale);
+			h += UI.Scale(2);
 
 			foreach (var item in _changelog.ChangeGroups)
 			{
 				tab = 1;
 
-				h += (int)(2 * UI.FontScale);
+				h += UI.Scale(2);
 
 				g.DrawStringItem(LocaleHelper.GetGlobalText(item.Name)
 					, font4
@@ -110,10 +110,10 @@ public partial class ChangeLogVersion : SlickControl
 						, ref h
 						, draw);
 
-					h -= (int)(3 * UI.FontScale);
+					h -= UI.Scale(3);
 				}
 
-				h += (int)(10 * UI.FontScale);
+				h += UI.Scale(10);
 			}
 		}
 

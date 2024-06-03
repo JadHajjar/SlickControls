@@ -38,9 +38,9 @@ public partial class SlickTabHeader : Panel
 
 		GenerateTabs();
 
-		Padding = UI.Scale(Padding, UI.FontScale);
+		Padding = UI.Scale(Padding);
 
-		Height = (int)(32 * UI.FontScale) + Padding.Vertical;
+		Height = UI.Scale(32) + Padding.Vertical;
 	}
 
 	private void GenerateTabs()
@@ -90,7 +90,7 @@ public partial class SlickTabHeader : Panel
 
 	private int TabWidth()
 	{
-		return ((Width - Padding.Horizontal) / Tabs.Length).Between((int)(32 * UI.FontScale), (int)(200 * UI.FontScale));
+		return ((Width - Padding.Horizontal) / Tabs.Length).Between(UI.Scale(32), UI.Scale(200));
 	}
 
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

@@ -35,7 +35,7 @@ public class SlickSlider : SlickControl, IAnimatable
 	{
 		Font = UI.Font(8F);
 
-		Padding = UI.Scale(new Padding(8, 14, 8, 14), UI.FontScale);
+		Padding = UI.Scale(new Padding(8, 14, 8, 14));
 		Height = (int)Math.Round(14 * UI.UIScale) + Padding.Vertical + (ShowValues ? Font.Height + 6 : 0);
 	}
 

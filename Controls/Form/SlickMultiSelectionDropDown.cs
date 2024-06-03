@@ -10,7 +10,7 @@ namespace SlickControls;
 
 public abstract class SlickMultiSelectionDropDown<T> : SlickSelectionDropDown<T>
 {
-	private Rectangle ClearRectangle => new(_searchBox.Right + Padding.Horizontal + _searchBox.Height, _searchBox.Top - (int)(3 * UI.FontScale), _searchBox.Height + (int)(6 * UI.FontScale), _searchBox.Height + (int)(6 * UI.FontScale));
+	private Rectangle ClearRectangle => new(_searchBox.Right + Padding.Horizontal + _searchBox.Height, _searchBox.Top - UI.Scale(3), _searchBox.Height + UI.Scale(6), _searchBox.Height + UI.Scale(6));
 	private readonly List<T> _selectedItems = [];
 
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
@@ -97,7 +97,7 @@ public abstract class SlickMultiSelectionDropDown<T> : SlickSelectionDropDown<T>
 
 		if (selected && !hoverState.HasFlag(HoverState.Pressed))
 		{
-			var bar = (int)(4 * UI.FontScale);
+			var bar = UI.Scale(4);
 			using (var brush = new LinearGradientBrush(e.ClipRectangle.Pad(e.ClipRectangle.Width / 4, 0, 0, 0), Color.Empty, Color.FromArgb(50, FormDesign.Design.ActiveColor), LinearGradientMode.Horizontal))
 			{
 				e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.Pad(0, -Padding.Top, 0, -Padding.Bottom).Pad((e.ClipRectangle.Width / 4) + 1, 1, bar, 1), bar);
@@ -129,7 +129,7 @@ public abstract class SlickMultiSelectionDropDown<T> : SlickSelectionDropDown<T>
 		if (hoverState.HasFlag(HoverState.Hovered))
 		{
 			using var brush = new SolidBrush(hoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(25, FormDesign.Design.ActiveColor) : Color.FromArgb(75, FormDesign.Design.AccentColor));
-			e.Graphics.FillRoundedRectangle(brush, ClearRectangle, (int)(4 * UI.FontScale));
+			e.Graphics.FillRoundedRectangle(brush, ClearRectangle, UI.Scale(4));
 		}
 
 		e.Graphics.DrawImage(image.Color(color), ClearRectangle.CenterR(image.Size));

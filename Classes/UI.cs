@@ -53,6 +53,62 @@ public class UI : ISaveObject
 		style);
 	}
 
+	public static int Scale(int value)
+	{
+		return (int)(value * FontScale);
+	}
+
+	public static float Scale(float value)
+	{
+		return (float)(value * FontScale);
+	}
+
+	public static double Scale(double value)
+	{
+		return value * FontScale;
+	}
+
+	public static Size Scale(Size size)
+	{
+		return new Size(
+		(int)(size.Width * FontScale) / 2 * 2,
+		(int)(size.Height * FontScale) / 2 * 2);
+	}
+
+	public static Rectangle Scale(Rectangle rect)
+	{
+		return new Rectangle(
+		rect.X - (int)(((rect.Width * FontScale) - rect.Width) * 0.5),
+		rect.Y - (int)(((rect.Height * FontScale) - rect.Height) * 0.5),
+		(int)(rect.Width * FontScale),
+		(int)(rect.Height * FontScale));
+	}
+
+	public static SizeF Scale(SizeF size)
+	{
+		return new SizeF(
+		(float)(size.Width * FontScale),
+		(float)(size.Height * FontScale));
+	}
+
+	public static RectangleF Scale(RectangleF rect)
+	{
+		return new RectangleF(
+		rect.X - (float)(((rect.Width * FontScale) - rect.Width) * 0.5),
+		rect.Y - (float)(((rect.Height * FontScale) - rect.Height) * 0.5),
+		(float)(rect.Width * FontScale) / 2 * 2,
+		(float)(rect.Height * FontScale) / 2 * 2);
+	}
+
+	public static Padding Scale(Padding padding)
+	{
+		return new Padding(
+		(int)(padding.Left * FontScale),
+		(int)(padding.Top * FontScale),
+		(int)(padding.Right * FontScale),
+		(int)(padding.Bottom * FontScale));
+	}
+
 	public static Size Scale(Size size, double scale)
 	{
 		return new Size(

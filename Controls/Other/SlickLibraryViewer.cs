@@ -85,15 +85,15 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 
 	protected override void UIChanged()
 	{
-		I_Back.Padding = PB_Bar.Padding = UI.Scale(new Padding(5), UI.FontScale);
+		I_Back.Padding = PB_Bar.Padding = UI.Scale(new Padding(5));
 		PB_Bar.Height = (int)FontMeasuring.Measure(" ", UI.Font(9F)).Height + PB_Bar.Padding.Vertical;
 		slickSpacer1.Height = (int)(1.5 * UI.FontScale);
-		slickSpacer1.Padding = UI.Scale(new Padding(15, 0, 15, 0), UI.FontScale);
+		slickSpacer1.Padding = UI.Scale(new Padding(15, 0, 15, 0));
 		TB_Path.Width = PB_Bar.Width = (int)(450 * UI.UIScale);
 		tableLayoutPanel2.ColumnStyles[1].Width = PB_Bar.Height;
 		tableLayoutPanel2.ColumnStyles[3].Width = PB_Bar.Height;
 		PB_Loader.Size = new Size(PB_Bar.Height, PB_Bar.Height);
-		I_Back.Size = UI.Scale(new Size(24, 24), UI.FontScale);
+		I_Back.Size = UI.Scale(new Size(24, 24));
 	}
 
 	protected override void OnCreateControl()
@@ -426,7 +426,7 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 
 				if (rect.Contains(mousePos))
 				{
-					var i = (int)(3 * UI.FontScale);
+					var i = UI.Scale(3);
 					using (var backBrush = Gradient(PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : Color.FromArgb(120, FormDesign.Design.AccentColor)))
 					{
 						e.Graphics.FillRoundedRectangle(backBrush, rect.Pad(-i), i);

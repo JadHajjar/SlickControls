@@ -36,7 +36,7 @@ public partial class SlickTip : Control
 
 			var ctrlPos = Form.PointToClient(Control.PointToScreen(Point.Empty));
 			var bnds = SizeF.Empty;
-			var padding = (int)(3 * UI.FontScale);
+			var padding = UI.Scale(3);
 
 			using (var g = Graphics.FromHwnd(IntPtr.Zero))
 			{

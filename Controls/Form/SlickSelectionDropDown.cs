@@ -144,7 +144,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 				{
 					ItemHeight = ItemHeight,
 					BackColor = FormDesign.Design.AccentBackColor,
-					Padding = UI.Scale(new Padding(5), UI.FontScale),
+					Padding = UI.Scale(new Padding(5)),
 					Location = _form.PointToClient(PointToScreen(new Point(0, Height - 3))),
 					Font = Font,
 					Cursor = Cursor,
@@ -201,7 +201,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 		if (Live)
 		{
 			Font = UI.Font(8.25F);
-			Padding = UI.Scale(new Padding(5), UI.FontScale);
+			Padding = UI.Scale(new Padding(5));
 
 			if (Dock == DockStyle.Fill)
 			{
@@ -497,7 +497,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 
 		if (selected && !e.HoverState.HasFlag(HoverState.Pressed))
 		{
-			var bar = (int)(4 * UI.FontScale);
+			var bar = UI.Scale(4);
 			using (var brush = new LinearGradientBrush(e.ClipRectangle.Pad(e.ClipRectangle.Width / 4, 0, 0, 0), Color.Empty, Color.FromArgb(50, FormDesign.Design.ActiveColor), LinearGradientMode.Horizontal))
 			{
 				e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.Pad(0, -Padding.Top, 0, -Padding.Bottom).Pad((e.ClipRectangle.Width / 4) + 1, 1, bar, 1), bar);

@@ -97,10 +97,10 @@ public partial class PC_Changelog : PanelContent
 
 	protected override void UIChanged()
 	{
-		base_P_Side.Width = (int)(140 * UI.FontScale);
-		base_TLP_Side.Padding = UI.Scale(new Padding(5), UI.FontScale);
-		base_P_Side.Padding = UI.Scale(new Padding(0, 5, 5, 5), UI.FontScale);
-		P_All.Padding = new Padding(0, (int)(30 * UI.FontScale), 0, 0);
+		base_P_Side.Width = UI.Scale(140);
+		base_TLP_Side.Padding = UI.Scale(new Padding(5));
+		base_P_Side.Padding = UI.Scale(new Padding(0, 5, 5, 5));
+		P_All.Padding = new Padding(0, UI.Scale(30), 0, 0);
 		CustomTitleBounds =  new Point(P_All.Left, 0);
 
 		base.UIChanged();

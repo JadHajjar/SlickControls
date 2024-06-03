@@ -421,7 +421,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 				baseSize = GridItemSize;
 			}
 
-			GridItemSize = UI.Scale(baseSize, UI.FontScale);
+			GridItemSize = UI.Scale(baseSize);
 			ItemHeight = (int)(baseHeight * UI.FontScale) / 2 * 2;
 
 			Invalidate();
@@ -845,7 +845,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 
 		using (var brush = new SolidBrush(e.BackColor))
 		{
-			e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.InvertPad(GridPadding), (int)(5 * UI.FontScale));
+			e.Graphics.FillRoundedRectangle(brush, e.ClipRectangle.InvertPad(GridPadding), UI.Scale(5));
 		}
 
 		PaintItemGrid?.Invoke(this, e);
@@ -865,7 +865,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 		{
 			if (Loading && _items.Count == 0)
 			{
-				DrawLoader(e.Graphics, ClientRectangle.CenterR(UI.Scale(new Size(32, 32), UI.FontScale)));
+				DrawLoader(e.Graphics, ClientRectangle.CenterR(UI.Scale(new Size(32, 32))));
 				return;
 			}
 		}
@@ -1102,7 +1102,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 
 			var thumbHeight = (int)Math.Max(validHeight * visibleItems / (maxIndex + visibleItems), 32 * UI.FontScale);
 
-			scrollThumbRectangle = new Rectangle(Width - (int)(10 * UI.FontScale), StartHeight + (int)((validHeight - thumbHeight) * scrollIndex / (maxIndex + visibleItems - visibleItems).If(0, 1)), (int)(10 * UI.FontScale), thumbHeight);
+			scrollThumbRectangle = new Rectangle(Width - UI.Scale(10), StartHeight + (int)((validHeight - thumbHeight) * scrollIndex / (maxIndex + visibleItems - visibleItems).If(0, 1)), UI.Scale(10), thumbHeight);
 			scrollVisible = true;
 
 			if (DynamicSizing)

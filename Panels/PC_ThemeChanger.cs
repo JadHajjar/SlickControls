@@ -77,11 +77,11 @@ public partial class PC_ThemeChanger : PanelContent
 	{
 		base.UIChanged();
 
-		SS_Scale.Width = (int)(350 * UI.FontScale);
-		DD_Font.Margin = CB_DisableAnimations.Margin = CB_NightMode.Margin = CB_WindowsButtons.Margin = CB_UseSystemTheme.Margin = UI.Scale(new System.Windows.Forms.Padding(5), UI.FontScale);
-		DD_Font.Width = (int)(250 * UI.FontScale);
-		B_Random.Margin = B_Reset.Margin = B_Save.Margin = UI.Scale(new System.Windows.Forms.Padding(10), UI.FontScale);
-		P_UI.Margin = P_Theme.Margin = UI.Scale(new System.Windows.Forms.Padding(10), UI.FontScale);
+		SS_Scale.Width = UI.Scale(350);
+		DD_Font.Margin = CB_DisableAnimations.Margin = CB_NightMode.Margin = CB_WindowsButtons.Margin = CB_UseSystemTheme.Margin = UI.Scale(new System.Windows.Forms.Padding(5));
+		DD_Font.Width = UI.Scale(250);
+		B_Random.Margin = B_Reset.Margin = B_Save.Margin = UI.Scale(new System.Windows.Forms.Padding(10));
+		P_UI.Margin = P_Theme.Margin = UI.Scale(new System.Windows.Forms.Padding(10));
 	}
 
 	protected override void DesignChanged(FormDesign design)

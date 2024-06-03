@@ -78,8 +78,8 @@ public class RoundedGroupPanel : DBPanel
 	{
 		try
 		{
-			var padding = UI.Scale(new Padding(AddShadow ? 12 : 5), UI.FontScale);
-			var pad = (int)(4 * UI.FontScale);
+			var padding = UI.Scale(new Padding(AddShadow ? 12 : 5));
+			var pad = UI.Scale(4);
 
 			var iconWidth = 0;
 			if (Image != null)
@@ -237,8 +237,8 @@ public class RoundedGroupFlowLayoutPanel : DBFlowLayoutPanel
 	{
 		try
 		{
-			var padding = UI.Scale(new Padding(AddShadow ? 12 : 5), UI.FontScale);
-			var pad = (int)(4 * UI.FontScale);
+			var padding = UI.Scale(new Padding(AddShadow ? 12 : 5));
+			var pad = UI.Scale(4);
 
 			var iconWidth = 0;
 			if (Image != null)
@@ -399,8 +399,8 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 	{
 		try
 		{
-			var padding = UI.Scale(new Padding(AddShadow ? 12 : 5), UI.FontScale);
-			var pad = (int)(4 * UI.FontScale);
+			var padding = UI.Scale(new Padding(AddShadow ? 12 : 5));
+			var pad = UI.Scale(4);
 
 			var iconWidth = 0;
 			if (Image != null)

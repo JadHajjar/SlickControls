@@ -125,12 +125,12 @@ public partial class PanelContent : SlickControl
 	protected override void UIChanged()
 	{
 		Font = UI.Font(8.25F);
-		Padding = UI.Scale(defaultPadding ?? new Padding(5, 30, 5, 5), UI.FontScale);
+		Padding = UI.Scale(defaultPadding ?? new Padding(5, 30, 5, 5));
 		SetBackIcon();
-		base_Text.Padding = UI.Scale(new Padding(4, 2, 3, 2), UI.FontScale);
+		base_Text.Padding = UI.Scale(new Padding(4, 2, 3, 2));
 		base_Text.Font = UI.Font(10F, FontStyle.Bold);
 		base_Text.PerformAutoScale();
-		base_Text.Location = new Point(CustomTitleBounds.X == 0 ? (int)(5 * UI.FontScale) : CustomTitleBounds.X, CustomTitleBounds.Y == 0 ? ((int)(30 * UI.FontScale) - base_Text.Height) / 2 : CustomTitleBounds.Y);
+		base_Text.Location = new Point(CustomTitleBounds.X == 0 ? UI.Scale(5) : CustomTitleBounds.X, CustomTitleBounds.Y == 0 ? (UI.Scale(30) - base_Text.Height) / 2 : CustomTitleBounds.Y);
 	}
 
 	protected override void DesignChanged(FormDesign design)
@@ -206,7 +206,7 @@ public partial class PanelContent : SlickControl
 			base_Text.ImageName = "ArrowLeft";
 			base_Text.Enabled = true;
 			base_Text.PerformAutoScale();
-			base_Text.Location = new Point(CustomTitleBounds.X == 0 ? (int)(5 * UI.FontScale) : CustomTitleBounds.X, CustomTitleBounds.Y == 0 ? ((int)(30 * UI.FontScale) - base_Text.Height) / 2 : CustomTitleBounds.Y);
+			base_Text.Location = new Point(CustomTitleBounds.X == 0 ? UI.Scale(5) : CustomTitleBounds.X, CustomTitleBounds.Y == 0 ? (UI.Scale(30) - base_Text.Height) / 2 : CustomTitleBounds.Y);
 			SlickTip.SetTo(base_Text, string.Format(LocaleHelper.GetGlobalText("Go back to {0}"), Form.PanelHistory.Last().Text));
 		}
 	}
@@ -342,7 +342,7 @@ public partial class PanelContent : SlickControl
 			return;
 		}
 
-		var maxwWidth = Width - (int)(115 * UI.FontScale);
+		var maxwWidth = Width - UI.Scale(115);
 		var width = maxwWidth / 2;
 		var x = (int)((LoaderPercentage - 100) * maxwWidth / 100) + width;
 		var rect = Rectangle.Intersect(new Rectangle(x, 0, width, (int)Math.Ceiling(3F * (float)UI.FontScale)), new Rectangle(0, 0, maxwWidth, (int)Math.Ceiling(3F * (float)UI.FontScale)));
@@ -354,7 +354,7 @@ public partial class PanelContent : SlickControl
 
 		using var brush = new LinearGradientBrush(rect.Pad(-1), default, default, 0f);
 
-		if (rect.Width > (int)(200 * UI.FontScale))
+		if (rect.Width > UI.Scale(200))
 		{
 			brush.InterpolationColors = new ColorBlend(5)
 			{

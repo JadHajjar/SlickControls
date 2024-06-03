@@ -49,7 +49,7 @@ public class PanelTab
 		{
 			using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
 			{
-				e.Graphics.DrawLine(pen, small ? 0 : (int)(10 * UI.FontScale), clientRectangle.Y + (clientRectangle.Height / 2), clientRectangle.Width - (small ? 0 : (2 * (int)(10 * UI.FontScale))), clientRectangle.Y + (clientRectangle.Height / 2));
+				e.Graphics.DrawLine(pen, small ? 0 : UI.Scale(10), clientRectangle.Y + (clientRectangle.Height / 2), clientRectangle.Width - (small ? 0 : (2 * UI.Scale(10))), clientRectangle.Y + (clientRectangle.Height / 2));
 			}
 
 			return;
@@ -67,7 +67,7 @@ public class PanelTab
 			return;
 		}
 
-		var bar = (int)(4 * UI.FontScale);
+		var bar = UI.Scale(4);
 		var back = Color.Empty;
 		var fore = e.BackColor == FormDesign.Design.MenuColor ? FormDesign.Design.MenuForeColor : FormDesign.Design.ForeColor;
 
@@ -136,7 +136,7 @@ public class PanelTab
 			using var font = UI.Font(8.25F, FontStyle.Bold);
 			var roundRect = clientRectangle.Align(new Size(clientRectangle.Width, IconManager.GetNormalScale()), ContentAlignment.MiddleLeft);
 
-			roundRect = roundRect.Pad(small ? ((clientRectangle.Width - roundRect.Height) / 2) : (int)(7 * UI.FontScale), 0, 0, 0);
+			roundRect = roundRect.Pad(small ? ((clientRectangle.Width - roundRect.Height) / 2) : UI.Scale(7), 0, 0, 0);
 			roundRect.Width = iconWidth = roundRect.Height;
 
 			using (var brush = new SolidBrush(FormDesign.Design.ActiveColor))
@@ -155,7 +155,7 @@ public class PanelTab
 			using var image = new Bitmap(PanelItem.Icon);
 			iconWidth = image.Width;
 
-			var imageRect = clientRectangle.Pad(small ? (clientRectangle.Width - image.Width) / 2 : (int)(7 * UI.FontScale), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft);
+			var imageRect = clientRectangle.Pad(small ? (clientRectangle.Width - image.Width) / 2 : UI.Scale(7), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft);
 
 			if (PanelItem.Loading)
 			{
@@ -168,12 +168,12 @@ public class PanelTab
 		}
 		else
 		{
-			using var image = PanelItem.IconName?.Get((int)(18 * UI.FontScale));
+			using var image = PanelItem.IconName?.Get(UI.Scale(18));
 			if (image != null)
 			{
 				iconWidth = image.Width;
 
-				var imageRect = clientRectangle.Pad(small ? (clientRectangle.Width - image.Width) / 2 : (int)(7 * UI.FontScale), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft);
+				var imageRect = clientRectangle.Pad(small ? (clientRectangle.Width - image.Width) / 2 : UI.Scale(7), 0, 0, 0).Align(image.Size, ContentAlignment.MiddleLeft);
 
 				if (PanelItem.Loading)
 				{
@@ -193,7 +193,7 @@ public class PanelTab
 			var textRect = new Rectangle(clientRectangle.X, clientRectangle.Y, clientRectangle.Width, clientRectangle.Height);
 			var text = LocaleHelper.GetGlobalText(PanelItem.Text);
 
-			textRect = textRect.Pad((int)(10 * UI.FontScale) + iconWidth, bar, bar, bar);
+			textRect = textRect.Pad(UI.Scale(10) + iconWidth, bar, bar, bar);
 
 			using var font = UI.Font(8.25F).FitTo(text,textRect,e.Graphics);
 

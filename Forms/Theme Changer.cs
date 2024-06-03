@@ -45,7 +45,7 @@ public partial class Theme_Changer : BaseForm
 	{
 		base.UIChanged();
 
-		DD_Font.Width = UD_BaseTheme.Width = (int)(300 * UI.FontScale);
+		DD_Font.Width = UD_BaseTheme.Width = UI.Scale(300);
 	}
 
 	private void SS_FontSize_ValuesChanged(object sender, EventArgs e)

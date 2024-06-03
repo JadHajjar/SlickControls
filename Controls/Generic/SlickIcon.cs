@@ -102,7 +102,7 @@ public class SlickIcon : SlickImageControl
 			if (Enabled && HoverState.HasFlag(HoverState.Hovered))
 			{
 				e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-				e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(50, color.MergeColor(ForeColor, 65))), ClientRectangle.Pad(1), (int)(4 * UI.FontScale));
+				e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(50, color.MergeColor(ForeColor, 65))), ClientRectangle.Pad(1), UI.Scale(4));
 			}
 
 			if (Enabled)

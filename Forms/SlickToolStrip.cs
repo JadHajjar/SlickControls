@@ -42,7 +42,7 @@ public partial class SlickToolStrip : Form
 		ShowIcon = false;
 		ShowInTaskbar = false;
 		Font = UI.Font(8.25F);
-		Padding = UI.Scale(new Padding(3), UI.FontScale);
+		Padding = UI.Scale(new Padding(3));
 		TransparencyKey = BackColor = Color.FromArgb(64, 64, 0);
 		Size = Size.Empty;
 

@@ -134,17 +134,17 @@ public class IOControl
 
 		if (e.HoverState.HasFlag(HoverState.Hovered))
 		{
-			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveColor : Color.FromArgb(125, d.AccentColor)), e.ClipRectangle.Pad(1), (int)(6 * UI.FontScale));
+			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveColor : Color.FromArgb(125, d.AccentColor)), e.ClipRectangle.Pad(1), UI.Scale(6));
 		}
 
 		if (selected)
 		{
-			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, Color.FromArgb(25, d.ActiveColor)), e.ClipRectangle.Pad(1), (int)(6 * UI.FontScale));
-			e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, e.ClipRectangle.Pad(1), (int)(6 * UI.FontScale));
+			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, Color.FromArgb(25, d.ActiveColor)), e.ClipRectangle.Pad(1), UI.Scale(6));
+			e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, e.ClipRectangle.Pad(1), UI.Scale(6));
 		}
 
-		var imgRect = e.ClipRectangle.Pad((int)(6 * UI.FontScale));
-		var textRect = e.ClipRectangle.Pad((int)(6 * UI.FontScale));
+		var imgRect = e.ClipRectangle.Pad(UI.Scale(6));
+		var textRect = e.ClipRectangle.Pad(UI.Scale(6));
 
 		imgRect.Height = imgRect.Height * 4 / 10;
 
@@ -186,17 +186,17 @@ public class IOControl
 
 		if (e.HoverState.HasFlag(HoverState.Hovered))
 		{
-			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveColor : Color.FromArgb(125, d.AccentColor)), e.ClipRectangle.Pad(1), (int)(3 * UI.FontScale));
+			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveColor : Color.FromArgb(125, d.AccentColor)), e.ClipRectangle.Pad(1), UI.Scale(3));
 		}
 
 		if (selected)
 		{
-			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, Color.FromArgb(25, d.ActiveColor)), e.ClipRectangle.Pad(1), (int)(6 * UI.FontScale));
-			e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, e.ClipRectangle.Pad(1), (int)(3 * UI.FontScale));
+			e.Graphics.FillRoundedRectangle(SlickControl.Gradient(e.ClipRectangle, Color.FromArgb(25, d.ActiveColor)), e.ClipRectangle.Pad(1), UI.Scale(6));
+			e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, e.ClipRectangle.Pad(1), UI.Scale(3));
 		}
 
-		var imgRect = e.ClipRectangle.Pad((int)(3 * UI.FontScale));
-		var textRect = e.ClipRectangle.Pad((int)(3 * UI.FontScale));
+		var imgRect = e.ClipRectangle.Pad(UI.Scale(3));
+		var textRect = e.ClipRectangle.Pad(UI.Scale(3));
 
 		imgRect.Width = imgRect.Height;
 
@@ -223,8 +223,8 @@ public class IOControl
 		using var font = UI.Font(8.25F);
 		using var brush = new SolidBrush(e.HoverState.HasFlag(HoverState.Pressed) ? d.ActiveForeColor : d.ForeColor);
 		textRect = textRect.AlignToFontSize(font, graphics: e.Graphics);
-		var rect1 = textRect.Pad(0, 0, textRect.Width / 2, 0).Pad(0, 0, (int)(8 * UI.FontScale), 0);
-		var rect2 = textRect.Pad(textRect.Width / 2, 0, textRect.Width / 4, 0).Pad(0, 0, (int)(8 * UI.FontScale), 0);
+		var rect1 = textRect.Pad(0, 0, textRect.Width / 2, 0).Pad(0, 0, UI.Scale(8), 0);
+		var rect2 = textRect.Pad(textRect.Width / 2, 0, textRect.Width / 4, 0).Pad(0, 0, UI.Scale(8), 0);
 		var rect3 = textRect.Pad(textRect.Width * 3 / 4, 0, 0, 0);
 
 		e.Graphics.DrawString(Text, font, brush, rect1

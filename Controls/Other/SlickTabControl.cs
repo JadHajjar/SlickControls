@@ -59,15 +59,15 @@ public partial class SlickTabControl : SlickControl
 
 		if (!Live)
 		{
-			P_Tabs.Height = (int)(48 * UI.FontScale) + P_Tabs.Padding.Vertical;
+			P_Tabs.Height = UI.Scale(48) + P_Tabs.Padding.Vertical;
 		}
 	}
 
 	protected override void UIChanged()
 	{
-		P_Tabs.Padding = UI.Scale(new Padding(10), UI.FontScale);
-		P_Tabs.Height = (int)(48 * UI.FontScale) + P_Tabs. Padding.Vertical;
-		panel1.Padding = UI.Scale(new Padding(3), UI.FontScale);
+		P_Tabs.Padding = UI.Scale(new Padding(10));
+		P_Tabs.Height = UI.Scale(48) + P_Tabs. Padding.Vertical;
+		panel1.Padding = UI.Scale(new Padding(3));
 
 		foreach (Control item in P_Tabs.Controls)
 		{
@@ -176,7 +176,7 @@ public partial class SlickTabControl : SlickControl
 
 	private int tabWidth()
 	{
-		return ((P_Tabs.Width - Padding.Horizontal- P_Tabs.Padding.Left) / tabs.Count(x => x.Visible)).Between((int)(16 * UI.FontScale), (int)(100 * UI.FontScale));
+		return ((P_Tabs.Width - Padding.Horizontal- P_Tabs.Padding.Left) / tabs.Count(x => x.Visible)).Between(UI.Scale(16), UI.Scale(100));
 	}
 
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

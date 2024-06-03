@@ -63,11 +63,11 @@ public partial class SlickColorPicker : SlickForm
 	{
 		base.UIChanged();
 
-		colorPreview.Size = UI.Scale(new Size(48, 48), UI.FontScale);
-		TLP_Main.ColumnStyles[0].Width = (int)(108 * UI.FontScale);
-		TLP_Main.Padding = UI.Scale(new Padding(10), UI.FontScale);
-		B_Cancel.Margin = B_Confirm.Margin = UI.Scale(new Padding(15, 5, 0, 0), UI.FontScale);
-		TLP_Main.Controls.OfType<SlickTextBox>().Foreach(x => x.Width = (int)(70 * UI.FontScale));
+		colorPreview.Size = UI.Scale(new Size(48, 48));
+		TLP_Main.ColumnStyles[0].Width = UI.Scale(108);
+		TLP_Main.Padding = UI.Scale(new Padding(10));
+		B_Cancel.Margin = B_Confirm.Margin = UI.Scale(new Padding(15, 5, 0, 0));
+		TLP_Main.Controls.OfType<SlickTextBox>().Foreach(x => x.Width = UI.Scale(70));
 	}
 
 	private void SlickColorPicker_ColorChanged(object sender, EventArgs e)
@@ -109,7 +109,7 @@ public partial class SlickColorPicker : SlickForm
 
 	private void AddColor(Color color)
 	{
-		var ctrl = new Panel() { Size = UI.Scale(new Size(28, 28), UI.FontScale), BackColor = color, Cursor = Cursors.Hand, Margin = UI.Scale(new Padding(4), UI.FontScale) };
+		var ctrl = new Panel() { Size = UI.Scale(new Size(28, 28)), BackColor = color, Cursor = Cursors.Hand, Margin = UI.Scale(new Padding(4)) };
 		ctrl.Paint += colorPreview_Paint;
 		ctrl.Click += (s, e) => SetColor(color, null);
 		FLP_LastColors.Controls.Add(ctrl);

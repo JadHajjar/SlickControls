@@ -31,7 +31,7 @@ public partial class DateRangePopup : SlickControl
 	public DateRangePopup(SlickDateRange dateBox)
 	{
 		RangeType = dateBox.RangeType;
-		Height = (int)(190 * UI.FontScale);
+		Height = UI.Scale(190);
 		Value = dateBox.Value;
 		_dateBox = dateBox;
 		values = new Dictionary<DateView, int>
@@ -59,7 +59,7 @@ public partial class DateRangePopup : SlickControl
 		action = null;
 		Mouse = PointToClient(Cursor.Position);
 
-		var tabHeight = (int)(28 * UI.FontScale);
+		var tabHeight = UI.Scale(28);
 		var typeRects = new Rectangle[]
 		{
 			new(0, 0, Width / 3, tabHeight),
@@ -103,7 +103,7 @@ public partial class DateRangePopup : SlickControl
 				}
 			}
 
-			e.Graphics.FillRoundedRectangle(new SolidBrush(back), typeRects[i].Pad(Padding), (int)(4 * UI.FontScale));
+			e.Graphics.FillRoundedRectangle(new SolidBrush(back), typeRects[i].Pad(Padding), UI.Scale(4));
 			e.Graphics.DrawString(texts[i], new Font(Font, FontStyle.Bold), new SolidBrush(fore), typeRects[i].Pad(Padding), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
 		}
 
@@ -111,8 +111,8 @@ public partial class DateRangePopup : SlickControl
 
 		paintButtons(e, tabHeight);
 
-		var topRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), (int)e.Graphics.Measure(" ", UI.Font(8.25F, FontStyle.Bold)).Height + 6);
-		var mainRect = new Rectangle(3, 3 + tabHeight, Width - (int)(100 * UI.FontScale), Height - 10 - tabHeight).Pad(0, topRect.Height, 0, 0);
+		var topRect = new Rectangle(3, 3 + tabHeight, Width - UI.Scale(100), (int)e.Graphics.Measure(" ", UI.Font(8.25F, FontStyle.Bold)).Height + 6);
+		var mainRect = new Rectangle(3, 3 + tabHeight, Width - UI.Scale(100), Height - 10 - tabHeight).Pad(0, topRect.Height, 0, 0);
 
 		using (var leftArrow = IconManager.GetSmallIcon("ArrowLeft"))
 		using (var rightArrow = IconManager.GetSmallIcon("ArrowRight"))
@@ -431,7 +431,7 @@ public partial class DateRangePopup : SlickControl
 
 	private void paintButtons(PaintEventArgs e, int tabHeight)
 	{
-		var rect = new Rectangle(Width - (int)(100 * UI.FontScale) + 5, tabHeight, (int)(100 * UI.FontScale) - 5, (Height - tabHeight) / 6);
+		var rect = new Rectangle(Width - UI.Scale(100) + 5, tabHeight, UI.Scale(100) - 5, (Height - tabHeight) / 6);
 
 		drawButton("Today", DateTime.Today);
 		drawButton("Yesterday", DateTime.Today.AddDays(-1));

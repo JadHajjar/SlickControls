@@ -111,12 +111,12 @@ public partial class SlickTab : SlickControl, IAnimatable
 
 	protected override void UIChanged()
 	{
-		Padding = UI.Scale(new Padding(5), UI.FontScale);
-		Margin = UI.Scale(new Padding(0, 0,5,0), UI.FontScale);
+		Padding = UI.Scale(new Padding(5));
+		Margin = UI.Scale(new Padding(0, 0,5,0));
 
 		if (this is not SlickTabControl.Tab)
 		{
-			Size = UI.Scale(new Size(DefaultSize.Width, 48), UI.FontScale);
+			Size = UI.Scale(new Size(DefaultSize.Width, 48));
 		}
 	}
 
