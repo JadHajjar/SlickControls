@@ -14,6 +14,9 @@ public partial class SlickLabel : SlickButton
 	[Category("Appearance"), DefaultValue(false)]
 	public bool Display { get; set; }
 
+	[Category("Appearance"), DefaultValue(null)]
+	public Color? CustomBackColor { get; set; }
+
 	public bool Selected
 	{
 		get => _selected; set
@@ -53,6 +56,12 @@ public partial class SlickLabel : SlickButton
 
 		GetColors(out var fore, out var back);
 
+		if (CustomBackColor.HasValue)
+		{
+			back = CustomBackColor.Value;
+			fore = back.GetTextColor();
+		}
+
 		Draw(e.Graphics, new ButtonDrawArgs
 		{
 			LeftAlign = true,
@@ -84,7 +93,6 @@ public partial class SlickLabel : SlickButton
 		ColorStyle colorStyle = ColorStyle.Active)
 	{
 		Color back, fore;
-
 		if (hoverState.HasFlag(HoverState.Pressed))
 		{
 			fore = colorStyle.GetBackColor();

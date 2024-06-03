@@ -65,7 +65,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 	[DefaultValue(false), Category("Appearance")]
 	public bool HideLabel { get; set; }
 	[DefaultValue(14), Category("Appearance")]
-	public int ItemHeight { get; set; } = 14;
+	public int ItemHeight { get; set; } = 24;
 
 	public SlickSelectionDropDown()
 	{
@@ -162,7 +162,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 				listDropDown.BringToFront();
 				listDropDown.SetItems(Items);
 
-				new AnimationHandler(listDropDown, new Size(Width, Math.Min((listDropDown.ItemHeight + listDropDown.Padding.Vertical + (int)UI.FontScale) * Math.Min(11, Items.Length), _form.Height - listDropDown.Top - 15)), 3).StartAnimation();
+				new AnimationHandler(listDropDown, new Size(Width, Math.Min(listDropDown.ItemHeight * Math.Min(11, Items.Length), _form.Height - listDropDown.Top - 15)), 3).StartAnimation();
 			}
 			else
 			{

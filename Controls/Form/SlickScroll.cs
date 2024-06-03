@@ -250,6 +250,29 @@ public partial class SlickScroll : Control
 		}
 	}
 
+	public static SlickScroll GlobalGetScrollbar(Control control)
+	{
+		var p = control;
+
+		while (p != null)
+		{
+			SlickScroll scroll;
+			lock (activeScrolls)
+			{
+				scroll = activeScrolls.FirstOrDefault(x => x.linkedControl == p);
+			}
+
+			if (scroll != null)
+			{
+				return scroll;
+			}
+
+			p = p.Parent;
+		}
+
+		return null;
+	}
+
 	public void Reset()
 	{
 		if (Parent != null)
