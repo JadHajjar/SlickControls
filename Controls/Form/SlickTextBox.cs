@@ -194,7 +194,14 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 	[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public Func<string, bool> ValidationCustom { get; set; }
 
-	public override DynamicIcon ImageName { get => base.ImageName; set { base.ImageName = value; UIChanged(); } }
+	public override DynamicIcon ImageName
+	{
+		get => base.ImageName; set
+		{
+			base.ImageName = value;
+			UIChanged();
+		}
+	}
 
 	public new void Select()
 	{
@@ -270,7 +277,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 
 		if (!minimumSizeSet)
 		{
-			var height = (_textBox.Font.Height + Padding.Vertical + pad / 2);
+			var height = _textBox.Font.Height + Padding.Vertical + (pad / 2);
 
 			if (Height != height)
 			{
@@ -530,7 +537,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 				var rect = new Rectangle(_textBox.Left + _textBox.Width, _textBox.Top, Width - Padding.Right - _textBox.Left - _textBox.Width, _textBox.Height + (ShowLabel ? 0 : 0));
 				using var brush2 = new SolidBrush(Color.FromArgb(135, _textBox.ForeColor));
 				using var font = UI.Font(7.5F, FontStyle.Italic).FitToWidth(text, rect, e.Graphics);
-				using var format = new StringFormat { LineAlignment = ShowLabel && !string.IsNullOrEmpty(LabelText) ? StringAlignment.Far : StringAlignment.Center };
+				using var format = new StringFormat { LineAlignment = ShowLabel && !string.IsNullOrEmpty(LabelText) ? StringAlignment.Far : MultiLine && Height / UI.FontScale > 32 ? StringAlignment.Near : StringAlignment.Center };
 				e.Graphics.DrawString(text, font, brush2, rect, format);
 			}
 

@@ -219,6 +219,15 @@ public partial class SlickButton : SlickImageControl
 			AvailableSize = MultiLine ? availableSize : default
 		};
 
+		if (Dock is DockStyle.Left or DockStyle.Right || Anchor.HasFlag(AnchorStyles.Top | AnchorStyles.Bottom))
+		{
+			args.RequiredHeight = Height;
+		}
+		else if (Dock is DockStyle.Top or DockStyle.Bottom || Anchor.HasFlag(AnchorStyles.Left | AnchorStyles.Right))
+		{
+			args.RequiredWidth = Width;
+		}
+
 		PrepareLayout(graphics, args);
 
 		return args.Rectangle.Size;
@@ -315,12 +324,12 @@ public partial class SlickButton : SlickImageControl
 		}
 	}
 
-	public static Size GetSize(Graphics graphics, Image image, string text, Font font, Padding? padding = null, int maxWidth = 0, bool isLoading = false)
+	public static Size GetSize(Graphics graphics, Image image, string text, Font font, Padding? padding = null, int maxWidth = 0, bool isLoading = false, int fixedWidth = 0, int fixedHeight = 0)
 	{
-		return GetSize(out _, graphics, image, text, font, padding, maxWidth, isLoading);
+		return GetSize(out _, graphics, image, text, font, padding, maxWidth, isLoading, fixedWidth, fixedHeight);
 	}
 
-	public static Size GetSize(out Padding textPaddingForAvailableSpace, Graphics graphics, Image image, string text, Font font, Padding? padding = null, int maxWidth = 0, bool isLoading = false)
+	public static Size GetSize(out Padding textPaddingForAvailableSpace, Graphics graphics, Image image, string text, Font font, Padding? padding = null, int maxWidth = 0, bool isLoading = false, int fixedWidth = 0, int fixedHeight = 0)
 	{
 		var padding_ = padding ?? UI.Scale(new Padding(4), UI.UIScale);
 		var font_ = font ?? UI.Font(8.25F);
@@ -329,9 +338,19 @@ public partial class SlickButton : SlickImageControl
 
 		if (string.IsNullOrWhiteSpace(text))
 		{
-			var pad = Math.Max(padding_.Horizontal, padding_.Vertical);
-
 			textPaddingForAvailableSpace = default;
+
+			if (fixedHeight > 0)
+			{
+				return new Size(fixedHeight, fixedHeight);
+			}
+
+			if (fixedWidth > 0)
+			{
+				return new Size(fixedWidth, fixedWidth);
+			}
+
+			var pad = Math.Max(padding_.Horizontal, padding_.Vertical);
 
 			return new Size(iconSize.Width + pad, iconSize.Height + pad);
 		}
@@ -361,6 +380,16 @@ public partial class SlickButton : SlickImageControl
 		if (font is null)
 		{
 			font_.Dispose();
+		}
+
+		if (fixedWidth > 0)
+		{
+			size.Width = fixedWidth;
+		}
+
+		if (fixedHeight > 0)
+		{
+			size.Height = fixedHeight;
 		}
 
 		return size;
@@ -443,7 +472,7 @@ public partial class SlickButton : SlickImageControl
 
 		if (arg.Rectangle.Width <= 0)
 		{
-			arg.Rectangle = new Rectangle(arg.Rectangle.Location, GetSize(graphics, arg.Image, arg.Text, arg.Font, arg.Padding, arg.AvailableSize.Width, isLoading: arg.Control?.Loading ?? false));
+			arg.Rectangle = new Rectangle(arg.Rectangle.Location, GetSize(graphics, arg.Image, arg.Text, arg.Font, arg.Padding, arg.AvailableSize.Width, isLoading: arg.Control?.Loading ?? false, fixedWidth: arg.RequiredWidth, fixedHeight: arg.RequiredHeight));
 		}
 		else
 		{
@@ -630,6 +659,8 @@ public class ButtonDrawArgs : IDisposable
 	public bool DoNotDrawIcon { get; set; }
 	public Color BackgroundColor { get; set; }
 	public Color? ActiveColor { get; set; }
+	public int RequiredHeight { get; set; }
+	public int RequiredWidth { get; set; }
 
 	public void Dispose()
 	{
