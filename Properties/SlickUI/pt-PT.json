@@ -17,7 +17,6 @@
   "Copy": "cópia de",
   "Tags": "Tag",
   "This PC": "Este PC",
-  "PinnedFolders": "Pastas fixadas",
   "Common Folders": "Pastas comuns",
   "Select a file": "Selecione um arquivo",
   "Select a folder": "Selecionar uma pasta",
@@ -76,8 +75,6 @@
   "Auto Night-Mode": "Modo Noturno Automático",
   "UI Scale": "Escala da Interface",
   "Font Family": "Família de Fontes",
-  "Base Theme": "Tema Básico",
-  "Select how the app interacts with your theme": "Selecione como o aplicativo interage com o seu tema",
   "Randomize": "Aleatório",
   "Reset": "Redefinir",
   "Apply": "Aplicar",
@@ -99,9 +96,11 @@
   "Download": "BAIXAR",
   "Remove": "Excluir",
   "Confirmation": "Confirmação",
+  "Edit Color": "Edit Color",
+  "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "Bem-vindo ao Modificador de Temas!",
-  "Customize the size and colors in the App however you want to.": "Personalize o tamanho e as cores no aplicativo da maneira que quiser.",
-  "Click on any color to change it, or right-click to reset it.": "Clique em qualquer cor para mudá-la, ou clique com o botão direito para redefinir.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
+  "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "Tema Personalizado",
   "Do you want to apply your changes before leaving?": "Gostaria de aplicar as alterações antes de sair?",
   "TaskCompleted": "Tarefa concluída",
@@ -113,6 +112,10 @@
   "Tomorrow at {0}": "Amanhã, às {0}",
   "Last {0} at {1}": "Último {0} às {1}",
   "Next {0} at {1}": "Próximo {0} às {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} mês atrás na {1}",
     "Plural": "{0} meses atrás na {1}"
@@ -158,6 +161,18 @@
   "{0}m": "{0}m",
   "{0}s": "{0} s",
   "Midnight": "Meia-noite",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
-  "All": "All"
+  "All": "All",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
+  "Email Address": "Email Address",
+  "Password": "Password",
+  "Login": "Login",
+  "Remember me": "Remember me",
+  "SaveChanges": "Save Changes",
+  "JustNow": "Just Now"
 }

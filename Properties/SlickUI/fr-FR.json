@@ -17,7 +17,6 @@
   "Copy": "Copier",
   "Tags": "Tags",
   "This PC": "Ce PC",
-  "PinnedFolders": "Dossiers épinglés",
   "Common Folders": "Dossiers communs",
   "Select a file": "Sélectionner un fichier",
   "Select a folder": "Sélectionner un dossier",
@@ -76,8 +75,6 @@
   "Auto Night-Mode": "Mode nuit auto",
   "UI Scale": "Échelle de l'interface",
   "Font Family": "Famille de polices",
-  "Base Theme": "Thème de base",
-  "Select how the app interacts with your theme": "Sélectionner la façon dont l'application interagit avec votre thème",
   "Randomize": "Randomiser",
   "Reset": "Réinitialiser",
   "Apply": "Appliquer",
@@ -99,9 +96,11 @@
   "Download": "Télécharger",
   "Remove": "Supprimer",
   "Confirmation": "Confirmation",
-  "Welcome to Theme Changer!": "Bienvenue dans Theme Changer!",
-  "Customize the size and colors in the App however you want to.": "Personnaliser la taille et les couleurs de l'appli comme vous le souhaitez.",
-  "Click on any color to change it, or right-click to reset it.": "Cliquez sur n'importe quelle couleur pour la modifier, ou faites un clic droit pour la réinitialiser.",
+  "Edit Color": "Modifier la couleur",
+  "Reset Color": "Réinitialiser la couleur",
+  "Welcome to Theme Changer!": "Bienvenue dans le changement de thème!",
+  "In here, you can customize the scale and colors of the App to your liking.": "Ici, vous pouvez personnaliser l'échelle et les couleurs de l'application à votre préférence.",
+  "Click on any color to change it, or middle-click to reset it.": "Cliquez sur une couleur pour la changer, ou faites un clic du milieu pour la réinitialiser.",
   "Custom Theme": "Thème Personnalisé",
   "Do you want to apply your changes before leaving?": "Voulez-vous sauvegarder les modifications avant de partir ?",
   "TaskCompleted": "Tâche terminée",
@@ -113,6 +112,10 @@
   "Tomorrow at {0}": "Demain à {0}",
   "Last {0} at {1}": "Dernier {0} à {1}",
   "Next {0} at {1}": "Suivant {0} à {1}",
+  "{0} month ago": {
+    "One": "il y a {0} mois",
+    "Plural": "il y a {0} mois"
+  },
   "{0} month ago on {1}": {
     "One": "Il y a {0} mois le {1}",
     "Plural": "Il y a {0} mois le {1}"
@@ -158,6 +161,18 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "minuit",
+  "Use the System's Theme": "Utiliser le thème du système",
   "Use Windows-style top bar buttons": "Utiliser des boutons de style Windows pour la barre de titre",
-  "All": "Tout"
+  "All": "Tout",
+  "Hue": "Teinte",
+  "Saturation": "Saturation",
+  "Luminance": "Luminosité",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Synchronise le thème de Skyve avec le thème de votre ordinateur",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Bascule automatiquement au thème clair pendant la journée et au thème sombre pendant la nuit",
+  "Email Address": "Adresse mail",
+  "Password": "Mot de passe",
+  "Login": "Connexion",
+  "Remember me": "Se souvenir de moi",
+  "SaveChanges": "Enregistrer les modifications",
+  "JustNow": "À l'instant"
 }

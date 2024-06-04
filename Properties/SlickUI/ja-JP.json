@@ -17,7 +17,6 @@
   "Copy": "クリップボードにコピー",
   "Tags": "タグ",
   "This PC": "このPC",
-  "PinnedFolders": "フォルダをピン留め",
   "Common Folders": "共通のフォルダ",
   "Select a file": "ファイルを選択",
   "Select a folder": "フォルダを選択",
@@ -76,8 +75,6 @@
   "Auto Night-Mode": "夜間モードに自動切り替え",
   "UI Scale": "UIのスケール",
   "Font Family": "フォントの種類",
-  "Base Theme": "基本テーマ",
-  "Select how the app interacts with your theme": "アプリとテーマの動作方法を選択",
   "Randomize": "ランダム化",
   "Reset": "リセット",
   "Apply": "適用",
@@ -99,9 +96,11 @@
   "Download": "ダウンロード",
   "Remove": "削除",
   "Confirmation": "確認",
+  "Edit Color": "Edit Color",
+  "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "テーマチェンジャーへようこそ！",
-  "Customize the size and colors in the App however you want to.": "アプリ内のサイズやカラーを自由にカスタマイズ可能です。",
-  "Click on any color to change it, or right-click to reset it.": "色を変更したい場合は、任意の色をクリック・右クリックでリセットします。",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
+  "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "カスタムテーマ",
   "Do you want to apply your changes before leaving?": "終了する前に変更を適用しますか？",
   "TaskCompleted": "タスクを完了",
@@ -113,6 +112,10 @@
   "Tomorrow at {0}": "明日 {0}",
   "Last {0} at {1}": "先週の {0} / {1}",
   "Next {0} at {1}": "次週の {0} / {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{1} / {0} ヶ月前",
     "Plural": "{1} / {0} ヶ月前"
@@ -158,6 +161,18 @@
   "{0}m": "{0}分",
   "{0}s": "{0}秒",
   "Midnight": "ミッドナイト",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Windowsスタイルのトップバーボタンを使用",
-  "All": "全て"
+  "All": "全て",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
+  "Email Address": "Email Address",
+  "Password": "Password",
+  "Login": "Login",
+  "Remember me": "Remember me",
+  "SaveChanges": "Save Changes",
+  "JustNow": "Just Now"
 }

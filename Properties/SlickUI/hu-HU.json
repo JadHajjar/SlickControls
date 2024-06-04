@@ -17,7 +17,6 @@
   "Copy": "Másolás",
   "Tags": "Cimke",
   "This PC": "Ez a gép",
-  "PinnedFolders": "Rögzített mappák",
   "Common Folders": "Közös mappák",
   "Select a file": "Fájl kiválasztása",
   "Select a folder": "Válassz egy mappát",
@@ -76,8 +75,6 @@
   "Auto Night-Mode": "Automatikus éjszakai mód",
   "UI Scale": "Felhasználói felület méretezése",
   "Font Family": "Betűkészlet",
-  "Base Theme": "Alaptéma",
-  "Select how the app interacts with your theme": "Válassza ki, hogy az alkalmazás hogyan kommunikáljon a témával",
   "Randomize": "Véletlenszerű",
   "Reset": "Visszaállítás",
   "Apply": "Alkalmaz",
@@ -99,9 +96,11 @@
   "Download": "Letöltés",
   "Remove": "Eltávolítás",
   "Confirmation": "Megerősítés",
+  "Edit Color": "Szín szerkesztése",
+  "Reset Color": "Színek visszaállítása",
   "Welcome to Theme Changer!": "Üdvözlünk a Témaváltoztatási funkcióban!",
-  "Customize the size and colors in the App however you want to.": "Testreszabhatod a méretet és a színeket az alkalmazásban, ahogy szeretnéd.",
-  "Click on any color to change it, or right-click to reset it.": "Kattints bármelyik színre a módosításhoz, vagy kattints a jobb gombbal az alaphelyzetbe állításhoz.",
+  "In here, you can customize the scale and colors of the App to your liking.": "Itt tetszés szerint testreszabhatod az alkalmazás léptékét és színeit.",
+  "Click on any color to change it, or middle-click to reset it.": "Kattintson bármelyik színre a módosításához, vagy kattintson a középső gombbal az alaphelyzetbe állításához.",
   "Custom Theme": "Egyéni téma",
   "Do you want to apply your changes before leaving?": "Alkalmazod a módosításokat, mielőtt kilépsz?",
   "TaskCompleted": "Feladat teljesítve",
@@ -113,6 +112,10 @@
   "Tomorrow at {0}": "Holnap ekkor: {0}",
   "Last {0} at {1}": "Dátum: {0}, idő: {1}",
   "Next {0} at {1}": "Következő {0}, {1}",
+  "{0} month ago": {
+    "One": "{0} hónapja",
+    "Plural": "{0} hónapja"
+  },
   "{0} month ago on {1}": {
     "One": "{0} hónapja itt: {1}",
     "Plural": "{0} hónapja itt: {1}"
@@ -158,6 +161,18 @@
   "{0}m": "{0}perc",
   "{0}s": "{0}másodperc",
   "Midnight": "Éjfél",
+  "Use the System's Theme": "Használja a rendszer témáját",
   "Use Windows-style top bar buttons": "Használd a Windows-sílusú felső sáv gombjait",
-  "All": "Mind"
+  "All": "Mind",
+  "Hue": "Árnyalat",
+  "Saturation": "Telítettség",
+  "Luminance": "Fénysűrűség",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "A témát a számítógép témája alapján világos vagy sötét módba konvertálja",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatikusan átvált világos módra nappal és sötét módra éjszaka",
+  "Email Address": "E-mail cím",
+  "Password": "Jelszó",
+  "Login": "Bejelentkezés",
+  "Remember me": "Emlékezzen rám",
+  "SaveChanges": "Változtatások mentése",
+  "JustNow": "Épp most"
 }

@@ -17,7 +17,6 @@
   "Copy": "Copiar",
   "Tags": "Etiquetas",
   "This PC": "Este PC",
-  "PinnedFolders": "Carpetas Ancladas",
   "Common Folders": "Carpetas comunes",
   "Select a file": "Selecciona un archivo",
   "Select a folder": "Selecciona una carpeta",
@@ -76,8 +75,6 @@
   "Auto Night-Mode": "Modo Nocturno Automático",
   "UI Scale": "Escala de la interfaz de usuario",
   "Font Family": "Familia de la fuente",
-  "Base Theme": "Tema Base",
-  "Select how the app interacts with your theme": "Selecciona cómo la aplicación interactúa con tu tema",
   "Randomize": "Aleatorio",
   "Reset": "Restablecer",
   "Apply": "Aplicar",
@@ -99,9 +96,11 @@
   "Download": "Descargar",
   "Remove": "Eliminar",
   "Confirmation": "Confirmación",
+  "Edit Color": "Modificar colores",
+  "Reset Color": "Restablecer colores",
   "Welcome to Theme Changer!": "¡Bienvenido al \"Theme Changer\"!",
-  "Customize the size and colors in the App however you want to.": "Personaliza el tamaño y los colores de la aplicación como quieras.",
-  "Click on any color to change it, or right-click to reset it.": "Haga clic en cualquier color para cambiarlo, o haga clic derecho para restablecerlo.",
+  "In here, you can customize the scale and colors of the App to your liking.": "En esta seccion puedes modificar la escala y los colores de la aplicación a tu gusto.",
+  "Click on any color to change it, or middle-click to reset it.": "Haga clic en cualquier color para cambiarlo, o haga clic derecho para restablecerlo.",
   "Custom Theme": "Tema personalizado",
   "Do you want to apply your changes before leaving?": "¿Quieres guardar los cambios antes de salir?",
   "TaskCompleted": "Tarea Terminada",
@@ -113,6 +112,10 @@
   "Tomorrow at {0}": "Mañana a las {0}",
   "Last {0} at {1}": "Último {0} a las {1}",
   "Next {0} at {1}": "Siguiente {0} a las {1}",
+  "{0} month ago": {
+    "One": "hace {0} mes",
+    "Plural": "hace {0} meses"
+  },
   "{0} month ago on {1}": {
     "One": "hace {0} mes en {1}",
     "Plural": "hace {0} meses en {1}"
@@ -158,6 +161,18 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Medianoche",
+  "Use the System's Theme": "Utilizar el tema del sistema",
   "Use Windows-style top bar buttons": "Usar botones de la barra superior estilo Windows",
-  "All": "All"
+  "All": "Todos",
+  "Hue": "Tono",
+  "Saturation": "Saturación",
+  "Luminance": "Luminancia",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Convierte tu tema en modo Claro u Oscuro, basado en el tema de tu ordenador",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Cambia automáticamente al modo Claro durante el día y al modo Oscuro durante la noche",
+  "Email Address": "Correo electrónico",
+  "Password": "Contraseña",
+  "Login": "Iniciar sesión",
+  "Remember me": "Recordar mis datos",
+  "SaveChanges": "Guardar Cambios",
+  "JustNow": "Just Now"
 }

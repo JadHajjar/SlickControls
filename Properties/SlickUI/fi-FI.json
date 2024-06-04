@@ -17,7 +17,6 @@
   "Copy": "Kopioi",
   "Tags": "Tunnisteet",
   "This PC": "Tämä tietokone",
-  "PinnedFolders": "Kiinnitetyt kansiot",
   "Common Folders": "Yhteiset kansiot",
   "Select a file": "Valitse tiedosto",
   "Select a folder": "Valitse kansio",
@@ -76,8 +75,6 @@
   "Auto Night-Mode": "Automaattinen tumma teema",
   "UI Scale": "Käyttöliittymän koko",
   "Font Family": "Fonttiperhe",
-  "Base Theme": "Pohjateema",
-  "Select how the app interacts with your theme": "Valitse, miten sovellus toimii teeman kanssa",
   "Randomize": "Satunnaista",
   "Reset": "Nollaa",
   "Apply": "Käytä",
@@ -99,9 +96,11 @@
   "Download": "Lataa",
   "Remove": "Poista",
   "Confirmation": "Vahvistus",
+  "Edit Color": "Muokkaa väriä",
+  "Reset Color": "Palauta väri",
   "Welcome to Theme Changer!": "Tervetuloa teemavaihtajaan!",
-  "Customize the size and colors in the App however you want to.": "Muokkaa kokoja ja värejä sovelluksessa kuin haluat.",
-  "Click on any color to change it, or right-click to reset it.": "Klikkaa mitä tahansa väriä muuttaaksesi sitä, tai hiiren oikealla painikkeella nollataksesi sen.",
+  "In here, you can customize the scale and colors of the App to your liking.": "Täällä voit muokata soveluksen skaalaa ja värejä mieleiseksesi.",
+  "Click on any color to change it, or middle-click to reset it.": "Klikkaa mitä tahansa väriä muuttaaksesi sitä, tai klikkaa hiiren keskipainikkeella nollataksesi sen.",
   "Custom Theme": "Mukautettu teema",
   "Do you want to apply your changes before leaving?": "Haluatko tallentaa kaikki muutokset ennen poistumista?",
   "TaskCompleted": "Tehtävä suoritettu",
@@ -113,6 +112,10 @@
   "Tomorrow at {0}": "Huomenna klo {0}",
   "Last {0} at {1}": "Viime {0} klo {1}",
   "Next {0} at {1}": "Seuraavana {0} klo {1}",
+  "{0} month ago": {
+    "One": "{0} kuukausi sitten",
+    "Plural": "{0} kuukautta sitten"
+  },
   "{0} month ago on {1}": {
     "One": "{0} kuukausi sitten {1}",
     "Plural": "{0} kuukautta sitten {1}"
@@ -158,6 +161,18 @@
   "{0}m": "{0} min",
   "{0}s": "{0} s",
   "Midnight": "Keskiyö",
-  "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
-  "All": "All"
+  "Use the System's Theme": "Käytä järjestelmän teemaa",
+  "Use Windows-style top bar buttons": "Käytä Windows-tyylisiä yläpalkin nappuloita",
+  "All": "Kaikki",
+  "Hue": "Värisävy",
+  "Saturation": "Värikylläisyys",
+  "Luminance": "Luminanssi",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Muuttaa teeman vaaleaksi tai tummaksi riippuen tietokoneen teemasta",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Vaihtaa automaattisesti vaaleaan teemaan päivällä ja tummaan teemaan yöllä",
+  "Email Address": "Sähköpostiosoite",
+  "Password": "Salasana",
+  "Login": "Kirjaudu sisään",
+  "Remember me": "Muista minut",
+  "SaveChanges": "Tallenna muutokset",
+  "JustNow": "Just Now"
 }

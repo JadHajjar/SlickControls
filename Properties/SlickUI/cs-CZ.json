@@ -17,7 +17,6 @@
   "Copy": "kopírovat",
   "Tags": "Tagy",
   "This PC": "Tento PC",
-  "PinnedFolders": "Připnuté složky",
   "Common Folders": "Běžné složky",
   "Select a file": "Vyberte soubor",
   "Select a folder": "Vyberte složku",
@@ -76,8 +75,6 @@
   "Auto Night-Mode": "Automatický noční režim",
   "UI Scale": "Měřítko uživatelského rozhraní",
   "Font Family": "Rodina písma",
-  "Base Theme": "Základní motiv",
-  "Select how the app interacts with your theme": "Vyberte, jak aplikace komunikuje s vaším motivem",
   "Randomize": "Náhodně",
   "Reset": "Reset",
   "Apply": "Použít",
@@ -99,9 +96,11 @@
   "Download": "Stáhnout",
   "Remove": "Odebrat",
   "Confirmation": "Potvrzení",
+  "Edit Color": "Edit Color",
+  "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "Vítejte ve změně motivů!",
-  "Customize the size and colors in the App however you want to.": "Přizpůsobte si velikost a barvy v aplikaci, ale chcete.",
-  "Click on any color to change it, or right-click to reset it.": "Kliknutím na libovolnou barvu ji změníte, nebo kliknutím pravým tlačítkem myši ji resetujte.",
+  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
+  "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
   "Custom Theme": "Vlastní šablona",
   "Do you want to apply your changes before leaving?": "Chcete použít změny před odchodem?",
   "TaskCompleted": "Úkol dokončen",
@@ -113,6 +112,10 @@
   "Tomorrow at {0}": "Zítra v {0}",
   "Last {0} at {1}": "Poslední {0} v {1}",
   "Next {0} at {1}": "Další {0} na {1}",
+  "{0} month ago": {
+    "One": "{0} month ago",
+    "Plural": "{0} months ago"
+  },
   "{0} month ago on {1}": {
     "One": "{0} před měsícem na {1}",
     "Plural": "{0} před měsíci na {1}"
@@ -158,6 +161,18 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "půlnoc",
+  "Use the System's Theme": "Use your System's Theme",
   "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
-  "All": "All"
+  "All": "All",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
+  "Email Address": "Email Address",
+  "Password": "Password",
+  "Login": "Login",
+  "Remember me": "Remember me",
+  "SaveChanges": "Save Changes",
+  "JustNow": "Just Now"
 }
