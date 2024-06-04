@@ -402,6 +402,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Input => _instance.GetText("Input");
 
 	/// <summary>
+	/// Just Now
+	/// </summary>
+	public static Translation JustNow => _instance.GetText("JustNow");
+
+	/// <summary>
 	/// Label
 	/// </summary>
 	public static Translation Label => _instance.GetText("Label");

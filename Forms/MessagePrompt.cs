@@ -122,6 +122,11 @@ public partial class MessagePrompt : SlickForm
 		}
 	}
 
+	protected override void OnResize(EventArgs e)
+	{
+		base.OnResize(e);
+	}
+
 	protected override void OnCreateControl()
 	{
 		Opacity = 0;
@@ -166,11 +171,14 @@ public partial class MessagePrompt : SlickForm
 			w += widthDiff;
 		}
 
+		LastUiScale = UI.UIScale;
 		Size = new Size(w, h);
 
 		if (isInput)
 		{
 			TB_Input.Visible = true;
+
+			if(!string.IsNullOrWhiteSpace(L_Text.Text))
 			Height += TB_Input.Height + TB_Input.Margin.Vertical;
 		}
 
