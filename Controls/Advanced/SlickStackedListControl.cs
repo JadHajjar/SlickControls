@@ -892,7 +892,8 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 				e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(7, FormDesign.Design.IsDarkTheme ? Color.White : Color.Black)), new Rectangle(scrollThumbRectangle.X, -1, scrollThumbRectangle.Width + 1, Height + 2));
 			}
 
-			e.Graphics.FillRoundedRectangle(scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor), scrollThumbRectangle.Pad(2, 0, 2, 0), 3);
+			using var brush = scrollThumbRectangle.Gradient(isMouseDown ? FormDesign.Design.ActiveColor : FormDesign.Design.AccentColor);
+			e.Graphics.FillRoundedRectangle(brush, scrollThumbRectangle.Pad(2, 0, 2, 0), 3);
 		}
 
 		OnPrePaint(e);
