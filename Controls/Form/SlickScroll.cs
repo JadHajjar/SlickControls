@@ -13,12 +13,12 @@ namespace SlickControls;
 public enum StyleType { Vertical, Horizontal }
 
 [DefaultEvent("Scroll")]
-public partial class SlickScroll : Control
+public partial class SlickScroll : Control, IAnimatable
 {
 	public event ScrollEventHandler Scroll;
 
 	public int BAR_SIZE_MAX => SmallHandle ? BAR_SIZE_MIN : ((int)(12 * UI.UIScale + (Style == StyleType.Vertical ? Padding.Horizontal : Padding.Vertical)) / 2 * 2);
-	public int BAR_SIZE_MIN => (int)((SmallHandle ? 4:6) * UI.UIScale + (Style == StyleType.Vertical ? Padding.Horizontal : Padding.Vertical)) / 2 * 2;
+	public int BAR_SIZE_MIN => (int)((SmallHandle ? 4 : 6) * UI.UIScale + (Style == StyleType.Vertical ? Padding.Horizontal : Padding.Vertical)) / 2 * 2;
 
 	private static readonly List<SlickScroll> activeScrolls = [];
 	private readonly Timer ScrollTimer = new() { Interval = 14 };
@@ -68,13 +68,7 @@ public partial class SlickScroll : Control
 
 			if (value != null && Live)
 			{
-				linkedControl.Location = Point.Empty;
-				linkedControl.MouseWheel += SlickScroll_OnMouseWheel;
-				linkedControl.Resize += LinkedControl_Resize;
-				linkedControl.VisibleChanged += LinkedControl_Resize;
-				linkedControl.ParentChanged += (s, e) => SetParentEvents();
-				SetParentEvents();
-				LinkedControl_Resize(null, null);
+				SetUpEventHooks();
 			}
 		}
 	}
@@ -153,18 +147,18 @@ public partial class SlickScroll : Control
 			if (Style == StyleType.Vertical)
 			{
 				return new(
-					Padding.Left + 1,
+					(Width - (AnimatedValue - Padding.Horizontal) + Padding.Left) / 2,
 					Padding.Top + (int)(Percentage * (Height - Padding.Vertical - ((Height - Padding.Vertical) * (linkedControl?.Parent?.Height ?? 0) / ControlSize.If(0, 1))) / 100),
-					Width - Padding.Horizontal - 2,
+					AnimatedValue - Padding.Horizontal - 2,
 					(Height - Padding.Vertical) * (linkedControl?.Parent?.Height ?? 0) / ControlSize.If(0, 1));
 			}
 			else
 			{
 				return new(
 					Padding.Left + (int)(Percentage * (Width - Padding.Horizontal - ((Width - Padding.Horizontal) * (linkedControl?.Parent?.Width ?? 0) / ControlSize.If(0, 1))) / 100),
-					Padding.Top + 1,
+					(Height - (AnimatedValue - Padding.Vertical) + Padding.Top) / 2,
 					(Width - Padding.Horizontal) * (linkedControl?.Parent?.Width ?? 0) / ControlSize.If(0, 1),
-					Height - Padding.Vertical - 2);
+					AnimatedValue - Padding.Vertical - 2);
 			}
 		}
 	}
@@ -209,10 +203,12 @@ public partial class SlickScroll : Control
 
 	private bool Open => AlwaysOpen || (Style == StyleType.Vertical ? Width != BAR_SIZE_MIN : Height != BAR_SIZE_MIN);
 	private bool IsMouseIn { get => AlwaysOpen || mouseIn; set => mouseIn = value; }
+	public int AnimatedValue { get; set; }
+	public int TargetAnimationValue { get; set; }
 
 	public SlickScroll()
 	{
-		InitializeComponent();
+		Size = new Size(15, 150);
 		ResizeRedraw = DoubleBuffered = true;
 
 		MouseWheel += SlickScroll_OnMouseWheel;
@@ -395,13 +391,15 @@ public partial class SlickScroll : Control
 	{
 		base.OnCreateControl();
 
+		AnimatedValue = TargetAnimationValue = AlwaysOpen ? BAR_SIZE_MAX : BAR_SIZE_MIN;
+
 		if (Style == StyleType.Vertical)
 		{
-			Width = AlwaysOpen ? BAR_SIZE_MAX : BAR_SIZE_MIN;
+			Width = !SmallHandle ? BAR_SIZE_MAX : BAR_SIZE_MIN;
 		}
 		else
 		{
-			Height = AlwaysOpen ? BAR_SIZE_MAX : BAR_SIZE_MIN;
+			Height = !SmallHandle ? BAR_SIZE_MAX : BAR_SIZE_MIN;
 		}
 
 		TabStop = false;
@@ -420,11 +418,26 @@ public partial class SlickScroll : Control
 
 		if (Live = !DesignMode)
 		{
-			LinkedControl = LinkedControl;
+			if (linkedControl != null)
+			{
+				SetUpEventHooks();
+			}
+
 			MouseDetector = new MouseDetector();
 			MouseDetector.MouseMove += mouseDetector_MouseMove;
 			BeginInvoke(new Action(Reset));
 		}
+	}
+
+	private void SetUpEventHooks()
+	{
+		linkedControl.Location = Point.Empty;
+		linkedControl.MouseWheel += SlickScroll_OnMouseWheel;
+		linkedControl.Resize += LinkedControl_Resize;
+		linkedControl.VisibleChanged += LinkedControl_Resize;
+		linkedControl.ParentChanged += (s, e) => SetParentEvents();
+		SetParentEvents();
+		LinkedControl_Resize(null, null);
 	}
 
 	protected override void OnPaint(PaintEventArgs e)
@@ -454,13 +467,17 @@ public partial class SlickScroll : Control
 		using var brush = new SolidBrush(Color.FromArgb(Open ? (IsMouseDown ? 170 : 85) : 40, FormDesign.Design.AccentColor));
 
 		if (SmallHandle)
-			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(BAR_SIZE_MIN, Height - 2), BAR_SIZE_MIN / 2);
+		{
+			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(BAR_SIZE_MIN, Height - 2).Pad(-1, 0, 1, 0), BAR_SIZE_MIN / 2);
+		}
 		else
-			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(BAR_SIZE_MIN / 2, Height - 2), BAR_SIZE_MIN / 4);
+		{
+			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(BAR_SIZE_MIN / 2, Height - 2).Pad(-1, 0, 1, 0), BAR_SIZE_MIN / 4);
+		}
 
 		if (bar.Height > 0 && bar.Width > 0)
 		{
-			using var barBrush = new SolidBrush(IsMouseDown ? FormDesign.Design.ActiveColor : IsMouseIn ? FormDesign.Design.AccentColor : BackColor.MergeColor(FormDesign.Design.AccentColor));
+			using var barBrush = new SolidBrush(IsMouseDown ? FormDesign.Design.ActiveColor : mouseIn ? FormDesign.Design.AccentColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 3 : -3) : BackColor.MergeColor(FormDesign.Design.AccentColor, 25));
 
 			e.Graphics.FillRoundedRectangle(barBrush, bar, bar.Height < bar.Width ? 1 : (SmallHandle ? BAR_SIZE_MIN : bar.Width) / 2);
 		}
@@ -472,13 +489,17 @@ public partial class SlickScroll : Control
 		using var brush = new SolidBrush(Color.FromArgb(Open ? (IsMouseDown ? 170 : 85) : 40, FormDesign.Design.AccentColor));
 
 		if (SmallHandle)
-			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(Width - 2, BAR_SIZE_MIN), BAR_SIZE_MIN / 2);
+		{
+			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(Width - 2, BAR_SIZE_MIN).Pad(0, -1, 0, 1), BAR_SIZE_MIN / 2);
+		}
 		else
-			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(Width - 2, BAR_SIZE_MIN / 2), BAR_SIZE_MIN / 4);
+		{
+			e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(Padding).CenterR(Width - 2, BAR_SIZE_MIN / 2).Pad(0, -1, 0, 1), BAR_SIZE_MIN / 4);
+		}
 
 		if (bar.Height > 0 && bar.Width > 0)
 		{
-			using var barBrush = new SolidBrush(IsMouseDown ? FormDesign.Design.ActiveColor : IsMouseIn ? FormDesign.Design.AccentColor : BackColor.MergeColor(FormDesign.Design.AccentColor));
+			using var barBrush = new SolidBrush(IsMouseDown ? FormDesign.Design.ActiveColor : mouseIn ? FormDesign.Design.AccentColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 3 : -3) : BackColor.MergeColor(FormDesign.Design.AccentColor, 25));
 
 			e.Graphics.FillRoundedRectangle(barBrush, bar, bar.Width < bar.Height ? 1 : (SmallHandle ? BAR_SIZE_MIN : bar.Height) / 2);
 		}
@@ -488,11 +509,9 @@ public partial class SlickScroll : Control
 	{
 		if (!IsMouseDown && !IsMouseIn)
 		{
+			TargetAnimationValue = BAR_SIZE_MIN;
 			animationHandler?.Dispose();
-			animationHandler = Style == StyleType.Vertical
-				? new AnimationHandler(this, new Size(BAR_SIZE_MIN, 0), AnimationOption.IgnoreHeight) { Speed = .5 }
-				: new AnimationHandler(this, new Size(0, BAR_SIZE_MIN), AnimationOption.IgnoreWidth) { Speed = .5 };
-			animationHandler.StartAnimation();
+			animationHandler = AnimationHandler.Animate(this, 0.5);
 		}
 	}
 
@@ -542,7 +561,7 @@ public partial class SlickScroll : Control
 			}
 		}
 
-		Visible = ShowHandle && Active;
+		Visible = !Live || (ShowHandle && Active);
 
 		SetPercentage(Active ? Percentage : 0, !ScrollTimer.Enabled);
 
@@ -564,10 +583,9 @@ public partial class SlickScroll : Control
 
 				if (!SmallHandle)
 				{
-					animationHandler = Style == StyleType.Vertical
-						? new AnimationHandler(this, new Size(BAR_SIZE_MAX, 0), AnimationOption.IgnoreHeight) { Speed = .5 }
-						: new AnimationHandler(this, new Size(0, BAR_SIZE_MAX), AnimationOption.IgnoreWidth) { Speed = .5 };
-					animationHandler.StartAnimation();
+					TargetAnimationValue = BAR_SIZE_MAX;
+					animationHandler?.Dispose();
+					animationHandler = AnimationHandler.Animate(this, 0.5);
 				}
 			}
 		}
@@ -630,8 +648,10 @@ public partial class SlickScroll : Control
 		}
 	}
 
-	private void SlickScroll_MouseDown(object sender, MouseEventArgs e)
+	protected override void OnMouseDown(MouseEventArgs e)
 	{
+		base.OnMouseDown(e);
+
 		if (e.Button == MouseButtons.Left)
 		{
 			IsMouseDown = true;
@@ -665,8 +685,10 @@ public partial class SlickScroll : Control
 		}
 	}
 
-	private void SlickScroll_MouseMove(object sender, MouseEventArgs e)
+	protected override void OnMouseMove(MouseEventArgs e)
 	{
+		base.OnMouseMove(e);
+
 		if (Live)
 		{
 			if (Style == StyleType.Vertical)
@@ -680,19 +702,34 @@ public partial class SlickScroll : Control
 			}
 			else
 			{
-
 				if (e.Button == MouseButtons.Left)
 				{
 					SetPercentage(100D * (e.X - MouseDownLocation.X - Padding.Left).Between(0, Width - Padding.Horizontal) / (Width - Padding.Horizontal - Bar.Width), true);
 				}
 
-				Cursor = e.Y.IsWithin(Bar.Left, Bar.Left + Bar.Width) ? Cursors.Hand : Cursors.Default;
+				Cursor = e.X.IsWithin(Bar.Left, Bar.Left + Bar.Width) ? Cursors.Hand : Cursors.Default;
 			}
 		}
 	}
 
-	private void SlickScroll_MouseUp(object sender, MouseEventArgs e)
+	protected override void OnMouseEnter(EventArgs e)
 	{
+		base.OnMouseEnter(e);
+
+		Invalidate();
+	}
+
+	protected override void OnMouseLeave(EventArgs e)
+	{
+		base.OnMouseLeave(e);
+
+		Invalidate();
+	}
+
+	protected override void OnMouseUp(MouseEventArgs e)
+	{
+		base.OnMouseUp(e);
+
 		if (Live)
 		{
 			IsMouseDown = false;
@@ -717,5 +754,22 @@ public partial class SlickScroll : Control
 				handle.Handled = true;
 			}
 		}
+	}
+
+	protected override void Dispose(bool disposing)
+	{
+		if (disposing)
+		{
+			ScrollTimer?.Dispose();
+			animationHandler?.Dispose();
+			MouseDetector?.Dispose();
+
+			lock (activeScrolls)
+			{
+				activeScrolls.Remove(this);
+			}
+		}
+
+		base.Dispose(disposing);
 	}
 }

@@ -242,9 +242,6 @@
     <Compile Include="Controls\Form\SlickScroll.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\Form\SlickScroll.Designer.cs">
-      <DependentUpon>SlickScroll.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Generic\SlickSectionPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -471,9 +468,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Other\SlickGrid.resx">
       <DependentUpon>SlickGrid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Form\SlickScroll.resx">
-      <DependentUpon>SlickScroll.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Generic\SlickSectionPanel.resx">
       <DependentUpon>SlickSectionPanel.cs</DependentUpon>

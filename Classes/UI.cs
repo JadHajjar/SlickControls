@@ -75,6 +75,13 @@ public class UI : ISaveObject
 		(int)(size.Height * FontScale) / 2 * 2);
 	}
 
+	public static Point Scale(Point size)
+	{
+		return new Point(
+		(int)(size.X * FontScale) / 2 * 2,
+		(int)(size.Y * FontScale) / 2 * 2);
+	}
+
 	public static Rectangle Scale(Rectangle rect)
 	{
 		return new Rectangle(
