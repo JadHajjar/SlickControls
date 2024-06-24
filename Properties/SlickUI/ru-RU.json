@@ -113,8 +113,8 @@
   "Last {0} at {1}": "Прошлый Last {0} в {1}",
   "Next {0} at {1}": "Следующий {0} в {1}",
   "{0} month ago": {
-    "One": "{0} month ago",
-    "Plural": "{0} months ago"
+    "One": "{0} месяцев назад",
+    "Plural": "{0} месяц назад"
   },
   "{0} month ago on {1}": {
     "One": "{0} месяца назад {1}",
@@ -161,18 +161,18 @@
   "{0}m": "{0} мин.",
   "{0}s": "{0} сек.",
   "Midnight": "Полночь",
-  "Use the System's Theme": "Use your System's Theme",
+  "Use the System's Theme": "Использовать тему вашей системы",
   "Use Windows-style top bar buttons": "Использовать Windows-стиль верхних кнопок",
-  "All": "All",
-  "Hue": "Hue",
-  "Saturation": "Saturation",
-  "Luminance": "Luminance",
-  "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
-  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
-  "Email Address": "Email Address",
-  "Password": "Password",
-  "Login": "Login",
-  "Remember me": "Remember me",
-  "SaveChanges": "Save Changes",
-  "JustNow": "Just Now"
+  "All": "Всё",
+  "Hue": "Тон",
+  "Saturation": "Насыщенность",
+  "Luminance": "Яркость",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Конвертирует вашу тему в легкий или темный режим на основе темы вашего компьютера",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Автоматически переключается в режим Light в дневное и темное время ночи",
+  "Email Address": "Адрес электронной почты",
+  "Password": "Пароль",
+  "Login": "Вход",
+  "Remember me": "Запомнить меня",
+  "SaveChanges": "Сохранить изменения",
+  "JustNow": "Только что"
 }
