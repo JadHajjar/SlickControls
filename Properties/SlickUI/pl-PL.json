@@ -43,8 +43,8 @@
   "Any Date": "Dowolna data",
   "Tomorrow": "Jutro",
   "User Interface": "Interfejs użytkownika",
-  "Minimize": "Minimize",
-  "Maximize": "Maximize",
+  "Minimize": "Zminimalizuj",
+  "Maximize": "Zmaksymalizuj",
   "Restore": "Przywróć",
   "Close": "Zamknij",
   "Smaller Menu": "Mniejsze menu",
@@ -174,5 +174,5 @@
   "Login": "Login",
   "Remember me": "Zapamiętaj mnie",
   "SaveChanges": "Zapisz zmiany",
-  "JustNow": "Just Now"
+  "JustNow": "Przed chwilą"
 }
