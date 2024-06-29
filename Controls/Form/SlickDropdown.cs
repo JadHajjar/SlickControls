@@ -19,6 +19,8 @@ public partial class SlickDropdown : SlickTextBox
 	[Category("Behavior"), DefaultValue(true)]
 	public bool AutoComplete { get; set; } = true;
 
+	public static bool ChangeSelectionOnScroll { get; set; } = true;
+
 	public SlickDropdown()
 	{
 		InitializeComponent();
@@ -68,7 +70,7 @@ public partial class SlickDropdown : SlickTextBox
 
 	private void TB_MouseWheel(object sender, MouseEventArgs e)
 	{
-		if (!ReadOnly && ClientRectangle.Contains(PointToClient(Cursor.Position)))
+		if (!ReadOnly && Focused && ChangeSelectionOnScroll && ClientRectangle.Contains(PointToClient(Cursor.Position)))
 		{
 			if (SelectedItem != null && Items != null)
 			{
