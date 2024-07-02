@@ -542,6 +542,7 @@ public partial class SlickScroll : Control, IAnimatable
 		{
 			linkedControl.MaximumSize = new Size(linkedControl.Parent.Width - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0), int.MaxValue);
 			linkedControl.MinimumSize = new Size(linkedControl.Parent.Width - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0), 0);
+			linkedControl.Width = linkedControl.MaximumSize.Width;
 
 			foreach (var item in linkedControl.Controls.OfType<SlickSectionPanel>().Where(x => x.Dock == DockStyle.Top))
 			{
@@ -553,6 +554,7 @@ public partial class SlickScroll : Control, IAnimatable
 		{
 			linkedControl.MaximumSize = new Size(int.MaxValue, linkedControl.Parent.Width - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0));
 			linkedControl.MinimumSize = new Size(0, linkedControl.Parent.Height - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0));
+			linkedControl.Height = linkedControl.MaximumSize.Height;
 
 			foreach (var item in linkedControl.Controls.OfType<SlickSectionPanel>().Where(x => x.Dock == DockStyle.Left))
 			{
