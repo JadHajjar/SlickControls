@@ -16,9 +16,11 @@ public abstract class SlickMultiSelectionDropDown<T> : SlickSelectionDropDown<T>
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 	public IEnumerable<T> SelectedItems
 	{
-		get => new List<T>(_selectedItems); set
+		get => new List<T>(_selectedItems);
+		set
 		{
 			_selectedItems.Clear();
+
 			if (value != null)
 			{
 				_selectedItems.AddRange(value);

@@ -552,7 +552,7 @@ public partial class SlickScroll : Control, IAnimatable
 		}
 		else
 		{
-			linkedControl.MaximumSize = new Size(int.MaxValue, linkedControl.Parent.Width - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0));
+			linkedControl.MaximumSize = new Size(int.MaxValue, linkedControl.Parent.Height - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0));
 			linkedControl.MinimumSize = new Size(0, linkedControl.Parent.Height - (linkedControl.Parent == Parent && TakeUpSpaceFromPanel ? BAR_SIZE_MAX : 0));
 			linkedControl.Height = linkedControl.MaximumSize.Height;
 
