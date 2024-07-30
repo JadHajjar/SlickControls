@@ -163,7 +163,10 @@ public partial class SlickButton : SlickImageControl
 
 		live = true;
 
-		PerformLayout();
+		if (!DesignMode)
+		{
+			PerformLayout();
+		}
 	}
 
 	protected override void OnSizeChanged(EventArgs e)

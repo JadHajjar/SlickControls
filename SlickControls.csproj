@@ -1622,6 +1622,18 @@
   <ItemGroup>
     <None Include="Resources\I_File_96.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Shield_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Shield_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Shield_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Shield_32.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>
