@@ -100,13 +100,13 @@
   "Reset Color": "Réinitialiser la couleur",
   "Welcome to Theme Changer!": "Bienvenue dans le changement de thème!",
   "In here, you can customize the scale and colors of the App to your liking.": "Ici, vous pouvez personnaliser l'échelle et les couleurs de l'application à votre préférence.",
-  "Click on any color to change it, or middle-click to reset it.": "Cliquez sur une couleur pour la changer, ou faites un clic du milieu pour la réinitialiser.",
+  "Click on any color to change it, or middle-click to reset it.": "Cliquez sur une couleur pour la changer, ou faites un clic molette pour la réinitialiser.",
   "Custom Theme": "Thème Personnalisé",
   "Do you want to apply your changes before leaving?": "Voulez-vous sauvegarder les modifications avant de partir ?",
   "TaskCompleted": "Tâche terminée",
-  "UnexpectedError": "Une erreur inconnue s'est produite",
-  "{0} ago": "{0} ago",
-  "in {0}": "in {0}",
+  "UnexpectedError": "Une erreur inattendue s'est produite",
+  "{0} ago": "Il y a {0}",
+  "in {0}": "dans {0}",
   "Today at {0}": "Aujourd'hui à {0}",
   "Yesterday at {0}": "Hier à {0}",
   "Tomorrow at {0}": "Demain à {0}",
@@ -125,7 +125,7 @@
     "Plural": "dans {0} mois sur {1}"
   },
   "{0} day ago": {
-    "One": "il y a {0} jours",
+    "One": "il y a {0} jour",
     "Plural": "il y a {0} jours"
   },
   "in {0} day": {
