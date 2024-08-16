@@ -113,8 +113,8 @@
   "Last {0} at {1}": "Last {0} at {1}",
   "Next {0} at {1}": "Next {0} at {1}",
   "{0} month ago": {
-    "One": "{0} month ago",
-    "Plural": "{0} months ago"
+    "One": "pre mesec dana",
+    "Plural": "pre {0} meseca/i"
   },
   "{0} month ago on {1}": {
     "One": "{0} month ago on {1}",
@@ -125,8 +125,8 @@
     "Plural": "in {0} months on {1}"
   },
   "{0} day ago": {
-    "One": "{0} day ago",
-    "Plural": "{0} days ago"
+    "One": "juče",
+    "Plural": "pre {0} dana"
   },
   "in {0} day": {
     "One": "in {0} day",
@@ -169,10 +169,10 @@
   "Luminance": "Luminance",
   "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
   "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
-  "Email Address": "Email Address",
-  "Password": "Password",
-  "Login": "Login",
-  "Remember me": "Remember me",
-  "SaveChanges": "Save Changes",
-  "JustNow": "Just Now"
+  "Email Address": "E-mail adresa",
+  "Password": "Lozinka",
+  "Login": "Prijava",
+  "Remember me": "Zapamti me",
+  "SaveChanges": "Sačuvaj izmene",
+  "JustNow": "Upravo sada"
 }
