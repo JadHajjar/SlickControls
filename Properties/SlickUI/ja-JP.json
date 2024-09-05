@@ -96,8 +96,8 @@
   "Download": "ダウンロード",
   "Remove": "削除",
   "Confirmation": "確認",
-  "Edit Color": "Edit Color",
-  "Reset Color": "Reset Color",
+  "Edit Color": "色を編集",
+  "Reset Color": "色をリセット",
   "Welcome to Theme Changer!": "テーマチェンジャーへようこそ！",
   "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
   "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
@@ -169,10 +169,10 @@
   "Luminance": "Luminance",
   "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
   "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
-  "Email Address": "Email Address",
-  "Password": "Password",
-  "Login": "Login",
-  "Remember me": "Remember me",
-  "SaveChanges": "Save Changes",
-  "JustNow": "Just Now"
+  "Email Address": "メールアドレス",
+  "Password": "パスワード",
+  "Login": "ログイン",
+  "Remember me": "ログイン状態を維持する",
+  "SaveChanges": "変更を保存",
+  "JustNow": "たった今"
 }
