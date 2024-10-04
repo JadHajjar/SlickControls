@@ -92,6 +92,9 @@
     <Compile Include="Controls\Advanced\SlickStackedListControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\Advanced\SlickStepSlider.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\Advanced\SlickWebBrowser.cs">
       <SubType>Component</SubType>
     </Compile>

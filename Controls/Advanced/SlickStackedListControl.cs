@@ -874,7 +874,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 
 		itemList.ForEach(x => x.Bounds = Rectangle.Empty);
 
-		if (HandleScrolling(itemList) && ItemCount > 25)
+		if (HandleScrolling(itemList) && FilteredCount > 25)
 		{
 			using var font = UI.Font(9.75F, FontStyle.Italic);
 			using var brush = new SolidBrush(FormDesign.Design.InfoColor);
