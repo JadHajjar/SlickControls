@@ -263,18 +263,16 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 			itemCopy = new List<DrawableItem<T, TRectangle>>(_items);
 		}
 
-		Parallelism.ForEach(itemCopy, x =>
-		{
-			var canDraw = new CanDrawItemEventArgs<T, TRectangle>(x);
-
-			CanDrawItemInternal(canDraw);
-		});
-
-		SelectedItems.RemoveAll(x => x.Hidden);
+		Parallelism.ForEach(itemCopy, CanDrawItemWrapper);
 
 		this.TryInvoke(() => SelectedItemsChanged?.Invoke(this, EventArgs.Empty));
 
 		Invalidate();
+	}
+
+	private void CanDrawItemWrapper(DrawableItem<T, TRectangle> drawableItem)
+	{
+		CanDrawItemInternal(new CanDrawItemEventArgs<T, TRectangle>(drawableItem));
 	}
 
 	protected virtual void CanDrawItemInternal(CanDrawItemEventArgs<T, TRectangle> args)
@@ -283,6 +281,11 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 
 		args.DrawableItem.Bounds = Rectangle.Empty;
 		args.DrawableItem.Hidden = args.DoNotDraw;
+
+		if (args.DoNotDraw)
+		{
+			SelectedItems.Remove(args.DrawableItem);
+		}
 	}
 
 	protected void OnCanDrawItem(CanDrawItemEventArgs<T, TRectangle> args)
@@ -861,6 +864,8 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 
 		e.Graphics.SetUp();
 
+		var itemList = new List<DrawableItem<T, TRectangle>>();
+
 		lock (_sync)
 		{
 			if (Loading && _items.Count == 0)
@@ -868,20 +873,24 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 				DrawLoader(e.Graphics, ClientRectangle.CenterR(UI.Scale(new Size(32, 32))));
 				return;
 			}
+
+			if (_sortedItems is not null)
+			{
+				for (var i = 0; i < _sortedItems.Count; i++)
+				{
+					var item = _sortedItems[i];
+
+					item.Bounds = Rectangle.Empty;
+
+					if (!item.Hidden)
+					{
+						itemList.Add(item);
+					}
+				}
+			}
 		}
 
-		var itemList = SafeGetItems();
-
-		itemList.ForEach(x => x.Bounds = Rectangle.Empty);
-
-		if (HandleScrolling(itemList) && FilteredCount > 25)
-		{
-			using var font = UI.Font(9.75F, FontStyle.Italic);
-			using var brush = new SolidBrush(FormDesign.Design.InfoColor);
-			using var format = new StringFormat { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center };
-
-			e.Graphics.DrawString(LocaleSlickUI.Loading, font, brush, ClientRectangle, format);
-		}
+		HandleScrolling(itemList);
 
 		if (scrollVisible)
 		{
@@ -992,7 +1001,7 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 				loc.Y += item.Bounds.Height;
 			}
 
-			if (SeparateWithLines && !GridView)
+			if (SeparateWithLines && !GridView && loc.Y >= 0 && loc.Y <= Height)
 			{
 				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, loc.Y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), loc.Y);
 			}
@@ -1080,13 +1089,8 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 		return false;
 	}
 
-	private bool HandleScrolling(List<DrawableItem<T, TRectangle>> itemList)
+	private void HandleScrolling(List<DrawableItem<T, TRectangle>> itemList)
 	{
-		if (DynamicSizing && !itemList.Any(x => x.CachedHeight != 0))
-		{
-			return true;
-		}
-
 		var totalHeight = GetTotalHeight(itemList);
 		var validHeight = Height - StartHeight;
 
@@ -1122,8 +1126,6 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 
 			ScrollUpdate?.Invoke(this, 0, 0);
 		}
-
-		return false;
 	}
 
 	protected double GetMaxScrollIndex(List<DrawableItem<T, TRectangle>> itemList)
@@ -1220,7 +1222,23 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 				return height;
 			}
 
-			return itemList.Sum(x => x.CachedHeight.If(0, ItemHeight));
+			var sum = 0;
+
+			for (var i = 0; i < itemList.Count; i++)
+			{
+				var height = itemList[i].CachedHeight;
+
+				if (height == 0)
+				{
+					sum += ItemHeight;
+				}
+				else
+				{
+					sum += height;
+				}
+			}
+
+			return sum;
 		}
 
 		if (GridView)
@@ -1240,11 +1258,11 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 		return totalHeight;
 	}
 
-	private int GetNumRows<i>(IEnumerable<i> itemList)
+	private int GetNumRows<TGeneric>(List<TGeneric> itemList)
 	{
 		if (!GridView)
 		{
-			return itemList.Count();
+			return itemList.Count;
 		}
 
 		return (int)Math.Ceiling(itemList.Count() / Math.Floor((double)(Width / (GridItemSize.Width + Padding.Horizontal))).If(0, 1));
@@ -1254,7 +1272,24 @@ public class SlickStackedListControl<T, TRectangle> : SlickControl where TRectan
 	{
 		lock (_sync)
 		{
-			return _sortedItems?.Where(x => !x.Hidden).ToList() ?? [];
+			if (_sortedItems is null)
+			{
+				return [];
+			}
+
+			var list = new List<DrawableItem<T, TRectangle>>();
+
+			for (var i = 0; i < _sortedItems.Count; i++)
+			{
+				var item = _sortedItems[i];
+
+				if (!item.Hidden)
+				{
+					list.Add(item);
+				}
+			}
+
+			return list;
 		}
 	}
 
