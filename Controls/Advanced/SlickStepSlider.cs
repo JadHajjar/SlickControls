@@ -149,6 +149,8 @@ public class SlickStepSlider : SlickControl
 			e.Graphics.DrawLine(activePen, validArea.X, lineY, validArea.X + (validArea.Width * currentIndex / (Items.Length - 1)), lineY);
 		}
 
+		var cursor = PointToClient(Cursor.Position);
+
 		for (var i = 0; i < Items.Length; i++)
 		{
 			if (OverheadText)
@@ -169,6 +171,11 @@ public class SlickStepSlider : SlickControl
 				if (Progressive && currentIndex >= i)
 				{
 					using var brush = new SolidBrush(GetColor(i));
+					e.Graphics.FillRoundedRectangle(brush, mainRect, UI.Scale(3));
+				}
+				else if (mainRect.Contains(cursor))
+				{
+					using var brush = new SolidBrush(GetColor(i).MergeColor(backBrush.Color, 75));
 					e.Graphics.FillRoundedRectangle(brush, mainRect, UI.Scale(3));
 				}
 				else
