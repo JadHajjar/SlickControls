@@ -227,7 +227,7 @@ public static class FontMeasuring
 
 		using var dpiFont = new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit);
 
-		if (text.Length >= 32000)
+		if (text?.Length >= 32000)
 		{
 			return _cache[key] = graphics.MeasureString(text.Substring(0, 32000), dpiFont, width);
 		}
