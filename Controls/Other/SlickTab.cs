@@ -13,6 +13,9 @@ public partial class SlickTab : SlickControl, IAnimatable
 	[Category("Action")]
 	public event EventHandler TabSelected;
 
+	[Category("Action")]
+	public event EventHandler TabDeselected;
+
 	private bool hovered;
 	private bool selected;
 
@@ -79,6 +82,7 @@ public partial class SlickTab : SlickControl, IAnimatable
 				}
 			}
 
+			var wasSelected = selected;
 			selected = value;
 
 			if (!IsHandleCreated || DesignMode)
@@ -96,6 +100,10 @@ public partial class SlickTab : SlickControl, IAnimatable
 			{
 				TabSelected?.Invoke(this, new EventArgs());
 			}
+			else if (wasSelected)
+			{
+				TabDeselected?.Invoke(this, new EventArgs());
+			}
 		}
 	}
 
@@ -112,7 +120,7 @@ public partial class SlickTab : SlickControl, IAnimatable
 	protected override void UIChanged()
 	{
 		Padding = UI.Scale(new Padding(5));
-		Margin = UI.Scale(new Padding(0, 0,5,0));
+		Margin = UI.Scale(new Padding(0, 0, 5, 0));
 
 		if (this is not SlickTabControl.Tab)
 		{

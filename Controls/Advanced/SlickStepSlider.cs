@@ -107,6 +107,11 @@ public class SlickStepSlider : SlickControl
 	{
 		e.Graphics.SetUp(BackColor);
 
+		if ((Items?.Length ?? 0) == 0)
+		{
+			return;
+		}
+
 		validArea = ClientRectangle.Pad(Padding);
 		var currentIndex = SelectedItem is null ? 0 : Items.IndexOf(SelectedItem);
 
@@ -211,11 +216,6 @@ public class SlickStepSlider : SlickControl
 
 	private Color GetColor(int index)
 	{
-		if (Colors != null && Colors.Length > index)
-		{
-			return Colors[index];
-		}
-
-		return FormDesign.Design.ActiveColor;
+		return Colors != null && Colors.Length > index ? Colors[index] : FormDesign.Design.ActiveColor;
 	}
 }
