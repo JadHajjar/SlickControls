@@ -3,6 +3,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 
 using static SlickControls.PanelItemControl;
 
@@ -10,14 +11,14 @@ namespace SlickControls;
 
 public class PanelTab
 {
-	public static PanelTab Separator()
+	public static PanelTab Separator(System.Collections.Generic.IEnumerable<PanelItem> items = null)
 	{
-		return new PanelTab { IsSeparator = true };
+		return new PanelTab { IsSeparator = true, GroupItems = items?.ToArray() ?? [] };
 	}
 
-	public static PanelTab GroupName(string text)
+	public static PanelTab GroupName(string text, System.Collections.Generic.IEnumerable<PanelItem> items = null)
 	{
-		return new PanelTab { IsGroupHeader = true, GroupText = text };
+		return new PanelTab { IsGroupHeader = true, GroupText = text, GroupItems = items?.ToArray() ?? [] };
 	}
 
 	public bool IsSeparator { get; private set; }
@@ -26,6 +27,7 @@ public class PanelTab
 	public bool IsSubItem { get; private set; }
 	public PanelItem PanelItem { get; }
 	public PanelItem ParentItem { get; }
+	public PanelItem[] GroupItems { get; private set; }
 
 	private PanelTab() { }
 

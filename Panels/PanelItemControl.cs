@@ -40,10 +40,22 @@ public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemContr
 
 	protected override void CanDrawItemInternal(CanDrawItemEventArgs<PanelTab, Rectangles> args)
 	{
-		args.DoNotDraw =
-			(args.Item.IsGroupHeader && (Form?.SmallMenu ?? false)) ||
-			args.Item.PanelItem?.Hidden == true ||
-			(args.Item.IsSubItem && !(args.Item.ParentItem.Selected || args.Item.ParentItem.SubItems.Any(x => x.Selected)));
+		if (args.Item.IsGroupHeader && (Form?.SmallMenu ?? false))
+		{
+			args.DoNotDraw = true; // Don't draw group headers if SmallMenu is enabled
+		}
+		else if (args.Item.PanelItem?.Hidden == true)
+		{
+			args.DoNotDraw = true; // Don't draw if the PanelItem is hidden
+		}
+		else if ((args.Item.IsGroupHeader || args.Item.IsSeparator) && args.Item.GroupItems.All(x => x.Hidden))
+		{
+			args.DoNotDraw = true; // Don't draw group headers with no visible sub-items
+		}
+		else if (args.Item.IsSubItem && !(args.Item.ParentItem.Selected || args.Item.ParentItem.SubItems.Any(x => x.Selected)))
+		{
+			args.DoNotDraw = true; // Don't draw sub-items unless the parent or any sub-item is selected
+		}
 
 		base.CanDrawItemInternal(args);
 	}

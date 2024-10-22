@@ -706,12 +706,12 @@ public partial class BasePanelForm : SlickForm
 
 		foreach (var group in sidebarItems.Select(x => x.Group).Distinct())
 		{
+			var items = sidebarItems.Where(x => x.Group == group);
+
 			if (!string.IsNullOrWhiteSpace(group))
 			{
-				tabs.Add(PanelTab.GroupName(group));
+				tabs.Add(PanelTab.GroupName(group, items));
 			}
-
-			var items = sidebarItems.Where(x => x.Group == group);
 
 			foreach (var item in items)
 			{
@@ -734,7 +734,7 @@ public partial class BasePanelForm : SlickForm
 
 			if (group != sidebarItems.Select(x => x.Group).Distinct().Last())
 			{
-				tabs.Add(PanelTab.Separator());
+				tabs.Add(PanelTab.Separator(items));
 			}
 		}
 
