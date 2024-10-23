@@ -48,7 +48,7 @@ public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemContr
 		{
 			args.DoNotDraw = true; // Don't draw if the PanelItem is hidden
 		}
-		else if ((args.Item.IsGroupHeader || args.Item.IsSeparator) && args.Item.GroupItems.All(x => x.Hidden))
+		else if ((args.Item.IsGroupHeader || args.Item.IsSeparator) && args.Item.GroupItems.Length > 0 && args.Item.GroupItems.All(x => x.Hidden))
 		{
 			args.DoNotDraw = true; // Don't draw group headers with no visible sub-items
 		}
