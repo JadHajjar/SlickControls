@@ -1,6 +1,6 @@
 {
   "Search": "Szukaj",
-  "Loading": "Ładowanie..",
+  "Loading": "Ładowanie...",
   "Back": "Powrót",
   "Filters": "Filtry",
   "Enable": "Włączać",
@@ -43,8 +43,8 @@
   "Any Date": "Dowolna data",
   "Tomorrow": "Jutro",
   "User Interface": "Interfejs użytkownika",
-  "Minimize": "Minimize",
-  "Maximize": "Maximize",
+  "Minimize": "Zminimalizuj",
+  "Maximize": "Zmaksymalizuj",
   "Restore": "Przywróć",
   "Close": "Zamknij",
   "Smaller Menu": "Mniejsze menu",
@@ -52,7 +52,7 @@
   "Theme Changer": "Theme Changer",
   "Switch To": "Przełącz na",
   "Modern": "Nowoczesny",
-  "Berry Blues": "Jagodowe Niebieski",
+  "Berry Blues": "Jagodowy Niebieski",
   "Ice": "Lód",
   "Chic": "Chic",
   "Strawberries": "Owoce cytrusowe",
@@ -174,5 +174,5 @@
   "Login": "Login",
   "Remember me": "Zapamiętaj mnie",
   "SaveChanges": "Zapisz zmiany",
-  "JustNow": "Just Now"
+  "JustNow": "Przed chwilą"
 }
