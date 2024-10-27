@@ -567,7 +567,7 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation SaveChanges => _instance.GetText("SaveChanges");
 
 	/// <summary>
-	/// Search
+	/// Search..
 	/// </summary>
 	public static Translation Search => _instance.GetText("Search");
 

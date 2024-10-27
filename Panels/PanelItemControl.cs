@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace SlickControls;
 
-public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemControl.Rectangles>
+public class PanelItemControl : SlickStackedListControl<PanelTab>
 {
 	public event MouseEventHandler OnFormMove;
 
@@ -38,7 +38,7 @@ public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemContr
 		Loading = Items.Any(x => x.PanelItem?.Loading == true);
 	}
 
-	protected override void CanDrawItemInternal(CanDrawItemEventArgs<PanelTab, Rectangles> args)
+	protected override void CanDrawItemInternal(CanDrawItemEventArgs<PanelTab> args)
 	{
 		if (args.Item.IsGroupHeader && (Form?.SmallMenu ?? false))
 		{
@@ -60,7 +60,7 @@ public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemContr
 		base.CanDrawItemInternal(args);
 	}
 
-	protected override void OnPaintItemList(ItemPaintEventArgs<PanelTab, Rectangles> e)
+	protected override void OnPaintItemList(ItemPaintEventArgs<PanelTab, GenericDrawableItemRectangles<PanelTab>> e)
 	{
 		e.BackColor = BackColor;
 
@@ -72,12 +72,12 @@ public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemContr
 		}
 	}
 
-	protected override void OnItemMouseClick(DrawableItem<PanelTab, Rectangles> item, MouseEventArgs e)
+	protected override void OnItemMouseClick(DrawableItem<PanelTab, GenericDrawableItemRectangles<PanelTab>> item, MouseEventArgs e)
 	{
 		item.Item.PanelItem?.MouseClick(e);
 	}
 
-	protected override bool IsItemActionHovered(DrawableItem<PanelTab, Rectangles> item, Point location)
+	protected override bool IsItemActionHovered(DrawableItem<PanelTab, GenericDrawableItemRectangles<PanelTab>> item, Point location)
 	{
 		return item.Item.PanelItem != null;
 	}
@@ -89,23 +89,6 @@ public class PanelItemControl : SlickStackedListControl<PanelTab, PanelItemContr
 		if (mouseDownItem == null && scrollMouseDown < 0)
 		{
 			OnFormMove?.Invoke(this, e);
-		}
-	}
-
-	public class Rectangles : IDrawableItemRectangles<PanelTab>
-	{
-		public PanelTab Item { get; set; }
-
-		public bool GetToolTip(Control instance, Point location, out string text, out Point point)
-		{
-			text = null;
-			point = default;
-			return false;
-		}
-
-		public bool IsHovered(Control instance, Point location)
-		{
-			return true;
 		}
 	}
 }

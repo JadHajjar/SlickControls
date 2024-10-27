@@ -475,7 +475,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 		e.Graphics.DrawImage(icon.Color(FormDesign.Design.IconColor), new Rectangle(new Point(_searchBox.Right + Padding.Left, _searchBox.Top + ((_searchBox.Height - icon.Height) / 2)), icon.Size));
 	}
 
-	private void ListDropDown_PaintItem(object sender, ItemPaintEventArgs<T, Rectangles> e)
+	private void ListDropDown_PaintItem(object sender, ItemPaintEventArgs<T> e)
 	{
 		var hoverState = e.HoverState;
 		var back = hoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor
@@ -524,7 +524,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 		}
 	}
 
-	protected internal class CustomStackedListControl : SlickStackedListControl<T, Rectangles>
+	protected internal class CustomStackedListControl : SlickStackedListControl<T>
 	{
 		private readonly Func<IEnumerable<T>, IEnumerable<T>> _orderMethod;
 
@@ -533,12 +533,12 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 			_orderMethod = orderMethod;
 		}
 
-		protected override bool IsItemActionHovered(DrawableItem<T, Rectangles> item, Point location)
+		protected override bool IsItemActionHovered(DrawableItem<T, GenericDrawableItemRectangles<T>> item, Point location)
 		{
 			return true;
 		}
 
-		protected override IEnumerable<DrawableItem<T, Rectangles>> OrderItems(IEnumerable<DrawableItem<T, Rectangles>> items)
+		protected override IEnumerable<IDrawableItem<T>> OrderItems(IEnumerable<IDrawableItem<T>> items)
 		{
 			if (_orderMethod == null)
 			{
@@ -556,23 +556,6 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 
 			e.Graphics.ResetClip();
 			e.Graphics.DrawRectangle(new Pen(Color.FromArgb(120, FormDesign.Design.ActiveColor), 1.5F), ClientRectangle.Pad(1, -2, 1, 1));
-		}
-	}
-
-	public class Rectangles : IDrawableItemRectangles<T>
-	{
-		public T Item { get; set; }
-
-		public bool GetToolTip(Control instance, Point location, out string text, out Point point)
-		{
-			text = null;
-			point = default;
-			return false;
-		}
-
-		public bool IsHovered(Control instance, Point location)
-		{
-			return true;
 		}
 	}
 }

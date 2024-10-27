@@ -463,14 +463,9 @@ public partial class SlickButton : SlickImageControl
 		{
 			arg.DisposeImage = true;
 
-			if (!string.IsNullOrWhiteSpace(arg.Text) || arg.Rectangle.Width <= 0)
-			{
-				arg.Image = arg.Icon.Get(arg.Font.Height * 5 / 4);
-			}
-			else
-			{
-				arg.Image = arg.Icon.Get(Math.Min(arg.Rectangle.Width, arg.Rectangle.Height) * 3 / 4);
-			}
+			arg.Image = !string.IsNullOrWhiteSpace(arg.Text) || arg.Rectangle.Width <= 0
+				? arg.Icon.Get(arg.Font.Height * 5 / 4)
+				: (Image)arg.Icon.Get(Math.Min(arg.Rectangle.Width, arg.Rectangle.Height) * 3 / 4);
 		}
 
 		if (arg.Rectangle.Width <= 0)
@@ -484,14 +479,9 @@ public partial class SlickButton : SlickImageControl
 
 			if (width < maxWidth)
 			{
-				if (arg.DisposeFont)
-				{
-					arg.Font = arg.Font.FitTo(LocaleHelper.GetGlobalText(arg.Text), arg.Rectangle.Pad(textPad), graphics);
-				}
-				else
-				{
-					arg.Font = new Font(arg.Font, arg.Font.Style).FitTo(LocaleHelper.GetGlobalText(arg.Text), arg.Rectangle.Pad(textPad), graphics);
-				}
+				arg.Font = arg.DisposeFont
+					? arg.Font.FitTo(LocaleHelper.GetGlobalText(arg.Text), arg.Rectangle.Pad(textPad), graphics)
+					: new Font(arg.Font, arg.Font.Style).FitTo(LocaleHelper.GetGlobalText(arg.Text), arg.Rectangle.Pad(textPad), graphics);
 
 				arg.DisposeFont = true;
 			}
@@ -554,7 +544,7 @@ public partial class SlickButton : SlickImageControl
 
 	public static void DrawButton(Graphics graphics, ButtonDrawArgs arg)
 	{
-		using (var backBrush = Gradient(arg.Rectangle, arg.BackColor))
+		using (var backBrush = arg.NoGradient ? new SolidBrush(arg.BackColor) : Gradient(arg.Rectangle, arg.BackColor))
 		{
 			graphics.FillRoundedRectangle(backBrush, arg.Rectangle, arg.BorderRadius ?? arg.Padding.Top);
 		}
@@ -662,6 +652,7 @@ public class ButtonDrawArgs : IDisposable
 	public bool DoNotDrawIcon { get; set; }
 	public Color BackgroundColor { get; set; }
 	public Color? ActiveColor { get; set; }
+	public bool NoGradient { get; set; }
 	public int RequiredHeight { get; set; }
 	public int RequiredWidth { get; set; }
 

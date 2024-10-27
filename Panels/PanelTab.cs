@@ -43,7 +43,7 @@ public class PanelTab
 		IsSubItem = true;
 	}
 
-	public void Paint(ItemPaintEventArgs<PanelTab, Rectangles> e, PanelItemControl panelItemControl, bool small)
+	public void Paint(ItemPaintEventArgs<PanelTab> e, PanelItemControl panelItemControl, bool small)
 	{
 		var clientRectangle = e.ClipRectangle;
 

@@ -73,6 +73,7 @@
     <Compile Include="Classes\Banner.cs" />
     <Compile Include="Classes\DesignExtensions.cs" />
     <Compile Include="Classes\DrawableItem.cs" />
+    <Compile Include="Classes\GenericDrawableItemRectangles.cs" />
     <Compile Include="Classes\IconManager.cs" />
     <Compile Include="Classes\IDrawableItemRectangles.cs" />
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
@@ -1636,6 +1637,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\I_Shield_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Clock_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Clock_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Clock_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Clock_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

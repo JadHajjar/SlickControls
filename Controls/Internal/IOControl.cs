@@ -128,7 +128,7 @@ public class IOControl
 		valid = true;
 	}
 
-	internal void OnPaintGrid(ItemPaintEventArgs<IOControl, IoListControl.Rectangles> e, bool selected)
+	internal void OnPaintGrid(ItemPaintEventArgs<IOControl> e, bool selected)
 	{
 		var d = FormDesign.Design;
 
@@ -180,7 +180,7 @@ public class IOControl
 		});
 	}
 
-	internal void OnPaintList(ItemPaintEventArgs<IOControl, IoListControl.Rectangles> e, bool selected)
+	internal void OnPaintList(ItemPaintEventArgs<IOControl> e, bool selected)
 	{
 		var d = FormDesign.Design;
 

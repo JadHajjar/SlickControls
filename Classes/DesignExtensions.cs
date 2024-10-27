@@ -197,7 +197,7 @@ public static class DesignExtensions
 		return bnds.ToSize();
 	}
 
-	public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, Rectangle rectangle, ref int height, bool draw = true, DynamicIcon dIcon = null)
+	public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, Rectangle rectangle, ref int height, bool draw = true, DynamicIcon dIcon = null, StringFormat stringFormat = null)
 	{
 		var margin = UI.Scale(6);
 		using var icon = dIcon?.Get(font.Height + margin);
@@ -215,7 +215,7 @@ public static class DesignExtensions
 			}
 
 			using var brush = new SolidBrush(foreColor);
-			graphics.DrawString(item?.ToString(), font, brush, textRect);
+			graphics.DrawString(item?.ToString(), font, brush, textRect, stringFormat);
 		}
 
 		height += (int)(bnds.Height + margin);

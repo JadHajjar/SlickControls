@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace SlickControls.Controls.Other;
 
-internal class IoListControl : SlickStackedListControl<IOControl, IoListControl.Rectangles>
+internal class IoListControl : SlickStackedListControl<IOControl>
 {
 	public IOControl SelectedItem { get; internal set; }
 	internal IO.IController Controller { get; set; }
@@ -22,7 +22,7 @@ internal class IoListControl : SlickStackedListControl<IOControl, IoListControl.
 		GridView = true;
 	}
 
-	protected override bool IsItemActionHovered(DrawableItem<IOControl, Rectangles> item, Point location)
+	protected override bool IsItemActionHovered(DrawableItem<IOControl, GenericDrawableItemRectangles<IOControl>> item, Point location)
 	{
 		if (item.HoverState.HasFlag(HoverState.Hovered))
 		{
@@ -32,7 +32,7 @@ internal class IoListControl : SlickStackedListControl<IOControl, IoListControl.
 		return true;
 	}
 
-	protected override IEnumerable<DrawableItem<IOControl, Rectangles>> OrderItems(IEnumerable<DrawableItem<IOControl, Rectangles>> items)
+	protected override IEnumerable<IDrawableItem<IOControl>> OrderItems(IEnumerable<IDrawableItem<IOControl>> items)
 	{
 		switch (IoSortingOption)
 		{
@@ -53,7 +53,7 @@ internal class IoListControl : SlickStackedListControl<IOControl, IoListControl.
 		return SortDesc ? items.Reverse() : items;
 	}
 
-	protected override void OnItemMouseClick(DrawableItem<IOControl, Rectangles> item, MouseEventArgs e)
+	protected override void OnItemMouseClick(DrawableItem<IOControl, GenericDrawableItemRectangles<IOControl>> item, MouseEventArgs e)
 	{
 		if (e.Button == MouseButtons.Left)
 		{
@@ -112,12 +112,12 @@ internal class IoListControl : SlickStackedListControl<IOControl, IoListControl.
 		}
 	}
 
-	protected override void OnPaintItemList(ItemPaintEventArgs<IOControl, Rectangles> e)
+	protected override void OnPaintItemList(ItemPaintEventArgs<IOControl, GenericDrawableItemRectangles<IOControl>> e)
 	{
 		e.Item.OnPaintList(e, SelectedItem == e.Item);
 	}
 
-	protected override void OnPaintItemGrid(ItemPaintEventArgs<IOControl, Rectangles> e)
+	protected override void OnPaintItemGrid(ItemPaintEventArgs<IOControl, GenericDrawableItemRectangles<IOControl>> e)
 	{
 		e.Item.OnPaintGrid(e, SelectedItem == e.Item);
 	}
