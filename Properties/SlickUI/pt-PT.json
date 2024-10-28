@@ -10,7 +10,7 @@
   "Options": "Opções",
   "Total": "Total:",
   "Sorting": "Ordenação",
-  "Content": "Contente",
+  "Content": "Conteúdo",
   "Other": "Outro",
   "Date Modified": "Data de Modificação",
   "Date Created": "Data de Criação",
@@ -110,7 +110,7 @@
   "Today at {0}": "Hoje às {0}",
   "Yesterday at {0}": "Ontem às {0}",
   "Tomorrow at {0}": "Amanhã, às {0}",
-  "Last {0} at {1}": "Último {0} às {1}",
+  "Last {0} at {1}": "Última {0} às {1}",
   "Next {0} at {1}": "Próximo {0} às {1}",
   "{0} month ago": {
     "One": "há {0} mês atrás",
