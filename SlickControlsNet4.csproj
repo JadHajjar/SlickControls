@@ -54,6 +54,7 @@
     <Compile Include="Classes\Banner.cs" />
     <Compile Include="Classes\DesignExtensions.cs" />
     <Compile Include="Classes\DrawableItem.cs" />
+    <Compile Include="Classes\GenericDrawableItemRectangles.cs" />
     <Compile Include="Classes\IconManager.cs" />
     <Compile Include="Classes\IDrawableItemRectangles.cs" />
     <Compile Include="Classes\ItemPaintEventArgs.cs" />
