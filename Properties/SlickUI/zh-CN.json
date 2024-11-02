@@ -174,5 +174,9 @@
   "Login": "登录",
   "Remember me": "记住我的账号",
   "SaveChanges": "保存更改",
-  "JustNow": "刚刚"
+  "JustNow": "刚刚",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
