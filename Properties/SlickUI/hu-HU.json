@@ -174,5 +174,9 @@
   "Login": "Bejelentkezés",
   "Remember me": "Emlékezzen rám",
   "SaveChanges": "Változtatások mentése",
-  "JustNow": "Épp most"
+  "JustNow": "Épp most",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
