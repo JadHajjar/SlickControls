@@ -174,5 +174,9 @@
   "Login": "Prijava",
   "Remember me": "Zapamti me",
   "SaveChanges": "Sačuvaj izmene",
-  "JustNow": "Upravo sada"
+  "JustNow": "Upravo sada",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
