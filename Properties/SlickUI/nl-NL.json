@@ -174,5 +174,9 @@
   "Login": "Inloggen",
   "Remember me": "Onthoud mij",
   "SaveChanges": "Wijzigingen opslaan",
-  "JustNow": "Nu net"
+  "JustNow": "Nu net",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
