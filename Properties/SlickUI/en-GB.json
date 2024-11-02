@@ -174,5 +174,9 @@
   "Login": "Login",
   "Remember me": "Remember Me",
   "SaveChanges": "Save Changes",
-  "JustNow": "Just Now"
+  "JustNow": "Just Now",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
