@@ -1003,7 +1003,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 
 			if (SeparateWithLines && !GridView && loc.Y >= 0 && loc.Y <= Height)
 			{
-				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, loc.Y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), loc.Y);
+				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, loc.Y, Width - Padding.Right - (scrollVisible ? scrollThumbRectangle.Width : 0), loc.Y);
 			}
 
 			if (loc.Y > Height && !(i + 1 < itemList.Count && itemList[i + 1].CachedHeight == 0))
@@ -1065,7 +1065,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 
 			if (SeparateWithLines && !GridView)
 			{
-				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, loc.Y, Width - Padding.Right - (int)(scrollVisible ? 6 * UI.FontScale : 0), loc.Y);
+				e.Graphics.DrawLine(new Pen(FormDesign.Design.AccentColor, (int)UI.FontScale), Padding.Left, loc.Y, Width - Padding.Right - (scrollVisible ? scrollThumbRectangle.Width : 0), loc.Y);
 			}
 
 			if (loc.Y > Height)
@@ -1146,12 +1146,9 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 	{
 		double availableHeight = Height - StartHeight;
 
-		if (DynamicSizing)
-		{
-			return availableHeight;
-		}
-
-		return !GridView ? availableHeight / ItemHeight.If(0, 1) : availableHeight / GridItemSize.Height.If(0, 1);
+		return DynamicSizing
+			? availableHeight
+			: !GridView ? availableHeight / ItemHeight.If(0, 1) : availableHeight / GridItemSize.Height.If(0, 1);
 	}
 
 	protected int GetStartingIndex()
@@ -1174,12 +1171,9 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 
 	protected int GetStartingY()
 	{
-		if (DynamicSizing)
-		{
-			throw new Exception("Starting y should not be calculated for dynamic sizing");
-		}
-
-		return !GridView ? StartHeight + (int)(scrollIndex % 1 * -ItemHeight) : StartHeight + (int)(scrollIndex % 1 * -GridItemSize.Height);
+		return DynamicSizing
+			? throw new Exception("Starting y should not be calculated for dynamic sizing")
+			: !GridView ? StartHeight + (int)(scrollIndex % 1 * -ItemHeight) : StartHeight + (int)(scrollIndex % 1 * -GridItemSize.Height);
 	}
 
 	public int GetTotalHeight(List<IDrawableItem<T>> itemList)

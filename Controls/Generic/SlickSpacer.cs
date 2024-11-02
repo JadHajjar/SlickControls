@@ -1,5 +1,6 @@
 ﻿using Extensions;
 
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -7,6 +8,9 @@ namespace SlickControls;
 
 public class SlickSpacer : Control
 {
+	[Category("Appearance"), DefaultValue(ColorStyle.Text)]
+	public ColorStyle Style { get; set; } = ColorStyle.Text;
+
 	public SlickSpacer()
 	{
 		Height = 1;
@@ -22,7 +26,10 @@ public class SlickSpacer : Control
 		if (!DesignMode)
 		{
 			e.Graphics.Clear(BackColor);
-			e.Graphics.FillRectangle(new SolidBrush(FormDesign.Design.AccentColor), new Rectangle(Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical));
+
+			using var brush = new SolidBrush(Style is ColorStyle.Text ? FormDesign.Design.AccentColor : Color.FromArgb(200, Style.GetColor()));
+
+			e.Graphics.FillRectangle(brush, new Rectangle(Padding.Left, Padding.Top, Width - Padding.Horizontal, Height - Padding.Vertical));
 		}
 	}
 }

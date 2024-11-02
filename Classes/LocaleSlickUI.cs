@@ -325,6 +325,12 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation EndOfYear => _instance.GetText("End of Year");
 
 	/// <summary>
+	/// <para>File</para>
+	/// <para>Plural: Files</para>
+	/// </summary>
+	public static Translation File => _instance.GetText("File");
+
+	/// <summary>
 	/// Filters
 	/// </summary>
 	public static Translation Filters => _instance.GetText("Filters");

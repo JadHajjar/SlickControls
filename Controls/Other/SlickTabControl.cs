@@ -66,12 +66,12 @@ public partial class SlickTabControl : SlickControl
 	protected override void UIChanged()
 	{
 		P_Tabs.Padding = UI.Scale(new Padding(10));
-		P_Tabs.Height = UI.Scale(48) + P_Tabs. Padding.Vertical;
+		P_Tabs.Height = UI.Scale(48) + P_Tabs.Padding.Vertical;
 		panel1.Padding = UI.Scale(new Padding(3));
 
 		foreach (Control item in P_Tabs.Controls)
 		{
-			item.Size = new Size(tabWidth(), P_Tabs.Height);
+			item.Size = new Size(GetTabWidth(), P_Tabs.Height);
 		}
 	}
 
@@ -84,11 +84,11 @@ public partial class SlickTabControl : SlickControl
 
 		foreach (var tab in tabs)
 		{
-			tab.Size = new Size(tabWidth(), P_Tabs.Height);
+			tab.Size = new Size(GetTabWidth(), P_Tabs.Height);
 			tab.Dock = DockStyle.Left;
 			tab.Selected = false;
-			tab.TabSelected -= tab_TabSelected;
-			tab.TabSelected += tab_TabSelected;
+			tab.TabSelected -= Tab_TabSelected;
+			tab.TabSelected += Tab_TabSelected;
 
 			if (tab.LinkedControl != null)
 			{
@@ -116,17 +116,17 @@ public partial class SlickTabControl : SlickControl
 	{
 		foreach (var tab in tabs)
 		{
-			tab.Width = tabWidth();
+			tab.Width = GetTabWidth();
 		}
 	}
 
-	private void tab_TabSelected(object sender, EventArgs e)
+	private void Tab_TabSelected(object sender, EventArgs e)
 	{
 		P_Content.TryInvoke(() =>
 		{
 			if (ScrollBar?.LinkedControl != null)
 			{
-				ScrollBar.LinkedControl.ControlAdded -= ctrl_ControlAdded;
+				ScrollBar.LinkedControl.ControlAdded -= Ctrl_ControlAdded;
 			}
 
 			var tab = sender as Tab;
@@ -142,7 +142,7 @@ public partial class SlickTabControl : SlickControl
 			{
 				ctrl.Location = Point.Empty;
 				ctrl.Parent = P_Content;
-				ctrl.ControlAdded += ctrl_ControlAdded;
+				ctrl.ControlAdded += Ctrl_ControlAdded;
 
 				if (!tab.FillTab)
 				{
@@ -169,14 +169,14 @@ public partial class SlickTabControl : SlickControl
 		});
 	}
 
-	private void ctrl_ControlAdded(object sender, ControlEventArgs e)
+	private void Ctrl_ControlAdded(object sender, ControlEventArgs e)
 	{
 		P_Content.Invalidate();
 	}
 
-	private int tabWidth()
+	private int GetTabWidth()
 	{
-		return ((P_Tabs.Width - Padding.Horizontal- P_Tabs.Padding.Left) / tabs.Count(x => x.Visible)).Between(UI.Scale(16), UI.Scale(100));
+		return ((P_Tabs.Width - Padding.Horizontal - P_Tabs.Padding.Left) / tabs.Count(x => x.Visible)).Between(UI.Scale(16), UI.Scale(110));
 	}
 
 	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -286,12 +286,7 @@ public partial class SlickTabControl : SlickControl
 
 			public override Cursor GetHitTest(Point p)
 			{
-				if (Bounds.Contains(p))
-				{
-					return Cursors.Hand;
-				}
-
-				return null;
+				return Bounds.Contains(p) ? Cursors.Hand : null;
 			}
 
 			public override void Paint(PaintEventArgs pe)

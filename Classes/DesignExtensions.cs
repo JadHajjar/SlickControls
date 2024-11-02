@@ -159,7 +159,7 @@ public static class DesignExtensions
 
 	public static void SetUp(this Graphics graphics, Color? backColor = null)
 	{
-		if (backColor != null)
+		if (backColor.HasValue)
 		{
 			graphics.Clear(backColor.Value);
 		}
@@ -185,7 +185,7 @@ public static class DesignExtensions
 			{
 				graphics.DrawImage(icon.Color(foreColor), textRect.Align(icon.Size, ContentAlignment.MiddleLeft));
 
-				textRect = textRect.Pad(icon.Width + margin, 0, 0, 0);
+				textRect = textRect.Pad(icon.Width + (margin / 2), 0, 0, 0);
 			}
 
 			using var brush = new SolidBrush(foreColor);
@@ -211,7 +211,7 @@ public static class DesignExtensions
 			{
 				graphics.DrawImage(icon.Color(foreColor), textRect.Align(icon.Size, ContentAlignment.MiddleLeft));
 
-				textRect = textRect.Pad(icon.Width + margin, 0, 0, 0);
+				textRect = textRect.Pad(icon.Width + (margin / 2), 0, 0, 0);
 			}
 
 			using var brush = new SolidBrush(foreColor);
@@ -219,6 +219,32 @@ public static class DesignExtensions
 		}
 
 		height += (int)(bnds.Height + margin);
+
+		return bnds.ToSize();
+	}
+
+	public static Size DrawStringItem(this Graphics graphics, object item, Font font, Color foreColor, ref Rectangle rectangle, bool draw = true, DynamicIcon dIcon = null, StringFormat stringFormat = null)
+	{
+		var margin = UI.Scale(6);
+		using var icon = dIcon?.Get(font.Height + margin);
+		var bnds = graphics.Measure(item?.ToString(), font, rectangle.Width - (icon == null ? 0 : (icon.Width + margin)));
+
+		if (draw)
+		{
+			var textRect = new Rectangle(rectangle.X, rectangle.Y, rectangle.Width, (int)Math.Ceiling(bnds.Height));
+
+			if (icon != null)
+			{
+				graphics.DrawImage(icon.Color(foreColor), textRect.Align(icon.Size, ContentAlignment.MiddleLeft));
+
+				textRect = textRect.Pad(icon.Width + (margin / 2), 0, 0, 0);
+			}
+
+			using var brush = new SolidBrush(foreColor);
+			graphics.DrawString(item?.ToString(), font, brush, textRect, stringFormat);
+		}
+
+		rectangle.Y += (int)(bnds.Height + margin);
 
 		return bnds.ToSize();
 	}

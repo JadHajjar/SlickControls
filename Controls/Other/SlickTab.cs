@@ -157,7 +157,7 @@ public partial class SlickTab : SlickControl, IAnimatable
 		}
 		else if (Width > Height * 4 / 3)
 		{
-			var rect = client.CenterR(client.Width, textHeight + img.Height + (int)(2.5 * UI.FontScale));
+			var rect = client.CenterR(client.Width, textHeight + img.Height + UI.Scale(3));
 
 			e.Graphics.DrawImage(img, rect.Align(img.Size, ContentAlignment.TopCenter));
 
