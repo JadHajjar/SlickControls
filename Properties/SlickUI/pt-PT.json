@@ -174,5 +174,9 @@
   "Login": "Iniciar sessão",
   "Remember me": "Lembrar-me",
   "SaveChanges": "Guardar alterações",
-  "JustNow": "Agora mesmo"
+  "JustNow": "Agora mesmo",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
