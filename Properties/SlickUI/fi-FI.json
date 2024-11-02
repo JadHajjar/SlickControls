@@ -174,5 +174,9 @@
   "Login": "Kirjaudu sisään",
   "Remember me": "Muista minut",
   "SaveChanges": "Tallenna muutokset",
-  "JustNow": "Just Now"
+  "JustNow": "Just Now",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
