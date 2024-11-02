@@ -174,5 +174,9 @@
   "Login": "로그인",
   "Remember me": "로그인 정보 저장",
   "SaveChanges": "변경사항 저장",
-  "JustNow": "Just Now"
+  "JustNow": "Just Now",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
