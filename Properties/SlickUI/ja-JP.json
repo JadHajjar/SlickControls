@@ -174,5 +174,9 @@
   "Login": "ログイン",
   "Remember me": "ログイン状態を維持する",
   "SaveChanges": "変更を保存",
-  "JustNow": "たった今"
+  "JustNow": "たった今",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
