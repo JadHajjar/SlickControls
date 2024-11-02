@@ -174,5 +174,9 @@
   "Login": "Вход",
   "Remember me": "Запомнить меня",
   "SaveChanges": "Сохранить изменения",
-  "JustNow": "Только что"
+  "JustNow": "Только что",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
