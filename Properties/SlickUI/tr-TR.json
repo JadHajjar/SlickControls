@@ -174,5 +174,9 @@
   "Login": "Giriş Yap",
   "Remember me": "Beni Hatırla",
   "SaveChanges": "Değişiklikleri Kaydet",
-  "JustNow": "Hemen Şimdi"
+  "JustNow": "Hemen Şimdi",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
