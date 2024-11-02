@@ -174,5 +174,9 @@
   "Login": "Đăng nhập",
   "Remember me": "Nhớ mật khẩu",
   "SaveChanges": "Lưu thay đổi",
-  "JustNow": "Vừa mới"
+  "JustNow": "Vừa mới",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
