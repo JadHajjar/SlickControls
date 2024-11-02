@@ -174,5 +174,9 @@
   "Login": "Logg inn",
   "Remember me": "Husk meg",
   "SaveChanges": "Lagre Endringer",
-  "JustNow": "Akkurat nå"
+  "JustNow": "Akkurat nå",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  }
 }
