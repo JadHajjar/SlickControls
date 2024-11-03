@@ -176,7 +176,7 @@
   "SaveChanges": "Guardar Cambios",
   "JustNow": "Justo ahora",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Archivo",
+    "Plural": "Archivos"
   }
 }
