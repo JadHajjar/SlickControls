@@ -178,5 +178,6 @@
   "File": {
     "One": "Archivo",
     "Plural": "Archivos"
-  }
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created"
 }
