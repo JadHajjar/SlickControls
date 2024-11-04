@@ -176,8 +176,8 @@
   "SaveChanges": "Enregistrer les modifications",
   "JustNow": "À l'instant",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Fichier",
+    "Plural": "Fichiers"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created"
+  "TypeFolderName": "Entrez le nom du dossier à créer"
 }
