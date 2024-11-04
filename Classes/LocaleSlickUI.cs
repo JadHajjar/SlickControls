@@ -688,6 +688,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Total => _instance.GetText("Total");
 
 	/// <summary>
+	/// Type in the name of the new folder to be created
+	/// </summary>
+	public static Translation TypeFolderName => _instance.GetText("TypeFolderName");
+
+	/// <summary>
 	/// UI Scale
 	/// </summary>
 	public static Translation UIScale => _instance.GetText("UI Scale");

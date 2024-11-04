@@ -5,6 +5,7 @@ using SlickControls.Controls.Other;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace SlickControls;
 
@@ -195,8 +196,8 @@ public class IOControl
 			e.Graphics.DrawRoundedRectangle(new Pen(Color.FromArgb(125, d.ActiveColor), 2F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash }, e.ClipRectangle.Pad(1), UI.Scale(3));
 		}
 
-		var imgRect = e.ClipRectangle.Pad(UI.Scale(3));
-		var textRect = e.ClipRectangle.Pad(UI.Scale(3));
+		var imgRect = e.ClipRectangle.Pad(UI.Scale(6));
+		var textRect = e.ClipRectangle.Pad(UI.Scale(new Padding(6, 3, 3, 3)));
 
 		imgRect.Width = imgRect.Height;
 

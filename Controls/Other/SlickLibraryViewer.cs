@@ -30,7 +30,8 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 	public event EventHandler CurrentPathChanged;
 
 	private string startingFolder;
-	private string hoveredAction;
+	private string hoveredItem;
+	private Action<string> hoveredAction;
 	private string currentSearch;
 	private string _currentPath;
 	private readonly WaitIdentifier searchWait = new();
@@ -85,21 +86,18 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 
 	protected override void UIChanged()
 	{
-		I_Back.Padding = PB_Bar.Padding = UI.Scale(new Padding(5));
-		PB_Bar.Height = (int)FontMeasuring.Measure(" ", UI.Font(9F)).Height + PB_Bar.Padding.Vertical;
+		PB_Bar.Padding = UI.Scale(new Padding(5));
+		PB_Bar.Height = UI.Scale(30);
 		slickSpacer1.Height = (int)(1.5 * UI.FontScale);
 		slickSpacer1.Padding = UI.Scale(new Padding(15, 0, 15, 0));
 		TB_Path.Width = PB_Bar.Width = (int)(450 * UI.UIScale);
-		tableLayoutPanel2.ColumnStyles[1].Width = PB_Bar.Height;
-		tableLayoutPanel2.ColumnStyles[3].Width = PB_Bar.Height;
-		PB_Loader.Size = new Size(PB_Bar.Height, PB_Bar.Height);
-		I_Back.Size = UI.Scale(new Size(24, 24));
 	}
 
 	protected override void OnCreateControl()
 	{
 		base.OnCreateControl();
-		new BackgroundAction(() => setFolder(StartingFolder ?? (TopFolders.Count(Directory.Exists) == 1 ? TopFolders.First(Directory.Exists) : string.Empty))).RunIn(50);
+
+		new BackgroundAction(() => SetFolder(StartingFolder ?? (TopFolders.Count(Directory.Exists) == 1 ? TopFolders.First(Directory.Exists) : string.Empty))).RunIn(50);
 	}
 
 	public bool GoBack()
@@ -108,7 +106,7 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 		{
 			if (CurrentPath.Equals(startingFolder, StringComparison.CurrentCultureIgnoreCase))
 			{
-				setFolder(string.Empty);
+				SetFolder(string.Empty);
 			}
 			else if (Directory.GetParent(CurrentPath) == null)
 			{
@@ -116,7 +114,7 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 			}
 			else
 			{
-				setFolder(Directory.GetParent(CurrentPath).FullName);
+				SetFolder(Directory.GetParent(CurrentPath).FullName);
 			}
 
 			return true;
@@ -154,7 +152,53 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 		}
 	}
 
-	internal void setFolder(string folder, bool forced = false, bool fromTextBox = false)
+	private void GoBack(string _)
+	{
+		GoBack();
+	}
+
+	private void AddFolder(string _)
+	{
+		var result = MessagePrompt.ShowInput(LocaleSlickUI.TypeFolderName, inputValidation: x => x.EscapeFileName() == x);
+
+		if (result.DialogResult == DialogResult.OK && !string.IsNullOrWhiteSpace(result.Input) && !string.IsNullOrWhiteSpace(CurrentPath))
+		{
+			Directory.CreateDirectory(CrossIO.Combine(CurrentPath, result.Input));
+
+			RefreshList();
+		}
+	}
+
+	private void ShowTextbox()
+	{
+		PB_Bar.Visible = false;
+		TB_Path.Text = CurrentPath;
+		TB_Path.Visible = true;
+		TB_Path.ImageName = null;
+		BeginInvoke(new Action(() =>
+		{
+			TB_Path.Focus();
+			TB_Path.SelectionStart = TB_Path.Text.Length;
+			TB_Path.Top = PB_Bar.Height - TB_Path.Height + 1;
+		}));
+	}
+
+	private void SetFolder(string folder)
+	{
+		SetFolder(folder, false, false);
+	}
+
+	private void RefreshList(string _)
+	{
+		RefreshList();
+	}
+
+	private void RefreshList()
+	{
+		SetFolder(CurrentPath, true);
+	}
+
+	internal void SetFolder(string folder, bool forced = false, bool fromTextBox = false)
 	{
 		new BackgroundAction("Loading library folder", () =>
 		{
@@ -315,7 +359,7 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 	{
 		this.TryInvoke(() =>
 		{
-			PB_Loader.Visible = false;
+			PB_Bar.Loading = false;
 
 			LoadEnded?.Invoke(this, EventArgs.Empty);
 		});
@@ -333,7 +377,7 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 
 		this.TryInvoke(() =>
 		{
-			PB_Loader.Visible = true;
+			PB_Bar.Loading = true;
 
 			LoadStarted?.Invoke(this, EventArgs.Empty);
 		});
@@ -341,7 +385,7 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 
 	public void folderOpened(DirectoryInfo directory)
 	{
-		setFolder(directory?.FullName);
+		SetFolder(directory?.FullName);
 	}
 
 	public void fileOpened(FileInfo file)
@@ -364,97 +408,129 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 		return ValidFile?.Invoke(file) ?? true;
 	}
 
-	protected override void DesignChanged(FormDesign design)
-	{
-		//PB_Bar.BackColor = design.AccentBackColor;
-	}
-
 	private void P_Bar_Paint(object sender, PaintEventArgs e)
 	{
-		e.Graphics.SetUp(BackColor);
+		e.Graphics.SetUp(PB_Bar.BackColor);
 		hoveredAction = null;
 
 		var mousePos = PB_Bar.PointToClient(Cursor.Position);
 		var w = PB_Bar.Padding.Left;
 		var validRect = PB_Bar.ClientRectangle.Pad(PB_Bar.Padding);
+		var canGoBack = !string.IsNullOrWhiteSpace(CurrentPath) && Directory.GetParent(CurrentPath) != null;
 
-		using (var arrow = IconManager.GetIcon("ArrowRight").Color(FormDesign.Design.ForeColor))
-		using (var font = UI.Font(9F))
-		using (var brush = new SolidBrush(FormDesign.Design.ForeColor))
+		using var home = IconManager.GetIcon("Home", validRect.Height - UI.Scale(3));
+		using var add = IconManager.GetIcon("Add", validRect.Height - UI.Scale(3));
+		using var arrowLeft = IconManager.GetIcon("ArrowLeft", validRect.Height - UI.Scale(3));
+		using var arrowRight = IconManager.GetIcon("ArrowRight", validRect.Height - UI.Scale(3)).Color(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor));
+		using var font = UI.Font(7.5F);
+		using var brush = new SolidBrush(FormDesign.Design.ForeColor);
+
+		var bnds = SizeF.Empty;
+
+		drawItem(null, GoBack, null, arrowLeft);
+		drawItem(null, SetFolder, string.Empty, home);
+
+		if (!string.IsNullOrWhiteSpace(startingFolder) && startingFolder != IOSelectionDialog.CustomDirectory)
 		{
-			var bnds = SizeF.Empty;
+			drawArrow();
 
-			drawItem(null, string.Empty);
+			drawItem(Path.GetFileName(startingFolder).FormatWords().IfEmpty(startingFolder), SetFolder, startingFolder, null);
 
-			if (!string.IsNullOrWhiteSpace(startingFolder) && startingFolder != IOSelectionDialog.CustomDirectory)
+			var currentFolder = startingFolder;
+			var items = new List<string>() { startingFolder };
+
+			foreach (var item in CurrentPath.Remove(startingFolder).Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries))
+			{
+				items.Add(CrossIO.Combine(items[items.Count - 1], item));
+			}
+
+			items.RemoveAt(0);
+
+			var dotted = items.Count >= 4;
+
+			if (dotted)
+			{
+				items = [items[0], .. items.TakeLast(3)];
+			}
+
+			for (var i = 0; i < items.Count; i++)
 			{
 				drawArrow();
 
-				drawItem(Path.GetFileName(startingFolder).FormatWords().IfEmpty(startingFolder), startingFolder);
-
-				var currentFolder = startingFolder;
-				var items = CurrentPath.Remove(startingFolder).Split(new[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
-
-				if (items.Length > 4)
+				if (dotted && i == 1)
 				{
-					items = items.Take(1).Concat(new[] { string.Empty }).Concat(items.TakeLast(3)).ToArray();
-				}
-
-				foreach (var folder in items)
-				{
-					currentFolder = Path.Combine(currentFolder, folder);
-					drawArrow();
-					if (!string.IsNullOrWhiteSpace(folder))
-					{
-						drawItem(folder.FormatWords(), currentFolder);
-					}
-				}
-			}
-
-			void drawItem(string text, string action)
-			{
-				if (text != null)
-				{
-					bnds = e.Graphics.Measure(text, font);
+					drawItem(". . .", SetFolder, items[i], null);
 				}
 				else
 				{
-					bnds = new SizeF(validRect.Height, validRect.Height);
+					drawItem(Path.GetFileName(items[i]), SetFolder, items[i], null);
 				}
-
-				var rect = new Rectangle(w, validRect.Y, 0, validRect.Height).Align(Size.Ceiling(bnds), ContentAlignment.MiddleLeft);
-
-				if (rect.Contains(mousePos))
-				{
-					var i = UI.Scale(3);
-					using (var backBrush = Gradient(PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : Color.FromArgb(120, FormDesign.Design.AccentColor)))
-					{
-						e.Graphics.FillRoundedRectangle(backBrush, rect.Pad(-i), i);
-					}
-
-					hoveredAction = action;
-					Cursor = Cursors.Hand;
-				}
-
-				if (text != null)
-				{
-					e.Graphics.DrawString(text, font, rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? Gradient(FormDesign.Design.ActiveForeColor) : brush, rect);
-				}
-				else
-				{
-					using var homeIcon = IconManager.GetIcon("Home").Color(rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor);
-					e.Graphics.DrawImage(homeIcon, rect.CenterR(homeIcon.Size));
-				}
-
-				w += rect.Width + PB_Bar.Padding.Horizontal;
 			}
+		}
 
-			void drawArrow()
+		w = validRect.Right - validRect.Height;
+
+		if (PB_Bar.Loading)
+		{
+			var rect = new Rectangle(w, validRect.Y, 0, validRect.Height).Align(Size.Ceiling(new SizeF(validRect.Height, validRect.Height)), ContentAlignment.MiddleLeft);
+
+			PB_Bar.DrawLoader(e.Graphics, rect.CenterR(add.Size));
+		}
+		else
+		{
+			using var refresh = IconManager.GetIcon("Refresh", validRect.Height - UI.Scale(3));
+			drawItem(null, RefreshList, null, refresh);
+		}
+
+		w = validRect.Right - validRect.Height * 2 - PB_Bar.Padding.Horizontal;
+
+		drawItem(null, AddFolder, null, add);
+
+		void drawItem(string text, Action<string> action, string actionItem, Bitmap image)
+		{
+			if (text != null)
 			{
-				var rect = new Rectangle(w, validRect.Y, 0, validRect.Height).Align(arrow.Size, ContentAlignment.MiddleLeft);
-				e.Graphics.DrawImage(arrow, rect);
-				w += arrow.Width + PB_Bar.Padding.Horizontal;
+				bnds = e.Graphics.Measure(text, font);
 			}
+			else
+			{
+				bnds = new SizeF(validRect.Height, validRect.Height);
+			}
+
+			var rect = new Rectangle(w, validRect.Y, 0, validRect.Height).Align(Size.Ceiling(bnds), ContentAlignment.MiddleLeft);
+
+			if (rect.Contains(mousePos))
+			{
+				var i = UI.Scale(3);
+				using (var backBrush = Gradient(PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveColor : Color.FromArgb(120, FormDesign.Design.AccentColor)))
+				{
+					e.Graphics.FillRoundedRectangle(backBrush, rect.Pad(-i), i);
+				}
+
+				hoveredAction = action;
+				hoveredItem = actionItem;
+				Cursor = Cursors.Hand;
+			}
+
+			if (text != null)
+			{
+				e.Graphics.DrawString(text, font, rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? Gradient(FormDesign.Design.ActiveForeColor) : brush, rect);
+			}
+			else
+			{
+				image.Color(rect.Contains(mousePos) && PB_Bar.HoverState.HasFlag(HoverState.Pressed) ? FormDesign.Design.ActiveForeColor : FormDesign.Design.ForeColor);
+
+				e.Graphics.DrawImage(image, rect.CenterR(image.Size));
+			}
+
+			w += rect.Width + PB_Bar.Padding.Horizontal;
+		}
+
+		void drawArrow()
+		{
+			var rect = new Rectangle(w, validRect.Y, 0, validRect.Height).Align(arrowRight.Size, ContentAlignment.MiddleLeft);
+			e.Graphics.DrawImage(arrowRight, rect);
+			w += arrowRight.Width + PB_Bar.Padding.Horizontal;
 		}
 
 		if (hoveredAction == null)
@@ -467,21 +543,13 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 	{
 		if (e.Button == MouseButtons.Left)
 		{
-			if (hoveredAction != null)
+			if (hoveredAction is null)
 			{
-				setFolder(hoveredAction);
+				ShowTextbox();
 			}
 			else
 			{
-				PB_Bar.Visible = false;
-				TB_Path.Text = CurrentPath;
-				TB_Path.Visible = true;
-				BeginInvoke(new Action(() =>
-				{
-					TB_Path.Focus();
-					TB_Path.SelectionStart = TB_Path.Text.Length;
-					TB_Path.Top = PB_Bar.Height - TB_Path.Height + 1;
-				}));
+				hoveredAction?.Invoke(hoveredItem);
 			}
 		}
 	}
@@ -605,22 +673,12 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 	{
 		if (TB_Path.Visible)
 		{
-			setFolder(TB_Path.Text, false, true);
+			SetFolder(TB_Path.Text, false, true);
 		}
-	}
-
-	private void Generic_Click(object sender, EventArgs e)
-	{
-		Focus();
 	}
 
 	internal void SortingChanged()
 	{
 		ioList.SortingChanged();
-	}
-
-	private void I_Back_Click(object sender, EventArgs e)
-	{
-		GoBack();
 	}
 }

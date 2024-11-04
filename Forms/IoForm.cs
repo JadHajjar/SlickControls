@@ -31,7 +31,7 @@ public partial class IoForm : BasePanelForm
 
 		folderSelection = folder;
 		_dialog = dialog;
-		L_Title.Text = dialog.Title ?? LocaleHelper.GetGlobalText(folder ? "Select a folder" : "Select a file");
+		Text = L_Title.Text = dialog.Title ?? LocaleHelper.GetGlobalText(folder ? "Select a folder" : "Select a file");
 
 		SlickTip.SetTo(B_GridView, "Switch to Grid-View");
 		SlickTip.SetTo(B_ListView, "Switch to List-View");
@@ -153,6 +153,8 @@ public partial class IoForm : BasePanelForm
 		L_Title.Font = UI.Font(8.25F, FontStyle.Bold);
 		ioSortDropdown.Width = UI.Scale(125);
 		TB_Search.Width = UI.Scale(200);
+		B_GridView.Padding = B_ListView.Padding = UI.Scale(new Padding(3));
+		I_SortDirection.Padding = UI.Scale(new Padding(5));
 		I_SortDirection.Height = ioSortDropdown.Height = 0;
 	}
 
@@ -162,7 +164,7 @@ public partial class IoForm : BasePanelForm
 
 		if (!pi.Selected)
 		{
-			libraryViewer.setFolder(!string.IsNullOrWhiteSpace(pi.Data as string) ? pi.Data as string : null);
+			libraryViewer.SetFolder(!string.IsNullOrWhiteSpace(pi.Data as string) ? pi.Data as string : null);
 		}
 	}
 
