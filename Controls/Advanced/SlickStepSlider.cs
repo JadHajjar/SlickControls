@@ -137,9 +137,9 @@ public class SlickStepSlider : SlickControl
 
 		var lineY = OverheadText ? (Padding.Bottom - UI.Scale(5)) : (Height / 2);
 
-		using var backBrush = new SolidBrush(FormDesign.Design.AccentColor);
+		using var backBrush = new SolidBrush(FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.BackColor));
 		using var activeBrush = new LinearGradientBrush(validArea.Pad(UI.Scale(-8)), FormDesign.Design.ActiveColor, FormDesign.Design.ActiveColor, 0f);
-		using var backPen = new Pen(FormDesign.Design.AccentColor, UI.Scale(6.5f)) { StartCap = LineCap.Round, EndCap = LineCap.Round };
+		using var backPen = new Pen(FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.BackColor, 75), UI.Scale(6.5f)) { StartCap = LineCap.Round, EndCap = LineCap.Round };
 		e.Graphics.DrawLine(backPen, validArea.X, lineY, validArea.Right, lineY);
 
 		activeBrush.InterpolationColors = new ColorBlend

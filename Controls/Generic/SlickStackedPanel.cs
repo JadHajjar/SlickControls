@@ -23,14 +23,19 @@ public class SlickStackedPanel : Panel
 
 	protected override void OnLayout(LayoutEventArgs levent)
 	{
-		if (Controls.Count == 0)
+		DoLayout();
+	}
+
+	private void DoLayout()
+	{
+		if (Controls.Count == 0 || !IsHandleCreated)
 		{
 			return;
 		}
 
-		var columnWidth = ColumnWidth == 0 ? Controls[0].Width : (int)(ColumnWidth * UI.FontScale);
-		var startingX = Padding.Left + (Center ? (Width - Padding.Horizontal) % columnWidth / 2 : 0);
+		var columnWidth = ColumnWidth == 0 ? Controls[0].Width.If(0, 1) : (int)(ColumnWidth * UI.FontScale);
 		var columns = (int)Math.Max(1, Math.Floor((Width - Padding.Horizontal) / (float)columnWidth));
+		var startingX = Padding.Left + (Center ? (Width - Padding.Horizontal - (columns * columnWidth)) / 2 : 0);
 		var currentY = new int[columns];
 		var index = 0;
 

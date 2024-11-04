@@ -3,6 +3,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls;
@@ -24,6 +25,7 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 		EnterTriggersClick = false;
 	}
 
+	[Category("Behavior")]
 	public event EventHandler CheckChanged;
 
 	[Category("Appearance"), DefaultValue(false), DisplayName("Use Toggle Icon")]
@@ -154,6 +156,11 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 		{
 			GetColors(out var fore, out var back);
 
+			if (FadeUnchecked && HoverState == HoverState.Normal)
+			{
+				fore = ColorStyle.GetBackColor();
+			}
+
 			using var image = GetIcon();
 
 			var args = new ButtonDrawArgs
@@ -172,7 +179,7 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 				HoverState = HoverState,
 				LeftAlign = true,
 				ColoredIcon = true,
-				DoNotDrawIcon  = true,
+				DoNotDrawIcon = true,
 				Rectangle = ClientRectangle
 			};
 
@@ -205,13 +212,15 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 			{
 				if (Checked)
 				{
-					using var pen = new Pen(Color.FromArgb(175, ColorStyle.GetColor()), 1.5F) { DashStyle = System.Drawing.Drawing2D.DashStyle.Dash };
-					e.Graphics.DrawRoundedRectangle(pen, new Rectangle(1, 1, Width - 3, Height - 3), 7);
+					using var pen = new Pen(Color.FromArgb(175, ColorStyle.GetColor()), UI.Scale(1.5F)) { Alignment = System.Drawing.Drawing2D.PenAlignment.Inset };
+					using var brush = new SolidBrush(Color.FromArgb(65, ColorStyle.GetColor()));
+					e.Graphics.FillRoundedRectangle(brush, args.Rectangle, Padding.Top);
+					e.Graphics.DrawRoundedRectangle(pen, args.Rectangle, Padding.Top);
 				}
 				else
 				{
 					using var brush = new SolidBrush(Color.FromArgb(85, BackColor));
-					e.Graphics.FillRectangle(brush, new Rectangle(Point.Empty, Size));
+					e.Graphics.FillRectangle(brush, ClientRectangle);
 				}
 			}
 		}

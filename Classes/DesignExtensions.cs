@@ -341,6 +341,48 @@ public static class DesignExtensions
 		}
 	}
 
+	public static void FillRoundedRectangleWithShadow(this Graphics graphics, Rectangle rectangle, int cornerRadius, int shadowLayers, Color? backColor = null, Color? shadow = null, bool addOutline = false)
+	{
+		var shadowColor = shadow ?? (FormDesign.Design.IsDarkTheme ? Color.FromArgb(1, 255, 255, 255) : Color.FromArgb(10, FormDesign.Design.AccentColor));
+		using var brush = new SolidBrush(shadowColor);
+
+		for (var i = shadowLayers; i > 0; i--)
+		{
+			graphics.FillRoundedRectangle(brush, rectangle.Pad(-i), cornerRadius + i);
+		}
+
+		using var brushBack = new SolidBrush(backColor ?? FormDesign.Design.BackColor);
+		graphics.FillRoundedRectangle(brushBack, rectangle, cornerRadius);
+
+		if (addOutline)
+		{
+			using var pen = new Pen(Color.FromArgb(255, shadow ?? FormDesign.Design.AccentColor), UI.Scale(1.5f)) { Alignment = PenAlignment.Center };
+			graphics.DrawRoundedRectangle(pen, rectangle, cornerRadius);
+		}
+	}
+
+	public static void FillRoundShadow(this Graphics graphics, Rectangle rectangle, Color? shadow = null)
+	{
+		var shadowColor = shadow ?? (FormDesign.Design.IsDarkTheme ? Color.FromArgb(50, 255, 255, 255) : Color.FromArgb(75, FormDesign.Design.AccentColor));
+
+		using var ellipsePath = new GraphicsPath();
+		ellipsePath.AddEllipse(rectangle);
+
+		using var brush = new PathGradientBrush(ellipsePath);
+
+		brush.CenterPoint = new PointF(rectangle.X + rectangle.Width / 2f, rectangle.Y + rectangle.Height / 2f);
+		brush.CenterColor = shadowColor;
+		brush.SurroundColors = [shadowColor, default];
+		brush.FocusScales = new PointF(0, 0);
+		brush.InterpolationColors = new ColorBlend(3)
+		{
+			Colors = [shadowColor, shadowColor, default],
+			Positions = [0, 0.85f, 1]
+		};
+
+		graphics.FillRectangle(brush, rectangle);
+	}
+
 	public static Color BackColor(this BannerStyle style)
 	{
 		return style switch

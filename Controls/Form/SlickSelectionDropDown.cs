@@ -162,7 +162,7 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 				listDropDown.BringToFront();
 				listDropDown.SetItems(Items);
 
-				new AnimationHandler(listDropDown, new Size(Width, Math.Min(listDropDown.ItemHeight * Math.Min(11, Items.Length), _form.Height - listDropDown.Top - 15)), 3).StartAnimation();
+				new AnimationHandler(listDropDown, new Size(Width, Math.Min(listDropDown.GetTotalHeight(listDropDown.SafeGetItems()), _form.Height - listDropDown.Top - 15)), 3).StartAnimation();
 			}
 			else
 			{

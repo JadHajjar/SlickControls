@@ -1227,7 +1227,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 			return numRows * GridItemSize.Height;
 		}
 
-		var totalHeight = itemList.Count * (ItemHeight + Padding.Vertical);
+		var totalHeight = itemList.Count * ItemHeight;
 
 		if (SeparateWithLines)
 		{

@@ -114,6 +114,9 @@
     <Compile Include="Controls\Form\SlickSelectionDropDown.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\Form\SlickToggleTile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\Generic\GroupPanels.cs">
       <SubType>Component</SubType>
     </Compile>
