@@ -419,7 +419,7 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 		var canGoBack = !string.IsNullOrWhiteSpace(CurrentPath) && Directory.GetParent(CurrentPath) != null;
 
 		using var home = IconManager.GetIcon("Home", validRect.Height - UI.Scale(3));
-		using var add = IconManager.GetIcon("Add", validRect.Height - UI.Scale(3));
+		using var add = IconManager.GetIcon("AddFolder", validRect.Height - UI.Scale(3));
 		using var arrowLeft = IconManager.GetIcon("ArrowLeft", validRect.Height - UI.Scale(3));
 		using var arrowRight = IconManager.GetIcon("ArrowRight", validRect.Height - UI.Scale(3)).Color(FormDesign.Design.ForeColor.MergeColor(FormDesign.Design.BackColor));
 		using var font = UI.Font(7.5F);
