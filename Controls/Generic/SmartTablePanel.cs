@@ -11,7 +11,7 @@ public class SmartTablePanel : TableLayoutPanel
 	{
 		base.OnLayout(levent);
 
-		var height = Controls.Count == 0 ? 0 : Controls.Max(x => x.Bottom + x.Margin.Bottom);
+		var height = Controls.Count == 0 ? 0 : Controls.Max(x => x.Visible ? x.Bottom + x.Margin.Bottom : 0);
 
 		height += Padding.Bottom;
 

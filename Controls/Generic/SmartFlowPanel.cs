@@ -17,7 +17,7 @@ public class SmartFlowPanel : FlowLayoutPanel
 
 		if (Horizontal)
 		{
-			var width = Controls.Count == 0 ? 0 : Controls.Max(x => x.Right + x.Margin.Right);
+			var width = Controls.Count == 0 ? 0 : Controls.Max(x => x.Visible ? x.Right + x.Margin.Right : 0);
 
 			width += Padding.Right;
 
@@ -28,7 +28,7 @@ public class SmartFlowPanel : FlowLayoutPanel
 		}
 		else
 		{
-			var height = Controls.Count == 0 ? 0 : Controls.Max(x => x.Bottom + x.Margin.Bottom);
+			var height = Controls.Count == 0 ? 0 : Controls.Max(x => x.Visible ? x.Bottom + x.Margin.Bottom : 0);
 
 			height += Padding.Bottom;
 
