@@ -176,8 +176,8 @@
   "SaveChanges": "保存更改",
   "JustNow": "刚刚",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "文件",
+    "Plural": "文件"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created"
+  "TypeFolderName": "输入要新建的文件夹的名称"
 }
