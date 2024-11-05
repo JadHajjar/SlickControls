@@ -235,7 +235,7 @@ public static class FontMeasuring
 		return _cache[key] = graphics.MeasureString(text, dpiFont, width);
 	}
 
-	public static SizeF Measure(string text, Font font, int width = int.MaxValue)
+	public static SizeF Measure(string text, Font font, int width = int.MaxValue, StringFormat format = null)
 	{
 		var key = new StringCache(text, font.FontFamily.Name, font.Size, font.Style, width);
 
@@ -247,7 +247,7 @@ public static class FontMeasuring
 		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
 		using var dpiFont = new Font(font.FontFamily, font.Size * 96 * (float)UI.WindowsScale / graphics.DpiX, font.Style, font.Unit);
 
-		return _cache[key] = graphics.MeasureString(text, dpiFont, width);
+		return _cache[key] = graphics.MeasureString(text, dpiFont, width, format);
 	}
 
 	public static Rectangle AlignToFontSize(this Rectangle rectangle, Font font, ContentAlignment contentAlignment = ContentAlignment.MiddleCenter, Graphics graphics = null, bool upperBounds = false)
