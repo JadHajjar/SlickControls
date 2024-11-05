@@ -39,9 +39,20 @@ public class AutoSizeLabel : SlickControl
 
 		var availableSize = GetAvailableSize();
 
+		using var format = new StringFormat
+		{
+			Alignment = HorizontalAlignment,
+			LineAlignment = VerticalAlignment
+		};
+
+		if (RightToLeft == RightToLeft.Yes)
+		{
+			format.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+		}
+
 		var width = Math.Min(availableSize.Width, Padding.Horizontal + (int)FontMeasuring.Measure(Text, Font).Width);
 
-		return new Size(width, Math.Min(availableSize.Height, Padding.Vertical + (int)FontMeasuring.Measure(Text, Font, width - Padding.Horizontal).Height));
+		return new Size(width, Math.Min(availableSize.Height, Padding.Vertical + (int)FontMeasuring.Measure(Text, Font, width - Padding.Horizontal, format).Height));
 	}
 
 	protected override void OnPaint(PaintEventArgs e)
@@ -57,6 +68,11 @@ public class AutoSizeLabel : SlickControl
 			Alignment = HorizontalAlignment,
 			LineAlignment = VerticalAlignment
 		};
+
+		if (RightToLeft == RightToLeft.Yes)
+		{
+			format.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+		}
 
 		e.Graphics.DrawString(Text, font, brush, ClientRectangle.Pad(Padding), format);
 	}
