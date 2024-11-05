@@ -46,6 +46,21 @@ public class SlickStepSlider : SlickControl
 		Cursor = Cursors.Hand;
 	}
 
+	public void SetDefaultProgressiveColorPoints()
+	{
+		var colors = new Color[Items.Length];
+
+		for (var i = 0; i < Items.Length; i++)
+		{
+			colors[i] = FormDesign.Design.YellowColor
+				.MergeColor(FormDesign.Design.RedColor, (int)(100 * ((float)i / (Items.Length - 1)).Between(0, 1)))
+				.MergeColor(FormDesign.Design.GreenColor, (int)(100 * ((float)(Items.Length - i - 1) / (Items.Length - 1)).Between(0, 1)))
+				.Tint(Sat: 25, Lum: 5);
+		}
+
+		Colors = colors;
+	}
+
 	protected override void OnMouseDown(MouseEventArgs e)
 	{
 		base.OnMouseDown(e);
@@ -135,11 +150,11 @@ public class SlickStepSlider : SlickControl
 
 		validArea = validArea.Pad(UI.Scale(8), 0, UI.Scale(8), 0);
 
-		var lineY = OverheadText ? (Padding.Bottom - UI.Scale(5)) : (Height / 2);
+		var lineY = OverheadText ? (Height - Padding.Bottom - UI.Scale(8)) : (Height / 2);
 
 		using var backBrush = new SolidBrush(FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.BackColor));
 		using var activeBrush = new LinearGradientBrush(validArea.Pad(UI.Scale(-8)), FormDesign.Design.ActiveColor, FormDesign.Design.ActiveColor, 0f);
-		using var backPen = new Pen(FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.BackColor, 75), UI.Scale(6.5f)) { StartCap = LineCap.Round, EndCap = LineCap.Round };
+		using var backPen = new Pen(FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.BackColor, 75), UI.Scale(OverheadText ? 3f : 6.5f)) { StartCap = LineCap.Round, EndCap = LineCap.Round };
 		e.Graphics.DrawLine(backPen, validArea.X, lineY, validArea.Right, lineY);
 
 		activeBrush.InterpolationColors = new ColorBlend
@@ -160,38 +175,36 @@ public class SlickStepSlider : SlickControl
 		{
 			if (OverheadText)
 			{
-				e.Graphics.FillEllipse(backBrush, new Rectangle(validArea.X + (validArea.Width * i / (Items.Length - 1)), lineY, 0, 0).Pad(UI.Scale(-8)));
+				e.Graphics.FillEllipse(backBrush, new Rectangle(validArea.X + (validArea.Width * i / (Items.Length - 1)), lineY, 0, 0).Pad(UI.Scale(-6)));
 
 				if (Progressive && currentIndex >= i)
 				{
-					e.Graphics.FillEllipse(activeBrush, new Rectangle(validArea.X + (validArea.Width * i / (Items.Length - 1)), lineY, 0, 0).Pad(UI.Scale(-6)));
+					e.Graphics.FillEllipse(activeBrush, new Rectangle(validArea.X + (validArea.Width * i / (Items.Length - 1)), lineY, 0, 0).Pad(UI.Scale(i == currentIndex ? -8 : -6)));
 				}
+			}
+
+			using var font = UI.Font(6.25f, FontStyle.Bold);
+			var text = TextConversion(Items[i]);
+			var mainRect = getMainRect(i, font, text);
+
+			if (Progressive && currentIndex >= i)
+			{
+				using var brush = new SolidBrush(GetColor(i));
+				e.Graphics.FillRoundedRectangle(brush, mainRect, UI.Scale(3));
+			}
+			else if (mainRect.Contains(cursor))
+			{
+				using var brush = new SolidBrush(GetColor(i).MergeColor(backBrush.Color, 75));
+				e.Graphics.FillRoundedRectangle(brush, mainRect, UI.Scale(3));
 			}
 			else
 			{
-				using var font = UI.Font(6.25f, FontStyle.Bold);
-				var text = TextConversion(Items[i]);
-				var mainRect = new Rectangle(validArea.X + (validArea.Width * i / (Items.Length - 1)), lineY, 0, 0).Pad(UI.Scale(-5)).Align(e.Graphics.Measure(text, font).ToSize() + UI.Scale(new Size(4, 2)), i == 0 ? ContentAlignment.MiddleLeft : i == Items.Length - 1 ? ContentAlignment.MiddleRight : ContentAlignment.MiddleCenter);
-
-				if (Progressive && currentIndex >= i)
-				{
-					using var brush = new SolidBrush(GetColor(i));
-					e.Graphics.FillRoundedRectangle(brush, mainRect, UI.Scale(3));
-				}
-				else if (mainRect.Contains(cursor))
-				{
-					using var brush = new SolidBrush(GetColor(i).MergeColor(backBrush.Color, 75));
-					e.Graphics.FillRoundedRectangle(brush, mainRect, UI.Scale(3));
-				}
-				else
-				{
-					e.Graphics.FillRoundedRectangle(backBrush, mainRect, UI.Scale(3));
-				}
-
-				using var textBrush = new SolidBrush(Progressive && currentIndex >= i ? GetColor(i).GetTextColor() : FormDesign.Design.ForeColor);
-				using var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
-				e.Graphics.DrawString(text, font, textBrush, mainRect, format);
+				e.Graphics.FillRoundedRectangle(backBrush, mainRect, UI.Scale(3));
 			}
+
+			using var textBrush = new SolidBrush(Progressive && currentIndex >= i ? GetColor(i).GetTextColor() : FormDesign.Design.ForeColor);
+			using var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+			e.Graphics.DrawString(text, font, textBrush, mainRect, format);
 		}
 
 		if (OverheadText && Progressive)
@@ -202,20 +215,56 @@ public class SlickStepSlider : SlickControl
 
 		if (SelectedItem is not null)
 		{
-			using var font = UI.Font(7.5f, FontStyle.Bold);
+			using var font = UI.Font(OverheadText ? 8.25f : 7.5f, FontStyle.Bold);
 			var text = TextConversion(SelectedItem);
-			var mainRect = new Rectangle(validArea.X + (validArea.Width * currentIndex / (Items.Length - 1)), lineY, 0, 0).Pad(UI.Scale(-5)).Align(e.Graphics.Measure(text, font).ToSize() + UI.Scale(new Size(6, 4)), currentIndex == 0 ? ContentAlignment.MiddleLeft : currentIndex == Items.Length - 1 ? ContentAlignment.MiddleRight : ContentAlignment.MiddleCenter);
+			var mainRect = getMainRect(currentIndex, font, text);
 
-			e.Graphics.FillRoundedRectangleWithShadow(mainRect, UI.Scale(3), UI.Scale(4), GetColor(currentIndex), Color.FromArgb(15, GetColor(currentIndex)));
+			if (!OverheadText && Progressive)
+			{
+				using var gradient = new LinearGradientBrush(new Rectangle(0, 0, mainRect.X, Height), Color.FromArgb(125, BackColor), Color.FromArgb(25, BackColor), 0f);
+
+				e.Graphics.FillRectangle(gradient, new Rectangle(1, 1, mainRect.X - 2, Height - 2));
+			}
+			else if (!Progressive)
+			{
+				using var shadow = new SolidBrush(Color.FromArgb(65, BackColor));
+
+				e.Graphics.FillRectangle(shadow, ClientRectangle);
+			}
+
+			e.Graphics.FillRoundedRectangleWithShadow(mainRect, UI.Scale(4), UI.Scale(4), GetColor(currentIndex), Color.FromArgb(15, GetColor(currentIndex)));
 
 			using var textBrush = new SolidBrush(GetColor(currentIndex).GetTextColor());
 			using var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
 			e.Graphics.DrawString(text, font, textBrush, mainRect, format);
 		}
+
+		Rectangle getMainRect(int i, Font font, string text)
+		{
+			ContentAlignment alignment;
+
+			if (OverheadText)
+			{
+				alignment = i == 0 ? ContentAlignment.BottomLeft : i == Items.Length - 1 ? ContentAlignment.BottomRight : ContentAlignment.BottomCenter;
+			}
+			else
+			{
+				alignment = i == 0 ? ContentAlignment.MiddleLeft : i == Items.Length - 1 ? ContentAlignment.MiddleRight : ContentAlignment.MiddleCenter;
+			}
+
+			return new Rectangle(validArea.X + (validArea.Width * i / (Items.Length - 1)), OverheadText ? 0 : lineY, 0, OverheadText ? lineY - UI.Scale(16) - Padding.Bottom : 0)
+				.Pad(UI.Scale(-5))
+				.Align(e.Graphics.Measure(text, font).ToSize() + UI.Scale(new Size(6, 3)), alignment);
+		}
 	}
 
 	private Color GetColor(int index)
 	{
-		return Colors != null && Colors.Length > index ? Colors[index] : FormDesign.Design.ActiveColor;
+		var color = Colors != null && Colors.Length > index ? Colors[index] : FormDesign.Design.ActiveColor;
+		
+		if (index != (SelectedItem is null ? 0 : Items.IndexOf(SelectedItem)))
+			return color.MergeColor(FormDesign.Design.AccentColor.MergeColor(FormDesign.Design.BackColor), 60);
+
+		return color;
 	}
 }

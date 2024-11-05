@@ -13,6 +13,9 @@ public class SlickStackedPanel : Panel
 	public int ColumnWidth { get; set; }
 
 	[Category("Behavior"), DefaultValue(false)]
+	public bool ColumnWidthIsPercentage { get; set; }
+
+	[Category("Behavior"), DefaultValue(false)]
 	public bool Center { get; set; }
 
 	[Category("Behavior"), DefaultValue(false)]
@@ -33,7 +36,7 @@ public class SlickStackedPanel : Panel
 			return;
 		}
 
-		var columnWidth = ColumnWidth == 0 ? Controls[0].Width.If(0, 1) : (int)(ColumnWidth * UI.FontScale);
+		var columnWidth = ColumnWidth == 0 ? Controls[0].Width.If(0, 1) : ColumnWidthIsPercentage ? ((Width - Padding.Horizontal) * ColumnWidth / 100) : (int)(ColumnWidth * UI.FontScale);
 		var columns = (int)Math.Max(1, Math.Floor((Width - Padding.Horizontal) / (float)columnWidth));
 		var startingX = Padding.Left + (Center ? (Width - Padding.Horizontal - (columns * columnWidth)) / 2 : 0);
 		var currentY = new int[columns];

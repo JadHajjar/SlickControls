@@ -28,6 +28,8 @@ public partial class BasePanelForm : SlickForm
 
 	public event Func<Message, Keys, bool> HandleKeyPress;
 
+	public event EventHandler<Point> GlobalMouseMove;
+
 	public PanelContent CurrentPanel { get; private set; }
 
 	[Category("Appearance")]
@@ -60,7 +62,7 @@ public partial class BasePanelForm : SlickForm
 		set
 		{
 			autoHideMenu = value;
-			mouseDetector_MouseMove(null, Cursor.Position);
+			MouseDetector_MouseMove(null, Cursor.Position);
 
 			if (!value)
 			{
@@ -91,7 +93,7 @@ public partial class BasePanelForm : SlickForm
 
 			if (autoHideMenu)
 			{
-				mouseDetector_MouseMove(null, Cursor.Position);
+				MouseDetector_MouseMove(null, Cursor.Position);
 			}
 
 			base_P_Tabs.FilterChanged();
@@ -526,7 +528,7 @@ public partial class BasePanelForm : SlickForm
 		if (!DesignMode)
 		{
 			mouseDetector = new MouseDetector();
-			mouseDetector.MouseMove += mouseDetector_MouseMove;
+			mouseDetector.MouseMove += MouseDetector_MouseMove;
 
 			var options = SaveHandler.Instance.Load<SlickUISettings>();
 
@@ -840,7 +842,7 @@ public partial class BasePanelForm : SlickForm
 		base.OnKeyUp(e);
 	}*/
 
-	private void mouseDetector_MouseMove(object sender, Point p)
+	private void MouseDetector_MouseMove(object sender, Point p)
 	{
 		if (AutoHideMenu && CurrentFormState != FormState.NormalUnfocused && WindowState != FormWindowState.Minimized)
 		{
@@ -860,6 +862,8 @@ public partial class BasePanelForm : SlickForm
 		}
 
 		CurrentPanel?.GlobalMouseMove(p);
+
+		GlobalMouseMove?.Invoke(this, p);
 	}
 
 	private void setSmallMenu()
