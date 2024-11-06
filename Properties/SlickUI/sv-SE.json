@@ -179,5 +179,6 @@
     "One": "File",
     "Plural": "Files"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created"
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here"
 }
