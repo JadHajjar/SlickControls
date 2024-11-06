@@ -131,7 +131,7 @@ public partial class SlickTabControl : SlickControl
 
 			var tab = sender as Tab;
 			var ctrl = tab.LinkedControl;
-			noResults = tab.NoControlText.IfEmpty("Nothing to see here");
+			noResults = tab.NoControlText.IfEmpty(LocaleSlickUI.NothingToSeeHere);
 
 			P_Content.Controls.Clear(false, x => x != ScrollBar);
 			P_Content.Invalidate();
