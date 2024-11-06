@@ -179,5 +179,6 @@
     "One": "Fichier",
     "Plural": "Fichiers"
   },
-  "TypeFolderName": "Entrez le nom du dossier à créer"
+  "TypeFolderName": "Entrez le nom du dossier à créer",
+  "NothingToSeeHere": "Nothing to see here"
 }
