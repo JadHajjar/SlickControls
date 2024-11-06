@@ -187,7 +187,7 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 
 	protected override void OnMouseMove(MouseEventArgs e)
 	{
-		if (AutoInvalidate)
+		if (AutoInvalidate && !SlickScroll.IsAnimating)
 		{
 			Invalidate();
 		}

@@ -374,37 +374,37 @@ public partial class NotificationForm : Form
 		switch (Notification.Icon)
 		{
 			case PromptIcons.Hand:
-				icon = IconManager.GetIcon("Hand", Height / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("Hand", UI.Scale(32)).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Info:
-				icon = IconManager.GetIcon("Info", Height / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("Info", UI.Scale(32)).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Input:
-				icon = IconManager.GetIcon("Edit", Height / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("Edit", UI.Scale(32)).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Question:
-				icon = IconManager.GetIcon("Question", Height / 2).Color(design.LabelColor);
+				icon = IconManager.GetIcon("Question", UI.Scale(32)).Color(design.LabelColor);
 				color = design.ActiveColor;
 				break;
 
 			case PromptIcons.Warning:
-				icon = IconManager.GetIcon("Warning", Height / 2).Color(design.YellowColor);
+				icon = IconManager.GetIcon("Warning", UI.Scale(32)).Color(design.YellowColor);
 				color = design.YellowColor;
 				break;
 
 			case PromptIcons.Error:
-				icon = IconManager.GetIcon("Error", Height / 2).Color(design.RedColor);
+				icon = IconManager.GetIcon("Error", UI.Scale(32)).Color(design.RedColor);
 				color = design.RedColor;
 				break;
 
 			case PromptIcons.Ok:
-				icon = IconManager.GetIcon("Ok", Height / 2).Color(design.GreenColor);
+				icon = IconManager.GetIcon("Ok", UI.Scale(32)).Color(design.GreenColor);
 				color = design.GreenColor;
 				break;
 

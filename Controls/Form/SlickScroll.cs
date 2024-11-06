@@ -135,8 +135,16 @@ public partial class SlickScroll : Control, IAnimatable
 		{
 			lock (activeScrolls)
 			{
-				return activeScrolls.Any(x => x.ScrollTimer.Enabled);
+				for (var i = 0; i < activeScrolls.Count; i++)
+				{
+					if (activeScrolls[i].ScrollTimer.Enabled)
+					{
+						return true;
+					}
+				}
 			}
+
+			return false;
 		}
 	}
 
