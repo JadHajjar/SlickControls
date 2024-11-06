@@ -179,5 +179,6 @@
     "One": "文件",
     "Plural": "文件"
   },
-  "TypeFolderName": "输入要新建的文件夹的名称"
+  "TypeFolderName": "输入要新建的文件夹的名称",
+  "NothingToSeeHere": "Nothing to see here"
 }
