@@ -179,5 +179,6 @@
     "One": "Archivo",
     "Plural": "Archivos"
   },
-  "TypeFolderName": "Escriba el nombre de la nueva carpeta"
+  "TypeFolderName": "Escriba el nombre de la nueva carpeta",
+  "NothingToSeeHere": "Nothing to see here"
 }
