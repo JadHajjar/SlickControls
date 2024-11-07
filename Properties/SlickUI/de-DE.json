@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Suchen..",
   "Loading": "Lädt...",
   "Back": "Zurück",
   "Filters": "Filter",
@@ -176,9 +176,10 @@
   "SaveChanges": "Änderungen Speichern",
   "JustNow": "Jetzt",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Datei",
+    "Plural": "Dateien"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here"
+  "TypeFolderName": "Geben Sie den Namen des neu zu erstellenden Ordners ein",
+  "NothingToSeeHere": "Hier gibt's nichts zu sehen",
+  "OpenFolderLocation": "Open file location"
 }
