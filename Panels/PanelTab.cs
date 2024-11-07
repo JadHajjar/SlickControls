@@ -1,11 +1,8 @@
 ﻿using Extensions;
 
-using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-
-using static SlickControls.PanelItemControl;
 
 namespace SlickControls;
 
@@ -47,24 +44,27 @@ public class PanelTab
 	{
 		var clientRectangle = e.ClipRectangle;
 
+		if (e.ClipRectangle.Size == default)
+		{
+			return;
+		}
+
 		if (IsSeparator)
 		{
-			using (var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale)))
-			{
-				e.Graphics.DrawLine(pen, small ? 0 : UI.Scale(10), clientRectangle.Y + (clientRectangle.Height / 2), clientRectangle.Width - (small ? 0 : (2 * UI.Scale(10))), clientRectangle.Y + (clientRectangle.Height / 2));
-			}
+			using var pen = new Pen(FormDesign.Design.AccentColor, (float)(1.5 * UI.FontScale));
+
+			e.Graphics.DrawLine(pen, small ? 0 : UI.Scale(10), clientRectangle.Y + (clientRectangle.Height / 2), clientRectangle.Width - (small ? 0 : (2 * UI.Scale(10))), clientRectangle.Y + (clientRectangle.Height / 2));
 
 			return;
 		}
 
 		if (IsGroupHeader)
 		{
-			using (var brush = new SolidBrush(FormDesign.Design.LabelColor))
-			using (var format = new StringFormat { LineAlignment = StringAlignment.Center })
-			using (var font = UI.Font(8.25F, FontStyle.Bold).FitTo(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), clientRectangle, e.Graphics))
-			{
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), font, brush, clientRectangle, format);
-			}
+			using var brush = new SolidBrush(FormDesign.Design.LabelColor);
+			using var format = new StringFormat { LineAlignment = StringAlignment.Center };
+			using var font = UI.Font(8.25F, FontStyle.Bold).FitTo(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), clientRectangle, e.Graphics);
+
+			e.Graphics.DrawString(LocaleHelper.GetGlobalText(GroupText).ToString().ToUpper(), font, brush, clientRectangle, format);
 
 			return;
 		}
@@ -197,9 +197,9 @@ public class PanelTab
 
 			textRect = textRect.Pad(UI.Scale(10) + iconWidth, bar, bar, bar);
 
-			using var font = UI.Font(8.25F).FitTo(text,textRect,e.Graphics);
+			using var font = UI.Font(8.25F).FitTo(text, textRect, e.Graphics);
 
-			e.Graphics.DrawString(text, font, brush, textRect,format);
+			e.Graphics.DrawString(text, font, brush, textRect, format);
 		}
 	}
 }

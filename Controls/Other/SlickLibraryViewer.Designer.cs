@@ -61,7 +61,7 @@
 			this.TB_Path.MaximumSize = new System.Drawing.Size(9999, 0);
 			this.TB_Path.MinimumSize = new System.Drawing.Size(50, 35);
 			this.TB_Path.Name = "TB_Path";
-			this.TB_Path.Padding = new System.Windows.Forms.Padding(4, 10, 4, 10);
+			this.TB_Path.Padding = new System.Windows.Forms.Padding(5, 7, 5, 7);
 			this.TB_Path.Placeholder = "Folder Path";
 			this.TB_Path.SelectedText = "";
 			this.TB_Path.SelectionLength = 0;
@@ -73,6 +73,7 @@
 			this.TB_Path.TextChanged += new System.EventHandler(this.TB_Path_TextChanged);
 			this.TB_Path.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TB_Path_KeyPress);
 			this.TB_Path.Leave += new System.EventHandler(this.TB_Path_Leave);
+			this.TB_Path.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TB_Path_PreviewKeyDown);
 			// 
 			// ioList
 			// 

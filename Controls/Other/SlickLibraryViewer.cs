@@ -681,4 +681,13 @@ public partial class SlickLibraryViewer : SlickControl, IO.IController
 	{
 		ioList.SortingChanged();
 	}
+
+	private void TB_Path_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+	{
+		if (e.KeyCode == Keys.Enter)
+		{
+			PB_Bar.Visible = true;
+			TB_Path.Visible = false;
+		}
+	}
 }

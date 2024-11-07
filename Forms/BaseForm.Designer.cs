@@ -197,12 +197,12 @@
 		}
 
 		#endregion
-		private System.Windows.Forms.ToolTip base_toolTip;
-		private System.Windows.Forms.Panel base_P_Top;
-		private System.Windows.Forms.Label base_L_Title;
+		protected System.Windows.Forms.ToolTip base_toolTip;
+		protected System.Windows.Forms.Panel base_P_Top;
+		protected System.Windows.Forms.Label base_L_Title;
 		protected System.Windows.Forms.Panel base_P_Content;
 		protected System.Windows.Forms.Panel base_P_Controls;
-		private System.Windows.Forms.TableLayoutPanel base_TLP_TopButtons;
+		protected System.Windows.Forms.TableLayoutPanel base_TLP_TopButtons;
         protected System.Windows.Forms.Panel base_P_Top_Spacer;
     }
 }
