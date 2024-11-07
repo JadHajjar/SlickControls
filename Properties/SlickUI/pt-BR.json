@@ -176,9 +176,9 @@
   "SaveChanges": "Salvar Alterações",
   "JustNow": "Agora mesmo",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Arquivo",
+    "Plural": "Arquivos"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here"
+  "TypeFolderName": "Digite o nome da nova pasta que será criada",
+  "NothingToSeeHere": "Nada para ver aqui"
 }
