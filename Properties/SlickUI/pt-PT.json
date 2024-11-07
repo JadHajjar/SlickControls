@@ -180,5 +180,6 @@
     "Plural": "Ficheiros"
   },
   "TypeFolderName": "Escreve o nome da nova pasta a ser criada",
-  "NothingToSeeHere": "Nothing to see here"
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }
