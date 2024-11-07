@@ -503,6 +503,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation OpenFile => _instance.GetText("Open File");
 
 	/// <summary>
+	/// Open file location
+	/// </summary>
+	public static Translation OpenFolderLocation => _instance.GetText("OpenFolderLocation");
+
+	/// <summary>
 	/// Options
 	/// </summary>
 	public static Translation Options => _instance.GetText("Options");
