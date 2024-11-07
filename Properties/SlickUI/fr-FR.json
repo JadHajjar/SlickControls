@@ -180,5 +180,6 @@
     "Plural": "Fichiers"
   },
   "TypeFolderName": "Entrez le nom du dossier à créer",
-  "NothingToSeeHere": "Rien à voir ici"
+  "NothingToSeeHere": "Rien à voir ici",
+  "OpenFolderLocation": "Ouvrir l'emplacement du fichier"
 }
