@@ -1,5 +1,5 @@
 {
-  "Search": "Поиск",
+  "Search": "Search..",
   "Loading": "Загрузка...",
   "Back": "Назад",
   "Filters": "Фильтры",
@@ -174,5 +174,12 @@
   "Login": "Вход",
   "Remember me": "Запомнить меня",
   "SaveChanges": "Сохранить изменения",
-  "JustNow": "Только что"
+  "JustNow": "Только что",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }

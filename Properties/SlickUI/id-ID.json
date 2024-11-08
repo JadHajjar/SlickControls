@@ -1,5 +1,5 @@
 {
-  "Search": "Mencari",
+  "Search": "Search..",
   "Loading": "Memuat..",
   "Back": "Kembali",
   "Filters": "Filter",
@@ -174,5 +174,12 @@
   "Login": "Login",
   "Remember me": "Remember me",
   "SaveChanges": "Save Changes",
-  "JustNow": "Just Now"
+  "JustNow": "Just Now",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }

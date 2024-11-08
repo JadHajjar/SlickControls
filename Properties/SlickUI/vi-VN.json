@@ -1,5 +1,5 @@
 {
-  "Search": "Tìm kiếm",
+  "Search": "Search..",
   "Loading": "Đang tải..",
   "Back": "Phía sau",
   "Filters": "Bộ lọc",
@@ -174,5 +174,12 @@
   "Login": "Đăng nhập",
   "Remember me": "Nhớ mật khẩu",
   "SaveChanges": "Lưu thay đổi",
-  "JustNow": "Vừa mới"
+  "JustNow": "Vừa mới",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }

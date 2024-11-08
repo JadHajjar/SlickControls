@@ -1,5 +1,5 @@
 {
-  "Search": "Keresés",
+  "Search": "Search..",
   "Loading": "Betöltés..",
   "Back": "Vissza",
   "Filters": "Szűrők",
@@ -174,5 +174,12 @@
   "Login": "Bejelentkezés",
   "Remember me": "Emlékezzen rám",
   "SaveChanges": "Változtatások mentése",
-  "JustNow": "Épp most"
+  "JustNow": "Épp most",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }

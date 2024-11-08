@@ -1,5 +1,5 @@
 {
-  "Search": "Cerca",
+  "Search": "Search..",
   "Loading": "Caricamento...",
   "Back": "Indietro",
   "Filters": "Filtri",
@@ -174,5 +174,12 @@
   "Login": "Login",
   "Remember me": "Ricordami",
   "SaveChanges": "Salva le modifiche",
-  "JustNow": "Adesso"
+  "JustNow": "Adesso",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }

@@ -1,5 +1,5 @@
 {
-  "Search": "ค้นหา",
+  "Search": "Search..",
   "Loading": "กำลังโหลด..",
   "Back": "ย้อนกลับ",
   "Filters": "ตัวกรอง",
@@ -174,5 +174,12 @@
   "Login": "เข้าระบบ",
   "Remember me": "จำการเข้าระบบของฉันไว้",
   "SaveChanges": "บันทึกการเปลี่ยนแปลง",
-  "JustNow": "Just Now"
+  "JustNow": "Just Now",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }

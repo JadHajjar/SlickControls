@@ -1,5 +1,5 @@
 {
-  "Search": "Arama",
+  "Search": "Search..",
   "Loading": "Yükleniyor..",
   "Back": "Geri",
   "Filters": "Filtreler",
@@ -174,5 +174,12 @@
   "Login": "Giriş Yap",
   "Remember me": "Beni Hatırla",
   "SaveChanges": "Değişiklikleri Kaydet",
-  "JustNow": "Hemen Şimdi"
+  "JustNow": "Hemen Şimdi",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }

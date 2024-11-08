@@ -1,5 +1,5 @@
 {
-  "Search": "Suchen",
+  "Search": "Suchen..",
   "Loading": "Lädt...",
   "Back": "Zurück",
   "Filters": "Filter",
@@ -174,5 +174,12 @@
   "Login": "Anmelden",
   "Remember me": "Anmeldedaten speichern",
   "SaveChanges": "Änderungen Speichern",
-  "JustNow": "Jetzt"
+  "JustNow": "Jetzt",
+  "File": {
+    "One": "Datei",
+    "Plural": "Dateien"
+  },
+  "TypeFolderName": "Geben Sie den Namen des neu zu erstellenden Ordners ein",
+  "NothingToSeeHere": "Hier gibt's nichts zu sehen",
+  "OpenFolderLocation": "Open file location"
 }

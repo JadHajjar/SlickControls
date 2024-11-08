@@ -1,5 +1,5 @@
 {
-  "Search": "Pretraga",
+  "Search": "Search..",
   "Loading": "Učitavanje..",
   "Back": "Nazad",
   "Filters": "Filteri",
@@ -174,5 +174,12 @@
   "Login": "Prijava",
   "Remember me": "Zapamti me",
   "SaveChanges": "Sačuvaj izmene",
-  "JustNow": "Upravo sada"
+  "JustNow": "Upravo sada",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }

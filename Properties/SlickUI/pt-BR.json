@@ -1,5 +1,5 @@
 {
-  "Search": "Procurar",
+  "Search": "Procurar..",
   "Loading": "Carregando..",
   "Back": "Voltar",
   "Filters": "Filtros",
@@ -174,5 +174,12 @@
   "Login": "Conectar-se",
   "Remember me": "Manter sessão iniciada",
   "SaveChanges": "Salvar Alterações",
-  "JustNow": "Just Now"
+  "JustNow": "Agora mesmo",
+  "File": {
+    "One": "Arquivo",
+    "Plural": "Arquivos"
+  },
+  "TypeFolderName": "Digite o nome da nova pasta que será criada",
+  "NothingToSeeHere": "Nada para ver aqui",
+  "OpenFolderLocation": "Abrir local do arquivo"
 }

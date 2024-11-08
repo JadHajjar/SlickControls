@@ -1,5 +1,5 @@
 {
-  "Search": "Chercher",
+  "Search": "Rechercher..",
   "Loading": "Chargement..",
   "Back": "Retour",
   "Filters": "Filtres",
@@ -174,5 +174,12 @@
   "Login": "Connexion",
   "Remember me": "Se souvenir de moi",
   "SaveChanges": "Enregistrer les modifications",
-  "JustNow": "À l'instant"
+  "JustNow": "À l'instant",
+  "File": {
+    "One": "Fichier",
+    "Plural": "Fichiers"
+  },
+  "TypeFolderName": "Entrez le nom du dossier à créer",
+  "NothingToSeeHere": "Rien à voir ici",
+  "OpenFolderLocation": "Ouvrir l'emplacement du fichier"
 }

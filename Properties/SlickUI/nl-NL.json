@@ -1,5 +1,5 @@
 {
-  "Search": "Zoeken",
+  "Search": "Search..",
   "Loading": "Laden..",
   "Back": "Terug",
   "Filters": "Filters",
@@ -174,5 +174,12 @@
   "Login": "Inloggen",
   "Remember me": "Onthoud mij",
   "SaveChanges": "Wijzigingen opslaan",
-  "JustNow": "Nu net"
+  "JustNow": "Nu net",
+  "File": {
+    "One": "File",
+    "Plural": "Files"
+  },
+  "TypeFolderName": "Type in the name of the new folder to be created",
+  "NothingToSeeHere": "Nothing to see here",
+  "OpenFolderLocation": "Open file location"
 }
