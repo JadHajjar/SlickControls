@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Hledat..",
   "Loading": "Načítání..",
   "Back": "Zpět",
   "Filters": "Filtry",
@@ -8,14 +8,14 @@
   "Actions": "Akce",
   "Utilities": "Nástroje",
   "Options": "Možnosti",
-  "Total": "Celkový",
-  "Sorting": "Třídění",
+  "Total": "Celkem",
+  "Sorting": "Seřazení",
   "Content": "Obsah",
-  "Other": "jiný",
-  "Date Modified": "Datum úpravy",
+  "Other": "Ostatní",
+  "Date Modified": "Datum změny",
   "Date Created": "Datum vytvoření",
-  "Copy": "kopírovat",
-  "Tags": "Tagy",
+  "Copy": "Kopírovat",
+  "Tags": "Štítky",
   "This PC": "Tento PC",
   "Common Folders": "Běžné složky",
   "Select a file": "Vyberte soubor",
@@ -49,12 +49,12 @@
   "Close": "Zavřít",
   "Smaller Menu": "Menší nabídka",
   "Auto-Hide Menu": "Automaticky skrýt menu",
-  "Theme Changer": "Theme Changer",
+  "Theme Changer": "Změna Motivu",
   "Switch To": "Přepnout na",
   "Modern": "Moderní",
   "Berry Blues": "Berry Blues",
   "Ice": "Ledový",
-  "Chic": "Kozí",
+  "Chic": "Chic",
   "Strawberries": "Jahody",
   "Dark": "Tmavý",
   "Golden Forest": "Zlatý les",
@@ -63,7 +63,7 @@
   "Go back to {0}": "Přejít zpět na {0}",
   "All Versions": "Všechny verze",
   "Current Version": "Aktuální verze",
-  "Profiles": "Profiles",
+  "Profiles": "Profily",
   "Drives": "Disky",
   "Switch to Grid-View": "Přepnout na zobrazení mřížky",
   "Switch to List-View": "Přepnout na seznam",
@@ -74,14 +74,14 @@
   "Disable Animations": "Zakázat animace",
   "Auto Night-Mode": "Automatický noční režim",
   "UI Scale": "Měřítko uživatelského rozhraní",
-  "Font Family": "Rodina písma",
-  "Randomize": "Náhodně",
-  "Reset": "Reset",
+  "Font Family": "Písmo",
+  "Randomize": "Náhodné",
+  "Reset": "Obnovit",
   "Apply": "Použít",
   "Background": "Pozadí",
   "Text": "Text",
   "Menu Background": "Pozadí menu",
-  "Menu Text": "Text nabídky",
+  "Menu Text": "Text menu",
   "Button": "Tlačítko",
   "Button Text": "Text tlačítka",
   "Active": "Aktivní",
@@ -96,12 +96,12 @@
   "Download": "Stáhnout",
   "Remove": "Odebrat",
   "Confirmation": "Potvrzení",
-  "Edit Color": "Edit Color",
-  "Reset Color": "Reset Color",
+  "Edit Color": "Upravit barvu",
+  "Reset Color": "Obnovit barvu",
   "Welcome to Theme Changer!": "Vítejte ve změně motivů!",
-  "In here, you can customize the scale and colors of the App to your liking.": "In here, you can customize the scale and colors of the App to your liking.",
-  "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
-  "Custom Theme": "Vlastní šablona",
+  "In here, you can customize the scale and colors of the App to your liking.": "Zde si můžete přizpůsobit velikost a barvy aplikace podle vašich představ.",
+  "Click on any color to change it, or middle-click to reset it.": "Kliknutím na libovolnou barvu ji změníte, nebo kliknutím pravým tlačítkem myši ji obnovíte.",
+  "Custom Theme": "Vlastní motiv",
   "Do you want to apply your changes before leaving?": "Chcete použít změny před odchodem?",
   "TaskCompleted": "Úkol dokončen",
   "UnexpectedError": "Došlo k neočekávané chybě",
@@ -111,10 +111,10 @@
   "Yesterday at {0}": "Včera v {0}",
   "Tomorrow at {0}": "Zítra v {0}",
   "Last {0} at {1}": "Poslední {0} v {1}",
-  "Next {0} at {1}": "Další {0} na {1}",
+  "Next {0} at {1}": "Další {0} v {1}",
   "{0} month ago": {
-    "One": "{0} month ago",
-    "Plural": "{0} months ago"
+    "One": "před {0} měsícem",
+    "Plural": "před {0} měsíci"
   },
   "{0} month ago on {1}": {
     "One": "{0} před měsícem na {1}",
@@ -125,8 +125,8 @@
     "Plural": "během {0} měsíců na {1}"
   },
   "{0} day ago": {
-    "One": "{0} day ago",
-    "Plural": "{0} days ago"
+    "One": "před {0} dnem",
+    "Plural": "před {0} dny"
   },
   "in {0} day": {
     "One": "během {0} dne",
@@ -134,7 +134,7 @@
   },
   "{0} year": {
     "One": "{0} rok",
-    "Plural": "{0} years"
+    "Plural": "{0} lety"
   },
   "{0} month": {
     "One": "{0} měsíc",
@@ -145,11 +145,11 @@
     "Plural": "{0} dny"
   },
   "{0} hour": {
-    "One": "{0} hour",
+    "One": "{0} hodina",
     "Plural": "{0} hodin"
   },
   "{0} minute": {
-    "One": "{0} minute",
+    "One": "{0} minuta",
     "Plural": "{0} minuty"
   },
   "{0} second": {
@@ -161,25 +161,25 @@
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "půlnoc",
-  "Use the System's Theme": "Use your System's Theme",
-  "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
-  "All": "All",
-  "Hue": "Hue",
-  "Saturation": "Saturation",
-  "Luminance": "Luminance",
-  "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
-  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
-  "Email Address": "Email Address",
-  "Password": "Password",
-  "Login": "Login",
-  "Remember me": "Remember me",
-  "SaveChanges": "Save Changes",
-  "JustNow": "Just Now",
+  "Use the System's Theme": "Použít motiv vašeho systému",
+  "Use Windows-style top bar buttons": "Použít tlačítka na horní liště ve stylu Windows",
+  "All": "Vše",
+  "Hue": "Odstín",
+  "Saturation": "Sytost barev",
+  "Luminance": "Jas",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Převede vašeho motivo do světlého nebo tmavého režimu na základě motivu vašeho počítače",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automaticky přepne do světelého režimu během dne a tmavého režimu během noci",
+  "Email Address": "Emailová adresa",
+  "Password": "Heslo",
+  "Login": "Přihlásit se",
+  "Remember me": "Zůstat přihlášený",
+  "SaveChanges": "Uložit změny",
+  "JustNow": "Právě teď",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Soubor",
+    "Plural": "Soubory"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location"
+  "TypeFolderName": "Zadejte název nové složky, která má být vytvořena",
+  "NothingToSeeHere": "Zde není nic k zobrazení",
+  "OpenFolderLocation": "Otevřít umístění souboru"
 }
