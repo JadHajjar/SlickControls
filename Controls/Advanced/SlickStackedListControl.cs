@@ -1027,7 +1027,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 			var height = GridView ? GridItemSize.Height : ItemHeight;
 
 			item.Bounds = GridView
-				? new Rectangle(loc, new Size(GridItemSize.Width, height)).Pad(Padding)
+				? new Rectangle(loc, new Size(Math.Min(GridItemSize.Width, Width), height)).Pad(Padding)
 				: new Rectangle(loc, new Size(availableWidth, height));
 
 			if (invalidRect.IntersectsWith(item.Bounds))
