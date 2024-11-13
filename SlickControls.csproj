@@ -123,6 +123,9 @@
     <Compile Include="Controls\Generic\RoundedPanels.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Generic\SlickOptionControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\Generic\SlickStackedPanel.cs">
       <SubType>Component</SubType>
     </Compile>

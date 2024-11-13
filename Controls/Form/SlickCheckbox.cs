@@ -47,7 +47,7 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 		get => @checked;
 		set
 		{
-			var chkChanged = @checked == !value;
+			var chkChanged = @checked != value;
 			@checked = value;
 
 			if (!string.IsNullOrEmpty(CheckedText))
@@ -72,13 +72,13 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 	[Category("Appearance"), DisplayName("Unchecked Icon"), DefaultValue(null)]
 	public Bitmap UnCheckedIcon { get; set; }
 
-	[Category("Behavior"), DefaultValue(null)]
+	[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public bool? DefaultValue { get; set; } = null;
 
 	[Category("Behavior"), DisplayName("Fade when Unchecked"), DefaultValue(false)]
 	public bool FadeUnchecked { get; set; }
 
-	[Category("Appearance"), DisplayName("Checked Text")]
+	[Category("Appearance"), DisplayName("Checked Text"), DefaultValue(null)]
 	public string CheckedText
 	{
 		get => checkedText;
@@ -92,7 +92,7 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 		}
 	}
 
-	[Category("Appearance"), DisplayName("Unchecked Text")]
+	[Category("Appearance"), DisplayName("Unchecked Text"), DefaultValue(null)]
 	public string UncheckedText
 	{
 		get => uncheckedText;
