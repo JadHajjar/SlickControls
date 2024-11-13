@@ -353,7 +353,7 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 
 			for (var i = cellPosition.Column; i >= 0 && i < Math.Min(columnWidths.Length, cellPosition.Column + columnSpan); i++)
 			{
-				if (tableLayoutPanel.ColumnStyles[i].SizeType == SizeType.AutoSize)
+				if (tableLayoutPanel.ColumnStyles[i].SizeType == SizeType.AutoSize && tableLayoutPanel.Dock is not DockStyle.Top or DockStyle.Bottom or DockStyle.Fill)
 				{
 					availableWidth = int.MaxValue;
 					break;
@@ -364,7 +364,7 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 
 			for (var i = cellPosition.Row; i >= 0 && i < Math.Min(rowHeights.Length, cellPosition.Row + rowSpan); i++)
 			{
-				if (tableLayoutPanel.RowStyles[i].SizeType == SizeType.AutoSize)
+				if (tableLayoutPanel.RowStyles[i].SizeType == SizeType.AutoSize && tableLayoutPanel.Dock is not DockStyle.Left or DockStyle.Right or DockStyle.Fill)
 				{
 					availableHeight = int.MaxValue;
 					break;

@@ -1,8 +1,10 @@
 ﻿using Extensions;
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace SlickControls;
@@ -13,6 +15,10 @@ public class SlickOptionControl : SlickImageControl
 	private bool? defaultValue;
 	private Font TitleFont;
 	private int _selectedOption;
+	private Size cachedSize;
+	private Size lastAvailableSize;
+	private bool live;
+	private readonly Dictionary<int, Rectangle> _optionRects = [];
 
 	[Category("Behavior")]
 	public event EventHandler ValueChanged;
@@ -71,17 +77,28 @@ public class SlickOptionControl : SlickImageControl
 	[Category("Data"), DefaultValue(null)]
 	public string OptionName { get; set; }
 
+	public SlickOptionControl()
+	{
+		AutoSize = true;
+	}
+
 	protected override void UIChanged()
 	{
-		Margin = default;
 		Padding = UI.Scale(new Padding(3));
 		TitleFont = UI.Font(9F, FontStyle.Bold);
 		Font = UI.Font(7F);
 	}
 
-	public SlickOptionControl()
+	protected override void OnHandleCreated(EventArgs e)
 	{
-		Dock = DockStyle.Top;
+		base.OnHandleCreated(e);
+
+		live = true;
+
+		if (!DesignMode)
+		{
+			PerformLayout();
+		}
 	}
 
 	protected override void Dispose(bool disposing)
@@ -94,6 +111,32 @@ public class SlickOptionControl : SlickImageControl
 		base.Dispose(disposing);
 	}
 
+	public override Size GetPreferredSize(Size proposedSize)
+	{
+		return CalculateSize();
+	}
+
+	private Size CalculateSize()
+	{
+		if (!live || !Live || Anchor == (AnchorStyles)15 || Dock == DockStyle.Fill)
+		{
+			return Size;
+		}
+
+		var availableSize = GetAvailableSize();
+
+		if (cachedSize != default && lastAvailableSize == availableSize)
+		{
+			return cachedSize;
+		}
+
+		lastAvailableSize = availableSize;
+
+		using var graphics = Graphics.FromHwnd(IntPtr.Zero);
+
+		return cachedSize = DoDrawing(graphics, new(default, availableSize), false);
+	}
+
 	protected override void OnMouseClick(MouseEventArgs e)
 	{
 		base.OnMouseClick(e);
@@ -103,6 +146,16 @@ public class SlickOptionControl : SlickImageControl
 			if (Options is null && ClientRectangle.Pad(Padding.Left).Contains(e.Location))
 			{
 				Checked = !Checked;
+			}
+			else if (Options is not null)
+			{
+				foreach (var item in _optionRects)
+				{
+					if (item.Value.Contains(e.Location))
+					{
+						SelectedOption = item.Key;
+					}
+				}
 			}
 		}
 	}
@@ -115,95 +168,109 @@ public class SlickOptionControl : SlickImageControl
 		{
 			Cursor = ClientRectangle.Pad(Padding.Left).Contains(e.Location) ? Cursors.Hand : Cursors.Default;
 		}
+		else
+		{
+			Cursor = _optionRects.Values.Any(x => x.Contains(e.Location)) ? Cursors.Hand : Cursors.Default;
+		}
 	}
 
 	protected override void OnPaint(PaintEventArgs e)
 	{
 		e.Graphics.SetUp(BackColor);
 
-		var rectangle = ClientRectangle.Pad(Padding.Left * 3);
+		DoDrawing(e.Graphics, ClientRectangle, true);
+	}
 
-		TitleFont ??= Font;
+	private Size DoDrawing(Graphics graphics, Rectangle availableSize, bool applyDrawing)
+	{
+		var rectangle = availableSize.Pad(Padding.Left * 3);
 
-		if (Options is null)
+		if (applyDrawing && Options is null && HoverState.HasFlag(HoverState.Hovered) && availableSize.Pad(Padding.Left).Contains(CursorLocation))
 		{
-			if (HoverState.HasFlag(HoverState.Hovered) && ClientRectangle.Pad(Padding.Left).Contains(CursorLocation))
+			graphics.FillRoundedRectangleWithShadow(availableSize.Pad(Padding.Left), Padding.Horizontal, Padding.Left, HoverState.HasFlag(HoverState.Pressed) ? Color.Empty : BackColor, HoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(7, ColorStyle.GetColor()) : null, true);
+		}
+
+		using var titleBrush = new SolidBrush(FormDesign.Design.ForeColor);
+		using var descriptionBrush = new SolidBrush(FormDesign.Design.InfoColor);
+		using var image = (ImageName ?? new DynamicIcon(Checked ? "Checked_ON" : "Checked_OFF"))?.Get((TitleFont ?? Font).Height * 5 / 4)?.Color(Checked ? ColorStyle.GetColor() : FormDesign.Design.ForeColor);
+		var imageSize = image?.Size ?? Size.Empty;
+
+		var text = LocaleHelper.GetGlobalText(Text);
+		var titleSize = graphics.Measure(text, TitleFont ?? Font, rectangle.Width - imageSize.Width - Padding.Left);
+		var titleRect = rectangle.Pad(imageSize.Width + Padding.Left, titleSize.Height < imageSize.Height ? (imageSize.Height - (int)titleSize.Height) / 2 : -Padding.Top, 0, 0);
+
+		if (applyDrawing)
+		{
+			if (image is not null)
 			{
-				e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Left), Padding.Horizontal, Padding.Left, HoverState.HasFlag(HoverState.Pressed) ? Color.Empty : BackColor, HoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(7, ColorStyle.GetColor()) : null, true);
+				graphics.DrawImage(image, rectangle.Align(imageSize, ContentAlignment.TopLeft));
 			}
 
-			using var titleBrush = new SolidBrush(FormDesign.Design.ForeColor);
-			using var descriptionBrush = new SolidBrush(FormDesign.Design.InfoColor);
-			using var image = IconManager.GetIcon(Checked ? "Checked_ON" : "Checked_OFF", TitleFont.Height * 5 / 4).Color(Checked ? ColorStyle.GetColor() : FormDesign.Design.ForeColor);
+			graphics.DrawString(text, TitleFont ?? Font, titleBrush, titleRect);
+		}
 
-			var titleSize = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), TitleFont, rectangle.Width - image.Width - Padding.Left);
-			var titleRect = rectangle.Pad(image.Width + Padding.Left, titleSize.Height < image.Height ? (image.Height - (int)titleSize.Height) / 2 : -Padding.Top, 0, 0);
+		Size size;
 
-			e.Graphics.DrawImage(image, rectangle.Align(image.Size, ContentAlignment.TopLeft));
+		if (!string.IsNullOrEmpty(Description))
+		{
+			var descriptionRect = rectangle.Pad(imageSize.Width + Padding.Left, Math.Max(imageSize.Height, (int)titleSize.Height), 0, 0);
 
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), TitleFont, titleBrush, titleRect);
+			var description = LocaleHelper.GetGlobalText(Description);
 
-			if (!string.IsNullOrEmpty(Description))
+			if (applyDrawing)
 			{
-				var descriptionRect = rectangle.Pad(image.Width + Padding.Left, Math.Max(image.Height, (int)titleSize.Height) + Padding.Top / 2, 0, 0);
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Description), base.Font, descriptionBrush, descriptionRect);
+				graphics.DrawString(description, Font, descriptionBrush, descriptionRect);
+			}
 
-				Height = (int)(e.Graphics.Measure(LocaleHelper.GetGlobalText(Description), Font, descriptionRect.Width).Height + Math.Max(image.Height, (int)titleSize.Height) + 6.5 * Padding.Left);
-			}
-			else
-			{
-				Height = Math.Max(image.Height, (int)titleSize.Height) + 6 * Padding.Left;
-			}
+			size = new Size(Math.Max(descriptionRect.X + (int)graphics.Measure(description, Font, descriptionRect.Width).Width, titleRect.X + (int)titleSize.Width) + (4 * Padding.Left)
+				, descriptionRect.Y + (int)(graphics.Measure(description, Font, descriptionRect.Width).Height + (2 * Padding.Left)));
 		}
 		else
 		{
-			using var font = UI.Font(8.25f);
-			using var titleBrush = new SolidBrush(FormDesign.Design.ForeColor);
-			using var descriptionBrush = new SolidBrush(FormDesign.Design.InfoColor);
-			using var image = ImageName.Get(TitleFont.Height * 5 / 4)?.Color(FormDesign.Design.ForeColor);
-			using var imageOn = IconManager.GetIcon("Circle_ON", TitleFont.Height * 5 / 4).Color(ColorStyle.GetColor());
-			using var imageOff = IconManager.GetIcon("Circle_OFF", TitleFont.Height * 5 / 4).Color(FormDesign.Design.ForeColor);
+			size = new Size(titleRect.X + (int)titleSize.Width + Padding.Horizontal, Math.Max(imageSize.Height, (int)titleSize.Height) + (5 * Padding.Left));
+		}
 
-			var titleSize = e.Graphics.Measure(LocaleHelper.GetGlobalText(Text), TitleFont, rectangle.Width - imageOn.Width - Padding.Left);
-			var titleRect = rectangle.Pad(imageOn.Width + Padding.Left, titleSize.Height < imageOn.Height ? (imageOn.Height - (int)titleSize.Height) / 2 : -Padding.Top, 0, 0);
+		if (Options is null)
+		{
+			size.Height += Padding.Left;
 
-			if(image is not null)
-			e.Graphics.DrawImage(image, rectangle.Align(image.Size, ContentAlignment.TopLeft));
+			return size;
+		}
 
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(Text), TitleFont, titleBrush, titleRect);
+		using var imageOn = IconManager.GetIcon("Circle_ON", (TitleFont ?? Font).Height * 5 / 4).Color(ColorStyle.GetColor());
+		using var imageOff = IconManager.GetIcon("Circle_OFF", (TitleFont ?? Font).Height * 5 / 4).Color(FormDesign.Design.ForeColor);
 
-			int y;
+		using var format = new StringFormat { LineAlignment = StringAlignment.Center };
 
-			if (!string.IsNullOrEmpty(Description))
+		for (var i = 0; i < Options.Length; i++)
+		{
+			var optionText = LocaleHelper.GetGlobalText(Options[i]);
+			var rect = new Rectangle(rectangle.X + imageOn.Width + (Padding.Left * 3), size.Height, rectangle.Width - +imageOn.Width - (Padding.Left * 3), imageOn.Height + Padding.Vertical);
+			using var font = UI.Font(8.25f).FitToWidth(optionText, rect.Pad(imageOn.Width + Padding.Left, 0, 0, 0), graphics);
+
+			var textRect = new Rectangle(rect.X + imageOn.Width + Padding.Left, rect.Y, (int)graphics.Measure(optionText, font, rect.Width - imageOn.Width - Padding.Left).Width + Padding.Left, rect.Height);
+
+			size.Width = Math.Max(size.Width, textRect.Right);
+
+			_optionRects[i] = textRect.Pad(-Padding.Left - imageOn.Width - Padding.Left, 0, 0, 0);
+
+			if (applyDrawing)
 			{
-				var descriptionRect = rectangle.Pad(imageOn.Width + Padding.Left, Math.Max(imageOn.Height, (int)titleSize.Height) + Padding.Top / 2, 0, 0);
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Description), base.Font, descriptionBrush, descriptionRect);
-
-				y = (int)(e.Graphics.Measure(LocaleHelper.GetGlobalText(Description), Font, descriptionRect.Width).Height + Math.Max(imageOn.Height, (int)titleSize.Height) + 5.5 * Padding.Left);
-			}
-			else
-			{
-				y = Math.Max(imageOn.Height, (int)titleSize.Height) + 5 * Padding.Left;
-			}
-
-			using var format = new StringFormat { LineAlignment = StringAlignment.Center };
-			for (var i = 0; i < Options.Length; i++)
-			{
-				var rect = new Rectangle(rectangle.X + imageOn.Width + Padding.Left * 3, y, rectangle.Width, imageOn.Height + Padding.Vertical);
-
-				if (HoverState.HasFlag(HoverState.Hovered) && rect.Contains(CursorLocation))
+				if (HoverState.HasFlag(HoverState.Hovered) && _optionRects[i].Contains(CursorLocation))
 				{
-					e.Graphics.FillRoundedRectangleWithShadow(rect.Pad(-Padding.Left, 0, 0, 0), Padding.Horizontal, Padding.Left, HoverState.HasFlag(HoverState.Pressed) ? Color.Empty : BackColor, HoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(7, ColorStyle.GetColor()) : null, true);
+					graphics.FillRoundedRectangleWithShadow(_optionRects[i], Padding.Horizontal, Padding.Left, HoverState.HasFlag(HoverState.Pressed) ? Color.Empty : BackColor, HoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(7, ColorStyle.GetColor()) : null, true);
 				}
 
-				e.Graphics.DrawImage(SelectedOption == i ? imageOn : imageOff, rect.Align(imageOn.Size, ContentAlignment.MiddleLeft));
+				graphics.DrawImage(SelectedOption == i ? imageOn : imageOff, rect.Align(imageOn.Size, ContentAlignment.MiddleLeft));
 
-				e.Graphics.DrawString(LocaleHelper.GetGlobalText(Options[i]), font, titleBrush, rect.Pad(imageOn.Width + Padding.Left, 0, 0, 0), format);
-
-				y += imageOn.Height + Padding.Vertical;
+				graphics.DrawString(optionText, font, titleBrush, textRect, format);
 			}
 
-			Height = y + Padding.Vertical;
+			size.Height += imageOn.Height + (Padding.Left * 3);
 		}
+
+		size.Height += Padding.Vertical;
+
+		return size;
 	}
 }
