@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Cerca…",
   "Loading": "Caricamento...",
   "Back": "Indietro",
   "Filters": "Filtri",
@@ -177,9 +177,9 @@
   "JustNow": "Adesso",
   "File": {
     "One": "File",
-    "Plural": "Files"
+    "Plural": "File"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location"
+  "TypeFolderName": "Digita il nome della nuova cartella da creare",
+  "NothingToSeeHere": "Niente da vedere qui",
+  "OpenFolderLocation": "Apri il percorso file"
 }
