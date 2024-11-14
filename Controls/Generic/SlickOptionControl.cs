@@ -18,6 +18,7 @@ public class SlickOptionControl : SlickImageControl
 	private Size cachedSize;
 	private Size lastAvailableSize;
 	private bool live;
+	private int focusedOption;
 	private readonly Dictionary<int, Rectangle> _optionRects = [];
 
 	[Category("Behavior")]
@@ -158,6 +159,17 @@ public class SlickOptionControl : SlickImageControl
 				}
 			}
 		}
+		else if (e.Button == MouseButtons.None)
+		{
+			if (Options is null)
+			{
+				Checked = !Checked;
+			}
+			else
+			{
+				SelectedOption = focusedOption;
+			}
+		}
 	}
 
 	protected override void OnMouseMove(MouseEventArgs e)
@@ -174,6 +186,34 @@ public class SlickOptionControl : SlickImageControl
 		}
 	}
 
+	protected override void OnEnter(EventArgs e)
+	{
+		base.OnEnter(e);
+
+		focusedOption = SelectedOption;
+	}
+
+	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+	{
+		if (Options is not null && keyData is Keys.Up or Keys.Down)
+		{
+			if (keyData is Keys.Down)
+			{
+				focusedOption = Enumerable.Range(0, Options.Length).Next(focusedOption, true);
+			}
+			else
+			{
+				focusedOption = Enumerable.Range(0, Options.Length).Previous(focusedOption, true);
+			}
+
+			Invalidate();
+
+			return true;
+		}
+
+		return base.ProcessCmdKey(ref msg, keyData);
+	}
+
 	protected override void OnPaint(PaintEventArgs e)
 	{
 		e.Graphics.SetUp(BackColor);
@@ -188,6 +228,10 @@ public class SlickOptionControl : SlickImageControl
 		if (applyDrawing && Options is null && HoverState.HasFlag(HoverState.Hovered) && availableSize.Pad(Padding.Left).Contains(CursorLocation))
 		{
 			graphics.FillRoundedRectangleWithShadow(availableSize.Pad(Padding.Left), Padding.Horizontal, Padding.Left, HoverState.HasFlag(HoverState.Pressed) ? Color.Empty : BackColor, HoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(7, ColorStyle.GetColor()) : null, true);
+		}
+		else if (applyDrawing && Options is null && HoverState.HasFlag(HoverState.Focused))
+		{
+			DrawFocus(graphics, availableSize.Pad(Padding.Left), Padding.Horizontal);
 		}
 
 		using var titleBrush = new SolidBrush(FormDesign.Design.ForeColor);
@@ -259,6 +303,10 @@ public class SlickOptionControl : SlickImageControl
 				if (HoverState.HasFlag(HoverState.Hovered) && _optionRects[i].Contains(CursorLocation))
 				{
 					graphics.FillRoundedRectangleWithShadow(_optionRects[i], Padding.Horizontal, Padding.Left, HoverState.HasFlag(HoverState.Pressed) ? Color.Empty : BackColor, HoverState.HasFlag(HoverState.Pressed) ? Color.FromArgb(7, ColorStyle.GetColor()) : null, true);
+				}
+				else if (HoverState.HasFlag(HoverState.Focused) && focusedOption == i)
+				{
+					DrawFocus(graphics, _optionRects[i], Padding.Horizontal);
 				}
 
 				graphics.DrawImage(SelectedOption == i ? imageOn : imageOff, rect.Align(imageOn.Size, ContentAlignment.MiddleLeft));
