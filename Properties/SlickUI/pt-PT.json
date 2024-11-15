@@ -1,10 +1,10 @@
 {
   "Search": "Pesquisar...",
-  "Loading": "Carregando..",
+  "Loading": "A carregar..",
   "Back": "Voltar",
   "Filters": "Filtros",
   "Enable": "Ativar",
-  "Settings": "Configurações",
+  "Settings": "Definições",
   "Actions": "Ações",
   "Utilities": "Utilitários",
   "Options": "Opções",
@@ -76,7 +76,7 @@
   "UI Scale": "Escala da Interface",
   "Font Family": "Família de Fontes",
   "Randomize": "Aleatório",
-  "Reset": "Redefinir",
+  "Reset": "Repor",
   "Apply": "Aplicar",
   "Background": "Plano de Fundo",
   "Text": "Texto",
@@ -180,6 +180,6 @@
     "Plural": "Ficheiros"
   },
   "TypeFolderName": "Escreve o nome da nova pasta a ser criada",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location"
+  "NothingToSeeHere": "Nada para ver aqui",
+  "OpenFolderLocation": "Abrir localização do ficheiro"
 }

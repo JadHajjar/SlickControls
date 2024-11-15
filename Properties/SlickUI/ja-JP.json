@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "検索",
   "Loading": "ロード中...",
   "Back": "戻る",
   "Filters": "フィルタ",
@@ -176,10 +176,10 @@
   "SaveChanges": "変更を保存",
   "JustNow": "たった今",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "ファイル",
+    "Plural": "ファイル"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location"
+  "TypeFolderName": "新しいフォルダの名前を入力",
+  "NothingToSeeHere": "ここには何もない",
+  "OpenFolderLocation": "ファイルを開く"
 }

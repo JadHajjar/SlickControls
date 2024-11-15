@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Szukaj..",
   "Loading": "Ładowanie...",
   "Back": "Powrót",
   "Filters": "Filtry",
@@ -176,10 +176,10 @@
   "SaveChanges": "Zapisz zmiany",
   "JustNow": "Przed chwilą",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Plik",
+    "Plural": "Pliki"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location"
+  "TypeFolderName": "Wpisz nazwę nowego folderu, który ma zostać utworzony",
+  "NothingToSeeHere": "Nic tu nie ma",
+  "OpenFolderLocation": "Otwórz lokalizację pliku"
 }
