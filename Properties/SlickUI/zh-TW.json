@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "輸入要建立的新資料夾名稱",
   "NothingToSeeHere": "這裡沒有任何內容",
-  "OpenFolderLocation": "開啟檔案所在位置"
+  "OpenFolderLocation": "開啟檔案所在位置",
+  "EarlierThisWeek": "Earlier this week",
+  "EarlierThisMonth": "Earlier this month"
 }
