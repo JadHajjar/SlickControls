@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "Type in the name of the new folder to be created",
   "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location"
+  "OpenFolderLocation": "Open file location",
+  "EarlierThisWeek": "Earlier this week",
+  "EarlierThisMonth": "Earlier this month"
 }
