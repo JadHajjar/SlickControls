@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "Digita il nome della nuova cartella da creare",
   "NothingToSeeHere": "Niente da vedere qui",
-  "OpenFolderLocation": "Apri il percorso file"
+  "OpenFolderLocation": "Apri il percorso file",
+  "EarlierThisWeek": "Inizio settimana",
+  "EarlierThisMonth": "Inizio mese"
 }
