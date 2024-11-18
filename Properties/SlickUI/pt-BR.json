@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "Digite o nome da nova pasta que será criada",
   "NothingToSeeHere": "Nada para ver aqui",
-  "OpenFolderLocation": "Abrir local do arquivo"
+  "OpenFolderLocation": "Abrir local do arquivo",
+  "EarlierThisWeek": "Earlier this week",
+  "EarlierThisMonth": "Earlier this month"
 }
