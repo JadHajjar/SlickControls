@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "Wpisz nazwę nowego folderu, który ma zostać utworzony",
   "NothingToSeeHere": "Nic tu nie ma",
-  "OpenFolderLocation": "Otwórz lokalizację pliku"
+  "OpenFolderLocation": "Otwórz lokalizację pliku",
+  "EarlierThisWeek": "Earlier this week",
+  "EarlierThisMonth": "Earlier this month"
 }
