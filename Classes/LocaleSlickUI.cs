@@ -295,6 +295,16 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Drives => _instance.GetText("Drives");
 
 	/// <summary>
+	/// Earlier this month
+	/// </summary>
+	public static Translation EarlierThisMonth => _instance.GetText("EarlierThisMonth");
+
+	/// <summary>
+	/// Earlier this week
+	/// </summary>
+	public static Translation EarlierThisWeek => _instance.GetText("EarlierThisWeek");
+
+	/// <summary>
 	/// Edit Color
 	/// </summary>
 	public static Translation EditColor => _instance.GetText("Edit Color");
