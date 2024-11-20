@@ -3,7 +3,6 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SlickControls;
@@ -156,9 +155,9 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 		{
 			GetColors(out var fore, out var back);
 
-			if (FadeUnchecked && HoverState == HoverState.Normal)
+			if (FadeUnchecked && Checked && HoverState == HoverState.Normal)
 			{
-				fore = ColorStyle.GetBackColor();
+				fore = back.GetTextColor();
 			}
 
 			using var image = GetIcon();
@@ -208,14 +207,14 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 				}
 			}
 
-			if (FadeUnchecked && HoverState == HoverState.Normal)
+			if (FadeUnchecked && !HoverState.HasFlag(HoverState.Hovered))
 			{
 				if (Checked)
 				{
-					using var pen = new Pen(Color.FromArgb(175, ColorStyle.GetColor()), UI.Scale(1.5F)) { Alignment = System.Drawing.Drawing2D.PenAlignment.Inset };
+					using var pen = new Pen(Color.FromArgb(175, ColorStyle.GetColor()), UI.Scale(1.5F)) { Alignment = System.Drawing.Drawing2D.PenAlignment.Center };
 					using var brush = new SolidBrush(Color.FromArgb(65, ColorStyle.GetColor()));
 					e.Graphics.FillRoundedRectangle(brush, args.Rectangle, Padding.Top);
-					e.Graphics.DrawRoundedRectangle(pen, args.Rectangle, Padding.Top);
+					e.Graphics.DrawRoundedRectangle(pen, args.Rectangle.Pad((int)(pen.Width / 2)), Padding.Top);
 				}
 				else
 				{

@@ -28,7 +28,11 @@ public partial class BasePanelForm : SlickForm
 
 	public event Func<Message, Keys, bool> HandleKeyPress;
 
+#if NET47
 	public event EventHandler<Point> GlobalMouseMove;
+#else
+	public event Extensions.EventHandler<Point> GlobalMouseMove;
+#endif
 
 	public PanelContent CurrentPanel { get; private set; }
 
