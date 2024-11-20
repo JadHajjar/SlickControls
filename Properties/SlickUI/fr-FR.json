@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "Entrez le nom du dossier à créer",
   "NothingToSeeHere": "Rien à voir ici",
-  "OpenFolderLocation": "Ouvrir l'emplacement du fichier"
+  "OpenFolderLocation": "Ouvrir l'emplacement du fichier",
+  "EarlierThisWeek": "Plus tôt cette semaine",
+  "EarlierThisMonth": "Plus tôt ce mois"
 }

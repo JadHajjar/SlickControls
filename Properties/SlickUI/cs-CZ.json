@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "Zadejte název nové složky, která má být vytvořena",
   "NothingToSeeHere": "Zde není nic k zobrazení",
-  "OpenFolderLocation": "Otevřít umístění souboru"
+  "OpenFolderLocation": "Otevřít umístění souboru",
+  "EarlierThisWeek": "Earlier this week",
+  "EarlierThisMonth": "Earlier this month"
 }

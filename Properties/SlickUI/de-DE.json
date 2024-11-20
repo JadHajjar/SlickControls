@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "Gib den Namen des neu zu erstellenden Ordners ein",
   "NothingToSeeHere": "Hier gibt's nichts zu sehen",
-  "OpenFolderLocation": "Dateispeicherort öffnen"
+  "OpenFolderLocation": "Dateispeicherort öffnen",
+  "EarlierThisWeek": "Früher diese Woche",
+  "EarlierThisMonth": "Früher diesen Monat"
 }

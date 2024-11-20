@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "新しいフォルダの名前を入力",
   "NothingToSeeHere": "ここには何もない",
-  "OpenFolderLocation": "ファイルを開く"
+  "OpenFolderLocation": "ファイルを開く",
+  "EarlierThisWeek": "Earlier this week",
+  "EarlierThisMonth": "Earlier this month"
 }
