@@ -176,12 +176,12 @@
   "SaveChanges": "Változtatások mentése",
   "JustNow": "Épp most",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Fájl",
+    "Plural": "Fájlok"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location",
+  "TypeFolderName": "Írd be a létrehozandó új mappa nevét",
+  "NothingToSeeHere": "Nincs megjeleníthető elem",
+  "OpenFolderLocation": "Mutasd a lemezen",
   "EarlierThisWeek": "",
-  "EarlierThisMonth": "Earlier this month"
+  "EarlierThisMonth": "A hónap elején"
 }
