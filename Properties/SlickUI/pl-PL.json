@@ -11,7 +11,7 @@
   "Total": "Razem",
   "Sorting": "Sortowanie",
   "Content": "Zawartość",
-  "Other": "Inny",
+  "Other": "Inne",
   "Date Modified": "Data modyfikacji",
   "Date Created": "Data utworzenia",
   "Copy": "Kopiuj",
@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "Wpisz nazwę nowego folderu, który ma zostać utworzony",
   "NothingToSeeHere": "Nic tu nie ma",
-  "OpenFolderLocation": "Otwórz lokalizację pliku"
+  "OpenFolderLocation": "Otwórz lokalizację pliku",
+  "EarlierThisWeek": "Wcześniej w tym tygodniu",
+  "EarlierThisMonth": "Wcześniej w tym miesiącu"
 }

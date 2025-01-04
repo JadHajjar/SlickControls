@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Pretraga..",
   "Loading": "Učitavanje..",
   "Back": "Nazad",
   "Filters": "Filteri",
@@ -17,7 +17,7 @@
   "Copy": "Kopiraj",
   "Tags": "Oznake",
   "This PC": "Ovaj računar",
-  "Common Folders": "Common Folders",
+  "Common Folders": "Uobičajeni folderi",
   "Select a file": "Izaberi fajl",
   "Select a folder": "Izaberi folder",
   "Open File": "Otvori fajl",
@@ -49,47 +49,47 @@
   "Close": "Zatvori",
   "Smaller Menu": "Manji meni",
   "Auto-Hide Menu": "Automatski sakrij meni",
-  "Theme Changer": "Menjanje teme",
+  "Theme Changer": "Menjač tema",
   "Switch To": "Prebaci na",
   "Modern": "Moderno",
-  "Berry Blues": "Berry Blues",
+  "Berry Blues": "Bobičaste plave",
   "Ice": "Led",
-  "Chic": "Chic",
+  "Chic": "Elegantno",
   "Strawberries": "Jagode",
   "Dark": "Tamna",
-  "Golden Forest": "Golden Forest",
+  "Golden Forest": "Zlatna šuma",
   "Custom": "Prilagođeno",
   "Yes": "Da",
   "Go back to {0}": "Vrati se na {0}",
-  "All Versions": "Sve Verzije",
-  "Current Version": "Trenutna Verzija",
+  "All Versions": "Sve verzije",
+  "Current Version": "Trenutna verzija",
   "Profiles": "Profili",
-  "Drives": "Drajvovi",
+  "Drives": "Diskovi",
   "Switch to Grid-View": "Prebaci se na mrežni prikaz",
   "Switch to List-View": "Prebaci se na prikaz liste",
-  "Pinned Folders": "Pinned Folders",
+  "Pinned Folders": "Prikačeni folderi",
   "Name": "Ime",
   "Size": "Veličina",
   "Enable Animations": "Omogući animacije",
   "Disable Animations": "Isključi animacije",
-  "Auto Night-Mode": "Auto Night-Mode",
-  "UI Scale": "UI Scale",
-  "Font Family": "Font Family",
-  "Randomize": "Randomize",
+  "Auto Night-Mode": "Automatski noćni režim",
+  "UI Scale": "Skala interfejsa",
+  "Font Family": "Porodica fontova",
+  "Randomize": "Nasumično",
   "Reset": "Resetuj",
   "Apply": "Primeni",
   "Background": "Pozadina",
   "Text": "Tekst",
-  "Menu Background": "Menu Background",
-  "Menu Text": "Menu Text",
+  "Menu Background": "Pozadina menija",
+  "Menu Text": "Tekst menija",
   "Button": "Dugme",
-  "Button Text": "Button Text",
+  "Button Text": "Tekst dugmeta",
   "Active": "Aktivno",
-  "Active Text": "Active Text",
+  "Active Text": "Aktivan tekst",
   "Label": "Oznaka",
-  "Info Text": "Info Text",
-  "Accent Background": "Naglašena boja",
-  "Icon": "Icon",
+  "Info Text": "Informativni tekst",
+  "Accent Background": "Naglašena pozadina",
+  "Icon": "Ikona",
   "Red": "Crvena",
   "Green": "Zelena",
   "Yellow": "Žuta",
@@ -100,75 +100,75 @@
   "Reset Color": "Resetuj boju",
   "Welcome to Theme Changer!": "Dobrodošli u menjač tema!",
   "In here, you can customize the scale and colors of the App to your liking.": "Ovde možete da prilagodite veličinu i boje aplikacije po svom ukusu.",
-  "Click on any color to change it, or middle-click to reset it.": "Click on any color to change it, or middle-click to reset it.",
+  "Click on any color to change it, or middle-click to reset it.": "Kliknite na bilo koju boju da je promenite ili srednjim klikom resetujte.",
   "Custom Theme": "Prilagođena tema",
-  "Do you want to apply your changes before leaving?": "Da li želiš da sačuvaš promene pre napuštanja?",
+  "Do you want to apply your changes before leaving?": "Da li želite da primenite promene pre odlaska?",
   "TaskCompleted": "Zadatak završen",
   "UnexpectedError": "Došlo je do neočekivane greške",
   "{0} ago": "pre {0}",
-  "in {0}": "za {0}",
+  "in {0}": "za {0}",
   "Today at {0}": "Danas u {0}",
   "Yesterday at {0}": "Juče u {0}",
   "Tomorrow at {0}": "Sutra u {0}",
-  "Last {0} at {1}": "Last {0} at {1}",
-  "Next {0} at {1}": "Next {0} at {1}",
+  "Last {0} at {1}": "Prošlog {0} u {1}",
+  "Next {0} at {1}": "Sledećeg {0} u {1}",
   "{0} month ago": {
-    "One": "pre mesec dana",
+    "One": "pre {0} mesec dana",
     "Plural": "pre {0} meseca/i"
   },
   "{0} month ago on {1}": {
-    "One": "{0} month ago on {1}",
-    "Plural": "{0} months ago on {1}"
+    "One": "pre {0} mesec dana na {1}",
+    "Plural": "pre {0} meseca/i na {1}"
   },
   "in {0} month on {1}": {
-    "One": "in {0} month on {1}",
-    "Plural": "in {0} months on {1}"
+    "One": "za {0} mesec dana na {1}",
+    "Plural": "za {0} meseca/i na {1}"
   },
   "{0} day ago": {
     "One": "juče",
     "Plural": "pre {0} dana"
   },
   "in {0} day": {
-    "One": "in {0} day",
-    "Plural": "in {0} days"
+    "One": "za {0} dan",
+    "Plural": "za {0} dana"
   },
   "{0} year": {
-    "One": "{0} year",
-    "Plural": "{0} years"
+    "One": "{0} godina",
+    "Plural": "{0} godina"
   },
   "{0} month": {
-    "One": "{0} month",
-    "Plural": "{0} months"
+    "One": "{0} mesec",
+    "Plural": "{0} meseca"
   },
   "{0} day": {
-    "One": "{0} day",
-    "Plural": "{0} days"
+    "One": "{0} dan",
+    "Plural": "{0} dana"
   },
   "{0} hour": {
-    "One": "{0} hour",
-    "Plural": "{0} hours"
+    "One": "{0} sat",
+    "Plural": "{0} sati"
   },
   "{0} minute": {
-    "One": "{0} minute",
-    "Plural": "{0} minutes"
+    "One": "{0} minut",
+    "Plural": "{0} minuta"
   },
   "{0} second": {
-    "One": "{0} second",
-    "Plural": "{0} seconds"
+    "One": "{0} sekunda",
+    "Plural": "{0} sekunde"
   },
   "{0}d": "{0}d",
   "{0}h": "{0}h",
   "{0}m": "{0}m",
   "{0}s": "{0}s",
   "Midnight": "Ponoć",
-  "Use the System's Theme": "Use your System's Theme",
-  "Use Windows-style top bar buttons": "Use Windows-style top bar buttons",
+  "Use the System's Theme": "Koristi temu sistema",
+  "Use Windows-style top bar buttons": "Koristi dugmad u Windows stilu na gornjoj traci",
   "All": "Sve",
   "Hue": "Nijansa",
   "Saturation": "Zasićenost",
-  "Luminance": "Luminance",
-  "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
-  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
+  "Luminance": "Svetlina",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Pretvara vašu temu u svetli ili tamni režim na osnovu teme vašeg računara",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatski prelazi na svetli režim tokom dana i tamni režim tokom noći",
   "Email Address": "E-mail adresa",
   "Password": "Lozinka",
   "Login": "Prijava",
@@ -176,10 +176,12 @@
   "SaveChanges": "Sačuvaj izmene",
   "JustNow": "Upravo sada",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Fajl",
+    "Plural": "Fajlovi"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location"
+  "TypeFolderName": "Unesite naziv novog foldera koji će biti kreiran",
+  "NothingToSeeHere": "Ovde nema ništa za videti",
+  "OpenFolderLocation": "Otvori lokaciju fajla",
+  "EarlierThisWeek": "Ranije ove nedelje",
+  "EarlierThisMonth": "Ranije ovog meseca"
 }

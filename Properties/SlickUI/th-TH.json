@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "ค้นหา..",
   "Loading": "กำลังโหลด..",
   "Back": "ย้อนกลับ",
   "Filters": "ตัวกรอง",
@@ -167,19 +167,21 @@
   "Hue": "Hue",
   "Saturation": "Saturation",
   "Luminance": "Luminance",
-  "Converts your theme into Light or Dark mode based on your computer's theme": "Converts your theme into Light or Dark mode based on your computer's theme",
-  "Automatically switches to a Light mode during the day and Dark mode during the night": "Automatically switches to a Light mode during the day and Dark mode during the night",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "แปลงธีมของคุณเป็นโหมดสว่างหรือมืดตามธีมคอมพิวเตอร์ของคุณ",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "สลับเป็นโหมดสว่างโดยอัตโนมัติในระหว่างวันและโหมดมืดในเวลากลางคืน",
   "Email Address": "ที่อยู่อีเมล",
   "Password": "รหัสผ่าน",
   "Login": "เข้าระบบ",
   "Remember me": "จำการเข้าระบบของฉันไว้",
   "SaveChanges": "บันทึกการเปลี่ยนแปลง",
-  "JustNow": "Just Now",
+  "JustNow": "เมื่อครู่",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "ไฟล์",
+    "Plural": "ไฟล์"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location"
+  "TypeFolderName": "พิมพ์ชื่อโฟลเดอร์ใหม่ที่จะสร้าง",
+  "NothingToSeeHere": "ตรงนี้ไม่มีอะไร",
+  "OpenFolderLocation": "เปิดไปยังตำแหน่งของไฟล์",
+  "EarlierThisWeek": "ช่วงสัปดาห์นี้",
+  "EarlierThisMonth": "ช่วงเดือนนี้"
 }

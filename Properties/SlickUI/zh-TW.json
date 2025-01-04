@@ -69,7 +69,7 @@
   "Switch to List-View": "切換到列表視圖",
   "Pinned Folders": "置頂資料夾",
   "Name": "名稱",
-  "Size": "文件大小",
+  "Size": "檔案大小",
   "Enable Animations": "啟用動畫效果",
   "Disable Animations": "禁用動畫效果",
   "Auto Night-Mode": "自動開啟夜間模式",
@@ -181,5 +181,7 @@
   },
   "TypeFolderName": "輸入要建立的新資料夾名稱",
   "NothingToSeeHere": "這裡沒有任何內容",
-  "OpenFolderLocation": "開啟檔案所在位置"
+  "OpenFolderLocation": "開啟檔案所在位置",
+  "EarlierThisWeek": "本週稍早",
+  "EarlierThisMonth": "本月稍早"
 }
