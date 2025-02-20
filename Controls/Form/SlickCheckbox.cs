@@ -228,13 +228,18 @@ public partial class SlickCheckbox : SlickButton, ISupportsReset
 
 	private Bitmap GetIcon()
 	{
+		return GetIcon(@checked, UseToggleIcon, CheckedIcon, UnCheckedIcon);
+	}
+
+	public static Bitmap GetIcon(bool @checked, bool useToggleIcon = false, Bitmap checkedIcon = null, Bitmap unCheckedIcon = null)
+	{
 		Bitmap image;
 
-		if (CheckedIcon != null && UnCheckedIcon != null)
+		if (checkedIcon != null && unCheckedIcon != null)
 		{
-			image = new Bitmap(@checked ? CheckedIcon : UnCheckedIcon);
+			image = new Bitmap(@checked ? checkedIcon : unCheckedIcon);
 		}
-		else if (UseToggleIcon)
+		else if (useToggleIcon)
 		{
 			image = IconManager.GetIcon(@checked ? "Toggle_ON" : "Toggle_OFF");
 		}

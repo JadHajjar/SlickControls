@@ -234,6 +234,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 	protected int StartHeight { get; set; }
 	protected Padding GridPadding { get; set; }
 	protected bool SelectionMode { get; private set; }
+	protected double ScrollIndex => scrollIndex;
 	protected List<IDrawableItem<T>> SelectedItems { get; } = [];
 
 	public SlickStackedListControl()
