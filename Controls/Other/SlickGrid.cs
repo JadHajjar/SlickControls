@@ -8,20 +8,13 @@ namespace SlickControls;
 
 public partial class SlickGrid : DataGridView
 {
+	public bool Live { get; private set; }
+
 	public SlickGrid()
 	{
-		InitializeComponent();
-
-		if (DesignMode)
-		{
-			DesignChanged(FormDesign.Design);
-		}
-
-		FormDesign.DesignChanged += DesignChanged;
-		Disposed += (s, e) => FormDesign.DesignChanged -= DesignChanged;
 	}
 
-	private void DesignChanged(FormDesign design)
+	protected virtual void DesignChanged(FormDesign design)
 	{
 		BackgroundColor = GridColor = design.BackColor;
 		Font = UI.Font(9.75F, FontStyle.Bold);
@@ -68,7 +61,21 @@ public partial class SlickGrid : DataGridView
 
 		if (!DesignMode)
 		{
+			Live = true;
+
+			FormDesign.DesignChanged += DesignChanged;
+
 			DesignChanged(FormDesign.Design);
 		}
+	}
+
+	protected override void Dispose(bool disposing)
+	{
+		if (disposing && Live)
+		{
+			FormDesign.DesignChanged -= DesignChanged;
+		}
+
+		base.Dispose(disposing);
 	}
 }

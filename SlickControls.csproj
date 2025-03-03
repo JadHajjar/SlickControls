@@ -231,9 +231,6 @@
     <Compile Include="Controls\Other\SlickGrid.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\Other\SlickGrid.Designer.cs">
-      <DependentUpon>SlickGrid.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Advanced\SlickImageControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -478,9 +475,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Internal\ColorPicker.resx">
       <DependentUpon>ColorPicker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Other\SlickGrid.resx">
-      <DependentUpon>SlickGrid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Generic\SlickSectionPanel.resx">
       <DependentUpon>SlickSectionPanel.cs</DependentUpon>
