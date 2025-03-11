@@ -12,6 +12,7 @@ public partial class SlickGrid : DataGridView
 
 	public SlickGrid()
 	{
+		Disposed += (s, e) => FormDesign.DesignChanged -= DesignChanged;
 	}
 
 	protected virtual void DesignChanged(FormDesign design)
@@ -67,15 +68,5 @@ public partial class SlickGrid : DataGridView
 
 			DesignChanged(FormDesign.Design);
 		}
-	}
-
-	protected override void Dispose(bool disposing)
-	{
-		if (disposing && Live)
-		{
-			FormDesign.DesignChanged -= DesignChanged;
-		}
-
-		base.Dispose(disposing);
 	}
 }
