@@ -251,6 +251,11 @@ public static class DesignExtensions
 
 	public static void DrawLoader(this Graphics g, double loaderPercentage, Rectangle rectangle, Color? color = null)
 	{
+		if (rectangle.Height <= 0 || rectangle.Width <= 0)
+		{
+			return;
+		}
+
 		var width = Math.Min(Math.Min(rectangle.Width, rectangle.Height), (int)(32 * UI.UIScale));
 		var size = (float)Math.Max(2, width / (8D - (Math.Abs(100 - loaderPercentage) / 50)));
 		var arc = 100 + (1.7 * (50 - Math.Abs(100 - loaderPercentage)));
@@ -370,7 +375,7 @@ public static class DesignExtensions
 
 		using var brush = new PathGradientBrush(ellipsePath);
 
-		brush.CenterPoint = new PointF(rectangle.X + rectangle.Width / 2f, rectangle.Y + rectangle.Height / 2f);
+		brush.CenterPoint = new PointF(rectangle.X + (rectangle.Width / 2f), rectangle.Y + (rectangle.Height / 2f));
 		brush.CenterColor = shadowColor;
 		brush.SurroundColors = [shadowColor, default];
 		brush.FocusScales = new PointF(0, 0);
