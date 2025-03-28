@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Поиск..",
   "Loading": "Загрузка...",
   "Back": "Назад",
   "Filters": "Фильтры",
@@ -176,12 +176,12 @@
   "SaveChanges": "Сохранить изменения",
   "JustNow": "Только что",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Файл",
+    "Plural": "Файлы"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location",
-  "EarlierThisWeek": "Earlier this week",
-  "EarlierThisMonth": "Earlier this month"
+  "TypeFolderName": "Введите имя создаваемой папки",
+  "NothingToSeeHere": "Здесь не на что смотреть",
+  "OpenFolderLocation": "Открыть расположение файла",
+  "EarlierThisWeek": "На этой неделе",
+  "EarlierThisMonth": "Ранее в этом месяце"
 }
