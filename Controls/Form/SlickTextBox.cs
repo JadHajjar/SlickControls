@@ -310,6 +310,16 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 		Invalidate();
 	}
 
+	protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+	{
+		if (keyData == Keys.Enter && MultiLine)
+		{
+			SendKeys.Send("+{ENTER}");
+		}
+
+		return base.ProcessCmdKey(ref msg, keyData);
+	}
+
 	private void TB_Enter(object sender, EventArgs e)
 	{
 		Invalidate();
