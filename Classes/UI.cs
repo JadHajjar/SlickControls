@@ -345,9 +345,9 @@ public static class FontMeasuring
 
 	public static int DrawHighResText(this Graphics g, string text, Font font, Brush brush, Rectangle rectangle, float scaleFactor = 2)
 	{
-		var textSize = g.MeasureString(text, font, rectangle.Width);
+		var textSize = g.Measure(text, font, rectangle.Width);
 
-		using var highResBmp = new Bitmap((int)(textSize.Width * scaleFactor), (int)(textSize.Height * scaleFactor));
+		using var highResBmp = new Bitmap((int)(textSize.Width * scaleFactor) + 1, (int)(textSize.Height * scaleFactor) + 1);
 		using var highResG = Graphics.FromImage(highResBmp);
 
 		highResG.SmoothingMode = SmoothingMode.AntiAlias;
