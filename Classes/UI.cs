@@ -3,6 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -339,6 +341,26 @@ public static class FontMeasuring
 				_graphics.Dispose();
 			}
 		}
+	}
+
+	public static int DrawHighResText(this Graphics g, string text, Font font, Brush brush, Rectangle rectangle, float scaleFactor = 2)
+	{
+		var textSize = g.MeasureString(text, font, rectangle.Width);
+
+		using var highResBmp = new Bitmap((int)(textSize.Width * scaleFactor), (int)(textSize.Height * scaleFactor));
+		using var highResG = Graphics.FromImage(highResBmp);
+
+		highResG.SmoothingMode = SmoothingMode.AntiAlias;
+		highResG.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+
+		using var scaledFont = new Font(font.FontFamily, font.Size * scaleFactor, font.Style);
+
+		highResG.DrawString(text, scaledFont, brush, highResG.VisibleClipBounds);
+
+		g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+		g.DrawImage(highResBmp, new Rectangle(rectangle.Location, Size.Ceiling(textSize)));
+
+		return (int)textSize.Height;
 	}
 
 	private record struct StringCache(string Text, string FontName, float FontSize, FontStyle FontStyle, int width);
