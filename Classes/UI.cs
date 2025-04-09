@@ -350,18 +350,19 @@ public static class FontMeasuring
 		using var highResBmp = new Bitmap((int)(textSize.Width * scaleFactor) + 1, (int)(textSize.Height * scaleFactor) + 1);
 		using var highResG = Graphics.FromImage(highResBmp);
 
-		highResG.SmoothingMode = SmoothingMode.AntiAlias;
+		highResG.InterpolationMode = InterpolationMode.HighQualityBicubic;
+		highResG.PixelOffsetMode = PixelOffsetMode.HighQuality;
+		highResG.SmoothingMode = SmoothingMode.HighQuality;
 		highResG.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
 		using var scaledFont = new Font(font.FontFamily, font.Size * scaleFactor, font.Style);
 
 		highResG.DrawString(text, scaledFont, brush, highResG.VisibleClipBounds);
 
-		g.InterpolationMode = InterpolationMode.HighQualityBicubic;
 		g.DrawImage(highResBmp, new Rectangle(rectangle.Location, Size.Ceiling(textSize)));
 
 		return (int)textSize.Height;
 	}
 
-	private record struct StringCache(string Text, string FontName, float FontSize, FontStyle FontStyle, int width);
+	private record struct StringCache(string Text, string FontName, float FontSize, FontStyle FontStyle, int Width);
 }
