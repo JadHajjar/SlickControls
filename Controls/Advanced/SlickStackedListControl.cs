@@ -11,7 +11,7 @@ namespace SlickControls;
 
 public class SlickStackedListControl<T> : SlickStackedListControl<T, GenericDrawableItemRectangles<T>>
 {
-	protected override IDrawableItemRectangles<T> GenerateRectangles(T item, Rectangle rectangle)
+	protected override IDrawableItemRectangles<T> GenerateRectangles(T item, Rectangle rectangle, IDrawableItemRectangles<T> current)
 	{
 		return new GenericDrawableItemRectangles<T>() { Item = item };
 	}
@@ -782,7 +782,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 		return item.Rectangles?.IsHovered(this, location) ?? false;
 	}
 
-	protected abstract IDrawableItemRectangles<T> GenerateRectangles(T item, Rectangle rectangle);
+	protected abstract IDrawableItemRectangles<T> GenerateRectangles(T item, Rectangle rectangle, IDrawableItemRectangles<T> current);
 
 	protected virtual IEnumerable<IDrawableItem<T>> OrderItems(IEnumerable<IDrawableItem<T>> items)
 	{
@@ -804,7 +804,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 
 	protected virtual void OnPaintItem(ItemPaintEventArgs<T, TRectangle> e)
 	{
-		e.DrawableItem.Rectangles = GenerateRectangles(e.Item, e.ClipRectangle);
+		e.DrawableItem.Rectangles = GenerateRectangles(e.Item, e.ClipRectangle, e.DrawableItem.Rectangles);
 
 		if (GridView)
 		{

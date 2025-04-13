@@ -115,7 +115,7 @@ public class RoundedGroupPanel : DBPanel
 
 		if (AddShadow)
 		{
-			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Right / 2), Padding.Right / 2, Padding.Right / 2, BackColor, ColorStyle == ColorStyle.Text ? null : Color.FromArgb(8, ColorStyle.GetColor()), addOutline: AddOutline);
+			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Right / 2), Padding.Right / 2, Padding.Right / 2, BackColor, ColorStyle == ColorStyle.Text ? null : Color.FromArgb(7, ColorStyle.GetColor()), addOutline: AddOutline);
 		}
 		else
 		{
@@ -274,7 +274,7 @@ public class RoundedGroupFlowLayoutPanel : DBFlowLayoutPanel
 
 		if (AddShadow)
 		{
-			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Right / 2), Padding.Right / 2, Padding.Right / 2, BackColor, ColorStyle == ColorStyle.Text ? null : Color.FromArgb(8, ColorStyle.GetColor()), addOutline: AddOutline);
+			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Right / 2), Padding.Right / 2, Padding.Right / 2, BackColor, ColorStyle == ColorStyle.Text ? null : Color.FromArgb(7, ColorStyle.GetColor()), addOutline: AddOutline);
 		}
 		else
 		{
@@ -450,7 +450,7 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 
 		if (AddShadow)
 		{
-			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Right / 2), Padding.Right / 2, Padding.Right / 2, BackColor, ColorStyle == ColorStyle.Text ? null : Color.FromArgb(8, ColorStyle.GetColor()), addOutline: AddOutline);
+			e.Graphics.FillRoundedRectangleWithShadow(ClientRectangle.Pad(Padding.Right / 2), Padding.Right / 2, Padding.Right / 2, BackColor, ColorStyle == ColorStyle.Text ? null : Color.FromArgb(7, ColorStyle.GetColor()), addOutline: AddOutline);
 		}
 		else
 		{

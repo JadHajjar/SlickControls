@@ -75,9 +75,11 @@ public class SlickIcon : SlickImageControl
 	{
 		e.Graphics.Clear(BackColor);
 
-		using var image = ImageName?.Get(Math.Min(Height - Padding.Vertical, Width - Padding.Horizontal)) ?? Image;
+		using var image = ImageName?.Get(Math.Min(Height - Padding.Vertical, Width - Padding.Horizontal)) ?? (Image is not null ? new(Image) : null);
+	
 		if (Loading)
 		{
+			e.Graphics.SetUp();
 			DrawLoader(e.Graphics, ClientRectangle.CenterR(image?.Size ?? Size));
 			return;
 		}
@@ -101,8 +103,10 @@ public class SlickIcon : SlickImageControl
 
 			if (Enabled && HoverState.HasFlag(HoverState.Hovered))
 			{
+				using var brush = new SolidBrush(Color.FromArgb(50, color.MergeColor(ForeColor, 65)));
+
 				e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-				e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(50, color.MergeColor(ForeColor, 65))), ClientRectangle.Pad(1), UI.Scale(4));
+				e.Graphics.FillRoundedRectangle(brush, ClientRectangle.Pad(1), UI.Scale(4));
 			}
 
 			if (Enabled)

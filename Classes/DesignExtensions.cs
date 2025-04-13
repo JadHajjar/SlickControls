@@ -348,12 +348,15 @@ public static class DesignExtensions
 
 	public static void FillRoundedRectangleWithShadow(this Graphics graphics, Rectangle rectangle, int cornerRadius, int shadowLayers, Color? backColor = null, Color? shadow = null, bool addOutline = false)
 	{
-		var shadowColor = shadow ?? (FormDesign.Design.IsDarkTheme ? Color.FromArgb(1, 255, 255, 255) : Color.FromArgb(10, FormDesign.Design.AccentColor));
-		using var brush = new SolidBrush(shadowColor);
+		var shadowColor = shadow ?? (FormDesign.Design.IsDarkTheme ? Color.FromArgb(2, 255, 255, 255) : Color.FromArgb(8, FormDesign.Design.AccentColor));
 
 		for (var i = shadowLayers; i > 0; i--)
 		{
-			graphics.FillRoundedRectangle(brush, rectangle.Pad(-i), cornerRadius + i);
+			//using var brush = new SolidBrush(Color.FromArgb(GetShadowIntensity(i, shadowLayers, shadowColor.A), shadowColor));
+			//graphics.FillRoundedRectangle(brush, rectangle.Pad(-i), cornerRadius + i);
+
+			using var pen = new Pen(Color.FromArgb(GetShadowIntensity(i, shadowLayers, shadowColor.A), shadowColor), shadowLayers) { Alignment = PenAlignment.Inset };
+			graphics.DrawRoundedRectangle(pen, rectangle.Pad(-i), cornerRadius + i);
 		}
 
 		using var brushBack = new SolidBrush(backColor ?? FormDesign.Design.BackColor);
@@ -364,6 +367,17 @@ public static class DesignExtensions
 			using var pen = new Pen(Color.FromArgb(255, shadow ?? FormDesign.Design.AccentColor), UI.Scale(1.5f)) { Alignment = PenAlignment.Center };
 			graphics.DrawRoundedRectangle(pen, rectangle, cornerRadius);
 		}
+	}
+
+	private static byte GetShadowIntensity(double x, double layers, byte alpha)
+	{
+		var transformedX = x / (layers + 1);
+		var result = (1 / (2 * transformedX) - transformedX / 2) * alpha *2+1;
+
+		if (result >= 125)
+			return 125;
+
+		return (byte)result;
 	}
 
 	public static void FillRoundShadow(this Graphics graphics, Rectangle rectangle, Color? shadow = null)

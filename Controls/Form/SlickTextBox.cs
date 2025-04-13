@@ -528,7 +528,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 			using var brush1 = new SolidBrush(_textBox.BackColor);
 			e.Graphics.FillRoundedRectangle(brush1, ClientRectangle.Pad(0, 0, 1, 1 + UI.Scale(2)), pad);
 
-			using var img = ImageName?.Get(Height * 5 / 7) ?? Image;
+			using var img = ImageName?.Get(Height - UI.Scale(10)) ?? Image;
 			var imgWidth = img?.Width ?? IconManager.GetNormalScale();
 			var iconRect = new Rectangle(Width - imgWidth - (pad * 2), 0, imgWidth + (pad * 2), Height - 2);
 

@@ -145,6 +145,12 @@ public partial class SlickTab : SlickControl, IAnimatable
 			e.Graphics.FillRoundedRectangle(backBrush, client, Padding.Left);
 		}
 
+		if (AnimatedValue < 125 && this is not SlickTabControl.Tab)
+		{
+			using var backBrush = new SolidBrush(Color.FromArgb(125 / 2 - backColor.A, ForeColor.MergeColor(BackColor, 25)));
+			e.Graphics.FillRoundedRectangle(backBrush, client, Padding.Left);
+		}
+
 		var text = LocaleHelper.GetGlobalText(Text).One.ToUpper();
 		using var font = UI.Font(7F, FontStyle.Bold).FitToWidth(text, client.Pad(Padding), e.Graphics);
 		var textHeight = (int)e.Graphics.Measure(text, font).Height;
