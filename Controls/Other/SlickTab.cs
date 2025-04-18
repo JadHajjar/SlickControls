@@ -128,6 +128,13 @@ public partial class SlickTab : SlickControl, IAnimatable
 		}
 	}
 
+	protected override void OnSizeChanged(EventArgs e)
+	{
+		base.OnSizeChanged(e);
+
+		SlickTip.SetTo(this, Width > Height * 4 / 3 ? null : Text);
+	}
+
 	protected override void OnPaint(PaintEventArgs e)
 	{
 		e.Graphics.SetUp(BackColor);
