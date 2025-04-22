@@ -51,13 +51,13 @@ public partial class IOSelectionForm : SlickForm
 			Close();
 		};
 
-		add(string.Empty, "This PC", Properties.Resources.I_PC_16);
+		add(string.Empty, "This PC", "PC");
 
 		base_P_Tabs.Add(PanelTab.GroupName("Drives"));
 
 		foreach (var item in libraryViewer.TopFolders)
 		{
-			add(item, item, Properties.Resources.I_Drive_16);
+			add(item, item, "Drive");
 		}
 
 		TLP_Side.Controls.Add(base_P_Tabs, 0, 1);
@@ -76,16 +76,16 @@ public partial class IOSelectionForm : SlickForm
 			Environment.GetFolderPath(Environment.SpecialFolder.Recent),
 		})
 		{
-			add(item, Path.GetFileName(item).FormatWords().IfEmpty(item), Properties.Resources.I_Folder_16);
+			add(item, Path.GetFileName(item).FormatWords().IfEmpty(item), "Folder");
 		}
 
 		FormDesign.DesignChanged += DesignChanged;
 
-		void add(string path, string name, Bitmap icon)
+		void add(string path, string name, string icon)
 		{
 			var item = new PanelItem
 			{
-				Icon = icon,
+				IconName = icon,
 				Text = name,
 				Data = path
 			};
@@ -119,7 +119,6 @@ public partial class IOSelectionForm : SlickForm
 	{
 		base.UIChanged();
 
-		TI_Close.Size = UI.Scale(new Size(16, 16), UI.UIScale);
 		L_Title.Font = UI.Font(8.25F, FontStyle.Bold);
 		TLP_Main.ColumnStyles[0].Width = (int)(175 * UI.UIScale);
 	}
