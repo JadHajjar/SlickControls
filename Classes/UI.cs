@@ -343,11 +343,11 @@ public static class FontMeasuring
 		}
 	}
 
-	public static int DrawHighResText(this Graphics g, string text, Font font, Brush brush, Rectangle rectangle, float scaleFactor = 2)
+	public static int DrawHighResText(this Graphics g, string text, Font font, Brush brush, Rectangle rectangle, float scaleFactor = 2, StringFormat format = null)
 	{
 		var textSize = g.Measure(text, font, rectangle.Width);
 
-		using var highResBmp = new Bitmap((int)(textSize.Width * scaleFactor) + 1, (int)(textSize.Height * scaleFactor) + 1);
+		using var highResBmp = new Bitmap((int)((format is null ? textSize.Width : rectangle.Width) * scaleFactor) + 1, (int)((format is null ? textSize.Height : rectangle.Height) * scaleFactor) + 1);
 		using var highResG = Graphics.FromImage(highResBmp);
 
 		highResG.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -357,9 +357,9 @@ public static class FontMeasuring
 
 		using var scaledFont = new Font(font.FontFamily, font.Size * scaleFactor, font.Style);
 
-		highResG.DrawString(text, scaledFont, brush, highResG.VisibleClipBounds);
+		highResG.DrawString(text, scaledFont, brush, highResG.VisibleClipBounds, format);
 
-		g.DrawImage(highResBmp, new Rectangle(rectangle.Location, Size.Ceiling(textSize)));
+		g.DrawImage(highResBmp, format is not null ? rectangle : new Rectangle(rectangle.Location, Size.Ceiling(textSize)));
 
 		return (int)textSize.Height;
 	}

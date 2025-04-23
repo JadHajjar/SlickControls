@@ -598,6 +598,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Search => _instance.GetText("Search");
 
 	/// <summary>
+	/// Select
+	/// </summary>
+	public static Translation Select => _instance.GetText("Select");
+
+	/// <summary>
 	/// Select a file
 	/// </summary>
 	public static Translation SelectAFile => _instance.GetText("Select a file");
