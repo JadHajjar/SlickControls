@@ -12,6 +12,8 @@ public class AutoSizeLabel : SlickControl
 	public StringAlignment HorizontalAlignment { get; set; }
 	[DefaultValue(StringAlignment.Near)]
 	public StringAlignment VerticalAlignment { get; set; }
+	[DefaultValue(true)]
+	public bool AutoFit { get; set; } = true;
 
 	[Browsable(true)]
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -50,9 +52,9 @@ public class AutoSizeLabel : SlickControl
 			format.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
 		}
 
-		var width = Math.Min(availableSize.Width, Padding.Horizontal + (int)FontMeasuring.Measure(Text, Font).Width);
+		var width = Math.Min(availableSize.Width - Padding.Horizontal, (int)FontMeasuring.Measure(Text, Font).Width);
 
-		return new Size(width, Math.Min(availableSize.Height, Padding.Vertical + (int)FontMeasuring.Measure(Text, Font, width - Padding.Horizontal, format).Height));
+		return new Size(width, Math.Min(availableSize.Height, Padding.Vertical + (int)FontMeasuring.Measure(Text, Font, width, format).Height));
 	}
 
 	protected override void OnPaint(PaintEventArgs e)
@@ -61,7 +63,7 @@ public class AutoSizeLabel : SlickControl
 
 		base.OnPaint(e);
 
-		using var font = new Font(Font, Font.Style).FitTo(Text, ClientRectangle.Pad(Padding), e.Graphics);
+		var font = AutoFit ? new Font(Font, Font.Style).FitTo(Text, ClientRectangle.Pad(Padding), e.Graphics) : Font;
 		using var brush = new SolidBrush(ForeColor);
 		using var format = new StringFormat
 		{
@@ -75,5 +77,10 @@ public class AutoSizeLabel : SlickControl
 		}
 
 		e.Graphics.DrawString(Text, font, brush, ClientRectangle.Pad(Padding), format);
+
+		if (AutoFit)
+		{
+			font.Dispose();
+		}
 	}
 }

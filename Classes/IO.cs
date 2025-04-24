@@ -85,7 +85,7 @@ public static class IO
 			return Img.File_Log;
 		}
 
-		if (new[] { ".crp" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
+		if (new[] { ".crp", ".cok" }.Any(y => string.Equals(y, file.Extension, StringComparison.CurrentCultureIgnoreCase)))
 		{
 			return Img.File_CRP;
 		}

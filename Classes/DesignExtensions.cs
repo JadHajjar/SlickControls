@@ -352,11 +352,16 @@ public static class DesignExtensions
 
 		for (var i = shadowLayers; i > 0; i--)
 		{
-			//using var brush = new SolidBrush(Color.FromArgb(GetShadowIntensity(i, shadowLayers, shadowColor.A), shadowColor));
-			//graphics.FillRoundedRectangle(brush, rectangle.Pad(-i), cornerRadius + i);
-
-			using var pen = new Pen(Color.FromArgb(GetShadowIntensity(i, shadowLayers, shadowColor.A), shadowColor), shadowLayers) { Alignment = PenAlignment.Inset };
-			graphics.DrawRoundedRectangle(pen, rectangle.Pad(-i), cornerRadius + i);
+			if (backColor?.A is null or 255)
+			{
+				using var pen = new Pen(Color.FromArgb(GetShadowIntensity(i, shadowLayers, shadowColor.A), shadowColor), shadowLayers) { Alignment = PenAlignment.Inset };
+				graphics.DrawRoundedRectangle(pen, rectangle.Pad(-i), cornerRadius + i);
+			}
+			else
+			{
+				using var brush = new SolidBrush(Color.FromArgb(GetShadowIntensity(i, shadowLayers, shadowColor.A), shadowColor));
+				graphics.FillRoundedRectangle(brush, rectangle.Pad(-i), cornerRadius + i);
+			}
 		}
 
 		using var brushBack = new SolidBrush(backColor ?? FormDesign.Design.BackColor);
@@ -372,10 +377,12 @@ public static class DesignExtensions
 	private static byte GetShadowIntensity(double x, double layers, byte alpha)
 	{
 		var transformedX = x / (layers + 1);
-		var result = (1 / (2 * transformedX) - transformedX / 2) * alpha *2+1;
+		var result = (((1 / (2 * transformedX)) - (transformedX / 2)) * alpha * 2) + 1;
 
 		if (result >= 125)
+		{
 			return 125;
+		}
 
 		return (byte)result;
 	}

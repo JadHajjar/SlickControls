@@ -26,7 +26,13 @@ public class SlickStackedPanel : Panel
 
 	protected override void OnLayout(LayoutEventArgs levent)
 	{
+		this.SuspendDrawing();
+
+		base.OnLayout(levent);
+
 		DoLayout();
+
+		this.ResumeDrawing();
 	}
 
 	private void DoLayout()
@@ -36,8 +42,14 @@ public class SlickStackedPanel : Panel
 			return;
 		}
 
-		var columnWidth = ColumnWidth == 0 ? Controls[0].Width.If(0, 1) : ColumnWidthIsPercentage ? ((Width - Padding.Horizontal) * ColumnWidth / 100) : (int)(ColumnWidth * UI.FontScale);
+		var columnWidth = Math.Min(Width - Padding.Horizontal, ColumnWidth == 0 ? Controls[0].Width.If(0, 1) : ColumnWidthIsPercentage ? ((Width - Padding.Horizontal) * ColumnWidth / 100) : (int)(ColumnWidth * UI.FontScale));
 		var columns = (int)Math.Max(1, Math.Floor((Width - Padding.Horizontal) / (float)columnWidth));
+
+		if (MaximizeSpaceUsage)
+		{
+			columnWidth = (Width - Padding.Horizontal) / columns;
+		}
+
 		var startingX = Padding.Left + (Center ? (Width - Padding.Horizontal - (columns * columnWidth)) / 2 : 0);
 		var currentY = new int[columns];
 		var index = 0;
