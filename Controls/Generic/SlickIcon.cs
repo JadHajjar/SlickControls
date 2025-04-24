@@ -19,7 +19,7 @@ public class SlickIcon : SlickImageControl
 		Cursor = Cursors.Hand;
 	}
 
-	[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
+	[Browsable(false), DefaultValue(null), EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public Func<Color> ActiveColor { get; set; }
 
 	[Category("Behavior")]
