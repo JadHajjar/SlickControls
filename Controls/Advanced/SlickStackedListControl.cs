@@ -821,11 +821,11 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 		if (e.BackColor == Color.Empty)
 		{
 			e.BackColor = BackColor;
-		}
 
-		if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
-		{
-			e.BackColor = e.BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90);
+			if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
+			{
+				e.BackColor = e.BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90);
+			}
 		}
 
 		if (e.BackColor != BackColor)
@@ -845,11 +845,11 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 		if (e.BackColor == Color.Empty)
 		{
 			e.BackColor = BackColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 4 : -5);
-		}
 
-		if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
-		{
-			e.BackColor = e.BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90);
+			if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
+			{
+				e.BackColor = e.BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90);
+			}
 		}
 
 		using (var brush = new SolidBrush(e.BackColor))
