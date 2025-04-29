@@ -101,7 +101,7 @@ public partial class SlickTabControl : SlickControl
 		P_Tabs.Controls.Clear();
 		P_Tabs.Controls.AddRange((tabs as IEnumerable<Tab>).Reverse().ToArray());
 
-		if (tabs.Count > 0)
+		if (tabs.Any(x => x.Enabled && x.Visible))
 		{
 			tabs.Where(x => x.Enabled && x.Visible).FirstOrAny(x => x.PreSelected).Selected = true;
 		}
