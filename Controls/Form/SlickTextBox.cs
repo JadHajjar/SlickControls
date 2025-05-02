@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -24,6 +25,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 	private bool showLabel = true;
 	private bool error;
 	private bool warning;
+	private Rectangle iconRect;
 	protected readonly TextBox _textBox;
 
 	public SlickTextBox()
@@ -264,7 +266,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 
 		using var font = UI.Font(6.75F, FontStyle.Bold);
 
-		_textBox.Font = UI.Font(8.25F * (float)UI.WindowsScale);
+		_textBox.Font = UI.Font(9F);
 
 		if (minimumSizeSet && (!showLabel || string.IsNullOrWhiteSpace(LabelText)))
 		{
@@ -272,12 +274,12 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 		}
 		else
 		{
-			Padding = new Padding(pad, showLabel && !string.IsNullOrWhiteSpace(LabelText) ? (int)((FontMeasuring.Measure(" ", font).Height * 0.65) + pad) : pad, pad, pad);
+			Padding = new Padding(pad, showLabel && !string.IsNullOrWhiteSpace(LabelText) ? (int)((FontMeasuring.Measure(" ", font).Height * 0.75) + pad) : pad, pad, pad);
 		}
 
 		if (!minimumSizeSet)
 		{
-			var height = _textBox.Font.Height + Padding.Vertical + (pad / 2);
+			var height = _textBox.Font.Height + Padding.Vertical + pad;
 
 			if (Height != height)
 			{
@@ -530,7 +532,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 
 			using var img = ImageName?.Get(Height - UI.Scale(10)) ?? Image;
 			var imgWidth = img?.Width ?? IconManager.GetNormalScale();
-			var iconRect = new Rectangle(Width - imgWidth - (pad * 2), 0, imgWidth + (pad * 2), Height - 2);
+			iconRect = new Rectangle(Width - imgWidth - (pad * 2), 0, imgWidth + (pad * 2), Height - 2);
 
 			if (ShowLabel && !string.IsNullOrEmpty(LabelText))
 			{
@@ -562,7 +564,7 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 				if (active)
 				{
 					using var brush2 = new SolidBrush(Color.FromArgb(20, _textBox.ForeColor));
-					e.Graphics.FillRoundedRectangle(brush2, iconRect, 4);
+					e.Graphics.FillRoundedRectangle(brush2, iconRect, pad);
 				}
 
 				e.Graphics.DrawImage(img.Color(active ? FormDesign.Design.ActiveColor : _textBox.ForeColor.MergeColor(_textBox.BackColor, 85)), iconRect.CenterR(img.Size));
@@ -575,28 +577,34 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 	{
 		base.OnMouseMove(e);
 
-		using var img = Image;
-		var iconRect = new Rectangle(Width - ((img?.Width ?? 0) * 11 / 8), 0, (img?.Width ?? 0) * 11 / 8, Height - 2);
-
 		Cursor = HoverState.HasFlag(HoverState.Hovered) && IconClicked != null && iconRect.Contains(e.Location) ? Cursors.Hand : Cursors.IBeam;
 	}
 
 	protected override void OnMouseClick(MouseEventArgs e)
 	{
-		using (var img = Image)
-		{
-			var iconRect = new Rectangle(Width - ((img?.Width ?? 0) * 11 / 8), 0, (img?.Width ?? 0) * 11 / 8, Height - 2);
-
-			if (IconClicked != null && (e.Button == MouseButtons.None || (e.Button == MouseButtons.Left && iconRect.Contains(e.Location))))
-			{
-				IconClicked(this, e);
-			}
-			else
-			{
-				_textBox.Focus();
-			}
-		}
-
 		base.OnMouseClick(e);
+
+		if (e.Button == MouseButtons.Right)
+		{
+			_textBox.Focus();
+
+			// Send the WM_CONTEXTMENU message to the TextBox
+			var point = Cursor.Position;
+			var lParam = (IntPtr)((point.Y << 16) | (point.X & 0xFFFF));
+			SendMessage(_textBox.Handle, WM_CONTEXTMENU, _textBox.Handle, lParam);
+		}
+		else if (IconClicked != null && (e.Button == MouseButtons.None || (e.Button == MouseButtons.Left && iconRect.Contains(e.Location))))
+		{
+			IconClicked(this, e);
+		}
+		else
+		{
+			_textBox.Focus();
+		}
 	}
+
+	public const int WM_CONTEXTMENU = 0x007B;
+
+	[DllImport("user32.dll")]
+	public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
 }

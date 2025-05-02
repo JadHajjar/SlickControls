@@ -23,6 +23,8 @@ public partial class NotificationForm : Form
 	private static DateTime lastSoundPlay;
 	private Rectangle closeRect;
 	private bool hovered;
+	private readonly long openTime = DateTime.Now.Ticks;
+	private long timeout;
 	private static readonly Dictionary<Form, List<NotificationForm>> Notifications = [];
 	private static readonly List<NotificationForm> Notifications_Screen = [];
 
@@ -65,6 +67,8 @@ public partial class NotificationForm : Form
 
 		if (timeoutSeconds is not null and > 0)
 		{
+			loading = true;
+
 			CreateTimeoutTimer(timeoutSeconds.Value);
 		}
 
@@ -105,6 +109,8 @@ public partial class NotificationForm : Form
 
 	private void CreateTimeoutTimer(int timeoutSeconds)
 	{
+		timeout = TimeSpan.FromSeconds(timeoutSeconds).Ticks;
+
 		var timer = new System.Timers.Timer(timeoutSeconds * 1000D) { Enabled = true, AutoReset = false };
 
 		timer.Elapsed += (s, e) =>
@@ -167,14 +173,14 @@ public partial class NotificationForm : Form
 		if (_form != null)
 		{
 			var y = _form.Bottom - Padding.Vertical - Notifications[_form].Take(Notifications[_form].IndexOf(this) + 1).Sum(f => Padding.Vertical + f.Height);
-			var x = _form.Right - Padding.Horizontal * 2 - Width;
+			var x = _form.Right - (Padding.Horizontal * 2) - Width;
 
 			Location = new Point(x, y);
 		}
 		else
 		{
 			var y = Screen.PrimaryScreen.WorkingArea.Height - Padding.Vertical - ((Padding.Vertical + Height) * (Notifications_Screen.IndexOf(this) + 1));
-			var x = Screen.PrimaryScreen.WorkingArea.Width - Padding.Vertical * 2 - Width;
+			var x = Screen.PrimaryScreen.WorkingArea.Width - (Padding.Vertical * 2) - Width;
 
 			Location = new Point(x, y);
 		}
@@ -242,7 +248,7 @@ public partial class NotificationForm : Form
 	{
 		base.OnPaintBackground(e);
 
-		if (!loaded || loading)
+		if (!loaded || loading || closing)
 		{
 			var oldTick = lastTick;
 
@@ -255,7 +261,7 @@ public partial class NotificationForm : Form
 				loaderPercentage = 100 - (100 * Math.Cos(val));
 			}
 
-			if (!loaded)
+			if (!loaded || closing)
 			{
 				percentage = (1 - Math.Cos(lastTick / 150D)) / 2d;
 
@@ -322,7 +328,7 @@ public partial class NotificationForm : Form
 
 			imgRect.X += imgRect.Width / 2;
 
-			if (loading)
+			if (Notification.Icon == PromptIcons.Loading)
 			{
 				e.Graphics.DrawLoader(loaderPercentage, imgRect);
 			}
@@ -359,6 +365,13 @@ public partial class NotificationForm : Form
 					brush,
 					textRect);
 			}
+		}
+
+		if (timeout != 0)
+		{
+			using var brush = new SolidBrush(color);
+
+			e.Graphics.FillRectangle(brush, Rectangle.FromLTRB((int)(Width * (DateTime.Now.Ticks - openTime) / timeout), Height - UI.Scale(5), Width, Height));
 		}
 
 		using var closeIcon = IconManager.GetIcon("Close");
@@ -482,6 +495,7 @@ public partial class NotificationForm : Form
 			epoch = DateTime.Now.Ticks;
 			closing = true;
 			loaded = false;
+			lastTick = 0;
 			percentage = 0;
 			Invalidate();
 		}

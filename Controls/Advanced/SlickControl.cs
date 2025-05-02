@@ -14,6 +14,9 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 {
 	public event EventHandler<HoverState> HoverStateChanged;
 
+	public static event EventHandler AltStateChanged;
+	public static event EventHandler CtrlStateChanged;
+
 	private long epoch;
 	private long lastTick;
 	private bool loading;
@@ -72,6 +75,9 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 
 	[Browsable(false), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
 	public bool Live { get; private set; }
+
+	public static bool AltKeyPressed { get; private set; }
+	public static bool CtrlKeyPressed { get; private set; }
 
 	public SlickControl()
 	{
@@ -427,6 +433,30 @@ public class SlickControl : UserControl, IHoverControl, ILoaderControl
 	public static Brush Gradient(Rectangle rect, Color color, float caliber = 1F)
 	{
 		return rect.Gradient(color, caliber);
+	}
+
+	internal static void OnAltPressed()
+	{
+		AltKeyPressed = true;
+		AltStateChanged?.Invoke(true, EventArgs.Empty);
+	}
+
+	internal static void OnCtrlPressed()
+	{
+		CtrlKeyPressed = true;
+		CtrlStateChanged?.Invoke(true, EventArgs.Empty);
+	}
+
+	internal static void OnAltReleased()
+	{
+		AltKeyPressed = false;
+		AltStateChanged?.Invoke(false, EventArgs.Empty);
+	}
+
+	internal static void OnCtrlReleased()
+	{
+		CtrlKeyPressed = false;
+		CtrlStateChanged?.Invoke(false, EventArgs.Empty);
 	}
 }
 

@@ -27,7 +27,6 @@ public class SlickDateTime : SlickControl, IValidationControl, ISupportsReset
 	private Rectangle iconRect;
 
 	private DateTime minimumValue = new(1900, 1, 1);
-
 	private DateTime maximumValue = new(3000, 1, 1);
 	private DateTime _defaultValue;
 
@@ -150,24 +149,33 @@ public class SlickDateTime : SlickControl, IValidationControl, ISupportsReset
 
 	protected override void UIChanged()
 	{
-		using var g = Graphics.FromHwnd(IntPtr.Zero);
+		var pad = UI.Scale(4);
+		var minimumSizeSet = MinimumSize.Height > 0 || Dock is DockStyle.Right or DockStyle.Left or DockStyle.Fill;
+		using var font = UI.Font(6.75F, FontStyle.Bold);
+
 		var showLabel = !string.IsNullOrEmpty(LabelText);
 		var iconWidth = DateType != DateType.Time ? (UI.FontScale >= 1.25 ? 24 : 16) : 0;
-		Padding = new Padding(4, showLabel ? (int)(g.Measure(nameof(SlickTextBox), UI.Font(6.75F, FontStyle.Bold)).Height + 4) : 4, iconWidth > 0 ? (iconWidth + 8) : 4, 4);
-		Font = UI.Font(8.25F * (float)UI.WindowsScale);
-		var height = Font.Height + Padding.Vertical;
 
-		MaximumSize = Size.Empty;
-		if (Live)
+		if (minimumSizeSet && (!showLabel || string.IsNullOrWhiteSpace(LabelText)))
 		{
-			MinimumSize = new Size(Padding.Horizontal, height);
+			Padding = new Padding(pad);
 		}
 		else
 		{
-			MinimumSize = Size.Empty;
+			Padding = new Padding(pad, showLabel && !string.IsNullOrWhiteSpace(LabelText) ? (int)((FontMeasuring.Measure(" ", font).Height * 0.75) + pad) : pad, pad, pad);
 		}
 
-		Height = height;
+		Font = UI.Font(8.25F);
+
+		if (!minimumSizeSet)
+		{
+			var height = Font.Height + Padding.Vertical + pad;
+
+			if (Height != height)
+			{
+				Height = height;
+			}
+		}
 	}
 
 	protected override void OnCreateControl()
@@ -239,34 +247,41 @@ public class SlickDateTime : SlickControl, IValidationControl, ISupportsReset
 		e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
 		var error = false;
-		var iconWidth = DateType != DateType.Time ? (UI.FontScale >= 1.25 ? 24 : 16) : 0;
-		iconRect = new Rectangle(Width - (iconWidth * 11 / 8), 0, iconWidth * 11 / 8, Height - 2);
+		var pad = UI.Scale(4);
+		using var img = IconManager.GetIcon("Calendar", Height - UI.Scale(10));
+		var imgWidth = img?.Width ?? IconManager.GetNormalScale();
+		iconRect = new Rectangle(Width - imgWidth - (pad * 2), 0, imgWidth + (pad * 2), Height - 2);
 		var barColor =
 			error ? FormDesign.Design.RedColor :
 			Focused ? FormDesign.Design.ActiveColor :
 			FormDesign.Design.AccentColor;
 
-		e.Graphics.FillRoundedRectangle(new SolidBrush(barColor), ClientRectangle.Pad(1, 1, 2, 1), 4);
+		using var barBrush = new SolidBrush(barColor);
+		e.Graphics.FillRoundedRectangle(barBrush, ClientRectangle.Pad(1, 1, 2, 1), pad);
 
-		e.Graphics.FillRoundedRectangle(new SolidBrush(FormDesign.Design.AccentBackColor), ClientRectangle.Pad(0, 0, 1, 3), 4);
+		using var backBrush = new SolidBrush(BackColor.Tint(Lum: Enabled ? (FormDesign.Design.IsDarkTheme ? 5 : -5) : (FormDesign.Design.IsDarkTheme ? 2 : -2)));
+		e.Graphics.FillRoundedRectangle(backBrush, ClientRectangle.Pad(0, 0, 1, 1 + UI.Scale(2)), pad);
 
 		if (ShowLabel && !string.IsNullOrEmpty(LabelText))
 		{
-			var font = UI.Font(6.75F, FontStyle.Bold);
-			e.Graphics.DrawString(LocaleHelper.GetGlobalText(LabelText), font, new SolidBrush(FormDesign.Design.LabelColor), new Rectangle(2, 2, Width - Padding.Right, (int)e.Graphics.Measure(LocaleHelper.GetGlobalText(LabelText), font).Height), new StringFormat { Trimming = StringTrimming.EllipsisCharacter });
+			var text = LocaleHelper.GetGlobalText(LabelText);
+			var rect = new Rectangle(pad, pad / 2, Width - Padding.Right - pad, Height - pad);
+			using var font = UI.Font(6.75F, FontStyle.Bold).FitToWidth(text, rect, e.Graphics);
+			using var brush2 = new SolidBrush(Color.FromArgb(200, FormDesign.Design.LabelColor));
+			e.Graphics.DrawString(text, font, brush2, rect);
 		}
 
 		if (DateType != DateType.Time)
 		{
-			using var Image = IconManager.GetIcon("Calendar");
 			var active = iconRect.Contains(PointToClient(Cursor.Position));
 
 			if (active)
 			{
-				e.Graphics.FillRoundedRectangle(new SolidBrush(Color.FromArgb(20, FormDesign.Design.ForeColor)), iconRect, 4);
+				using var brush = new SolidBrush(Color.FromArgb(20, FormDesign.Design.ForeColor));
+				e.Graphics.FillRoundedRectangle(brush, iconRect, pad);
 			}
 
-			e.Graphics.DrawImage(Image.Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), iconRect.CenterR(Image.Size));
+			e.Graphics.DrawImage(img.Color(active ? FormDesign.Design.ActiveColor : FormDesign.Design.IconColor), iconRect.CenterR(img.Size));
 		}
 
 		var charWidth = (int)e.Graphics.Measure("0", Font).Width;
@@ -274,7 +289,7 @@ public class SlickDateTime : SlickControl, IValidationControl, ISupportsReset
 
 		foreach (var part in partValues)
 		{
-			var rect = new Rectangle(left, Height - Font.Height - 2, (part.Key == DatePart.Year ? 4 : 2) * charWidth, Font.Height - 1);
+			var rect = new Rectangle(left, Height - Font.Height - Padding.Bottom + 1, (part.Key == DatePart.Year ? 4 : 2) * charWidth, Font.Height + 1);
 			var delimiter = string.Empty;
 
 			switch (part.Key)
@@ -299,6 +314,8 @@ public class SlickDateTime : SlickControl, IValidationControl, ISupportsReset
 					break;
 			}
 
+			using var format = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+
 			if (!string.IsNullOrEmpty(delimiter))
 			{
 				var size = e.Graphics.Measure(delimiter, Font);
@@ -307,7 +324,8 @@ public class SlickDateTime : SlickControl, IValidationControl, ISupportsReset
 					size.Width = 0;
 				}
 
-				e.Graphics.DrawString(delimiter, Font, Gradient(Enabled ? FormDesign.Design.ForeColor : Color.Gray), new Rectangle(left - (part.Key == DatePart.Hour ? 5 : 1), rect.Y, (int)Math.Ceiling(size.Width), rect.Height), new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				using var brush = new SolidBrush(Enabled ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(BackColor));
+				e.Graphics.DrawString(delimiter, base.Font, brush, new Rectangle(left - (part.Key == DatePart.Hour ? 5 : 1), rect.Y, (int)Math.Ceiling(size.Width), rect.Height), format);
 
 				left = rect.X += ((int)Math.Ceiling(size.Width) / 2) - (part.Key == DatePart.Year ? 5 : 2) + (delimiter == "at" ? 3 : 0);
 			}
@@ -315,16 +333,19 @@ public class SlickDateTime : SlickControl, IValidationControl, ISupportsReset
 			var fade = HoverState.HasFlag(HoverState.Focused) & shouldFade(out var fadedValue);
 			error |= part.Key != SelectedPart && fade;
 
-			e.Graphics.DrawString(fade ? fadedValue : part.Value, Font, Gradient(Color.FromArgb(fade ? 125 : 255, Enabled ? FormDesign.Design.ForeColor : Color.Gray)), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+			using var textBrush = new SolidBrush(Color.FromArgb(fade ? 125 : 255, Enabled ? FormDesign.Design.ForeColor : FormDesign.Design.ForeColor.MergeColor(BackColor)));
+			e.Graphics.DrawString(fade ? fadedValue : part.Value, base.Font, textBrush, rect, format);
 
 			if (SelectedPart == part.Key && HoverState.HasFlag(HoverState.Focused))
 			{
 				var textsize = e.Graphics.Measure(string.IsNullOrEmpty(part.Value) ? ((char)0x200b).ToString() : fade ? fadedValue : part.Value, Font).ToSize();
 				var highlightrect = new Rectangle(rect.Center(textsize), textsize).Pad(fade && part.Key == selectedPart ? textsize.Width - (int)e.Graphics.Measure(part.Value, Font).Width + 2 : 2, 1, 0, 1);
 
-				e.Graphics.FillRectangle(Gradient(FormDesign.Design.ActiveColor), highlightrect);
+				using var activeBrush = new SolidBrush(FormDesign.Design.ActiveColor);
+				e.Graphics.FillRectangle(activeBrush, highlightrect);
 				e.Graphics.SetClip(highlightrect);
-				e.Graphics.DrawString(fade ? fadedValue : part.Value, Font, Gradient(FormDesign.Design.ActiveForeColor), rect, new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center });
+				using var brush = new SolidBrush(FormDesign.Design.ActiveForeColor);
+				e.Graphics.DrawString(fade ? fadedValue : part.Value, base.Font, brush, rect, format);
 				e.Graphics.ResetClip();
 			}
 

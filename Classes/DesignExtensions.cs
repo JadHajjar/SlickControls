@@ -22,14 +22,12 @@ public static class DesignExtensions
 			var padding = UI.Scale(new Padding(3, 2, 3, 2));
 			var size = graphics.Measure(text, font).ToSize();
 
-			size.Width = (int)(size.Width * 1.1f);
-
 			if (icon != null)
 			{
 				size.Width += icon.Width + padding.Left;
 			}
 
-			size.Width += padding.Left;
+			size.Width += padding.Left + 1;
 
 			if (rectangle.Width > 0 && size.Width > rectangle.Width)
 			{

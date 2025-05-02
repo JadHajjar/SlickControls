@@ -21,7 +21,6 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 {
 	private readonly object _sync = new();
 	private readonly List<IDrawableItem<T>> _items;
-	private double scrollIndex;
 	private List<IDrawableItem<T>> _sortedItems;
 	private Size baseSize;
 	private bool scrollHovered;
@@ -234,7 +233,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 	protected int StartHeight { get; set; }
 	protected Padding GridPadding { get; set; }
 	protected bool SelectionMode { get; private set; }
-	protected double ScrollIndex => scrollIndex;
+	protected double ScrollIndex { get; private set; }
 	protected List<IDrawableItem<T>> SelectedItems { get; } = [];
 
 	public SlickStackedListControl()
@@ -394,7 +393,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 
 	public void ResetScroll(bool invalidate = true)
 	{
-		scrollIndex = 0;
+		ScrollIndex = 0;
 
 		if (invalidate)
 		{
@@ -603,7 +602,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 
 			var maxIndex = GetMaxScrollIndex(itemList);
 			var visibleItems = GetDisplayedRows();
-			scrollIndex = maxIndex * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height - StartHeight).If(0, 1);
+			ScrollIndex = maxIndex * (e.Location.Y - scrollMouseDown) / (Height - scrollThumbRectangle.Height - StartHeight).If(0, 1);
 			Invalidate();
 		}
 
@@ -716,11 +715,11 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 				var visibleItems = GetDisplayedRows();
 				if (e.Location.Y < scrollThumbRectangle.Y)
 				{
-					scrollIndex -= visibleItems;
+					ScrollIndex -= visibleItems;
 				}
 				else
 				{
-					scrollIndex += visibleItems;
+					ScrollIndex += visibleItems;
 				}
 
 				scrollMouseDown = (scrollThumbRectangle.Height / 2) + StartHeight;
@@ -771,7 +770,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 			return;
 		}
 
-		scrollIndex -= (DynamicSizing ? e.Delta : (e.Delta / (double)(GridView ? GridItemSize.Height : ItemHeight))) * UI.UIScale;
+		ScrollIndex -= (DynamicSizing ? e.Delta : (e.Delta / (double)(GridView ? GridItemSize.Height : ItemHeight))) * UI.UIScale;
 		Invalidate();
 
 		SlickTip.SetTo(this, string.Empty);
@@ -821,11 +820,11 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 		if (e.BackColor == Color.Empty)
 		{
 			e.BackColor = BackColor;
+		}
 
-			if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
-			{
-				e.BackColor = e.BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90);
-			}
+		if (HighlightOnHover && e.HoverState.HasFlag(HoverState.Hovered))
+		{
+			e.BackColor = e.BackColor.MergeColor(FormDesign.Design.ActiveColor, e.HoverState.HasFlag(HoverState.Pressed) ? 0 : 90);
 		}
 
 		if (e.BackColor != BackColor)
@@ -948,7 +947,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 	{
 		var availableWidth = Width - (scrollVisible ? scrollThumbRectangle.Width + (int)UI.FontScale : 0);
 		var bounds = new Rectangle(0, StartHeight, availableWidth, Height - StartHeight);
-		var loc = new Point(0, StartHeight - (int)scrollIndex);
+		var loc = new Point(0, StartHeight - (int)ScrollIndex);
 		var maxHeight = 0;
 		shouldInvalidate = false;
 
@@ -1099,25 +1098,25 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 		{
 			var maxIndex = GetMaxScrollIndex(itemList);
 			var visibleItems = GetDisplayedRows();
-			scrollIndex = Math.Max(0, Math.Min(scrollIndex, maxIndex));
+			ScrollIndex = Math.Max(0, Math.Min(ScrollIndex, maxIndex));
 
 			var thumbHeight = (int)Math.Max(validHeight * visibleItems / (maxIndex + visibleItems), 32 * UI.FontScale);
 
-			scrollThumbRectangle = new Rectangle(Width - UI.Scale(10), StartHeight + (int)((validHeight - thumbHeight) * scrollIndex / (maxIndex + visibleItems - visibleItems).If(0, 1)), UI.Scale(10), thumbHeight);
+			scrollThumbRectangle = new Rectangle(Width - UI.Scale(10), StartHeight + (int)((validHeight - thumbHeight) * ScrollIndex / (maxIndex + visibleItems - visibleItems).If(0, 1)), UI.Scale(10), thumbHeight);
 			scrollVisible = true;
 
 			if (DynamicSizing)
 			{
-				ScrollUpdate?.Invoke(this, scrollIndex / (GridView ? (120 * UI.UIScale) : ItemHeight), maxIndex / (GridView ? (120 * UI.UIScale) : ItemHeight));
+				ScrollUpdate?.Invoke(this, ScrollIndex / (GridView ? (120 * UI.UIScale) : ItemHeight), maxIndex / (GridView ? (120 * UI.UIScale) : ItemHeight));
 			}
 			else
 			{
-				ScrollUpdate?.Invoke(this, scrollIndex, maxIndex);
+				ScrollUpdate?.Invoke(this, ScrollIndex, maxIndex);
 			}
 		}
 		else
 		{
-			scrollIndex = 0;
+			ScrollIndex = 0;
 			scrollVisible = false;
 
 			ScrollUpdate?.Invoke(this, 0, 0);
@@ -1161,20 +1160,20 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 
 		if (!GridView)
 		{
-			return (int)Math.Floor(scrollIndex);
+			return (int)Math.Floor(ScrollIndex);
 		}
 
 		double availableWidth = Width - (scrollVisible ? scrollThumbRectangle.Width + (int)UI.FontScale : 0);
 		var columns = (int)Math.Floor(availableWidth / GridItemSize.Width.If(0, 1));
 
-		return (int)Math.Floor(scrollIndex) * columns;
+		return (int)Math.Floor(ScrollIndex) * columns;
 	}
 
 	protected int GetStartingY()
 	{
 		return DynamicSizing
 			? throw new Exception("Starting y should not be calculated for dynamic sizing")
-			: !GridView ? StartHeight + (int)(scrollIndex % 1 * -ItemHeight) : StartHeight + (int)(scrollIndex % 1 * -GridItemSize.Height);
+			: !GridView ? StartHeight + (int)(ScrollIndex % 1 * -ItemHeight) : StartHeight + (int)(ScrollIndex % 1 * -GridItemSize.Height);
 	}
 
 	public int GetTotalHeight(List<IDrawableItem<T>> itemList)
@@ -1286,7 +1285,7 @@ public abstract class SlickStackedListControl<T, TRectangle> : SlickControl wher
 
 		if (scrollTo != null)
 		{
-			scrollIndex = items.IndexOf(scrollTo);
+			ScrollIndex = items.IndexOf(scrollTo);
 			Invalidate();
 		}
 	}

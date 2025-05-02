@@ -25,7 +25,7 @@ public class Notification
 		Icon = icon;
 		Action = action;
 		Sound = sound;
-		Size = size ?? new Size(350, 75);
+		Size = size ?? new Size(300, 100);
 	}
 
 	public NotificationForm Show(Form form, int? timeoutSeconds = null)

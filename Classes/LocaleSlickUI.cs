@@ -498,6 +498,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation No => _instance.GetText("No");
 
 	/// <summary>
+	/// None
+	/// </summary>
+	public static Translation None => _instance.GetText("None");
+
+	/// <summary>
 	/// Nothing to see here
 	/// </summary>
 	public static Translation NothingToSeeHere => _instance.GetText("NothingToSeeHere");

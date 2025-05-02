@@ -622,4 +622,33 @@ public partial class SlickForm : Form, ISlickForm
 		var window = FindWindow("Shell_traywnd", "");
 		SetWindowPos(window, IntPtr.Zero, 0, 0, 0, 0, (uint)SetWindowPosFlags.HideWindow);
 	}
+
+	protected override void OnKeyDown(KeyEventArgs e)
+	{
+		base.OnKeyDown(e);
+
+		if (e.KeyCode.HasFlag(Keys.Menu))
+		{
+			SlickControl.OnAltPressed();
+		}
+
+		if (e.KeyCode.HasFlag(Keys.ControlKey))
+		{
+			SlickControl.OnCtrlPressed();
+		}
+	}
+	protected override void OnKeyUp(KeyEventArgs e)
+	{
+		base.OnKeyUp(e);
+
+		if (e.KeyCode.HasFlag(Keys.Menu))
+		{
+			SlickControl.OnAltReleased();
+		}
+
+		if (e.KeyCode.HasFlag(Keys.ControlKey))
+		{
+			SlickControl.OnCtrlReleased();
+		}
+	}
 }
