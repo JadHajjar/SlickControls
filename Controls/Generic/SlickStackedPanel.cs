@@ -37,7 +37,7 @@ public class SlickStackedPanel : Panel
 
 	private void DoLayout()
 	{
-		if (Controls.Count == 0 || !IsHandleCreated)
+		if (Controls.Count == 0 || !IsHandleCreated || Width <= 0)
 		{
 			return;
 		}
@@ -98,6 +98,8 @@ public class SlickStackedPanel : Panel
 			if (Height != height)
 			{
 				Height = height;
+
+				Parent?.Invalidate();
 			}
 		}
 	}

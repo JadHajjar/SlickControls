@@ -127,7 +127,7 @@ public partial class PanelContent : SlickControl
 		Font = UI.Font(8.25F);
 		Padding = UI.Scale(defaultPadding ?? new Padding(5, 30, 5, 5));
 		SetBackIcon();
-		base_Text.Padding = UI.Scale(new Padding(4, 2, 3, 2));
+		base_Text.Padding = UI.Scale(new Padding(3));
 		base_Text.Font = UI.Font(10F, FontStyle.Bold);
 		base_Text.PerformAutoScale();
 		base_Text.Location = new Point(CustomTitleBounds.X == 0 ? UI.Scale(5) : CustomTitleBounds.X, CustomTitleBounds.Y == 0 ? (UI.Scale(30) - base_Text.Height) / 2 : CustomTitleBounds.Y);

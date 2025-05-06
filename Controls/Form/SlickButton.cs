@@ -490,9 +490,9 @@ public partial class SlickButton : SlickImageControl
 
 	public static void SetUpColors(ButtonDrawArgs arg)
 	{
-		if (arg.Cursor.HasValue && !arg.Rectangle.Contains(arg.Cursor.Value))
+		if (arg.Cursor.HasValue && (!arg.Rectangle.Contains(arg.Cursor.Value) || !arg.Enabled))
 		{
-			arg.HoverState = default;
+			arg.HoverState &= ~HoverState.Hovered & ~HoverState.Pressed;
 		}
 
 		if (arg.BackgroundColor.A != 0 && (!arg.HoverState.HasFlag(HoverState.Pressed) || arg.ActiveColor.HasValue))
