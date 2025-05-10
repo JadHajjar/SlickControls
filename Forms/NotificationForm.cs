@@ -23,8 +23,9 @@ public partial class NotificationForm : Form
 	private static DateTime lastSoundPlay;
 	private Rectangle closeRect;
 	private bool hovered;
-	private readonly long openTime = DateTime.Now.Ticks;
-	private long timeout;
+	private double timeout;
+	private long elapsed;
+	private long delta = DateTime.Now.Ticks;
 	private static readonly Dictionary<Form, List<NotificationForm>> Notifications = [];
 	private static readonly List<NotificationForm> Notifications_Screen = [];
 
@@ -68,8 +69,7 @@ public partial class NotificationForm : Form
 		if (timeoutSeconds is not null and > 0)
 		{
 			loading = true;
-
-			CreateTimeoutTimer(timeoutSeconds.Value);
+			timeout = TimeSpan.FromSeconds(timeoutSeconds.Value).Ticks;
 		}
 
 		PlaySound(sound);
@@ -105,23 +105,6 @@ public partial class NotificationForm : Form
 
 			lastSoundPlay = DateTime.Now;
 		}
-	}
-
-	private void CreateTimeoutTimer(int timeoutSeconds)
-	{
-		timeout = TimeSpan.FromSeconds(timeoutSeconds).Ticks;
-
-		var timer = new System.Timers.Timer(timeoutSeconds * 1000D) { Enabled = true, AutoReset = false };
-
-		timer.Elapsed += (s, e) =>
-		{
-			if (!IsDisposed)
-			{
-				this.TryInvoke(Close);
-			}
-
-			(s as System.Timers.Timer).Dispose();
-		};
 	}
 
 	private void UI_UIChanged()
@@ -371,7 +354,22 @@ public partial class NotificationForm : Form
 		{
 			using var brush = new SolidBrush(color);
 
-			e.Graphics.FillRectangle(brush, Rectangle.FromLTRB((int)(Width * (DateTime.Now.Ticks - openTime) / timeout), Height - UI.Scale(5), Width, Height));
+			e.Graphics.FillRectangle(brush, Rectangle.FromLTRB((int)(Width * (elapsed / timeout)), Height - UI.Scale(5), Width, Height));
+
+			var now = DateTime.Now.Ticks;
+
+			if (!Bounds.Contains(Cursor.Position))
+			{
+				elapsed += now - delta;
+
+				if (elapsed > timeout)
+				{
+					Close();
+					timeout = 0;
+				}
+			}
+
+			delta = now;
 		}
 
 		using var closeIcon = IconManager.GetIcon("Close");

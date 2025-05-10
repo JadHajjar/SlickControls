@@ -83,8 +83,8 @@ public class SlickDateRange : SlickControl, ISupportsReset
 					Location = _form.PointToClient(PointToScreen(new Point(0, Height - 3))),
 					Font = UI.Font(7.5F),
 					Cursor = Cursor,
-					MaximumSize = new Size(Width, 9999),
-					MinimumSize = new Size(Width, 0),
+					MaximumSize = new Size(Math.Max(UI.Scale(250), Width), 9999),
+					MinimumSize = new Size(Math.Max(UI.Scale(250), Width), 0),
 				};
 
 				listDropDown.MouseClick += ListDropDown_MouseClick;

@@ -368,7 +368,7 @@ public static class DesignExtensions
 		if (addOutline)
 		{
 			using var pen = new Pen(Color.FromArgb(255, shadow ?? FormDesign.Design.AccentColor), UI.Scale(1.5f)) { Alignment = PenAlignment.Center };
-			graphics.DrawRoundedRectangle(pen, rectangle, cornerRadius);
+			graphics.DrawRoundedRectangle(pen, rectangle.Pad(1), cornerRadius);
 		}
 	}
 
