@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Etsi...",
   "Loading": "Ladataan..",
   "Back": "Takaisin",
   "Filters": "Suodattimet",
@@ -18,14 +18,14 @@
   "Tags": "Tunnisteet",
   "This PC": "Tämä tietokone",
   "Common Folders": "Yhteiset kansiot",
-  "Select": "Select",
+  "Select": "Valitse",
   "Select a file": "Valitse tiedosto",
   "Select a folder": "Valitse kansio",
   "Open File": "Avaa Tiedosto",
   "Continue": "Jatka",
   "Ok": "Selvä",
   "No": "Ei",
-  "None": "None",
+  "None": "Ei Mitään",
   "Abort": "Keskeytä",
   "Cancel": "Peruuta",
   "Ignore": "Ohita",
@@ -176,14 +176,14 @@
   "Login": "Kirjaudu sisään",
   "Remember me": "Muista minut",
   "SaveChanges": "Tallenna muutokset",
-  "JustNow": "Just Now",
+  "JustNow": "Juuri Nyt",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Tiedosto",
+    "Plural": "Tiedostot"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location",
-  "EarlierThisWeek": "Earlier this week",
-  "EarlierThisMonth": "Earlier this month"
+  "TypeFolderName": "Kirjoita sen uuden kansion nimi, joka on luotu",
+  "NothingToSeeHere": "Ei mitään nähtävää tässä",
+  "OpenFolderLocation": "Avaa tiedoston sijainti",
+  "EarlierThisWeek": "Aiemmin tällä viikolla",
+  "EarlierThisMonth": "Aiemmin tässä kuussa"
 }
