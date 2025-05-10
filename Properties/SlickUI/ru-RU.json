@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Поиск..",
   "Loading": "Загрузка...",
   "Back": "Назад",
   "Filters": "Фильтры",
@@ -18,12 +18,14 @@
   "Tags": "Теги",
   "This PC": "Этот компьютер",
   "Common Folders": "Общие папки",
+  "Select": "Выбрать",
   "Select a file": "Выберите файл",
   "Select a folder": "Выберите папку",
   "Open File": "Открыть файл",
   "Continue": "Продолжить",
   "Ok": "Ок",
   "No": "Нет",
+  "None": "Нет",
   "Abort": "Вернуть",
   "Cancel": "Отменить",
   "Ignore": "Пропустить",
@@ -176,12 +178,12 @@
   "SaveChanges": "Сохранить изменения",
   "JustNow": "Только что",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Файл",
+    "Plural": "Файлы"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location",
-  "EarlierThisWeek": "Earlier this week",
-  "EarlierThisMonth": "Earlier this month"
+  "TypeFolderName": "Введите имя создаваемой папки",
+  "NothingToSeeHere": "Здесь не на что смотреть",
+  "OpenFolderLocation": "Открыть расположение файла",
+  "EarlierThisWeek": "На этой неделе",
+  "EarlierThisMonth": "Ранее в этом месяце"
 }

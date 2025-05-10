@@ -18,12 +18,14 @@
   "Tags": "Schlagworte",
   "This PC": "Dieser PC",
   "Common Folders": "Gemeinsame Ordner",
+  "Select": "Auswählen",
   "Select a file": "Wähle eine Datei",
   "Select a folder": "Wähle einen Ordner",
   "Open File": "Datei öffnen",
   "Continue": "Weiter",
   "Ok": "OK",
   "No": "Nein",
+  "None": "Keine",
   "Abort": "Abbrechen",
   "Cancel": "Abbrechen",
   "Ignore": "Ignorieren",
@@ -174,7 +176,7 @@
   "Login": "Anmelden",
   "Remember me": "Anmeldedaten speichern",
   "SaveChanges": "Änderungen Speichern",
-  "JustNow": "Jetzt",
+  "JustNow": "Gerade eben",
   "File": {
     "One": "Datei",
     "Plural": "Dateien"

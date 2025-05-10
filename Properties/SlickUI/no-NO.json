@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Søk..",
   "Loading": "Laster ..",
   "Back": "Tilbake",
   "Filters": "Filtre",
@@ -18,12 +18,14 @@
   "Tags": "Tagger",
   "This PC": "Denne PC",
   "Common Folders": "Vanlige mapper",
+  "Select": "Velg",
   "Select a file": "Velg en fil",
   "Select a folder": "Velg en mappe",
   "Open File": "Åpne fil",
   "Continue": "Fortsett",
   "Ok": "OK",
   "No": "Nei",
+  "None": "Ingen",
   "Abort": "Avbryt",
   "Cancel": "Avbryt",
   "Ignore": "Ignorer",
@@ -176,12 +178,12 @@
   "SaveChanges": "Lagre Endringer",
   "JustNow": "Akkurat nå",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Fil",
+    "Plural": "Filer"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location",
-  "EarlierThisWeek": "Earlier this week",
-  "EarlierThisMonth": "Earlier this month"
+  "TypeFolderName": "Skriv inn navnet på den nye mappen som skal opprettes",
+  "NothingToSeeHere": "Ingenting å se her",
+  "OpenFolderLocation": "Åpne filplassering",
+  "EarlierThisWeek": "Tidligere denne uken",
+  "EarlierThisMonth": "Tidligere denne måneden"
 }

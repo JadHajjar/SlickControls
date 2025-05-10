@@ -18,12 +18,14 @@
   "Tags": "タグ",
   "This PC": "このPC",
   "Common Folders": "共通のフォルダ",
+  "Select": "選択",
   "Select a file": "ファイルを選択",
   "Select a folder": "フォルダを選択",
   "Open File": "ファイルを開く",
   "Continue": "続行",
   "Ok": "OK",
   "No": "いいえ",
+  "None": "なし",
   "Abort": "中断",
   "Cancel": "取消",
   "Ignore": "無視",
@@ -182,6 +184,6 @@
   "TypeFolderName": "新しいフォルダの名前を入力",
   "NothingToSeeHere": "ここには何もない",
   "OpenFolderLocation": "ファイルを開く",
-  "EarlierThisWeek": "Earlier this week",
-  "EarlierThisMonth": "Earlier this month"
+  "EarlierThisWeek": "今週の以前",
+  "EarlierThisMonth": "今月以前"
 }
