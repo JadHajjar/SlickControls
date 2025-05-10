@@ -1,5 +1,5 @@
 {
-  "Search": "Search..",
+  "Search": "Zoeken..",
   "Loading": "Laden..",
   "Back": "Terug",
   "Filters": "Filters",
@@ -18,14 +18,14 @@
   "Tags": "Labels",
   "This PC": "Deze PC",
   "Common Folders": "Algemene mappen",
-  "Select": "Select",
+  "Select": "Selecteren",
   "Select a file": "Selecteer een bestand",
   "Select a folder": "Selecteer een map",
   "Open File": "Open bestand",
   "Continue": "Doorgaan",
   "Ok": "Ok",
   "No": "Nee",
-  "None": "None",
+  "None": "geen",
   "Abort": "Afbreken",
   "Cancel": "Annuleren",
   "Ignore": "Negeren",
@@ -178,12 +178,12 @@
   "SaveChanges": "Wijzigingen opslaan",
   "JustNow": "Nu net",
   "File": {
-    "One": "File",
-    "Plural": "Files"
+    "One": "Bestand",
+    "Plural": "Bestanden"
   },
-  "TypeFolderName": "Type in the name of the new folder to be created",
-  "NothingToSeeHere": "Nothing to see here",
-  "OpenFolderLocation": "Open file location",
-  "EarlierThisWeek": "Earlier this week",
-  "EarlierThisMonth": "Earlier this month"
+  "TypeFolderName": "Typ de naam in van de nieuwe map die moet worden gemaakt",
+  "NothingToSeeHere": "Niets te zien hier",
+  "OpenFolderLocation": "Open bestandslocatie",
+  "EarlierThisWeek": "Eerder deze week",
+  "EarlierThisMonth": "Eerder deze maand"
 }
