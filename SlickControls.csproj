@@ -1656,6 +1656,18 @@
   <ItemGroup>
     <None Include="Resources\I_Skip_64.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Icons8_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Icons8_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Icons8_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\I_Icons8_16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
   </Target>
