@@ -163,6 +163,9 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 	[Category("Appearance"), DefaultValue(HorizontalAlignment.Left)]
 	public HorizontalAlignment TextAlign { get => _textBox.TextAlign; set => _textBox.TextAlign = value; }
 
+	[Category("Appearance"), DefaultValue(ScrollBars.None)]
+	public ScrollBars ScrollBars { get => _textBox.ScrollBars; set => _textBox.ScrollBars = value; }
+
 	[Category("Behavior"), DefaultValue(ValidationType.None)]
 	public virtual ValidationType Validation { get; set; }
 
@@ -478,6 +481,8 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 				_textBox.Size = Size;
 			}
 		}
+
+		Invalidate();
 	}
 
 	public void SetError(bool warning = false)
@@ -541,6 +546,14 @@ public partial class SlickTextBox : SlickImageControl, IValidationControl, ISupp
 				using var font = UI.Font(6.75F, FontStyle.Bold).FitToWidth(text, rect, e.Graphics);
 				using var brush2 = new SolidBrush(Color.FromArgb(200, _textBox.ForeColor));
 				e.Graphics.DrawString(text, font, brush2, rect);
+
+				if (MaxLength < 32767 && _textBox.TextLength > 5)
+				{
+					using var font2 = UI.Font(6.75F);
+					using var brush3 = new SolidBrush((MaxLength - _textBox.TextLength) < Math.Min(250, MaxLength / 5) ? FormDesign.Design.RedColor : Color.FromArgb(160, _textBox.ForeColor));
+					using var format = new StringFormat { Alignment = StringAlignment.Far };
+					e.Graphics.DrawString((MaxLength - _textBox.TextLength).ToString(), font2, brush3, rect, format);
+				}
 			}
 
 			if (string.IsNullOrWhiteSpace(_textBox.Text) && !string.IsNullOrWhiteSpace(Placeholder))

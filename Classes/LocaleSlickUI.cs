@@ -275,6 +275,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation DateModified => _instance.GetText("Date Modified");
 
 	/// <summary>
+	/// Details
+	/// </summary>
+	public static Translation Details => _instance.GetText("Details");
+
+	/// <summary>
 	/// Disable Animations
 	/// </summary>
 	public static Translation DisableAnimations => _instance.GetText("Disable Animations");
@@ -384,6 +389,12 @@ public class LocaleSlickUI : LocaleHelper
 	/// Ignore
 	/// </summary>
 	public static Translation Ignore => _instance.GetText("Ignore");
+
+	/// <summary>
+	/// <para>Image</para>
+	/// <para>Plural: Images</para>
+	/// </summary>
+	public static Translation Image => _instance.GetText("Image");
 
 	/// <summary>
 	/// in {0}
