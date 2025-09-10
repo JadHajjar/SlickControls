@@ -98,6 +98,11 @@
   "Download": "Завантажити",
   "Remove": "Видалити",
   "Confirmation": "Підтвердження",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Змінити колір",
   "Reset Color": "Скинути колір",
   "Welcome to Theme Changer!": "Ласкаво просимо до \"Редактора Тем\"!",
