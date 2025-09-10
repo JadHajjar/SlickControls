@@ -98,6 +98,11 @@
   "Download": "Letöltés",
   "Remove": "Eltávolítás",
   "Confirmation": "Megerősítés",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Szín szerkesztése",
   "Reset Color": "Színek visszaállítása",
   "Welcome to Theme Changer!": "Üdvözlünk a Témaváltoztatási funkcióban!",
