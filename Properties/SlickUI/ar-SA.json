@@ -98,6 +98,11 @@
   "Download": "تنزيل",
   "Remove": "إزالة",
   "Confirmation": "تأكيد",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "تعديل اللون",
   "Reset Color": "إعادة تعيين اللون",
   "Welcome to Theme Changer!": "مرحبا بكم في تغيير الموضوع!",
