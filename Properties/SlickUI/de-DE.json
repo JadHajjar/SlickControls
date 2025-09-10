@@ -98,6 +98,11 @@
   "Download": "Herunterladen",
   "Remove": "Entfernen",
   "Confirmation": "Bestätigung",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Farbe bearbeiten",
   "Reset Color": "Farbe zurücksetzen",
   "Welcome to Theme Changer!": "Willkommen beim Theme Changer!",
