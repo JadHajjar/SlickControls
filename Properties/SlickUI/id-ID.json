@@ -98,6 +98,11 @@
   "Download": "Unduh",
   "Remove": "Hapus",
   "Confirmation": "Konfirmasi",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Ubah warna",
   "Reset Color": "Reset warna",
   "Welcome to Theme Changer!": "Selamat datang di Pengubah Tema",
