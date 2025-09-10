@@ -98,6 +98,11 @@
   "Download": "Scarica",
   "Remove": "Rimuovi",
   "Confirmation": "Conferma",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Modifica colore",
   "Reset Color": "Ripristina colore",
   "Welcome to Theme Changer!": "Benvenuto in Modifica temi!",
