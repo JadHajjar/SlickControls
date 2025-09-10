@@ -98,6 +98,11 @@
   "Download": "Λήψη",
   "Remove": "Αφαίρεση",
   "Confirmation": "Επιβεβαίωση",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Επεξεργασία Χρώματος",
   "Reset Color": "Επαναφορά Χρώματος",
   "Welcome to Theme Changer!": "Καλώς ήλθατε στο θέμα Changer!",
