@@ -98,6 +98,11 @@
   "Download": "下载",
   "Remove": "删除",
   "Confirmation": "确认",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "更改颜色",
   "Reset Color": "重置颜色",
   "Welcome to Theme Changer!": "欢迎使用主题编辑器！",
