@@ -99,10 +99,10 @@
   "Remove": "削除",
   "Confirmation": "確認",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "画像",
+    "Plural": "画像"
   },
-  "Details": "Details",
+  "Details": "詳細",
   "Edit Color": "色を編集",
   "Reset Color": "色をリセット",
   "Welcome to Theme Changer!": "テーマチェンジャーへようこそ！",
