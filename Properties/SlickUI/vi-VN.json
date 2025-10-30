@@ -98,6 +98,11 @@
   "Download": "Download",
   "Remove": "Remove",
   "Confirmation": "Confirmation",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "Welcome to Theme Changer!",
@@ -106,7 +111,7 @@
   "Custom Theme": "Custom Theme",
   "Do you want to apply your changes before leaving?": "Do you want to apply your changes before leaving?",
   "TaskCompleted": "Task Completed",
-  "UnexpectedError": "An unexpected error occurred",
+  "UnexpectedError": "",
   "{0} ago": "{0} ago",
   "in {0}": "in {0}",
   "Today at {0}": "Today at {0}",

@@ -98,6 +98,11 @@
   "Download": "ダウンロード",
   "Remove": "削除",
   "Confirmation": "確認",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "色を編集",
   "Reset Color": "色をリセット",
   "Welcome to Theme Changer!": "テーマチェンジャーへようこそ！",

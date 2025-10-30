@@ -98,6 +98,11 @@
   "Download": "Nedlasting",
   "Remove": "Fjern",
   "Confirmation": "Bekreftelse",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Rediger farge",
   "Reset Color": "Nullstill farge",
   "Welcome to Theme Changer!": "Velkommen til tema endre!",

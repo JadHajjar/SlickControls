@@ -98,6 +98,11 @@
   "Download": "Descărcare",
   "Remove": "Elimină",
   "Confirmation": "Confirmare",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Editare culoare",
   "Reset Color": "Resetare culoare",
   "Welcome to Theme Changer!": "Bun venit la Schimbarea Temei!",

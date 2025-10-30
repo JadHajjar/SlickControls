@@ -98,6 +98,11 @@
   "Download": "Preuzmi",
   "Remove": "Ukloni",
   "Confirmation": "Potvrda",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Uredi boju",
   "Reset Color": "Resetuj boju",
   "Welcome to Theme Changer!": "Dobrodošli u menjač tema!",

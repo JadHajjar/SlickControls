@@ -98,6 +98,11 @@
   "Download": "Lataa",
   "Remove": "Poista",
   "Confirmation": "Vahvistus",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Muokkaa väriä",
   "Reset Color": "Palauta väri",
   "Welcome to Theme Changer!": "Tervetuloa teemavaihtajaan!",

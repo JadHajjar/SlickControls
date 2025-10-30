@@ -98,6 +98,11 @@
   "Download": "Ladda ned",
   "Remove": "Ta bort",
   "Confirmation": "Bekräftelse",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Redigera färg",
   "Reset Color": "Återställ färg",
   "Welcome to Theme Changer!": "Välkommen till Tema Changer!",

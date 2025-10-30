@@ -98,6 +98,11 @@
   "Download": "ดาวน์โหลด",
   "Remove": "ลบ",
   "Confirmation": "การยืนยัน",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "แก้สี",
   "Reset Color": "รีเซ็ตสี",
   "Welcome to Theme Changer!": "ยินดีต้อนรับสู่การปรับแต่งธิม!",

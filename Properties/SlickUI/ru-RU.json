@@ -98,6 +98,11 @@
   "Download": "Загрузить",
   "Remove": "Удалить",
   "Confirmation": "Подтверждение",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Изменить цвет",
   "Reset Color": "Восстановить цвет по умолчанию",
   "Welcome to Theme Changer!": "Добро пожаловать в \"Редактор темы\"!",
