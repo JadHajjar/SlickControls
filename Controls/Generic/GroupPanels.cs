@@ -96,6 +96,13 @@ public class RoundedGroupPanel : DBPanel
 				padding.Left = (pad * 2) + iconWidth;
 			}
 
+			if (iconWidth == 0)
+			{
+				using var font = UI.Font(9F, FontStyle.Bold);
+
+				iconWidth = font.Height;
+			}
+
 			var titleHeight = iconWidth * 4 / 3;
 
 			if (titleHeight > 0)
@@ -253,6 +260,13 @@ public class RoundedGroupFlowLayoutPanel : DBFlowLayoutPanel
 			if (AddPaddingForIcon)
 			{
 				padding.Left = (pad * 2) + iconWidth;
+			}
+
+			if (iconWidth == 0)
+			{
+				using var font = UI.Font(9F, FontStyle.Bold);
+
+				iconWidth = font.Height;
 			}
 
 			var titleHeight = iconWidth * 4 / 3;
@@ -422,6 +436,13 @@ public class RoundedGroupTableLayoutPanel : DBTableLayoutPanel
 				{
 					padding.Left = (pad * 2) + iconWidth;
 				}
+			}
+
+			if (iconWidth == 0)
+			{
+				using var font = UI.Font(9F, FontStyle.Bold);
+
+				iconWidth = font.Height;
 			}
 
 			var titleHeight = iconWidth * 4 / 3;

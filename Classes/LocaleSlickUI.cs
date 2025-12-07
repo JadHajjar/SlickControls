@@ -397,6 +397,11 @@ public class LocaleSlickUI : LocaleHelper
 	public static Translation Image => _instance.GetText("Image");
 
 	/// <summary>
+	/// Important
+	/// </summary>
+	public static Translation Important => _instance.GetText("Important");
+
+	/// <summary>
 	/// in {0}
 	/// </summary>
 	public static Translation In => _instance.GetText("in {0}");

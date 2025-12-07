@@ -25,8 +25,12 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 	[Category("Data"), DefaultValue(null)]
 	public T[] Items
 	{
-		get => _items; set
+		get => _items; 
+		set
 		{
+			if (_items?.Length > 0 && !(value?.Length > 0))
+				return;
+
 			_items = value;
 			if (_items?.Length > 0 && (selectedItem?.Equals(default) ?? false))
 			{
