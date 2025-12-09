@@ -99,10 +99,10 @@
   "Remove": "Poista",
   "Confirmation": "Vahvistus",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Kuva",
+    "Plural": "Kuvat"
   },
-  "Details": "Details",
+  "Details": "Tiedot",
   "Edit Color": "Muokkaa väriä",
   "Reset Color": "Palauta väri",
   "Welcome to Theme Changer!": "Tervetuloa teemavaihtajaan!",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "Avaa tiedoston sijainti",
   "EarlierThisWeek": "Aiemmin tällä viikolla",
   "EarlierThisMonth": "Aiemmin tässä kuussa",
-  "Important": "Important"
+  "Important": "Tärkeää"
 }
