@@ -42,8 +42,12 @@ public abstract class SlickSelectionDropDown<T> : SlickControl, ISupportsReset
 	[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden), Browsable(false)]
 	public T SelectedItem
 	{
-		get => selectedItem; set
+		get => selectedItem;
+		set
 		{
+			if (selectedItem?.Equals(value) ?? value is null)
+				return;
+
 			selectedItem = value;
 			OnSelectedItemChanged();
 			Invalidate();
