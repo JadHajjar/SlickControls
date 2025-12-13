@@ -99,10 +99,10 @@
   "Remove": "Odebrat",
   "Confirmation": "Potvrzení",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Obrázek",
+    "Plural": "Obrázky"
   },
-  "Details": "Details",
+  "Details": "Detaily",
   "Edit Color": "Upravit barvu",
   "Reset Color": "Obnovit barvu",
   "Welcome to Theme Changer!": "Vítejte ve změně motivů!",
@@ -190,5 +190,6 @@
   "NothingToSeeHere": "Zde není nic k zobrazení",
   "OpenFolderLocation": "Otevřít umístění souboru",
   "EarlierThisWeek": "Počátkem tohoto týdne",
-  "EarlierThisMonth": "Počátkem tohoto měsíce"
+  "EarlierThisMonth": "Počátkem tohoto měsíce",
+  "Important": "Důležité"
 }

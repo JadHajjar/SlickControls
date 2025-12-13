@@ -99,10 +99,10 @@
   "Remove": "Elimină",
   "Confirmation": "Confirmare",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Imagine",
+    "Plural": "Imagini"
   },
-  "Details": "Details",
+  "Details": "Detalii",
   "Edit Color": "Editare culoare",
   "Reset Color": "Resetare culoare",
   "Welcome to Theme Changer!": "Bun venit la Schimbarea Temei!",
@@ -190,5 +190,6 @@
   "NothingToSeeHere": "Nimic de văzut aici",
   "OpenFolderLocation": "Deschide locația fișierului",
   "EarlierThisWeek": "La începutul acestei săptămâni",
-  "EarlierThisMonth": "La începutul acestei luni"
+  "EarlierThisMonth": "La începutul acestei luni",
+  "Important": "Important"
 }

@@ -99,10 +99,10 @@
   "Remove": "Αφαίρεση",
   "Confirmation": "Επιβεβαίωση",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Εικόνα",
+    "Plural": "Εικόνες"
   },
-  "Details": "Details",
+  "Details": "Λεπτομέρειες",
   "Edit Color": "Επεξεργασία Χρώματος",
   "Reset Color": "Επαναφορά Χρώματος",
   "Welcome to Theme Changer!": "Καλώς ήλθατε στο θέμα Changer!",
@@ -190,5 +190,6 @@
   "NothingToSeeHere": "Τίποτα για να δείτε εδώ",
   "OpenFolderLocation": "Άνοιγμα τοποθεσίας αρχείου",
   "EarlierThisWeek": "Νωρίτερα αυτή την εβδομάδα",
-  "EarlierThisMonth": "Νωρίτερα αυτό το μήνα"
+  "EarlierThisMonth": "Νωρίτερα αυτό το μήνα",
+  "Important": "Σημαντικό"
 }

@@ -99,10 +99,10 @@
   "Remove": "إزالة",
   "Confirmation": "تأكيد",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "صورة",
+    "Plural": "الصور"
   },
-  "Details": "Details",
+  "Details": "التفاصيل",
   "Edit Color": "تعديل اللون",
   "Reset Color": "إعادة تعيين اللون",
   "Welcome to Theme Changer!": "مرحبا بكم في تغيير الموضوع!",
@@ -190,5 +190,6 @@
   "NothingToSeeHere": "لا شيء لرؤيته هنا",
   "OpenFolderLocation": "فتح موقع الملف",
   "EarlierThisWeek": "في وقت سابق من هذا الأسبوع",
-  "EarlierThisMonth": "في وقت سابق من هذا الشهر"
+  "EarlierThisMonth": "في وقت سابق من هذا الشهر",
+  "Important": "مهم"
 }
