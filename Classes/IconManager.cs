@@ -33,7 +33,7 @@ public class IconManager
 
 		foreach (var item in list)
 		{
-			var match = Regex.Match(item.Name, @"^I_([A-Za-z]+(?:_[A-Za-z]+)*)?_([0-9]+)$");
+			var match = Regex.Match(item.Name, @"^I_([A-Za-z0-9]+(?:_[A-Za-z]+)*)?_([0-9]+)$");
 
 			if (match.Success)
 			{

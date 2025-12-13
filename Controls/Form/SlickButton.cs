@@ -307,8 +307,8 @@ public partial class SlickButton : SlickImageControl
 
 		if (HoverState.HasFlag(HoverState.Pressed) /*|| (buttonType == ButtonType.Hidden && HoverState.HasFlag(HoverState.Hovered))*/)
 		{
-			fore = ColorStyle.GetBackColor().Tint(ColorShade?.GetHue());
 			back = ColorShade == null ? (activeColor ?? ColorStyle.GetColor().MergeColor(FormDesign.Design.BackColor, 85)) : ColorStyle.GetColor().Tint(ColorShade?.GetHue()).MergeColor((Color)ColorShade);
+			fore = back.GetTextColor().Tint(ColorShade?.GetHue());
 
 			if ((buttonType == ButtonType.Active && HoverState.HasFlag(HoverState.Hovered)) || !HoverState.HasFlag(HoverState.Pressed))
 			{

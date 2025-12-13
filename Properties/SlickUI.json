@@ -98,6 +98,11 @@
   "Download": "Download",
   "Remove": "Remove",
   "Confirmation": "Confirmation",
+  "Image": {
+    "One": "Image",
+    "Plural": "Images"
+  },
+  "Details": "Details",
   "Edit Color": "Edit Color",
   "Reset Color": "Reset Color",
   "Welcome to Theme Changer!": "Welcome to Theme Changer!",
@@ -185,5 +190,6 @@
   "NothingToSeeHere": "Nothing to see here",
   "OpenFolderLocation": "Open file location",
   "EarlierThisWeek": "Earlier this week",
-  "EarlierThisMonth": "Earlier this month"
+  "EarlierThisMonth": "Earlier this month",
+  "Important": "Important"
 }
