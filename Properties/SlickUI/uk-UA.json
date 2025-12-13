@@ -99,10 +99,10 @@
   "Remove": "Видалити",
   "Confirmation": "Підтвердження",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Зображення",
+    "Plural": "Малюнки"
   },
-  "Details": "Details",
+  "Details": "Подробиці",
   "Edit Color": "Змінити колір",
   "Reset Color": "Скинути колір",
   "Welcome to Theme Changer!": "Ласкаво просимо до \"Редактора Тем\"!",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "Відкрити місце розташування файлу",
   "EarlierThisWeek": "Раніше на цьому тижні",
   "EarlierThisMonth": "Раніше в цьому місяці",
-  "Important": "Important"
+  "Important": "Важливе"
 }
