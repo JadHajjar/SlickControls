@@ -1,5 +1,5 @@
 {
-  "Search": "Поиск..",
+  "Search": "Поиск",
   "Loading": "Загрузка...",
   "Back": "Назад",
   "Filters": "Фильтры",
@@ -99,10 +99,10 @@
   "Remove": "Удалить",
   "Confirmation": "Подтверждение",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Изображение",
+    "Plural": "Изображения"
   },
-  "Details": "Details",
+  "Details": "Подробности",
   "Edit Color": "Изменить цвет",
   "Reset Color": "Восстановить цвет по умолчанию",
   "Welcome to Theme Changer!": "Добро пожаловать в \"Редактор темы\"!",

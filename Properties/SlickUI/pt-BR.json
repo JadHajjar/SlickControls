@@ -10,7 +10,7 @@
   "Options": "Opções",
   "Total": "Total:",
   "Sorting": "Ordenação",
-  "Content": "Contente",
+  "Content": "Conteúdo",
   "Other": "Outro",
   "Date Modified": "Data de Modificação",
   "Date Created": "Data de Criação",
@@ -99,10 +99,10 @@
   "Remove": "Remover",
   "Confirmation": "Confirmação",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Imagem",
+    "Plural": "Imagens"
   },
-  "Details": "Details",
+  "Details": "Detalhes",
   "Edit Color": "Editar Cor",
   "Reset Color": "Redefinir cor",
   "Welcome to Theme Changer!": "Bem-vindo ao Modificador de Temas!",
