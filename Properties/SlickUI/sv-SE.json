@@ -99,10 +99,10 @@
   "Remove": "Ta bort",
   "Confirmation": "Bekräftelse",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Bild",
+    "Plural": "Bilder"
   },
-  "Details": "Details",
+  "Details": "Detaljer",
   "Edit Color": "Redigera färg",
   "Reset Color": "Återställ färg",
   "Welcome to Theme Changer!": "Välkommen till Tema Changer!",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "Öppna filens plats",
   "EarlierThisWeek": "Tidigare denna vecka",
   "EarlierThisMonth": "Tidigare denna månad",
-  "Important": "Important"
+  "Important": "Viktigt"
 }
