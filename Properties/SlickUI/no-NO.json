@@ -99,10 +99,10 @@
   "Remove": "Fjern",
   "Confirmation": "Bekreftelse",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Bilde",
+    "Plural": "Bilder"
   },
-  "Details": "Details",
+  "Details": "Detaljer",
   "Edit Color": "Rediger farge",
   "Reset Color": "Nullstill farge",
   "Welcome to Theme Changer!": "Velkommen til tema endre!",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "Åpne filplassering",
   "EarlierThisWeek": "Tidligere denne uken",
   "EarlierThisMonth": "Tidligere denne måneden",
-  "Important": "Important"
+  "Important": "Viktig"
 }
