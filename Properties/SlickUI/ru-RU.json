@@ -74,7 +74,7 @@
   "Size": "Размер",
   "Enable Animations": "Включить анимацию",
   "Disable Animations": "Отключить анимацию",
-  "Auto Night-Mode": "Авто Ночной режим",
+  "Auto Night-Mode": "Авто-переключение в ночной режим",
   "UI Scale": "Масштабирование",
   "Font Family": "Семейство шрифтов",
   "Randomize": "Случайно",
@@ -88,7 +88,7 @@
   "Button Text": "Текст кнопки",
   "Active": "Активный",
   "Active Text": "Активный текст",
-  "Label": "Поле",
+  "Label": "Заголовок",
   "Info Text": "Цвет Текста",
   "Accent Background": "Цвет оттенка",
   "Icon": "Иконки",
@@ -104,10 +104,10 @@
   },
   "Details": "Подробности",
   "Edit Color": "Изменить цвет",
-  "Reset Color": "Восстановить цвет по умолчанию",
+  "Reset Color": "Сбросить цвет",
   "Welcome to Theme Changer!": "Добро пожаловать в \"Редактор темы\"!",
-  "In here, you can customize the scale and colors of the App to your liking.": "Здесь вы можете настроить масштабирование и тему приложения.",
-  "Click on any color to change it, or middle-click to reset it.": "Нажмите на любой цвет левой кнопкой мыши, чтобы изменить его, или средней кнопкой мыши, чтобы восстановить цвет по умолчанию.",
+  "In here, you can customize the scale and colors of the App to your liking.": "Настройте масштаб и тему приложения по своему вкусу.",
+  "Click on any color to change it, or middle-click to reset it.": "Кликните левой кнопкой мыши на любой цвет, чтобы его изменить, или средней кнопкой — чтобы вернуть исходный.",
   "Custom Theme": "Настраиваемая тема",
   "Do you want to apply your changes before leaving?": "Вы хотите применить изменения перед закрытием?",
   "TaskCompleted": "Задача выполнена",
@@ -117,27 +117,27 @@
   "Today at {0}": "Сегодня в {0}",
   "Yesterday at {0}": "Вчера в {0}",
   "Tomorrow at {0}": "Завтра в {0}",
-  "Last {0} at {1}": "Прошлый Last {0} в {1}",
+  "Last {0} at {1}": "Прошлый {0} в {1}",
   "Next {0} at {1}": "Следующий {0} в {1}",
   "{0} month ago": {
-    "One": "{0} месяцев назад",
-    "Plural": "{0} месяц назад"
+    "One": "{0} мес. назад",
+    "Plural": "{0} мес. назад"
   },
   "{0} month ago on {1}": {
-    "One": "{0} месяца назад {1}",
+    "One": "{0} мес.назад {1}",
     "Plural": "{0} месяцев назад {1}"
   },
   "in {0} month on {1}": {
-    "One": "через {0} месяц {1}",
-    "Plural": "через {0} месяцев на {1}"
+    "One": "через {0} мес. {1}",
+    "Plural": "через {0} мес.на {1}"
   },
   "{0} day ago": {
-    "One": "{0} день назад",
-    "Plural": "{0} дней назад"
+    "One": "{0} дн. назад",
+    "Plural": "{0} дн.  назад"
   },
   "in {0} day": {
-    "One": "{0} день",
-    "Plural": "через {0} дней"
+    "One": "{0} дн.",
+    "Plural": "через {0} дн."
   },
   "{0} year": {
     "One": "{0} год",
@@ -156,8 +156,8 @@
     "Plural": "{0} ч."
   },
   "{0} minute": {
-    "One": "{0} мин",
-    "Plural": "{0} мин"
+    "One": "{0} мин.",
+    "Plural": "{0} мин."
   },
   "{0} second": {
     "One": "{0} сек.",
@@ -169,14 +169,14 @@
   "{0}s": "{0} сек.",
   "Midnight": "Полночь",
   "Use the System's Theme": "Использовать тему вашей системы",
-  "Use Windows-style top bar buttons": "Использовать Windows-стиль верхних кнопок",
+  "Use Windows-style top bar buttons": "Использовать стиль Windows для кнопок верхней панели окна",
   "All": "Всё",
   "Hue": "Тон",
   "Saturation": "Насыщенность",
   "Luminance": "Яркость",
-  "Converts your theme into Light or Dark mode based on your computer's theme": "Конвертирует вашу тему в легкий или темный режим на основе темы вашего компьютера",
-  "Automatically switches to a Light mode during the day and Dark mode during the night": "Автоматически переключается в режим Light в дневное и темное время ночи",
-  "Email Address": "Адрес электронной почты",
+  "Converts your theme into Light or Dark mode based on your computer's theme": "Изменяет на \"светлый\" или \"тёмный\" режим в зависимости от темы вашей системы",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Автоматически переключает на \"светлый\" режим днём и на \"тёмный\" режим ночью",
+  "Email Address": "E-mail",
   "Password": "Пароль",
   "Login": "Вход",
   "Remember me": "Запомнить меня",
@@ -186,8 +186,8 @@
     "One": "Файл",
     "Plural": "Файлы"
   },
-  "TypeFolderName": "Введите имя создаваемой папки",
-  "NothingToSeeHere": "Здесь не на что смотреть",
+  "TypeFolderName": "Назовите папку",
+  "NothingToSeeHere": "Здесь ничего нет",
   "OpenFolderLocation": "Открыть расположение файла",
   "EarlierThisWeek": "На этой неделе",
   "EarlierThisMonth": "Ранее в этом месяце",
