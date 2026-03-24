@@ -10,7 +10,13 @@ namespace SlickControls;
 
 public static class DesignExtensions
 {
+	public static Rectangle DrawLabel(this Graphics graphics, string text, DynamicIcon icon, Color color, Rectangle rectangle, ContentAlignment alignment, bool smaller = false, bool large = false, Point? mousePosition = null, bool recolor = true)
+		=> DrawLabel(graphics, text, null, icon, color, rectangle, alignment, smaller, large, mousePosition, recolor);
+	
 	public static Rectangle DrawLabel(this Graphics graphics, string text, Bitmap icon, Color color, Rectangle rectangle, ContentAlignment alignment, bool smaller = false, bool large = false, Point? mousePosition = null, bool recolor = true)
+		=> DrawLabel(graphics, text, icon, null, color, rectangle, alignment, smaller, large, mousePosition, recolor);
+	
+	private static Rectangle DrawLabel(this Graphics graphics, string text, Bitmap icon, DynamicIcon dynamicIcon, Color color, Rectangle rectangle, ContentAlignment alignment, bool smaller = false, bool large = false, Point? mousePosition = null, bool recolor = true)
 	{
 		if (text == null)
 		{
@@ -21,6 +27,8 @@ public static class DesignExtensions
 		{
 			var padding = UI.Scale(new Padding(3, 2, 3, 2));
 			var size = graphics.Measure(text, font).ToSize();
+
+			icon ??= dynamicIcon?.Get(size.Height);
 
 			if (icon != null)
 			{
