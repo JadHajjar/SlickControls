@@ -1,5 +1,5 @@
 {
-  "Search": "Suchen..",
+  "Search": "Suchen.",
   "Loading": "Lädt...",
   "Back": "Zurück",
   "Filters": "Filter",
@@ -175,7 +175,7 @@
   "Saturation": "Sättigung",
   "Luminance": "Leuchtdichte",
   "Converts your theme into Light or Dark mode based on your computer's theme": "Konvertiert Dein Design basierend auf dem Design Deines Computers in den Hell- oder Dunkelmodus",
-  "Automatically switches to a Light mode during the day and Dark mode during the night": "Wechselt während des Tages automatisch in den Lichtmodus und während der Nacht in den Dunklen Modus",
+  "Automatically switches to a Light mode during the day and Dark mode during the night": "Wechselt während des Tages automatisch in den Lichtmodus und während der Nacht in den dunklen",
   "Email Address": "E-Mail-Adresse",
   "Password": "Kennwort",
   "Login": "Anmelden",
