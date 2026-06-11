@@ -497,17 +497,24 @@ public partial class SlickButton : SlickImageControl
 
 		if (arg.BackgroundColor.A != 0 && (!arg.HoverState.HasFlag(HoverState.Pressed) || arg.ActiveColor.HasValue))
 		{
-			if (arg.HoverState.HasFlag(HoverState.Pressed))
-			{
-				arg.BackColor = arg.ActiveColor.Value;
-			}
-			else
-			{
-				arg.BackgroundColor.RgbToHsl(out _, out _, out var lightness2);
-
-				arg.BackColor = arg.BackgroundColor.Tint(Lum: (arg.HoverState.HasFlag(HoverState.Hovered) ? 181f : 111f) * ((lightness2 - 0.5f) - 0.5f));
-			}
+			arg.BackColor = arg.HoverState.HasFlag(HoverState.Pressed) ? arg.ActiveColor.Value
+				: arg.HoverState.HasFlag(HoverState.Hovered) ? arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 18 : -14)
+				: arg.BackgroundColor.Tint(Lum: FormDesign.Design.IsDarkTheme ? 10 : -8);
 		}
+
+		//if (arg.BackgroundColor.A != 0 && (!arg.HoverState.HasFlag(HoverState.Pressed) || arg.ActiveColor.HasValue))
+		//{
+		//	if (arg.HoverState.HasFlag(HoverState.Pressed))
+		//	{
+		//		arg.BackColor = arg.ActiveColor.Value;
+		//	}
+		//	else
+		//	{
+		//		arg.BackgroundColor.RgbToHsl(out _, out _, out var lightness2);
+
+		//		arg.BackColor = arg.BackgroundColor.Tint(Lum: (arg.HoverState.HasFlag(HoverState.Hovered) ? 181f : 111f) * ((lightness2 - 0.5f) - 0.5f));
+		//	}
+		//}
 
 		if (arg.BackColor.A == 0 && arg.ForeColor.A == 0)
 		{
