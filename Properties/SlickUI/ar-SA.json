@@ -30,7 +30,7 @@
   "Cancel": "إلغاء",
   "Ignore": "تجاهل",
   "Retry": "إعادة المحاولة",
-  "Input": "Input",
+  "Input": "إدخال",
   "More Info": "المزيد من المعلومات",
   "Clear": "مسح",
   "Before": "قبل",
@@ -51,7 +51,7 @@
   "Close": "أغلق",
   "Smaller Menu": "قائمة أصغر",
   "Auto-Hide Menu": "إخفاء تلقائي للقائمة",
-  "Theme Changer": "Theme Changer",
+  "Theme Changer": "مُغيّر السمة",
   "Switch To": "التبديل إلى",
   "Modern": "حديث",
   "Berry Blues": "زرقاء التوت",
@@ -65,7 +65,7 @@
   "Go back to {0}": "العودة إلى {0}",
   "All Versions": "جميع الإصدارات",
   "Current Version": "الإصدار الحالي",
-  "Profiles": "Profiles",
+  "Profiles": "الملفات الشخصية",
   "Drives": "أقراص",
   "Switch to Grid-View": "التبديل إلى Grid-View",
   "Switch to List-View": "التبديل إلى قائمة العرض",
@@ -78,7 +78,7 @@
   "UI Scale": "مقياس واجهة المستخدم",
   "Font Family": "عائلة الخط",
   "Randomize": "عشوائي",
-  "Reset": "Reset",
+  "Reset": "إعادة تعيين",
   "Apply": "تطبيق",
   "Background": "الخلفية",
   "Text": "نص",
@@ -112,7 +112,7 @@
   "Do you want to apply your changes before leaving?": "هل تريد تطبيق التغييرات الخاصة بك قبل المغادرة؟",
   "TaskCompleted": "اكتملت المهمة",
   "UnexpectedError": "حدث خطأ غير متوقع",
-  "{0} ago": "{0} ago",
+  "{0} ago": "منذ {0}",
   "in {0}": "في {0}",
   "Today at {0}": "اليوم في {0}",
   "Yesterday at {0}": "أمس في {0}",
@@ -120,24 +120,24 @@
   "Last {0} at {1}": "آخر {0} في {1}",
   "Next {0} at {1}": "التالي {0} في {1}",
   "{0} month ago": {
-    "One": "{0} month ago",
-    "Plural": "{0} months ago"
+    "One": "منذ شهر واحد",
+    "Plural": "منذ {0} أشهر"
   },
   "{0} month ago on {1}": {
-    "One": "{0} month ago on {1}",
-    "Plural": "{0} months ago on {1}"
+    "One": "منذ شهر واحد في {1}",
+    "Plural": "منذ {0} أشهر في {1}"
   },
   "in {0} month on {1}": {
     "One": "في شهر {0} على {1}",
     "Plural": "في الشهور {0} على {1}"
   },
   "{0} day ago": {
-    "One": "{0} day ago",
-    "Plural": "{0} days ago"
+    "One": "منذ يوم واحد",
+    "Plural": "منذ {0} أيام"
   },
   "in {0} day": {
     "One": "في يوم {0}",
-    "Plural": "in {0} days"
+    "Plural": "بعد {0} أيام"
   },
   "{0} year": {
     "One": "{0} سنة",
@@ -153,7 +153,7 @@
   },
   "{0} hour": {
     "One": "{0} ساعة",
-    "Plural": "{0} hours"
+    "Plural": "{0} ساعات"
   },
   "{0} minute": {
     "One": "{0} دقيقة",
