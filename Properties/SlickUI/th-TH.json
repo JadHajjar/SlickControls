@@ -99,8 +99,8 @@
   "Remove": "ลบ",
   "Confirmation": "การยืนยัน",
   "Image": {
-    "One": "รูปภาพ",
-    "Plural": "รูปภาพ"
+    "One": "Image",
+    "Plural": "Images"
   },
   "Details": "-> รายละเอียด",
   "Edit Color": "แก้สี",
@@ -171,9 +171,9 @@
   "Use the System's Theme": "ใช้ธิมตามระบบของคุณ",
   "Use Windows-style top bar buttons": "ใช้ปุ่มบนแถบด้านบนแบบวินโดวส์",
   "All": "ทั้งหมด",
-  "Hue": "เฉดสี",
-  "Saturation": "ความอิ่มตัวของสี",
-  "Luminance": "ความสว่าง",
+  "Hue": "Hue",
+  "Saturation": "Saturation",
+  "Luminance": "Luminance",
   "Converts your theme into Light or Dark mode based on your computer's theme": "แปลงธีมของคุณเป็นโหมดสว่างหรือมืดตามธีมคอมพิวเตอร์ของคุณ",
   "Automatically switches to a Light mode during the day and Dark mode during the night": "สลับเป็นโหมดสว่างโดยอัตโนมัติในระหว่างวันและโหมดมืดในเวลากลางคืน",
   "Email Address": "ที่อยู่อีเมล",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "เปิดไปยังตำแหน่งของไฟล์",
   "EarlierThisWeek": "ช่วงสัปดาห์นี้",
   "EarlierThisMonth": "ช่วงเดือนนี้",
-  "Important": "สำคัญ"
+  "Important": "Important"
 }
