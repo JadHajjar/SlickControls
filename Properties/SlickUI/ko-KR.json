@@ -99,10 +99,10 @@
   "Remove": "제거",
   "Confirmation": "확인",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "이미지",
+    "Plural": "이미지"
   },
-  "Details": "Details",
+  "Details": "세부사항",
   "Edit Color": "색 편집",
   "Reset Color": "색상 초기화",
   "Welcome to Theme Changer!": "테마 변환기에 오신 것을 환영합니다!",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "파일 위치 열기",
   "EarlierThisWeek": "이번 주 초",
   "EarlierThisMonth": "이달 초",
-  "Important": "Important"
+  "Important": "중요"
 }

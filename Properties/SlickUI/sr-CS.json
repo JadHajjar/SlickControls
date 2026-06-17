@@ -18,14 +18,14 @@
   "Tags": "Oznake",
   "This PC": "Ovaj računar",
   "Common Folders": "Uobičajeni folderi",
-  "Select": "Select",
+  "Select": "Izabеri",
   "Select a file": "Izaberi fajl",
   "Select a folder": "Izaberi folder",
   "Open File": "Otvori fajl",
   "Continue": "Nastavi",
   "Ok": "Ok",
   "No": "Ne",
-  "None": "None",
+  "None": "Nijedna",
   "Abort": "Odustani",
   "Cancel": "Otkaži",
   "Ignore": "Ignoriši",
@@ -99,10 +99,10 @@
   "Remove": "Ukloni",
   "Confirmation": "Potvrda",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Slika",
+    "Plural": "Slike"
   },
-  "Details": "Details",
+  "Details": "Detalji",
   "Edit Color": "Uredi boju",
   "Reset Color": "Resetuj boju",
   "Welcome to Theme Changer!": "Dobrodošli u menjač tema!",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "Otvori lokaciju fajla",
   "EarlierThisWeek": "Ranije ove nedelje",
   "EarlierThisMonth": "Ranije ovog meseca",
-  "Important": "Important"
+  "Important": "Važno"
 }
