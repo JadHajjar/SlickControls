@@ -25,7 +25,7 @@
   "Continue": "Lanjutkan",
   "Ok": "Oke",
   "No": "Tidak",
-  "None": "None",
+  "None": "Tidak Ada",
   "Abort": "Menggugurkan",
   "Cancel": "Membatalkan",
   "Ignore": "Mengabaikan",
@@ -78,7 +78,7 @@
   "UI Scale": "Skala UI",
   "Font Family": "Keluarga Font:",
   "Randomize": "Acak",
-  "Reset": "Reset",
+  "Reset": "Atur Ulang",
   "Apply": "Terapkan",
   "Background": "Latar Belakang",
   "Text": "Teks",
@@ -99,10 +99,10 @@
   "Remove": "Hapus",
   "Confirmation": "Konfirmasi",
   "Image": {
-    "One": "Image",
-    "Plural": "Images"
+    "One": "Gambar",
+    "Plural": "Gambar"
   },
-  "Details": "Details",
+  "Details": "Detail",
   "Edit Color": "Ubah warna",
   "Reset Color": "Reset warna",
   "Welcome to Theme Changer!": "Selamat datang di Pengubah Tema",
@@ -165,13 +165,13 @@
   },
   "{0}d": "{0}h",
   "{0}h": "{0}j",
-  "{0}m": "{0}m",
+  "{0}m": "{0}mnt",
   "{0}s": "{0}d",
   "Midnight": "Tengah Malam",
   "Use the System's Theme": "Gunakan Tema Sistem",
   "Use Windows-style top bar buttons": "Gunakan tombol Windows-style top bar",
   "All": "Semua",
-  "Hue": "Hue",
+  "Hue": "Rona",
   "Saturation": "Saturasi",
   "Luminance": "Luminansi",
   "Converts your theme into Light or Dark mode based on your computer's theme": "Konversikan tema kamu ke mode Cerah atau Gelap berdasarkan tema komputer kamu",
@@ -183,7 +183,7 @@
   "SaveChanges": "Simpan Perubahan",
   "JustNow": "Baru Saja",
   "File": {
-    "One": "File",
+    "One": "Berkas",
     "Plural": "File"
   },
   "TypeFolderName": "Ketikan nama folder yang ingin dibuat",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "Buka Lokasi File",
   "EarlierThisWeek": "Awal minggu ini",
   "EarlierThisMonth": "Awal bulan ini",
-  "Important": "Important"
+  "Important": "Penting"
 }

@@ -30,7 +30,7 @@
   "Cancel": "Ακύρωση",
   "Ignore": "Παράβλεψη",
   "Retry": "Επανάληψη",
-  "Input": "Input",
+  "Input": "Είσοδος",
   "More Info": "Περισσότερες Πληροφορίες",
   "Clear": "Εκκαθάριση",
   "Before": "Πριν",
@@ -51,7 +51,7 @@
   "Close": "Κλείσιμο",
   "Smaller Menu": "Μικρότερο Μενού",
   "Auto-Hide Menu": "Αυτόματη Απόκρυψη Μενού",
-  "Theme Changer": "Theme Changer",
+  "Theme Changer": "Αλλαγή Θέματος",
   "Switch To": "Εναλλαγή Σε",
   "Modern": "Μοντέρνο",
   "Berry Blues": "Μπορντό Μπλουζ",
@@ -65,7 +65,7 @@
   "Go back to {0}": "Πηγαίνετε πίσω στο {0}",
   "All Versions": "Όλες Οι Εκδόσεις",
   "Current Version": "Τρέχουσα Έκδοση",
-  "Profiles": "Profiles",
+  "Profiles": "Προφίλ",
   "Drives": "Δίσκοι",
   "Switch to Grid-View": "Εναλλαγή σε προβολή πλέγματος",
   "Switch to List-View": "Εναλλαγή σε προβολή λίστας",
@@ -78,7 +78,7 @@
   "UI Scale": "Κλίμακα UI",
   "Font Family": "Οικογένεια Γραμματοσειρών",
   "Randomize": "Τυχαία",
-  "Reset": "Reset",
+  "Reset": "Επαναφορά",
   "Apply": "Εφαρμογή",
   "Background": "Φόντο",
   "Text": "Κείμενο",
@@ -121,18 +121,18 @@
   "Next {0} at {1}": "Επόμενο {0} στο {1}",
   "{0} month ago": {
     "One": "{0} μήνα πριν",
-    "Plural": "{0} months ago"
+    "Plural": "πριν από {0} μήνες"
   },
   "{0} month ago on {1}": {
     "One": "{0} μήνα πριν στο {1}",
-    "Plural": "{0} months ago on {1}"
+    "Plural": "πριν από {0} μήνες στις {1}"
   },
   "in {0} month on {1}": {
     "One": "στο {0} μήνα στο {1}",
     "Plural": "σε {0} μήνες στο {1}"
   },
   "{0} day ago": {
-    "One": "{0} day ago",
+    "One": "πριν από {0} ημέρα",
     "Plural": "{0} ημέρες πριν"
   },
   "in {0} day": {
@@ -141,23 +141,23 @@
   },
   "{0} year": {
     "One": "{0} έτος",
-    "Plural": "{0} years"
+    "Plural": "{0} χρόνια"
   },
   "{0} month": {
-    "One": "{0} month",
-    "Plural": "{0} months"
+    "One": "{0} μήνας",
+    "Plural": "{0} μήνες"
   },
   "{0} day": {
     "One": "{0} ημέρα",
-    "Plural": "{0} days"
+    "Plural": "{0} ημέρες"
   },
   "{0} hour": {
-    "One": "{0} hour",
-    "Plural": "{0} hours"
+    "One": "{0} ώρα",
+    "Plural": "{0} ώρες"
   },
   "{0} minute": {
-    "One": "{0} minute",
-    "Plural": "{0} minutes"
+    "One": "{0} λεπτό",
+    "Plural": "{0} λεπτά"
   },
   "{0} second": {
     "One": "{0} δευτερόλεπτο",
