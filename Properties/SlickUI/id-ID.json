@@ -25,7 +25,7 @@
   "Continue": "Lanjutkan",
   "Ok": "Oke",
   "No": "Tidak",
-  "None": "Tidak ada",
+  "None": "None",
   "Abort": "Menggugurkan",
   "Cancel": "Membatalkan",
   "Ignore": "Mengabaikan",
@@ -78,7 +78,7 @@
   "UI Scale": "Skala UI",
   "Font Family": "Keluarga Font:",
   "Randomize": "Acak",
-  "Reset": "Atur ulang",
+  "Reset": "Reset",
   "Apply": "Terapkan",
   "Background": "Latar Belakang",
   "Text": "Teks",
@@ -99,10 +99,10 @@
   "Remove": "Hapus",
   "Confirmation": "Konfirmasi",
   "Image": {
-    "One": "Gambar",
-    "Plural": "Gambar"
+    "One": "Image",
+    "Plural": "Images"
   },
-  "Details": "Rincian",
+  "Details": "Details",
   "Edit Color": "Ubah warna",
   "Reset Color": "Reset warna",
   "Welcome to Theme Changer!": "Selamat datang di Pengubah Tema",
@@ -171,7 +171,7 @@
   "Use the System's Theme": "Gunakan Tema Sistem",
   "Use Windows-style top bar buttons": "Gunakan tombol Windows-style top bar",
   "All": "Semua",
-  "Hue": "Rona",
+  "Hue": "Hue",
   "Saturation": "Saturasi",
   "Luminance": "Luminansi",
   "Converts your theme into Light or Dark mode based on your computer's theme": "Konversikan tema kamu ke mode Cerah atau Gelap berdasarkan tema komputer kamu",
@@ -183,7 +183,7 @@
   "SaveChanges": "Simpan Perubahan",
   "JustNow": "Baru Saja",
   "File": {
-    "One": "Berkas",
+    "One": "File",
     "Plural": "File"
   },
   "TypeFolderName": "Ketikan nama folder yang ingin dibuat",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "Buka Lokasi File",
   "EarlierThisWeek": "Awal minggu ini",
   "EarlierThisMonth": "Awal bulan ini",
-  "Important": "Penting"
+  "Important": "Important"
 }

@@ -99,10 +99,10 @@
   "Remove": "Eltávolítás",
   "Confirmation": "Megerősítés",
   "Image": {
-    "One": "Kép",
-    "Plural": "Képek"
+    "One": "Image",
+    "Plural": "Images"
   },
-  "Details": "Részletek",
+  "Details": "Details",
   "Edit Color": "Szín szerkesztése",
   "Reset Color": "Színek visszaállítása",
   "Welcome to Theme Changer!": "Üdvözlünk a Témaváltoztatási funkcióban!",
@@ -191,5 +191,5 @@
   "OpenFolderLocation": "Mutasd a lemezen",
   "EarlierThisWeek": "",
   "EarlierThisMonth": "A hónap elején",
-  "Important": "Fontos"
+  "Important": "Important"
 }
