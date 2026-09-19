@@ -124,32 +124,32 @@
     "Plural": "před {0} měsíci"
   },
   "{0} month ago on {1}": {
-    "One": "{0} před měsícem na {1}",
-    "Plural": "{0} před měsíci na {1}"
+    "One": "před {0} měsícem: {1}",
+    "Plural": "před {0} měsíci: {1}"
   },
   "in {0} month on {1}": {
-    "One": "za {0} měsíc na {1}",
-    "Plural": "během {0} měsíců na {1}"
+    "One": "za {0} měsíc: {1}",
+    "Plural": "za {0} měsíců: {1}"
   },
   "{0} day ago": {
     "One": "před {0} dnem",
     "Plural": "před {0} dny"
   },
   "in {0} day": {
-    "One": "během {0} dne",
-    "Plural": "během {0} dní"
+    "One": "za {0} den",
+    "Plural": "za {0} dní"
   },
   "{0} year": {
     "One": "{0} rok",
-    "Plural": "{0} lety"
+    "Plural": "{0} let"
   },
   "{0} month": {
     "One": "{0} měsíc",
-    "Plural": "{0} měsíce"
+    "Plural": "{0} měsíců"
   },
   "{0} day": {
     "One": "{0} den",
-    "Plural": "{0} dny"
+    "Plural": "{0} dní"
   },
   "{0} hour": {
     "One": "{0} hodina",
@@ -157,7 +157,7 @@
   },
   "{0} minute": {
     "One": "{0} minuta",
-    "Plural": "{0} minuty"
+    "Plural": "{0} minut"
   },
   "{0} second": {
     "One": "{0} sekunda",
@@ -190,6 +190,6 @@
   "NothingToSeeHere": "Zde není nic k zobrazení",
   "OpenFolderLocation": "Otevřít umístění souboru",
   "EarlierThisWeek": "Počátkem tohoto týdne",
-  "EarlierThisMonth": "Počátkem tohoto měsíce",
+  "EarlierThisMonth": "Začátkem tohoto měsíce",
   "Important": "Důležité"
 }
